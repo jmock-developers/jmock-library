@@ -2,12 +2,12 @@
  */
 package test.jmock.core.matcher;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
 import org.jmock.core.Invocation;
-import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.InvokeCountMatcher;
 import org.jmock.expectation.AssertMo;
+
 import test.jmock.core.testsupport.MethodFactory;
 
 
@@ -16,7 +16,7 @@ public class InvokeCountMatcherTest extends TestCase
     private static final int COUNT = 3;
 
     private Invocation emptyInvocation;
-    private InvokeCountMatcher matcher;
+    protected InvokeCountMatcher matcher;
 
 
     public void setUp() {

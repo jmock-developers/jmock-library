@@ -3,7 +3,9 @@
 package org.jmock.core;
 
 import java.util.List;
+
 import junit.framework.AssertionFailedError;
+
 import org.jmock.core.constraint.IsAnything;
 import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
@@ -47,8 +49,8 @@ public abstract class AbstractDynamicMock
         try {
             return invocationDispatcher.dispatch(invocation);
         }
-        catch (AssertionFailedError failure) {
-            this.failure = new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
+        catch (AssertionFailedError error) {
+            this.failure = new DynamicMockError(this, invocation, invocationDispatcher, error.getMessage());
             this.failure.fillInStackTrace();
             throw this.failure;
         }

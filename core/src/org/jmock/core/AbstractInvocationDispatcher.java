@@ -72,5 +72,5 @@ public abstract class AbstractInvocationDispatcher implements InvocationDispatch
         return defaultStub.invoke(invocation);
     }
 
-    protected abstract Iterator dispatchOrder( List invokables );
+    protected abstract Iterator dispatchOrder( List invokablesList );
 }
