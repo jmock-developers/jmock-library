@@ -11,7 +11,9 @@ import org.jmock.Verifiable;
 public class LIFOInvocationDispatcher 
     implements InvocationDispatcher 
 {
-    private ArrayList invokables = new ArrayList();
+    public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
+    
+	private ArrayList invokables = new ArrayList();
     private Stub defaultStub = new NoMatchFoundStub(this);
 
     public Object dispatch(Invocation invocation) throws Throwable {
@@ -47,9 +49,18 @@ public class LIFOInvocationDispatcher
 
 
     public void writeTo(StringBuffer buffer) {
-        Iterator iterator = invokables.iterator();
-        while (iterator.hasNext()) {
-            ((Invokable) iterator.next()).writeTo(buffer);
+        int oldLength = buffer.length();
+        writeInvokablesTo( buffer );
+        
+        if (buffer.length() == oldLength ) {
+        	buffer.append(NO_EXPECTATIONS_MESSAGE);
         }
     }
+
+	private void writeInvokablesTo(StringBuffer buffer) {
+		Iterator iterator = invokables.iterator();
+		while (iterator.hasNext()) {
+		    ((Invokable) iterator.next()).writeTo(buffer);
+		}
+	}
 }

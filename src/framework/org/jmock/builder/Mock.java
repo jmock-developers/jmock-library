@@ -54,11 +54,7 @@ public class Mock
 		return builder;
     }
 
-    //TODO setDefaultResult(Class, value);
-    //TODO setDefaultResult(int value); ...
-    
-    
-	public ExpectationBuilder lookupID(String id) {
+    public ExpectationBuilder lookupID(String id) {
 		if( ! idTable.containsKey(id) ) {
             throw new AssertionFailedError("no expected invocation named '"+id+"'");
 		} 
@@ -71,4 +67,5 @@ public class Mock
         }
         idTable.put( id, builder );
 	}
+
 }
