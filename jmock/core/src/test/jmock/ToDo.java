@@ -2,14 +2,11 @@ package test.jmock;
 
 public class ToDo {
     //TODO Test error message on verify failure
-    //TODO List expected/stubbed methods in verify errors
-    //TODO Change default mock names from mockClassName to className
+    //TODO List expected/stubbed methods in verify errors [?]
+    //TODO Change default mock names from mockClassName to className [?]
     
     //TODO Good names for high-level and low-level API packages
     
-    //TODO Implement API for call ordering in dynamock API (or... see below)
-    //TODO remove dynamock API or find a maintainer
-        
     //Source cleanup prior to version 1.0 alpha
     //TODO REMOVE ALL TO-DO COMMENTS
     //TODO JavaDoc interfaces and those classes that need it.
@@ -42,7 +39,9 @@ public class ToDo {
     //DONE Extract Describable interface. Priority one!
     //DONE Better format for expected calls in error messages
     //      - make expected and actual call signatures look similar
-
+    //DONE Removed dynamock API. 
+    //      - if anybody wants it they can pull it out of CVS and maintain it as an extension
+    
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
 	
