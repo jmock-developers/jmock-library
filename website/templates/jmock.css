@@ -262,6 +262,9 @@ ul, ol {
 	display: inline;
 }
 
+.RuleOfThumb {
+	font-weight: bold;
+}
 
 /*---------------------------------------------------------------------------
  *  Side panels
