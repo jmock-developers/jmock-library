@@ -6,6 +6,7 @@ public class ToDo {
     //TODO Remove deprecated methods
     //TODO JavaDoc interfaces and those classes that need it.
     //TODO Add copyright comments to files
+    //TODO Remove pending from BuilderId stuff. Complain if a matcher specifies an after clause for itself. 
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
