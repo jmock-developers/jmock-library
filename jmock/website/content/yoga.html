@@ -1,131 +1,116 @@
 <?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+      "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
-  <head>
-    <title>Yoga for Your Unit Tests</title>
-  </head>
-  <body>
-    <h1>jMock: Yoga for Your Unit Tests</h1>
-    
-    <p>Brittle tests are a common "gotcha" of test driven development.
-    A brittle unit test will stop passing when you make 
-    unrelated changes to your application code.  A test suite that
-    contains a lot of brittle tests will slow down development and
-    inhibit refactoring.
-    
-    A brittle test overspecifies the behaviour of the unit being tested.
-    You can keep your tests flexible by following a simple rule of thumb: 
-    <span class="RuleOfThumb">specify exactly what you want to happen <em>and no more</em></span>.
-    This article describes how various features of jMock can help you
-    strike the right balance between an accurate specification 
-    of a unit's required behaviour and a flexible test that allows easy 
-    evolution of the code base.</p>
-    
-    <h2>Stubs and Expectations</h2>
-    
-    <p>
-    jMock distinguishes between stubbed and expected methods.  A stubbed
-    method call can occur during a test run, but if it does not occur 
-    the test still passes.  
-    An expected method call, on the other hand, <em>must</em> occur 
-    during a test run;  
-    if it does not occur, the test fails when it verifies the mock.
-    When setting up your mocks you must choose whether to stub or expect 
-    each invocation.  In general, we have found that tests are kept flexible 
-    when we follow this rule of thumb: 
-    <span class="RuleOfThumb">stub queries and expect commands</span>,
-    where a query is a method with no side effects that does nothing
-    but query the state of an object and a command is a method with side
-    effects that may, or may not, return a result.
-    Of course, this rule does not hold all the time, but it's a useful 
-    starting point.
-    </p>
-    
-    <p>A stub can be called any number of times.  The number of times a 
-    method is expected is defined by the expectation itself.  
-    The <code>once()</code> expectation allows the method to be called
-    once only; subsequent calls will make the test fail.
-    The <code>atLeastOnce()</code> expectation allows the method to be called
-    any number of times.  The test will only fail if the method is never 
-    called at all.  
-    You can define further expectation types if these are not sufficient
-    for your needs.</p>
-    
-    <p>In the following example, the <code>getLoggingLevel</code> is
-    stubbed: it does not have to be called.  
-    The <code>setLoggingLevel</code> must be called once and once only.
-    </p>
-    
-    <div class="Source Java">
-<pre>
-logger.stubs().method("getLoggingLevel").noParams()
+<head>
+  <meta http-equiv="Content-Type" content="" />
+  <title>Yoga for Your Unit Tests</title>
+</head>
+
+<body>
+<h1>jMock: Yoga for Your Unit Tests</h1>
+
+<p>Brittle tests are a common "gotcha" of test driven development. A brittle
+unit test will stop passing when you make unrelated changes to your
+application code. A test suite that contains a lot of brittle tests will slow
+down development and inhibit refactoring. A brittle test overspecifies the
+behaviour of the unit being tested. You can keep your tests flexible by
+following a simple rule of thumb: <span class="RuleOfThumb">specify exactly
+what you want to happen <em>and no more</em></span>. This article describes
+how various features of jMock can help you strike the right balance between
+an accurate specification of a unit's required behaviour and a flexible test
+that allows easy evolution of the code base.</p>
+
+<h2>Stubs and Expectations</h2>
+
+<p>jMock distinguishes between stubbed and expected methods. A stubbed method
+call can occur during a test run, but if it does not occur the test still
+passes. An expected method call, on the other hand, <em>must</em> occur
+during a test run; if it does not occur, the test fails when it verifies the
+mock. When setting up your mocks you must choose whether to stub or expect
+each invocation. In general, we have found that tests are kept flexible when
+we follow this rule of thumb: <span class="RuleOfThumb">stub queries and
+expect commands</span>, where a query is a method with no side effects that
+does nothing but query the state of an object and a command is a method with
+side effects that may, or may not, return a result. Of course, this rule does
+not hold all the time, but it's a useful starting point.</p>
+
+<p>A stub can be called any number of times. The number of times a method is
+expected is defined by the expectation itself. The <code>once()</code>
+expectation allows the method to be called once only; subsequent calls will
+make the test fail. The <code>atLeastOnce()</code> expectation allows the
+method to be called any number of times. The test will only fail if the
+method is never called at all. You can define further expectation types if
+these are not sufficient for your needs.</p>
+
+<p>In the following example, the <code>getLoggingLevel</code> is stubbed: it
+does not have to be called. The <code>setLoggingLevel</code> must be called
+once and once only.</p>
+
+<div class="Source Java">
+<pre>logger.stubs().method("getLoggingLevel").noParams()
     .will(returnValue(Logger.WARNING));
-logger.expects(once()).method("setLoggingLevel").with(eq(newLevel));
-</pre>
-    </div>
-    
-    <h2>Parameter Constraints</h2>
-    
-    <p>jMock requires that you specify a <i>constraint</i> on each actual
-    parameter of a expected invocation, rather than specify just the 
-    expected parameter value.  Specifying equality to an expected value 
-    is the most common case, but is too strict for many scenarios.
-    For example, consider a system that logs errors to a 
-    <code>Logger</code> object.
-    To test that an object correctly detects and logs an error, such
-    as a failed attempt to connect to a database, you could 
-    set up an expectation on a mock logger to check the value of the
-    message passed to the logger:</p>
-    
-    <div class="Source Java">
+logger.expects(once()).method("setLoggingLevel").with(eq(newLevel));</pre>
+</div>
+
+<h2>Parameter Constraints</h2>
+
+<p>jMock requires that you specify a <i>constraint</i> on each actual
+parameter of a expected invocation, rather than specify just the expected
+parameter value. Specifying equality to an expected value is the most common
+case, but is too strict for many scenarios. For example, consider a system
+that logs errors to a <code>Logger</code> object. To test that an object
+correctly detects and logs an error, such as a failed attempt to connect to a
+database, you could set up an expectation on a mock logger to check the value
+of the message passed to the logger:</p>
+
+<div class="Source Java">
 <pre>String expectedErrorMessage = "unable to connect to ORDERS database: network timeout";
 
 logger.expects(once()).method("error").with(eq(expectedErrorMessage));</pre>
-    </div>
-    
-    <p>This will work in the short term, but will cause problems long term 
-    because it too precisely specifies the expected value of the error message, 
-    including minor details of punctuation and whitespace.  
-    If you change that formatting later, the test will fail even though the 
-    code under test still does what you want it to do.
-    You really only care that the error message contains the information 
-    you want to report to the user &mdash; the action that failed and 
-    the cause of the failure &mdash; not how that information is formatted.
-    You can use the constraint functions defined by the 
-    <code>MockObjectTestCase</code> class to specify exactly what you want
-    to happen:</p>
-    
-    <div class="Source Java">
+</div>
+
+<p>This will work in the short term, but will cause problems long term
+because it too precisely specifies the expected value of the error message,
+including minor details of punctuation and whitespace. If you change that
+formatting later, the test will fail even though the code under test still
+does what you want it to do. You really only care that the error message
+contains the information you want to report to the user &mdash; the action
+that failed and the cause of the failure &mdash; not how that information is
+formatted. You can use the constraint functions defined by the
+<code>MockObjectTestCase</code> class to specify exactly what you want to
+happen:</p>
+
+<div class="Source Java">
 <pre>String action = "connect to ORDERS database";
 String cause = "network timeout";
 
 logger.expects(once()).method("error")
     .with( and(stringContains(action),stringContains(cause)) );</pre>
-    </div>
-    
-    <p>The <code>MockObjectTestCase</code> class defines several functions that
-    can be used to define constraints.  There are more constraint types
-    defined in the 
-    <code><a href="docs/javadoc/org/jmock/core/constraint/package-summary.html">org.jmock.constraint</a></code>
-    package.  You can even <a href="custom-constraints.html">define your own constraints</a>.</p>
-    
-    <p>Constraints require you to type a little more when writing your tests, 
-    and require you to think more carefully about what behaviour you expect, 
-    but the result is that your tests are easier to read because they clearly 
-    express your intent and more flexible because they don't overspecify
-    expected behaviour.</p>
-  
-    <h2>Invocation Order</h2>
-    
-    <p>
-    By default, jMock allows invocations upon a mock object to occur in 
-    any order.  Sometimes, however, the order of calls is important, such
-    as when you are testing an object that fires events or writes data
-    to an output stream.
-    In such cases you can explicitly specify that a call should occur
-    after one or more others.
-    </p>
-    
-    <div class="Source Java">
+</div>
+
+<p>The <code>MockObjectTestCase</code> class defines several functions that
+can be used to define constraints. There are more constraint types defined in
+the <code><a
+href="docs/javadoc/org/jmock/core/constraint/package-summary.html">org.jmock.constraint</a></code>
+package. You can even <a href="custom-constraints.html">define your own
+constraints</a>.</p>
+
+<p>Constraints require you to type a little more when writing your tests, and
+require you to think more carefully about what behaviour you expect, but the
+result is that your tests are easier to read because they clearly express
+your intent and more flexible because they don't overspecify expected
+behaviour.</p>
+
+<h2>Invocation Order</h2>
+
+<p>By default, jMock allows invocations upon a mock object to occur in any
+order. Sometimes, however, the order of calls is important, such as when you
+are testing an object that fires events or writes data to an output stream.
+In such cases you can explicitly specify that a call should occur after one
+or more others.</p>
+
+<div class="Source Java">
 <pre>logger.expects(once()).method("setLoggingLevel").with(eq(Logger.WARNING))
     .id("warning level set");
 logger.expects(once()).method("warn").with(warningMessage)
@@ -133,51 +118,46 @@ logger.expects(once()).method("warn").with(warningMessage)
 logger.stubs().method("getLoggingLevel").noParams()
     .after("warning level set")
     .will(returnValue(Logger.WARNING));</pre>
-    </div>
-    
-    <p>A rule of thumb to follow when specifying the expected order
-    of method calls is: 
-    <span class="RuleOfThumb">test the ordering of <em>only</em> those 
-    calls you want to occur in order</span>.
-    The example above allows the <code>warn</code> and 
-    <code>getLoggingLevel</code>
-    methods to occur in any order, as long as they occur after the call to
-    <code>setLoggingLevel</code>. Thus we can change the order in which our 
-    tested object calls <code>warn</code> and <code>getLoggingLevel</code> 
-    without breaking our tests.</p>
-    
-    <p>Specifying the order of calls is orthogonal to whether those calls are
-    expectations or stubs.  So, the example above specifies that the
-    <code>getLoggingLevel</code> method does not have to be called, 
-    but if it is, it must be called after 
-    <code>setLoggingLevel</code>, and that the
-    <code>warn</code> method must be called and must be called after
-    <code>setLoggingLevel</code>.</p>
-    
-    <h2>Matchers</h2>
-    
-    <p>The methods <code>method(</code><var>methodName</var><code>)</code>,
-    <code>with(</code><var>argument&nbsp;constraints</var><code>)</code> and
-    <code>after(</code><var>prior&nbsp;call&nbsp;ID</var><code>)</code>
-    are syntactic sugar that define matching rules that match an incoming invocation
-    to an object that can mock the behaviour of the invocation and test its
-    expectations.
-    If jMock does not have a matching rule that you need, or the matching rules 
-    supported by jMock are not accurate enough to keep your tests flexible,
-    you can extend jMock with matching rules of your own.</p>
-    
-    <p>If you need more control over how method names are matched, you can specify
-    a constraint over names instead of a precise name value.  An invocation will match 
-    if the constraint evaluates to <code>true</code> when applied to the method name.
-    Suppose that you want to stub all calls to the property getter methods of a mock object
-    by synthesising a default result based on the type of the property.
-    You could achieve with a constraint that matches method names that begin with
-    &quot;get&quot; and that have no parameters.
-    (See <a href="custom-constraints.html">Writing Custom Constraints</a> for the definition
-    of the <code>StringStartsWith</code> class).
-    </p>
-    
-    <div class="Source Java">
+</div>
+
+<p>A rule of thumb to follow when specifying the expected order of method
+calls is: <span class="RuleOfThumb">test the ordering of <em>only</em> those
+calls you want to occur in order</span>. The example above allows the
+<code>warn</code> and <code>getLoggingLevel</code> methods to occur in any
+order, as long as they occur after the call to <code>setLoggingLevel</code>.
+Thus we can change the order in which our tested object calls
+<code>warn</code> and <code>getLoggingLevel</code> without breaking our
+tests.</p>
+
+<p>Specifying the order of calls is orthogonal to whether those calls are
+expectations or stubs. So, the example above specifies that the
+<code>getLoggingLevel</code> method does not have to be called, but if it is,
+it must be called after <code>setLoggingLevel</code>, and that the
+<code>warn</code> method must be called and must be called after
+<code>setLoggingLevel</code>.</p>
+
+<h2>Matchers</h2>
+
+<p>The methods <code>method(</code><var>methodName</var><code>)</code>,
+<code>with(</code><var>argument&nbsp;constraints</var><code>)</code> and
+<code>after(</code><var>prior&nbsp;call&nbsp;ID</var><code>)</code> are
+syntactic sugar that define matching rules that match an incoming invocation
+to an object that can mock the behaviour of the invocation and test its
+expectations. If jMock does not have a matching rule that you need, or the
+matching rules supported by jMock are not accurate enough to keep your tests
+flexible, you can extend jMock with matching rules of your own.</p>
+
+<p>If you need more control over how method names are matched, you can
+specify a constraint over names instead of a precise name value. An
+invocation will match if the constraint evaluates to <code>true</code> when
+applied to the method name. Suppose that you want to stub all calls to the
+property getter methods of a mock object by synthesising a default result
+based on the type of the property. You could achieve with a constraint that
+matches method names that begin with "get" and that have no parameters. (See
+<a href="custom-constraints.html">Writing Custom Constraints</a> for the
+definition of the <code>StringStartsWith</code> class).</p>
+
+<div class="Source Java">
 <pre>...
 
 private DefaultResultStub returnADefaultValue = new DefaultResultStub();
@@ -193,16 +173,15 @@ private Constraint startingWith( String prefix ) {
 }
 
 ...</pre>
-    </div>
-    
-    <p>This example is, however, still brittle.  You want the mock to stub all property 
-    getter methods but that is not actually what the test specifies.  To precisely
-    specify the required behaviour you can 
-    <a href="custom-matchers.html">write your own matching rule</a> 
-    that uses the Java Bean API to test if a method is a property getter.
-    </p>
-    
-    <div class="Source Java">
+</div>
+
+<p>This example is, however, still brittle. You want the mock to stub all
+property getter methods but that is not actually what the test specifies. To
+precisely specify the required behaviour you can <a
+href="custom-matchers.html">write your own matching rule</a> that uses the
+Java Bean API to test if a method is a property getter.</p>
+
+<div class="Source Java">
 <pre>...
 
 private DefaultResultStub returnADefaultValue = new DefaultResultStub();
@@ -217,20 +196,20 @@ private InvocationMatcher aBeanPropertyGetter() {
     return new BeanPropertyGetterMatcher();
 }
 
-...
-</pre>
-    </div>
-    
-    <h2>Conclusion</h2>
-    
-    <p>This article should have given you some idea of why the jMock API is designed as it is
-    and how that API can help you avoid brittle tests. 
-    The most important rule of thumb we follow to keep our tests flexible is:</p>
-    
-    <blockquote><span class="RuleOfThumb">Specify exactly what you want to happen <em>and no more</em>.</span></blockquote>
-    
-    <p>This guideline is just as applicable when writing unit tests that do not use mock 
-    objects.</p>
-    
-  </body>
+...</pre>
+</div>
+
+<h2>Conclusion</h2>
+
+<p>This article should have given you some idea of why the jMock API is
+designed as it is and how that API can help you avoid brittle tests. The most
+important rule of thumb we follow to keep our tests flexible is:</p>
+
+<blockquote>
+  <span class="RuleOfThumb">Specify exactly what you want to happen <em>and
+  no more</em>.</span></blockquote>
+
+<p>This guideline is just as applicable when writing unit tests that do not
+use mock objects.</p>
+</body>
 </html>
