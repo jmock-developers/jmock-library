@@ -54,11 +54,23 @@ public class MockControl
     }
 
 	public void setReturnValue(Range range, Object value) {
-        invocationMatch.expectCallCount(range, new ReturnStub(value));
+        expectStub(range, new ReturnStub(value));
     }
 
-    public void setThrowable(Range range, Throwable throwable) {
-        invocationMatch.expectCallCount(range, new ThrowStub(throwable));
+    public void setThrowable(Throwable throwable) {
+    	setThrowable(throwable, ONE);
+    }
+    
+    public void setThrowable(Throwable throwable, int times) {
+        setThrowable(throwable, new Range(times));
+    }
+
+    public void setThrowable(Throwable throwable, int minCount, int maxCount) {
+        setThrowable(throwable, new Range(minCount, maxCount));
+    }
+    
+    public void setThrowable(Throwable throwable, Range range) {
+        expectStub(range, new ThrowStub(throwable));
     }
 
     public void setDefaultReturnValue(Object value) {
@@ -700,4 +712,245 @@ public class MockControl
 	public void setReturnValue(Object value, int minCount, int maxCount) {
         setReturnValue(value, new Range(minCount, maxCount));
 	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable)}. For explanation,
+	 * see "Convenience Methods for Throwables" in the EasyMock documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(boolean ignored, Throwable throwable) {
+	    setThrowable(throwable);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable)}. For explanation,
+	 * see "Convenience Methods for Throwables" in the EasyMock documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(long ignored, Throwable throwable) {
+	    setThrowable(throwable);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable)}. For explanation,
+	 * see "Convenience Methods for Throwables" in the EasyMock documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(float ignored, Throwable throwable) {
+	    setThrowable(throwable);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable)}. For explanation,
+	 * see "Convenience Methods for Throwables" in the EasyMock documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(double ignored, Throwable throwable) {
+	    setThrowable(throwable);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable)}. For explanation,
+	 * see "Convenience Methods for Throwables" in the EasyMock documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(Object ignored, Throwable throwable) {
+	    setThrowable(throwable);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Range, Throwable)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(boolean ignored, Throwable throwable, Range range) {
+	    setThrowable(throwable, range);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Range, Throwable)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(long ignored, Throwable throwable, Range range) {
+	    setThrowable(throwable, range);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Range, Throwable)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(float ignored, Throwable throwable, Range range) {
+	    setThrowable(throwable, range);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Range, Throwable)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(double ignored, Throwable throwable, Range range) {
+	    setThrowable(throwable, range);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Range, Throwable)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(Object ignored, Throwable throwable, Range range) {
+	    setThrowable(throwable, range);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(boolean ignored, Throwable throwable, int count) {
+	    setThrowable(throwable, count);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(long ignored, Throwable throwable, int count) {
+	    setThrowable(throwable, count);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(float ignored, Throwable throwable, int count) {
+	    setThrowable(throwable, count);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(double ignored, Throwable throwable, int count) {
+	    setThrowable(throwable, count);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(Object ignored, Throwable throwable, int count) {
+	    setThrowable(throwable, count);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(boolean ignored, Throwable throwable, int min,
+	        int max) {
+	    setThrowable(throwable, min, max);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(long ignored, Throwable throwable, int min,
+	        int max) {
+	    setThrowable(throwable, min, max);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(float ignored, Throwable throwable, int min,
+	        int max) {
+	    setThrowable(throwable, min, max);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(double ignored, Throwable throwable, int min,
+	        int max) {
+	    setThrowable(throwable, min, max);
+	}
+
+	/**
+	 * Same as {@link MockControl#setThrowable(Throwable, int, int)}. For
+	 * explanation, see "Convenience Methods for Throwables" in the EasyMock
+	 * documentation.
+	 * 
+	 * @param ignored
+	 *            an ignored value.
+	 */
+	public void expectAndThrow(Object ignored, Throwable throwable, int min,
+	        int max) {
+	    setThrowable(throwable, min, max);
+	}
+
 }

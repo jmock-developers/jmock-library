@@ -49,7 +49,7 @@ public class DefaultReturnValueAcceptanceTest extends TestCase {
         control.setDefaultVoidCallable();
 
         mock.twoArgumentMethod(1, 1);
-        control.setThrowable(MockControl.ONE_OR_MORE, EXPECTED);
+        control.setThrowable(EXPECTED, MockControl.ONE_OR_MORE);
 
         control.replay();
         mock.twoArgumentMethod(2, 1);
