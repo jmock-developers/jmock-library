@@ -1,0 +1,19 @@
+<document>
+
+    <properties>
+        <title>Other Frameworks</title>
+    </properties>
+
+    <body>
+        <section name="Other Frameworks">
+            <ul>
+                <li>NMock</li>
+                <li>EasyMock</li>
+                <li>MockObjects-Java</li>
+                <li>MockObjects.NET</li>
+                <li>MockMaker</li>
+            </ul>
+        </section>
+    </body>
+
+</document>

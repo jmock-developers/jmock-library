@@ -1,0 +1,17 @@
+In general, you are advised to compile and test directly from your IDE.
+
+For releasing the website, Maven is required http://maven.apache.org/
+
+Maven targets:
+
+Building...
+  test                 - Build Java and run all tests
+  clean                - Clean up any built files
+  site                 - Build website, including all reports
+
+Releasing...
+  dist:deploy-snapshot - Build and upload src/binary snapshot distributions 
+  dist:deploy          - Build and upload src/binary release distributions 
+  jar:deploy-snapshot  - Build and upload snapshot jar 
+  jar:deploy           - Build and upload release jar
+  site:deploy          - Build and upload website, including all reports
