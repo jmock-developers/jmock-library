@@ -21,10 +21,10 @@ public class Mock
     }
     
     public Mock( Class mockedType, String name ) {
-        this(new CoreMock(mockedType, name, new LIFOInvocationDispatcher()));
+        this(new CoreMock(mockedType, name));
     }
     
-    public Mock(DynamicMock coreMock) {
+    public Mock( DynamicMock coreMock ) {
         this.coreMock = coreMock;
     }
     

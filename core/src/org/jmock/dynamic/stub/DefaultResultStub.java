@@ -8,7 +8,6 @@ import java.util.Map;
 
 import junit.framework.AssertionFailedError;
 
-import org.jmock.dynamic.*;
 import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
@@ -42,9 +41,7 @@ public class DefaultResultStub
             return Array.newInstance( returnType.getComponentType(), 0 );
         } else if( returnType.isInterface() ) {
              CoreMock nullMock = new CoreMock(
-                 returnType,
-                 "null"+DynamicUtil.classShortName(returnType),
-                 new LIFOInvocationDispatcher());
+                 returnType, "null"+DynamicUtil.classShortName(returnType) );
              nullMock.setDefaultStub(this);
              return nullMock.proxy();
         } else {
