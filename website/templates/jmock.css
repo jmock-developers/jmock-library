@@ -370,6 +370,22 @@ ul, ol {
     font-size: 12px;
 }
 
+.NewsFlash {
+    margin: 64px;
+    padding: 8px;
+    border: double 3px black;
+    background-color: #ffffee;
+    font-family: Times New Roman, Serif
+}
+
+.NewsFlash h2 {
+    font-size: 14px;
+    margin-top: 0px;
+    padding: 0px;
+    width: 100%;
+    text-align: center;
+}
+
 /*---------------------------------------------------------------------------
  *  Document meta-information
  */
