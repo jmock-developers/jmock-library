@@ -57,13 +57,13 @@ public class InvocationMockerBuilder
     }
 
     private void checkExistingMethodName( String name ) {
-        if( !typeDefinesMethodNamed(name) ) {
+        if( !typeDefinesMethodNamed(mockedType,name) && !typeDefinesMethodNamed(Object.class,name) ) {
             throw new AssertionFailedError("no method named " + name + " is defined in type "+mockedType);
         }
     }
 
-    private boolean typeDefinesMethodNamed( String name ) {
-        Method[] methods = mockedType.getMethods();
+    private boolean typeDefinesMethodNamed( Class type, String name ) {
+        Method[] methods = type.getMethods();
         
         for( int i = 0; i < methods.length; i++ ) {
             if( methods[i].getName().equals(name) ) return true;
