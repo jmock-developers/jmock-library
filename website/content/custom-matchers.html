@@ -51,5 +51,42 @@
     <code>StatelessInvocationMatcher</code> and defining the 
     <code>match</code> and <code>describeTo</code> methods.</p>
     
+    <h2>An Example Custom Matcher</h2>
+    
+    <p>Suppose we want to stub all Java Bean property getters to return some default results.
+    Returning default results is performed by a
+    <a href="docs/javadoc/org/jmock/core/stub/DefaultResultStub.html"><code>DefaultResultStub</code></a>.
+    But how do we match property getter methods?  We need to write a custom 
+    InvocationMatcher that only matches invocations of bean property getter methods.
+    Here's what a test will look like that uses such a custom matcher:</p>
+    
+    <div class="Source Java">
+<pre>InvocationMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
+DefaultResultStub returnDefaultValue = new DefaultResultStub();
+Mock mock = ...
+    
+public void testListChildren() {
+    ...        
+    mockPerson.stub().match(beanPropertyGetters).will(returnDefaultValue);
+    ...
+}</pre>
+    </div>
+    
+    <p>We can write the BeanPropertyGetterMatcher class by extending StatelessInvocationMatcher:</p>
+    
+    <div class="Source Java">
+<pre>public class BeanPropertyGetterMatcher 
+    extends StatelessInvocationMatcher 
+{
+   ...
+}</pre>    
+    </div>
+    
+    <p>We now need to write the <code>match</code> method to return whether the invocation is
+    the getter method of a Java Bean property, using the Java Beans API.  The method will
+    use Bean introspection to list the property descriptors of the class that defines the
+    invoked method.  It then searches the list of property descriptors for a descriptor with
+    a getter method that is the same as the invoked method.</p>
+    
   </body>
 </html>
