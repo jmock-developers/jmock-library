@@ -2,9 +2,7 @@ package test.jmock;
 
 public class ToDo {
     //TODO Test error message on verify failure
-    //TODO List expected/stubbed methods in verify errors [?]
     //TODO Change default mock names from mockClassName to className [?]
-    
     //TODO Good names for high-level and low-level API packages
     
     //Source cleanup prior to version 1.0 alpha

@@ -25,5 +25,4 @@ Code tasks moved to ToDo.java
 Organisation:
 - Get a logo.
 - Setup Jira.
-- Stop using Maven.  Create Ant file for common tasks if we have to.
-- Scripts to create snapshots and run unit and acceptance tests in damagecontrol
+- Scripts to run unit and acceptance tests in damagecontrol
