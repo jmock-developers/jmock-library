@@ -33,10 +33,9 @@ echo '****'
 build-step ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
 
 if let $DEPLOY; then
-    build-step cp --recursive $BUILDDIR/dist/ $DEPLOY_ROOT
-    build-step cp --recursive $WEBDIR $DEPLOY_ROOT
-    build-step mkdir --parents $DEPLOY_ROOT/public_html/docs/
-    build-step cp --recursive $BUILDDIR/javadoc/ $DEPLOY_ROOT/public_html/docs/
+    build-step scp -r $BUILDDIR/dist/ $DEPLOY_ROOT
+    build-step scp -e $WEBDIR $DEPLOY_ROOT
+    build-step scp -e $BUILDDIR/javadoc/ $DEPLOY_ROOT/public_html/docs/
 fi
 
 echo all done.
