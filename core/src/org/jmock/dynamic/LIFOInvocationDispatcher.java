@@ -48,15 +48,17 @@ public class LIFOInvocationDispatcher
         invokables.clear();
     }
 
-    public void writeTo(StringBuffer buffer) {
+    public StringBuffer writeTo(StringBuffer buffer) {
         int oldLength = buffer.length();
         writeInvokablesTo( buffer );
         
         if (buffer.length() == oldLength ) {
         	buffer.append(NO_EXPECTATIONS_MESSAGE);
         }
+        
+        return buffer;
     }
-
+    
 	private void writeInvokablesTo(StringBuffer buffer) {
 		Iterator iterator = invokables.iterator();
 		while (iterator.hasNext()) {
