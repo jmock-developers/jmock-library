@@ -6,28 +6,23 @@ import java.lang.reflect.Method;
 
 import org.jmock.core.CoreMock;
 import org.jmock.core.InvocationDispatcher;
-import org.jmock.core.Invokable;
 import org.jmock.core.Stub;
 import org.jmock.easy.internal.InvocationMatch;
-import org.jmock.easy.internal.Range;
 
 
 public class EasyCoreMock extends CoreMock
 {
 	private boolean isRecording = true;
-	private InvocationMatch match = new InvocationMatch();
+	private InvocationMatch match;
     private InvocationDispatcher dispatcher;
 	
-	public EasyCoreMock(Class mockedType, InvocationDispatcher dispatcher) {
+	public EasyCoreMock(Class mockedType, InvocationDispatcher dispatcher, InvocationMatch match) {
 		super(mockedType, CoreMock.mockNameFromClass(mockedType), dispatcher);
+        this.match = match;
         this.dispatcher = dispatcher;
 	}
 
-    public void addDefaultInvokable(Invokable invokable) {
-        dispatcher.add(invokable);
-    }
-    
-	public void replay() {
+    public void replay() {
 		addInvocationMockerAndFlush();
 		isRecording = false;	
 	}
@@ -46,10 +41,6 @@ public class EasyCoreMock extends CoreMock
 		match.addInvocationMockerTo(dispatcher);
 		match.flush();
 	}
-
-    public void setExpectedStub(Range range, Stub stub) {
-        match.expectCallCount(range, stub);
-    }
 
     public void setDefaultStub(Stub stub) {
         match.addInvocationMockerTo(dispatcher);

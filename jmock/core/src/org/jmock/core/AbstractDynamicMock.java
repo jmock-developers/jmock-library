@@ -11,21 +11,29 @@ public abstract class AbstractDynamicMock
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;
     private String name;
+    private Object proxy;
 
     public AbstractDynamicMock( Class mockedType,
                                 String name,
-                                InvocationDispatcher invocationDispatcher ) {
+                                InvocationDispatcher invocationDispatcher) {
         this.mockedType = mockedType;
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
     }
 
+    protected void setupProxyWithoutConstructorClash(Object proxy) {
+    	this.proxy = proxy;
+        invocationDispatcher.setupDefaultBehaviour(name, proxy);
+    }
+    
+    public Object proxy() {
+        return this.proxy;
+    }
     public Class getMockedType() {
         return mockedType;
     }
 
-    protected Object mockInvocation( Invocation invocation )
-            throws Throwable {
+    protected Object mockInvocation( Invocation invocation ) throws Throwable {
         try {
             return invocationDispatcher.dispatch(invocation);
         }
@@ -45,4 +53,5 @@ public abstract class AbstractDynamicMock
     public static String mockNameFromClass( Class c ) {
         return "mock" + Formatting.classShortName(c);
     }
+
 }

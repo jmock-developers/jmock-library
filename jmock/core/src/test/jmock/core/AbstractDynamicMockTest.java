@@ -105,7 +105,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
     }
 
     public void testCalculatesHashCodeForProxy() throws Exception {
-        coreMock = new CoreMock(DummyInterface.class, "coreMock");
+        coreMock = new CoreMock(DummyInterface.class, "coreMock", new OrderedInvocationDispatcher.LIFO());
 
         proxy = (DummyInterface)coreMock.proxy();
 
