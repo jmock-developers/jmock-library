@@ -6,9 +6,12 @@ import java.lang.reflect.Proxy;
 
 import junit.framework.AssertionFailedError;
 
+import org.jmock.Constraint;
+import org.jmock.constraint.IsAnything;
+import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.CustomStub;
 import org.jmock.dynamic.stub.ReturnStub;
-import org.jmock.dynamock.C;
 
 
 public class CoreMock 
@@ -25,14 +28,7 @@ public class CoreMock
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
         
-        // TODO: this class should not rely on the C class. 
-        add(new InvocationMocker("toString", C.args(), new ReturnStub(name)));
-        add(new InvocationMocker("equals", C.args(C.IS_ANYTHING), 
-        	new CustomStub("returns whether equal to proxy") {
-        		public Object invoke( Invocation invocation ) throws Throwable {
-        			return new Boolean(invocation.getParameterValues().get(0) == proxy);
-                }
-            } ));
+        setupDefaultBehaviour();
     }
     
     public Object proxy() {
@@ -85,7 +81,9 @@ public class CoreMock
     }
     
     public void reset() {
+        //TODO write tests for this
         invocationDispatcher.clear();
+        setupDefaultBehaviour();
     }
     
     public static String mockNameFromClass(Class c) {
@@ -93,7 +91,28 @@ public class CoreMock
     }
     
     public static String className(Class c) {
+        //TODO use package name
         String name = c.getName();
         return name.substring(name.lastIndexOf('.') + 1);
+    }
+    
+
+    private void setupDefaultBehaviour() {
+        add(new InvocationMocker("toString", NoArgumentsMatcher.INSTANCE, new ReturnStub(this.name)));
+        add(new InvocationMocker("equals", 
+                new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
+                new IsSameAsProxy(this.proxy)));
+    }
+
+    private static class IsSameAsProxy extends CustomStub {
+        private Object proxy;
+        
+        private IsSameAsProxy(Object proxy) {
+            super("returns whether equal to proxy");
+            this.proxy = proxy;
+        }
+        public Object invoke( Invocation invocation ) throws Throwable {
+            return new Boolean(invocation.getParameterValues().get(0) == proxy);
+        }
     }
 }
