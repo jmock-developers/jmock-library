@@ -39,4 +39,15 @@ public class InvokeOnceMatcherTest extends TestCase {
     	
     	assertEquals( "should describe match", "expected once", description );
     }
+    
+    public void testReportsWhetherCalledInDescription() {
+        matcher.invoked(emptyInvocation);
+        
+        String description = matcher.writeTo(new StringBuffer()).toString();
+        
+        assertTrue( "should describe match", 
+                    description.indexOf("expected once") >= 0 );
+        assertTrue( "should report has been called", 
+                    description.indexOf("has been called") >= 0 );
+    }
 }
