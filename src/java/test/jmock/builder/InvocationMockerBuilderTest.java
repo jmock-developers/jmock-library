@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.CallOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
@@ -43,5 +44,13 @@ public class InvocationMockerBuilderTest extends TestCase {
         assertNotNull("Should be expectation builder", builder.willThrow(new Exception("thrown value")));
 
         mocker.verifyExpectations();
+    }
+    
+    public void testExpectOnceAddsCallOnceMatcher() {
+    	mocker.addedMatcherType.setExpected(CallOnceMatcher.class);
+    	
+    	assertNotNull("Should be ExpectationBuilder", builder.expectOnce() );
+    	
+    	mocker.verifyExpectations();
     }
 }
