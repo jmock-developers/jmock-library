@@ -1,9 +1,10 @@
 <project default="jars">
-	<property name="version" value="SNAPSHOT"/> <!-- Override this property to build release versions -->
+   	<property name="version" value="SNAPSHOT"/>
 
 	<property name="build.dir" location="build"/>
 	<property name="lib.dir" location="lib"/>
 	<property name="dist.dir" location="${build.dir}/dist"/>
+    <property name="build.src.dir" location="${build.dir}/jmock-${build.timestamp}"/>
 
     <property name="report.test.unit.dir" location="${build.dir}/reports/unit-tests"/>
     <property name="report.test.acceptance.dir" location="${build.dir}/reports/acceptance-tests"/>
@@ -58,30 +59,25 @@
         </javac>
     </target>
 
-    <!-- Ant cannot run the jMock unit tests.  Make sure that you run all the unit tests in your
-         IDE before committing changes to CVS.  You cannot trust the results of Ant's test runner.
-     -->
     <target name="core.test.unit" depends="core.compile">
+        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
         <mkdir dir="${report.test.unit.dir}"/>
-        <!--
-        <junit printsummary="yes" haltonfailure="true" haltonerror="true">
+        <junit printsummary="no" haltonfailure="true" haltonerror="true" fork="true">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
             </classpath>
             <formatter type="plain"/>
-            <batchtest fork="no" todir="${report.test.unit.dir}">
-                <fileset dir="${core.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*">
-                </fileset>
+            <batchtest todir="${report.test.unit.dir}">
+                <fileset dir="${core.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*"/>
             </batchtest>
         </junit>
-        -->
     </target>
 
     <target name="core.test.acceptance" depends="core.atest.compile">
         <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
         <mkdir dir="${report.test.acceptance.dir}"/>
-        <junit printsummary="yes">
+        <junit printsummary="no">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
@@ -125,7 +121,7 @@
     <target name="cglib.test.unit" depends="cglib.compile">
         <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
         <mkdir dir="${report.test.unit.dir}"/>
-        <junit printsummary="yes" haltonfailure="true" haltonerror="true">
+        <junit printsummary="no" haltonfailure="true" haltonerror="true">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
@@ -141,7 +137,7 @@
     <target name="cglib.test.acceptance" depends="cglib.atest.compile">
         <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
         <mkdir dir="${report.test.acceptance.dir}"/>
-        <junit printsummary="yes">
+        <junit printsummary="no">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
@@ -164,16 +160,19 @@
     <!-- SOURCE DISTRIBUTION -->
 
     <target name="src.jar">
-        <mkdir dir="${dist.dir}"/>
-        <jar destfile="${src.jar}">
+        <mkdir dir="${build.src.dir}"/>
+
+        <copy todir="${build.src.dir}" verbose="true">
             <fileset dir="${core.dir}"/>
             <fileset dir="${extensions.dir}"/>
             <fileset dir="${examples.dir}"/>
-            <filename name="build.xml"/>
-            <filename name="README.txt"/>
-            <filename name="LICENSE.txt"/>
-            <filename name="overview.html"/>
-        </jar>
+            <fileset file="build.xml"/>
+            <fileset file="README.txt"/>
+            <fileset file="LICENSE.txt"/>
+            <fileset file="overview.html"/>
+        </copy>
+
+        <jar destfile="${src.jar}" basedir="${build.src.dir}"/>
     </target>
 
 </project>

@@ -72,7 +72,7 @@ public class DefaultResultStubTest extends TestCase {
 
     // Inspired by http://www.c2.com/cgi/wiki?JavaNullProxy
     public void testReturnsProxyOfNewMockObjectWithSameDefaultResultStubForInterfaceTypes()
-            throws Throwable
+         throws Throwable
     {
         int intResult = -1;
 
@@ -85,7 +85,7 @@ public class DefaultResultStubTest extends TestCase {
     }
 
     public void testDefaultResultsCanBeExplicitlyOverriddenByType()
-            throws Throwable
+        throws Throwable
     {
         int newDefaultIntResult = 20;
         String newDefaultStringResult = "hello";
