@@ -3,6 +3,9 @@
 package org.jmock.core;
 
 
+/**
+ * @since 1.0
+ */
 public interface InvocationMatcher
         extends Verifiable, SelfDescribing
 {

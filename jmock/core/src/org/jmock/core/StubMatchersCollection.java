@@ -2,6 +2,9 @@
  */
 package org.jmock.core;
 
+/**
+ * @since 1.0
+ */
 public interface StubMatchersCollection
 {
     void setName( String name );

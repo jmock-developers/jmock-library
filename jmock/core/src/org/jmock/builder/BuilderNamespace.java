@@ -2,7 +2,9 @@
  */
 package org.jmock.builder;
 
-
+/**
+ * @since 1.0
+ */
 public interface BuilderNamespace
 {
     MatchBuilder lookupID( String id );

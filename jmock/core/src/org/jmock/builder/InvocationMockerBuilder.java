@@ -11,7 +11,9 @@ import org.jmock.core.StubMatchersCollection;
 import org.jmock.core.matcher.*;
 import org.jmock.core.stub.VoidStub;
 
-
+/**
+ * @since 1.0
+ */
 public class InvocationMockerBuilder
         implements NameMatchBuilder
 {

@@ -27,6 +27,7 @@ import org.jmock.core.Verifiable;
  * 
  * @version $Id$
  * @see org.jmock.core.Verifiable
+ * @since 1.0
  */
 public class Verifier
 {

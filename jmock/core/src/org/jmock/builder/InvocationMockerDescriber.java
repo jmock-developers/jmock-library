@@ -16,6 +16,9 @@ import org.jmock.core.matcher.ArgumentsMatcher;
  * to be part of the implementation of the InvocationMockerBuilder class.
  */
 
+/**
+ * @since 1.0
+ */
 public class InvocationMockerDescriber implements Describer
 {
     private static final String SEP = ", ";

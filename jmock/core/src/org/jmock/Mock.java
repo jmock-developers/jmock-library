@@ -7,7 +7,9 @@ import junit.framework.AssertionFailedError;
 import org.jmock.builder.*;
 import org.jmock.core.*;
 
-
+/**
+ * @since 1.0
+ */
 public class Mock
         implements DynamicMock, BuilderNamespace
 {

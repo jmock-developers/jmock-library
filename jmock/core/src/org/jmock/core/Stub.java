@@ -6,6 +6,7 @@ package org.jmock.core;
 /**
  * An object that stubs the behaviour of a invokedMethod invocation on behalf of an
  * {@link org.jmock.core.Invokable} object.
+ * @since 1.0
  */
 public interface Stub
         extends SelfDescribing

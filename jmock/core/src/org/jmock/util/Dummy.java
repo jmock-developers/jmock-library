@@ -9,7 +9,9 @@ import org.jmock.core.InvocationMocker;
 import org.jmock.core.matcher.StatelessInvocationMatcher;
 import org.jmock.core.stub.CustomStub;
 
-
+/**
+ * @since 1.0
+ */
 public class Dummy
 {
     private Dummy() {

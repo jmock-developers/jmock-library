@@ -13,6 +13,8 @@ import org.jmock.util.Verifier;
  * A {@link junit.framework.TestCase} that verifies {@link org.jmock.core.Verifiable}
  * fields and registered Verifiable objects after the test has run and before the fixture
  * has been torn down.
+ * 
+ * @since 1.0
  */
 public abstract class VerifyingTestCase extends TestCase
 {

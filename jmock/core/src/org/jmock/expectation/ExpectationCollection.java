@@ -13,6 +13,7 @@ import java.util.Iterator;
  * The addition methods distinguish between adding a single value and unpacking the contents of
  * a collection. We have to make this distinction so that it is possible to add an array, enumeration,
  * or iterator as a single expected object, rather than adding its contents.
+ * @since 1.0
  */
 public interface ExpectationCollection extends Expectation
 {

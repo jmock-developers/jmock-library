@@ -6,7 +6,9 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 
-
+/**
+ * @since 1.0
+ */
 public class Formatting
 {
     public static String toReadableString( Object element ) {

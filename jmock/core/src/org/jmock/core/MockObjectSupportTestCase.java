@@ -5,7 +5,9 @@ package org.jmock.core;
 import org.jmock.core.constraint.*;
 import org.jmock.util.Dummy;
 
-
+/**
+ * @since 1.0
+ */
 public abstract class MockObjectSupportTestCase extends VerifyingTestCase
 {
     public static final Constraint ANYTHING = new IsAnything();
@@ -69,6 +71,13 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
 
     public StringContains stringContains( String substring ) {
         return new StringContains(substring);
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public StringContains contains( String substring ) {
+        return stringContains(substring);
     }
 
     public IsNot not( Constraint c ) {

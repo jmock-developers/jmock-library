@@ -9,7 +9,9 @@ import java.util.List;
 import junit.framework.AssertionFailedError;
 import org.jmock.core.stub.VoidStub;
 
-
+/**
+ * @since 1.0
+ */
 public class InvocationMocker
         implements Invokable, StubMatchersCollection
 {

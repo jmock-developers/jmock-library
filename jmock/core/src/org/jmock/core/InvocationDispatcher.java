@@ -2,7 +2,9 @@
  */
 package org.jmock.core;
 
-
+/**
+ * @since 1.0
+ */
 public interface InvocationDispatcher
         extends Verifiable, SelfDescribing
 {
