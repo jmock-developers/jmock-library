@@ -18,7 +18,7 @@ public abstract class AbstractDynamicMock
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;
     private String name;
-    private DynamicMockError firstFailure = null;
+    private DynamicMockError failure = null;
 
 
     public AbstractDynamicMock( Class mockedType, String name ) {
@@ -40,22 +40,22 @@ public abstract class AbstractDynamicMock
     }
 
     protected Object mockInvocation( Invocation invocation )
-            throws Throwable {
+        throws Throwable
+    {
+        if (failure != null) throw failure;
+
         try {
             return invocationDispatcher.dispatch(invocation);
         }
         catch (AssertionFailedError failure) {
-            if (firstFailure == null) {
-                firstFailure = new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
-                firstFailure.fillInStackTrace();
-            }
-
-            throw firstFailure;
+            this.failure = new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
+            this.failure.fillInStackTrace();
+            throw this.failure;
         }
     }
 
     public void verify() {
-        forgetFirstFailure();
+        forgetFailure();
 
         try {
             invocationDispatcher.verify();
@@ -84,7 +84,7 @@ public abstract class AbstractDynamicMock
     public void reset() {
         //TODO write tests for this
         invocationDispatcher.clear();
-        forgetFirstFailure();
+        forgetFailure();
         setupDefaultBehaviour();
     }
 
@@ -104,8 +104,8 @@ public abstract class AbstractDynamicMock
                                             new HashCodeStub()));
     }
 
-    private void forgetFirstFailure() {
-        firstFailure = null;
+    private void forgetFailure() {
+        failure = null;
     }
 
     private static final InvocationMocker.Describer NO_DESCRIPTION =
