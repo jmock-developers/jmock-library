@@ -213,4 +213,18 @@ public class ConstraintsTest extends TestCase {
             // expected
         }
     }
+
+    public void testStringContains() {
+    	final String EXCERPT = "EXCERPT";
+    	Constraint p = new StringContains(EXCERPT);
+    	
+    	assertTrue( "should be true if excerpt is entire string", p.eval(EXCERPT) );
+    	assertTrue( "should be true if excerpt at beginning", p.eval(EXCERPT+"END") );
+    	assertTrue( "should be true if excerpt at end", p.eval("START"+EXCERPT) );
+    	assertTrue( "should be true if excerpt in middle", p.eval("START"+EXCERPT+"END") );
+    	assertTrue( "should be true if excerpt is repeated", p.eval(EXCERPT+EXCERPT) );
+    	
+    	assertFalse( "should not be true if excerpt is not in string", p.eval("Something else") );
+    	assertFalse( "should not be true if part of excerpt is in string", p.eval( EXCERPT.substring(1)) );
+    }
 }
