@@ -6,7 +6,8 @@ import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.Invocation;
 
 public class MethodNameMatcher
-        extends StatelessInvocationMatcher {
+    extends StatelessInvocationMatcher 
+{
     private Constraint constraint;
 
     public MethodNameMatcher(Constraint constraint) {
