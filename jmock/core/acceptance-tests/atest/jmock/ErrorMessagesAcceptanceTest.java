@@ -102,7 +102,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
             assertStringContains("error message should contain expected invokedMethod",
                                  message, expectedMethod);
             assertStringContains("error message should describe error",
-                                 message, "was not invokedObject");
+                                 message, "was not invoked");
 
             return;
         }

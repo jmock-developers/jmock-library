@@ -51,6 +51,6 @@ public class Invocation implements SelfDescribing
         buffer.append(".");
         buffer.append(invokedMethod.getName());
         Formatting.join(parameterValues, buffer, "(", ")");
-        return buffer.append("\n");
+        return buffer;
     }
 }

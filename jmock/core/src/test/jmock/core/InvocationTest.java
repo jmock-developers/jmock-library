@@ -40,8 +40,8 @@ public class InvocationTest extends TestCase
     public void testCanBeConstructedFromAMethodObject() throws Exception {
         Invocation invocation = new Invocation(INVOKED, method, ARG_VALUES);
 
-        assertSame("invokedObject object", INVOKED, invocation.invokedObject);
-        assertEquals("invokedObject invokedMethod", method, invocation.invokedMethod);
+        assertSame("invoked object", INVOKED, invocation.invokedObject);
+        assertEquals("invoked method", method, invocation.invokedMethod);
         assertEquals("name", method.getName(), invocation.invokedMethod.getName());
         assertEquals("parameter types",
                      Arrays.asList(method.getParameterTypes()),
@@ -77,9 +77,9 @@ public class InvocationTest extends TestCase
                     invocation1.equals(new Object()));
         assertFalse("should not be equal to null",
                     invocation1.equals(null));
-        assertFalse("should not be equal if different invokedObject object",
+        assertFalse("should not be equal if different invoked object",
                     invocation1.equals(differentTarget));
-        assertFalse("should not be equal if different invokedMethod",
+        assertFalse("should not be equal if different method",
                     invocation1.equals(differentMethod));
         assertFalse("should not be equal if different argumentValues",
                     invocation1.equals(differentArgValues));
