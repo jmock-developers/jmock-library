@@ -6,12 +6,12 @@ import junit.framework.TestCase;
 import org.jmock.dynamock.C;
 import org.jmock.dynamock.Mock;
 
-public class AdditionalReturnMockTest extends TestCase {
+public class FIFOInvocationOrderFeatureRequest extends TestCase {
 	public interface WithReturnValue {
 		Object withNoParams();
     }
     
-    public void testReturnsMultipleValuesInOrderSpecified() {
+    public void testReturnsMultipleValuesInTheSameOrderAsExpectationsAreDefinedInTheSourceCode() {
     	Mock mock = new Mock(WithReturnValue.class);
         
         mock.expectAndReturn("withNoParams", C.NO_ARGS, "one");
