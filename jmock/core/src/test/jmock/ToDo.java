@@ -48,4 +48,5 @@ public class ToDo {
 	//TODO Make jmock.expectation package use Constraints instead of calling equals on expected value
     //TODO Remove getters from Invocation (?)
     //TODO Extract interface from Invocation class (?)
+    //TODO for trainer syntax: ((Thingy)mock.will(returnValue(10)).after("prev").id("asdad").train()),doIt(); ??
 }
