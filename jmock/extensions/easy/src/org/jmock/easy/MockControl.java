@@ -33,7 +33,7 @@ public class MockControl
 	}
 
 	public void setVoidCallable(Range range) {
-	
+		coreMock.setVoidCallable(range);
 	}
 
 }

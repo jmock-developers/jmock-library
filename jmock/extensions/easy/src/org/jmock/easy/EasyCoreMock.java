@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 
 import org.jmock.core.CoreMock;
 import org.jmock.easy.internal.InvocationMatch;
+import org.jmock.easy.internal.Range;
 
 
 public class EasyCoreMock extends CoreMock
@@ -18,17 +19,26 @@ public class EasyCoreMock extends CoreMock
 	}
 
 	public void replay() {
+		addInvocationMockerAndFlush();
 		isRecording = false;	
 	}
 
 	public Object invoke(Object invokedProxy, Method method, Object[] args) throws Throwable
 	{
 		if (isRecording) {
+			addInvocationMockerAndFlush();
 			match.setFromInvocation(this, method, args);
-			match.addInvocationMocker(this);
 			return null;
 		} 
 		return super.invoke(invokedProxy, method, args);
 	}
 
+	public void setVoidCallable(Range range) {
+		match.setCallCount(range);
+	}
+
+	private void addInvocationMockerAndFlush() {
+		match.addInvocationMockerTo(this);
+		match.flush();
+	}
 }

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2001-2004 OFFIS. This program is made available under the terms of
  * the MIT License.
+ * Copyright (c) 2004 jmock.org
  */
 package org.jmock.easy.internal;
 

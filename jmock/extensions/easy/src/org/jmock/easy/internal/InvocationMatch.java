@@ -28,13 +28,11 @@ public class InvocationMatch {
 		argsMatcher = new ArgumentsMatcher(InvocationMatch.equalArgs(args));
 	}
 
-	public void addInvocationMocker(DynamicMock mock) {
-		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
-		mocker.addMatcher(callCountMatcher);
-		mocker.addMatcher(methodNameMatcher);
-		mocker.addMatcher(argsMatcher);
+	public void addInvocationMockerTo(DynamicMock mock) {
+		if (isUnset())
+			return;
 		
-		mock.addInvokable(mocker);
+		mock.addInvokable(createInvocationMocker());
 		flush();
 	}
 	
@@ -42,6 +40,22 @@ public class InvocationMatch {
 		methodNameMatcher = null;
 		argsMatcher = null;
 		callCountMatcher = null;
+	}
+
+	public void setCallCount(Range range) {
+		callCountMatcher = new InvokeRangeMatcher(range);	
+	}
+
+	private boolean isUnset() {
+		return methodNameMatcher == null;
+	}
+
+	private InvocationMocker createInvocationMocker() {
+		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
+		mocker.addMatcher(callCountMatcher);
+		mocker.addMatcher(methodNameMatcher);
+		mocker.addMatcher(argsMatcher);
+		return mocker;
 	}
 
 	static private Constraint[] equalArgs(Object[] args) {
@@ -55,4 +69,5 @@ public class InvocationMatch {
 	static private int argumentCount(Object[] args) {
 		return args == null ? 0 : args.length;
 	}
+
 }

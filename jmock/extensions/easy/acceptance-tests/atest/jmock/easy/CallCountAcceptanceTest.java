@@ -73,7 +73,7 @@ public class CallCountAcceptanceTest extends TestCase {
         assertMethodCallFails();
     }
 
-    public void xtestNoUpperLimitWithoutCallCountSet() {
+    public void testNoUpperLimitWithoutCallCountSet() {
         mock.method();
         control.setVoidCallable(MockControl.ONE_OR_MORE); 
         control.replay();
