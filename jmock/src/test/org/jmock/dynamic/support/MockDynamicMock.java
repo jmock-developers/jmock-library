@@ -11,7 +11,8 @@ import java.lang.reflect.Method;
 
 public class MockDynamicMock
         extends AssertMo
-        implements DynamicMock {
+        implements DynamicMock 
+{
     public ExpectationCounter addCalls = new ExpectationCounter("add calls");
 
     public void add(Invokable invokable) {
@@ -36,7 +37,7 @@ public class MockDynamicMock
             throws Throwable {
         return null;
     }
-
+    
     public String toStringResult;
 
     public String toString() {

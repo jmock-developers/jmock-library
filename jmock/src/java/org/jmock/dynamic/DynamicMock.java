@@ -6,10 +6,12 @@ import org.jmock.expectation.Verifiable;
 import java.lang.reflect.InvocationHandler;
 
 public interface DynamicMock
-        extends Verifiable, InvocationHandler {
-    void add(Invokable invokable);
-
+        extends Verifiable, InvocationHandler 
+{
     Object proxy();
+
+    void add(Invokable invokable);
 
     void reset();
 }
+

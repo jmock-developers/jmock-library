@@ -3,7 +3,9 @@ package org.jmock.dynamic;
 
 import org.jmock.expectation.Verifiable;
 
-public interface InvocationMatcher extends Verifiable {
+public interface InvocationMatcher 
+	extends Verifiable 
+{
     boolean matches(Invocation invocation);
 
     void invoked(Invocation invocation);
