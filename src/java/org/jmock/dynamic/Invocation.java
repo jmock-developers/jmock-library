@@ -7,10 +7,8 @@ import java.util.*;
 
 
 /**
- * An object that holds information about a call dispatched to
- * a Mock object for err... mocking.
- * <p/>
- * TODO Simplify this (smgf)
+ * An object that holds information about a invocation dispatched to
+ * a Mock object.
  */
 public class Invocation {
     private Class declaringClass;
@@ -78,10 +76,10 @@ public class Invocation {
 
     public boolean equals(Invocation call) {
         return call != null
-                && name.equals(call.name)
-                && parameterTypes.equals(call.parameterTypes)
-                && returnType.equals(call.returnType)
-                && parameterValues.equals(call.parameterValues);
+            && name.equals(call.name)
+            && parameterTypes.equals(call.parameterTypes)
+            && returnType.equals(call.returnType)
+            && parameterValues.equals(call.parameterValues);
     }
 
     boolean isCheckingEqualityOnProxy() {
@@ -89,11 +87,6 @@ public class Invocation {
                 && parameterValues.size() == 1
                 && parameterValues.get(0) != null
                 && Proxy.isProxyClass(parameterValues.get(0).getClass());
-    }
-
-    boolean isMockNameGetter() {
-        return name.equals("getMockName")
-                && parameterValues.size() == 0;
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
@@ -104,7 +97,7 @@ public class Invocation {
         buffer.append(")\n");
         return buffer;
     }
-
+    
     private StringBuffer writeDeclaringClassName(StringBuffer buffer) {
         return buffer.append(declaringClass.getName().substring(declaringClass.getPackage().getName().length()));
     }

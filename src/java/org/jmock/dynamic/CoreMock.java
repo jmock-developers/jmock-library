@@ -19,17 +19,19 @@ public class CoreMock
         this.proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{mockedClass}, this);
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
+        
         add(new InvocationMocker("toString", C.args(), new ReturnStub(name)));
     }
 
     public Object proxy() {
         return this.proxy;
     }
-
+    
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {
         Invocation invocation = new Invocation(method, args);
         try {
+            // TODO: replace this check with an InvocationMocker
             if (invocation.isCheckingEqualityOnProxy()) {
                 return new Boolean(args[0] == this.proxy);
             } else {
