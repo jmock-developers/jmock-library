@@ -6,7 +6,6 @@ public class ToDo {
     //TODO Remove deprecated methods
     //TODO JavaDoc interfaces and those classes that need it.
     //TODO Add copyright comments to files
-    //TODO Remove pending from BuilderId stuff. Complain if a matcher specifies an after clause for itself. 
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
@@ -39,6 +38,7 @@ public class ToDo {
     //      - if anybody wants it they can pull it out of CVS and maintain it as an extension
     //DONE Test error message on verify failure
     //DONE Good names for high-level and low-level API packages
+    //DONE Remove pending from BuilderId stuff. Complain if a matcher specifies an after clause for itself. 
     
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
