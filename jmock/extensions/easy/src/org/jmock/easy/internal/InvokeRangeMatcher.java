@@ -15,7 +15,7 @@ public class InvokeRangeMatcher extends InvokedRecorder
     }
 
     public boolean matches( Invocation invocation ) {
-        return range.contains(getInvocationCount());
+        return getInvocationCount() < range.getMaximum();
     }
 
     public void verify() {
