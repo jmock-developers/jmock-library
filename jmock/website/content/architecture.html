@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Architectural Overview</title>
+  </head>
+  
+  <body>
+    <h1>Architectural Overview</h1>
+    
+    <img class="Float" src="layered-architecture.gif" alt="Layered Architecture Diagram" />
+    
+    <p>jMock has a layered architecture.  An application's tests will usually
+    use a high level API that provides a quick and convenient way to define 
+    expectations and stubs.
+    That high level API is syntactic sugar for a flexible but verbose
+    core API.  The core API provides extensible framework for defining mock objects and 
+    expectations compositionally.
+    The high-level and core APIs both make use of some fundamental interfaces &mdash; 
+    Verifiable, Constraint &mdash; and constraint classes.  Constraints are used to
+    specify acceptable argument values for expected method invocations.
+    </p>
+    
+    <p>Although it makes it easy to do most common tasks, a high level API cannot cover
+    ever possible eventuality.  The high level API therefore contains hooks with which
+    a user can access the core API to add custom expectations and stubs if necessary.</p>
+    
+    <h2>High Level APIs</h2>
+    
+    <p>jMock ships with two high-level APIs: 
+    <a href="docs/javadoc/org/jmock/dynamock/package.html">DynaMock</a>, 
+    which will be familiar 
+    to users of the old <a href="http://www.mockobjects.com">mockobjects.com</a> 
+    library, and <a href="docs/javadoc/org/jmock/hotmock/package.html">Hot Mock</a>, 
+    a new API designed to be expressive and easier to read than DynaMock.  
+    Other high level APIs can be implemented separately by using the core jMock 
+    framework.  Third-party APIs that are built upon the jMock core may be announced
+    on and linked from the jMock website.</p>
+  </body>
+</html>

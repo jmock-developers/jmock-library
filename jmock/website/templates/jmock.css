@@ -17,10 +17,7 @@
     top: 92px;
     bottom: 0px;
     margin: 0px;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px;
 }
 
 #right {
@@ -31,10 +28,7 @@
     top: 92px;
     bottom: 0px;
     margin: 0px;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px;
 }
 
 .Content3Column {
@@ -54,13 +48,17 @@
 }
 
 #content {
-    min-width: 400px;
+    min-width: 200px;
     z-index: 3;
-    margin: 0px;
-    padding-left: 8px;
-    padding-right: 8px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
+    border: none;
+    
+    background-color: green;
 }
 
 
@@ -215,6 +213,28 @@ ul, ol {
     color: black;
 }
 
+/* The following are for images, but can also apply to div's containing images. */
+
+#content .Float {
+	float: right;
+	margin-left: 8px;
+	margin-right: 0px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+#content .Diagram {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+
+#content .Inline {
+	display: inline;
+}
 
 
 /*---------------------------------------------------------------------------
