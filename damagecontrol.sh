@@ -18,15 +18,16 @@ Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
 esac
 
 DEPLOY=${DEPLOY:-1} # deploy by default
-DEPLOY_ROOT=${DEPLOY_ROOT:-dcontrol@$HOSTNAME:/home/projects/jmock}
+DEPLOY_JAR_ROOT=${DEPLOY_JAR_ROOT:-dcontrol@dist.codehaus.org:/home/projects/jmock/dist/}
+DEPLOY_WEB_ROOT=${DEPLOY_WEB_ROOT:-dcontrol@jmock.codehaus.org:/home/projects/public_html}
 
 function build-step {
 	  $* || exit 1
 }
 
 function deploy {
-	  echo deploying $1 to $2
-    scp -r $1 $2
+	  echo deploying $*
+    scp -r $*
 }
 
 
@@ -35,9 +36,9 @@ build-step ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
 echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
 
 if let $DEPLOY; then
-    build-step deploy $BUILDDIR/dist/ $DEPLOY_ROOT
-    build-step deploy $WEBDIR $DEPLOY_ROOT
-    build-step deploy $BUILDDIR/javadoc/ $DEPLOY_ROOT/public_html/docs/
+    build-step deploy $BUILDDIR/dist/* $DEPLOY_JAR_ROOT
+    build-step deploy $WEBDIR/* $DEPLOY_WEB_ROOT/
+    build-step deploy $BUILDDIR/javadoc/ $DEPLOY_WEB_ROOT/docs/
 fi
 
 echo all done.
