@@ -2,12 +2,11 @@ package test.jmock.dynamic.testsupport;
 
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.util.Verifier;
 
 
 public class MockInvocationMatcher 
+    extends MockVerifiable
 	implements InvocationMatcher 
 {
 	private String name;
@@ -46,15 +45,5 @@ public class MockInvocationMatcher
 		writeToBuffer.setActual(buffer);
 		buffer.append(writeToOutput);
 		return buffer;
-	}
-	
-	public ExpectationCounter verifyCalls = new ExpectationCounter("verify #calls");
-	
-	public void verify() {
-		verifyCalls.inc();
-	}
-	
-	public void verifyExpectations() {
-		Verifier.verifyObject(this);
 	}
 }
