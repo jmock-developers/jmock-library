@@ -40,9 +40,9 @@ public class InvokedRecorderTest extends TestCase {
     }
     
     public void testReportsIfHasBeenInvoked() {
-    	assertFalse( "should not have been invoked", recorder.hasBeenInvoked() );
+    	assertFalse( "should not have been invokedObject", recorder.hasBeenInvoked() );
         recorder.invoked(emptyInvocation);
-        assertTrue( "should have been invoked", recorder.hasBeenInvoked () );
+        assertTrue( "should have been invokedObject", recorder.hasBeenInvoked () );
     }
     
     public void testCanExplicitlyVerifyThatItHasBeenInvoked() {

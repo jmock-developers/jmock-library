@@ -17,7 +17,7 @@ public class MockInvocationDispatcher
     public Throwable dispatchThrowable;
     public ExpectationValue addInvokable = new ExpectationValue("addInvokable");
     public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
-    public String writeToOutput = "MockInvocationDispatcher.writeTo output";
+    public String writeToOutput = "MockInvocationDispatcher.describeTo output";
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
     
     

@@ -25,7 +25,7 @@ public class MethodNameMatcher
     }
     
     public boolean matches(Invocation invocation) {
-        return constraint.eval(invocation.getMethodName());
+	    return constraint.eval(invocation.invokedMethod.getName());
     }
 
     public StringBuffer describeTo(StringBuffer buffer) {

@@ -130,7 +130,7 @@ public abstract class AbstractDynamicMock
         }
         
         public Object invoke( Invocation invocation ) throws Throwable {
-            return new Boolean(invocation.getParameterValues().get(0) == proxy());
+	        return new Boolean(invocation.parameterValues.get(0) == proxy());
         }
     }
     

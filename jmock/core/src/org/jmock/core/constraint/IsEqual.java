@@ -7,7 +7,7 @@ import org.jmock.core.Constraint;
 
 /**
  * Is the value equal to another value, as tested by the
- * {@link java.lang.Object#equals} method?
+ * {@link java.lang.Object#equals} invokedMethod?
  */
 public class IsEqual implements Constraint {
     private Object object;

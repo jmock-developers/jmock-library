@@ -7,7 +7,7 @@ import org.jmock.core.Constraint;
 import org.jmock.core.Invocation;
 
 public class ArgumentsMatcher
-        extends StatelessInvocationMatcher 
+    extends StatelessInvocationMatcher 
 {
     private Constraint[] constraints;
 
@@ -16,8 +16,8 @@ public class ArgumentsMatcher
     }
     
     public boolean matches(Invocation invocation) {
-        return constraints.length == invocation.getParameterValues().size()
-                && matchesValues(invocation.getParameterValues());
+	    return constraints.length == invocation.parameterValues.size()
+                && matchesValues(invocation.parameterValues);
     }
     
     private boolean matchesValues(List list) {

@@ -60,7 +60,7 @@ public class ReturnStubTest
 		    returnStub.invoke(invocation);
 	    }
 		catch( AssertionFailedError ex ) {
-		    AssertMo.assertIncludes( "expected return type", invocation.getReturnType().toString(), ex.getMessage() );
+		    AssertMo.assertIncludes( "expected return type", invocation.invokedMethod.getReturnType().toString(), ex.getMessage() );
 		    AssertMo.assertIncludes( "returned value type", RESULT.getClass().toString(), ex.getMessage() );
 		    return;
 	    }
@@ -90,7 +90,7 @@ public class ReturnStubTest
 			returnStub.invoke(invocation);
 		}
 		catch( AssertionFailedError ex ) {
-			AssertMo.assertIncludes( "expected return type", invocation.getReturnType().toString(), ex.getMessage() );
+			AssertMo.assertIncludes( "expected return type", invocation.invokedMethod.getReturnType().toString(), ex.getMessage() );
 			AssertMo.assertIncludes( "null", String.valueOf((Object)null), ex.getMessage() );
 			return;
 		}

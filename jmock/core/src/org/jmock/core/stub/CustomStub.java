@@ -9,7 +9,7 @@ import org.jmock.core.Stub;
  * final String name = "NAME";
  * final StringBuffer buffer = new StringBuffer();
  * 
- * mock.expect("writeTo", C.args(C.same(buffer))), new CustomStub("appends name to buffer") {
+ * mock.expect("describeTo", C.args(C.same(buffer))), new CustomStub("appends name to buffer") {
  *     public Object invoke( Invocation invocation ) throws Throwable {
  *         return buffer.append(name);
  *     }

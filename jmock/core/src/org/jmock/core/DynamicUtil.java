@@ -3,6 +3,7 @@ package org.jmock.core;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Proxy;
+import java.util.Collection;
 
 public class DynamicUtil {
     public static String toReadableString(Object element) {
@@ -31,7 +32,11 @@ public class DynamicUtil {
     public static StringBuffer join(Object array, StringBuffer buf) {
         return join(array, buf, "[", "]");
     }
-    
+
+	public static StringBuffer join(Collection collection, StringBuffer buf, String prefix, String postfix ) {
+		return join( collection.toArray(), buf, prefix, postfix );
+	}
+
     public static StringBuffer join(Object array, StringBuffer buf, String prefix, String postfix) {
         buf.append(prefix);
         for (int i = 0; i < Array.getLength(array); i++) {

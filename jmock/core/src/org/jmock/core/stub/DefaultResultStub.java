@@ -33,7 +33,7 @@ public class DefaultResultStub
 	public Object invoke( Invocation invocation ) 
 		throws Throwable
 	{
-		Class returnType = invocation.getReturnType();
+		Class returnType = invocation.invokedMethod.getReturnType();
         
         if( resultValuesByType.containsKey(returnType) ) {
 			return resultValuesByType.get(returnType);
@@ -53,7 +53,7 @@ public class DefaultResultStub
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append("unexpected result type: ");
-		buf.append(call.getReturnType().toString());
+		buf.append(call.invokedMethod.getReturnType().toString());
 		buf.append("\n");
 		
 		

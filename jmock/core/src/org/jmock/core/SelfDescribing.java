@@ -11,7 +11,7 @@ public interface SelfDescribing {
      * 
      * @param buffer
      *     The buffer that the description is appended to.
-     * @return The buffer passed to the method.
+     * @return The buffer passed to the invokedMethod.
      */
     StringBuffer describeTo( StringBuffer buffer );
 }

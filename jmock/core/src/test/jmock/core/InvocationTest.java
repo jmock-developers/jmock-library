@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -38,23 +39,23 @@ public class InvocationTest extends TestCase {
     public void testCanBeConstructedFromAMethodObject() throws Exception {
         Invocation invocation = new Invocation( INVOKED, method, ARG_VALUES);
 
-        assertSame( "invoked object", INVOKED, invocation.getInvokedObject() );
-	    assertEquals( "invoked method", method, invocation.getInvokedMethod() );
-        assertEquals("name", method.getName(), invocation.getMethodName());
-        assertEquals("parameter types",
+	    assertSame( "invokedObject object", INVOKED, invocation.invokedObject );
+	    assertEquals( "invokedObject invokedMethod", method, invocation.invokedMethod );
+	    assertEquals("name", method.getName(), invocation.invokedMethod.getName());
+	    assertEquals("parameter types",
                 Arrays.asList(method.getParameterTypes()),
-                invocation.getParameterTypes());
-        assertEquals("return type",
-                method.getReturnType(), invocation.getReturnType());
-        assertEquals("argument values",
-                Arrays.asList(ARG_VALUES), invocation.getParameterValues());
+                Arrays.asList(invocation.invokedMethod.getParameterTypes()));
+	    assertEquals("return type",
+                method.getReturnType(), invocation.invokedMethod.getReturnType());
+	    assertEquals("argument values",
+                Arrays.asList(ARG_VALUES), invocation.parameterValues);
     }
 
     public void testConstructorInterpretsNullParameterValueArrayAsZeroArguments() {
         Invocation invocation = new Invocation( INVOKED, method, null);
 
-        assertEquals( "expected no parameters values",
-                      0, invocation.getParameterValues().size());
+	    assertEquals( "expected no parameters values",
+                      0, invocation.parameterValues.size());
     }
 
     public void testTestsForEqualityOnTargetAndMethodSignatureAndArguments() {
@@ -76,9 +77,9 @@ public class InvocationTest extends TestCase {
             invocation1.equals(new Object()));
         assertFalse("should not be equal to null", 
             invocation1.equals(null));
-        assertFalse("should not be equal if different invoked object",
+        assertFalse("should not be equal if different invokedObject object",
             invocation1.equals(differentTarget));
-        assertFalse("should not be equal if different method",
+        assertFalse("should not be equal if different invokedMethod",
             invocation1.equals(differentMethod));
         assertFalse("should not be equal if different argumentValues",
             invocation1.equals(differentArgValues));
@@ -100,7 +101,7 @@ public class InvocationTest extends TestCase {
             new Object[]{"arg1", "arg2"} );
         String result = invocation.toString();
 
-        AssertMo.assertIncludes("Should contain method name", METHOD_NAME, result);
+        AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
         AssertMo.assertIncludes("Should contain firstArg", "arg1", result);
         AssertMo.assertIncludes("Should contain second Arg", "arg2", result);
     }
@@ -112,7 +113,7 @@ public class InvocationTest extends TestCase {
             new Object[]{new String[]{"arg1", "arg2"}} );
         String result = invocation.toString();
 
-        AssertMo.assertIncludes("Should contain method name", METHOD_NAME, result);
+        AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
         AssertMo.assertIncludes("Should contain args as an array", "[<arg1>, <arg2>]", result);
     }
 
@@ -123,7 +124,7 @@ public class InvocationTest extends TestCase {
             new Object[]{new long[]{1, 2}} );
         String result = invocation.toString();
 
-        AssertMo.assertIncludes("Should contain method name", METHOD_NAME, result);
+        AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
         AssertMo.assertIncludes("Should contain args as an array", "[<1>, <2>]", result);
     }
 
@@ -133,7 +134,7 @@ public class InvocationTest extends TestCase {
             new Object[]{null});
         String result = invocation.toString();
 
-        AssertMo.assertIncludes("Should contain method name", METHOD_NAME, result);
+        AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
         AssertMo.assertIncludes("Should contain firstArg", "<null>", result);
     }
 
@@ -148,7 +149,7 @@ public class InvocationTest extends TestCase {
 	        new Object[]{arg});
 	    String result = invocation.toString();
 
-	    AssertMo.assertIncludes("Should contain method name", METHOD_NAME, result);
+	    AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
 	    AssertMo.assertIncludes("Should contain firstArg", argAsString, result);
 	}
 }

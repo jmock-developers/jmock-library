@@ -36,7 +36,7 @@ public class InvocationMockerTest extends TestCase {
     };
 
     public class MockInvocationMatcher implements InvocationMatcher {
-        public ExpectationValue invocation = new ExpectationValue("MockInvocationMatcher.invoked");
+        public ExpectationValue invocation = new ExpectationValue("MockInvocationMatcher.invokedObject");
         public ExpectationValue match = new ExpectationValue("MockInvocationMatcher.matches");
         public ExpectationCounter verifyCalls = new ExpectationCounter("Verify calls");
 

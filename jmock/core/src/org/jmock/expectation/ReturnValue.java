@@ -4,7 +4,7 @@ package org.jmock.expectation;
 
 /**
  * <p>The ReturnValue class allows a value to be setup which will then be returned upon a specific
- * method call. If </code>value.getValue()</code> is called before <code>value.setValue(value)</code>
+ * invokedMethod call. If </code>value.getValue()</code> is called before <code>value.setValue(value)</code>
  * the ReturnValue will raise an error warning that this value has not been set. If the required
  * return value is <code>null</code> the return value can be set like this
  * <code>value.setValue(null)</code> in this case calling <code>value.getValue()</code>
@@ -66,7 +66,7 @@ public class ReturnValue {
     }
 
     /**
-     * @param value value to be returned by getBooleanValue. Calling getValue after this method will return
+     * @param value value to be returned by getBooleanValue. Calling getValue after this invokedMethod will return
      *              a Boolean wrapper around the value.
      */
     public void setValue(boolean value) {
@@ -88,7 +88,7 @@ public class ReturnValue {
     }
 
     /**
-     * @param value value to be returned by getIntValue. Calling getValue after this method will return
+     * @param value value to be returned by getIntValue. Calling getValue after this invokedMethod will return
      *              a Integer wrapper around the value.
      */
     public void setValue(int value) {
@@ -96,7 +96,7 @@ public class ReturnValue {
     }
 
     /**
-     * @param value value to be returned by getLongValue. Calling getValue after this method will return
+     * @param value value to be returned by getLongValue. Calling getValue after this invokedMethod will return
      *              a Long wrapper around the value.
      */
     public void setValue(long value) {

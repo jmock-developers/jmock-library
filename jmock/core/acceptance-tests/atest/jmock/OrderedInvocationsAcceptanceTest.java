@@ -76,7 +76,7 @@ public class OrderedInvocationsAcceptanceTest
             mock.stubs().method("count").after("count").will(returnValue(2));
         }
         catch( AssertionFailedError ex ) {
-            AssertMo.assertIncludes( "should include repeated method name",
+            AssertMo.assertIncludes( "should include repeated invokedMethod name",
                                      "count", ex.getMessage() );
             return;
         }

@@ -55,18 +55,18 @@ public class DynamicMockExample extends MockObjectTestCase {
         Agent agent = new Agent((Market) mockMarket.proxy());
 //	
 //	 
-//	    mockMarket.method("buyStock", "MSFT", new Integer(10)).void();
+//	    mockMarket.invokedMethod("buyStock", "MSFT", new Integer(10)).void();
 //
-//		mockMarket.method("buyStock", "MSFT", new Integer(10)).returns(true)
+//		mockMarket.invokedMethod("buyStock", "MSFT", new Integer(10)).returns(true)
 //			.expectOnce();
 //			//.expectNever();
 //			//.addMatcher(new MyExpectation());
 //			
-//		mockMarket.method("listStocks").alwaysReturns(new Vector("MSFT", "ORCL"));
-//		mockMarket.method("getPrice", "MSFT").alwaysReturns(10);
-//		mockMarket.method("getPrice", "ORCL").alwaysReturns(50);
+//		mockMarket.invokedMethod("listStocks").alwaysReturns(new Vector("MSFT", "ORCL"));
+//		mockMarket.invokedMethod("getPrice", "MSFT").alwaysReturns(10);
+//		mockMarket.invokedMethod("getPrice", "ORCL").alwaysReturns(50);
 //		
-//		mockMarket.method(C.equal("buyStock"), C.eq(1)).
+//		mockMarket.invokedMethod(C.equal("buyStock"), C.eq(1)).
 //			
 //		mockMarket.methodName("listStocks").noParams()
 //			.alwaysReturns("MSFT");

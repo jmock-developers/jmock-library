@@ -34,7 +34,7 @@ public class MockStub
 	}
 
 	
-	public ExpectationValue describeToBuffer = new ExpectationValue("writeTo buffer");
+	public ExpectationValue describeToBuffer = new ExpectationValue("describeTo buffer");
 	public String describeToOutput = "";
 	
 	public StringBuffer describeTo(StringBuffer buffer) {

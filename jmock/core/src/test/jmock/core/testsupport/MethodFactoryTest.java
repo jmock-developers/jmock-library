@@ -24,7 +24,7 @@ public class MethodFactoryTest extends TestCase {
 		Method method = factory.newMethod( METHOD_NAME , ARG_TYPES, RETURN_TYPE, EXCEPTION_TYPES );
 
 		assertTrue( "is public", Modifier.isPublic( method.getModifiers() ) );
-		assertEquals( "method name", METHOD_NAME, method.getName() );
+		assertEquals( "invokedMethod name", METHOD_NAME, method.getName() );
 		assertAllSame( "arg types", ARG_TYPES, method.getParameterTypes() );
 		assertSame( "return type", RETURN_TYPE, method.getReturnType() );
 		assertAllSame( "exception types", EXCEPTION_TYPES, method.getExceptionTypes() );

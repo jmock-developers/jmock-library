@@ -4,6 +4,7 @@ package org.jmock.core.stub;
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
 import junit.framework.AssertionFailedError;
+import junit.framework.Assert;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -11,7 +12,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class ReturnStub
-    implements Stub 
+    extends Assert
+    implements Stub
 {
     private Object result;
 
@@ -33,7 +35,7 @@ public class ReturnStub
     }
 
     public Object invoke(Invocation invocation) throws Throwable {
-	    checkTypeCompatiblity( invocation.getReturnType() );
+	    checkTypeCompatiblity( invocation.invokedMethod.getReturnType() );
 	    return result;
     }
 
@@ -65,12 +67,11 @@ public class ReturnStub
 	}
 
 	private void reportTypeError(Class returnType, Class valueType) {
-		throw new AssertionFailedError( "result value has wrong type: " +
-		                                "expected a " + returnType +
-		                                " but returned a " + valueType );
+		fail( "tried to return an incompatible value: " +
+		      "expected a " + returnType + " but returned a " + valueType );
 	}
 
 	private void reportInvalidNullValue( Class returnType ) {
-		throw new AssertionFailedError( "tried to return null value from method returning " + returnType );
+		fail( "tried to return null value from invokedMethod returning " + returnType );
 	}
 }
