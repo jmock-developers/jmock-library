@@ -101,7 +101,11 @@ public abstract class AbstractDynamicMock
         public SilentInvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
             super(methodName, arguments, stub);
         }
-
+        
+        public boolean hasDescription() {
+            return false;
+        }
+        
         public StringBuffer describeTo(StringBuffer buffer) {
             return buffer;
         }

@@ -51,7 +51,11 @@ public class InvocationMockerTest extends TestCase {
         public void invoked(Invocation actualInvocation) {
             this.invocation.setActual(actualInvocation);
         }
-
+        
+        public boolean hasDescription() {
+            return true;
+        }
+        
         public StringBuffer describeTo(StringBuffer buffer) {
             return buffer.append("Mock matcher");
         }

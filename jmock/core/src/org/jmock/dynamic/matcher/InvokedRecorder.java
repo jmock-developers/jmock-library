@@ -23,6 +23,10 @@ public class InvokedRecorder
         hasBeenInvoked = true;
 	}
 	
+    public boolean hasDescription() {
+        return false;
+    }
+    
 	public StringBuffer describeTo(StringBuffer buffer) {
 		return buffer;
 	}

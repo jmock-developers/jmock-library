@@ -14,11 +14,15 @@ public class TestFailureMatcher
     public TestFailureMatcher( String errorMessage ) {
         this.errorMessage = errorMessage;
     }
-
+    
     public boolean matches(Invocation invocation) {
         return true;
     }
-
+    
+    public boolean hasDescription() {
+        return true;
+    }
+    
     public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append(errorMessage);
     }
