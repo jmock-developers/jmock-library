@@ -1,0 +1,17 @@
+<faqs title="Frequently Asked Questions">
+
+    <part id="XXX">
+        <title>XXX</title>
+
+        <faq id="XXX">
+            <question>
+                XXX
+            </question>
+            <answer>
+                XXX
+            </answer>
+        </faq>
+
+    </part>
+
+</faqs>

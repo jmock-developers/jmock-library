@@ -1,0 +1,34 @@
+<document>
+    <properties>
+        <title>Changes</title>
+    </properties>
+
+    <body>
+
+        <!-- action types are add/update/fix/remove -->
+
+        <!--
+        <release version="1.0-beta2" date="In CVS">
+
+            <action dev="joe" type="fix">
+                XXX
+            </action>
+
+        </release>
+        -->
+
+        <release version="1.0-beta1" date="2003-11-21">
+
+            <action dev="joe" type="add">
+                Forked mockobjects.com codebase to create jMock. Renamed package from com.mockobjects to org.jmock.
+            </action>
+
+            <action dev="joe" type="add">
+                Created new jMock.org website.
+            </action>
+
+        </release>
+
+    </body>
+</document>
+
