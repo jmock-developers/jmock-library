@@ -5,6 +5,7 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
+import org.jmock.expectation.AssertMo;
 
 public class InvokeOnceMatcherTest extends TestCase {
     private Invocation emptyInvocation = new Invocation(
@@ -19,7 +20,9 @@ public class InvokeOnceMatcherTest extends TestCase {
     public void testVerifyFailsIfNotYetInvoked() {
         try {
             matcher.verify();
-        } catch (AssertionFailedError expected) {
+        } catch (AssertionFailedError ex) {
+            AssertMo.assertIncludes( "should report method not invoked",
+                "expected method was not invoked", ex.getMessage() );
             return;
         }
         fail("Should have thrown exception");

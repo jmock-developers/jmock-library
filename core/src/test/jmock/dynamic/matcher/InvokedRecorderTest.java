@@ -46,16 +46,6 @@ public class InvokedRecorderTest extends TestCase {
         recorder.verifyHasBeenInvoked();
     }
     
-    public void testCanExplicitlyVerifyThatItHasNotBeenInvoked() {
-    	recorder.verifyHasNotBeenInvoked();
-    	recorder.invoked(emptyInvocation);
-    	AssertMo.assertFails("verifyHasNotBeenInvoked should fail", new Runnable() {
-    		public void run() {
-    			recorder.verifyHasNotBeenInvoked();
-    		}
-    	} );
-    }
-    
     public void testDoesNotWriteDescription() {
     	assertEquals( "should not be any description",
     				  "", (recorder.describeTo(new StringBuffer())).toString() );
