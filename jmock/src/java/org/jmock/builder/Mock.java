@@ -46,8 +46,12 @@ public class Mock
     public MatchBuilder method(String methodName) {
     	InvocationMocker mocker = new InvocationMocker();
     	mocker.addMatcher( new MethodNameMatcher(methodName));
-        coreMock.add(mocker);
-        return new InvocationMockerBuilder(mocker,this);
+    	coreMock.add(mocker);
+    	
+    	InvocationMockerBuilder builder = new InvocationMockerBuilder(mocker,this);
+        idTable.put( methodName, builder );
+    	
+		return builder;
     }
 
     //TODO setDefaultResult(Class, value);
@@ -62,11 +66,11 @@ public class Mock
 		}
 	}
 	
-	public void registerID( String id, ExpectationBuilder invocation ) {
+	public void registerID( String id, ExpectationBuilder builder ) {
 		if( idTable.containsKey(id) ) {
 			throw new AssertionFailedError("duplicate invocation named '"+id+"'");
 		} else {
-			idTable.put( id, invocation );
+			idTable.put( id, builder );
 		}
 	}
 }
