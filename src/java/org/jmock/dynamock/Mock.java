@@ -32,22 +32,6 @@ public class Mock implements Verifiable {
         return coreMock.toString();
     }
 
-    private InvocationMatcher createConstraintMatcher(Object constraintArg) {
-        // Can't overload this method as callee had an Object parameter, and java
-        // doesn't do a secondary dispatch on the true underlying type
-		
-        if (constraintArg instanceof Constraint[]) {
-            // to support possible legacy usage of new Contraint[] {...}
-            return new ArgumentsMatcher((Constraint[]) constraintArg);
-        } else if (constraintArg instanceof Constraint) {
-            // to support usage of C.lt(5) type constraints 
-            return C.args((Constraint) constraintArg);
-        } else {
-            // normal usage of the overloaded expect/match object parameter
-            return C.args(C.eq(constraintArg));
-        }
-    }
-
     public void expect(String methodName, InvocationMatcher args) {
         coreMock.add(invokableFactory.createVoidExpectation(methodName, args));
     }
@@ -81,7 +65,7 @@ public class Mock implements Verifiable {
     }
 
     public void expect(String methodName, Object singleEqualArg) {
-        expect(methodName, createConstraintMatcher(singleEqualArg));
+        expect(methodName, createInvocationMatcher(singleEqualArg));
     }
 
     public void expectAndReturn(String methodName, Object result) {
@@ -97,7 +81,7 @@ public class Mock implements Verifiable {
     }
 
     public void expectAndReturn(String methodName, Object singleEqualArg, Object result) {
-        expectAndReturn(methodName, createConstraintMatcher(singleEqualArg), result);
+        expectAndReturn(methodName, createInvocationMatcher(singleEqualArg), result);
     }
 
     public void expectAndReturn(String methodName, Object singleEqualArg, boolean result) {
@@ -121,7 +105,7 @@ public class Mock implements Verifiable {
     }
 
     public void expectAndThrow(String methodName, Object singleEqualArg, Throwable exception) {
-        expectAndThrow(methodName, createConstraintMatcher(singleEqualArg), exception);
+        expectAndThrow(methodName, createInvocationMatcher(singleEqualArg), exception);
     }
 
     public void match(String methodName) {
@@ -129,7 +113,7 @@ public class Mock implements Verifiable {
     }
 
     public void match(String methodName, Object singleEqualArg) {
-        match(methodName, createConstraintMatcher(singleEqualArg));
+        match(methodName, createInvocationMatcher(singleEqualArg));
     }
 
     public void match(String methodName, int singleEqualArg) {
@@ -153,7 +137,7 @@ public class Mock implements Verifiable {
     }
 
     public void matchAndReturn(String methodName, Object singleEqualArg, Object result) {
-        matchAndReturn(methodName, createConstraintMatcher(singleEqualArg), result);
+        matchAndReturn(methodName, createInvocationMatcher(singleEqualArg), result);
     }
 
     public void matchAndReturn(String methodName, boolean singleEqualArg, Object result) {
@@ -185,7 +169,7 @@ public class Mock implements Verifiable {
     }
 
     public void matchAndThrow(String methodName, Object singleEqualArg, Throwable throwable) {
-        matchAndThrow(methodName, createConstraintMatcher(singleEqualArg), throwable);
+        matchAndThrow(methodName, createInvocationMatcher(singleEqualArg), throwable);
     }
 
     public void matchAndThrow(String methodName, boolean singleEqualArg, Throwable throwable) {
@@ -235,4 +219,15 @@ public class Mock implements Verifiable {
         coreMock.verify();
     }
 
+    private InvocationMatcher createInvocationMatcher(Constraint[] constraints) {
+    	return new ArgumentsMatcher(constraints);
+    }
+    
+    private InvocationMatcher createInvocationMatcher(Constraint constraint) {
+    	return createInvocationMatcher(new Constraint[]{constraint});
+    }
+    
+    private InvocationMatcher createInvocationMatcher(Object argumentValue) {
+    	return createInvocationMatcher(C.eq(argumentValue));
+    }
 }
