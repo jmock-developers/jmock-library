@@ -55,7 +55,7 @@ public class ThrowStubTest
 	public static class ExpectedExceptionType1 extends Exception {};
     public static class ExpectedExceptionType2 extends Exception {};
 
-	public void testThrowsAssertionFailedErrorIfTriesToReturnValueOfIncompatibleType()
+	public void testThrowsAssertionFailedErrorIfTriesToThrowIncompatibleCheckedException()
 		throws Throwable
 	{
 		Class[] expectedExceptionTypes = { ExpectedExceptionType1.class, ExpectedExceptionType2.class };
@@ -76,6 +76,29 @@ public class ThrowStubTest
 		    }
 		    AssertMo.assertIncludes( "should include name of thrown exception type",
 		                             THROWABLE.getClass().getName(), message );
+		    return;
+	    }
+		fail("should have failed");
+	}
+
+	public void testGivesInformativeErrorMessageIfAttemptToThrowCheckedExceptionFromMethodWithNoExceptions()
+		throws Throwable
+	{
+		Invocation incompatibleInvocation = new Invocation(
+            "INVOKED-OBJECT",
+            methodFactory.newMethod("methodName",MethodFactory.NO_ARGUMENTS,void.class,MethodFactory.NO_EXCEPTIONS),
+            null );
+	
+	    try {
+		    throwStub.invoke(incompatibleInvocation);
+	    }
+		catch( AssertionFailedError ex ) {
+		    String message = ex.getMessage();
+
+		    AssertMo.assertIncludes( "should include name of thrown exception type",
+		                             THROWABLE.getClass().getName(), message );
+		    AssertMo.assertIncludes( "should describe that the method doesn't allow any exceptions",
+		                             "no exceptions", message );
 		    return;
 	    }
 		fail("should have failed");
