@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import test.jmock.dynamic.DummyInterface;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
 
-public class MockTest extends TestCase {
+public class Mock_Test extends TestCase {
 
     private MockDynamicMock mockCoreMock = new MockDynamicMock();
     private Mock mock = new Mock(mockCoreMock);

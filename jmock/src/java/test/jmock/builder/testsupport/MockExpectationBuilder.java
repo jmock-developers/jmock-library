@@ -1,4 +1,4 @@
-package test.jmock.builder;
+package test.jmock.builder.testsupport;
 
 import org.jmock.Verifiable;
 import org.jmock.builder.ExpectationBuilder;
@@ -11,17 +11,7 @@ import org.jmock.util.Verifier;
 public class MockExpectationBuilder 
     implements ExpectationBuilder, Verifiable
 {
-    private String name;
-    
-    public MockExpectationBuilder() {
-    	this("mockExpectationBuilder");
-    }
-    
-    public MockExpectationBuilder(String name) {
-       this.name = name;
-    }
-    
-    
+ 
     ExpectationValue addedExpectationType = new ExpectationValue("added expectation type");
     
 	public ExpectationBuilder addExpectation(InvocationMatcher expectation) {
