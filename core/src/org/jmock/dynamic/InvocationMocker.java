@@ -13,9 +13,18 @@ import java.util.List;
 public class InvocationMocker 
 	implements BuildableInvokable
 {
+    public interface Describer {
+        public boolean hasDescription();
+        
+        public void describeTo( StringBuffer buf,
+                                List matchers, Stub stub, String name );
+    }
+    
+    
     private String name;
     private List matchers = new ArrayList();
     private Stub stub;
+    
     
     public InvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
         this(stub);
@@ -27,13 +36,13 @@ public class InvocationMocker
         this(stub);
         for (int i = 0; i < matchers.length; i++) addMatcher(matchers[i]);
     }
-
-    public InvocationMocker(Stub stub) {
-        this.stub = stub;
-    }
-
+    
     public InvocationMocker() {
-    	this( VoidStub.INSTANCE );
+        this( VoidStub.INSTANCE );
+    }
+    
+    private InvocationMocker(Stub stub) {
+        this.stub = stub;
     }
     
     public boolean matches(Invocation invocation) {
@@ -83,7 +92,8 @@ public class InvocationMocker
     public boolean hasDescription() {
         return true;
     }
-
+    
+    //TODO: make the description configurable by delegating to a formatter interface
     public StringBuffer describeTo(StringBuffer buffer) {
         Iterator it = matchers.iterator();
         while (it.hasNext()) {
