@@ -33,5 +33,10 @@ public class InvokeOnceMatcherTest extends TestCase {
         matcher.invoked(emptyInvocation);
         matcher.verify();
     }
-
+    
+    public void testWritesDescriptionOfMatch() {
+    	String description = matcher.writeTo(new StringBuffer()).toString();
+    	
+    	assertEquals( "should describe match", "called once", description );
+    }
 }
