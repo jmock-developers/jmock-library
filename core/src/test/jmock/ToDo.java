@@ -1,8 +1,8 @@
 package test.jmock;
 
 public class ToDo {
-    // Extract org.jmock.Mock interface and create mock(...) methods in MockObjectTestCase
-    // Move generation of mock name to MockObjectTestCase (or support test case) and remove constructors for Mock/CoreMock that elide the name 
+    //TODO Extract org.jmock.Mock interface and 
+    //TODO Remove constructors for Mock/CoreMock that generate a default name 
     
     //Source cleanup prior to version 1.0 alpha
     //TODO RESOLVE ALL TO-DO COMMENTS
@@ -43,11 +43,13 @@ public class ToDo {
     //DONE Remove pending from BuilderId stuff. Complain if a matcher specifies an after clause for itself. 
     //DONE Remove deprecated methods
     //DONE make constraints SelfDescribing
+    //DONE Create mock(...) methods in MockObjectTestCase
+    //DONE Move generation of mock name to MockObjectTestCase (or support test case) 
     
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
 	
-    //TODO Clean up org.jmock.expecation package.
+    //TODO Clean up org.jmock.expectation package.
 	//TODO Make jmock.expectation package use Constraints instead of calling equals on expected value
     //TODO Remove getters from Invocation (?)
     //TODO Extract interface from Invocation class (?)
