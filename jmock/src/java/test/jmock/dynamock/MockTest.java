@@ -52,9 +52,9 @@ public class MockTest
 		mockArgumentsMatcher.verifyExpectations();
 		mockCallOnceMatcher.verifyExpectations();
 		mockInvocationMocker.verifyExpectations();
-		mockVoidStub.verifyExpectations();
-		mockReturnStub.verifyExpectations();
-		mockThrowStub.verifyExpectations();
+		mockVoidStub.verify();
+		mockReturnStub.verify();
+		mockThrowStub.verify();
 	}
 	
 	public void testDelegatesToStringToCoreMock() {

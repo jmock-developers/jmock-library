@@ -146,9 +146,9 @@ public class LIFOInvocationDispatcherTest extends TestCase {
 
     public void testClearRemovesAllInvokables() throws Throwable {
         invokable1.matchesResult = true;
-
+        
         dispatcher.add(invokable1);
-
+        
         dispatcher.clear();
         testInvokeFailsWhenEmpty();
     }
@@ -172,7 +172,8 @@ public class LIFOInvocationDispatcherTest extends TestCase {
         assertSame( "should be result of calling default stub",
                     defaultStubResult, dispatcher.dispatch(invocation) );
         
-        mockDefaultStub.verifyExpectations();
+        verifyInvokables();
+        mockDefaultStub.verify();
     }
     
     private Method getDummyMethod() throws NoSuchMethodException {
