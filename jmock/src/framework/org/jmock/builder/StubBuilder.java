@@ -6,20 +6,62 @@ import org.jmock.dynamic.Stub;
 
 
 public interface StubBuilder extends ExpectationBuilder {
-	ExpectationBuilder stub( Stub customStub );
-	
+    ExpectationBuilder will( Stub stubAction );
     ExpectationBuilder isVoid();
     
-    ExpectationBuilder willReturn(Object returnValue);
-    ExpectationBuilder willReturn(boolean booleanValue);
-    ExpectationBuilder willReturn(char charValue);
-    ExpectationBuilder willReturn(short shortValue);
-    ExpectationBuilder willReturn(byte byteValue);
-    ExpectationBuilder willReturn(int returnValue);
-    ExpectationBuilder willReturn(long longValue);
-    ExpectationBuilder willReturn(float floatValue);
-    ExpectationBuilder willReturn(double doubleValue);
+    /**
+     * @deprecated use will(customStub).  Will be removed in version 1.0.
+     */
+	ExpectationBuilder stub( Stub customStub );
+	
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(Object result);
     
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(boolean result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(char result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(short result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(byte result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(int result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(long result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(float result);
+    
+    /**
+     * @deprecated use will(returnValue(result)).  Will be removed in version 1.0.
+     */
+    ExpectationBuilder willReturn(double result);
+    
+    /**
+     * @deprecated use will(throwException(result)).  Will be removed in version 1.0.
+     */
     ExpectationBuilder willThrow(Throwable throwable);
 }
 

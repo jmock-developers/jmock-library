@@ -27,10 +27,10 @@ public class VariableReferenceTest extends MockObjectTestCase {
         double result = 1234;
         
         mockEnvironment.method("getVariable").with(eq(variableName))
-            .willReturn(mockDefinition.proxy())
+            .will(returnValue(mockDefinition.proxy()))
             .expectOnce();
         mockDefinition.method("evaluate").with(same(mockEnvironment.proxy()))
-            .willReturn(new Double(result))
+            .will(returnValue(result))
             .expectOnce();
         
         assertEquals( "should be result of evaluating variable definition", 
@@ -44,7 +44,7 @@ public class VariableReferenceTest extends MockObjectTestCase {
         environment.setVariable( variableName, (Expression)mockDefinition.proxy() );
         CalculatorException thrown = new CalculatorException("THROWN EXCEPTION");
         
-        mockDefinition.method("evaluate").with(eq(environment)).willThrow(thrown)
+        mockDefinition.method("evaluate").with(eq(environment)).will(throwException(thrown))
             .expectOnce();
         
         try {

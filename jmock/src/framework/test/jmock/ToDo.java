@@ -9,6 +9,8 @@ public class ToDo {
 	//TODO Implement API for call ordering in dynamock API
     //TODO REMOVE ALL TO-DO COMMENTS
     //TODO List expected/stubbed methods in verify errors
+    //TODO open hooks to allow different proxying mechanisms to reuse CoreMock implementation
+    //TODO new hotmock syntax for expects and stubs 
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed

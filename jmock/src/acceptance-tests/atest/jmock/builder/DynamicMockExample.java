@@ -2,10 +2,10 @@
 package atest.jmock.builder;
 
 import org.jmock.builder.Mock;
-import org.jmock.util.MockObjectSupportTestCase;
+import org.jmock.builder.MockObjectTestCase;
 
 
-public class DynamicMockExample extends MockObjectSupportTestCase {
+public class DynamicMockExample extends MockObjectTestCase {
     public interface Market {
     	String[] listStocks();
     	int getPrice( String ticker );
@@ -40,10 +40,10 @@ public class DynamicMockExample extends MockObjectSupportTestCase {
     	Mock mockMarket = new Mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
         
-        mockMarket.method("listStocks").noParams().willReturn(new String[]{"IBM","ORCL"});
-        mockMarket.method("getPrice").with(eq("IBM")).willReturn(10)
+        mockMarket.method("listStocks").noParams().will(returnValue(new String[]{"IBM","ORCL"}));
+        mockMarket.method("getPrice").with(eq("IBM")).will(returnValue(10))
         	.expectOnce();
-        mockMarket.method("getPrice").with(eq("ORCL")).willReturn(25)
+        mockMarket.method("getPrice").with(eq("ORCL")).will(returnValue(25))
         	.expectOnce();
         mockMarket.method("buyStock").with(eq("IBM"), eq(2)).isVoid()
         	.expectOnce();

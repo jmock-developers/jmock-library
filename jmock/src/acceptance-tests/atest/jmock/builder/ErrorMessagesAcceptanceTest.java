@@ -19,9 +19,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Object notArg2 = new Object();
         Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
 
-        mock.method("twoArgsReturnsInt").with(ANYTHING, ANYTHING).willReturn(1)
+        mock.method("twoArgsReturnsInt").with(ANYTHING, ANYTHING).will(returnValue(1))
             .expectOnce();
-        mock.method("twoArgsReturnsInt").with(eq(arg1), same(arg2)).willReturn(1)
+        mock.method("twoArgsReturnsInt").with(eq(arg1), same(arg2)).will(returnValue(1))
             .expectOnce();
         
         try {
@@ -84,9 +84,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Object a2 = new Object();
         Object b2 = new Object();
         
-        mock.method("twoArgsReturnInt").with(eq("a1"),same(a2)).willReturn(1)
+        mock.method("twoArgsReturnInt").with(eq("a1"),same(a2)).will(returnValue(1))
             .expectOnce();
-        mock.method("twoArgsReturnInt").with(eq("b1"),same(b2)).willReturn(2)
+        mock.method("twoArgsReturnInt").with(eq("b1"),same(b2)).will(returnValue(2))
             .expectOnce();
         mock.method("noArgsReturnsNothing").noParams().isVoid()
             .expectAtLeastOnce();
