@@ -12,7 +12,7 @@ public class IsSame implements Constraint {
 	/**
 	 * Creates a new instance of IsSame
 	 * 
-	 * @param o
+	 * @param object
 	 *            The predicate evaluates to true only when the argument is
 	 *            this object.
 	 */
