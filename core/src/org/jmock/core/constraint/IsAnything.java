@@ -10,12 +10,22 @@ import org.jmock.core.Constraint;
  */
 public class IsAnything implements Constraint
 {
+    public static final IsAnything INSTANCE = new IsAnything();
+    private String description;
+
+    public IsAnything() {
+        this("ANYTHING");
+    }
+    
+    public IsAnything( String description ) {
+        this.description = description;
+    }
+
     public boolean eval( Object o ) {
         return true;
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        return buffer.append("ANYTHING");
+        return buffer.append(description);
     }
 }
-

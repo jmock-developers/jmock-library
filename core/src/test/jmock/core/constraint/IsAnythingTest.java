@@ -14,5 +14,16 @@ public class IsAnythingTest extends AbstractConstraintsTest
         assertTrue(isAnything.eval(new Object()));
     }
 
+    public void testHasUsefulDefaultDescription() {
+        IsAnything isAnything = new IsAnything();
 
+        assertEquals( "ANYTHING", isAnything.describeTo(new StringBuffer()).toString() );
+    }
+
+    public void testCanOverrideDescription() {
+        String description = "description";
+        IsAnything isAnything = new IsAnything(description);
+
+        assertEquals( description, isAnything.describeTo(new StringBuffer()).toString() );
+    }
 }
