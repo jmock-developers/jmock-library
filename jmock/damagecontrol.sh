@@ -15,10 +15,11 @@ export DISTSITE=dcontrol@dist.codehaus.org:/www/dist.codehaus.org/jmock
 function run_task {
 	local task=$1
 	
+	echo -n $task ""
 	if sh continuous-integration/$task.sh > /dev/null; then
-		echo $task done;
+		echo done
 	else
-		echo $task failed;
+		echo failed
 		exit 1
 	fi
 }
@@ -29,11 +30,11 @@ function tasks {
 	done
 }
 
+echo Build time: $(date --utc "+%d/%m/%Y %H:%M:%S")
+echo
 tasks build-website build-javadocs build-source-snapshots
-
-# deploy by default
 if let ${DEPLOY:-1}; then
+    # deploy by default
 	tasks deploy-website deploy-snapshots;
 fi
-
 echo all done.
