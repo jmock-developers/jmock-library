@@ -10,6 +10,7 @@ public class ToDo {
     //TODO Remove getters from Invocation (?)
 	//TODO Extract interface from Invocation class (?)
     //TODO ExpectNotCalled (or equivalent) makes tests more expressive.
+    //TODO Default call stub should return zero-length arrays for array types
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
