@@ -29,8 +29,8 @@ matching rules match the invocation. The jMock API provides a concise,
 descriptive syntax for adding expectations to a mock and adding matching
 rules to expectations.</p>
 
-<p>An matching rule is an object that implements the <code><a
-href="docs/javadoc/org/jmock/core/InvocationMatcher">InvocationMatcher</a></code>
+<p>An matching rule is an object that implements the
+<code><a href="java:org.jmock.core.InvocationMatcher">InvocationMatcher</a></code>
 interface. It has the following responsiblities:</p>
 <ul>
   <li>report whether it matches against an invocation (the
@@ -39,11 +39,11 @@ interface. It has the following responsiblities:</p>
     (the <code>invoked</code> method).</li>
   <li>verify that expected invocations have actually been received. (the
     <code>verify</code> method from the <a
-    href="docs/javadoc/org/jmock/core/Verifiable.html"><code>Verifiable</code></a>
+    href="java:org.jmock.core.Verifiable"><code>Verifiable</code></a>
     interface).</li>
   <li>provide a readable description to be included in test failure messages
     (the <code>describeTo</code> method from the <a
-    href="docs/javadoc/org/jmock/core/SelfDescribing.html"><code>SelfDescribing</code></a>
+    href="java:org.jmock.core.SelfDescribing"><code>SelfDescribing</code></a>
     interface).</li>
   <li>report if its description is not an empty string (the
     <code>hasDescription</code> method).</li>
@@ -54,7 +54,7 @@ change state when an invocation occurs. Also, you should always provide a
 description for your matching rule, so the <code>hasDescription</code> method
 should always return <code>true</code>. This common behaviour is already
 implemented in the abstract <a
-href="docs/javadoc/org/jmock/core/matcher/StatelessInvocationMatcher.html"><code>StatelessInvocationMatcher</code></a>
+href="java:org.jmock.core.matcher.StatelessInvocationMatcher"><code>StatelessInvocationMatcher</code></a>
 class. You can therefore define a new matching rule by extending
 <code>StatelessInvocationMatcher</code> and defining the <code>matches</code>
 and <code>describeTo</code> methods.</p>
@@ -63,7 +63,7 @@ and <code>describeTo</code> methods.</p>
 
 <p>Suppose we want to stub all Java Bean property getters to return some
 default results. Returning default results is performed by a <a
-href="docs/javadoc/org/jmock/core/stub/DefaultResultStub.html"><code>DefaultResultStub</code></a>.
+href="java:org.jmock.core.stub.DefaultResultStub"><code>DefaultResultStub</code></a>.
 But how do we match property getter methods? We need to write a custom
 <code>InvocationMatcher</code> that only matches invocations of bean property
 getter methods. Here's what a test will look like that uses such a custom
@@ -73,9 +73,9 @@ matcher:</p>
 <pre>InvocationMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
 DefaultResultStub returnDefaultValue = new DefaultResultStub();
 Mock mock = ...
-    
+
 public void testListChildren() {
-    ...        
+    ...
     mockPerson.stubs().match(beanPropertyGetters).will(returnDefaultValue);
     ...
 }</pre>

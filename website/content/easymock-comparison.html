@@ -29,11 +29,13 @@ mockControl.playback();</pre>
 <div class="Source JMock">
 <pre>mock.expects(once()).method("method1").with( eq(a) );</pre>
 
-<p>In practice we have found that the use of strings in jMock is not a huge
+<p>We have found that the use of strings in jMock is not a huge
 disadvantage, especially if you use an IDE that can apply refactorings to
 names in string constants. Often when doing TDD, the method named in an
 expectation will not yet be defined in any interface, and so code completion
-cannot be used.</p>
+cannot be used.  We have found that the <a href="yoga.html">flexibility</a>
+allowed by the jMock API is better at reducing the work of refactoring than
+the use of direct method calls.</p>
 </div>
 
 <h2>jMock forces you to precisely specify required behaviour.</h2>
@@ -131,7 +133,7 @@ failures.  However, this means that...</p>
 <h2>jMock uses its own test case class</h2>
 
 <p>To use jMock your test cases must extend
-<a href="/docs/javadoc/org/jmock/MockObjectTestCase.html">MockObjectTestCase</a>.
+<a href="java:org.jmock.MockObjectTestCase">MockObjectTestCase</a>.
 This class performs automatic verification and provides the syntactic sugar that
 makes jMock tests easy to read.
 </p>
