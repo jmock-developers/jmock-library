@@ -1,13 +1,10 @@
-package test.jmock.util;
+package test.jmock.builder;
 
 import junit.framework.TestCase;
 
 import org.jmock.Constraint;
-import org.jmock.expectation.ExpectationCounter;
+import org.jmock.builder.MockObjectTestCase;
 import org.jmock.util.Dummy;
-import org.jmock.util.MockObjectTestCase;
-
-import test.jmock.dynamic.testsupport.MockVerifiable;
 
 
 
@@ -108,78 +105,6 @@ public class MockObjectTestCaseTest extends TestCase {
         assertConstraintTrue(  testCase.or( trueConstraint,  falseConstraint ), ignored );
         assertConstraintTrue(  testCase.or( falseConstraint, trueConstraint  ), ignored );
         assertConstraintFalse( testCase.or( falseConstraint, falseConstraint ), ignored );
-    }
-    
-    public static class ExampleTestCase extends MockObjectTestCase {
-        private MockVerifiable verifiableField = new MockVerifiable();
-        
-        public void setExpectedVerifyCalls( int n ) {
-        	verifiableField.verifyCalls.setExpected(n);
-        }
-        
-        public void verifyExpectations() {
-        	verifiableField.verifyExpectations();
-        }
-        
-        public void setUp() {
-            // subclasses can override setUp as they wish
-        }
-        
-        public void tearDown() {
-            // subclasses can override tearDown as they wish
-        }
-        
-        public void testMethod() {
-            // Success!
-        }
-    }
-    
-    public void testAutomaticallyVerifiesVerifiableFieldsAfterTheTestRunAndBeforeTearDown()
-        throws Throwable
-    {
-        ExampleTestCase testCase = new ExampleTestCase();
-        testCase.setName("testMethod");
-        
-        testCase.setExpectedVerifyCalls(1);
-        
-        testCase.runBare();
-        
-        testCase.verifyExpectations();
-    }
-    
-    public void testVerificationCanBeOverridden()
-        throws Throwable
-    {
-    	final ExpectationCounter overriddenVerifyCalls = 
-            new ExpectationCounter("overridden verify #calls");
-        
-        ExampleTestCase testCase = new ExampleTestCase() {
-        	public void verify() {
-        		overriddenVerifyCalls.inc();
-            }
-        };
-        testCase.setName("testMethod");
-        
-        overriddenVerifyCalls.setExpected(1);
-        
-        testCase.runBare();
-        
-        overriddenVerifyCalls.verify();
-        testCase.verifyExpectations();
-    }
-    
-    public void testOverridingRunTestDoesNotAffectVerification() throws Throwable {
-        ExampleTestCase testCase = new ExampleTestCase() {
-        	public void runTest() {
-        		// Success!
-            }
-        };
-        
-        testCase.setExpectedVerifyCalls(1);
-        
-        testCase.runBare();
-        
-        testCase.verifyExpectations();
     }
     
     private void assertConstraintTrue( Constraint constraint, Object argument ) {
