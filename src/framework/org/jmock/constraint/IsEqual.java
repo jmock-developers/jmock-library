@@ -22,7 +22,7 @@ public class IsEqual implements Constraint {
     }
 
     public String toString() {
-        return " = " + DynamicUtil.toReadableString(object);
+        return "= " + DynamicUtil.toReadableString(object);
     }
     
     private static boolean areEqual( Object o1, Object o2 ) {

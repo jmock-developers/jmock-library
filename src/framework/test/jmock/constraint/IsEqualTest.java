@@ -88,12 +88,12 @@ public class IsEqualTest extends TestCase {
     
     public void testReturnsAnObviousDescriptionIfCreatedWithANestedConstraintByMistake() {
         assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
-            " =  = NestedConstraint", new IsEqual(new IsEqual("NestedConstraint")).toString());
+            "= = NestedConstraint", new IsEqual(new IsEqual("NestedConstraint")).toString());
     }
     
     public void testReturnsGoodDescriptionIfCreatedWithNullReference() {
         assertEquals("Should print toString even if argument is null",
-            " = null", new IsEqual(null).toString());
+            "= null", new IsEqual(null).toString());
     }
 }
 
