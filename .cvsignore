@@ -7,3 +7,5 @@ build
 build.properties
 target
 .out
+*.classpath
+.project
