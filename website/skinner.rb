@@ -110,21 +110,7 @@ def delete_dir_contents dir
     end
 end
 
-def delete_old_output
-    if FileTest.exists?(OUTPUT_DIR)
-    	delete_dir_contents OUTPUT_DIR
-    end
-end
-
-def create_output_directory
-    if !FileTest.exists?(OUTPUT_DIR)
-       Dir.mkdir(OUTPUT_DIR)
-    end
-end
-
 def build_site
-    delete_old_output
-    create_output_directory
     skin_content_to_output
     copy_to_output content_assets
     copy_to_output skin_assets
