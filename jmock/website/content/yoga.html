@@ -243,9 +243,15 @@ logger.stub().method("getLoggingLevel").noParams()
     
     <h1>Matchers</h1>
     
-    <p>The methods <code>method(</code><var>methodName</var><code>)</code> and
-    <code>with(</code><var>argument constraints</var><code>)</code> are
-    syntactic sugar that create matchers against an incoming invocation.
+    <p>The methods <code>method(</code><var>methodName</var><code>)</code>,
+    <code>with(</code><var>argument&nbsp;constraints</var><code>)</code> and
+    <code>after(</code><var>prior&nbsp;call&nbsp;ID</var><code>)</code>
+    are syntactic sugar that define matching rules that match an incoming invocation
+    to an object that can mock the behaviour of the invocation and test its
+    expectations.
+    If jMock does not have a matching rule that you need, or the matching rules 
+    supported by jMock are not accurate enough to keep your tests flexible,
+    you can extend jMock with matching rules of your own.
     </p>
     
     <p>To be continued...</p>
