@@ -1,16 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.builder;
 
-import org.jmock.Constraint;
 import org.jmock.builder.Mock;
 import org.jmock.builder.MockObjectTestCase;
-import org.jmock.constraint.IsEqual;
-import org.jmock.dynamic.CoreMock;
-import org.jmock.dynamic.InvocationMocker;
-import org.jmock.dynamic.LIFOInvocationDispatcher;
-import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.MethodNameMatcher;
-import org.jmock.dynamic.stub.VoidStub;
 
 
 public class DynamicMockExample extends MockObjectTestCase {
@@ -44,27 +36,6 @@ public class DynamicMockExample extends MockObjectTestCase {
 
     }
 
-    /* This demonstrates the core API, upon which the sugar methods are layered.
-     */
-    public void xtestCoreMockExample() {
-    	CoreMock mockMarket = new CoreMock( Market.class, "mockMarket",
-    										new LIFOInvocationDispatcher() );
-    	Agent agent = new Agent( (Market)mockMarket.proxy() );
-    	
-    	InvocationMocker invocation = new InvocationMocker();
-    	invocation.addMatcher( new MethodNameMatcher("buyStock") );
-    	invocation.addMatcher( new ArgumentsMatcher( new Constraint[] {
-			new IsEqual("IBM"), new IsEqual(new Integer(10))					
-    	} ) );
-    	invocation.setStub( new VoidStub() ); // Not really necessary as this is the default
-    	mockMarket.add(invocation);
-    	//Phew! That's why we need syntactic sugar!
-    	
-    	agent.buyLowestPriceStock(20);
-    	
-    	mockMarket.verify();
-    }
-    
     public void testBuilderExample() {
     	Mock mockMarket = new Mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
