@@ -12,29 +12,14 @@ import java.util.List;
  */
 public class Invocation {
     private Object invoked;
-    private Class declaringClass;
-    private String methodName;
-    private Class[] parameterTypes;
-    private Class returnType;
+	private Method method;
     private Object[] parameterValues;
 
-    private Invocation( Object invoked, Class declaringClass,
-                       String name, Class[] parameterTypes, Class returnType,
-                       Object[] parameterValues ) 
-    {
+	public Invocation( Object invoked, Method method, Object[] parameterValues ) {
         this.invoked = invoked;
-        this.declaringClass = declaringClass;
-        this.methodName = name;
-        this.parameterTypes = parameterTypes;
-        this.returnType = returnType;
-        this.parameterValues = 
+	    this.method = method;
+        this.parameterValues =
             (parameterValues == null ? new Object[0] : parameterValues);
-    }
-	
-    public Invocation( Object invoked, Method method, Object[] parameterValues ) {
-        this( invoked, method.getDeclaringClass(), 
-              method.getName(), method.getParameterTypes(), method.getReturnType(),
-              parameterValues );
     }
 
     public Object getInvokedObject() {
@@ -42,15 +27,15 @@ public class Invocation {
     }
     
     public Class getDeclaringClass() {
-        return declaringClass;
+        return method.getDeclaringClass();
     }
 
     public String getMethodName() {
-        return methodName;
+        return method.getName();
     }
 
     public List getParameterTypes() {
-        return Collections.unmodifiableList(Arrays.asList(parameterTypes));
+        return Collections.unmodifiableList(Arrays.asList(method.getParameterTypes()));
     }
 
     public List getParameterValues() {
@@ -58,7 +43,7 @@ public class Invocation {
     }
 
     public Class getReturnType() {
-        return returnType;
+        return method.getReturnType();
     }
 
     public String toString() {
@@ -72,17 +57,14 @@ public class Invocation {
     public boolean equals(Invocation other) {
         return other != null
             && invoked == other.invoked
-            && methodName.equals(other.methodName)
-            && Arrays.equals(parameterTypes, other.parameterTypes)
-            && returnType.equals(other.returnType)
+            && method.equals(other.method)
             && Arrays.equals(parameterValues, other.parameterValues);
     }
 
     public int hashCode() {
-        return methodName.hashCode() ^
-                arrayHashCode(parameterTypes) ^
-                returnType.hashCode() ^
-                arrayHashCode(parameterValues);
+        return invoked.hashCode() ^
+               method.hashCode() ^
+               arrayHashCode(parameterValues);
     }
 
     private int arrayHashCode(Object[] array) {
@@ -94,7 +76,9 @@ public class Invocation {
     }
     
     public StringBuffer writeTo(StringBuffer buffer) {
-        buffer.append(methodName);
+	    buffer.append(method.getDeclaringClass().getName());
+	    buffer.append(".");
+        buffer.append(method.getName());
         DynamicUtil.join(parameterValues, buffer, "(", ")");
         return buffer.append("\n");
     }
