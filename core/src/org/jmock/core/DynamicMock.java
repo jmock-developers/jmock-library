@@ -3,16 +3,16 @@ package org.jmock.core;
 
 
 public interface DynamicMock
-    extends Verifiable
+        extends Verifiable
 {
-    Class getMockedType();
-    
-    Object proxy();
-    
-    void setDefaultStub( Stub newDefaultStub );
-    
-    void addInvokable(Invokable invokable);
+	Class getMockedType();
 
-    void reset();
+	Object proxy();
+
+	void setDefaultStub( Stub newDefaultStub );
+
+	void addInvokable( Invokable invokable );
+
+	void reset();
 }
 

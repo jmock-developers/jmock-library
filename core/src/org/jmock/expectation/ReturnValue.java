@@ -28,87 +28,88 @@ package org.jmock.expectation;
  * 
  * @version $Revision$
  */
-public class ReturnValue {
-    private final String name;
-    private Object value;
+public class ReturnValue
+{
+	private final String name;
+	private Object value;
 
-    /**
-     * @param name the name used to identify the ReturnValue when an error is raised
-     */
-    public ReturnValue(String name) {
-        this.name = name;
-    }
+	/**
+	 * @param name the name used to identify the ReturnValue when an error is raised
+	 */
+	public ReturnValue( String name ) {
+		this.name = name;
+	}
 
-    /**
-     * @return the value set using setValue
-     * @throws junit.framework.AssertionFailedError
-     *          throw if setValue has not been called
-     */
-    public Object getValue() {
-        AssertMo.assertNotNull("The return value \"" + name + "\" has not been set.", value);
+	/**
+	 * @return the value set using setValue
+	 * @throws junit.framework.AssertionFailedError
+	 *          throw if setValue has not been called
+	 */
+	public Object getValue() {
+		AssertMo.assertNotNull("The return value \"" + name + "\" has not been set.", value);
 
-        if (value instanceof Null) {
-            return null;
-        }
+		if (value instanceof Null) {
+			return null;
+		}
 
-        return value;
-    }
+		return value;
+	}
 
-    /**
-     * @param value value to be returned by getValue. null can be use to force getValue to return null.
-     */
-    public void setValue(Object value) {
-        if (value == null) {
-            this.value = Null.NULL;
-        } else {
-            this.value = value;
-        }
-    }
+	/**
+	 * @param value value to be returned by getValue. null can be use to force getValue to return null.
+	 */
+	public void setValue( Object value ) {
+		if (value == null) {
+			this.value = Null.NULL;
+		} else {
+			this.value = value;
+		}
+	}
 
-    /**
-     * @param value value to be returned by getBooleanValue. Calling getValue after this invokedMethod will return
-     *              a Boolean wrapper around the value.
-     */
-    public void setValue(boolean value) {
-        setValue(new Boolean(value));
-    }
+	/**
+	 * @param value value to be returned by getBooleanValue. Calling getValue after this invokedMethod will return
+	 *              a Boolean wrapper around the value.
+	 */
+	public void setValue( boolean value ) {
+		setValue(new Boolean(value));
+	}
 
-    /**
-     * @return the current value converted to a boolean
-     */
-    public boolean getBooleanValue() {
-        return ((Boolean) getValue()).booleanValue();
-    }
+	/**
+	 * @return the current value converted to a boolean
+	 */
+	public boolean getBooleanValue() {
+		return ((Boolean)getValue()).booleanValue();
+	}
 
-    /**
-     * @return the current value converted to an int
-     */
-    public int getIntValue() {
-        return ((Number) getValue()).intValue();
-    }
+	/**
+	 * @return the current value converted to an int
+	 */
+	public int getIntValue() {
+		return ((Number)getValue()).intValue();
+	}
 
-    /**
-     * @param value value to be returned by getIntValue. Calling getValue after this invokedMethod will return
-     *              a Integer wrapper around the value.
-     */
-    public void setValue(int value) {
-        setValue(new Integer(value));
-    }
+	/**
+	 * @param value value to be returned by getIntValue. Calling getValue after this invokedMethod will return
+	 *              a Integer wrapper around the value.
+	 */
+	public void setValue( int value ) {
+		setValue(new Integer(value));
+	}
 
-    /**
-     * @param value value to be returned by getLongValue. Calling getValue after this invokedMethod will return
-     *              a Long wrapper around the value.
-     */
-    public void setValue(long value) {
-        setValue(new Long(value));
-    }
+	/**
+	 * @param value value to be returned by getLongValue. Calling getValue after this invokedMethod will return
+	 *              a Long wrapper around the value.
+	 */
+	public void setValue( long value ) {
+		setValue(new Long(value));
+	}
 
-    /**
-     * @return the current value converted to an long
-     */
-    public long getLongValue() {
-        return ((Number) getValue()).longValue();
-    }
+	/**
+	 * @return the current value converted to an long
+	 */
+	public long getLongValue() {
+		return ((Number)getValue()).longValue();
+	}
 
 
 }

@@ -3,86 +3,89 @@ package test.jmock.expectation;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-
 import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationCounter;
 
-public class ExpectationCounterTest extends TestCase {
 
-    public void testExpectNothing() {
-        ExpectationCounter e = new ExpectationCounter("");
-        e.setExpectNothing();
+public class ExpectationCounterTest extends TestCase
+{
 
-        assertTrue("Has expectation", e.hasExpectations());
-        e.verify();
-    }
+	public void testExpectNothing() {
+		ExpectationCounter e = new ExpectationCounter("");
+		e.setExpectNothing();
 
-    public void testExpectNothingFailure() {
-        ExpectationCounter e = new ExpectationCounter("");
-        e.setExpectNothing();
+		assertTrue("Has expectation", e.hasExpectations());
+		e.verify();
+	}
 
-        assertTrue("Has expectation", e.hasExpectations());
-        try {
-            e.inc();
-        } catch (AssertionFailedError ex) {
-            return;
-        }
-        fail("Should have failed immediately");
-    }
+	public void testExpectNothingFailure() {
+		ExpectationCounter e = new ExpectationCounter("");
+		e.setExpectNothing();
 
-    public void testFailImmediately() {
-        ExpectationCounter aCounter = new ExpectationCounter("a test counter");
-        aCounter.setExpected(1);
+		assertTrue("Has expectation", e.hasExpectations());
+		try {
+			e.inc();
+		}
+		catch (AssertionFailedError ex) {
+			return;
+		}
+		fail("Should have failed immediately");
+	}
 
-        aCounter.inc();
-        try {
-            aCounter.inc();
-        } catch (AssertionFailedError ex) {
-            return;
-        }
-        fail("Should have failed immediately");
-    }
+	public void testFailImmediately() {
+		ExpectationCounter aCounter = new ExpectationCounter("a test counter");
+		aCounter.setExpected(1);
 
-    public void testFailOnVerify() {
-        ExpectationCounter aCounter = new ExpectationCounter("a test counter");
-        aCounter.setExpected(1);
-        aCounter.setFailOnVerify();
+		aCounter.inc();
+		try {
+			aCounter.inc();
+		}
+		catch (AssertionFailedError ex) {
+			return;
+		}
+		fail("Should have failed immediately");
+	}
 
-        aCounter.inc();
-        aCounter.inc();
+	public void testFailOnVerify() {
+		ExpectationCounter aCounter = new ExpectationCounter("a test counter");
+		aCounter.setExpected(1);
+		aCounter.setFailOnVerify();
 
-        AssertMo.assertVerifyFails(aCounter);
-    }
+		aCounter.inc();
+		aCounter.inc();
 
-    public void testFailure() {
-        ExpectationCounter e = new ExpectationCounter("");
-        e.setExpected(1);
+		AssertMo.assertVerifyFails(aCounter);
+	}
 
-        AssertMo.assertVerifyFails(e);
-    }
+	public void testFailure() {
+		ExpectationCounter e = new ExpectationCounter("");
+		e.setExpected(1);
 
-    public void testFlushActual() {
-        ExpectationCounter e = new ExpectationCounter("");
-        e.inc();
+		AssertMo.assertVerifyFails(e);
+	}
 
-        e.setExpected(1);
-        e.inc();
+	public void testFlushActual() {
+		ExpectationCounter e = new ExpectationCounter("");
+		e.inc();
 
-        e.verify();
-    }
+		e.setExpected(1);
+		e.inc();
 
-    public void testHasNoExpectations() {
-        ExpectationCounter aCounter = new ExpectationCounter("a test counter");
+		e.verify();
+	}
 
-        aCounter.inc();
-        assertTrue("Has no expectations", !aCounter.hasExpectations());
-    }
+	public void testHasNoExpectations() {
+		ExpectationCounter aCounter = new ExpectationCounter("a test counter");
 
-    public void testSuccess() {
-        ExpectationCounter e = new ExpectationCounter("");
-        e.setExpected(1);
-        e.inc();
+		aCounter.inc();
+		assertTrue("Has no expectations", !aCounter.hasExpectations());
+	}
 
-        e.verify();
-    }
+	public void testSuccess() {
+		ExpectationCounter e = new ExpectationCounter("");
+		e.setExpected(1);
+		e.inc();
+
+		e.verify();
+	}
 }

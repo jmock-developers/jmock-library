@@ -5,104 +5,105 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 
-abstract public class AbstractExpectationCollection extends AbstractExpectation implements ExpectationCollection {
 
-    public AbstractExpectationCollection(String name) {
-        super(name);
-    }
+abstract public class AbstractExpectationCollection extends AbstractExpectation implements ExpectationCollection
+{
 
-    public void addActual(Object actualItem) {
-        getActualCollection().add(actualItem);
-        if (shouldCheckImmediately()) {
-            checkImmediateValues(actualItem);
-        }
-    }
+	public AbstractExpectationCollection( String name ) {
+		super(name);
+	}
 
-    public void addActual(int actualItem) {
-        addActual(new Integer(actualItem));
-    }
+	public void addActual( Object actualItem ) {
+		getActualCollection().add(actualItem);
+		if (shouldCheckImmediately()) {
+			checkImmediateValues(actualItem);
+		}
+	}
 
-    public void addActualMany(Object[] items) {
-        if (items == null) return;
+	public void addActual( int actualItem ) {
+		addActual(new Integer(actualItem));
+	}
 
-        for (int i = 0; i < items.length; ++i) {
-            addActual(items[i]);
-        }
-    }
+	public void addActualMany( Object[] items ) {
+		if (items == null) return;
 
-    public void addActualMany(Enumeration items) {
-        while (items.hasMoreElements()) {
-            addActual(items.nextElement());
-        }
-    }
+		for (int i = 0; i < items.length; ++i) {
+			addActual(items[i]);
+		}
+	}
 
-    public void addActualMany(Iterator items) {
-        while (items.hasNext()) {
-            addActual(items.next());
-        }
-    }
+	public void addActualMany( Enumeration items ) {
+		while (items.hasMoreElements()) {
+			addActual(items.nextElement());
+		}
+	}
 
-    public void addExpected(int expectedItem) {
-        addExpected(new Integer(expectedItem));
-    }
+	public void addActualMany( Iterator items ) {
+		while (items.hasNext()) {
+			addActual(items.next());
+		}
+	}
 
-    public void addExpected(Object expectedItem) {
-        getExpectedCollection().add(expectedItem);
-        setHasExpectations();
-    }
+	public void addExpected( int expectedItem ) {
+		addExpected(new Integer(expectedItem));
+	}
 
-    public void addExpectedMany(Object[] expectedItems) {
-        for (int i = 0; i < expectedItems.length; ++i) {
-            addExpected(expectedItems[i]);
-        }
-        setHasExpectations();
-    }
+	public void addExpected( Object expectedItem ) {
+		getExpectedCollection().add(expectedItem);
+		setHasExpectations();
+	}
 
-    public void addExpectedMany(Enumeration expectedItems) {
-        while (expectedItems.hasMoreElements()) {
-            addExpected(expectedItems.nextElement());
-        }
-        setHasExpectations();
-    }
+	public void addExpectedMany( Object[] expectedItems ) {
+		for (int i = 0; i < expectedItems.length; ++i) {
+			addExpected(expectedItems[i]);
+		}
+		setHasExpectations();
+	}
 
-    public void addExpectedMany(Iterator expectedItems) {
-        while (expectedItems.hasNext()) {
-            addExpected(expectedItems.next());
-        }
-        setHasExpectations();
-    }
+	public void addExpectedMany( Enumeration expectedItems ) {
+		while (expectedItems.hasMoreElements()) {
+			addExpected(expectedItems.nextElement());
+		}
+		setHasExpectations();
+	}
 
-    abstract protected void checkImmediateValues(Object actualItem);
+	public void addExpectedMany( Iterator expectedItems ) {
+		while (expectedItems.hasNext()) {
+			addExpected(expectedItems.next());
+		}
+		setHasExpectations();
+	}
 
-    public void clearActual() {
-        getActualCollection().clear();
-    }
+	abstract protected void checkImmediateValues( Object actualItem );
 
-    protected void clearExpectation() {
-        getExpectedCollection().clear();
-    }
+	public void clearActual() {
+		getActualCollection().clear();
+	}
 
-    abstract protected Collection getActualCollection();
+	protected void clearExpectation() {
+		getExpectedCollection().clear();
+	}
 
-    abstract protected Collection getExpectedCollection();
+	abstract protected Collection getActualCollection();
 
-    public void setExpectNothing() {
-        clearExpectation();
-        setHasExpectations();
-    }
+	abstract protected Collection getExpectedCollection();
 
-    public void verify() {
-        assertEquals(
-                "did not receive the expected collection items.",
-                getExpectedCollection(),
-                getActualCollection());
-    }
+	public void setExpectNothing() {
+		clearExpectation();
+		setHasExpectations();
+	}
 
-    public void addActual(long actual) {
-        addActual(new Long(actual));
-    }
+	public void verify() {
+		assertEquals("did not receive the expected collection items.",
+		             getExpectedCollection(),
+		             getActualCollection());
+	}
 
-    public void addExpected(long expected) {
-        addExpected(new Long(expected));
-    }
+	public void addActual( long actual ) {
+		addActual(new Long(actual));
+	}
+
+	public void addExpected( long expected ) {
+		addExpected(new Long(expected));
+	}
 }

@@ -1,6 +1,7 @@
 package org.jmock.examples.timedcache;
 
-public interface ReloadPolicy {
+public interface ReloadPolicy
+{
 
-    boolean shouldReload(Timestamp loadTime, Timestamp fetchTime);
+	boolean shouldReload( Timestamp loadTime, Timestamp fetchTime );
 }

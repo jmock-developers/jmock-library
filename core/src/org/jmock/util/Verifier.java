@@ -3,10 +3,9 @@ package org.jmock.util;
 
 import java.lang.reflect.Field;
 import java.util.Vector;
-
 import junit.framework.Assert;
-
 import org.jmock.core.Verifiable;
+
 
 /**
  * Helper class to verify all {@link org.jmock.core.Verifiable} fields of an object.
@@ -28,56 +27,59 @@ import org.jmock.core.Verifiable;
  * @version $Id$
  * @see org.jmock.core.Verifiable
  */
-public class Verifier {
+public class Verifier
+{
 
-    private static Vector myProcessingObjects = new Vector();
+	private static Vector myProcessingObjects = new Vector();
 
-    /**
-     * Verifies all the fields of type Verifiable in the given object, including
-     * those inherited from superclasses.
-     * 
-     * @param anObject The object to be verified.
-     */
-    static synchronized public void verifyObject(Object anObject) {
-        verifyFieldsForClass(anObject, anObject.getClass(), myProcessingObjects);
-    }
+	/**
+	 * Verifies all the fields of type Verifiable in the given object, including
+	 * those inherited from superclasses.
+	 *
+	 * @param anObject The object to be verified.
+	 */
+	static synchronized public void verifyObject( Object anObject ) {
+		verifyFieldsForClass(anObject, anObject.getClass(), myProcessingObjects);
+	}
 
-    static private void verifyFieldsForClass(Object anObject, Class aClass, Vector alreadyProcessed) {
-        if (alreadyProcessed.contains(anObject) || isBaseObjectClass(aClass)) {
-            return;
-        }
+	static private void verifyFieldsForClass( Object anObject, Class aClass, Vector alreadyProcessed ) {
+		if (alreadyProcessed.contains(anObject) || isBaseObjectClass(aClass)) {
+			return;
+		}
 
-        verifyFieldsForClass(anObject, aClass.getSuperclass(), alreadyProcessed);
-        try {
-            alreadyProcessed.addElement(anObject);
+		verifyFieldsForClass(anObject, aClass.getSuperclass(), alreadyProcessed);
+		try {
+			alreadyProcessed.addElement(anObject);
 
-            Field[] fields = aClass.getDeclaredFields();
-            for (int i = 0; i < fields.length; ++i) {
-                verifyField(fields[i], anObject, alreadyProcessed);
-            }
-        } finally {
-            alreadyProcessed.removeElement(anObject);
-        }
-    }
-    
-    static private void verifyField(Field aField, Object anObject, Vector alreadyProcessed) {
-        try {
-            aField.setAccessible(true);
-            Object fieldObject = aField.get(anObject);
+			Field[] fields = aClass.getDeclaredFields();
+			for (int i = 0; i < fields.length; ++i) {
+				verifyField(fields[i], anObject, alreadyProcessed);
+			}
+		}
+		finally {
+			alreadyProcessed.removeElement(anObject);
+		}
+	}
 
-            if (isVerifiable(fieldObject) && !alreadyProcessed.contains(fieldObject)) {
-                ((Verifiable) fieldObject).verify();
-            }
-        } catch (IllegalAccessException e) {
-            Assert.fail("Could not access field " + aField.getName());
-        }
-    }
+	static private void verifyField( Field aField, Object anObject, Vector alreadyProcessed ) {
+		try {
+			aField.setAccessible(true);
+			Object fieldObject = aField.get(anObject);
 
-    private static boolean isVerifiable(Object anObject) {
-        return anObject instanceof Verifiable;
-    }
+			if (isVerifiable(fieldObject) && !alreadyProcessed.contains(fieldObject)) {
+				((Verifiable)fieldObject).verify();
+			}
+		}
+		catch (IllegalAccessException e) {
+			Assert.fail("Could not access field " + aField.getName());
+		}
+	}
 
-    private static boolean isBaseObjectClass(Class aClass) {
-        return aClass.equals(Object.class);
-    }
+	private static boolean isVerifiable( Object anObject ) {
+		return anObject instanceof Verifiable;
+	}
+
+	private static boolean isBaseObjectClass( Class aClass ) {
+		return aClass.equals(Object.class);
+	}
 }

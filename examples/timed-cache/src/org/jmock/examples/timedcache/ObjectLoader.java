@@ -1,6 +1,7 @@
 package org.jmock.examples.timedcache;
 
-public interface ObjectLoader {
+public interface ObjectLoader
+{
 
-    Object load(Object theKey);
+	Object load( Object theKey );
 }

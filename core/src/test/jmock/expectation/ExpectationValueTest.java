@@ -3,176 +3,184 @@ package test.jmock.expectation;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-
 import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationValue;
 
-public class ExpectationValueTest extends TestCase {
 
-    private ExpectationValue myExpectation = new ExpectationValue("ExpectationValue for testing");
+public class ExpectationValueTest extends TestCase
+{
 
-    public void testBooleanFail() {
-        myExpectation.setExpected(true);
+	private ExpectationValue myExpectation = new ExpectationValue("ExpectationValue for testing");
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual(false);
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testBooleanFail() {
+		myExpectation.setExpected(true);
 
-        assertTrue("Should fail fast on boolean", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual(false);
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
 
-    public void testBooleanPass() {
-        myExpectation.setExpected(true);
+		assertTrue("Should fail fast on boolean", testPasses);
+	}
 
-        myExpectation.setActual(true);
+	public void testBooleanPass() {
+		myExpectation.setExpected(true);
 
-        myExpectation.verify();
-    }
+		myExpectation.setActual(true);
 
-    public void testExpectNothing() {
-        myExpectation.setExpectNothing();
+		myExpectation.verify();
+	}
 
-        assertTrue("Should have an expectation", myExpectation.hasExpectations());
-    }
+	public void testExpectNothing() {
+		myExpectation.setExpectNothing();
 
-    public void testExpectNothingFail() {
-        myExpectation.setExpectNothing();
+		assertTrue("Should have an expectation", myExpectation.hasExpectations());
+	}
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual("another object");
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testExpectNothingFail() {
+		myExpectation.setExpectNothing();
 
-        assertTrue("Should fail fast on object", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual("another object");
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
 
-    public void testFailOnVerify() {
-        myExpectation.setExpected("string object");
-        myExpectation.setFailOnVerify();
+		assertTrue("Should fail fast on object", testPasses);
+	}
 
-        myExpectation.setActual("another object");
-        AssertMo.assertVerifyFails(myExpectation);
-    }
+	public void testFailOnVerify() {
+		myExpectation.setExpected("string object");
+		myExpectation.setFailOnVerify();
 
-    public void testFlushActual() {
-        myExpectation.setActual(10);
+		myExpectation.setActual("another object");
+		AssertMo.assertVerifyFails(myExpectation);
+	}
 
-        myExpectation.setExpectNothing();
+	public void testFlushActual() {
+		myExpectation.setActual(10);
 
-        myExpectation.verify();
-    }
+		myExpectation.setExpectNothing();
 
-    public void testHasNoExpectations() {
-        myExpectation.setActual("a value");
+		myExpectation.verify();
+	}
 
-        assertTrue("Has no expectations", !myExpectation.hasExpectations());
-    }
+	public void testHasNoExpectations() {
+		myExpectation.setActual("a value");
 
-    public void testIntFail() {
-        myExpectation.setExpected(100);
+		assertTrue("Has no expectations", !myExpectation.hasExpectations());
+	}
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual(150);
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testIntFail() {
+		myExpectation.setExpected(100);
 
-        assertTrue("Should fail fast on int", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual(150);
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
 
-    public void testIntPass() {
-        myExpectation.setExpected(100);
+		assertTrue("Should fail fast on int", testPasses);
+	}
 
-        myExpectation.setActual(100);
+	public void testIntPass() {
+		myExpectation.setExpected(100);
 
-        myExpectation.verify();
-    }
+		myExpectation.setActual(100);
 
-    public void testLongFail() {
-        myExpectation.setExpected(100L);
+		myExpectation.verify();
+	}
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual(150L);
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testLongFail() {
+		myExpectation.setExpected(100L);
 
-        assertTrue("Should fail fast on long", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual(150L);
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
 
-    public void testLongPass() {
-        myExpectation.setExpected(100L);
+		assertTrue("Should fail fast on long", testPasses);
+	}
 
-        myExpectation.setActual(100L);
+	public void testLongPass() {
+		myExpectation.setExpected(100L);
 
-        myExpectation.verify();
-    }
+		myExpectation.setActual(100L);
 
-    public void testDoubleFail() {
-        myExpectation.setExpected(100.0);
+		myExpectation.verify();
+	}
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual(150.0);
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testDoubleFail() {
+		myExpectation.setExpected(100.0);
 
-        assertTrue("Should fail fast on double", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual(150.0);
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
 
-    public void testDoublePass() {
-        myExpectation.setExpected(100.0);
+		assertTrue("Should fail fast on double", testPasses);
+	}
 
-        myExpectation.setActual(100.0);
+	public void testDoublePass() {
+		myExpectation.setExpected(100.0);
 
-        myExpectation.verify();
-    }
+		myExpectation.setActual(100.0);
 
-    public void testNullFail() {
-        myExpectation.setExpected(null);
+		myExpectation.verify();
+	}
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual("another object");
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testNullFail() {
+		myExpectation.setExpected(null);
 
-        assertTrue("Should fail fast on object", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual("another object");
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
 
-    public void testNullPass() {
-        myExpectation.setExpected(null);
-        myExpectation.setActual(null);
-        myExpectation.verify();
-    }
+		assertTrue("Should fail fast on object", testPasses);
+	}
 
-    public void testObject() {
-        myExpectation.setExpected("string object");
+	public void testNullPass() {
+		myExpectation.setExpected(null);
+		myExpectation.setActual(null);
+		myExpectation.verify();
+	}
 
-        myExpectation.setActual("string object");
+	public void testObject() {
+		myExpectation.setExpected("string object");
 
-        myExpectation.verify();
-    }
+		myExpectation.setActual("string object");
 
-    public void testObjectFail() {
-        myExpectation.setExpected("string object");
+		myExpectation.verify();
+	}
 
-        boolean testPasses = false;
-        try {
-            myExpectation.setActual("another object");
-        } catch (AssertionFailedError ex) {
-            testPasses = true;
-        }
+	public void testObjectFail() {
+		myExpectation.setExpected("string object");
 
-        assertTrue("Should fail fast on object", testPasses);
-    }
+		boolean testPasses = false;
+		try {
+			myExpectation.setActual("another object");
+		}
+		catch (AssertionFailedError ex) {
+			testPasses = true;
+		}
+
+		assertTrue("Should fail fast on object", testPasses);
+	}
 }

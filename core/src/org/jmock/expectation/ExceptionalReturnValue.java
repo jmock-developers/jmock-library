@@ -8,15 +8,16 @@ package org.jmock.expectation;
  * It is possibly similar to a ReturnObjectList?
  */
 
-public class ExceptionalReturnValue {
-    private Throwable exception;
+public class ExceptionalReturnValue
+{
+	private Throwable exception;
 
-    public ExceptionalReturnValue(Throwable exception) {
-        this.exception = exception;
-    }
+	public ExceptionalReturnValue( Throwable exception ) {
+		this.exception = exception;
+	}
 
-    public Throwable getException() {
-        return exception;
-    }
+	public Throwable getException() {
+		return exception;
+	}
 
 }

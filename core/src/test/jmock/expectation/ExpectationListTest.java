@@ -3,22 +3,24 @@ package test.jmock.expectation;
 
 import org.jmock.expectation.ExpectationList;
 
-public class ExpectationListTest extends AbstractTestExpectationCollection {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        myExpectation = new ExpectationList(getClass().getName());
-    }
+public class ExpectationListTest extends AbstractTestExpectationCollection
+{
 
-    // see super-class for tests
+	protected void setUp() throws Exception {
+		super.setUp();
+		myExpectation = new ExpectationList(getClass().getName());
+	}
 
-    public void testSorted() {
-        myExpectation.addExpected("A");
-        myExpectation.addExpected("B");
+	// see super-class for tests
 
-        myExpectation.addActual("A");
-        myExpectation.addActual("B");
+	public void testSorted() {
+		myExpectation.addExpected("A");
+		myExpectation.addExpected("B");
 
-        myExpectation.verify();
-    }
+		myExpectation.addActual("A");
+		myExpectation.addActual("B");
+
+		myExpectation.verify();
+	}
 }

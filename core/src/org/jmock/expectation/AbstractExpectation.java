@@ -3,71 +3,73 @@ package org.jmock.expectation;
 
 import org.jmock.core.Verifiable;
 
-abstract public class AbstractExpectation implements Verifiable, Expectation {
-    protected boolean myFailureModeIsImmediate = true;
-    protected String myName;
 
-    private boolean myHasExpectations = false;
+abstract public class AbstractExpectation implements Verifiable, Expectation
+{
+	protected boolean myFailureModeIsImmediate = true;
+	protected String myName;
 
-    public AbstractExpectation(String name) {
-        myName = name;
-    }
+	private boolean myHasExpectations = false;
 
-    protected void assertEquals(
-            String msg,
-            int expectedValue,
-            int actualValue) {
-        assertEquals(msg, new Integer(expectedValue), new Integer(actualValue));
-    }
+	public AbstractExpectation( String name ) {
+		myName = name;
+	}
 
-    /**
-     * Due to junit Assert being a Singleton implemented with static methods, and java's
-     * unfortunate implementation of class methods (e.g. no late binding) it is
-     * necessary to re-implement this invokedMethod here instead of over-riding failNotEquals
-     */
+	protected void assertEquals( String msg,
+	                             int expectedValue,
+	                             int actualValue ) {
+		assertEquals(msg, new Integer(expectedValue), new Integer(actualValue));
+	}
 
-    protected void assertEquals(
-            String msg,
-            Object expectedValue,
-            Object actualValue) {
-        if (!myHasExpectations)
-            return;
+	/**
+	 * Due to junit Assert being a Singleton implemented with static methods, and java's
+	 * unfortunate implementation of class methods (e.g. no late binding) it is
+	 * necessary to re-implement this invokedMethod here instead of over-riding failNotEquals
+	 */
 
-        if (expectedValue == null && actualValue == null)
-            return;
+	protected void assertEquals( String msg,
+	                             Object expectedValue,
+	                             Object actualValue ) {
+		if (!myHasExpectations) {
+			return;
+		}
 
-        if (expectedValue != null && expectedValue.equals(actualValue))
-            return;
+		if (expectedValue == null && actualValue == null) {
+			return;
+		}
 
-        junit.framework.Assert.fail(
-                myName
-                + " "
-                + msg
-                + "\nExpected: "
-                + expectedValue
-                + "\nReceived: "
-                + actualValue);
+		if (expectedValue != null && expectedValue.equals(actualValue)) {
+			return;
+		}
 
-    }
+		junit.framework.Assert.fail(myName
+		                            + " "
+		                            + msg
+		                            + "\nExpected: "
+		                            + expectedValue
+		                            + "\nReceived: "
+		                            + actualValue);
 
-    abstract public void clearActual();
+	}
 
-    public boolean hasExpectations() {
-        return myHasExpectations;
-    }
+	abstract public void clearActual();
 
-    public void setFailOnVerify() {
-        myFailureModeIsImmediate = false;
-    }
+	public boolean hasExpectations() {
+		return myHasExpectations;
+	}
 
-    protected void setHasExpectations() {
-        clearActual();
-        myHasExpectations = true;
-    }
+	public void setFailOnVerify() {
+		myFailureModeIsImmediate = false;
+	}
 
-    protected boolean shouldCheckImmediately() {
-        return myFailureModeIsImmediate && myHasExpectations;
-    }
+	protected void setHasExpectations() {
+		clearActual();
+		myHasExpectations = true;
+	}
 
-    public abstract void verify();
+	protected boolean shouldCheckImmediately() {
+		return myFailureModeIsImmediate && myHasExpectations;
+	}
+
+	public abstract void verify();
 }
