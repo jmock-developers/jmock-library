@@ -2,11 +2,9 @@ package test.jmock.examples.timedcache;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
-import org.jmock.examples.timedcache.Clock;
-import org.jmock.examples.timedcache.ReloadPolicy;
-import org.jmock.examples.timedcache.ObjectLoader;
-import org.jmock.examples.timedcache.TimedCache;
-import org.jmock.examples.timedcache.Timestamp;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.Stub;
+import org.jmock.examples.timedcache.*;
 
 public class TimedCacheTest extends MockObjectTestCase {
     
@@ -32,11 +30,8 @@ public class TimedCacheTest extends MockObjectTestCase {
     }
 
     public void testReturnsCachedObjectWithinTimeout() {
-        mockClock.expect(once()).method("getCurrentTime").withNoArguments()
-        	.will(returnValue(loadTime)).id("loadTime");
-        mockClock.expect(once()).method("getCurrentTime").withNoArguments()
-        	.after("loadTime")
-        	.will(returnValue(fetchTime));
+        mockClock.expect(atLeastOnce()).method("getCurrentTime").withNoArguments()
+        	.will(returnValues(loadTime, fetchTime));
         
         mockLoader.expect(once()).method("load").with( eq(key) )
         	.will(returnValue(value));
@@ -52,29 +47,29 @@ public class TimedCacheTest extends MockObjectTestCase {
         Timestamp reloadTime = (Timestamp) newDummy(Timestamp.class, "reloadTime");
         Object newValue = newDummy("newValue");
         
-        mockClock.expect(once()).method("getCurrentTime").withNoArguments()
-        	.will(returnValue(loadTime)).id("loadTime");
-        mockClock.expect(once()).method("getCurrentTime").withNoArguments()
-        	.after("loadTime")
-        	.will(returnValue(fetchTime))
-        	.id("fetch time");
+        mockClock.expect(atLeastOnce()).method("getCurrentTime").withNoArguments()
+        	.will(returnValues(loadTime, fetchTime, reloadTime));
         
-        mockLoader.expect(once()).method("load").with( eq(key) )
-    		.will(returnValue(value)).id("firstload");
+        mockLoader.expect(times(2)).method("load").with( eq(key) )
+    		.will(returnValues(value, newValue));
         
         mockReloadPolicy.expect(atLeastOnce()).method("shouldReload").with( eq(loadTime), eq(fetchTime) )
         	.will(returnValue(true));
-        
-        mockLoader.expect(once()).method("load").with( eq(key) )
-        	.after("firstload")
-    		.will(returnValue(newValue));
+       
 
-        mockClock.expect(once()).method("getCurrentTime").withNoArguments()
-    		.after("fetch time")
-    		.will(returnValue(reloadTime));
-        
         assertSame( "should be loaded object", value, cache.lookup(key) );
         assertSame( "should be cached object", newValue, cache.lookup(key) );
     }
 
+    private Stub returnValues(Object value1, Object value2) {
+        return new StubsSequence(StubsSequence.asList(returnValue(value1), returnValue(value2)));
+    }
+
+    private Stub returnValues(Object value1, Object value2, Object value3) {
+        return new StubsSequence(StubsSequence.asList(returnValue(value1), returnValue(value2), returnValue(value3)));
+    }
+    
+    private InvocationMatcher times(int expectedTimes) {
+        return new InvokeCountMatcher(expectedTimes);
+    }
 }
