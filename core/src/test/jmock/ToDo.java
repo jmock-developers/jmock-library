@@ -1,6 +1,9 @@
 package test.jmock;
 
 public class ToDo {
+    // Extract org.jmock.Mock interface and create mock(...) methods in MockObjectTestCase
+    // Move generation of mock name to MockObjectTestCase (or support test case) and remove constructors for Mock/CoreMock that elide the name 
+    
     //Source cleanup prior to version 1.0 alpha
     //TODO RESOLVE ALL TO-DO COMMENTS
     //TODO JavaDoc interfaces and those classes that need it.
