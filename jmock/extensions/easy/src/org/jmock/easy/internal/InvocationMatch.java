@@ -3,15 +3,14 @@
  */
 package org.jmock.easy.internal;
 
+
 import java.lang.reflect.Method;
+import java.util.List;
 
 import junit.framework.AssertionFailedError;
 
 import org.jmock.builder.InvocationMockerDescriber;
-import org.jmock.core.Constraint;
-import org.jmock.core.InvocationMatcher;
-import org.jmock.core.InvocationMocker;
-import org.jmock.core.Stub;
+import org.jmock.core.*;
 import org.jmock.core.constraint.IsEqual;
 import org.jmock.core.matcher.ArgumentTypesMatcher;
 import org.jmock.core.matcher.ArgumentsMatcher;
@@ -21,19 +20,16 @@ import org.jmock.core.stub.DefaultResultStub;
 
 
 public class InvocationMatch {
-    private Class returnType;
+    private Invocation invocation;
 	private InvocationMatcher methodNameMatcher;
-	private Object[] methodArguments;
-    private Class[] parameterTypes;
 	private InvocationMatcher callCountMatcher;
 	private Stub         stub;
 	
-	public void setFromInvocation(Method method, Object[] args) {
-        parameterTypes = method.getParameterTypes();
+	public void setFromInvocation(Invocation invocation) {
+        this.invocation = invocation;
+        Method method = invocation.invokedMethod;
 		callCountMatcher = new InvokeOnceMatcher();
 		methodNameMatcher = new MethodNameMatcher(method.getName());
-		methodArguments = args;
-		returnType = method.getReturnType();
         stub = new DefaultResultStub();
 	}
 
@@ -47,8 +43,7 @@ public class InvocationMatch {
 	}
 	
 	public void flush() {
-        parameterTypes = null;
-        methodArguments = null;
+        invocation = null;
 		methodNameMatcher = null;
 		callCountMatcher = null;
 		stub = null;
@@ -63,6 +58,7 @@ public class InvocationMatch {
     }
 
     public Object createNumberObjectForReturnValue(long value) {
+        Class returnType = invocation.invokedMethod.getReturnType();
         if (returnType.equals(Byte.TYPE)) return new Byte((byte) value);
         if (returnType.equals(Short.TYPE)) return new Short((short) value);
         if (returnType.equals(Character.TYPE)) return new Character((char) value);
@@ -79,18 +75,16 @@ public class InvocationMatch {
     
 	private InvocationMocker createInvocationMocker() {
 		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
-        if (isExpectation())
-        		mocker.addMatcher(callCountMatcher);
-		mocker.addMatcher(methodNameMatcher);
+        mocker.addMatcher(methodNameMatcher);
+        if (isExpectation()) mocker.addMatcher(callCountMatcher);
+        
 		mocker.addMatcher(createArgumentMatcher());
 		mocker.setStub(stub);
 		return mocker;
 	}
 
     private InvocationMatcher createArgumentMatcher() {
-        return isExpectation()
-            		? (InvocationMatcher)new ArgumentsMatcher(equalArgs(methodArguments))
-                    : (InvocationMatcher)new ArgumentTypesMatcher(parameterTypes);
+        return isExpectation() ? equalArgumentsMatcher() : argumentTypesMatcher();
     }
 	private boolean isUnset() {
 		return methodNameMatcher == null;
@@ -100,15 +94,18 @@ public class InvocationMatch {
 		return callCountMatcher != null;
 	}
 
-	static private Constraint[] equalArgs(Object[] args) {
-		Constraint[] result = new Constraint[arrayCount(args)];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = new IsEqual(args[i]);
+    private InvocationMatcher equalArgumentsMatcher() {
+        List args = invocation.parameterValues;
+		Constraint[] constraints = new Constraint[args.size()];
+		for (int i = 0; i < constraints.length; i++) {
+			constraints[i] = new IsEqual(args.get(i));
 		}
-		return result;
+		return new ArgumentsMatcher(constraints);
 	}
 
-	static private int arrayCount(Object[] args) {
-		return args == null ? 0 : args.length;
-	}
+    private InvocationMatcher argumentTypesMatcher() {
+        return new ArgumentTypesMatcher(invocation.invokedMethod.getParameterTypes());
+    }
+
+
 }

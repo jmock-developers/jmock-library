@@ -11,7 +11,6 @@ import org.jmock.core.stub.DefaultResultStub;
 import org.jmock.easy.internal.EasyInvocationDispatcher;
 import org.jmock.easy.internal.InvocationMatch;
 
-
 public class EasyCoreMock extends CoreMock
 {
 	private boolean isRecording = true;
@@ -33,9 +32,10 @@ public class EasyCoreMock extends CoreMock
 	public Object invoke(Object invokedProxy, Method method, Object[] args) throws Throwable
 	{
 		if (isRecording) {
+            Invocation invocation = new Invocation(invokedProxy, method, args);
 			addInvocationMockerAndFlush();
-			match.setFromInvocation(method, args);
-			return defaultReturnStub.invoke(new Invocation(invokedProxy, method, args));
+			match.setFromInvocation(invocation);
+			return defaultReturnStub.invoke(invocation);
 		}
 		return super.invoke(invokedProxy, method, args);
 	}
