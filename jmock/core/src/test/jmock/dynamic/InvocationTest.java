@@ -1,14 +1,15 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 
-import org.jmock.dynamock.Mock;
+import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.Invocation;
 import org.jmock.expectation.AssertMo;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class InvocationTest extends TestCase {
     
@@ -115,8 +116,9 @@ public class InvocationTest extends TestCase {
     }
 
     public void testToStringWithTwoArguments() throws Exception {
-        Invocation invocation =
-                new Invocation(INVOKED,DECLARING_CLASS, "methodName", new Class[]{String.class, String.class}, void.class, new Object[]{"arg1", "arg2"});
+        Invocation invocation = new Invocation( INVOKED, DECLARING_CLASS, 
+            "methodName", new Class[]{String.class, String.class}, void.class, 
+            new Object[]{"arg1", "arg2"});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -125,8 +127,10 @@ public class InvocationTest extends TestCase {
     }
 
     public void testToStringWithStringArray() throws Exception {
-        Invocation invocation =
-                new Invocation(INVOKED,DECLARING_CLASS, "methodName", new Class[]{String[].class}, void.class, new Object[]{new String[]{"arg1", "arg2"}});
+        Invocation invocation = new Invocation(
+            INVOKED, DECLARING_CLASS,
+            "methodName", new Class[]{String[].class}, void.class,
+            new Object[]{new String[]{"arg1", "arg2"}} );
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -134,8 +138,10 @@ public class InvocationTest extends TestCase {
     }
 
     public void testToStringWithPrimitiveArray() throws Exception {
-        Invocation invocation =
-                new Invocation(INVOKED,DECLARING_CLASS, "methodName", new Class[]{long[].class}, void.class, new Object[]{new long[]{1, 2}});
+        Invocation invocation = new Invocation(
+            INVOKED, DECLARING_CLASS, 
+            "methodName", new Class[]{long[].class}, void.class, 
+            new Object[]{new long[]{1, 2}} );
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -143,20 +149,24 @@ public class InvocationTest extends TestCase {
     }
 
     public void testMethodToStringWithProxyArg() throws Exception {
-        Mock mockDummyInterface = new Mock(DummyInterface.class, "DummyMock");
+        CoreMock mockDummyInterface = new CoreMock(DummyInterface.class, "DummyMock");
 
-        Invocation invocation =
-                new Invocation(INVOKED,DECLARING_CLASS, "methodName", new Class[]{String.class, DummyInterface.class}, void.class, new Object[]{"arg1", mockDummyInterface.proxy()});
+        Invocation invocation = new Invocation( 
+            INVOKED, DECLARING_CLASS, 
+            "methodName", new Class[]{String.class, DummyInterface.class}, void.class, 
+            new Object[]{"arg1", mockDummyInterface.proxy()} );
         String result = invocation.toString();
-
+        
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
         AssertMo.assertIncludes("Should contain firstArg", "arg1", result);
         AssertMo.assertIncludes("Should contain second Arg", "DummyMock", result);
     }
-
+    
     public void testMethodToStringWithNullArg() throws Exception {
-        Invocation invocation =
-                new Invocation(INVOKED,DECLARING_CLASS, "methodName", new Class[]{String.class}, void.class, new Object[]{null});
+        Invocation invocation = new Invocation(
+            INVOKED, DECLARING_CLASS, 
+            "methodName", new Class[]{String.class}, void.class, 
+            new Object[]{null});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
