@@ -52,7 +52,7 @@ public class Mock_Test extends TestCase {
         mockCoreMock.getMockedTypeResult = MockedType.class;
         
         AssertMo.assertSame( "mocked types", 
-                               MockedType.class, mock.getMockedTypes() );
+                               MockedType.class, mock.getMockedType() );
     }
     
     public void testPassesDefaultStubToCoreMock() {

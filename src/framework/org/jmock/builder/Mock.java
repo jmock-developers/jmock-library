@@ -32,8 +32,7 @@ public class Mock
         this.coreMock = coreMock;
     }
     
-
-    public Class getMockedTypes() {
+    public Class getMockedType() {
         return coreMock.getMockedType();
     }
 
