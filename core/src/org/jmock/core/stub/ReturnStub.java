@@ -46,6 +46,8 @@ public class ReturnStub
 	private void checkTypeCompatiblity(Class returnType) {
 		if( result == null ) {
 			if( returnType.isPrimitive() ) reportInvalidNullValue( returnType );
+		} else if( returnType == void.class ) {
+			reportReturnFromVoidMethod();
 		} else {
 			Class valueType = result.getClass();
 			if( !isCompatible(returnType,valueType) ) {
@@ -73,5 +75,9 @@ public class ReturnStub
 
 	private void reportInvalidNullValue( Class returnType ) {
 		fail( "tried to return null value from invokedMethod returning " + returnType );
+	}
+
+	private void reportReturnFromVoidMethod() {
+		fail("tried to return a value from a void method");
 	}
 }
