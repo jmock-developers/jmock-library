@@ -17,7 +17,9 @@ public class IsGreaterThan implements Constraint {
         return lowerLimit.compareTo(arg) < 0;
     }
 
-    public String toString() {
-        return "a value greater than <" + lowerLimit + ">";
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a value greater than <")
+                     .append(lowerLimit)
+                     .append(">");
     }
 }

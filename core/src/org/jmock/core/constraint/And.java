@@ -15,12 +15,17 @@ public class And implements Constraint {
 		this.left = left;
 		this.right = right;
 	}
-
+	
 	public boolean eval(Object o) {
 		return left.eval(o) && right.eval(o);
 	}
-
-	public String toString() {
-		return "(" + left + " and " + right + ")";
-	}
+	
+    public StringBuffer describeTo(StringBuffer buffer) {
+        buffer.append("(");
+        left.describeTo(buffer);
+        buffer.append(" and ");
+        right.describeTo(buffer);
+        buffer.append(")");
+        return buffer;
+    }
 }

@@ -32,9 +32,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             String errorMessage = error.getMessage();
             
             String causeOfError = "no match found";
-            String expectedMethod1 = 
-                "expected once: twoArgsReturnsInt( "+ANYTHING+", "+ANYTHING+" ), returns <1> ["+callID+"]";
-            String expectedMethod2 =  
+            String expectedMethod1 =
+                "expected once: twoArgsReturnsInt( ANYTHING, ANYTHING ), returns <1> ["+callID+"]";
+            String expectedMethod2 =
                 "expected once: twoArgsReturnsInt( eq(<"+arg1+">), same(<"+arg2+">) ), after "+callID+", returns <1>";
             
             assertStringContains( "should contain mock name", 

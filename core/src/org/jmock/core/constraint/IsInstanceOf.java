@@ -23,7 +23,8 @@ public class IsInstanceOf implements Constraint {
         return theClass.isInstance(arg);
     }
 
-    public String toString() {
-        return "an instance of " + theClass.getName();
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("an instance of ")
+                     .append(theClass.getName());
     }
 }

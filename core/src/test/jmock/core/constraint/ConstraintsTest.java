@@ -6,23 +6,20 @@ import junit.framework.TestCase;
 
 import org.jmock.core.Constraint;
 
-public abstract class ConstraintsTest extends TestCase {
-    protected static final Constraint TRUE_CONSTRAINT = new Constraint() {
-        public boolean eval(Object o) {
-            return true;
-        }
-    };
+import test.jmock.core.testsupport.AlwaysFalse;
+import test.jmock.core.testsupport.AlwaysTrue;
 
-    protected static final Constraint FALSE_CONSTRAINT = new Constraint() {
-        public boolean eval(Object o) {
-            return false;
-        }
-    };
+public abstract class ConstraintsTest extends TestCase {
+    protected static final Constraint TRUE_CONSTRAINT = AlwaysTrue.INSTANCE;
+    protected static final Constraint FALSE_CONSTRAINT = AlwaysFalse.INSTANCE;
     
     protected static final Constraint NEVER_EVALUATED = new Constraint() {
         public boolean eval(Object o) {
             throw new AssertionFailedError(
                 "constraint should not have been evaluated");
+        }
+        public StringBuffer describeTo(StringBuffer buffer) {
+            return buffer.append("NEVER_EVALUATED");
         }
     };
     

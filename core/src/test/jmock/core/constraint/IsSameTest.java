@@ -16,11 +16,13 @@ public class IsSameTest extends ConstraintsTest {
     
     public void testReturnsReadableDescriptionFromToString() {
         IsSame isSame = new IsSame("ARG");
-        assertEquals( "description", "same(<ARG>)", isSame.toString() );
+        assertEquals( "description", "same(<ARG>)", 
+                     isSame.describeTo(new StringBuffer()).toString() );
     }
     
     public void testReturnsReadableDescriptionFromToStringWhenInitialisedWithNull() {
         IsSame isSame = new IsSame(null);
-        assertEquals( "description", "same(null)", isSame.toString() );
+        assertEquals( "description", "same(null)", 
+                      isSame.describeTo(new StringBuffer()).toString() );
     }
 }

@@ -17,7 +17,9 @@ public class IsLessThan implements Constraint {
         return upperLimit.compareTo(arg) > 0;
     }
 
-    public String toString() {
-        return "a value less than <" + upperLimit + ">";
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a value less than <")
+                     .append(upperLimit)
+                     .append(">");
     }
 }

@@ -39,6 +39,7 @@ public class ToDo {
     //DONE Good names for high-level and low-level API packages
     //DONE Remove pending from BuilderId stuff. Complain if a matcher specifies an after clause for itself. 
     //DONE Remove deprecated methods
+    //DONE make constraints SelfDescribing
     
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks

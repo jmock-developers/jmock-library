@@ -11,8 +11,8 @@ public class IsAnything implements Constraint {
         return true;
     }
 
-    public String toString() {
-        return "ANYTHING";
+    public StringBuffer describeTo(StringBuffer buffer) {
+        return buffer.append("ANYTHING");
     }
 }
 

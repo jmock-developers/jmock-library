@@ -21,7 +21,9 @@
       <li>report whether a parameter value meets the constraint 
       (the <code>eval</code> method).</li>
       <li>provide a readable description to be included in test failure messages 
-      (the <code>toString</code> method).</li>
+      (the <code>describeTo</code> method from the 
+      <a href="docs/javadoc/org/jmock/core/SelfDescribing.html"><code>SelfDescribing</code></a>
+      interface).</li>
     </ul>
     
     <p>The
@@ -50,8 +52,10 @@ public class StringStartsWith implements Constraint {
         return o instanceof String &amp;&amp; ((String)o).startsWith(prefix);
     }
     
-    public String toString() {
-        return "a string starting with \"" + prefix + "\"";
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a string starting with \"")
+                     .append(prefix)
+                     .append("\"");
     }
 }</pre>
       </div>

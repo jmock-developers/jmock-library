@@ -11,8 +11,8 @@ public class IsNull implements Constraint {
         return o == null;
     }
 
-    public String toString() {
-        return "null";
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("null");
     }
 }
 

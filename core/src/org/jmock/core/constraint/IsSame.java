@@ -23,9 +23,18 @@ public class IsSame implements Constraint {
 	public boolean eval(Object arg) {
 		return arg == object;
 	}
-
-	public String toString() {
-        String objectString = (object == null) ? "null" : "<" + object + ">";
-		return "same("+objectString+")";
-	}
+	
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        buffer.append("same(");
+        if( object == null ) {
+            buffer.append("null");
+        } else {
+            buffer.append("<");
+            buffer.append(object);
+            buffer.append(">");
+        }
+        buffer.append(")");
+        
+        return buffer;
+    }
 }

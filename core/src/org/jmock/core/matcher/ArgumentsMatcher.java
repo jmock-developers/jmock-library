@@ -33,7 +33,7 @@ public class ArgumentsMatcher
         buffer.append("( ");
         for (int i = 0; i < constraints.length; i++) {
             if (i > 0) buffer.append(", ");
-            buffer.append( constraints[i] );
+            constraints[i].describeTo(buffer);
         }
         buffer.append(" )");
         
