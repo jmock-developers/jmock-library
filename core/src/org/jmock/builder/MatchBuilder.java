@@ -4,7 +4,9 @@ package org.jmock.builder;
 
 import org.jmock.core.InvocationMatcher;
 
-
+/**
+ * @since 1.0
+ */
 public interface MatchBuilder extends StubBuilder
 {
     MatchBuilder match( InvocationMatcher customMatcher );

@@ -3,6 +3,9 @@
 package org.jmock.util;
 
 
+/**
+ * @since 1.0
+ */
 public class NotImplementedException extends RuntimeException
 {
 

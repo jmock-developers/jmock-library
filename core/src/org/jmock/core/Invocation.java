@@ -13,6 +13,7 @@ import junit.framework.Assert;
 
 /**
  * The static details about a method and the run-time details of its invocation.
+ * @since 1.0
  */
 public class Invocation implements SelfDescribing
 {

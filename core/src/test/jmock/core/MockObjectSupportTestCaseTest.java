@@ -120,9 +120,11 @@ public class MockObjectSupportTestCaseTest extends TestCase
         assertConstraintFalse(testCase.isA(Integer.class), aString);
     }
 
-    public void testHasConvenienceMethodForCreatingStringContainsConstraints() {
+    public void testHasConvenienceMethodsForCreatingStringContainsConstraints() {
         assertConstraintTrue(testCase.stringContains("fruit"), "fruitcake");
         assertConstraintFalse(testCase.stringContains("chocolate chips"), "fruitcake");
+        assertConstraintTrue(testCase.contains("fruit"), "fruitcake");
+        assertConstraintFalse(testCase.contains("chocolate chips"), "fruitcake");
     }
 
     public void testHasConvenienceMethodForLogicalNegationOfConstraints() {

@@ -4,7 +4,9 @@ package org.jmock.builder;
 
 import org.jmock.core.Constraint;
 
-
+/**
+ * @since 1.0
+ */
 public interface NameMatchBuilder extends ArgumentsMatchBuilder
 {
     ArgumentsMatchBuilder method( String name );

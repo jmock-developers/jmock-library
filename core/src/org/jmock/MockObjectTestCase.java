@@ -16,6 +16,8 @@ import org.jmock.core.stub.ThrowStub;
  * A base class for tests that use <a href="http://www.mockobjects.com">Mock Objects</a>.
  * This class provides methods for creating mock objects and expectations and automatically
  * verifying mock objects after the test has run but before the test fixture has been torn down.
+ * 
+ * @since 1.0
  */
 public abstract class MockObjectTestCase
     extends MockObjectSupportTestCase

@@ -4,6 +4,7 @@ package org.jmock.core;
 
 /**
  * A constraint over acceptable values.
+ * @since 1.0
  */
 public interface Constraint extends SelfDescribing
 {

@@ -14,6 +14,8 @@ import org.jmock.core.Verifiable;
  * <p/>
  * If no expectations have been set on the object, then no checking will be done and
  * verify() will do nothing.
+ * 
+ * @since 1.0
  */
 public interface Expectation extends Verifiable
 {

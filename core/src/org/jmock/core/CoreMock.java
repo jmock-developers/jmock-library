@@ -6,7 +6,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-
+/**
+ * @since 1.0
+ */
 public class CoreMock
     extends AbstractDynamicMock
     implements InvocationHandler

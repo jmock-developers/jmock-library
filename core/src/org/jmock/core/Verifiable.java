@@ -7,6 +7,7 @@ package org.jmock.core;
  * the correct behvaiour has occurred.
  * 
  * @see org.jmock.util.Verifier Verifier to check all the Verifiables in an object.
+ * @since 1.0
  */
 public interface Verifiable
 {

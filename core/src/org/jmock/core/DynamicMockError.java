@@ -4,7 +4,9 @@ package org.jmock.core;
 
 import junit.framework.AssertionFailedError;
 
-
+/**
+ * @since 1.0
+ */
 public class DynamicMockError
         extends AssertionFailedError
 {
