@@ -5,12 +5,12 @@
  */
 package atest.jmock.easy;
 
-import org.jmock.easy.MockControl;
-
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-public class CallCountAcceptanceTest extends TestCase {
+import org.jmock.easy.MockControl;
+
+public class UsageCallCountTest extends TestCase {
 
     private MockControl control;
     private VoidMethodInterface mock;

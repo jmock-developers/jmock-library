@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.jmock.easy.MockControl;
 
-public class ExpectAndReturnAcceptanceTest extends TestCase {
+public class UsageExpectAndReturnTest extends TestCase {
     private MockControl control;
     private IMethods mock;
 

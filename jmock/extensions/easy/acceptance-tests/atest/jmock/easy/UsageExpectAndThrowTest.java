@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.jmock.easy.MockControl;
 
-public class ExpectAndThrowAcceptanceTest extends TestCase {
+public class UsageExpectAndThrowTest extends TestCase {
     private MockControl control;
     private IMethods mock;
     private static RuntimeException EXCEPTION = new RuntimeException();

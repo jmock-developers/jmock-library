@@ -9,11 +9,11 @@ import junit.framework.TestCase;
 
 import org.jmock.easy.MockControl;
 
-public class FloatingPointReturnValueAcceptanceTest extends TestCase {
+public class UsageFloatingPointReturnValueTest extends TestCase {
     MockControl control;
     IMethods mock;
 
-    public FloatingPointReturnValueAcceptanceTest(String name) {
+    public UsageFloatingPointReturnValueTest(String name) {
         super(name);
     }
 
