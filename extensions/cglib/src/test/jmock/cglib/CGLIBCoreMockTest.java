@@ -114,12 +114,13 @@ public class CGLIBCoreMockTest extends TestCase
 	public void testCanOverrideEqualsForProxyBySettingAStub() throws Exception {
 		mockDispatcher.dispatchResult = new Boolean(false);
 
-		mockDispatcher.dispatchInvocation.setExpected(new Invocation(proxy, Object.class.getMethod("equals", new Class[]{Object.class}),
-		                                                             new Object[]{"not a proxy"}));
+		mockDispatcher.dispatchInvocation.setExpected(
+		    new Invocation(proxy, Object.class.getMethod( "equals", new Class[]{Object.class}),
+		                                                  new Object[]{"not a proxy"}));
 
 		assertFalse("Passes invocation of equals to dispatcher",
 		            proxy.equals("not a proxy"));
-
+		
 		mockDispatcher.verifyExpectations();
 	}
 
