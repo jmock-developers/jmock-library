@@ -2,19 +2,18 @@
  */
 package test.jmock.examples.calculator;
 
-import junit.framework.TestCase;
-
 import org.jmock.builder.Mock;
+import org.jmock.builder.MockObjectTestCase;
 import org.jmock.examples.calculator.Calculator;
 import org.jmock.examples.calculator.CalculatorException;
 import org.jmock.examples.calculator.Environment;
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.ParseException;
 import org.jmock.examples.calculator.Parser;
-import org.jmock.util.Verifier;
 
-public class CalculatorTest extends TestCase {
-    
+public class CalculatorTest 
+    extends MockObjectTestCase 
+{
     private Mock mockExpression;
     private Mock mockParser;
     private Mock mockEnvironment;
@@ -34,10 +33,6 @@ public class CalculatorTest extends TestCase {
                                      (Environment)mockEnvironment.proxy() );
     }
     
-    private void verifyAll() {
-        Verifier.verifyObject(this);
-    }
-    
     public void testParsesAndCalculatesExpression() throws Exception {
         final double expressionValue = 1.0;
         
@@ -45,13 +40,11 @@ public class CalculatorTest extends TestCase {
             .willReturn(mockExpression.proxy())
             .expectOnce();
         mockExpression.method("evaluate").passed(mockEnvironment.proxy())
-            .willReturn(new Double(expressionValue))
+            .willReturn(expressionValue)
             .expectOnce();
         
         assertEquals( "should be expression value",
                       expressionValue, calculator.calculate(expressionString), 0.0 ); 
-        
-        verifyAll();
     }
     
     public void testReportsParseErrors() throws Exception {
@@ -67,8 +60,6 @@ public class CalculatorTest extends TestCase {
         catch( ParseException ex ) {
             // expected
         } 
-        
-        verifyAll();        
     }
     
     public void testReportsEvaluationErrors() throws Exception {
@@ -85,9 +76,7 @@ public class CalculatorTest extends TestCase {
         }
         catch( CalculatorException ex ) {
             // expected
-        } 
-        
-        verifyAll();        
+        }
     }
     
     public void testSetsVariableExpression() throws Throwable {
@@ -95,12 +84,11 @@ public class CalculatorTest extends TestCase {
             .willReturn(mockVariableExpression.proxy())
             .expectOnce();
         
-        mockEnvironment.method("setVariable").passed(variableName,mockVariableExpression.proxy())
+        mockEnvironment.method("setVariable")
+            .passed(variableName,mockVariableExpression.proxy())
             .expectOnce();
         
         calculator.setVariable( variableName, variableValueString );
-        
-        verifyAll();
     }
 }
 
