@@ -2,12 +2,15 @@
 package org.jmock.dynamic;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
- * An object that holds information about a invocation dispatched to
+ * An object that holds information about an invocation dispatched to
  * a Mock object.
  */
 public class Invocation {
@@ -80,13 +83,6 @@ public class Invocation {
             && parameterTypes.equals(call.parameterTypes)
             && returnType.equals(call.returnType)
             && parameterValues.equals(call.parameterValues);
-    }
-
-    boolean isCheckingEqualityOnProxy() {
-        return name.equals("equals")
-                && parameterValues.size() == 1
-                && parameterValues.get(0) != null
-                && Proxy.isProxyClass(parameterValues.get(0).getClass());
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {

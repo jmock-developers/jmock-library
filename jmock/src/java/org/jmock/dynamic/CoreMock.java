@@ -3,6 +3,7 @@ package org.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 import org.jmock.C;
+import org.jmock.dynamic.stub.CustomStub;
 import org.jmock.dynamic.stub.ReturnStub;
 
 import java.lang.reflect.Method;
@@ -21,22 +22,24 @@ public class CoreMock
         this.invocationDispatcher = invocationDispatcher;
         
         add(new InvocationMocker("toString", C.args(), new ReturnStub(name)));
+        add(new InvocationMocker("equals", C.args(C.IS_ANYTHING), 
+        	new CustomStub("returns whether equal to proxy") {
+        		public Object invoke( Invocation invocation ) throws Throwable {
+        			return new Boolean(invocation.getParameterValues().get(0) == proxy);
+                }
+            } ));
     }
-
+    
     public Object proxy() {
         return this.proxy;
     }
     
     public Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable {
+            throws Throwable 
+    {
         Invocation invocation = new Invocation(method, args);
         try {
-            // TODO: replace this check with an InvocationMocker
-            if (invocation.isCheckingEqualityOnProxy()) {
-                return new Boolean(args[0] == this.proxy);
-            } else {
-                return invocationDispatcher.dispatch(invocation);
-            }
+            return invocationDispatcher.dispatch(invocation);
         } catch (DynamicMockError error) {
             DynamicMockError newError = new DynamicMockError(invocation, invocationDispatcher, name);
             newError.fillInStackTrace();

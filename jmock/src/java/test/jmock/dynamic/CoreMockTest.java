@@ -9,6 +9,7 @@ import test.jmock.dynamic.testsupport.MockInvokable;
 import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.expectation.AssertMo;
 
 
@@ -76,13 +77,12 @@ public class CoreMockTest extends TestCase {
         mockDispatcher.verifyExpectations();
     }
 
-    public void testProxyEquality() throws Exception {
-        mockDispatcher.dispatchResult = new Boolean(false);
-
-        mockDispatcher.dispatchInvocation.setExpectNothing();
-
-        assertTrue( "Proxy equality is implemented directly", proxy.equals(proxy));
-        mockDispatcher.verifyExpectations();
+    public void testChecksProxyEqualityByDefault() throws Exception {
+        coreMock = new CoreMock(DummyInterface.class,"coreMock",new LIFOInvocationDispatcher());
+        proxy = (DummyInterface)coreMock.proxy();
+        
+        assertTrue( "should be equal", proxy.equals(proxy));
+        assertFalse( "should not be equal", proxy.equals(new Object()) );
     }
 
     public void testProxyInequality() throws Exception {
