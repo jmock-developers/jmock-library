@@ -4,10 +4,10 @@ package test.jmock.examples.calculator;
 
 import junit.framework.TestCase;
 
-import org.jmock.builder.Mock;
 import org.jmock.examples.calculator.CalculatorException;
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.SimpleEnvironment;
+import org.jmock.util.Dummy;
 
 
 public class SimpleEnvironmentTest extends TestCase {
@@ -46,6 +46,6 @@ public class SimpleEnvironmentTest extends TestCase {
     }
     
     private Expression dummyExpression( String name ) {
-        return (Expression)(new Mock(Expression.class,name).proxy());
+        return (Expression)Dummy.newDummy( Expression.class, name );
     }
 }
