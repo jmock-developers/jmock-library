@@ -1,30 +1,21 @@
 <?xml version="1.0"?>
-<html>
+<html xmlns:template="http://www.b13media.com/xemplate/1.0">
   <head>
     <title>Downloads</title>
   </head>
   
   <body>
-    <h1 id="stable">Stable Version: <span class="version">n/a</span></h1>
+    <h1 id="stable">Stable Version: <span class="version"><template:text var="release"/></span></h1>
     <p>Not yet available</p>
     
-    <h1 id="examples">Examples: <span class="version">n/a</span></h1>
-    <ul>
-      <li>Calculator application (not yet available)</li>
-      <li>Stock trading application (not yet available)</li>
-      <li>Mailing list servlet (not yet available)</li>
-    </ul>
-    
-    <h1 id="prerelease">Prerelease Version: <span class="version">n/a</span></h1>
+    <h1 id="prerelease">Prerelease Version: <span class="version"><template:text var="prerelease"/></span></h1>
     <p>Not yet available</p>
     
-    <h1 id="snapshot">Development Snapshot: <span class="version">n/a</span></h1>
+    <h1 id="snapshot">Development Snapshot: <span class="version"><template:text var="snapshot"/></span></h1>
     <p>Not yet available</p>
-    <p>The very latest code available from the 
+    
+    <p>The very latest code is always available from the 
     <a href="repository.html">source code repository</a>.</p>
-    
-    <h1 id="old">Older Releases</h1>
-    <p>None available</p>
   </body>
 </html>
 

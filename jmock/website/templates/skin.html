@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:skin="http://www.b13media.com/xemplate/1.0">
+      xmlns:template="http://www.b13media.com/xemplate/1.0">
   <head>
-    <title>jMock - <skin:include srcvar="content" elements="/html/head/title/text()"/></title>
+    <title>jMock - <template:include srcvar="content" elements="/html/head/title/text()"/></title>
     <link rel="stylesheet" type="text/css" href="/jmock.css"/>
-    <skin:include srcvar="content" elements="/html/head/*[not(name()='title')]"/>
+    <template:include srcvar="content" elements="/html/head/*[not(name()='title')]"/>
   </head>
   
   <body>
@@ -15,17 +15,17 @@
       <a href="/index.html"><img id="logo" src="/logo.gif" alt="jMock"/></a>
     </div>
     
-    <skin:when var="isindex" value="true">
+    <template:when var="isindex" value="true">
       <div id="content" class="Content3Column">
-        <skin:include srcvar="content" elements="/html/body/*"/>
+        <template:include srcvar="content" elements="/html/body/*"/>
       </div>
-    </skin:when>
+    </template:when>
     
-    <skin:when var="isindex" value="false">
+    <template:when var="isindex" value="false">
       <div id="content" class="Content2Column">
-        <skin:include srcvar="content" elements="/html/body/*"/>
+        <template:include srcvar="content" elements="/html/body/*"/>
       </div>
-    </skin:when>
+    </template:when>
     
       
     <div class="SidePanel" id="left">
@@ -80,33 +80,33 @@
       </div>
     </div>
     
-    <skin:when var="isindex">
+    <template:when var="isindex">
       <div class="SidePanel" id="right">
         <div class="NewsGroup">
           <h1>Latest Versions</h1>
           <table>
             <tr>
               <td><a href="/download.html#stable">Stable:</a></td>
-              <td><a href="/download.html#stable"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+              <td><a href="/download.html#stable"><template:text var="release"/></a></td>
             </tr>
             <tr>
               <td><a href="/download.html#prerelease">Prerelease:</a></td>
-              <td><a href="/download.html#prerelease"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+              <td><a href="/download.html#prerelease"><template:text var="prerelease"/></a></td>
             </tr>
             <tr>
               <td><a href="/download.html#snapshot">Snapshot:</a></td>
-              <td><a href="/download.html#snapshot"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+              <td><a href="/download.html#snapshot"><template:text var="snapshot"/></a></td>
             </tr>
           </table>
         </div>
         
         <div class="NewsGroup">
           <h1><a href="news.html">News...</a></h1>
-          <skin:include src="../content/news.html" 
+          <template:include src="../content/news.html" 
                         elements="/html/body/*[@class='NewsItem' and position()<=5]"/>
           <!-- <p class="NewsMore"><a href="news.rdf">News feed (XML)</a></p> -->
         </div>
       </div>
-    </skin:when>
+    </template:when>
   </body>
 </html>

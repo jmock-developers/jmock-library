@@ -43,7 +43,6 @@ module XEMPLATE
         def initialize( template_document, filename )
             @template = template_document
             @filename = filename
-            @prefix = xemplate_namespace_prefix
             @include_cache = {}
         end
         
@@ -130,7 +129,7 @@ module XEMPLATE
             selector = template_attribute(template_element,ELEMENTS,bindings) \
                 or "/*/*"
             
-            include_doc = load_xml(filename)
+            include_doc = load_xml( filename, bindings )
             included_elements = REXML::XPath.match( include_doc, selector )
             
             add_children( expanded_parent, included_elements )
@@ -221,24 +220,13 @@ module XEMPLATE
             File.expand_path( filename, File.dirname(@filename) )
         end
         
-        def load_xml( filename )
+        def load_xml( filename, bindings )
             doc = @include_cache[filename]
             if doc.nil?
-                doc = XEMPLATE.load_xml(filename)
+                doc = XEMPLATE.load_template(filename).expand(bindings)
                 @include_cache[filename] = doc
             end
             doc
-        end
-        
-        def xemplate_namespace_prefix
-            @template.root.prefixes.each do |prefix|
-                if @template.root.namespace(prefix) == NAMESPACE
-                    return prefix
-                end
-            end
-            raise TemplateException,
-                  "xemplate namespace not defined",
-                  caller
         end
         
         # Yuck!  But REXML forces us to do this.

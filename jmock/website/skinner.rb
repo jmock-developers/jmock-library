@@ -5,6 +5,9 @@ require 'rexml/document'
 require 'xemplate'
 include REXML
 
+SNAPSHOT_ID = ENV["SNAPSHOT_ID"] || "n/a"
+PRERELEASE_ID = ENV["PRERELEASE_ID"] || "n/a"
+RELEASE_ID = ENV["RELEASE_ID"] || "n/a"
 
 BASE_DIR = "."
 CONTENT_DIR = File.join(BASE_DIR,"content")
@@ -12,6 +15,13 @@ SKIN_DIR = File.join(BASE_DIR,"templates")
 OUTPUT_DIR = File.join(BASE_DIR,"output")
 
 TEMPLATE = XEMPLATE::load_template( File.join(SKIN_DIR,"skin.html") )
+
+$logger = $stdout
+
+def log( message )
+	$logger.puts( message )
+	$logger.flush
+end
 
 def is_markup( filename )
 	filename =~ /.(html|xml)$/
@@ -51,8 +61,7 @@ end
 def copy_to_output( asset_file, root_asset_dir )
 	dest_file = output_file( asset_file, root_asset_dir )
 	
-  	$stdout.puts "#{asset_file} -> #{dest_file}"
-	$stdout.flush
+  	log "#{asset_file} -> #{dest_file}"
 	
     File.copy( asset_file, dest_file )
 end
@@ -61,8 +70,7 @@ def make_output_directory( asset_dir, root_asset_dir )
 	new_dir = output_file( asset_dir, root_asset_dir )
 	
 	if not File.exists? new_dir
-		$stdout.puts "making directory #{new_dir}"
-		$stdout.flush
+		log "making directory #{new_dir}"
 		
 		Dir.mkdir( new_dir )
 	end
@@ -85,7 +93,10 @@ def skin_content_file( content_file, root_content_dir )
     output_file = output_file( content_file, root_content_dir )
     config = {
         "content" => content_file,
-        "isindex" => (content_file =~ /content\/index\.html$/) != nil
+        "isindex" => (content_file =~ /content\/index\.html$/) != nil,
+        "snapshot" => SNAPSHOT_ID,
+        "prerelease" => PRERELEASE_ID,
+        "release" => RELEASE_ID
     }
     
     skinned_content = TEMPLATE.expand( config )
@@ -95,8 +106,7 @@ def skin_content_file( content_file, root_content_dir )
         skinned_content.elements["/html/body/div[@id='content']/*[1]"], 
         "FirstChild" )
     
-    $stdout.puts "#{content_file} ~> #{output_file}"
-    $stdout.flush
+    log "#{content_file} ~> #{output_file}"
     
     write_to_output( skinned_content, output_file )
 end
