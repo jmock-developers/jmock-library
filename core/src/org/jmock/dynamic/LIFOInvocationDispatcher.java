@@ -43,16 +43,15 @@ public class LIFOInvocationDispatcher
             ((Verifiable) i.next()).verify();
         }
     }
-
+    
     public void clear() {
         invokables.clear();
     }
-
+    
     public StringBuffer describeTo(StringBuffer buffer) {
-        int oldLength = buffer.length();
-        writeInvokablesTo( buffer );
-        
-        if (buffer.length() == oldLength ) {
+        if( anyInvokableHasDescription() ) {
+            writeInvokablesTo( buffer );
+        } else {
         	buffer.append(NO_EXPECTATIONS_MESSAGE);
         }
         
@@ -62,7 +61,18 @@ public class LIFOInvocationDispatcher
 	private void writeInvokablesTo(StringBuffer buffer) {
 		Iterator iterator = invokables.iterator();
 		while (iterator.hasNext()) {
-		    ((Invokable) iterator.next()).describeTo(buffer);
+		    Invokable invokable = (Invokable) iterator.next();
+            if( invokable.hasDescription() ) {
+                invokable.describeTo(buffer).append("\n");
+            }
 		}
 	}
+    
+    private boolean anyInvokableHasDescription() {
+        Iterator iterator = invokables.iterator();
+        while (iterator.hasNext()) {
+            if (((Invokable) iterator.next()).hasDescription()) return true;
+        }
+        return false;
+    }
 }

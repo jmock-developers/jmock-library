@@ -9,4 +9,6 @@ public interface InvocationMatcher
 {
     boolean matches(Invocation invocation);
     void invoked(Invocation invocation);
+    
+    boolean hasDescription();
 }

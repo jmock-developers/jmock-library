@@ -12,4 +12,8 @@ public abstract class StatelessInvocationMatcher implements InvocationMatcher {
     public void verify() {
         // Nothing to verify because state cannot change
     }
+    
+    public boolean hasDescription() {
+        return true;
+    }
 }

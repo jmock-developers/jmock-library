@@ -9,4 +9,6 @@ public interface Invokable
 {
     boolean matches(Invocation invocation);
     Object invoke(Invocation invocation) throws Throwable;
+    
+    boolean hasDescription();
 }

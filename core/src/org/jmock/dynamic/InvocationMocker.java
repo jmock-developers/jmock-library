@@ -79,21 +79,28 @@ public class InvocationMocker
     public void setStub(Stub stub) {
         this.stub = stub;
     }
+    
+    public boolean hasDescription() {
+        return true;
+    }
 
     public StringBuffer describeTo(StringBuffer buffer) {
         Iterator it = matchers.iterator();
         while (it.hasNext()) {
-            int oldLength = buffer.length();
-            ((InvocationMatcher) it.next()).describeTo(buffer);
+            InvocationMatcher matcher = (InvocationMatcher) it.next();
             
-            if( buffer.length() != oldLength ) buffer.append(", ");
+            if( matcher.hasDescription() ) {
+                matcher.describeTo(buffer).append(", ");
+            }
         }
+        
         stub.describeTo(buffer);
         
         if( name != null ) {
             buffer.append( " [").append(name).append("]");
         }
-        return buffer.append("\n");
+        
+        return buffer;
     }
     
     public String toString() {
