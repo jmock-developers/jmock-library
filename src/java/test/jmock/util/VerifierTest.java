@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.expectation;
+package test.jmock.util;
 
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.MockObject;

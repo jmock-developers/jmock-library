@@ -1,6 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
+import org.jmock.*;
+
 /**
  * An <EM>Expectation</EM> is an object that we set up at the beginning of a unit test to
  * expect certain things to happen to it. If it is possible to tell, the Expectation will

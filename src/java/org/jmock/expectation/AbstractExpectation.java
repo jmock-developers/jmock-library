@@ -1,6 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
+import org.jmock.*;
+
 abstract public class AbstractExpectation implements Verifiable, Expectation {
     protected boolean myFailureModeIsImmediate = true;
     protected String myName;

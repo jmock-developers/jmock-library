@@ -5,7 +5,7 @@ import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.expectation.Verifier;
+import org.jmock.util.Verifier;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.InvocationMocker;

@@ -4,7 +4,7 @@ import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.expectation.Verifier;
+import org.jmock.util.Verifier;
 
 
 public class MockStubMatchersCollection implements StubMatchersCollection {

@@ -3,7 +3,7 @@ package test.jmock.dynamic.testsupport;
 
 import junit.framework.Assert;
 import org.jmock.Constraint;
-import org.jmock.expectation.Verifiable;
+import org.jmock.Verifiable;
 
 public class MockConstraint extends Assert implements Constraint, Verifiable {
     private String description;

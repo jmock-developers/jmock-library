@@ -6,6 +6,7 @@ import junit.framework.AssertionFailedError;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Invokable;
 import org.jmock.expectation.*;
+import org.jmock.util.*;
 
 public class MockCallable implements Invokable {
 

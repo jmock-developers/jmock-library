@@ -1,10 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.expectation;
+package org.jmock.util;
 
 import junit.framework.Assert;
 
 import java.lang.reflect.Field;
 import java.util.Vector;
+
+import org.jmock.Verifiable;
 
 /**
  * Helper class to verify all {@link org.jmock.expectation.Expectation Expectation}s

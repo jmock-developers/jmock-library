@@ -4,9 +4,9 @@ package test.jmock.examples.calculator;
 
 import org.jmock.C;
 import org.jmock.dynamock.Mock;
-import org.jmock.expectation.Verifier;
 
 import org.jmock.examples.calculator.*;
+import org.jmock.util.Verifier;
 
 import junit.framework.TestCase;
 
