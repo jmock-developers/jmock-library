@@ -7,81 +7,46 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * An object that holds information about an invocation dispatched to a Mock object.
+ * A "dumb struct" that holds information about an invocation dispatched to a Mock object.
  */
-public class Invocation {
-    private Object invoked;
-	private Method method;
-    private Object[] parameterValues;
+public class Invocation implements SelfDescribing {
+    public final Object invokedObject;
+	public final Method invokedMethod;
+    public final List parameterValues;
 
 	public Invocation( Object invoked, Method method, Object[] parameterValues ) {
-        this.invoked = invoked;
-	    this.method = method;
-        this.parameterValues =
-            (parameterValues == null ? new Object[0] : parameterValues);
-    }
-
-    public Object getInvokedObject() {
-        return invoked;
-    }
-
-	public Method getInvokedMethod() {
-		return method;
-	}
-	
-	public List getParameterValues() {
-	    return Collections.unmodifiableList(Arrays.asList(parameterValues));
-	}
-
-    public Class getDeclaringClass() {
-        return method.getDeclaringClass();
-    }
-
-    public String getMethodName() {
-        return method.getName();
-    }
-
-    public List getParameterTypes() {
-        return Collections.unmodifiableList(Arrays.asList(method.getParameterTypes()));
-    }
-
-    public Class getReturnType() {
-        return method.getReturnType();
+        this.invokedObject = invoked;
+	    this.invokedMethod = method;
+        this.parameterValues = parameterValues == null ?
+              Collections.EMPTY_LIST
+            : Collections.unmodifiableList(Arrays.asList(parameterValues ));
     }
 
     public String toString() {
-        return writeTo(new StringBuffer()).toString();
+        return describeTo(new StringBuffer()).toString();
     }
 
     public boolean equals(Object other) {
-        return (other instanceof Invocation) && this.equals((Invocation) other);
+        return (other instanceof Invocation) && this.equals( (Invocation)other );
     }
 
     public boolean equals(Invocation other) {
         return other != null
-            && invoked == other.invoked
-            && method.equals(other.method)
-            && Arrays.equals(parameterValues, other.parameterValues);
+            && invokedObject == other.invokedObject
+            && invokedMethod.equals(other.invokedMethod)
+            && parameterValues.equals(other.parameterValues);
     }
 
     public int hashCode() {
-        return invoked.hashCode() ^
-               method.hashCode() ^
-               arrayHashCode(parameterValues);
+        return invokedObject.hashCode() ^
+               invokedMethod.hashCode() ^
+               parameterValues.hashCode();
     }
 
-    private int arrayHashCode(Object[] array) {
-        int hashCode = 0;
-        for (int i = 0; i < array.length; ++i) {
-            hashCode ^= array[i].hashCode();
-        }
-        return hashCode;
-    }
-    
-    public StringBuffer writeTo(StringBuffer buffer) {
-	    buffer.append(method.getDeclaringClass().getName());
+    public StringBuffer describeTo(StringBuffer buffer) {
+	    buffer.append(invokedMethod.getDeclaringClass().getName());
 	    buffer.append(".");
-        buffer.append(method.getName());
+        buffer.append(invokedMethod.getName());
         DynamicUtil.join(parameterValues, buffer, "(", ")");
         return buffer.append("\n");
     }

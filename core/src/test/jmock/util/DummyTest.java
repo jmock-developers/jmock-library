@@ -60,7 +60,7 @@ public class DummyTest extends TestCase {
         catch( NotImplementedException ex ) {
         	assertTrue( "error message should contain name of dummy object",
                         ex.getMessage().indexOf(DUMMY_NAME) >= 0 );
-            assertTrue( "error message should contain name of method",
+            assertTrue( "error message should contain name of invokedMethod",
                         ex.getMessage().indexOf("method1") >= 0 );
         }
     }

@@ -62,7 +62,7 @@ public class ReturnObjectBag implements Verifiable {
 
     /**
      * Places an int into the list of return objects for a particular key. The value can be retrieved
-     * using the getNextReturnInt method
+     * using the getNextReturnInt invokedMethod
      * 
      * @param key   the key against which the object will be stored
      * @param value the value to be added to the list for that key
@@ -75,7 +75,7 @@ public class ReturnObjectBag implements Verifiable {
 
     /**
      * Places an boolean into the list of return objects for a particular key. The value can be retrieved
-     * using the getNextReturnBoolean method
+     * using the getNextReturnBoolean invokedMethod
      * 
      * @param key   the key against which the object will be stored
      * @param value the value to be added to the list for that key

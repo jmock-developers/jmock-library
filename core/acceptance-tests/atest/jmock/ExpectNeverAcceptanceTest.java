@@ -15,8 +15,8 @@ public class ExpectNeverAcceptanceTest
     public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
         Mock mock = mock(MockedInterface.class,"mock");
         
-        mock.stubs().method("method").withNoArguments();
-        mock.expects(never()).method("method").withNoArguments();
+        mock.stubs().method("invokedMethod").withNoArguments();
+        mock.expects(never()).method("invokedMethod").withNoArguments();
         
         try {
             ((MockedInterface)mock.proxy()).method();
@@ -30,7 +30,7 @@ public class ExpectNeverAcceptanceTest
     public void testExpectNotCalledVerifiesIfNotCalled() {
         Mock mock = mock(MockedInterface.class,"mock");
         
-        mock.stubs().method("method").withNoArguments().isVoid();
-        mock.expects(never()).method("method").withNoArguments();
+        mock.stubs().method("invokedMethod").withNoArguments().isVoid();
+        mock.expects(never()).method("invokedMethod").withNoArguments();
     }
 }

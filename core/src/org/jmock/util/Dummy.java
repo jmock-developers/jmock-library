@@ -23,16 +23,16 @@ public class Dummy {
         
         mocker.addMatcher( new StatelessInvocationMatcher() {
             public boolean matches( Invocation invocation ) {
-            	return invocation.getDeclaringClass() == interfaceClass;
+	            return invocation.invokedMethod.getDeclaringClass() == interfaceClass;
             }
             public StringBuffer describeTo(StringBuffer buf) {
-            	return buf.append("any method declared in " + interfaceClass);
+            	return buf.append("any invokedMethod declared in " + interfaceClass);
             }
         } );
-        mocker.setStub( new CustomStub("dummy method") {
+        mocker.setStub( new CustomStub("dummy invokedMethod") {
         	public Object invoke( Invocation invocation ) throws Throwable {
-                throw new NotImplementedException( 
-                    invocation.getMethodName() + "called on " + name );
+		        throw new NotImplementedException(
+                    invocation.invokedMethod.getName() + "called on " + name );
             }
         } );
         

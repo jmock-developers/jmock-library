@@ -20,7 +20,7 @@ public class InvokeOnceMatcher
     
     public StringBuffer describeTo(StringBuffer buffer) {
         buffer.append("expected once");
-        if( hasBeenInvoked() ) buffer.append(" and has been invoked");
+        if( hasBeenInvoked() ) buffer.append(" and has been invokedObject");
         return buffer;
     }
 }

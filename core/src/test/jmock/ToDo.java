@@ -5,8 +5,8 @@ public class ToDo {
     //TODO Extract org.jmock.MockObjectBuilder interface and move class to org.jmock.builder
 	//TODO Rename proxy() to mock()
     //TODO Remove constructors for Mock/CoreMock that generate a default name
-    //TODO Good error reporting (i.e. more than just a ClassCastException) when the type of a returned object is wrong.
-    
+	//TODO Extract construction and verification of mock objects into verifiable MockFactory class.
+
     //Source cleanup prior to version 1.0 alpha
     //TODO RESOLVE ALL TO-DO COMMENTS
     //TODO JavaDoc interfaces and those classes that need it.
@@ -16,7 +16,7 @@ public class ToDo {
 	// Tasks completed
 	
 	//DONE Implement matchers for call ordering.
-	//DONE Add method to builder API for ordering calls across mocks
+	//DONE Add invokedMethod to builder API for ordering calls across mocks
 	//DONE Extract NoArgs and AnyArgs matcher classes from C
 	//DONE Stop core packages relying on C
 	//DONE Put low-level hook methods into builder interfaces
@@ -28,7 +28,7 @@ public class ToDo {
     //DONE Default result stub should return zero-length arrays for array types
     //DONE Make name of mock more visible in error messages
     //DONE ExpectNotCalled (or equivalent) makes tests more expressive.
-    //DONE CoreMock should implement the hashCode method for proxies
+    //DONE CoreMock should implement the hashCode invokedMethod for proxies
     //DONE new hotmock syntax for expects and stubs 
     //DONE new hotmock syntax for expectNotCalled
     //DONE moved expect(...) and stub() to beginning of expectation statement
@@ -47,8 +47,10 @@ public class ToDo {
     //DONE Remove deprecated methods
     //DONE make constraints SelfDescribing
     //DONE Create mock(...) methods in MockObjectTestCase
-    //DONE Move generation of mock name to MockObjectTestCase (or support test case) 
-    
+    //DONE Move generation of mock name to MockObjectTestCase (or support test case)
+	//DONE Good error reporting (i.e. more than just a ClassCastException) when the type of a returned object is wrong.
+	//DONE Ditto for thrown exceptions
+
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
 	

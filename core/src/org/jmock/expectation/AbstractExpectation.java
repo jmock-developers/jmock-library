@@ -23,7 +23,7 @@ abstract public class AbstractExpectation implements Verifiable, Expectation {
     /**
      * Due to junit Assert being a Singleton implemented with static methods, and java's
      * unfortunate implementation of class methods (e.g. no late binding) it is
-     * necessary to re-implement this method here instead of over-riding failNotEquals
+     * necessary to re-implement this invokedMethod here instead of over-riding failNotEquals
      */
 
     protected void assertEquals(

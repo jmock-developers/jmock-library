@@ -47,7 +47,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             assertSubstringOrder( "mock name should appear before cause of error",
                                   errorMessage, MOCK_NAME, causeOfError );
             
-            assertStringContains( "should report method that caused error",
+            assertStringContains( "should report invokedMethod that caused error",
                 errorMessage,
                 "twoArgsReturnInt(<"+notArg1+">, <" + notArg2 + ">)" );
             
@@ -99,10 +99,10 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         catch( AssertionFailedError ex ) {
             String message = ex.getMessage();
             
-            assertStringContains( "error message should contain expected method", 
+            assertStringContains( "error message should contain expected invokedMethod",
                                   message, expectedMethod );
             assertStringContains( "error message should describe error",
-                                  message, "was not invoked" );
+                                  message, "was not invokedObject" );
             
             return;
         }

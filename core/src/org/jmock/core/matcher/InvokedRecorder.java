@@ -36,6 +36,6 @@ public class InvokedRecorder
 	}
 
 	public void verifyHasBeenInvoked() {
-		Assert.assertTrue( "expected method was not invoked", hasBeenInvoked );
+		Assert.assertTrue( "expected invokedMethod was not invokedObject", hasBeenInvoked );
 	}
 }

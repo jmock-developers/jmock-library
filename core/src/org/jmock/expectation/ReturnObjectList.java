@@ -13,8 +13,8 @@ import org.jmock.core.Verifiable;
  * <p>For ever sucessive call to nextReturnObject the next object in the list will
  * returned.</p>
  * <p/>
- * <p>If the nextReturnObject method is called and there are no objects in the list
- * an assertion error will be thrown. If the verify method is called and there
+ * <p>If the nextReturnObject invokedMethod is called and there are no objects in the list
+ * an assertion error will be thrown. If the verify invokedMethod is called and there
  * are objects still in the list an assertion error will also be thrown.</p>
  */
 public class ReturnObjectList implements Verifiable {

@@ -24,7 +24,7 @@ public abstract class VerifyingTestCase extends TestCase
 		super(name);
 	}
 
-    /* This is virtually a copy/paste of the same method in the TestCase class to allow
+    /* This is virtually a copy/paste of the same invokedMethod in the TestCase class to allow
      * overriding of runTest in the normal manner. 
      * 
      * @see junit.framework.TestCase#runBare()
