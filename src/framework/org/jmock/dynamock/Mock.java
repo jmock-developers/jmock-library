@@ -2,14 +2,7 @@
 package org.jmock.dynamock;
 
 import org.jmock.Verifiable;
-import org.jmock.dynamic.BuildableInvokable;
-import org.jmock.dynamic.CoreMock;
-import org.jmock.dynamic.DynamicMock;
-import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamic.Invokable;
-import org.jmock.dynamic.LIFOInvocationDispatcher;
-import org.jmock.dynamic.Stub;
-
+import org.jmock.dynamic.*;
 
 
 public class Mock 
@@ -107,6 +100,11 @@ public class Mock
 	{
 		expect( methodName, argumentsMatcher, factory.createThrowStub(throwable) );
 	}
+    
+    public void expectNotCalled( String methodName, InvocationMatcher argumentsMatcher ) {
+        createStub( methodName, argumentsMatcher, 
+                    factory.createTestFailureStub("must not be called") );
+    }
 
     private BuildableInvokable createStub(String methodName, InvocationMatcher argumentsMatcher, Stub stub) {
     	BuildableInvokable buildableInvokable = factory.createBuildableInvokable();
@@ -119,4 +117,5 @@ public class Mock
     	
     	return buildableInvokable;
     }
+
 }

@@ -16,4 +16,5 @@ public interface BuildableInvokableFactory {
 	Stub createVoidStub();
 	Stub createReturnStub( Object result );
 	Stub createThrowStub( Throwable throwable );
+    Stub createTestFailureStub( String errorMessage );
 }

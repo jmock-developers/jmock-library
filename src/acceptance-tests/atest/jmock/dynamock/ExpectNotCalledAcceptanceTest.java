@@ -1,7 +1,7 @@
-package atest.jmock.builder;
+package atest.jmock.dynamock;
 
-import org.jmock.builder.Mock;
-import org.jmock.builder.MockObjectTestCase;
+import org.jmock.dynamock.Mock;
+import org.jmock.dynamock.MockObjectTestCase;
 import org.jmock.dynamic.DynamicMockError;
 
 
@@ -15,8 +15,8 @@ public class ExpectNotCalledAcceptanceTest
     public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
         Mock mock = new Mock(MockedInterface.class,"mock");
         
-        mock.method("method").noParams().isVoid();
-        mock.method("method").noParams().isVoid().expectNotCalled();
+        mock.stubVoid("method", NO_ARGS );
+        mock.expectNotCalled("method", NO_ARGS );
         
         try {
             ((MockedInterface)mock.proxy()).method();
@@ -30,8 +30,8 @@ public class ExpectNotCalledAcceptanceTest
     public void testExpectNotCalledVerifiesIfNotCalled() {
         Mock mock = new Mock(MockedInterface.class,"mock");
         
-        mock.method("method").noParams().isVoid();
-        mock.method("method").noParams().isVoid().expectNotCalled();
+        mock.stubVoid("method", NO_ARGS );
+        mock.expectNotCalled("method", NO_ARGS );
         
         mock.verify();
     }

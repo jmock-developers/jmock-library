@@ -4,13 +4,11 @@ import org.jmock.Constraint;
 import org.jmock.Verifiable;
 import org.jmock.dynamic.BuildableInvokable;
 import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamic.Invokable;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamock.BuildableInvokableFactory;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationList;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.util.NotImplementedException;
 import org.jmock.util.Verifier;
 
 
@@ -75,58 +73,22 @@ public class MockBuildableInvokableFactory
 	public ExpectationValue createThrowStubThrowable =
 		new ExpectationValue("createThrowStub throwable");
 	public Stub createThrowStubResult;
-	
-	public Stub createThrowStub( Throwable throwable ) {
+    
+    public Stub createThrowStub( Throwable throwable ) {
 		createThrowStubThrowable.setActual(throwable);
 		return createThrowStubResult;
 	}
 	
+    public ExpectationValue createTestFailureStubErrorMessage =
+        new ExpectationValue("createTestFailureStub errorMessage");
+    public Stub createTestFailureStubResult;
+    
+    public Stub createTestFailureStub(String errorMessage) {
+        createTestFailureStubErrorMessage.setActual(errorMessage);
+        return createTestFailureStubResult;
+    }
+
 	public void verify() {
 		Verifier.verifyObject(this);
 	}
-	
-	/*  The following methods are here during the cleanup of the dynamock.Mock class and
-	 *  will eventually be refactored into nothingness.
-	 */
-
-	public Invokable createReturnExpectation( String methodName,
-											  InvocationMatcher arguments,
-											  Object result ) 
-	{
-		throw new NotImplementedException("not implemented");
-	}
-
-	public Invokable createReturnStub( String methodName,
-									   InvocationMatcher arguments,
-									   Object result ) 
-	{
-		throw new NotImplementedException("not implemented");
-	}
-
-	public Invokable createThrowableExpectation( String methodName,
-												 InvocationMatcher arguments,
-												 Throwable throwable) 
-	{
-		throw new NotImplementedException("not implemented");
-	}
-
-	public Invokable createThrowableStub( String methodName,
-										  InvocationMatcher arguments,
-										  Throwable throwable ) 
-	{
-		throw new NotImplementedException("not implemented");
-	}
-
-	public Invokable createVoidExpectation( String methodName,
-											InvocationMatcher arguments) 
-	{
-		throw new NotImplementedException("not implemented");
-	}
-
-	public Invokable createVoidStub( String methodName,
-									 InvocationMatcher arguments ) 
-	{
-		throw new NotImplementedException("not implemented");
-	}
-
 }
