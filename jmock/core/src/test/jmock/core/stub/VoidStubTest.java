@@ -10,28 +10,28 @@ import test.jmock.core.testsupport.MethodFactory;
 public class VoidStubTest
         extends TestCase
 {
-	Invocation invocation;
-	VoidStub voidStub;
+    Invocation invocation;
+    VoidStub voidStub;
 
-	public void setUp() {
-		MethodFactory methodFactory = new MethodFactory();
-		invocation = new Invocation("INVOKED-OBJECT", methodFactory.newMethodReturning(void.class), new Object[0]);
-		voidStub = new VoidStub();
-	}
+    public void setUp() {
+        MethodFactory methodFactory = new MethodFactory();
+        invocation = new Invocation("INVOKED-OBJECT", methodFactory.newMethodReturning(void.class), new Object[0]);
+        voidStub = new VoidStub();
+    }
 
-	public void testReturnsNullWhenInvoked() throws Throwable {
-		assertNull("Should return null",
-		           new VoidStub().invoke(invocation));
-	}
+    public void testReturnsNullWhenInvoked() throws Throwable {
+        assertNull("Should return null",
+                   new VoidStub().invoke(invocation));
+    }
 
-	public void testIncludesVoidInDescription() {
-		StringBuffer buffer = new StringBuffer();
+    public void testIncludesVoidInDescription() {
+        StringBuffer buffer = new StringBuffer();
 
-		voidStub.describeTo(buffer);
+        voidStub.describeTo(buffer);
 
-		String description = buffer.toString();
+        String description = buffer.toString();
 
-		assertTrue("contains 'void' in description",
-		           description.indexOf("void") >= 0);
-	}
+        assertTrue("contains 'void' in description",
+                   description.indexOf("void") >= 0);
+    }
 }

@@ -10,14 +10,14 @@ package org.jmock.expectation;
 
 public class ExceptionalReturnValue
 {
-	private Throwable exception;
+    private Throwable exception;
 
-	public ExceptionalReturnValue( Throwable exception ) {
-		this.exception = exception;
-	}
+    public ExceptionalReturnValue( Throwable exception ) {
+        this.exception = exception;
+    }
 
-	public Throwable getException() {
-		return exception;
-	}
+    public Throwable getException() {
+        return exception;
+    }
 
 }

@@ -16,181 +16,180 @@ import test.jmock.core.testsupport.MockStub;
 
 public class CGLIBCoreMockTest extends TestCase
 {
-	private static final String MOCK_NAME = "Test coreMock";
+    private static final String MOCK_NAME = "Test coreMock";
 
-	private DummyInterface proxy;
-	private CGLIBCoreMock coreMock;
-	private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
-	private MockInvokable mockInvokable = new MockInvokable();
+    private DummyInterface proxy;
+    private CGLIBCoreMock coreMock;
+    private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
+    private MockInvokable mockInvokable = new MockInvokable();
 
-	public void setUp() {
-		coreMock = new CGLIBCoreMock(DummyInterface.class, MOCK_NAME, mockDispatcher);
+    public void setUp() {
+        coreMock = new CGLIBCoreMock(DummyInterface.class, MOCK_NAME, mockDispatcher);
 
-		try {
-			proxy = (DummyInterface)coreMock.proxy();
-		}
-		catch (ClassCastException ex) {
-			fail("proxy is not of expected interface type");
-		}
-	}
+        try {
+            proxy = (DummyInterface)coreMock.proxy();
+        }
+        catch (ClassCastException ex) {
+            fail("proxy is not of expected interface type");
+        }
+    }
 
-	static class ConcreteType {
-		public void method() {
-		}
-	}
+    static class ConcreteType
+    {
+        public void method() {
+        }
+    }
 
-	public void testCanMockConcreteType() {
-		coreMock = new CGLIBCoreMock(ConcreteType.class, MOCK_NAME, mockDispatcher);
+    public void testCanMockConcreteType() {
+        coreMock = new CGLIBCoreMock(ConcreteType.class, MOCK_NAME, mockDispatcher);
 
-		assertTrue("proxy should be instance of expected concrete type",
-		           coreMock.proxy() instanceof ConcreteType);
-	}
+        assertTrue("proxy should be instance of expected concrete type",
+                   coreMock.proxy() instanceof ConcreteType);
+    }
 
-	public void testReportsMockedType() {
-		assertSame("mocked type",
-		           DummyInterface.class, coreMock.getMockedType());
-	}
+    public void testReportsMockedType() {
+        assertSame("mocked type",
+                   DummyInterface.class, coreMock.getMockedType());
+    }
 
-	public void testMockAnnotatesAssertionFailedError()
-	        throws Throwable
-	{
-		final String originalMessage = "original message";
+    public void testMockAnnotatesAssertionFailedError()
+            throws Throwable {
+        final String originalMessage = "original message";
 
-		Throwable throwable = new AssertionFailedError(originalMessage);
-		mockDispatcher.dispatchThrowable = throwable;
+        Throwable throwable = new AssertionFailedError(originalMessage);
+        mockDispatcher.dispatchThrowable = throwable;
 
-		try {
-			proxy.noArgVoidMethod();
-			fail("should throw AssertionFailedError");
-		}
-		catch (AssertionFailedError err) {
-			AssertMo.assertIncludes("should contain original message", originalMessage, err.getMessage());
-			AssertMo.assertIncludes("should contain coreMock name", MOCK_NAME, err.getMessage());
-		}
-	}
+        try {
+            proxy.noArgVoidMethod();
+            fail("should throw AssertionFailedError");
+        }
+        catch (AssertionFailedError err) {
+            AssertMo.assertIncludes("should contain original message", originalMessage, err.getMessage());
+            AssertMo.assertIncludes("should contain coreMock name", MOCK_NAME, err.getMessage());
+        }
+    }
 
-	public void testProxyReturnsConfiguredResult() throws Throwable {
-		final String RESULT = "configured result";
+    public void testProxyReturnsConfiguredResult() throws Throwable {
+        final String RESULT = "configured result";
 
-		mockDispatcher.dispatchResult = RESULT;
+        mockDispatcher.dispatchResult = RESULT;
 
-		assertSame("result is returned by coreMock", RESULT, proxy.oneArgMethod("arg"));
-	}
+        assertSame("result is returned by coreMock", RESULT, proxy.oneArgMethod("arg"));
+    }
 
-	public void testExceptionsPropagatedThroughProxy() throws Throwable {
-		final Throwable throwable = new DummyThrowable();
+    public void testExceptionsPropagatedThroughProxy() throws Throwable {
+        final Throwable throwable = new DummyThrowable();
 
-		mockDispatcher.dispatchThrowable = throwable;
+        mockDispatcher.dispatchThrowable = throwable;
 
-		try {
-			proxy.noArgVoidMethod();
-		}
-		catch (Throwable ex) {
-			assertSame("exception is caught by coreMock", throwable, ex);
-			return;
-		}
-		fail("Should have thrown exception");
-	}
+        try {
+            proxy.noArgVoidMethod();
+        }
+        catch (Throwable ex) {
+            assertSame("exception is caught by coreMock", throwable, ex);
+            return;
+        }
+        fail("Should have thrown exception");
+    }
 
-	public void testMockVerifies() throws Exception {
-		mockDispatcher.verifyCalls.setExpected(1);
+    public void testMockVerifies() throws Exception {
+        mockDispatcher.verifyCalls.setExpected(1);
 
-		coreMock.verify();
+        coreMock.verify();
 
-		// Can't use Verifier as we are verifying "verify"
-		mockDispatcher.verifyExpectations();
-	}
+        // Can't use Verifier as we are verifying "verify"
+        mockDispatcher.verifyExpectations();
+    }
 
-	public void testTestsEqualityForProxy() throws Exception {
-		coreMock = new CGLIBCoreMock(DummyInterface.class, "coreMock",
-		                             new LIFOInvocationDispatcher());
-		proxy = (DummyInterface)coreMock.proxy();
+    public void testTestsEqualityForProxy() throws Exception {
+        coreMock = new CGLIBCoreMock(DummyInterface.class, "coreMock",
+                                     new LIFOInvocationDispatcher());
+        proxy = (DummyInterface)coreMock.proxy();
 
-		assertTrue("should be equal", proxy.equals(proxy));
-		assertFalse("should not be equal", proxy.equals(new Object()));
-		assertFalse("shuold not be equal to null", proxy.equals(null));
-	}
+        assertTrue("should be equal", proxy.equals(proxy));
+        assertFalse("should not be equal", proxy.equals(new Object()));
+        assertFalse("shuold not be equal to null", proxy.equals(null));
+    }
 
-	public void testCanOverrideEqualsForProxyBySettingAStub() throws Exception {
-		mockDispatcher.dispatchResult = new Boolean(false);
+    public void testCanOverrideEqualsForProxyBySettingAStub() throws Exception {
+        mockDispatcher.dispatchResult = new Boolean(false);
 
-		mockDispatcher.dispatchInvocation.setExpected(
-		    new Invocation(proxy, Object.class.getMethod( "equals", new Class[]{Object.class}),
-		                                                  new Object[]{"not a proxy"}));
+        mockDispatcher.dispatchInvocation.setExpected(new Invocation(proxy, Object.class.getMethod("equals", new Class[]{Object.class}),
+                                                                     new Object[]{"not a proxy"}));
 
-		assertFalse("Passes invocation of equals to dispatcher",
-		            proxy.equals("not a proxy"));
-		
-		mockDispatcher.verifyExpectations();
-	}
+        assertFalse("Passes invocation of equals to dispatcher",
+                    proxy.equals("not a proxy"));
 
-	public void testCalculatesHashCodeForProxy() throws Exception {
-		coreMock = new CGLIBCoreMock(DummyInterface.class, "coreMock");
+        mockDispatcher.verifyExpectations();
+    }
 
-		proxy = (DummyInterface)coreMock.proxy();
+    public void testCalculatesHashCodeForProxy() throws Exception {
+        coreMock = new CGLIBCoreMock(DummyInterface.class, "coreMock");
 
-		assertEquals("same hash code", proxy.hashCode(), proxy.hashCode());
-	}
+        proxy = (DummyInterface)coreMock.proxy();
 
-	public void testCanOverrideHashCodeForProxyBySettingAStub() throws Exception {
-		int expectedHashCode = 1;
+        assertEquals("same hash code", proxy.hashCode(), proxy.hashCode());
+    }
 
-		mockDispatcher.dispatchResult = new Integer(expectedHashCode);
-		mockDispatcher.dispatchInvocation.setExpected(new Invocation(proxy, Object.class.getMethod("hashCode", new Class[0]), new Object[0]));
+    public void testCanOverrideHashCodeForProxyBySettingAStub() throws Exception {
+        int expectedHashCode = 1;
 
-		assertEquals("proxy hashCode", expectedHashCode, proxy.hashCode());
+        mockDispatcher.dispatchResult = new Integer(expectedHashCode);
+        mockDispatcher.dispatchInvocation.setExpected(new Invocation(proxy, Object.class.getMethod("hashCode", new Class[0]), new Object[0]));
 
-		mockDispatcher.verifyExpectations();
-	}
+        assertEquals("proxy hashCode", expectedHashCode, proxy.hashCode());
 
-	public void testGeneratesMockNameFromInterfaceNameIfNoNameSpecified() throws Exception {
-		assertEquals("mockString", CGLIBCoreMock.mockNameFromClass(String.class));
-	}
+        mockDispatcher.verifyExpectations();
+    }
 
-	public void testReturnsNameFromToString() {
-		AssertMo.assertIncludes("result of toString() should include name",
-		                        MOCK_NAME, coreMock.toString());
-	}
+    public void testGeneratesMockNameFromInterfaceNameIfNoNameSpecified() throws Exception {
+        assertEquals("mockString", CGLIBCoreMock.mockNameFromClass(String.class));
+    }
 
-	public void testAddsInvokablesToDispatcher() {
-		mockDispatcher.addInvokable.setExpected(mockInvokable);
+    public void testReturnsNameFromToString() {
+        AssertMo.assertIncludes("result of toString() should include name",
+                                MOCK_NAME, coreMock.toString());
+    }
 
-		coreMock.addInvokable(mockInvokable);
+    public void testAddsInvokablesToDispatcher() {
+        mockDispatcher.addInvokable.setExpected(mockInvokable);
 
-		mockDispatcher.verifyExpectations();
-	}
+        coreMock.addInvokable(mockInvokable);
 
-	public void testExposesDefaultStubOfDispatcher() {
-		MockStub dummyStub = new MockStub("dummyStub");
+        mockDispatcher.verifyExpectations();
+    }
 
-		mockDispatcher.setDefaultStub.setExpected(dummyStub);
+    public void testExposesDefaultStubOfDispatcher() {
+        MockStub dummyStub = new MockStub("dummyStub");
 
-		coreMock.setDefaultStub(dummyStub);
+        mockDispatcher.setDefaultStub.setExpected(dummyStub);
 
-		mockDispatcher.verifyExpectations();
-	}
+        coreMock.setDefaultStub(dummyStub);
 
-	public void testResetsDispatcher() {
-		mockDispatcher.clearCalls.setExpected(1);
+        mockDispatcher.verifyExpectations();
+    }
 
-		coreMock.reset();
+    public void testResetsDispatcher() {
+        mockDispatcher.clearCalls.setExpected(1);
 
-		mockDispatcher.verifyExpectations();
-	}
+        coreMock.reset();
 
-	public void testVerifyFailuresIncludeMockName() {
-		mockDispatcher.verifyFailure = new AssertionFailedError("verify failure");
+        mockDispatcher.verifyExpectations();
+    }
 
-		mockDispatcher.verifyCalls.setExpected(1);
+    public void testVerifyFailuresIncludeMockName() {
+        mockDispatcher.verifyFailure = new AssertionFailedError("verify failure");
 
-		try {
-			coreMock.verify();
-		}
-		catch (AssertionFailedError expected) {
-			AssertMo.assertIncludes("Should include mock name", MOCK_NAME, expected.getMessage());
-			mockDispatcher.verifyExpectations();
-			return;
-		}
-		fail("Should have thrown exception");
-	}
+        mockDispatcher.verifyCalls.setExpected(1);
+
+        try {
+            coreMock.verify();
+        }
+        catch (AssertionFailedError expected) {
+            AssertMo.assertIncludes("Should include mock name", MOCK_NAME, expected.getMessage());
+            mockDispatcher.verifyExpectations();
+            return;
+        }
+        fail("Should have thrown exception");
+    }
 }

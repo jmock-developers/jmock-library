@@ -14,48 +14,48 @@ import junit.framework.AssertionFailedError;
  */
 public class ReturnValues
 {
-	private String myName;
-	protected Vector myContents = new Vector();
-	private boolean myKeepUsingLastReturnValue = false;
+    private String myName;
+    protected Vector myContents = new Vector();
+    private boolean myKeepUsingLastReturnValue = false;
 
-	public ReturnValues() {
-		this("Generate me with a useful name!", true);
-	}
+    public ReturnValues() {
+        this("Generate me with a useful name!", true);
+    }
 
-	public ReturnValues( String name, boolean keepUsingLastReturnValue ) {
-		myName = name;
-		myKeepUsingLastReturnValue = keepUsingLastReturnValue;
-	}
+    public ReturnValues( String name, boolean keepUsingLastReturnValue ) {
+        myName = name;
+        myKeepUsingLastReturnValue = keepUsingLastReturnValue;
+    }
 
-	public ReturnValues( boolean keepUsingLastReturnValue ) {
-		this("Generate me with a useful name!", keepUsingLastReturnValue);
-	}
+    public ReturnValues( boolean keepUsingLastReturnValue ) {
+        this("Generate me with a useful name!", keepUsingLastReturnValue);
+    }
 
-	public void add( Object element ) {
-		myContents.addElement(element);
-	}
+    public void add( Object element ) {
+        myContents.addElement(element);
+    }
 
-	public void addAll( Collection returnValues ) {
-		myContents.addAll(returnValues);
-	}
+    public void addAll( Collection returnValues ) {
+        myContents.addAll(returnValues);
+    }
 
-	public Object getNext() {
-		if (myContents.isEmpty()) {
-			throw new AssertionFailedError(getClass().getName() + "[" + myName + "] was not setup with enough values");
-		}
-		return pop();
-	}
+    public Object getNext() {
+        if (myContents.isEmpty()) {
+            throw new AssertionFailedError(getClass().getName() + "[" + myName + "] was not setup with enough values");
+        }
+        return pop();
+    }
 
-	public boolean isEmpty() {
-		return myContents.size() == 0;
-	}
+    public boolean isEmpty() {
+        return myContents.size() == 0;
+    }
 
-	protected Object pop() {
-		Object result = myContents.firstElement();
-		boolean shouldNotRemoveElement = myContents.size() == 1 && myKeepUsingLastReturnValue;
-		if (!shouldNotRemoveElement) {
-			myContents.removeElementAt(0);
-		}
-		return result;
-	}
+    protected Object pop() {
+        Object result = myContents.firstElement();
+        boolean shouldNotRemoveElement = myContents.size() == 1 && myKeepUsingLastReturnValue;
+        if (!shouldNotRemoveElement) {
+            myContents.removeElementAt(0);
+        }
+        return result;
+    }
 }

@@ -18,116 +18,116 @@ import test.jmock.builder.testsupport.MockStubMatchersCollection;
 
 public class InvocationMockerBuilderTest extends MockObjectSupportTestCase
 {
-	private MockStubMatchersCollection mocker;
-	private MockBuilderIdentityTable idTable;
-	private InvocationMockerBuilder builder;
+    private MockStubMatchersCollection mocker;
+    private MockBuilderIdentityTable idTable;
+    private InvocationMockerBuilder builder;
 
-	public void setUp() {
-		mocker = new MockStubMatchersCollection();
-		idTable = new MockBuilderIdentityTable();
+    public void setUp() {
+        mocker = new MockStubMatchersCollection();
+        idTable = new MockBuilderIdentityTable();
 
-		builder = new InvocationMockerBuilder(mocker, idTable);
-	}
+        builder = new InvocationMockerBuilder(mocker, idTable);
+    }
 
-	public void testSpecifyingMethodNameNameAddsMethodNameMatcherAndAddsSelfToIdentityTable() {
-		mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
-		idTable.registerMethodName.setExpected("methodName");
-		idTable.registerMethodNameBuilder.setExpected(builder);
+    public void testSpecifyingMethodNameNameAddsMethodNameMatcherAndAddsSelfToIdentityTable() {
+        mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
+        idTable.registerMethodName.setExpected("methodName");
+        idTable.registerMethodNameBuilder.setExpected(builder);
 
-		assertNotNull("Should be Stub Builder", builder.method("methodName"));
+        assertNotNull("Should be Stub Builder", builder.method("methodName"));
 
-		mocker.verifyExpectations();
-		idTable.verify();
-	}
+        mocker.verifyExpectations();
+        idTable.verify();
+    }
 
-	public void testMethodMethodWithConstraintAddsMethodNameMatcherButDoesNotAddSelfToIdentityTable() {
-		Constraint nameConstraint = (Constraint)newDummy(Constraint.class, "nameConstraint");
+    public void testMethodMethodWithConstraintAddsMethodNameMatcherButDoesNotAddSelfToIdentityTable() {
+        Constraint nameConstraint = (Constraint)newDummy(Constraint.class, "nameConstraint");
 
-		mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
+        mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
 
-		assertNotNull("Should be Stub Builder", builder.method(nameConstraint));
+        assertNotNull("Should be Stub Builder", builder.method(nameConstraint));
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testCanAddCustomMatcher() {
-		InvocationMatcher matcher =
-		        (InvocationMatcher)Dummy.newDummy(InvocationMatcher.class, "matcher");
+    public void testCanAddCustomMatcher() {
+        InvocationMatcher matcher =
+                (InvocationMatcher)Dummy.newDummy(InvocationMatcher.class, "matcher");
 
-		mocker.addedMatcher.setExpected(matcher);
+        mocker.addedMatcher.setExpected(matcher);
 
-		assertNotNull("Should be Stub Builder", builder.match(matcher));
+        assertNotNull("Should be Stub Builder", builder.match(matcher));
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testWithMethodAddsArgumentsMatcher() {
-		mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
+    public void testWithMethodAddsArgumentsMatcher() {
+        mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
 
-		assertNotNull("Should be Stub Builder", builder.with(new Constraint[0]));
+        assertNotNull("Should be Stub Builder", builder.with(new Constraint[0]));
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testWithMethodWithOneObjectArgumentAddsArgumentsMatcher() {
-		mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
+    public void testWithMethodWithOneObjectArgumentAddsArgumentsMatcher() {
+        mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
 
-		assertNotNull("Should be Stub Builder", builder.with(eq(new Object())));
+        assertNotNull("Should be Stub Builder", builder.with(eq(new Object())));
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testWithMethodWithTwoObjectArgumentsAddsArgumentsMatcher() {
-		mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
+    public void testWithMethodWithTwoObjectArgumentsAddsArgumentsMatcher() {
+        mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
 
-		assertNotNull("Should be Stub Builder",
-		              builder.with(eq(new Object()), eq(new Object())));
+        assertNotNull("Should be Stub Builder",
+                      builder.with(eq(new Object()), eq(new Object())));
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testNoParamsAddsNoArgumentMatcher() {
-		mocker.addedMatcher.setExpected(NoArgumentsMatcher.INSTANCE);
+    public void testNoParamsAddsNoArgumentMatcher() {
+        mocker.addedMatcher.setExpected(NoArgumentsMatcher.INSTANCE);
 
-		assertNotNull("Should be Stub Builder", builder.withNoArguments());
+        assertNotNull("Should be Stub Builder", builder.withNoArguments());
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testAnyParamsAddsAnyArgumentMatcher() {
-		mocker.addedMatcher.setExpected(AnyArgumentsMatcher.INSTANCE);
+    public void testAnyParamsAddsAnyArgumentMatcher() {
+        mocker.addedMatcher.setExpected(AnyArgumentsMatcher.INSTANCE);
 
-		assertNotNull("Should be Stub Builder", builder.withAnyArguments());
+        assertNotNull("Should be Stub Builder", builder.withAnyArguments());
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	public void testCanSetCustomStub() {
-		Stub stub = (Stub)Dummy.newDummy(Stub.class, "stub");
+    public void testCanSetCustomStub() {
+        Stub stub = (Stub)Dummy.newDummy(Stub.class, "stub");
 
-		mocker.setStub.setExpected(stub);
+        mocker.setStub.setExpected(stub);
 
-		assertNotNull("should be expectation builder", builder.will(stub));
-	}
+        assertNotNull("should be expectation builder", builder.will(stub));
+    }
 
-	public void testIsVoidSetsVoidStub() {
-		mocker.setStubType.setExpected(VoidStub.class);
+    public void testIsVoidSetsVoidStub() {
+        mocker.setStubType.setExpected(VoidStub.class);
 
-		assertNotNull("Should be expectation builder", builder.isVoid());
+        assertNotNull("Should be expectation builder", builder.isVoid());
 
-		mocker.verifyExpectations();
-	}
+        mocker.verifyExpectations();
+    }
 
-	static final String INVOCATION_ID = "INVOCATION-ID";
+    static final String INVOCATION_ID = "INVOCATION-ID";
 
-	public void testUniquelyIdentifyInvocationMockerAndRegisterItselfInBuilderIdentityTable() {
-		mocker.setName.setExpected(INVOCATION_ID);
-		idTable.registerUniqueID.setExpected(INVOCATION_ID);
-		idTable.registerUniqueIDBuilder.setExpected(builder);
+    public void testUniquelyIdentifyInvocationMockerAndRegisterItselfInBuilderIdentityTable() {
+        mocker.setName.setExpected(INVOCATION_ID);
+        idTable.registerUniqueID.setExpected(INVOCATION_ID);
+        idTable.registerUniqueIDBuilder.setExpected(builder);
 
-		builder.id(INVOCATION_ID);
+        builder.id(INVOCATION_ID);
 
-		idTable.verify();
-		mocker.verifyExpectations();
-	}
+        idTable.verify();
+        mocker.verifyExpectations();
+    }
 }

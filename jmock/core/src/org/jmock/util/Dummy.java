@@ -11,46 +11,46 @@ import org.jmock.core.stub.CustomStub;
 
 public class Dummy
 {
-	private Dummy() {
-		/* This class cannot be instantiated. */
-	}
+    private Dummy() {
+        /* This class cannot be instantiated. */
+    }
 
-	public static Object newDummy( Class interfaceClass ) {
-		return newDummy(interfaceClass, "dummy" + Formatting.classShortName(interfaceClass));
-	}
+    public static Object newDummy( Class interfaceClass ) {
+        return newDummy(interfaceClass, "dummy" + Formatting.classShortName(interfaceClass));
+    }
 
-	public static Object newDummy( final Class interfaceClass, final String name ) {
-		CoreMock mock = new CoreMock(interfaceClass, name);
-		InvocationMocker mocker = new InvocationMocker();
+    public static Object newDummy( final Class interfaceClass, final String name ) {
+        CoreMock mock = new CoreMock(interfaceClass, name);
+        InvocationMocker mocker = new InvocationMocker();
 
-		mocker.addMatcher(new StatelessInvocationMatcher()
-		{
-			public boolean matches( Invocation invocation ) {
-				return invocation.invokedMethod.getDeclaringClass() == interfaceClass;
-			}
+        mocker.addMatcher(new StatelessInvocationMatcher()
+        {
+            public boolean matches( Invocation invocation ) {
+                return invocation.invokedMethod.getDeclaringClass() == interfaceClass;
+            }
 
-			public StringBuffer describeTo( StringBuffer buf ) {
-				return buf.append("any invokedMethod declared in " + interfaceClass);
-			}
-		});
-		mocker.setStub(new CustomStub("dummy invokedMethod")
-		{
-			public Object invoke( Invocation invocation ) throws Throwable {
-				throw new NotImplementedException(invocation.invokedMethod.getName() + "called on " + name);
-			}
-		});
+            public StringBuffer describeTo( StringBuffer buf ) {
+                return buf.append("any invokedMethod declared in " + interfaceClass);
+            }
+        });
+        mocker.setStub(new CustomStub("dummy invokedMethod")
+        {
+            public Object invoke( Invocation invocation ) throws Throwable {
+                throw new NotImplementedException(invocation.invokedMethod.getName() + "called on " + name);
+            }
+        });
 
-		mock.addInvokable(mocker);
+        mock.addInvokable(mocker);
 
-		return mock.proxy();
-	}
+        return mock.proxy();
+    }
 
-	public static Object newDummy( final String name ) {
-		return new Object()
-		{
-			public String toString() {
-				return name;
-			}
-		};
-	}
+    public static Object newDummy( final String name ) {
+        return new Object()
+        {
+            public String toString() {
+                return name;
+            }
+        };
+    }
 }

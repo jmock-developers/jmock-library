@@ -9,19 +9,19 @@ import org.jmock.core.Constraint;
  */
 public class IsNot implements Constraint
 {
-	private Constraint constraint;
+    private Constraint constraint;
 
-	public IsNot( Constraint constraint ) {
-		this.constraint = constraint;
-	}
+    public IsNot( Constraint constraint ) {
+        this.constraint = constraint;
+    }
 
-	public boolean eval( Object arg ) {
-		return !constraint.eval(arg);
-	}
+    public boolean eval( Object arg ) {
+        return !constraint.eval(arg);
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		buffer.append("not ");
-		constraint.describeTo(buffer);
-		return buffer;
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        buffer.append("not ");
+        constraint.describeTo(buffer);
+        return buffer;
+    }
 }

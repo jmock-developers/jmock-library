@@ -16,24 +16,24 @@ import java.util.Iterator;
 public interface ExpectationCollection extends Expectation
 {
 
-	void addActual( Object actual );
+    void addActual( Object actual );
 
-	void addActual( long actual );
+    void addActual( long actual );
 
-	void addActualMany( Object[] actuals );
+    void addActualMany( Object[] actuals );
 
-	void addActualMany( Enumeration actuals );
+    void addActualMany( Enumeration actuals );
 
-	void addActualMany( Iterator actuals );
+    void addActualMany( Iterator actuals );
 
 
-	void addExpected( Object expected );
+    void addExpected( Object expected );
 
-	void addExpected( long expected );
+    void addExpected( long expected );
 
-	void addExpectedMany( Object[] expectedItems );
+    void addExpectedMany( Object[] expectedItems );
 
-	void addExpectedMany( Enumeration expectedItems );
+    void addExpectedMany( Enumeration expectedItems );
 
-	void addExpectedMany( Iterator expectedItems );
+    void addExpectedMany( Iterator expectedItems );
 }

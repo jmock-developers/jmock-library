@@ -14,47 +14,47 @@ import org.jmock.util.Verifier;
  */
 public abstract class VerifyingTestCase extends TestCase
 {
-	private List objectsThatRequireVerification = new ArrayList();
+    private List objectsThatRequireVerification = new ArrayList();
 
-	public VerifyingTestCase() {
-		super();
-	}
+    public VerifyingTestCase() {
+        super();
+    }
 
-	public VerifyingTestCase( String name ) {
-		super(name);
-	}
+    public VerifyingTestCase( String name ) {
+        super(name);
+    }
 
-	/* This is virtually a copy/paste of the same invokedMethod in the TestCase class to allow
-	 * overriding of runTest in the normal manner.
-	 *
-	 * @see junit.framework.TestCase#runBare()
-	 */
-	public void runBare() throws Throwable {
-		setUp();
-		try {
-			runTest();
-			verify();
-		}
-		finally {
-			tearDown();
-		}
-	}
+    /* This is virtually a copy/paste of the same invokedMethod in the TestCase class to allow
+     * overriding of runTest in the normal manner.
+     *
+     * @see junit.framework.TestCase#runBare()
+     */
+    public void runBare() throws Throwable {
+        setUp();
+        try {
+            runTest();
+            verify();
+        }
+        finally {
+            tearDown();
+        }
+    }
 
-	public void registerToVerify( Verifiable verifiable ) {
-		objectsThatRequireVerification.add(verifiable);
-	}
+    public void registerToVerify( Verifiable verifiable ) {
+        objectsThatRequireVerification.add(verifiable);
+    }
 
-	public void unregisterToVerify( Verifiable verifiable ) {
-		objectsThatRequireVerification.remove(verifiable);
-	}
+    public void unregisterToVerify( Verifiable verifiable ) {
+        objectsThatRequireVerification.remove(verifiable);
+    }
 
-	public void verify() {
-		for (Iterator iterator = objectsThatRequireVerification.iterator(); iterator.hasNext();) {
-			Verifiable verifiable = (Verifiable)iterator.next();
-			verifiable.verify();
-		}
-		Verifier.verifyObject(this);
-	}
+    public void verify() {
+        for (Iterator iterator = objectsThatRequireVerification.iterator(); iterator.hasNext();) {
+            Verifiable verifiable = (Verifiable)iterator.next();
+            verifiable.verify();
+        }
+        Verifier.verifyObject(this);
+    }
 
 }
 

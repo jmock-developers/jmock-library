@@ -13,36 +13,36 @@ public class MockInvocationDispatcher
         extends MockVerifiable
         implements InvocationDispatcher
 {
-	public ExpectationValue dispatchInvocation = new ExpectationValue("dispatchInvocation");
-	public Object dispatchResult;
-	public Throwable dispatchThrowable;
-	public ExpectationValue addInvokable = new ExpectationValue("addInvokable");
-	public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
-	public String writeToOutput = "MockInvocationDispatcher.describeTo output";
-	public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
+    public ExpectationValue dispatchInvocation = new ExpectationValue("dispatchInvocation");
+    public Object dispatchResult;
+    public Throwable dispatchThrowable;
+    public ExpectationValue addInvokable = new ExpectationValue("addInvokable");
+    public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
+    public String writeToOutput = "MockInvocationDispatcher.describeTo output";
+    public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
 
 
-	public void setDefaultStub( Stub newDefaultStub ) {
-		setDefaultStub.setActual(newDefaultStub);
-	}
+    public void setDefaultStub( Stub newDefaultStub ) {
+        setDefaultStub.setActual(newDefaultStub);
+    }
 
-	public void add( Invokable invokable ) {
-		addInvokable.setActual(invokable);
-	}
+    public void add( Invokable invokable ) {
+        addInvokable.setActual(invokable);
+    }
 
-	public void clear() {
-		clearCalls.inc();
-	}
+    public void clear() {
+        clearCalls.inc();
+    }
 
-	public Object dispatch( Invocation invocation ) throws Throwable {
-		dispatchInvocation.setActual(invocation);
-		if (null != dispatchThrowable) {
-			throw dispatchThrowable;
-		}
-		return dispatchResult;
-	}
+    public Object dispatch( Invocation invocation ) throws Throwable {
+        dispatchInvocation.setActual(invocation);
+        if (null != dispatchThrowable) {
+            throw dispatchThrowable;
+        }
+        return dispatchResult;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append(writeToOutput);
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append(writeToOutput);
+    }
 }

@@ -2,15 +2,16 @@ package org.jmock.core.matcher;
 
 import org.jmock.core.Invocation;
 
+
 public class NoArgumentsMatcher extends StatelessInvocationMatcher
 {
-	public static final NoArgumentsMatcher INSTANCE = new NoArgumentsMatcher();
+    public static final NoArgumentsMatcher INSTANCE = new NoArgumentsMatcher();
 
-	public boolean matches( Invocation invocation ) {
-		return invocation.parameterValues.isEmpty();
-	}
+    public boolean matches( Invocation invocation ) {
+        return invocation.parameterValues.isEmpty();
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("(no arguments)");
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("(no arguments)");
+    }
 }

@@ -15,144 +15,144 @@ import test.jmock.core.testsupport.MockStub;
 
 public class InvocationMockerTest extends TestCase
 {
-	private InvocationMatcher matchAll = new StatelessInvocationMatcher()
-	{
-		public boolean matches( Invocation invocation ) {
-			return true;
-		}
+    private InvocationMatcher matchAll = new StatelessInvocationMatcher()
+    {
+        public boolean matches( Invocation invocation ) {
+            return true;
+        }
 
-		public StringBuffer describeTo( StringBuffer buffer ) {
-			return buffer.append("match all");
-		}
-	};
-	private InvocationMatcher matchNone = new StatelessInvocationMatcher()
-	{
-		public boolean matches( Invocation invocation ) {
-			return false;
-		}
+        public StringBuffer describeTo( StringBuffer buffer ) {
+            return buffer.append("match all");
+        }
+    };
+    private InvocationMatcher matchNone = new StatelessInvocationMatcher()
+    {
+        public boolean matches( Invocation invocation ) {
+            return false;
+        }
 
-		public StringBuffer describeTo( StringBuffer buffer ) {
-			return buffer.append("match none");
-		}
-	};
+        public StringBuffer describeTo( StringBuffer buffer ) {
+            return buffer.append("match none");
+        }
+    };
 
-	private static final String ARG2 = "arg2";
-	private static final String ARG1 = "arg1";
+    private static final String ARG2 = "arg2";
+    private static final String ARG1 = "arg1";
 
-	private Invocation exampleInvocation;
-	private InvocationMocker invocationMocker;
+    private Invocation exampleInvocation;
+    private InvocationMocker invocationMocker;
 
-	public void setUp() {
-		MethodFactory methodFactory = new MethodFactory();
-		Method method = methodFactory.newMethod("example", new Class[]{String.class, String.class}, Void.class,
-		                                        MethodFactory.NO_EXCEPTIONS);
+    public void setUp() {
+        MethodFactory methodFactory = new MethodFactory();
+        Method method = methodFactory.newMethod("example", new Class[]{String.class, String.class}, Void.class,
+                                                MethodFactory.NO_EXCEPTIONS);
 
-		exampleInvocation = new Invocation(new Object(), method, new Object[]{ARG1, ARG2});
-		invocationMocker = new InvocationMocker();
-	}
+        exampleInvocation = new Invocation(new Object(), method, new Object[]{ARG1, ARG2});
+        invocationMocker = new InvocationMocker();
+    }
 
-	public void testCanAddMatchers() throws Throwable {
-		MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
-		invocationMocker.addMatcher(mockInvocationMatcher);
+    public void testCanAddMatchers() throws Throwable {
+        MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
+        invocationMocker.addMatcher(mockInvocationMatcher);
 
-		mockInvocationMatcher.matchesInvocation.setExpected(exampleInvocation);
-		mockInvocationMatcher.invokedInvocation.setExpected(exampleInvocation);
+        mockInvocationMatcher.matchesInvocation.setExpected(exampleInvocation);
+        mockInvocationMatcher.invokedInvocation.setExpected(exampleInvocation);
 
-		invocationMocker.matches(exampleInvocation);
-		invocationMocker.invoke(exampleInvocation);
+        invocationMocker.matches(exampleInvocation);
+        invocationMocker.invoke(exampleInvocation);
 
-		Verifier.verifyObject(mockInvocationMatcher);
-	}
+        Verifier.verifyObject(mockInvocationMatcher);
+    }
 
-	public void testMatchesIfAllMatchersMatch() {
-		invocationMocker.addMatcher(matchAll);
-		invocationMocker.addMatcher(matchAll);
+    public void testMatchesIfAllMatchersMatch() {
+        invocationMocker.addMatcher(matchAll);
+        invocationMocker.addMatcher(matchAll);
 
-		assertTrue("Should have matched", invocationMocker.matches(exampleInvocation));
-	}
+        assertTrue("Should have matched", invocationMocker.matches(exampleInvocation));
+    }
 
-	public void testDoesNotMatchIfAnyMatcherDoesNotMatch() {
-		invocationMocker.addMatcher(matchAll);
-		invocationMocker.addMatcher(matchNone);
+    public void testDoesNotMatchIfAnyMatcherDoesNotMatch() {
+        invocationMocker.addMatcher(matchAll);
+        invocationMocker.addMatcher(matchNone);
 
-		assertFalse("Should not have matched", invocationMocker.matches(exampleInvocation));
-	}
+        assertFalse("Should not have matched", invocationMocker.matches(exampleInvocation));
+    }
 
-	public void testMatchesInvocationBeforeCallingStub() throws Throwable {
-		MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
-		invocationMocker.addMatcher(mockInvocationMatcher);
+    public void testMatchesInvocationBeforeCallingStub() throws Throwable {
+        MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
+        invocationMocker.addMatcher(mockInvocationMatcher);
 
-		mockInvocationMatcher.invokedInvocation.setExpected(exampleInvocation);
+        mockInvocationMatcher.invokedInvocation.setExpected(exampleInvocation);
 
-		invocationMocker.invoke(exampleInvocation);
+        invocationMocker.invoke(exampleInvocation);
 
-		Verifier.verifyObject(mockInvocationMatcher);
-	}
+        Verifier.verifyObject(mockInvocationMatcher);
+    }
 
-	public void testDelegatesVerifyToInvocationMatchers() throws Throwable {
-		MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
-		invocationMocker.addMatcher(mockInvocationMatcher);
+    public void testDelegatesVerifyToInvocationMatchers() throws Throwable {
+        MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
+        invocationMocker.addMatcher(mockInvocationMatcher);
 
-		mockInvocationMatcher.verifyCalls.setExpected(1);
+        mockInvocationMatcher.verifyCalls.setExpected(1);
 
-		invocationMocker.verify();
+        invocationMocker.verify();
 
-		Verifier.verifyObject(mockInvocationMatcher);
-	}
+        Verifier.verifyObject(mockInvocationMatcher);
+    }
 
-	public void testDelegatesInvocationToStubObject() throws Throwable {
-		MockStub mockStub = new MockStub();
-		invocationMocker.setStub(mockStub);
+    public void testDelegatesInvocationToStubObject() throws Throwable {
+        MockStub mockStub = new MockStub();
+        invocationMocker.setStub(mockStub);
 
-		String stubResult = "stub result";
+        String stubResult = "stub result";
 
-		mockStub.invokeInvocation.setExpected(exampleInvocation);
-		mockStub.invokeResult = stubResult;
+        mockStub.invokeInvocation.setExpected(exampleInvocation);
+        mockStub.invokeResult = stubResult;
 
-		assertEquals("Should be invoke result", stubResult,
-		             invocationMocker.invoke(exampleInvocation));
+        assertEquals("Should be invoke result", stubResult,
+                     invocationMocker.invoke(exampleInvocation));
 
-		Verifier.verifyObject(mockStub);
-	}
+        Verifier.verifyObject(mockStub);
+    }
 
-	public void testCanBeNamed() {
-		String name = "~{MOCKER-NAME}~";
-		InvocationMocker mocker = new InvocationMocker();
+    public void testCanBeNamed() {
+        String name = "~{MOCKER-NAME}~";
+        InvocationMocker mocker = new InvocationMocker();
 
-		mocker.setName(name);
+        mocker.setName(name);
 
-		String description = mocker.describeTo(new StringBuffer()).toString();
-		assertTrue("name should be in description",
-		           description.indexOf(name) >= 0);
-	}
+        String description = mocker.describeTo(new StringBuffer()).toString();
+        assertTrue("name should be in description",
+                   description.indexOf(name) >= 0);
+    }
 
-	public void testDelegatesRequestForDescriptionDescriberObject() {
-		MockDescriber mockDescriber = new MockDescriber();
-		MockInvocationMatcher mockMatcher1 = new MockInvocationMatcher();
-		MockInvocationMatcher mockMatcher2 = new MockInvocationMatcher();
-		MockStub mockStub = new MockStub();
-		String invocationMockerName = "INVOCATION-MOCKER-NAME";
-		StringBuffer buf = new StringBuffer();
+    public void testDelegatesRequestForDescriptionDescriberObject() {
+        MockDescriber mockDescriber = new MockDescriber();
+        MockInvocationMatcher mockMatcher1 = new MockInvocationMatcher();
+        MockInvocationMatcher mockMatcher2 = new MockInvocationMatcher();
+        MockStub mockStub = new MockStub();
+        String invocationMockerName = "INVOCATION-MOCKER-NAME";
+        StringBuffer buf = new StringBuffer();
 
 
-		invocationMocker = new InvocationMocker(mockDescriber);
-		invocationMocker.addMatcher(mockMatcher1);
-		invocationMocker.addMatcher(mockMatcher2);
-		invocationMocker.setStub(mockStub);
-		invocationMocker.setName(invocationMockerName);
+        invocationMocker = new InvocationMocker(mockDescriber);
+        invocationMocker.addMatcher(mockMatcher1);
+        invocationMocker.addMatcher(mockMatcher2);
+        invocationMocker.setStub(mockStub);
+        invocationMocker.setName(invocationMockerName);
 
-		mockDescriber.hasDescriptionCalls.setExpected(1);
-		mockDescriber.hasDescriptionResult = true;
+        mockDescriber.hasDescriptionCalls.setExpected(1);
+        mockDescriber.hasDescriptionResult = true;
 
-		mockDescriber.describeToBuf.setExpected(buf);
-		mockDescriber.describeToMatchers.addActual(mockMatcher1);
-		mockDescriber.describeToMatchers.addActual(mockMatcher2);
-		mockDescriber.describeToStub.setExpected(mockStub);
-		mockDescriber.describeToName.setExpected(invocationMockerName);
+        mockDescriber.describeToBuf.setExpected(buf);
+        mockDescriber.describeToMatchers.addActual(mockMatcher1);
+        mockDescriber.describeToMatchers.addActual(mockMatcher2);
+        mockDescriber.describeToStub.setExpected(mockStub);
+        mockDescriber.describeToName.setExpected(invocationMockerName);
 
-		assertTrue("should have description", invocationMocker.hasDescription());
-		invocationMocker.describeTo(buf);
+        assertTrue("should have description", invocationMocker.hasDescription());
+        invocationMocker.describeTo(buf);
 
-		mockDescriber.verify();
-	}
+        mockDescriber.verify();
+    }
 }

@@ -10,23 +10,23 @@ import org.jmock.core.Constraint;
  */
 public class IsCloseTo implements Constraint
 {
-	private double error;
-	private double value;
+    private double error;
+    private double value;
 
-	public IsCloseTo( double value, double error ) {
-		this.error = error;
-		this.value = value;
-	}
+    public IsCloseTo( double value, double error ) {
+        this.error = error;
+        this.value = value;
+    }
 
-	public boolean eval( Object arg ) {
-		double argValue = ((Number)arg).doubleValue();
-		return Math.abs((argValue - value)) <= error;
-	}
+    public boolean eval( Object arg ) {
+        double argValue = ((Number)arg).doubleValue();
+        return Math.abs((argValue - value)) <= error;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("a numeric value within ")
-		        .append(error)
-		        .append(" of ")
-		        .append(value);
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a numeric value within ")
+                .append(error)
+                .append(" of ")
+                .append(value);
+    }
 }

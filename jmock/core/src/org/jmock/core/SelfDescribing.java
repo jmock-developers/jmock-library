@@ -7,11 +7,11 @@ package org.jmock.core;
  */
 public interface SelfDescribing
 {
-	/**
-	 * Appends the description of this object to the buffer.
-	 *
-	 * @param buffer The buffer that the description is appended to.
-	 * @return The buffer passed to the invokedMethod.
-	 */
-	StringBuffer describeTo( StringBuffer buffer );
+    /**
+     * Appends the description of this object to the buffer.
+     *
+     * @param buffer The buffer that the description is appended to.
+     * @return The buffer passed to the invokedMethod.
+     */
+    StringBuffer describeTo( StringBuffer buffer );
 }

@@ -5,5 +5,5 @@ package org.jmock.examples.calculator;
 
 public interface Expression
 {
-	double evaluate( Environment environment ) throws CalculatorException;
+    double evaluate( Environment environment ) throws CalculatorException;
 }

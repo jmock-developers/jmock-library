@@ -5,11 +5,11 @@ package org.jmock.core;
 public interface InvocationDispatcher
         extends Verifiable, SelfDescribing
 {
-	Object dispatch( Invocation invocation ) throws Throwable;
+    Object dispatch( Invocation invocation ) throws Throwable;
 
-	void setDefaultStub( Stub newDefaultStub );
+    void setDefaultStub( Stub newDefaultStub );
 
-	void add( Invokable invokable );
+    void add( Invokable invokable );
 
-	void clear();
+    void clear();
 }

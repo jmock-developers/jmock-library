@@ -5,13 +5,13 @@ import org.jmock.core.Constraint;
 
 public class AlwaysTrue implements Constraint
 {
-	public static AlwaysTrue INSTANCE = new AlwaysTrue();
+    public static AlwaysTrue INSTANCE = new AlwaysTrue();
 
-	public boolean eval( Object o ) {
-		return true;
-	}
+    public boolean eval( Object o ) {
+        return true;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("always true");
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("always true");
+    }
 }

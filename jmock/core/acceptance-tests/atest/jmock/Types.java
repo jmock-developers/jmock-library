@@ -8,10 +8,10 @@ package atest.jmock;
  */
 public interface Types
 {
-	public interface WithTwoMethods
-	{
-		int twoArgsReturnInt( String arg1, Object arg2 );
+    public interface WithTwoMethods
+    {
+        int twoArgsReturnInt( String arg1, Object arg2 );
 
-		void noArgsReturnsNothing();
-	}
+        void noArgsReturnsNothing();
+    }
 }

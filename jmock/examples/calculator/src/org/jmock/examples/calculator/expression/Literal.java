@@ -8,13 +8,13 @@ import org.jmock.examples.calculator.Expression;
 
 public class Literal implements Expression
 {
-	private double value;
+    private double value;
 
-	public Literal( double value ) {
-		this.value = value;
-	}
+    public Literal( double value ) {
+        this.value = value;
+    }
 
-	public double evaluate( Environment environment ) {
-		return value;
-	}
+    public double evaluate( Environment environment ) {
+        return value;
+    }
 }

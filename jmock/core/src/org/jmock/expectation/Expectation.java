@@ -17,23 +17,23 @@ import org.jmock.core.Verifiable;
 public interface Expectation extends Verifiable
 {
 
-	/**
-	 * Return true if any expectations have been set on this object.
-	 */
-	public boolean hasExpectations();
+    /**
+     * Return true if any expectations have been set on this object.
+     */
+    public boolean hasExpectations();
 
-	/**
-	 * Tell the object to expect nothing to happen to it, perhaps because the test is exercising
-	 * the handling of an error. The Expectation will fail if any actual values are set.
-	 * <p/>
-	 * Note that this is not the same as not setting any expectations, in which case verify()
-	 * will do nothing.
-	 */
-	void setExpectNothing();
+    /**
+     * Tell the object to expect nothing to happen to it, perhaps because the test is exercising
+     * the handling of an error. The Expectation will fail if any actual values are set.
+     * <p/>
+     * Note that this is not the same as not setting any expectations, in which case verify()
+     * will do nothing.
+     */
+    void setExpectNothing();
 
-	/**
-	 * If an incorrect actual value is set, defer reporting this as a failure until verify()
-	 * is called on this object.
-	 */
-	public void setFailOnVerify();
+    /**
+     * If an incorrect actual value is set, defer reporting this as a failure until verify()
+     * is called on this object.
+     */
+    public void setFailOnVerify();
 }

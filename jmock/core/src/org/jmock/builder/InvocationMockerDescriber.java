@@ -15,39 +15,39 @@ import org.jmock.core.matcher.MethodNameMatcher;
 
 public class InvocationMockerDescriber implements Describer
 {
-	private static final String SEP = ", ";
+    private static final String SEP = ", ";
 
-	public boolean hasDescription() {
-		return true;
-	}
+    public boolean hasDescription() {
+        return true;
+    }
 
-	public void describeTo( StringBuffer buffer,
-	                        List matchers, Stub stub, String name ) {
-		Iterator i = matchers.iterator();
-		boolean needSeparator = false;
-		boolean lastWasMethodName = false;
+    public void describeTo( StringBuffer buffer,
+                            List matchers, Stub stub, String name ) {
+        Iterator i = matchers.iterator();
+        boolean needSeparator = false;
+        boolean lastWasMethodName = false;
 
-		while (i.hasNext()) {
-			InvocationMatcher matcher = (InvocationMatcher)i.next();
+        while (i.hasNext()) {
+            InvocationMatcher matcher = (InvocationMatcher)i.next();
 
-			if (!matcher.hasDescription()) continue;
+            if (!matcher.hasDescription()) continue;
 
-			if (matcher instanceof MethodNameMatcher) {
-				if (!needSeparator) buffer.append("stub"); // first matcher
-				buffer.append(": ");
-				lastWasMethodName = true;
-			} else {
-				if (needSeparator && !lastWasMethodName) buffer.append(SEP);
-				lastWasMethodName = false;
-			}
+            if (matcher instanceof MethodNameMatcher) {
+                if (!needSeparator) buffer.append("stub"); // first matcher
+                buffer.append(": ");
+                lastWasMethodName = true;
+            } else {
+                if (needSeparator && !lastWasMethodName) buffer.append(SEP);
+                lastWasMethodName = false;
+            }
 
-			matcher.describeTo(buffer);
-			needSeparator = true;
-		}
+            matcher.describeTo(buffer);
+            needSeparator = true;
+        }
 
-		if (needSeparator) buffer.append(SEP);
-		stub.describeTo(buffer);
+        if (needSeparator) buffer.append(SEP);
+        stub.describeTo(buffer);
 
-		if (name != null) buffer.append(" [").append(name).append("]");
-	}
+        if (name != null) buffer.append(" [").append(name).append("]");
+    }
 }

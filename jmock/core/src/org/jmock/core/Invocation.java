@@ -12,44 +12,44 @@ import java.util.List;
  */
 public class Invocation implements SelfDescribing
 {
-	public final Object invokedObject;
-	public final Method invokedMethod;
-	public final List parameterValues;
+    public final Object invokedObject;
+    public final Method invokedMethod;
+    public final List parameterValues;
 
-	public Invocation( Object invoked, Method method, Object[] parameterValues ) {
-		this.invokedObject = invoked;
-		this.invokedMethod = method;
-		this.parameterValues = parameterValues == null ?
-		                       Collections.EMPTY_LIST
-		                       : Collections.unmodifiableList(Arrays.asList(parameterValues));
-	}
+    public Invocation( Object invoked, Method method, Object[] parameterValues ) {
+        this.invokedObject = invoked;
+        this.invokedMethod = method;
+        this.parameterValues = parameterValues == null ?
+                               Collections.EMPTY_LIST
+                               : Collections.unmodifiableList(Arrays.asList(parameterValues));
+    }
 
-	public String toString() {
-		return describeTo(new StringBuffer()).toString();
-	}
+    public String toString() {
+        return describeTo(new StringBuffer()).toString();
+    }
 
-	public boolean equals( Object other ) {
-		return (other instanceof Invocation) && this.equals((Invocation)other);
-	}
+    public boolean equals( Object other ) {
+        return (other instanceof Invocation) && this.equals((Invocation)other);
+    }
 
-	public boolean equals( Invocation other ) {
-		return other != null
-		       && invokedObject == other.invokedObject
-		       && invokedMethod.equals(other.invokedMethod)
-		       && parameterValues.equals(other.parameterValues);
-	}
+    public boolean equals( Invocation other ) {
+        return other != null
+               && invokedObject == other.invokedObject
+               && invokedMethod.equals(other.invokedMethod)
+               && parameterValues.equals(other.parameterValues);
+    }
 
-	public int hashCode() {
-		return invokedObject.hashCode() ^
-		       invokedMethod.hashCode() ^
-		       parameterValues.hashCode();
-	}
+    public int hashCode() {
+        return invokedObject.hashCode() ^
+               invokedMethod.hashCode() ^
+               parameterValues.hashCode();
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		buffer.append(invokedMethod.getDeclaringClass().getName());
-		buffer.append(".");
-		buffer.append(invokedMethod.getName());
-		Formatting.join(parameterValues, buffer, "(", ")");
-		return buffer.append("\n");
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        buffer.append(invokedMethod.getDeclaringClass().getName());
+        buffer.append(".");
+        buffer.append(invokedMethod.getName());
+        Formatting.join(parameterValues, buffer, "(", ")");
+        return buffer.append("\n");
+    }
 }

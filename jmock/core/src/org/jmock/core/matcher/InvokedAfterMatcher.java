@@ -7,26 +7,26 @@ import org.jmock.core.Invocation;
 public class InvokedAfterMatcher
         extends StatelessInvocationMatcher
 {
-	private InvokedRecorder priorCallRecorder;
-	private String priorCallDescription;
+    private InvokedRecorder priorCallRecorder;
+    private String priorCallDescription;
 
-	public InvokedAfterMatcher( InvokedRecorder priorCallRecorder,
-	                            String priorCallDescription ) {
-		this.priorCallRecorder = priorCallRecorder;
-		this.priorCallDescription = priorCallDescription;
-	}
+    public InvokedAfterMatcher( InvokedRecorder priorCallRecorder,
+                                String priorCallDescription ) {
+        this.priorCallRecorder = priorCallRecorder;
+        this.priorCallDescription = priorCallDescription;
+    }
 
-	public boolean matches( Invocation invocation ) {
-		return priorCallRecorder.hasBeenInvoked();
-	}
+    public boolean matches( Invocation invocation ) {
+        return priorCallRecorder.hasBeenInvoked();
+    }
 
-	public void invoked( Invocation invocation ) {
-		if (!matches(invocation)) {
-			throw new AssertionFailedError("called out of order; should be called after " + priorCallDescription);
-		}
-	}
+    public void invoked( Invocation invocation ) {
+        if (!matches(invocation)) {
+            throw new AssertionFailedError("called out of order; should be called after " + priorCallDescription);
+        }
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("after ").append(priorCallDescription);
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("after ").append(priorCallDescription);
+    }
 }

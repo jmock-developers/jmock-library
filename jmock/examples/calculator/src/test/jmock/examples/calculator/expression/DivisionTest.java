@@ -12,28 +12,28 @@ import org.jmock.examples.calculator.expression.Division;
 public class DivisionTest extends AbstractBinaryOperatorTest
 {
 
-	public void testDividesLeftSubexpressionByRightSubexpression() throws Exception {
-		runOperatorTest();
-	}
+    public void testDividesLeftSubexpressionByRightSubexpression() throws Exception {
+        runOperatorTest();
+    }
 
-	public void testThrowsExceptionOnDivideByZero() throws Exception {
-		Expression expression = makeExpression(1, 0);
+    public void testThrowsExceptionOnDivideByZero() throws Exception {
+        Expression expression = makeExpression(1, 0);
 
-		try {
-			expression.evaluate(new SimpleEnvironment());
-			fail("expected CalculatorException on divide by zero");
-		}
-		catch (CalculatorException ex) {
-			assertTrue("error should contain 'divide by zero'",
-			           ex.getMessage().indexOf("divide by zero") >= 0);
-		}
-	}
+        try {
+            expression.evaluate(new SimpleEnvironment());
+            fail("expected CalculatorException on divide by zero");
+        }
+        catch (CalculatorException ex) {
+            assertTrue("error should contain 'divide by zero'",
+                       ex.getMessage().indexOf("divide by zero") >= 0);
+        }
+    }
 
-	protected double expectedValue( double left, double right ) {
-		return left / right;
-	}
+    protected double expectedValue( double left, double right ) {
+        return left / right;
+    }
 
-	protected Expression makeExpression( Expression left, Expression right ) {
-		return new Division(left, right);
-	}
+    protected Expression makeExpression( Expression left, Expression right ) {
+        return new Division(left, right);
+    }
 }

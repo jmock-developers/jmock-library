@@ -13,70 +13,70 @@ import test.jmock.core.testsupport.MethodFactory;
 
 public class ArgumentsMatcherTest extends TestCase
 {
-	private static final String INVOKED_OBJECT = "INVOKED-OBJECT";
-	private static final String exampleArg1 = "arg1";
-	private static final String exampleArg2 = "arg2";
+    private static final String INVOKED_OBJECT = "INVOKED-OBJECT";
+    private static final String exampleArg1 = "arg1";
+    private static final String exampleArg2 = "arg2";
 
-	private Invocation emptyInvocation;
-	private Invocation exampleInvocation;
+    private Invocation emptyInvocation;
+    private Invocation exampleInvocation;
 
-	public void setUp() {
-		MethodFactory methodFactory = new MethodFactory();
+    public void setUp() {
+        MethodFactory methodFactory = new MethodFactory();
 
-		emptyInvocation = new Invocation(INVOKED_OBJECT,
-		                                 methodFactory.newMethod("example", MethodFactory.NO_ARGUMENTS, Void.class,
-		                                                         MethodFactory.NO_EXCEPTIONS),
-		                                 new Object[0]);
+        emptyInvocation = new Invocation(INVOKED_OBJECT,
+                                         methodFactory.newMethod("example", MethodFactory.NO_ARGUMENTS, Void.class,
+                                                                 MethodFactory.NO_EXCEPTIONS),
+                                         new Object[0]);
 
-		exampleInvocation = new Invocation(INVOKED_OBJECT,
-		                                   methodFactory.newMethod("example", new Class[]{String.class, String.class}, Void.class,
-		                                                           MethodFactory.NO_EXCEPTIONS),
-		                                   new Object[]{exampleArg1, exampleArg2});
-	}
+        exampleInvocation = new Invocation(INVOKED_OBJECT,
+                                           methodFactory.newMethod("example", new Class[]{String.class, String.class}, Void.class,
+                                                                   MethodFactory.NO_EXCEPTIONS),
+                                           new Object[]{exampleArg1, exampleArg2});
+    }
 
-	public void testMatchWhenNoArgumentsOrConstraints() throws Throwable {
-		ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);
+    public void testMatchWhenNoArgumentsOrConstraints() throws Throwable {
+        ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);
 
-		assertTrue("No arguments", matcher.matches(emptyInvocation));
-	}
+        assertTrue("No arguments", matcher.matches(emptyInvocation));
+    }
 
-	public void testNoMatchWhenTooManyArguments() throws Throwable {
-		ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);
+    public void testNoMatchWhenTooManyArguments() throws Throwable {
+        ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);
 
-		assertFalse("Too many arguments", matcher.matches(exampleInvocation));
-	}
+        assertFalse("Too many arguments", matcher.matches(exampleInvocation));
+    }
 
-	public void testNoMatchWhenTooFewArguments() throws Throwable {
-		ArgumentsMatcher matcher =
-		        new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE});
+    public void testNoMatchWhenTooFewArguments() throws Throwable {
+        ArgumentsMatcher matcher =
+                new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE});
 
-		assertFalse("Too many arguments", matcher.matches(exampleInvocation));
-	}
+        assertFalse("Too many arguments", matcher.matches(exampleInvocation));
+    }
 
-	public void testNoMatchWhenAnyArgumentDoesNotConform() throws Throwable {
-		ArgumentsMatcher matcher =
-		        new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, same("wrong")});
+    public void testNoMatchWhenAnyArgumentDoesNotConform() throws Throwable {
+        ArgumentsMatcher matcher =
+                new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, same("wrong")});
 
-		assertFalse("Incorrect argument", matcher.matches(exampleInvocation));
-	}
+        assertFalse("Incorrect argument", matcher.matches(exampleInvocation));
+    }
 
-	public void testArgumentsMatchWhenAllArgumentsMatch() throws Throwable {
-		ArgumentsMatcher matcher =
-		        new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, same(exampleArg2)});
+    public void testArgumentsMatchWhenAllArgumentsMatch() throws Throwable {
+        ArgumentsMatcher matcher =
+                new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, same(exampleArg2)});
 
-		assertTrue("Arguments match", matcher.matches(exampleInvocation));
-	}
+        assertTrue("Arguments match", matcher.matches(exampleInvocation));
+    }
 
-	public void testClonesConstraintListDuringConstructor() {
-		Constraint[] constraintArray = {same(exampleArg1), same(exampleArg2)};
+    public void testClonesConstraintListDuringConstructor() {
+        Constraint[] constraintArray = {same(exampleArg1), same(exampleArg2)};
 
-		ArgumentsMatcher matcher = new ArgumentsMatcher(constraintArray);
+        ArgumentsMatcher matcher = new ArgumentsMatcher(constraintArray);
 
-		constraintArray[0] = AlwaysFalse.INSTANCE;
-		assertTrue("arguments should match", matcher.matches(exampleInvocation));
-	}
+        constraintArray[0] = AlwaysFalse.INSTANCE;
+        assertTrue("arguments should match", matcher.matches(exampleInvocation));
+    }
 
-	private Constraint same( Object arg ) {
-		return new IsSame(arg);
-	}
+    private Constraint same( Object arg ) {
+        return new IsSame(arg);
+    }
 }

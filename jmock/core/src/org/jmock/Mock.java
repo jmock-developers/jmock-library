@@ -10,86 +10,86 @@ import org.jmock.core.*;
 public class Mock
         implements DynamicMock, BuilderNamespace, Verifiable
 {
-	DynamicMock coreMock;
-	HashMap idTable = new HashMap();
+    DynamicMock coreMock;
+    HashMap idTable = new HashMap();
 
-	public Mock( Class mockedType ) {
-		this(mockedType, CoreMock.mockNameFromClass(mockedType));
-	}
+    public Mock( Class mockedType ) {
+        this(mockedType, CoreMock.mockNameFromClass(mockedType));
+    }
 
-	public Mock( Class mockedType, String name ) {
-		this(new CoreMock(mockedType, name));
-	}
+    public Mock( Class mockedType, String name ) {
+        this(new CoreMock(mockedType, name));
+    }
 
-	public Mock( DynamicMock coreMock ) {
-		this.coreMock = coreMock;
-	}
+    public Mock( DynamicMock coreMock ) {
+        this.coreMock = coreMock;
+    }
 
-	public Class getMockedType() {
-		return coreMock.getMockedType();
-	}
+    public Class getMockedType() {
+        return coreMock.getMockedType();
+    }
 
-	public Object proxy() {
-		return coreMock.proxy();
-	}
+    public Object proxy() {
+        return coreMock.proxy();
+    }
 
-	public String toString() {
-		return coreMock.toString();
-	}
+    public String toString() {
+        return coreMock.toString();
+    }
 
-	public void verify() {
-		coreMock.verify();
-	}
+    public void verify() {
+        coreMock.verify();
+    }
 
-	public void addInvokable( Invokable invokable ) {
-		coreMock.addInvokable(invokable);
-	}
+    public void addInvokable( Invokable invokable ) {
+        coreMock.addInvokable(invokable);
+    }
 
-	public NameMatchBuilder stubs() {
-		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
-		addInvokable(mocker);
+    public NameMatchBuilder stubs() {
+        InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
+        addInvokable(mocker);
 
-		return new InvocationMockerBuilder(mocker, this);
-	}
+        return new InvocationMockerBuilder(mocker, this);
+    }
 
-	public NameMatchBuilder expects( InvocationMatcher expectation ) {
-		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
+    public NameMatchBuilder expects( InvocationMatcher expectation ) {
+        InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
 
-		mocker.addMatcher(expectation);
-		addInvokable(mocker);
+        mocker.addMatcher(expectation);
+        addInvokable(mocker);
 
-		return new InvocationMockerBuilder(mocker, this);
-	}
+        return new InvocationMockerBuilder(mocker, this);
+    }
 
-	public void setDefaultStub( Stub newDefaultStub ) {
-		coreMock.setDefaultStub(newDefaultStub);
-	}
+    public void setDefaultStub( Stub newDefaultStub ) {
+        coreMock.setDefaultStub(newDefaultStub);
+    }
 
-	public void reset() {
-		coreMock.reset();
-	}
+    public void reset() {
+        coreMock.reset();
+    }
 
-	public MatchBuilder lookupID( String id ) {
-		if (!idTable.containsKey(id)) {
-			throw new AssertionFailedError("no expected invocation named '" + id + "'");
-		}
+    public MatchBuilder lookupID( String id ) {
+        if (!idTable.containsKey(id)) {
+            throw new AssertionFailedError("no expected invocation named '" + id + "'");
+        }
 
-		return (MatchBuilder)idTable.get(id);
-	}
+        return (MatchBuilder)idTable.get(id);
+    }
 
-	public void registerUniqueID( String id, MatchBuilder builder ) {
-		if (idTable.containsKey(id)) {
-			throw new AssertionFailedError("duplicate invocation named \"" + id + "\"");
-		}
+    public void registerUniqueID( String id, MatchBuilder builder ) {
+        if (idTable.containsKey(id)) {
+            throw new AssertionFailedError("duplicate invocation named \"" + id + "\"");
+        }
 
-		storeID(id, builder);
-	}
+        storeID(id, builder);
+    }
 
-	public void registerMethodName( String id, MatchBuilder builder ) {
-		storeID(id, builder);
-	}
+    public void registerMethodName( String id, MatchBuilder builder ) {
+        storeID(id, builder);
+    }
 
-	private void storeID( String id, IdentityBuilder builder ) {
-		idTable.put(id, builder);
-	}
+    private void storeID( String id, IdentityBuilder builder ) {
+        idTable.put(id, builder);
+    }
 }

@@ -10,8 +10,8 @@ package org.jmock.core;
 public interface Verifiable
 {
 
-	/**
-	 * Throw an AssertionFailedException if any expectations have not been met.
-	 */
-	public abstract void verify();
+    /**
+     * Throw an AssertionFailedException if any expectations have not been met.
+     */
+    public abstract void verify();
 }

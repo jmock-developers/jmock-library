@@ -9,15 +9,15 @@ import org.jmock.examples.calculator.Expression;
 public class Division extends BinaryOperator
 {
 
-	public Division( Expression left, Expression right ) {
-		super(left, right);
-	}
+    public Division( Expression left, Expression right ) {
+        super(left, right);
+    }
 
-	protected double operator( double left, double right )
-	        throws CalculatorException {
-		if (right == 0.0) {
-			throw new CalculatorException("divide by zero");
-		}
-		return left / right;
-	}
+    protected double operator( double left, double right )
+            throws CalculatorException {
+        if (right == 0.0) {
+            throw new CalculatorException("divide by zero");
+        }
+        return left / right;
+    }
 }

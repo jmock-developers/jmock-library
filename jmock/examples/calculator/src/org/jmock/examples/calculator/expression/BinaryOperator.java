@@ -10,19 +10,19 @@ import org.jmock.examples.calculator.Expression;
 public abstract class BinaryOperator implements Expression
 {
 
-	private Expression left, right;
+    private Expression left, right;
 
-	protected BinaryOperator( Expression left, Expression right ) {
-		this.left = left;
-		this.right = right;
-	}
+    protected BinaryOperator( Expression left, Expression right ) {
+        this.left = left;
+        this.right = right;
+    }
 
-	public double evaluate( Environment environment )
-	        throws CalculatorException {
-		return operator(left.evaluate(environment),
-		                right.evaluate(environment));
-	}
+    public double evaluate( Environment environment )
+            throws CalculatorException {
+        return operator(left.evaluate(environment),
+                        right.evaluate(environment));
+    }
 
-	protected abstract double operator( double leftArg, double rightArg )
-	        throws CalculatorException;
+    protected abstract double operator( double leftArg, double rightArg )
+            throws CalculatorException;
 }

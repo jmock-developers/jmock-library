@@ -7,18 +7,18 @@ import org.jmock.MockObjectTestCase;
 public class PublisherTest extends MockObjectTestCase
 {
 
-	public void testOneSubscriberReceivesAMessage() {
-		// setup
-		Mock mockSubscriber = mock(Subscriber.class);
-		Publisher publisher = new Publisher();
-		publisher.add((Subscriber)mockSubscriber.proxy());
+    public void testOneSubscriberReceivesAMessage() {
+        // setup
+        Mock mockSubscriber = mock(Subscriber.class);
+        Publisher publisher = new Publisher();
+        publisher.add((Subscriber)mockSubscriber.proxy());
 
-		Message message = new Message();
+        Message message = new Message();
 
-		// expectations
-		mockSubscriber.expects(once()).method("receive").with(eq(message)).isVoid();
+        // expectations
+        mockSubscriber.expects(once()).method("receive").with(eq(message)).isVoid();
 
-		// execute
-		publisher.publish(message);
-	}
+        // execute
+        publisher.publish(message);
+    }
 }

@@ -7,57 +7,57 @@ import org.jmock.MockObjectTestCase;
 
 public class DynamicMockExample extends MockObjectTestCase
 {
-	public interface Market
-	{
-		String[] listStocks();
+    public interface Market
+    {
+        String[] listStocks();
 
-		int getPrice( String ticker );
+        int getPrice( String ticker );
 
-		void buyStock( String ticker, int quantity );
-	}
+        void buyStock( String ticker, int quantity );
+    }
 
-	public class Agent
-	{
-		Market market;
+    public class Agent
+    {
+        Market market;
 
-		public Agent( Market market ) {
-			this.market = market;
-		}
+        public Agent( Market market ) {
+            this.market = market;
+        }
 
-		public void buyLowestPriceStock( int cost ) {
-			String[] stocks = market.listStocks();
-			int cheapestPrice = Integer.MAX_VALUE;
-			String cheapestStock = null;
+        public void buyLowestPriceStock( int cost ) {
+            String[] stocks = market.listStocks();
+            int cheapestPrice = Integer.MAX_VALUE;
+            String cheapestStock = null;
 
-			for (int i = 0; i < stocks.length; ++i) {
-				int price = market.getPrice(stocks[i]);
-				if (price < cheapestPrice) {
-					cheapestPrice = price;
-					cheapestStock = stocks[i];
-				}
-			}
-			market.buyStock(cheapestStock, cost / cheapestPrice);
-		}
-	}
+            for (int i = 0; i < stocks.length; ++i) {
+                int price = market.getPrice(stocks[i]);
+                if (price < cheapestPrice) {
+                    cheapestPrice = price;
+                    cheapestStock = stocks[i];
+                }
+            }
+            market.buyStock(cheapestStock, cost / cheapestPrice);
+        }
+    }
 
-	public void testBuilderExample() {
-		Mock market = mock(Market.class);
-		Agent agent = new Agent((Market)market.proxy());
+    public void testBuilderExample() {
+        Mock market = mock(Market.class);
+        Agent agent = new Agent((Market)market.proxy());
 
-		market.stubs().method("listStocks").withNoArguments()
-		        .will(returnValue(new String[]{"IBM", "ORCL"}));
-		market.expects(atLeastOnce()).method("getPrice").with(eq("IBM"))
-		        .will(returnValue(10));
-		market.expects(atLeastOnce()).method("getPrice").with(eq("ORCL"))
-		        .will(returnValue(25));
-		market.expects(once()).method("buyStock").with(eq("IBM"), eq(2));
+        market.stubs().method("listStocks").withNoArguments()
+                .will(returnValue(new String[]{"IBM", "ORCL"}));
+        market.expects(atLeastOnce()).method("getPrice").with(eq("IBM"))
+                .will(returnValue(10));
+        market.expects(atLeastOnce()).method("getPrice").with(eq("ORCL"))
+                .will(returnValue(25));
+        market.expects(once()).method("buyStock").with(eq("IBM"), eq(2));
 
-		agent.buyLowestPriceStock(20);
-	}
+        agent.buyLowestPriceStock(20);
+    }
 
-	public void xtestDynaMockExample() {
-		Mock mockMarket = mock(Market.class);
-		Agent agent = new Agent((Market)mockMarket.proxy());
+    public void xtestDynaMockExample() {
+        Mock mockMarket = mock(Market.class);
+        Agent agent = new Agent((Market)mockMarket.proxy());
 //	
 //	 
 //	    mockMarket.invokedMethod("buyStock", "MSFT", new Integer(10)).void();
@@ -93,6 +93,6 @@ public class DynamicMockExample extends MockObjectTestCase
 //			.addStub( new ReturnStub( new Integer(900) )));
 //			
 //
-		agent.buyLowestPriceStock(1000);
-	}
+        agent.buyLowestPriceStock(1000);
+    }
 }
