@@ -1,3 +1,4 @@
+Bug fix: Mock.reset now clears the idTable
 Can give description to "expect never" to describe why invocation is not expected
 Refactored invocation dispatcher classes to remove duplication
 Bug fix: Ignore all but the first test failure (JMOCK-30)
