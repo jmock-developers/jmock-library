@@ -15,6 +15,8 @@ public class InvokeOnceMatcher
     }
     
     public StringBuffer writeTo(StringBuffer buffer) {
-        return buffer.append("expected once");
+        buffer.append("expected once");
+        if( hasBeenInvoked() ) buffer.append(" and has been called");
+        return buffer;
     }
 }
