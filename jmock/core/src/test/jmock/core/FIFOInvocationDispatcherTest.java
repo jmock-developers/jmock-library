@@ -3,11 +3,14 @@
 package test.jmock.core;
 
 import java.lang.reflect.Method;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
 import org.jmock.core.Invocation;
-import org.jmock.core.FIFOInvocationDispatcher;
+import org.jmock.core.OrderedInvocationDispatcher;
 import org.jmock.util.Dummy;
+
 import test.jmock.core.testsupport.MockInvokable;
 import test.jmock.core.testsupport.MockStub;
 
@@ -15,13 +18,13 @@ import test.jmock.core.testsupport.MockStub;
 public class FIFOInvocationDispatcherTest extends TestCase
 {
     private Invocation invocation;
-    private FIFOInvocationDispatcher dispatcher;
+    private OrderedInvocationDispatcher dispatcher;
     private MockInvokable invokable1 = new MockInvokable();
     private MockInvokable invokable2 = new MockInvokable();
 
     public void setUp() throws NoSuchMethodException {
         invocation = new Invocation("INVOKED-OBJECT", getDummyMethod(), null);
-        dispatcher = new FIFOInvocationDispatcher();
+        dispatcher = new OrderedInvocationDispatcher.FIFO();
     }
 
     public void dummyMethod() { /* just used to create Invocation objects */

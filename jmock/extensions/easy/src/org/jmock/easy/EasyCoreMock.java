@@ -5,7 +5,7 @@ package org.jmock.easy;
 import java.lang.reflect.Method;
 
 import org.jmock.core.CoreMock;
-import org.jmock.core.FIFOInvocationDispatcher;
+import org.jmock.core.OrderedInvocationDispatcher;
 import org.jmock.core.Stub;
 import org.jmock.easy.internal.InvocationMatch;
 import org.jmock.easy.internal.Range;
@@ -17,7 +17,7 @@ public class EasyCoreMock extends CoreMock
 	private InvocationMatch match = new InvocationMatch();
 	
 	public EasyCoreMock(Class mockedType) {
-		super(mockedType, CoreMock.mockNameFromClass(mockedType), new FIFOInvocationDispatcher());
+		super(mockedType, CoreMock.mockNameFromClass(mockedType), new OrderedInvocationDispatcher.FIFO());
 	}
 
 	public void replay() {

@@ -4,8 +4,10 @@ package test.jmock.core;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
 import org.jmock.core.*;
 import org.jmock.expectation.AssertMo;
+
 import test.jmock.core.testsupport.MockInvocationDispatcher;
 import test.jmock.core.testsupport.MockInvokable;
 import test.jmock.core.testsupport.MockStub;
@@ -93,7 +95,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
     }
 
     public void testTestsEqualityForProxy() throws Exception {
-        coreMock = createDynamicMock( "coreMock", new LIFOInvocationDispatcher());
+        coreMock = createDynamicMock( "coreMock", new OrderedInvocationDispatcher.LIFO());
         proxy = (DummyInterface)coreMock.proxy();
 
         assertTrue("should be equal", proxy.equals(proxy));

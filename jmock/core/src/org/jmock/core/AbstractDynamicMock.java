@@ -3,7 +3,9 @@
 package org.jmock.core;
 
 import java.util.List;
+
 import junit.framework.AssertionFailedError;
+
 import org.jmock.core.constraint.IsAnything;
 import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
@@ -20,7 +22,7 @@ public abstract class AbstractDynamicMock
     private String name;
 
     public AbstractDynamicMock( Class mockedType, String name ) {
-        this(mockedType, name, new LIFOInvocationDispatcher());
+        this(mockedType, name, new OrderedInvocationDispatcher.LIFO());
     }
 
     public AbstractDynamicMock( Class mockedType,

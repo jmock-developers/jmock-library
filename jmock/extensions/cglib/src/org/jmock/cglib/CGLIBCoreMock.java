@@ -3,13 +3,12 @@
 package org.jmock.cglib;
 
 import java.lang.reflect.Method;
+
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.jmock.core.AbstractDynamicMock;
-import org.jmock.core.Invocation;
-import org.jmock.core.InvocationDispatcher;
-import org.jmock.core.LIFOInvocationDispatcher;
+
+import org.jmock.core.*;
 
 
 public class CGLIBCoreMock
@@ -21,11 +20,11 @@ public class CGLIBCoreMock
     public CGLIBCoreMock( Class mockedType ) {
         this(mockedType,
              mockNameFromClass(mockedType),
-             new LIFOInvocationDispatcher());
+             new OrderedInvocationDispatcher.LIFO());
     }
 
     public CGLIBCoreMock( Class mockedType, String name ) {
-        this(mockedType, name, new LIFOInvocationDispatcher());
+        this(mockedType, name, new OrderedInvocationDispatcher.LIFO());
     }
 
     public CGLIBCoreMock( Class mockedType,

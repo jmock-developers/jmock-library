@@ -14,7 +14,7 @@ public class CoreMock
     private Object proxy;
 
     public CoreMock( Class mockedType, String name ) {
-        this(mockedType, name, new LIFOInvocationDispatcher());
+        this(mockedType, name, new OrderedInvocationDispatcher.LIFO());
     }
 
     public CoreMock( Class mockedType,
