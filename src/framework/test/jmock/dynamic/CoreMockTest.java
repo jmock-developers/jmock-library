@@ -78,39 +78,58 @@ public class CoreMockTest extends TestCase {
         mockDispatcher.verifyExpectations();
     }
 
-    public void testChecksProxyEqualityByDefault() throws Exception {
-        coreMock = new CoreMock(DummyInterface.class,"coreMock",new LIFOInvocationDispatcher());
+    public void testTestsEqualityForProxy() throws Exception {
+        coreMock = new CoreMock( DummyInterface.class, "coreMock",
+                                 new LIFOInvocationDispatcher());
         proxy = (DummyInterface)coreMock.proxy();
         
         assertTrue( "should be equal", proxy.equals(proxy));
         assertFalse( "should not be equal", proxy.equals(new Object()) );
+        assertFalse( "shuold not be equal to null", proxy.equals(null) );
+    }
+
+    public void testCanOverrideEqualsForProxyBySettingAStub() throws Exception {
+        mockDispatcher.dispatchResult = new Boolean(false);
+        
+        mockDispatcher.dispatchInvocation.setExpected(
+            new Invocation( DummyInterface.class, 
+                            "equals", new Class[]{Object.class}, boolean.class, 
+                            new Object[]{"not a proxy"} ));
+        
+        assertFalse( "Passes invocation of equals to dispatcher", 
+                     proxy.equals("not a proxy") );
+        
+        mockDispatcher.verifyExpectations();
     }
     
-    public void testProxyInequality() throws Exception {
-        mockDispatcher.dispatchResult = new Boolean(false);
-
+    public void testCalculatesHashCodeForProxy() throws Exception {
+        coreMock = new CoreMock( DummyInterface.class, "coreMock",
+                                 new LIFOInvocationDispatcher());
+        
+        proxy = (DummyInterface)coreMock.proxy();
+        
+        assertEquals( "same hash code", proxy.hashCode(), proxy.hashCode() );
+    }
+    
+    public void testCanOverrideHashCodeForProxyBySettingAStub() throws Exception {
+        int expectedHashCode = 1;
+        
+        mockDispatcher.dispatchResult = new Integer(expectedHashCode);
         mockDispatcher.dispatchInvocation.setExpected(
-                new Invocation(Void.class, "equals", new Class[]{Object.class}, boolean.class, new Object[]{"not a proxy"}));
-
-        assertFalse( "Should handle proxy inequality by calling through", 
-                     proxy.equals("not a proxy") );
+            new Invocation( DummyInterface.class, 
+                            "hashCode", new Class[0], int.class, 
+                            new Object[0] ));
+        
+        assertEquals( "proxy hashCode", expectedHashCode, proxy.hashCode() );
+        
         mockDispatcher.verifyExpectations();
     }
-
-    public void testProxyEqualityWithNull() throws Exception {
-        mockDispatcher.dispatchResult = new Boolean(true);
-        mockDispatcher.dispatchInvocation.setExpected(
-                new Invocation(Void.class, "equals", new Class[]{Object.class}, boolean.class, new Object[]{null}));
-
-        assertTrue("Proxy should handle null equality", proxy.equals(null));
-        mockDispatcher.verifyExpectations();
-    }
-
+    
     public void testGeneratesMockNameFromInterfaceNameIfNoNameSpecified() throws Exception {
         assertEquals("mockString", CoreMock.mockNameFromClass(String.class));
     }
 
-    public void testResultOfToStringContainsName() {
+    public void testReturnsNameFromToString() {
         AssertMo.assertIncludes( "result of toString() should include name", 
         						 MOCK_NAME, coreMock.toString());
     }
