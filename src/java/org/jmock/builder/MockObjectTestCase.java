@@ -1,6 +1,4 @@
-package org.jmock.util;
-
-import junit.framework.TestCase;
+package org.jmock.builder;
 
 import org.jmock.Constraint;
 import org.jmock.constraint.And;
@@ -12,9 +10,10 @@ import org.jmock.constraint.IsNull;
 import org.jmock.constraint.IsSame;
 import org.jmock.constraint.Or;
 import org.jmock.constraint.StringContains;
+import org.jmock.util.VerifyingTestCase;
 
 
-public class MockObjectTestCase extends TestCase 
+public class MockObjectTestCase extends VerifyingTestCase 
 {
 	public static final Constraint ANYTHING = new IsAnything();
     public static final Constraint NULL = new IsNull();
@@ -77,26 +76,6 @@ public class MockObjectTestCase extends TestCase
     
     public Or or( Constraint left, Constraint right ) {
     	return new Or(left,right);
-    }
-    
-    /* This is virtually a copy/paste of the same method in the TestCase class to allow
-     * overriding of runTest in exactly the same manner. 
-     * 
-     * @see junit.framework.TestCase#runBare()
-     */
-    public void runBare() throws Throwable {
-        setUp();
-        try {
-            runTest();
-            verify();
-        }
-        finally {
-            tearDown();
-        }
-    }
-    
-    public void verify() {
-    	Verifier.verifyObject(this);
     }
 }
 
