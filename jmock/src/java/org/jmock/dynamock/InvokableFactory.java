@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.builder;
+package org.jmock.dynamock;
 
 import org.jmock.dynamic.framework.InvocationMatcher;
 import org.jmock.dynamic.framework.InvocationMocker;
@@ -36,6 +36,7 @@ public class InvokableFactory {
     }
 
     private Invokable callOnce(InvocationMocker mocker) {
-        return mocker.addMatcher(new CallOnceMatcher());
+        mocker.addMatcher(new CallOnceMatcher());
+        return mocker;
     }
 }
