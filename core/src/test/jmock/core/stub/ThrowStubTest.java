@@ -51,17 +51,12 @@ public class ThrowStubTest
 		           description.indexOf("throws") >= 0);
 	}
 
-<<<<<<< ThrowStubTest.java
 	public static class ExpectedExceptionType1 extends Exception
 	{
 	};
 	public static class ExpectedExceptionType2 extends Exception
 	{
 	};
-=======
-	public static class ExpectedExceptionType1 extends Exception {}
-    public static class ExpectedExceptionType2 extends Exception {}
->>>>>>> 1.6
 
 	public void testThrowsAssertionFailedErrorIfTriesToThrowIncompatibleCheckedException()
 	        throws Throwable {
