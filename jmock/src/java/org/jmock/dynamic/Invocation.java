@@ -2,11 +2,7 @@
 package org.jmock.dynamic;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -59,7 +55,14 @@ public class Invocation {
     }
 
     public String toString() {
-        return DynamicUtil.methodToString(name, parameterValues.toArray());
+        StringBuffer buf = new StringBuffer();
+        
+        buf.append(name);
+        buf.append("(");
+        DynamicUtil.join(parameterValues.toArray(), buf);
+        buf.append(")");
+        
+        return buf.toString();
     }
 
     public boolean equals(Object other) {

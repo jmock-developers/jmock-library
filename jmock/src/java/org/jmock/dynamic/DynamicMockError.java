@@ -6,7 +6,6 @@ import junit.framework.AssertionFailedError;
 public class DynamicMockError extends AssertionFailedError {
 
     public final Invocation invocation;
-
     public final InvocationDispatcher dispatcher;
 
     public DynamicMockError(Invocation invocation, InvocationDispatcher dispatcher, String message) {
