@@ -120,6 +120,10 @@ public abstract class C {
         return new IsInstanceOf(c);
     }
 
+    public static Constraint stringContains( String excerpt ) {
+    	return new StringContains(excerpt);
+    }
+    
     /*  Helper methods for succinctly constructing Constraint arrays
      */
 
