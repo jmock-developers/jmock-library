@@ -11,6 +11,7 @@ import org.jmock.core.*;
 public class Mock
         implements DynamicMock, BuilderNamespace, Verifiable
 {
+    String name;
     InvocationDispatcher dispatcher;
     DynamicMock coreMock;
     HashMap idTable = new HashMap();
@@ -25,11 +26,12 @@ public class Mock
     }
     
     public Mock( Class mockedType, String name, InvocationDispatcher dispatcher ) {
-    	this( new CoreMock(mockedType, name, dispatcher), dispatcher );
+    	this( new CoreMock(mockedType, name, dispatcher), name, dispatcher );
     }
 
-    public Mock( DynamicMock coreMock, InvocationDispatcher dispatcher ) {
+    public Mock( DynamicMock coreMock, String name, InvocationDispatcher dispatcher ) {
         this.coreMock = coreMock;
+        this.name = name;
         this.dispatcher = dispatcher;
     }
 
@@ -46,7 +48,12 @@ public class Mock
     }
 
     public void verify() {
-        coreMock.verify();
+        try {
+            dispatcher.verify();
+        }
+        catch (AssertionFailedError ex) {
+            throw new AssertionFailedError( "mock object " + name + ": " + ex.getMessage());
+        }
     }
 
     public void addInvokable( Invokable invokable ) {

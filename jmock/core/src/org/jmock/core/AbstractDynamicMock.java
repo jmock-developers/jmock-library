@@ -56,7 +56,6 @@ public abstract class AbstractDynamicMock
     }
 
     public void reset() {
-        //TODO write tests for this
         invocationDispatcher.clear();
         invocationDispatcher.setupDefaultBehaviour(name, proxy());
     }

@@ -17,10 +17,11 @@ import test.jmock.core.testsupport.*;
 
 public class MockTest extends TestCase
 {
+    private static final String MOCK_NAME = "Test Mock Name";
 
     private MockDynamicMock mockCoreMock = new MockDynamicMock();
     private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
-    private Mock mock = new Mock(mockCoreMock, mockDispatcher);
+    private Mock mock = new Mock(mockCoreMock, MOCK_NAME, mockDispatcher);
 
     public void testToStringComesFromUnderlyingDynamicMock() {
         mockCoreMock.toStringResult = "some string here";
@@ -68,12 +69,28 @@ public class MockTest extends TestCase
         mockDispatcher.verifyExpectations();
     }
 
-    public void testVerifyCallsUnderlyingMock() {
-        mockCoreMock.verifyCalls.setExpected(1);
+    public void testVerifyCallsUnderlyingDispatcher() {
+        mockDispatcher.verifyCalls.setExpected(1);
 
         mock.verify();
 
-        mockCoreMock.verifyExpectations();
+        mockDispatcher.verifyExpectations();
+    }
+
+    public void testVerifyFailuresIncludeMockName() {
+        mockDispatcher.verifyFailure = new AssertionFailedError("verify failure");
+
+        mockDispatcher.verifyCalls.setExpected(1);
+
+        try {
+            mock.verify();
+        }
+        catch (AssertionFailedError expected) {
+            AssertMo.assertIncludes("Should include mock name", MOCK_NAME, expected.getMessage());
+            mockDispatcher.verifyExpectations();
+            return;
+        }
+        fail("Should have thrown exception");
     }
 
     private interface MockedType

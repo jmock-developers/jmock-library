@@ -82,15 +82,6 @@ public abstract class AbstractDynamicMockTest extends TestCase
         fail("Should have thrown exception");
     }
 
-    public void testMockVerifies() throws Exception {
-        mockDispatcher.verifyCalls.setExpected(1);
-
-        coreMock.verify();
-
-        // Can't use Verifier as we are verifying "verify"
-        mockDispatcher.verifyExpectations();
-    }
-
     public void testTestsEqualityForProxy() throws Exception {
         coreMock = createDynamicMock( "coreMock", new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
         proxy = (DummyInterface)coreMock.proxy();
@@ -150,19 +141,4 @@ public abstract class AbstractDynamicMockTest extends TestCase
         mockDispatcher.verifyExpectations();
     }
 
-    public void testVerifyFailuresIncludeMockName() {
-        mockDispatcher.verifyFailure = new AssertionFailedError("verify failure");
-
-        mockDispatcher.verifyCalls.setExpected(1);
-
-        try {
-            coreMock.verify();
-        }
-        catch (AssertionFailedError expected) {
-            AssertMo.assertIncludes("Should include mock name", MOCK_NAME, expected.getMessage());
-            mockDispatcher.verifyExpectations();
-            return;
-        }
-        fail("Should have thrown exception");
-    }
 }

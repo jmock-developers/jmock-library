@@ -18,6 +18,6 @@ public class Mock extends org.jmock.Mock
     }
 
     public Mock( Class mockedType, String name, InvocationDispatcher dispatcher ) {
-        super( new CGLIBCoreMock(mockedType, name, dispatcher), dispatcher );
+        super( new CGLIBCoreMock(mockedType, name, dispatcher), name, dispatcher );
     }
 }
