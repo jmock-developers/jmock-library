@@ -2,6 +2,7 @@
 # Damage control build script for jMock.
 
 VERSION=${VERSION:?must give the version number}
+DEPLOY_USER=${DEPLOY_USER:?must give the remote user name under which to deploy the release}
 
 source VERSION
 export RELEASE_VERSION
@@ -31,7 +32,7 @@ Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
 esac
 
 DEPLOY=${DEPLOY:-1} # deploy by default
-DEPLOY_JAR_ROOT=${DEPLOY_JAR_ROOT:-dcontrol@dist.codehaus.org:/home/projects/jmock/dist/}
+DEPLOY_JAR_ROOT=${DEPLOY_JAR_ROOT:-$DEPLOY_USER@dist.codehaus.org:/home/projects/jmock/dist/}
 
 function build-step {
     $* || exit 1
@@ -39,7 +40,7 @@ function build-step {
 
 function deploy {
     echo deploying $*
-    scp -r $*
+    pscp -r $*
 }
 
 echo version.archive=$VERSION > build.properties
@@ -52,7 +53,7 @@ if let $DEPLOY; then
     #build-step cvs -d:ext:$CVS_USER@cvs.jmock.codehaus.org:/home/projects/jmock/scm tag $CVS_TAG
 
     build-step deploy $BUILDDIR/dist/* $DEPLOY_JAR_ROOT
-    echo release $VERSION deployed; now announce the release on the jMock web site
+    echo release $VERSION deployed, now announce the release on the jMock web site
 fi
 
 echo all done
