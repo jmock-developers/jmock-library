@@ -10,6 +10,7 @@ import org.jmock.builder.Mock;
 import test.jmock.builder.testsupport.MockExpectationBuilder;
 import test.jmock.dynamic.DummyInterface;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
+import test.jmock.dynamic.testsupport.MockStub;
 
 public class Mock_Test extends TestCase {
 
@@ -43,6 +44,18 @@ public class Mock_Test extends TestCase {
 
         mockCoreMock.verifyExpectations();
     }
+    
+    
+    public void testPassesDefaultStubToCoreMock() {
+        MockStub mockDefaultStub = new MockStub();
+        
+        mockCoreMock.setDefaultStub.setExpected(mockDefaultStub);
+        
+        mock.setDefaultStub( mockDefaultStub );
+        
+        mockCoreMock.verifyExpectations();
+    }
+    
     
     static final String BUILDER_ID = "BUILDER-ID";
     

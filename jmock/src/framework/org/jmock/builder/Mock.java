@@ -10,6 +10,7 @@ import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicMock;
 import org.jmock.dynamic.InvocationMocker;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 
 public class Mock
@@ -30,7 +31,7 @@ public class Mock
     public Mock(DynamicMock coreMock) {
         this.coreMock = coreMock;
     }
-
+    
     public Object proxy() {
         return coreMock.proxy();
     }
@@ -38,11 +39,11 @@ public class Mock
     public String toString() {
         return coreMock.toString();
     }
-
+    
     public void verify() {
         coreMock.verify();
     }
-
+    
     public MatchBuilder method(String methodName) {
     	InvocationMocker mocker = new InvocationMocker();
     	mocker.addMatcher( new MethodNameMatcher(methodName));
@@ -53,7 +54,11 @@ public class Mock
     	
 		return builder;
     }
-
+    
+    public void setDefaultStub( Stub newDefaultStub ) {
+        coreMock.setDefaultStub(newDefaultStub);
+    }
+    
     public ExpectationBuilder lookupID(String id) {
 		if( ! idTable.containsKey(id) ) {
             throw new AssertionFailedError("no expected invocation named '"+id+"'");
