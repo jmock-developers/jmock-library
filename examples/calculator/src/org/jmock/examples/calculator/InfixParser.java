@@ -5,20 +5,18 @@ package org.jmock.examples.calculator;
 import java.io.IOException;
 
 /**
- * Grammar:
+ * A recursive descent parser for the following grammar:
  * <pre>
  *  expr = add_expr
  *  add_expr = mul_expr ("+" add_expr | "-" add_expr)*
  *  mul_expr = mul_expr ("*" pow_expr | "/" pow_expr)*
  *  pow_expr = val_expr ("^" pow_expr)*
- *  val_expr = number | varref | funcall | "(" expr ")"
+ *  val_expr = number | varref | "(" expr ")"
  *  number ~= [0-9]+\.[0-9]+
  *  varref = identifier
- *  funcall = identifier "(" expr_list ")"
  *  expr_list = expr ("," expr)*
  * </pre>
  */
-
 public class InfixParser implements Parser {
     private ExpressionFactory factory;
     
