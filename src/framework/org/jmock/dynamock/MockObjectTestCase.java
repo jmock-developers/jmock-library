@@ -10,7 +10,7 @@ import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.util.MockObjectSupportTestCase;
 
 
-public class MockObjectTestCase 
+public abstract class MockObjectTestCase 
 	extends MockObjectSupportTestCase
 {
 	public static final InvocationMatcher NO_ARGS = NoArgumentsMatcher.INSTANCE;

@@ -5,7 +5,7 @@ import org.jmock.util.MockObjectSupportTestCase;
 import junit.framework.TestCase;
 
 
-public class MockObjectSupportTestCaseTest extends TestCase {
+public abstract class MockObjectSupportTestCaseTest extends TestCase {
     
     private static final String DUMMY_NAME = "DUMMY NAME";
     

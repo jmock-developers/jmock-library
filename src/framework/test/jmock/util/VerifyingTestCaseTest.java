@@ -9,7 +9,7 @@ import test.jmock.dynamic.testsupport.MockVerifiable;
 
 
 
-public class VerifyingTestCaseTest extends TestCase {
+public abstract class VerifyingTestCaseTest extends TestCase {
     public static class ExampleTestCase extends VerifyingTestCase {
         private MockVerifiable verifiableField = new MockVerifiable();
         
