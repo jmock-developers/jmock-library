@@ -16,15 +16,18 @@ import org.jmock.dynamic.stub.VoidStub;
 
 public class DynamicMockExample extends TestCase {
     public interface Market {
+    	int getPrice( String ticker );
     }
 
     public class Agent {
-
+    	Market market;
+    	
         public Agent(Market market) {
+        	this.market = market;
         }
 
         public void buyLowestPriceStock(int cost) {
-            // TODO Auto-generated method stub
+        	market.getPrice("IBM");
         }
 
     }
@@ -54,7 +57,8 @@ public class DynamicMockExample extends TestCase {
     	Mock mockMarket = new Mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
 
-        mockMarket.method("getPrice").whenPassed("IBM").willReturn(new Integer(10));
+        mockMarket.method("getPrice").whenPassed("IBM").willReturn(new Integer(10))
+        	.expectOnce();
 
         agent.buyLowestPriceStock(20);
 

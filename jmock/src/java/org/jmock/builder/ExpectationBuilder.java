@@ -2,5 +2,5 @@
 package org.jmock.builder;
 
 public interface ExpectationBuilder {
-
+	ExpectationBuilder expectOnce();
 }
