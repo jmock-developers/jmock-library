@@ -1,6 +1,7 @@
 package test.jmock.builder.testsupport;
 
 import org.jmock.Verifiable;
+import org.jmock.builder.BuilderIdentityTable;
 import org.jmock.builder.ExpectationBuilder;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.expectation.ExpectationCounter;
@@ -34,12 +35,20 @@ public class MockExpectationBuilder
 		return this;
 	}
     
+	
+	public ExpectationValue afterMock = new ExpectationValue("after mock");
 	public ExpectationValue afterPreviousCallID = new ExpectationValue("after previousCallID");
 	
 	public ExpectationBuilder after( String previousCallID ) {
 		afterPreviousCallID.setActual(previousCallID);
 		return this;
 	}
+	
+	public ExpectationBuilder after( BuilderIdentityTable otherMock, String previousCallID ) {
+		afterMock.setActual(otherMock);
+		return after(previousCallID);
+	}
+	
 	
 	public ExpectationValue id = new ExpectationValue("id");
 	

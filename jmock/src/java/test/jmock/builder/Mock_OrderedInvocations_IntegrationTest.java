@@ -34,16 +34,18 @@ public class Mock_OrderedInvocations_IntegrationTest
     }
     
 	public void testOrderedCallsMustNotOccurOutOfOrder() {
-		mock.method("hello").id("hello call");
-		mock.method("goodbye").noParams().after("hello call");
+		String priorCall = "HELLO-CALL-ID";
+		
+		mock.method("hello").id(priorCall);
+		mock.method("goodbye").after(priorCall);
 		
 		try {
             proxy.goodbye();
-            proxy.hello();
             fail("should have thrown DynamicMockError");
         }
         catch( DynamicMockError ex ) {
-            // expected
+            assertTrue( "error message should contain id of prior call",
+        				ex.getMessage().indexOf(priorCall) >= 0 );
         }
         
         mock.verify();
@@ -73,5 +75,39 @@ public class Mock_OrderedInvocations_IntegrationTest
 		mock.method("goodbye").after("hello");
 		
 		mock.verify();
+	}
+	
+	public void testCanSpecifyOrderOverDifferentMocks() {
+		Mock otherMock = new Mock( ExampleInterface.class, "otherMock" );
+		ExampleInterface otherProxy = (ExampleInterface)otherMock.proxy();
+		
+		otherMock.method("hello").isVoid();
+		
+		mock.method("goodbye").after(otherMock,"hello");
+		
+		otherProxy.hello();
+		proxy.goodbye();
+	}
+	
+	public void testDetectsUnexpectedOrderOverDifferentMocks() {
+		String otherMockName = "otherMock";
+		String priorCall = "HELLO-CALL-ID";
+		Mock otherMock = new Mock( ExampleInterface.class, otherMockName );
+		ExampleInterface otherProxy = (ExampleInterface)otherMock.proxy();
+		
+		otherMock.method("hello").id(priorCall);
+		mock.method("goodbye").after(otherMock,priorCall);
+		
+		try {
+			proxy.goodbye();
+			fail("expected DynamicMockError");
+		}
+		catch( DynamicMockError ex ) {
+			assertTrue( "error message should contain id of prior call",
+						ex.getMessage().indexOf(priorCall) >= 0 );
+			assertTrue( "error message should contain name of mock receiving prior call",
+						ex.getMessage().indexOf(otherMockName) >= 0 );
+			
+		}
 	}
 }

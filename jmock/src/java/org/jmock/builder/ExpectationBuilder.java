@@ -11,7 +11,7 @@ public interface ExpectationBuilder {
 	ExpectationBuilder expectOnce();
 	
 	ExpectationBuilder after( String previousCallID );
-	//TODO after( Mock otherMock, String previousCallID );
+	ExpectationBuilder after( BuilderIdentityTable otherMock, String previousCallID );
 	
     //TODO expectAtLeastOnce();
 }
