@@ -81,6 +81,22 @@ public class MockControl
     	setDefaultReturnValue(new Boolean(value));
     }
     
+    public void setDefaultReturnValue(int value) {
+        setDefaultReturnValue(new Integer(value));
+    }
+    
+    public void setDefaultReturnValue(long value) {
+        setDefaultReturnValue(new Long(value));
+    }
+    
+    public void setDefaultReturnValue(float value) {
+        setDefaultReturnValue(new Float(value));
+    }
+    
+    public void setDefaultReturnValue(double value) {
+        setDefaultReturnValue(new Double(value));
+    }
+    
     public void setDefaultVoidCallable() {
         dispatcher.setDefaultStub(new VoidStub());
     }
