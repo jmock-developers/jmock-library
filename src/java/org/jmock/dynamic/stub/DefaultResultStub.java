@@ -10,16 +10,10 @@ import junit.framework.AssertionFailedError;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Stub;
 
-
-
 public class DefaultResultStub
 	implements Stub
 {
 	private Map resultValuesByType = new HashMap();
-	
-	
-	public DefaultResultStub() {
-	}
 	
 	public StringBuffer writeTo( StringBuffer buf ) {
 		return buf.append("a guessed result");
@@ -32,8 +26,10 @@ public class DefaultResultStub
 	public Object invoke( Invocation invocation ) 
 		throws Throwable
 	{
-		if( resultValuesByType.containsKey(invocation.getReturnType()) ) {
-			return resultValuesByType.get(invocation.getReturnType());
+		Class returnType = invocation.getReturnType();
+        
+        if( resultValuesByType.containsKey(returnType) ) {
+			return resultValuesByType.get(returnType);
 		} else {
 			throw new AssertionFailedError( createErrorMessage(invocation) );
 		}
