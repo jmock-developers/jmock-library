@@ -14,7 +14,7 @@ public class ExpectationSet extends AbstractExpectationCollection {
 
     protected void checkImmediateValues(Object actualItem) {
         AssertMo.assertTrue(
-                myName + " did not receive an expected item\nUnexpected:" + actualItem,
+                myName + " received an unexpected item\nUnexpected:" + actualItem,
                 new HashSet(myExpectedItems).contains(actualItem));
     }
 
