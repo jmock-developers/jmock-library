@@ -13,25 +13,6 @@
   <body>
     <div id="banner">
       <a href="/index.html"><img id="logo" src="/logo.gif" alt="jMock"/></a>
-      <div id="versions">
-        <table>
-          <tr>
-            <td><a href="/download.html#stable">Latest stable version</a></td>
-            <td><a href="/download.html#stable"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
-            <td><a href="/stable-changes.html">(changes)</a></td>
-          </tr>
-          <tr>
-            <td><a href="/download.html#prerelease">Latest prerelease version</a></td>
-            <td><a href="/download.html#prerelease"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
-            <td><a href="/unstable-changes.html">(changes)</a></td>
-          </tr>
-          <tr>
-            <td><a href="/download.html#snapshot">Latest snapshot version</a></td>
-            <td><a href="/download.html#snapshot"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
-            <td><a href="/snapshot-changes.html">(changes)</a></td>
-          </tr>
-        </table>
-      </div>
     </div>
     
     <skin:when var="isindex" value="true">
@@ -101,6 +82,24 @@
     
     <skin:when var="isindex">
       <div class="SidePanel" id="right">
+        <div class="NewsGroup">
+          <h1>Latest Versions</h1>
+          <table>
+            <tr>
+              <td><a href="/download.html#stable">Stable:</a></td>
+              <td><a href="/download.html#stable"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+            </tr>
+            <tr>
+              <td><a href="/download.html#prerelease">Prerelease:</a></td>
+              <td><a href="/download.html#prerelease"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+            </tr>
+            <tr>
+              <td><a href="/download.html#snapshot">Snapshot:</a></td>
+              <td><a href="/download.html#snapshot"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+            </tr>
+          </table>
+        </div>
+        
         <div class="NewsGroup">
           <h1><a href="news.html">News...</a></h1>
           <skin:include src="../content/news.html" 
