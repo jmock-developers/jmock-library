@@ -8,10 +8,12 @@ import org.jmock.expectation.Verifier;
 
 
 public class MockStubMatchersCollection implements StubMatchersCollection {
-    public ExpectationValue setStubType = new ExpectationValue("setStub type");
-    public ExpectationValue addedMatcherType = new ExpectationValue("add matcher type");
+    public ExpectationValue setStubType = new ExpectationValue("set stub type");
+    public ExpectationValue addedMatcher = new ExpectationValue("added matcher");
+    public ExpectationValue addedMatcherType = new ExpectationValue("added matcher type");
     
 	public void addMatcher(InvocationMatcher matcher) {
+		addedMatcher.setActual(matcher);
 		addedMatcherType.setActual(matcher.getClass());
 	}
 
