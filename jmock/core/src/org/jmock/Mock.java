@@ -47,14 +47,14 @@ public class Mock
         coreMock.addInvokable(invokable);
     }
 
-    public NameMatchBuilder stub() {
+    public NameMatchBuilder stubs() {
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         addInvokable(mocker);
         
         return new InvocationMockerBuilder(mocker,this);
     }
     
-    public NameMatchBuilder expect( InvocationMatcher expectation ) {
+    public NameMatchBuilder expects( InvocationMatcher expectation ) {
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         
         mocker.addMatcher(expectation);

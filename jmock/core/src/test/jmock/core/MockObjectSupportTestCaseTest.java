@@ -25,7 +25,7 @@ public abstract class MockObjectSupportTestCaseTest extends TestCase {
     MockObjectSupportTestCase testCase;
     
     public void setUp() {
-        testCase = new MockObjectSupportTestCase();
+        testCase = new MockObjectSupportTestCase() {};
     }
     
     public void testCanCreateNamedDummyObjects() {

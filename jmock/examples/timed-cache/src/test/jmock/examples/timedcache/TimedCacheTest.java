@@ -23,11 +23,11 @@ public class TimedCacheTest extends MockObjectTestCase {
     private Timestamp reloadTime = (Timestamp) newDummy(Timestamp.class, "reloadTime");
 
     public void testLoadsObjectThatIsNotCached() {
-        mockLoader.expect(once()).method("load").with( eq(KEY) )
+        mockLoader.expects(once()).method("load").with( eq(KEY) )
         	.will( returnValue(VALUE) );
-        mockLoader.expect(once()).method("load").with( eq("key2") )
+        mockLoader.expects(once()).method("load").with( eq("key2") )
         	.will( returnValue("value2") );
-        mockClock.expect(atLeastOnce()).method("getCurrentTime").withNoArguments()
+        mockClock.expects(atLeastOnce()).method("getCurrentTime").withNoArguments()
         	.will( returnValue(loadTime) );
 
         assertSame( "first object", VALUE, cache.lookup(KEY) );
@@ -35,7 +35,7 @@ public class TimedCacheTest extends MockObjectTestCase {
     }
 
     public void xtestCachedObjectsAreNotReloaded() {
-        mockLoader.expect(once()).method("load").with( eq(KEY) )
+        mockLoader.expects(once()).method("load").with( eq(KEY) )
     	  .will( returnValue(VALUE) );
 
         assertSame( "loaded object", VALUE, cache.lookup(KEY) );
@@ -43,14 +43,14 @@ public class TimedCacheTest extends MockObjectTestCase {
     }
     
     public void testReturnsCachedObjectWithinTimeout() {
-        mockLoader.expect(once()).method("load").with( eq(KEY) )
+        mockLoader.expects(once()).method("load").with( eq(KEY) )
         	.will(returnValue(VALUE));
         
-        mockClock.expect(atLeastOnce()).method("getCurrentTime").withNoArguments()
+        mockClock.expects(atLeastOnce()).method("getCurrentTime").withNoArguments()
         	.after(mockLoader, "load")
         	.will(returnValues(loadTime, fetchTime));
     
-        mockReloadPolicy.expect(atLeastOnce()).method("shouldReload").with( eq(loadTime), eq(fetchTime) )
+        mockReloadPolicy.expects(atLeastOnce()).method("shouldReload").with( eq(loadTime), eq(fetchTime) )
         	.will(returnValue(false));
         
         assertSame( "should be loaded object", VALUE, cache.lookup(KEY) );
@@ -58,14 +58,14 @@ public class TimedCacheTest extends MockObjectTestCase {
     }
 
     public void testReloadsCachedObjectAfterTimeout() {
-        mockClock.expect(times(3)).method("getCurrentTime").withNoArguments()
+        mockClock.expects(times(3)).method("getCurrentTime").withNoArguments()
         	.will( returnValues(loadTime, fetchTime, reloadTime) );
         
-        mockLoader.expect(times(2))
+        mockLoader.expects(times(2))
         	.method("load").with( eq(KEY) )
     		.will(returnValues(VALUE, NEW_VALUE));
         
-        mockReloadPolicy.expect(atLeastOnce())
+        mockReloadPolicy.expects(atLeastOnce())
         	.method("shouldReload").with( eq(loadTime), eq(fetchTime) )
         	.will(returnValue(true));
        

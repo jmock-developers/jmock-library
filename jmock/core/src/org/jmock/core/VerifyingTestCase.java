@@ -8,7 +8,7 @@ import junit.framework.TestCase;
  * A {@link junit.framework.TestCase} that verifies any {@link org.jmock.core.Verifiable}
  * fields after the test has run and before the fixture has been torn down.
  */
-public class VerifyingTestCase extends TestCase 
+public abstract class VerifyingTestCase extends TestCase 
 {
     /* This is virtually a copy/paste of the same method in the TestCase class to allow
      * overriding of runTest in the normal manner. 

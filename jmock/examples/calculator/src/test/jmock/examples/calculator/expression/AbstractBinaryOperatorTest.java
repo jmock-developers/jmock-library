@@ -42,7 +42,7 @@ public abstract class AbstractBinaryOperatorTest
         CalculatorException thrown =
             new CalculatorException("thrown exception");
 
-        left.expect(once()).method("evaluate").with(same(environment))
+        left.expects(once()).method("evaluate").with(same(environment))
             .will(throwException(thrown));
 
         try {
@@ -60,9 +60,9 @@ public abstract class AbstractBinaryOperatorTest
         CalculatorException thrown =
             new CalculatorException("thrown exception");
         
-        left.expect(once()).method("evaluate").with(same(environment))
+        left.expects(once()).method("evaluate").with(same(environment))
             .will(returnValue(0.0));
-        right.expect(once()).method("evaluate").with(same(environment))
+        right.expects(once()).method("evaluate").with(same(environment))
             .will(throwException(thrown));
         
         try {
