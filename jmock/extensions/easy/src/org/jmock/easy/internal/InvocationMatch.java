@@ -5,8 +5,13 @@ package org.jmock.easy.internal;
 
 import java.lang.reflect.Method;
 
+import junit.framework.AssertionFailedError;
+
 import org.jmock.builder.InvocationMockerDescriber;
-import org.jmock.core.*;
+import org.jmock.core.Constraint;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.InvocationMocker;
+import org.jmock.core.Stub;
 import org.jmock.core.constraint.IsEqual;
 import org.jmock.core.matcher.ArgumentTypesMatcher;
 import org.jmock.core.matcher.ArgumentsMatcher;
@@ -16,6 +21,7 @@ import org.jmock.core.stub.DefaultResultStub;
 
 
 public class InvocationMatch {
+    private Class returnType;
 	private InvocationMatcher methodNameMatcher;
 	private Object[] methodArguments;
     private Class[] parameterTypes;
@@ -27,7 +33,8 @@ public class InvocationMatch {
 		callCountMatcher = new InvokeOnceMatcher();
 		methodNameMatcher = new MethodNameMatcher(method.getName());
 		methodArguments = args;
-		stub = new DefaultResultStub();
+		returnType = method.getReturnType();
+        stub = new DefaultResultStub();
 	}
 
 	public void addInvocationMockerTo(EasyInvocationDispatcher dispatcher) {
@@ -50,6 +57,16 @@ public class InvocationMatch {
 
     public void setDefault(Stub aStub) {
         setCallMatchAndStub(null, aStub);
+    }
+
+    public Object createNumberObjectForReturnValue(long value) {
+        if (returnType.equals(Byte.TYPE)) return new Byte((byte) value);
+        if (returnType.equals(Short.TYPE)) return new Short((short) value);
+        if (returnType.equals(Character.TYPE)) return new Character((char) value);
+        if (returnType.equals(Integer.TYPE)) return new Integer((int) value);
+        if (returnType.equals(Long.TYPE)) return new Long(value);
+        
+        throw new AssertionFailedError("incompatible return value type: " + returnType);
     }
 
     private void setCallMatchAndStub(InvocationMatcher callCountMatcher, Stub stub) {

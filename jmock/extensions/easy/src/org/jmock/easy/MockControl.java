@@ -81,15 +81,11 @@ public class MockControl
     	setDefaultReturnValue(new Boolean(value));
     }
     
-    public void setDefaultReturnValue(int value) {
-        setDefaultReturnValue(new Integer(value));
-    }
-    
     public void setDefaultReturnValue(long value) {
-        setDefaultReturnValue(new Long(value));
+        setDefaultReturnValue(convertLong(value));
     }
     
-    public void setDefaultReturnValue(float value) {
+	public void setDefaultReturnValue(float value) {
         setDefaultReturnValue(new Float(value));
     }
     
@@ -104,6 +100,10 @@ public class MockControl
 	public void setDefaultThrowable(Throwable throwable) {
         dispatcher.setDefaultStub(new ThrowStub(throwable));
 	}
+
+    private Object convertLong(long value) {
+        return invocationMatch.createNumberObjectForReturnValue(value);
+    }
 
 	private void expectStub(Range range, Stub stub) {
         invocationMatch.expectCountedCall(range, stub);
@@ -136,7 +136,7 @@ public class MockControl
 	 *             called on the mock does not return <code>byte, short, char, int, or long</code>.
 	 */
 	public void setReturnValue(long value) {
-        setReturnValue(new Long(value));
+        setReturnValue(convertLong(value));
 	}
 
 	/**
@@ -207,7 +207,7 @@ public class MockControl
 	 *            an ignored value.
 	 */
 	public void expectAndReturn(long ignored, long value) {
-	    setReturnValue(value);
+	    setReturnValue(convertLong(value));
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class MockControl
 	 *            an ignored value.
 	 */
 	public void expectAndReturn(long ignored, long value, Range range) {
-	    setReturnValue(value, range);
+	    setReturnValue(convertLong(value), range);
 	}
 
 	/**
@@ -386,7 +386,7 @@ public class MockControl
 	 *            an ignored value.
 	 */
 	public void expectAndReturn(long ignored, long value, int min, int max) {
-	    setReturnValue(value, min, max);
+	    setReturnValue(convertLong(value), min, max);
 	}
 
 	/**
@@ -502,7 +502,7 @@ public class MockControl
 	 *             called on the mock does not return <code>byte, short, char, int, or long</code>.
 	 */
 	public void setReturnValue(long value, Range range) {
-        setReturnValue(new Long(value), range);
+        setReturnValue(convertLong(value), range);
 	}
 
 	/**
@@ -593,7 +593,7 @@ public class MockControl
 	 *             called on the mock does not return <code>byte, short, char, int, or long</code>.
 	 */
 	public void setReturnValue(long value, int times) {
-        setReturnValue(value, new Range(times));
+        setReturnValue(convertLong(value), new Range(times));
 	}
 
 	/**
@@ -657,7 +657,7 @@ public class MockControl
 	 *             called on the mock does not return <code>byte, short, char, int, or long</code>.
 	 */
 	public void setReturnValue(long value, int minCount, int maxCount) {
-        setReturnValue(value, new Range(minCount, maxCount));
+        setReturnValue(convertLong(value), new Range(minCount, maxCount));
 	}
 
 	/**
