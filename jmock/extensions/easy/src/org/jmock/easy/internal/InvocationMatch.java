@@ -33,13 +33,7 @@ public class InvocationMatch {
 	public void addInvocationMockerTo(EasyInvocationDispatcher dispatcher) {
 		if (isUnset()) return;
 		
-        if (isExpectation()) {
-            dispatcher.add(
-                    createInvocationMocker(new ArgumentsMatcher(equalArgs(methodArguments))));
-        } else {
-            dispatcher.add(
-                    createInvocationMocker(new ArgumentTypesMatcher(parameterTypes)));
-        }
+        dispatcher.add(createInvocationMocker());
 	}
 	
 	public void flush() {
@@ -50,7 +44,7 @@ public class InvocationMatch {
 		stub = null;
 	}
 
-	public void expectCallCount(Range range, Stub aStub) {
+	public void expectCountedCall(Range range, Stub aStub) {
         setCallMatchAndStub(new InvokeRangeMatcher(range), aStub);
 	}
 
@@ -63,16 +57,21 @@ public class InvocationMatch {
         this.stub = stub;
     }
     
-	private InvocationMocker createInvocationMocker(InvocationMatcher argumentMatcher) {
+	private InvocationMocker createInvocationMocker() {
 		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
         if (isExpectation())
         		mocker.addMatcher(callCountMatcher);
 		mocker.addMatcher(methodNameMatcher);
-		mocker.addMatcher(argumentMatcher);
+		mocker.addMatcher(createArgumentMatcher());
 		mocker.setStub(stub);
 		return mocker;
 	}
 
+    private InvocationMatcher createArgumentMatcher() {
+        return isExpectation()
+            		? (InvocationMatcher)new ArgumentsMatcher(equalArgs(methodArguments))
+                    : (InvocationMatcher)new ArgumentTypesMatcher(parameterTypes);
+    }
 	private boolean isUnset() {
 		return methodNameMatcher == null;
 	}

@@ -106,7 +106,7 @@ public class MockControl
 	}
 
 	private void expectStub(Range range, Stub stub) {
-        invocationMatch.expectCallCount(range, stub);
+        invocationMatch.expectCountedCall(range, stub);
     }
 
 	/**
