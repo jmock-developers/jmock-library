@@ -167,8 +167,6 @@ public class LIFOInvocationDispatcherTest extends TestCase {
         mockDefaultStub.invokeResult = defaultStubResult;
         
         dispatcher.setDefaultStub(mockDefaultStub);
-        assertSame( "dispatcher should have new default stub",
-                    mockDefaultStub, dispatcher.getDefaultStub() );
         assertSame( "should be result of calling default stub",
                     defaultStubResult, dispatcher.dispatch(invocation) );
         

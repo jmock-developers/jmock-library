@@ -68,10 +68,6 @@ public class CoreMock
         return this.name;
     }
     
-	public Stub getDefaultStub() {
-		return invocationDispatcher.getDefaultStub();
-	}
-	
 	public void setDefaultStub(Stub newDefaultStub) {
 		invocationDispatcher.setDefaultStub(newDefaultStub);
 	}

@@ -10,7 +10,6 @@ public interface DynamicMock
 {
     Object proxy();
     
-    Stub getDefaultStub();
     void setDefaultStub( Stub newDefaultStub );
     
     void add(Invokable invokable);
