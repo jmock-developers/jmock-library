@@ -1,8 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic.matcher;
 
-import org.jmock.dynamic.Invocation;
-import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.framework.Invocation;
+import org.jmock.dynamic.framework.InvocationMatcher;
 
 public abstract class StatelessInvocationMatcher implements InvocationMatcher {
     public void invoked(Invocation invocation) {

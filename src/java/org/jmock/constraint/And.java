@@ -9,7 +9,8 @@ import org.jmock.Constraint;
  * called if the first constraint returns <code>false</code>.
  */
 public class And
-        implements Constraint {
+        implements Constraint 
+{
     Constraint _p1, _p2;
 
     public And(Constraint p1, Constraint p2) {
