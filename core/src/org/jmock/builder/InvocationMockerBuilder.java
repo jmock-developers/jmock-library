@@ -44,7 +44,7 @@ public class InvocationMockerBuilder
 
     private void checkLegalMethodName( String name ) {
         if( !isLegalMethodName(name) ) {
-            throw new IllegalArgumentException( "illegal method name " + name );
+            throw new IllegalArgumentException("illegal method name: " + name + " is not a legal Java identifier");
         }
     }
 
@@ -58,7 +58,7 @@ public class InvocationMockerBuilder
 
     private void checkExistingMethodName( String name ) {
         if( !typeDefinesMethodNamed(name) ) {
-            throw new AssertionFailedError("no method named "+name+" is defined in type "+mockedType);
+            throw new AssertionFailedError("no method named " + name + " is defined in type "+mockedType);
         }
     }
 
