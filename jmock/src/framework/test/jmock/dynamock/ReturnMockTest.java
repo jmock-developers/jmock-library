@@ -72,5 +72,6 @@ public class ReturnMockTest extends AbstractMockTest {
     }
 
     public void testMethodToMakeTestRunnerNoticeTestCase() {
+         // hack needed for JUnit
     }
 }

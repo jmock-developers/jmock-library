@@ -10,8 +10,8 @@ import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 import org.jmock.dynamic.stub.CustomStub;
 
 public class Dummy {
-	/** This class cannot be instantiated. */
 	private Dummy() {
+	    /* This class cannot be instantiated. */
 	}
 
 	public static Object newDummy(Class interfaceClass) {

@@ -68,13 +68,13 @@ public class InfixParserTest
             parser.parse("1+");
             fail("ParseException expected when missing rhs");
         }
-        catch( ParseException expected ) {}
+        catch( ParseException expected ) { /* expected */ }
         
         try {
             parser.parse("+2");
             fail("ParseException expected when missing lhs");
         }
-        catch( ParseException expected ) {}
+        catch( ParseException expected ) { /* expected */ }
     }
 
     public void testParsesSubtraction() throws Exception {
@@ -97,13 +97,13 @@ public class InfixParserTest
             parser.parse("1-");
             fail("ParseException expected when missing rhs");
         }
-        catch( ParseException expected ) {}
+        catch( ParseException expected ) { /* expected */ }
 
         try {
             parser.parse("-2");
             fail("ParseException expected when missing lhs");
         }
-        catch( ParseException expected ) {}
+        catch( ParseException expected ) { /* expected */ }
     }
     
     public void testParsesMultiplication() throws Exception {
@@ -200,7 +200,7 @@ public class InfixParserTest
             parser.parse("(x");
             fail("ParseException expected");
         }
-        catch( ParseException expected ) {}
+        catch( ParseException expected ) { /* expected */ }
     }
     
     private Expression dummyExpression( String name ) {

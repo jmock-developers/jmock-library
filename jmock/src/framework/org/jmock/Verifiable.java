@@ -5,7 +5,7 @@ package org.jmock;
  * A <em>Verifiable</em> is an object that can confirm at the end of a unit test that
  * the correct behvaiour has occurred.
  * 
- * @see org.jmock.expectation.Verifier Verifier to check all the Verifiables in an object.
+ * @see org.jmock.util.Verifier Verifier to check all the Verifiables in an object.
  */
 public interface Verifiable {
 

@@ -7,9 +7,6 @@ import org.jmock.Constraint;
  * A constraint that always returns <code>true</code>.
  */
 public class IsAnything implements Constraint {
-    public IsAnything() {
-    }
-
     public boolean eval(Object o) {
         return true;
     }
