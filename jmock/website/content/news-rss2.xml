@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"> 
-									 
+<rss version="2.0"> 
 	<channel>
 		<title>jMock News</title>
 		<link>http://www.jmock.org/</link>
@@ -21,8 +20,7 @@
       	tutorial run by Manish Shah and Damian Guy at the
       	<a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
       </description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-06-15</dc:date>
+			<pubDate>2004-06-15</pubDate>
 		</item>
 
 		<item>
@@ -33,8 +31,7 @@
 				Released <a href="downloads.html">jMock 1.0.1</a>, that fixes and improves the 
 				generation of error messages.      
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-06-07</dc:date>
+			<pubDate>2004-06-07</pubDate>
 		</item>
 		
 		<item>
@@ -44,8 +41,7 @@
 			<description>
 			  Added an article <a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</a>.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-06-04</dc:date>
+			<pubDate>2004-06-04</pubDate>
 		</item>
 
 		<item>
@@ -56,8 +52,7 @@
 			  Added style sheets for print media. Articles on this site are now easier to read 
 			  when printed on paper.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-06-03</dc:date>
+			<pubDate>2004-06-03</pubDate>
 		</item>
 		
 		<item>
@@ -67,8 +62,7 @@
 			<description>
 				Version 1.0.0 has been released. <a href="http://www.jmock.org/download.html">Download it now</a>.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-06-01</dc:date>
+			<pubDate>2004-06-01</pubDate>
 		</item>
 
 		<item>
@@ -79,8 +73,7 @@
 				A new tutorial has been uploaded, showing how to 
 				<a href="http://www.jmock.org/custom-stubs.html">write custom stubs</a>.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-05-23</dc:date>
+			<pubDate>2004-05-23</pubDate>
 		</item>
 
 		<item>
@@ -90,8 +83,7 @@
 			<description>
 				Version 1.0.0.RC1 now available for <a href="download.html">download</a>.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-05-22</dc:date>
+			<pubDate>2004-05-22</pubDate>
 		</item>
 
 		<item>
@@ -103,8 +95,7 @@
 				href="http://www.jmock.org/download.html">Get them while they're hot if you want to 
 				look cool!</a>
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-05-21</dc:date>
+			<pubDate>2004-05-21</pubDate>
 		</item>
 
 		<item>
@@ -116,8 +107,7 @@
 			  onto a new server, the continuous integration process is now building
         snapshots and updating the website again.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-05-21</dc:date>
+			<pubDate>2004-05-21</pubDate>
 		</item>
 
 		<item>
@@ -128,8 +118,7 @@
 				A new article, <a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</a>,
 				describes how to use jMock to avoid brittle tests.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-04-23</dc:date>
+			<pubDate>2004-04-23</pubDate>
 		</item>
 
 		<item>
@@ -142,8 +131,7 @@
 				explains the difference between jMock and the 
 				DynaMock API of <a href="http://www.mockobjects.com">mockobjects.com</a>.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-03-01</dc:date>
+			<pubDate>2004-03-01</pubDate>
 		</item>
 
 		<item>
@@ -156,8 +144,7 @@
 				optional extension will allow you to mock concrete classes, helpful if you
 				have to work with awkward and/or legacy code.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-02-20</dc:date>
+			<pubDate>2004-02-20</pubDate>
 		</item>
 
 		<item>
@@ -170,8 +157,7 @@
 				integration system whenever anything is committed to the 
 				<a href="http://www.jmock.org/repository.html">CVS repository</a>.
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-02-18</dc:date>
+			<pubDate>2004-02-18</pubDate>
 		</item>
 		
 		
@@ -184,7 +170,7 @@
 			<description>
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
-			<dc:date>2004-MM-DD</dc:date>
+			<pubDate>2004-MM-DD</pubDate>
 		</item>
 
 		Categories:
