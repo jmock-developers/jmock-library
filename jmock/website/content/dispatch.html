@@ -13,21 +13,19 @@
 expectation of zero or more invocations. The <code>stubs()</code>
 method is syntactic sugar to make the intent of the test more explicit.</p>
 
-<p>When a method is invoked on a mock object, the mock object searches for
-through its expectations in a last-in-first-out to find one that matches the
+<p>When a method is invoked on a mock object, the mock object searches
+through its expectations from newest to oldest to find one that matches the
 invocation. After the invocation, the matching expectation might stop matching
-further invocations. E.g. an <code>expects(once())</code> expectation only matches
-once.
-If you set up the same expectation <var>n</var> times, the method can be
-called <var>n</var> times, and the "will" actions of those expectations will
-be executed in LIFO order.
+further invocations. For example, an <code>expects(once())</code> expectation only matches
+once and will be ignored on future invocations while an <code>expects(atLeastOnce())</code>
+expectation will always be matched against invocations.
 </p>
 
 <p>This scheme allows you to:</p>
 <ul>
   <li>Set up default stubs in your the <code>setUp</code> method of your test class
   and override some of those stubs in individual tests.</li>
-  <li>Set up different expectations for the same method with different action per
+  <li>Set up different &quot;once&quot; expectations for the same method with different action per
   invocation.  However, it's better to use the <code>onConsecutiveCalls</code>
   method to do this, as described below.</li>
 </ul>
@@ -58,6 +56,8 @@ for a method. For example:</p>
        throwException(new IOException("end of stream")) ) );</pre>
 </div>
 
-<p></p>
+<p>If you want to specify more complex ordering or order invocations across different
+mock objects, use the <code>after</code> method to explicitly define a total or
+partial ordering of invocations.</p>
 </body>
 </html>
