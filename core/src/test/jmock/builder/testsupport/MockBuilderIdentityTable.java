@@ -4,7 +4,8 @@ import junit.framework.AssertionFailedError;
 
 import org.jmock.Verifiable;
 import org.jmock.builder.BuilderIdentityTable;
-import org.jmock.builder.ExpectationBuilder;
+import org.jmock.builder.IdentityBuilder;
+import org.jmock.builder.MatchBuilder;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
 
@@ -13,10 +14,10 @@ public class MockBuilderIdentityTable
 	implements BuilderIdentityTable, Verifiable
 {
 	public ExpectationValue lookupID = new ExpectationValue("lookupID id");
-	public ExpectationBuilder lookupIDResult;
+	public MatchBuilder lookupIDResult;
 	public AssertionFailedError lookupIDError;
 	
-	public ExpectationBuilder lookupID(String id) {
+	public MatchBuilder lookupID(String id) {
 		lookupID.setActual(id);
 		if( lookupIDError != null ) {
 			throw lookupIDError;
@@ -29,7 +30,7 @@ public class MockBuilderIdentityTable
     public ExpectationValue registerUniqueIDBuilder = 
         new ExpectationValue("registerUniqueID builder");
     
-    public void registerUniqueID(String id, ExpectationBuilder builder) {
+    public void registerUniqueID(String id, IdentityBuilder builder) {
         registerUniqueID.setActual(id);
         registerUniqueIDBuilder.setActual(builder);
     }
@@ -38,7 +39,7 @@ public class MockBuilderIdentityTable
 	public ExpectationValue registerIDBuilder = 
 		new ExpectationValue("registerID builder");
 	
-	public void registerID(String id, ExpectationBuilder invocation) {
+	public void registerID(String id, IdentityBuilder invocation) {
 		registerID.setActual(id);
 		registerIDBuilder.setActual(invocation);
 	}
