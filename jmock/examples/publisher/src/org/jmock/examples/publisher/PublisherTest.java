@@ -18,8 +18,5 @@ public class PublisherTest extends MockObjectTestCase {
         
         // execute
         publisher.publish(message);
-        
-        // verify
-        mockSubscriber.verify();
     }
 }

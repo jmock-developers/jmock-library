@@ -3,13 +3,14 @@ package test.jmock.core;
 import junit.framework.TestCase;
 
 import org.jmock.core.VerifyingTestCase;
+import org.jmock.core.Verifiable;
 import org.jmock.expectation.ExpectationCounter;
 
 import test.jmock.core.testsupport.MockVerifiable;
 
 
 
-public abstract class VerifyingTestCaseTest extends TestCase {
+public class VerifyingTestCaseTest extends TestCase {
     public static class ExampleTestCase extends VerifyingTestCase {
         private MockVerifiable verifiableField = new MockVerifiable();
         
@@ -28,6 +29,7 @@ public abstract class VerifyingTestCaseTest extends TestCase {
         public void testMethod() {
             // Success!
         }
+
     }
     
     public void testAutomaticallyVerifiesVerifiableFieldsAfterTheTestRunAndBeforeTearDown()
@@ -77,5 +79,42 @@ public abstract class VerifyingTestCaseTest extends TestCase {
         testCase.setExpectedVerifyCalls(1);
         testCase.runBare();
         testCase.verifyExpectations();
+    }
+
+    public void testAutomaticallyVerifiesAnyObjectsRegisteredAsRequiringVerificatin() throws Throwable {
+        // setup
+        ExampleTestCase testCase = new ExampleTestCase();
+        MockVerifiable aVerifiable = new MockVerifiable();
+        MockVerifiable anotherVerifiable = new MockVerifiable();
+
+        // expect
+        aVerifiable.setExpectedVerifyCalls(1);
+        anotherVerifiable.setExpectedVerifyCalls(1);
+
+        // execute
+        testCase.registerToVerify(aVerifiable);
+        testCase.registerToVerify(anotherVerifiable);
+        testCase.runBare();
+
+        // verify
+        aVerifiable.verifyExpectations();
+        anotherVerifiable.verifyExpectations();
+    }
+
+    public void testAllowsVerifiableObjectsToBeUnregistered() throws Throwable {
+        // setup
+        ExampleTestCase testCase = new ExampleTestCase();
+        MockVerifiable aVerifiable = new MockVerifiable();
+
+        // expect
+        aVerifiable.setExpectedVerifyCalls(0);
+
+        // execute
+        testCase.registerToVerify(aVerifiable);
+        testCase.unregisterToVerify(aVerifiable);
+        testCase.runBare();
+
+        // verify
+        aVerifiable.verifyExpectations();
     }
 }
