@@ -2,7 +2,8 @@ package org.jmock.core;
 
 
 /**
- * An object that can describe itself.
+ * An object that can describe itself. 
+ * Used when reporting a missed expectation in a test case.
  */
 public interface SelfDescribing {
     /**
