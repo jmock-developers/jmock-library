@@ -21,7 +21,7 @@ public class CoreMockTest extends TestCase {
     private CoreMock coreMock;
     private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
     private MockInvokable mockInvokable = new MockInvokable();
-
+    
     public void setUp() {
         coreMock = new CoreMock(DummyInterface.class, MOCK_NAME, mockDispatcher);
 
@@ -31,7 +31,14 @@ public class CoreMockTest extends TestCase {
             fail("proxy is not of expected interface type");
         }
     }
-
+    
+    public void testReportsMockedTypes() {
+        Class[] expectedTypes =  {DummyInterface.class};
+        
+        AssertMo.assertEquals( "mocked types", 
+                               expectedTypes, coreMock.getMockedTypes() );
+    }
+    
     public void testMockAnnotatesAssertionFailedError()
             throws Throwable {
         final String originalMessage = "original message";
@@ -158,7 +165,7 @@ public class CoreMockTest extends TestCase {
         mockDispatcher.verifyExpectations();
     }
 
-    public void testReset() {
+    public void testResetsDispatcher() {
         mockDispatcher.clearCalls.setExpected(1);
 
         coreMock.reset();

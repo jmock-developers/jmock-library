@@ -14,6 +14,15 @@ public class MockDynamicMock
     extends MockVerifiable
     implements DynamicMock
 {
+    public ExpectationCounter getMockedTypesCalls = 
+        new ExpectationCounter("getMockedTypes #calls");
+    public Class[] getMockedTypesResult;
+    
+    public Class[] getMockedTypes() {
+        getMockedTypesCalls.inc();
+        return (Class[])getMockedTypesResult.clone();
+    }
+    
     public ExpectationCounter addCalls = new ExpectationCounter("add #calls");
     public ExpectationValue addInvokable = new ExpectationValue("add invokable");
 
@@ -24,7 +33,6 @@ public class MockDynamicMock
     }
     
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
-    
     
     public void setDefaultStub( Stub newDefaultStub ) {
         setDefaultStub.setActual(newDefaultStub);
