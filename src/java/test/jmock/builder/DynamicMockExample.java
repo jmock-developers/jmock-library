@@ -16,7 +16,9 @@ import org.jmock.dynamic.stub.VoidStub;
 
 public class DynamicMockExample extends TestCase {
     public interface Market {
+    	String[] listStocks();
     	int getPrice( String ticker );
+    	void buyStock(String ticker, int quantity);
     }
 
     public class Agent {
@@ -27,7 +29,18 @@ public class DynamicMockExample extends TestCase {
         }
 
         public void buyLowestPriceStock(int cost) {
-        	market.getPrice("IBM");
+        	String[] stocks = market.listStocks();
+        	int cheapestPrice = Integer.MAX_VALUE;
+        	String cheapestStock = null;
+        	
+        	for (int i = 0; i < stocks.length; ++i) {
+	        	int price = market.getPrice(stocks[i]);
+	        	if (price < cheapestPrice) {
+	        		cheapestPrice = price;
+	        		cheapestStock = stocks[i];
+	        	}
+        	}
+        	market.buyStock(cheapestStock, cost / cheapestPrice);
         }
 
     }
@@ -56,10 +69,15 @@ public class DynamicMockExample extends TestCase {
     public void testBuilderExample() {
     	Mock mockMarket = new Mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
-
+        
+        mockMarket.method("listStocks").noParams().willReturn(new String[]{"IBM","ORCL"});
         mockMarket.method("getPrice").whenPassed("IBM").willReturn(new Integer(10))
         	.expectOnce();
-
+        mockMarket.method("getPrice").whenPassed("ORCL").willReturn(new Integer(25))
+        	.expectOnce();
+        mockMarket.method("buyStock").whenPassed("IBM", new Integer(2)).isVoid()
+        	.expectOnce();
+        
         agent.buyLowestPriceStock(20);
 
         mockMarket.verify();
