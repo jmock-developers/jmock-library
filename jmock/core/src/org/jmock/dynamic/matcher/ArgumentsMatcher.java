@@ -1,11 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic.matcher;
 
-import org.jmock.Constraint;
-import org.jmock.dynamic.DynamicUtil;
-import org.jmock.dynamic.Invocation;
-
 import java.util.List;
+
+import org.jmock.Constraint;
+import org.jmock.dynamic.Invocation;
 
 public class ArgumentsMatcher
         extends StatelessInvocationMatcher 
@@ -35,7 +34,13 @@ public class ArgumentsMatcher
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        DynamicUtil.join(constraints, buffer, "(", ")");
+        buffer.append("( ");
+        for (int i = 0; i < constraints.length; i++) {
+            if (i > 0) buffer.append(", ");
+            buffer.append( constraints[i] );
+        }
+        buffer.append(" )");
+        
         return buffer;
     }
 }

@@ -15,13 +15,15 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
     public void testUnexpectedCallAlsoShowsExpectedCalls() {
         String arg1 = "arg1";
         String notArg1 = "not "+arg1;
+        String callID = "callID";
         Object arg2 = new Object();
         Object notArg2 = new Object();
         Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
 
         mock.expect(once()).method("twoArgsReturnsInt").with(ANYTHING,ANYTHING)
-            .will(returnValue(1));
+            .will(returnValue(1)).id(callID);
         mock.expect(once()).method("twoArgsReturnsInt").with(eq(arg1),same(arg2))
+            .after(callID)
             .will(returnValue(1));
         
         try {
@@ -31,9 +33,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             
             String causeOfError = "no match found";
             String expectedMethod1 = 
-                "expected once, Method = twoArgsReturnsInt, (<any value>, <any value>), returns <1>";
+                "expect once: twoArgsReturnsInt( "+ANYTHING+", "+ANYTHING+" ), returns <1> ["+callID+"]";
             String expectedMethod2 =  
-                "expected once, Method = twoArgsReturnsInt, (<= "+arg1+">, <== <"+arg2+">>), returns <1>";
+                "expect once: twoArgsReturnsInt(eq("+arg1+"), same("+arg2+"), after "+callID+" returns <1>";
             
             assertStringContains( "should contain mock name", 
                                   errorMessage, MOCK_NAME );
