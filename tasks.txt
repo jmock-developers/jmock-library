@@ -24,5 +24,4 @@
 Code tasks moved to ToDo.java
 
 Organisation:
-- Get a logo.
-- Scripts to run unit and acceptance tests in damagecontrol
+- Ant files to build and run unit and acceptance tests in damagecontrol
