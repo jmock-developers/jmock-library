@@ -110,4 +110,18 @@ public class Mock_OrderedInvocations_IntegrationTest
 			
 		}
 	}
+	
+    public void testAllowsSameInvocationMultipleTimes() {
+        mock.method("hello").id("hello #1");
+        mock.method("hello").after("hello #1").id("hello #2");
+        mock.method("hello").after("hello #2").id("hello #3");
+        mock.method("goodbye").after("hello #3");
+        
+        proxy.hello();
+        proxy.hello();
+        proxy.hello();
+        proxy.goodbye();
+        
+        mock.verify();
+    }
 }

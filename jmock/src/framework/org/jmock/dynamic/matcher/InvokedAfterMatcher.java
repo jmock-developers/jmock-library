@@ -19,11 +19,11 @@ public class InvokedAfterMatcher
 	}
 	
 	public boolean matches(Invocation invocation) {
-		return true;
+		return priorCallRecorder.hasBeenInvoked();
 	}
 	
 	public void invoked( Invocation invocation ) {
-		if( !priorCallRecorder.hasBeenInvoked() ) {
+		if( !matches(invocation) ) {
 			throw new AssertionFailedError( 
 				"called out of order; should be called after " + priorCallDescription );
 		}
