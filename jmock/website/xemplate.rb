@@ -22,25 +22,8 @@ module XEMPLATE
     class TemplateException < Exception
     end
     
-    def XEMPLATE.is_template?( document )
-        document.root.prefixes.each do |prefix|
-            if document.root.namespace(prefix) == NAMESPACE
-                return true
-            end
-        end
-        return false
-    end
-    
-    def XEMPLATE.new_template( document, filename )
-        if is_template?( document)
-            Template.new( document, filename )
-        else
-            NullTemplate.new(document)
-        end
-    end
-    
     def XEMPLATE.load_template( filename )
-        new_template( load_xml(filename), filename )
+        Template.new( load_xml(filename), filename )
     end
     
     def XEMPLATE.load_xml( file )
@@ -265,16 +248,6 @@ module XEMPLATE
             else
                 node.clone
             end
-        end
-    end
-    
-    class NullTemplate
-        def initialize( document )
-            @document = document
-        end
-        
-        def expand( bindings )
-            @document
         end
     end
 end

@@ -11,25 +11,30 @@ CONTENT_DIR = File.join(BASE_DIR,"content")
 SKIN_DIR = File.join(BASE_DIR,"templates")
 OUTPUT_DIR = File.join(BASE_DIR,"output")
 
-IS_MARKUP = lambda { |file| file =~ /.(html|xml)$/ }
-
 TEMPLATE = XEMPLATE::load_template( File.join(SKIN_DIR,"skin.html") )
 
+def is_markup( filename )
+	filename =~ /.(html|xml)$/
+end
+
+def is_cvs_data( filename )
+	filename =~ /\/CVS(\/|$)/
+end
 
 def content_files
-    Dir[File.join(CONTENT_DIR,"*")]
+    Dir[File.join(CONTENT_DIR,"*")].reject {|f| is_cvs_data(f)}
 end
 
 def content_html
-    content_files.select &IS_MARKUP
+    content_files.select {|f| is_markup(f)}
 end
 
 def content_assets
-    content_files.reject &IS_MARKUP
+    content_files.reject {|f| is_markup(f)}
 end
 
 def skin_assets
-    Dir[File.join(SKIN_DIR,"*")].reject &IS_MARKUP
+    Dir[File.join(SKIN_DIR,"*")].reject {|f| is_cvs_data(f) or is_markup(f)}
 end
 
 def output_file( basename )
@@ -70,7 +75,7 @@ def skin_content_to_output
             skinned_content.elements["/html/body/div[@id='content']/*[1]"], 
             "FirstChild" )
         
-        puts "#{content_file} ~> #{output_file}"
+        $stderr.puts "#{content_file} ~> #{output_file}"
         write_to_output( skinned_content, output_file )
     end
 end
