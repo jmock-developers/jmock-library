@@ -4,6 +4,6 @@
 
 SOURCE_DIST_DIR=$DISTROOT/distributions/
 
-ssh $DISTHOST mkdir -p $DISTDIR
+ssh $DISTHOST mkdir -p $SOURCE_DIST_DIR
 scp $PACKAGEDIR/*-SNAPSHOT-src.jar $SOURCE_DIST_DIR
 exit $?
