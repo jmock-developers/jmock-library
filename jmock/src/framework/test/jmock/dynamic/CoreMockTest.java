@@ -3,15 +3,15 @@ package test.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import test.jmock.dynamic.testsupport.MockInvocationDispatcher;
-import test.jmock.dynamic.testsupport.MockInvokable;
-import test.jmock.dynamic.testsupport.MockStub;
 
 import org.jmock.dynamic.CoreMock;
-import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.expectation.AssertMo;
+
+import test.jmock.dynamic.testsupport.MockInvocationDispatcher;
+import test.jmock.dynamic.testsupport.MockInvokable;
+import test.jmock.dynamic.testsupport.MockStub;
  
 
 public class CoreMockTest extends TestCase {
@@ -59,7 +59,7 @@ public class CoreMockTest extends TestCase {
 
         assertSame("result is returned by coreMock", RESULT, proxy.oneArgMethod("arg"));
     }
-
+    
     public void testExceptionsPropagatedThroughProxy() throws Throwable {
         final Throwable throwable = new DummyThrowable();
 
@@ -137,12 +137,6 @@ public class CoreMockTest extends TestCase {
     public void testReturnsNameFromToString() {
         AssertMo.assertIncludes( "result of toString() should include name", 
         						 MOCK_NAME, coreMock.toString());
-    }
-
-    public void testProxyToString() throws Exception {
-        assertEquals( "Should get a coreMock name without touching the underlying coreMock", 
-    				  MOCK_NAME, DynamicUtil.toReadableString(proxy));
-        coreMock.verify();  // should not fail on a proxyToString call
     }
 
     public void testAddsInvokablesToDispatcher() {
