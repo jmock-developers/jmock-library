@@ -47,13 +47,13 @@ public abstract class MockObjectTestCase
      * @return A {@link Mock} object that mocks <var>mockedType</var>.
      */
     public Mock mock( Class mockedType, String roleName ) {
-        Mock newMock = new Mock(newCoreMock(mockedType, roleName));
+        Mock newMock = newMock(mockedType, roleName);
         registerToVerify(newMock);
         return newMock;
     }
 
-    protected DynamicMock newCoreMock( Class mockedType, String roleName ) {
-        return new CoreMock(mockedType, roleName);
+    protected Mock newMock( Class mockedType, String roleName) {
+        return new Mock(mockedType, roleName);
     }
 
     /**

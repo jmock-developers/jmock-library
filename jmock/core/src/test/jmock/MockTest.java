@@ -4,23 +4,23 @@ package test.jmock;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
 import org.jmock.Mock;
 import org.jmock.core.InvocationMatcher;
 import org.jmock.core.Invokable;
 import org.jmock.expectation.AssertMo;
+
 import test.jmock.builder.testsupport.MockMatchBuilder;
 import test.jmock.core.DummyInterface;
-import test.jmock.core.testsupport.MockDynamicMock;
-import test.jmock.core.testsupport.MockInvocationMatcher;
-import test.jmock.core.testsupport.MockInvokable;
-import test.jmock.core.testsupport.MockStub;
+import test.jmock.core.testsupport.*;
 
 
 public class MockTest extends TestCase
 {
 
     private MockDynamicMock mockCoreMock = new MockDynamicMock();
-    private Mock mock = new Mock(mockCoreMock);
+    private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
+    private Mock mock = new Mock(mockCoreMock, mockDispatcher);
 
     public void testToStringComesFromUnderlyingDynamicMock() {
         mockCoreMock.toStringResult = "some string here";
@@ -89,14 +89,14 @@ public class MockTest extends TestCase
                             MockedType.class, mock.getMockedType());
     }
 
-    public void testPassesDefaultStubToCoreMock() {
+    public void testPassesDefaultStubToDispatcher() {
         MockStub mockDefaultStub = new MockStub();
 
-        mockCoreMock.setDefaultStub.setExpected(mockDefaultStub);
+        mockDispatcher.setDefaultStub.setExpected(mockDefaultStub);
 
         mock.setDefaultStub(mockDefaultStub);
 
-        mockCoreMock.verifyExpectations();
+        mockDispatcher.verifyExpectations();
     }
 
 

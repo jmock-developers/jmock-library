@@ -3,6 +3,7 @@
 package org.jmock.cglib;
 
 import org.jmock.core.DynamicMock;
+import org.jmock.core.OrderedInvocationDispatcher;
 
 
 public class Mock extends org.jmock.Mock
@@ -16,6 +17,7 @@ public class Mock extends org.jmock.Mock
     }
 
     public Mock( DynamicMock coreMock ) {
-        super(coreMock);
+        super(coreMock, 
+                new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
     }
 }

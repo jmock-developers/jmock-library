@@ -11,6 +11,7 @@ import org.jmock.core.*;
 public class Mock
         implements DynamicMock, BuilderNamespace, Verifiable
 {
+    InvocationDispatcher dispatcher;
     DynamicMock coreMock;
     HashMap idTable = new HashMap();
 
@@ -19,11 +20,17 @@ public class Mock
     }
 
     public Mock( Class mockedType, String name ) {
-        this(new CoreMock(mockedType, name));
+        this( mockedType, name, 
+              new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()) );
+    }
+    
+    public Mock( Class mockedType, String name, InvocationDispatcher dispatcher ) {
+    	this( new CoreMock(mockedType, name, dispatcher), dispatcher );
     }
 
-    public Mock( DynamicMock coreMock ) {
+    public Mock( DynamicMock coreMock, InvocationDispatcher dispatcher ) {
         this.coreMock = coreMock;
+        this.dispatcher = dispatcher;
     }
 
     public Class getMockedType() {
@@ -64,7 +71,7 @@ public class Mock
     }
 
     public void setDefaultStub( Stub newDefaultStub ) {
-        coreMock.setDefaultStub(newDefaultStub);
+        dispatcher.setDefaultStub(newDefaultStub);
     }
 
     public void reset() {

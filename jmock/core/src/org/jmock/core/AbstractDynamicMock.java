@@ -12,10 +12,6 @@ public abstract class AbstractDynamicMock
     private Class mockedType;
     private String name;
 
-    public AbstractDynamicMock( Class mockedType, String name ) {
-        this(mockedType, name, new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
-    }
-
     public AbstractDynamicMock( Class mockedType,
                                 String name,
                                 InvocationDispatcher invocationDispatcher ) {
