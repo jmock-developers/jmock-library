@@ -2,8 +2,10 @@
 package org.jmock.dynamic;
 
 import java.lang.reflect.Method;
-import java.util.*;
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An object that holds information about an invocation dispatched to
@@ -13,22 +15,19 @@ public class Invocation {
     private Class declaringClass;
     private String callerName;
     private String methodName;
-    private List parameterTypes;
+    private Class[] parameterTypes;
     private Class returnType;
-    private List parameterValues;
+    private Object[] parameterValues;
 
     public Invocation(Class declaringClass, String callerName, String name, Class[] parameterTypes,
                       Class returnType, Object[] parameterValues) {
         this.declaringClass = declaringClass;
         this.callerName = callerName;
         this.methodName = name;
-        this.parameterTypes = Arrays.asList(parameterTypes);
+        this.parameterTypes = parameterTypes;
         this.returnType = returnType;
-        if (parameterValues == null) {
-            this.parameterValues = new ArrayList(0);
-        } else {
-            this.parameterValues = Arrays.asList(parameterValues);
-        }
+        this.parameterValues = 
+            (parameterValues == null ? new Object[0] : parameterValues);
     }
 
     public Invocation(Method method, String callerName, Object[] parameterValues) {
@@ -45,11 +44,11 @@ public class Invocation {
     }
 
     public List getParameterTypes() {
-        return Collections.unmodifiableList(parameterTypes);
+        return Collections.unmodifiableList(Arrays.asList(parameterTypes));
     }
 
     public List getParameterValues() {
-        return Collections.unmodifiableList(parameterValues);
+        return Collections.unmodifiableList(Arrays.asList(parameterValues));
     }
 
     public Class getReturnType() {
@@ -66,11 +65,19 @@ public class Invocation {
 
     public int hashCode() {
         return methodName.hashCode() ^
-                listHashCode(parameterTypes) ^
+                arrayHashCode(parameterTypes) ^
                 returnType.hashCode() ^
-                listHashCode(parameterValues);
+                arrayHashCode(parameterValues);
     }
 
+    private int arrayHashCode(Object[] array) {
+        int hashCode = 0;
+        for (int i = 0; i < array.length; ++i) {
+            hashCode ^= array[i].hashCode();
+        }
+        return hashCode;
+    }
+    
     private int listHashCode(List array) {
         int hashCode = 0;
         for (Iterator i = array.iterator(); i.hasNext();) {
@@ -82,15 +89,15 @@ public class Invocation {
     public boolean equals(Invocation call) {
         return call != null
             && methodName.equals(call.methodName)
-            && parameterTypes.equals(call.parameterTypes)
+            && Arrays.equals(parameterTypes, call.parameterTypes)
             && returnType.equals(call.returnType)
-            && parameterValues.equals(call.parameterValues);
+            && Arrays.equals(parameterValues, call.parameterValues);
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append("Invoked: ");
         buffer.append(callerName).append(".").append(methodName);
-        DynamicUtil.join(parameterValues.toArray(), buffer, "(", ")");
+        DynamicUtil.join(parameterValues, buffer, "(", ")");
         return buffer.append("\n");
     }
 }
