@@ -42,7 +42,7 @@ public class ArgumentsMatcherTest extends TestCase {
         assertFalse("Too many arguments", matcher.matches(exampleInvocation));
     }
 
-    public void testNoMatchWhenAnyArgumentDoNotConform() throws Throwable {
+    public void testNoMatchWhenAnyArgumentDoesNotConform() throws Throwable {
         ArgumentsMatcher matcher =
                 new ArgumentsMatcher(
                         new Constraint[]{AlwaysTrue.INSTANCE, same("wrong")});
@@ -50,7 +50,7 @@ public class ArgumentsMatcherTest extends TestCase {
         assertFalse("Incorrect argument", matcher.matches(exampleInvocation));
     }
 
-    public void testArgumentsMatchWhenAllValuesMatch() throws Throwable {
+    public void testArgumentsMatchWhenAllArgumentsMatch() throws Throwable {
         ArgumentsMatcher matcher =
                 new ArgumentsMatcher(
                         new Constraint[]{AlwaysTrue.INSTANCE, same(exampleArg2)});
@@ -58,15 +58,12 @@ public class ArgumentsMatcherTest extends TestCase {
         assertTrue("Arguments match", matcher.matches(exampleInvocation));
     }
     
-    public void testEncapsulatesArrayOfConstraints() {
+    public void testClonesConstraintListDuringConstructor() {
         Constraint[] constraintArray = { same(exampleArg1), same(exampleArg2) };
         
         ArgumentsMatcher matcher = new ArgumentsMatcher( constraintArray );
         
         constraintArray[0] = AlwaysFalse.INSTANCE;
-        assertTrue( "arguments should match", matcher.matches(exampleInvocation) );
-        
-        matcher.getConstraints()[0] = AlwaysFalse.INSTANCE;
         assertTrue( "arguments should match", matcher.matches(exampleInvocation) );
     }
     

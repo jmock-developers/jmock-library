@@ -30,10 +30,6 @@ public class ArgumentsMatcher
         return true;
     }
 
-    public Constraint[] getConstraints() {
-        return (Constraint[])constraints.clone();
-    }
-
     public String toString() {
         return writeTo(new StringBuffer()).toString();
     }
