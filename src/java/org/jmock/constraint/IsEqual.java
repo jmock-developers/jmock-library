@@ -14,17 +14,11 @@ public class IsEqual implements Constraint {
     private Object _object;
 
     public IsEqual(Object equalArg) {
-        if (equalArg instanceof Object[]) {
-            _object = Arrays.asList((Object[]) equalArg);
-        } else {
-            _object = equalArg;
-        }
+        _object = convertArrayToList(equalArg);
     }
 
     public boolean eval(Object arg) {
-        if (arg instanceof Object[]) {
-            arg = Arrays.asList((Object[]) arg);
-        }
+        arg = convertArrayToList(arg);
         if (arg == null) {
             return arg == _object;
         }
@@ -38,4 +32,14 @@ public class IsEqual implements Constraint {
     public boolean equals(Object anObject) {
         return eval(anObject);
     }
+
+    private Object convertArrayToList(Object equalArg) {
+        if (equalArg instanceof Object[]) {
+            return Arrays.asList((Object[]) equalArg);
+        } else {
+            return equalArg;
+        }
+    }
+
+    
 }
