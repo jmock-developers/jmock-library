@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:skin="http://www.b13media.com/xemplate/1.0">
+  <head>
+    <title>jMock - <skin:include srcvar="content" elements="/html/head/title/text()"/></title>
+    <link rel="stylesheet" type="text/css" href="jmock.css"/>
+    <skin:include srcvar="content" elements="/html/head/*[not(name()='title')]"/>
+  </head>
+  
+  <body>
+    <div id="banner">
+      <a href="index.html"><img id="logo" src="logo.gif" alt="jMock"/></a>
+      <div id="versions">
+        <table>
+          <tr>
+            <td><a href="download.html#stable">Latest stable version</a></td>
+            <td><a href="download.html#stable"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+            <td><a href="stable-changes.html">(changes)</a></td>
+          </tr>
+          <tr>
+            <td><a href="download.html#unstable">Latest unstable version</a></td>
+            <td><a href="download.html#unstable"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+            <td><a href="unstable-changes.html">(changes)</a></td>
+          </tr>
+          <tr>
+            <td><a href="download.html#snapshot">Latest snapshot version</a></td>
+            <td><a href="download.html#snapshot"><skin:include src="../content/download.html" elements="/html/body/*[@id='stable']/[@class='version']/text()"/></a></td>
+            <td><a href="snapshot-changes.html">(changes)</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <skin:when var="isindex" value="true">
+      <div id="content" class="Content3Column">
+        <skin:include srcvar="content" elements="/html/body/*"/>
+      </div>
+    </skin:when>
+    
+    <skin:when var="isindex" value="false">
+      <div id="content" class="Content2Column">
+        <skin:include srcvar="content" elements="/html/body/*"/>
+      </div>
+    </skin:when>
+    
+    <div class="SidePanel" id="left">
+      <div class="MenuGroup">
+        <h1>Software</h1>
+        <ul>
+          <li><a href="download.html">Download jMock</a></li>
+          <li><a href="download.html#examples">Example Code</a></li>
+          <li><a href="repository.html">Code Repository</a></li>
+          <li><a href="license.html">Project License</a></li>
+        </ul>
+      </div>
+      
+      <div class="MenuGroup">
+        <h1><a href="docs.html">Documentation...</a></h1>
+        <ul>
+          <li><a href="docs.html#reference">Reference Documentation</a></li>
+          <li><a href="docs.html#tutorials">Tutorials</a></li>
+          <li><a href="docs.html#papers">Papers, Presentations, Publicity</a></li>
+          <li><a href="http://www.mockobjects.com">More about Mock Objects</a></li>
+        </ul>
+      </div>
+      
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <ul>
+          <li><a href="mailing-lists.html">Mailing Lists</a></li>
+          <li><a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a></li>
+        </ul>
+      </div>
+      
+      <div class="MenuGroup">
+        <h1><a href="development.html">Development...</a></h1>
+        <ul>
+          <li><a href="">How to Contribute</a></li>
+          <li><a href="">Patch Manager</a></li>
+        </ul>
+      </div>
+      
+      <div class="MenuGroup">
+        <h1>Related Sites</h1>
+        <ul>
+          <li><a href="http://www.mockobjects.com">Mock Objects</a></li>
+          <li><a href="http://www.junit.org">JUnit</a></li>
+          <li><a href="http://www.nmock.org">nMock</a></li>
+          <li><a href="http://www.codehaus.org">Project hosted by Codehaus</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <skin:when var="isindex">
+      <div class="SidePanel" id="right">
+        <div class="NewsGroup">
+          <h1><a href="news.html">News...</a></h1>
+          <skin:include src="../content/news.html" 
+                        elements="/html/body/*[@class='NewsItem' and position()<=5]"/>
+          <p class="NewsMore"><a href="news.rdf">News feed (XML)</a></p>
+        </div>
+      </div>
+    </skin:when>
+  </body>
+</html>
