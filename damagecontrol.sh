@@ -3,7 +3,7 @@
 
 #export RELEASE_ID=1.0
 #export PRERELEASE_ID=1.0-RC1
-export SNAPSHOT_ID=$(date +%Y%m%d-%H%M%S)
+export SNAPSHOT_ID=$(date --utc +%Y%m%d-%H%M%S)
 
 export PACKAGEDIR=packages
 export WEBDIR=website/output
