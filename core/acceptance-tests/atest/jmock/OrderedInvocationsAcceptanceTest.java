@@ -27,8 +27,8 @@ public class OrderedInvocationsAcceptanceTest
     }
     
     public void testOrderedCallsCanOccurInOrder() {
-    	mock.stub().method("hello").id("hello call");
-    	mock.stub().method("goodbye").after("hello call");
+    	mock.stubs().method("hello").id("hello call");
+    	mock.stubs().method("goodbye").after("hello call");
     	
     	proxy.hello();
         proxy.goodbye();
@@ -39,8 +39,8 @@ public class OrderedInvocationsAcceptanceTest
 	public void testOrderedCallsMustNotOccurOutOfOrder() {
 		String priorCall = "HELLO-CALL-ID";
 		
-		mock.stub().method("hello").id(priorCall);
-		mock.stub().method("goodbye").after(priorCall);
+		mock.stubs().method("hello").id(priorCall);
+		mock.stubs().method("goodbye").after(priorCall);
 		
 		try {
             proxy.goodbye();
@@ -55,9 +55,9 @@ public class OrderedInvocationsAcceptanceTest
     }
 	
 	public void testOrderingDoesNotAffectUnrelatedCalls() {
-		mock.stub().method("hello").id("hello call");
-		mock.stub().method("goodbye").after("hello call");
-		mock.stub().method("moreTeaVicar");
+		mock.stubs().method("hello").id("hello call");
+		mock.stubs().method("goodbye").after("hello call");
+		mock.stubs().method("moreTeaVicar");
 		
 		proxy.hello();
 		proxy.moreTeaVicar();
@@ -67,21 +67,21 @@ public class OrderedInvocationsAcceptanceTest
 	}
 	
 	public void testOrderingConstraintsDoNotImplyExpectedCall() {
-		mock.stub().method("hello").isVoid().id("hello call");
-		mock.stub().method("goodbye").after("hello call");
+		mock.stubs().method("hello").isVoid().id("hello call");
+		mock.stubs().method("goodbye").after("hello call");
 		
 		mock.verify();
 	}
 	
 	public void testCanUseMethodNameAsDefaultInvocationID() {
-		mock.stub().method("hello").isVoid();
-		mock.stub().method("goodbye").after("hello"); // should not throw error
+		mock.stubs().method("hello").isVoid();
+		mock.stubs().method("goodbye").after("hello"); // should not throw error
 	}
     
     public void testUsingSameMethodNameAsParameterToAfterIsAnError() {
-        mock.stub().method("count").will(returnValue(1));
+        mock.stubs().method("count").will(returnValue(1));
         try {
-            mock.stub().method("count").after("count").will(returnValue(2));
+            mock.stubs().method("count").after("count").will(returnValue(2));
         }
         catch( AssertionFailedError ex ) {
             AssertMo.assertIncludes( "should include repeated method name",
@@ -95,9 +95,9 @@ public class OrderedInvocationsAcceptanceTest
 		Mock otherMock = mock( ExampleInterface.class, "otherMock" );
 		ExampleInterface otherProxy = (ExampleInterface)otherMock.proxy();
 		
-		otherMock.stub().method("hello").isVoid();
+		otherMock.stubs().method("hello").isVoid();
 		
-		mock.stub().method("goodbye").after(otherMock,"hello");
+		mock.stubs().method("goodbye").after(otherMock,"hello");
 		
 		otherProxy.hello();
 		proxy.goodbye();
@@ -108,8 +108,8 @@ public class OrderedInvocationsAcceptanceTest
 		String priorCall = "HELLO-CALL-ID";
 		Mock otherMock = mock( ExampleInterface.class, otherMockName );
 		
-		otherMock.stub().method("hello").id(priorCall);
-		mock.stub().method("goodbye").after(otherMock,priorCall);
+		otherMock.stubs().method("hello").id(priorCall);
+		mock.stubs().method("goodbye").after(otherMock,priorCall);
 		
 		try {
 			proxy.goodbye();
@@ -125,10 +125,10 @@ public class OrderedInvocationsAcceptanceTest
 	}
 	
     public void testAllowsSameInvocationMultipleTimes() {
-        mock.stub().method("hello").id("hello #1");
-        mock.stub().method("hello").after("hello #1").id("hello #2");
-        mock.stub().method("hello").after("hello #2").id("hello #3");
-        mock.stub().method("goodbye").after("hello #3");
+        mock.stubs().method("hello").id("hello #1");
+        mock.stubs().method("hello").after("hello #1").id("hello #2");
+        mock.stubs().method("hello").after("hello #2").id("hello #3");
+        mock.stubs().method("goodbye").after("hello #3");
         
         proxy.hello();
         proxy.hello();
@@ -141,10 +141,10 @@ public class OrderedInvocationsAcceptanceTest
     public void testDetectsDuplicateIDs() {
         String duplicateID = "DUPLICATE-ID";
         
-        mock.stub().method("hello").id(duplicateID);
+        mock.stubs().method("hello").id(duplicateID);
         
         try {
-            mock.stub().method("hello").id(duplicateID);
+            mock.stubs().method("hello").id(duplicateID);
         }
         catch( AssertionFailedError ex ) {
             AssertMo.assertIncludes( "error message contains duplicate id",
@@ -158,7 +158,7 @@ public class OrderedInvocationsAcceptanceTest
         String missingID = "MISSING-ID";
         
         try {
-            mock.stub().method("hello").after(missingID);
+            mock.stubs().method("hello").after(missingID);
         }
         catch( AssertionFailedError ex ) {
             AssertMo.assertIncludes( "error message contains missing id",

@@ -39,13 +39,13 @@ public class DynamicMockExample extends MockObjectTestCase {
     	Mock market = mock(Market.class);
         Agent agent = new Agent((Market) market.proxy());
         
-        market.stub().method("listStocks").withNoArguments()
+        market.stubs().method("listStocks").withNoArguments()
             .will(returnValue(new String[]{"IBM","ORCL"}));
-        market.expect(atLeastOnce()).method("getPrice").with(eq("IBM"))
+        market.expects(atLeastOnce()).method("getPrice").with(eq("IBM"))
             .will(returnValue(10));
-        market.expect(atLeastOnce()).method("getPrice").with(eq("ORCL"))
+        market.expects(atLeastOnce()).method("getPrice").with(eq("ORCL"))
             .will(returnValue(25));
-        market.expect(once()).method("buyStock").with(eq("IBM"), eq(2));
+        market.expects(once()).method("buyStock").with(eq("IBM"), eq(2));
         
         agent.buyLowestPriceStock(20);
         

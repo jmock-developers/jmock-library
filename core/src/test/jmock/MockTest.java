@@ -55,7 +55,7 @@ public class MockTest extends TestCase {
     public void testStubAddsInvocationMockerAndReturnsBuilder() {
         mockCoreMock.addInvokableCalls.setExpected(1);
 
-        assertNotNull("Should be method expectation", mock.stub());
+        assertNotNull("Should be method expectation", mock.stubs());
         mockCoreMock.verifyExpectations();
     }
     
@@ -64,7 +64,7 @@ public class MockTest extends TestCase {
         
         mockCoreMock.addInvokableCalls.setExpected(1);
         
-        assertNotNull("Should be method expectation", mock.expect(expectation));
+        assertNotNull("Should be method expectation", mock.expects(expectation));
         mockCoreMock.verifyExpectations();
     }
     

@@ -28,23 +28,23 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnObjectReferences() {
     	String result = new String("RESULT");
         
-        mock.stub().method("returnString").will(returnValue(result));
+        mock.stubs().method("returnString").will(returnValue(result));
         
         assertSame( "should be same result", result, proxy.returnString() );
     }
     
     public void testCanReturnBooleanValues() {
-        mock.stub().method("returnBoolean").will(returnValue(true));
+        mock.stubs().method("returnBoolean").will(returnValue(true));
         assertTrue( "should be true", proxy.returnBoolean() );
         
-        mock.stub().method("returnBoolean").will(returnValue(false));
+        mock.stubs().method("returnBoolean").will(returnValue(false));
         assertFalse( "should be false", proxy.returnBoolean() );
     }
     
     public void testCanReturnByteValues() {
         byte result = 123;
         
-        mock.stub().method("returnByte").will(returnValue(result));
+        mock.stubs().method("returnByte").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnByte() );
     }
@@ -52,7 +52,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnCharValues() {
         char result = '\u1234';
         
-        mock.stub().method("returnChar").will(returnValue(result));
+        mock.stubs().method("returnChar").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnChar() );
     }
@@ -60,7 +60,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnShortValues() {
         short result = 12345;
         
-        mock.stub().method("returnShort").will(returnValue(result));
+        mock.stubs().method("returnShort").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnShort() );
     }
@@ -68,7 +68,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnIntValues() {
     	int result = 1234567890;
         
-        mock.stub().method("returnInt").will(returnValue(result));
+        mock.stubs().method("returnInt").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnInt() );
     }
@@ -76,7 +76,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnLongValues() {
         long result = 1234567890124356789L;
         
-        mock.stub().method("returnLong").will(returnValue(result));
+        mock.stubs().method("returnLong").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnLong() );
     }
@@ -84,7 +84,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnFloatValues() {
         float result = 12345.67890f;
         
-        mock.stub().method("returnFloat").will(returnValue(result));
+        mock.stubs().method("returnFloat").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnFloat(), 0.0 );
     }
@@ -92,7 +92,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     public void testCanReturnDoubleValues() {
         double result = 1234567890.1234567890;
         
-        mock.stub().method("returnDouble").will(returnValue(result));
+        mock.stubs().method("returnDouble").will(returnValue(result));
         
         assertEquals( "should be same result", result, proxy.returnDouble(), 0.0 );
     }

@@ -10,7 +10,7 @@ import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.ThrowStub;
 
 
-public class MockObjectTestCase 
+public abstract class MockObjectTestCase
 	extends MockObjectSupportTestCase
 {
     public Mock mock( Class mockedType ) {
