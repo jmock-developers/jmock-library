@@ -15,8 +15,9 @@ public class ReturnStubTest
     ReturnStub returnStub; 
     
     public void setUp() {
-	    invocation = new Invocation( Void.class, "ignoredName", new Class[0], 
-	    							 void.class, new Object[0]);
+	    invocation = new Invocation( 
+            "INVOKED-OBJECT", Void.class, 
+            "ignoredName", new Class[0], void.class, new Object[0] );
 	    returnStub  = new ReturnStub(RESULT);
     }
     

@@ -7,8 +7,9 @@ import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 
 public class InvokeOnceMatcherTest extends TestCase {
-    private Invocation emptyInvocation =
-            new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
+    private Invocation emptyInvocation = new Invocation(
+        "INVOKED-OBJECT", Void.class, "example", new Class[0], Void.class, 
+        new Object[0]);
     private InvokeOnceMatcher matcher = new InvokeOnceMatcher();
     
     public void testWillMatchIfNotYetInvoked() {

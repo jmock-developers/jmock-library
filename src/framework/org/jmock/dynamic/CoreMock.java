@@ -48,7 +48,7 @@ public class CoreMock
     public Object invoke(Object invokedProxy, Method method, Object[] args)
             throws Throwable 
     {
-        Invocation invocation = new Invocation(method, args);
+        Invocation invocation = new Invocation(invokedProxy,method, args);
         try {
             return invocationDispatcher.dispatch(invocation);
         }

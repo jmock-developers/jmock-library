@@ -77,8 +77,10 @@ public class InvocationMockerTest extends TestCase {
 
     private static final String ARG2 = "arg2";
     private static final String ARG1 = "arg1";
-    private Invocation exampleInvocation =
-            new Invocation(Void.class, "example", new Class[]{String.class, String.class}, Void.class, new Object[]{ARG1, ARG2});
+    private Invocation exampleInvocation = new Invocation( 
+        new Object(), Void.class, 
+        "example", new Class[]{String.class, String.class}, Void.class, 
+        new Object[]{ARG1, ARG2});
 
 
     public void testMatchesIfEverythingMatches() {

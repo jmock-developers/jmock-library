@@ -165,6 +165,8 @@ public class DefaultResultStubTest
     
 	private Invocation resultCall( Class resultType ) {
 		return new Invocation(
-			getClass(), "ignoredMethodName", NO_ARG_TYPES, resultType, NO_ARG_VALUES );
+            "INVOKED-OBJECT",
+			getClass(), "ignoredMethodName", NO_ARG_TYPES, resultType,
+            NO_ARG_VALUES );
 	}
 }
