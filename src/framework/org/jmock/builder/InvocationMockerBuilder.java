@@ -64,8 +64,12 @@ public class InvocationMockerBuilder
     }
     
     public ExpectationBuilder stub(Stub stub) {
-    	mocker.setStub(stub);
-    	return this;
+    	return will(stub);
+    }
+    
+    public ExpectationBuilder will(Stub stubAction) {
+        mocker.setStub(stubAction);
+        return this;
     }
     
     public ExpectationBuilder isVoid() {

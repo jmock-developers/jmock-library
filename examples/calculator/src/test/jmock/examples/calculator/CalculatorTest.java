@@ -37,10 +37,10 @@ public class CalculatorTest
         final double expressionValue = 1.0;
         
         mockParser.method("parse").with(eq(expressionString))
-            .willReturn(mockExpression.proxy())
+            .will(returnValue(mockExpression.proxy()))
             .expectOnce();
         mockExpression.method("evaluate").with(same(mockEnvironment.proxy()))
-            .willReturn(expressionValue)
+            .will(returnValue(expressionValue))
             .expectOnce();
         
         assertEquals( "should be expression value",
@@ -50,7 +50,7 @@ public class CalculatorTest
     public void testReportsParseErrors() throws Exception {
         final Throwable throwable = new ParseException("dummy ParseException");
         
-        mockParser.method("parse").with(eq(expressionString)).willThrow(throwable)
+        mockParser.method("parse").with(eq(expressionString)).will(throwException(throwable))
             .expectOnce(); 
         
         try {
@@ -65,9 +65,11 @@ public class CalculatorTest
     public void testReportsEvaluationErrors() throws Exception {
         final Throwable throwable = new CalculatorException("dummy CalculatorException");
         
-        mockParser.method("parse").with(eq(expressionString)).willReturn(mockExpression.proxy())
+        mockParser.method("parse").with(eq(expressionString))
+            .will(returnValue(mockExpression.proxy()))
             .expectOnce();
-        mockExpression.method("evaluate").with(same(mockEnvironment.proxy())).willThrow(throwable)
+        mockExpression.method("evaluate").with(same(mockEnvironment.proxy()))
+            .will(throwException(throwable))
             .expectOnce();
         
         try {
@@ -81,7 +83,7 @@ public class CalculatorTest
     
     public void testSetsVariableExpression() throws Throwable {
         mockParser.method("parse").with(eq(variableValueString))
-            .willReturn(mockVariableExpression.proxy())
+            .will(returnValue(mockVariableExpression.proxy()))
             .expectOnce();
         
         mockEnvironment.method("setVariable")
