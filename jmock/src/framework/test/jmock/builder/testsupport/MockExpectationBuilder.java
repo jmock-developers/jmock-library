@@ -63,6 +63,14 @@ public class MockExpectationBuilder
 		id.setActual(newID);
 		return this;
 	}
+    
+    public ExpectationCounter expectNotCalledCalls = 
+        new ExpectationCounter("expectNotCalled #calls");
+    
+    public ExpectationBuilder expectNotCalled() {
+        expectNotCalledCalls.inc();
+        return this;
+    }
 	
 	public void verify() {
     	Verifier.verifyObject(this);

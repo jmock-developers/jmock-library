@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import org.jmock.Verifiable;
+import org.jmock.dynamic.stub.*;
 
 
 public class LIFOInvocationDispatcher 
@@ -14,8 +15,8 @@ public class LIFOInvocationDispatcher
     public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
     
 	private ArrayList invokables = new ArrayList();
-    private Stub defaultStub = new NoMatchFoundStub();
-
+    private Stub defaultStub = new TestFailureStub("no match found");
+    
     public Object dispatch(Invocation invocation) throws Throwable {
         ListIterator i = invokables.listIterator(invokables.size());
         while (i.hasPrevious()) {
@@ -46,7 +47,6 @@ public class LIFOInvocationDispatcher
     public void clear() {
         invokables.clear();
     }
-
 
     public void writeTo(StringBuffer buffer) {
         int oldLength = buffer.length();

@@ -13,4 +13,6 @@ public interface ExpectationBuilder {
 	
 	ExpectationBuilder after( String previousCallID );
 	ExpectationBuilder after( BuilderIdentityTable otherMock, String previousCallID );
+	
+    ExpectationBuilder expectNotCalled();
 }

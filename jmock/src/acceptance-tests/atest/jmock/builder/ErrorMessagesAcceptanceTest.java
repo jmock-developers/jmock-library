@@ -15,7 +15,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Object arg2 = new Object();
         Object notArg2 = new Object();
         Mock mock = new Mock(Types.WithTwoMethods.class, "MOCK_NAME");
-        
+
+        String causeOfError = "no match found";
+
         mock.method("twoArgsReturnsInt").with(ANYTHING, ANYTHING).willReturn(1)
             .expectOnce();
         mock.method("twoArgsReturnsInt").with(eq(arg1), same(arg2)).willReturn(1)
@@ -29,9 +31,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             assertStringContains( "should contain mock name", 
                                   errorMessage, "MOCK_NAME" );
             assertStringContains( "should report cause of error",
-                                   errorMessage, "No match found" );
+                                   errorMessage, causeOfError );
             assertSubstringOrder( "mock name should appear before cause of error",
-                                  errorMessage, "MOCK_NAME", "No match found" );
+                                  errorMessage, "MOCK_NAME", causeOfError );
             
             assertStringContains( "should report method that caused error",
                 errorMessage, 
@@ -53,7 +55,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             return;
         }
         
-        fail("Should have thrown a DynamocMockError");
+        fail("Should have thrown a DynamicMockError");
     }
     
     public void testShowsNoExpectationsStringWhenNoExpectationsSet() {

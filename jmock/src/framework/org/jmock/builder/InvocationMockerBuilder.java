@@ -13,6 +13,7 @@ import org.jmock.dynamic.matcher.InvokedAfterMatcher;
 import org.jmock.dynamic.matcher.InvokedRecorder;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
+import org.jmock.dynamic.stub.TestFailureStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 
@@ -123,6 +124,10 @@ public class InvocationMockerBuilder
 		return addExpectation( new InvokeAtLeastOnceMatcher() );
 	}
 	
+    public ExpectationBuilder expectNotCalled() {
+        return stub( new TestFailureStub("must not be called") );
+    }
+    
 	public ExpectationBuilder id( String invocationID ) {
         mocker.setName(invocationID);
 		idTable.registerID( invocationID, this );
