@@ -4,6 +4,7 @@ package atest.jmock;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+import org.jmock.expectation.AssertMo;
 import org.jmock.core.DynamicMockError;
 
 
@@ -14,7 +15,7 @@ public class ExpectNeverAcceptanceTest
         public void method();
     }
 
-    public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
+    public void testExpectNeverOverridesStubAndFailsIfCalled() {
         Mock mock = mock(MockedInterface.class, "mock");
 
         mock.stubs().method("method").withNoArguments();
@@ -29,10 +30,27 @@ public class ExpectNeverAcceptanceTest
         fail("DynamicMockError expected");
     }
 
-    public void testExpectNotCalledVerifiesIfNotCalled() {
+    public void testExpectNeverVerifiesIfNotCalled() {
         Mock mock = mock(MockedInterface.class, "mock");
 
         mock.stubs().method("method").withNoArguments().isVoid();
         mock.expects(never()).method("method").withNoArguments();
+    }
+
+    public void testExpectNeverCanExplicitlyDescribeError() {
+        Mock mock = mock(MockedInterface.class,"mock");
+        String errorMessage = "errorMessage";
+
+        mock.expects(never(errorMessage)).withNoArguments();
+        mock.expects(never(errorMessage)).withNoArguments();
+
+        try {
+            ((MockedInterface)mock.proxy()).method();
+        }
+        catch (DynamicMockError error) {
+            AssertMo.assertIncludes( "should contain explicit error message", errorMessage, error.getMessage() );
+            return;
+        }
+        fail("DynamicMockError expected");
     }
 }
