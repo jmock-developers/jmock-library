@@ -55,14 +55,7 @@ public class Invocation {
     }
 
     public String toString() {
-        StringBuffer buf = new StringBuffer();
-        
-        buf.append(name);
-        buf.append("(");
-        DynamicUtil.join(parameterValues.toArray(), buf);
-        buf.append(")");
-        
-        return buf.toString();
+        return writeTo(new StringBuffer()).toString();
     }
 
     public boolean equals(Object other) {
