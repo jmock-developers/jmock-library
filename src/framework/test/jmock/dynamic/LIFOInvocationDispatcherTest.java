@@ -26,8 +26,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
         dispatcher = new LIFOInvocationDispatcher();
     }
 
-    public void dummyMethod() {
-    }
+    public void dummyMethod() { /* just used to create Invocation objects */ }
     
     public void testInvokeFailsWhenEmpty() throws Throwable {
         try {

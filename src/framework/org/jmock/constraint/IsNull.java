@@ -7,9 +7,6 @@ import org.jmock.Constraint;
  * Is the value null?
  */
 public class IsNull implements Constraint {
-    public IsNull() {
-    }
-
     public boolean eval(Object o) {
         return o == null;
     }

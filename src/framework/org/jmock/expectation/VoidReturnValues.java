@@ -9,10 +9,6 @@ package org.jmock.expectation;
  * It is possibly similar to a ReturnObjectList?
  */
 public class VoidReturnValues extends ReturnValues {
-
-    public VoidReturnValues() {
-    }
-
     public VoidReturnValues(String name, boolean keepUsingLastReturnValue) {
         super(name, keepUsingLastReturnValue);
     }
