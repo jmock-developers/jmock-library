@@ -7,7 +7,7 @@ public class TimedCache
     private ObjectLoader loader;
     private Clock clock;
     private ReloadPolicy reloadPolicy;
-    private HashMap cache = new HashMap();
+    private HashMap cachedValues = new HashMap();
     
     private class TimestampedValue {
         public final Object value;
@@ -27,27 +27,25 @@ public class TimedCache
     }
     
     public Object lookup(Object theKey) {
-        TimestampedValue found = (TimestampedValue) cache.get(theKey);
+        TimestampedValue found = (TimestampedValue) cachedValues.get(theKey);
         
         if( found == null || reloadPolicy.shouldReload(found.loadTime, clock.getCurrentTime())) {
             found = loadObject(theKey);
         }
-        
         return found.value;
     }
     
     private TimestampedValue loadObject(Object key) {
         Object value = loader.load(key);
-        Timestamp loadTime = clock.getCurrentTime();
-        TimestampedValue timestampedValue = new TimestampedValue(value,loadTime);
+        TimestampedValue timestampedValue = new TimestampedValue(value, clock.getCurrentTime());
         
-        cache.put( key, timestampedValue);
+        cachedValues.put( key, timestampedValue);
         
         return timestampedValue;
     }
     
     public void putValue(Object key, Object value, Timestamp loadTime) {
-        cache.put( key, new TimestampedValue(value,loadTime) );
+        cachedValues.put( key, new TimestampedValue(value,loadTime) );
         
     }
 }
