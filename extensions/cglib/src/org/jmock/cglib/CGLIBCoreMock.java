@@ -19,6 +19,12 @@ public class CGLIBCoreMock
 {
     private Object proxy;
     
+    public CGLIBCoreMock( Class mockedType ) {
+        this( mockedType, 
+              mockNameFromClass(mockedType),
+              new LIFOInvocationDispatcher() );
+    }
+    
     public CGLIBCoreMock( Class mockedType, String name ) {
         this( mockedType, name, new LIFOInvocationDispatcher() );
     }
