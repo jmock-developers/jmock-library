@@ -96,6 +96,10 @@ p {
     margin-bottom: 10px;
 }
 
+blockquote {
+	margin-bottom: 10px;
+}
+
 td {
     font-size: 12px;
     padding: 2px;
@@ -210,13 +214,29 @@ ul, ol {
     background-color: #ddf;
 }
 
-.Java pre {
+.Source pre {
     padding: 4px;
     font-family: courier new, monospace;
     font-size: 11px;
     border: 1px solid #880;
     background-color: #ffc;
     color: black;
+}
+
+.Source:before {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	font-size: inherit;
+	line-spacing: 100%;
+}
+
+.DynaMock:before {
+	content: "DynaMock: ";
+}
+
+.JMock:before {
+	content: "jMock: ";
 }
 
 /* The following are for images, but can also apply to div's containing images. */

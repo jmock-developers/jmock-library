@@ -1,0 +1,202 @@
+<html>
+  <head>
+  	<title>Comparing jMock and Dynamock</title>
+  </head>
+  
+  <body>
+  	<h1>Comparing jMock and Dynamock</h1>
+  	
+  	<p>jMock was born as a fork of DynaMock, the dynamic mock object implementation
+  	from <a href="http://www.mockobjects.com/">mockobjects.com</a>.  Initially we
+  	wanted to clean up the code, fix some omissions in the API and make an
+  	honest-to-goodness 1.0 release that guaranteed API stability.  In the end we
+  	produced a significantly different API that encapsulates the lessons we have
+  	learned about unit testing with mock objects.</p>
+  	
+  	<p>What are the main differences that a DynaMock user will notice when they
+  	start using jMock?</p>
+  	
+  	<h2>jMock Has a &quot;Call-Chain&quot; API Syntax</h2>
+  	
+  	<p>The DynaMock API had many methods for defining stubs and expectations:
+  	<code>expect</code>, <code>expectAndReturn</code>, <code>expectAndThrow</code>,
+  	<code>match</code>, <code>matchAndReturn</code> and <code>matchAndThrow</code>.
+  	The jMock API has two methods, <code>expect</code> and <code>stub</code> that
+  	return a builder object with methods for specifying the method that is expected 
+  	or stubbed.  Those methods also return builder objects with methods that return
+  	builder objects, and so on.  The chain of builders enforces a common order in
+  	which expectations are specified, which makes it easier to skim-read tests
+  	with mock objects.  The call chain also makes expectations more descriptive,
+  	and so it is easier to understand what an expectation means.<p>
+  	
+  	</p>Here is an example showing the same expectation set up using the
+  	DynaMock and jMock APIs:</p>
+  	
+  	<div class="Source Java DynaMock">
+<pre>mock.expectAndReturn( "method1", a, result1 );
+mock.matchAndReturn( "method2", C.eq(b1,b2), result2 );</pre>
+  	</div>
+	
+  	<div class="Source Java JMock">
+<pre>mock.expect(once()).method("method1").with(eq(a))
+    .will(returnValue(result1));
+mock.stub().method("method2").with(eq(b1),eq(b2))
+    .will(returnValue(result2));</pre>
+  	</div>
+  	
+  	<p>The jMock API needs a bit more typing, but is easier to read, is more explicit
+  	about what it specifies and, a big benefit for us, is much easier to maintain and 
+  	extend because there are far fewer methods that must be overloaded for Java's
+  	primitive types.</p>
+  	
+  	<h2>jMock Forces the User to be Explicit</h2>
+  	
+  	<p>The DynaMock API implied information that the user did not explicitly specify.
+  	For example, passing no information about arguments to <code>expectAndReturn</code> 
+  	(and related methods) implied that the expected method had no arguments, passing a 
+  	value to <code>expectAndReturn</code> instead of a constraint implied that the 
+  	actual value should be equal to the value given, and so on.  
+  	Although intended to help slothful programmers, this feature was very confusing in 
+  	practice.
+  	The maintainers of DynaMock often received support requests that were caused by a
+  	misunderstanding of exactly what was implied by eliding arguments from an 
+  	an API call.</p>
+  	
+  	<p>The jMock API requires that the user explicitly specify expectations and 
+  	constraints.  This makes tests much easier to read.  We have not found that the 
+  	additional typing required is a problem in practice.</p>
+  	
+  	<div class="Source Java DynaMock">
+<pre>// Does this expect a method with no arguments?  Or ignore the arguments altogether?
+mock.expectAndReturn( "methodName", result1 );
+
+// Should the actual argument be the same object as 'arg', or an object equal to 'arg'?
+mock.expectAndReturn( "methodName", arg, result2 );</pre>
+  	</div>  	
+  	<div class="Source Java JMock">
+<pre>mock.expect(once()).method("methodName").noParams()
+    .will(returnValue(result1));
+mock.expect(once()).method("methodName").with(eq(arg))
+    .will(returnValue(result2));</pre>
+  	</div>  	
+  	
+  	<h2>jMock Supports Multiple Kinds of Expectation</h2>
+  	
+  	<p>A DynaMock expectation requires the expected method to be called once and only 
+  	once.  We sometimes want to specify that a method must be called at least once.
+  	Implementing this in DynaMock made the number of overloaded methods get 
+  	completely out of hand.  At-least-once expectations are supported by jMock API.
+  	If necessary, the user can even add new kinds of expectation without changing 
+  	jMock itself.</p>
+  	
+  	<div class="Source Java JMock">
+<pre>mock.expect(atLeastOnce()).method("methodName").with(eq(argument))
+    .will(returnValue(resultValue));</pre>
+  	</div>
+  	
+  	<h2>jMock Allows Flexible Constraints on the Order of Invocations</h2>
+  	
+  	<p>DynaMock supports ordered an unordered mock objects.  Ordered mock objects
+  	expect calls in a strict order; unordered mocks allow them to happen in any order.
+  	DynaMock does not support anything between these two extremes.</p>
+  	
+  	<p>jMock, on the other hand, has a very flexible way of specifying how calls are ordered.
+  	If call <var>B</var> must occur after call <var>A</var>, the user must first give
+  	call <var>A</var> an identifier.  They can then specify that call <var>B</var> must
+  	occur after <var>A</var>, using the identifier they assigned to <var>A</var>.
+	Ordering constraint can be applied to expectations or stubs, and 
+  	multiple ordering constraints can be defned on the same call.
+  	This allows a range of ordering constraints to be specified, including partial 
+  	ordering of calls.</p>
+  	
+  	<p>In the example below, <code>methodA</code> must be called before 
+  	<code>methodB</code> and <code>methodC</code>,
+  	but <code>methodB</code> and <code>methodC</code> can occur in any order:</p>
+  	
+  	<div class="Source Java JMock">
+<pre>mock.expect(once()).method("methodA").noParams()
+	.id("first call to methodA");
+mock.expect(once()).method("methodB").noParams()
+    .after("first call to methodA");
+mock.expect(once()).method("methodC").noParams()
+    .after("first call to methodA");</pre>
+  	</div>
+  	
+  	<h2>jMock Puts Support Functions in a Test Case Base Class</h2>
+  	
+  	<p>DynaMock uses a class named <code>C</code> to hold support functions that
+  	help set up expectations on a mock.  This led to ugly code and was not easy
+  	to extend.  jMock implements support functions in a test case class, 
+  	<code>MockObjectTestCase</code> that the user must extend when they use
+  	mock objects in their tests.
+  	This has both advantages and disadvantages.
+  	It means that the support functions can be seamlessly extended by the user
+  	by writing new functions in their own class (see below).  It also lets the
+  	test case automatically verify mock objects (also see below).  However, thanks
+  	to Java's single inheritance of classes, the user cannot inherit support functions
+  	from more than one test case superclass.</p>
+  	
+  	<div class="Source Java DynaMock">
+<pre>class MyTestCase extends TestCase {
+    public void testSomething() {
+        Mock mock = new Mock(MyInterface.class);
+		
+        mock.expectAndReturn( "set", C.args(C.eq("key"),C.eq("value")), "oldValue" );
+        
+        ...
+	}
+}</pre>
+	</div>
+
+  	<div class="Source Java JMock">
+<pre>class MyTestCase extends MockObjectTestCase {
+	public void testSomething() {
+        Mock mock = new Mock(MyInterface.class);
+		
+        mock.expect(once()).method("set").with(eq("key"),eq("value"))
+            .will(returnValue("oldValue"));
+        ...
+	}
+}</pre>
+  	</div>
+  	
+  	<h2>jMock Can Automatically Verify Mock Objects</h2>
+  	
+  	<p>The <code>MockObjectTestCase</code> class automatically verifies any 
+  	<code>Verifiable</code> objects stored in its instance variables.  This helps
+  	the user avoid common errors caused by forgetting a verify statement.
+  	This automatic verification can be overridden if necessary.  It is actually
+  	defined by the <code>VerifyingTestCase</code> so that it can be reused by
+  	other sugary APIs that need different support functions from the jMock API.</p>
+  	
+  	<h2>jMock is Easy to Extend</h2>
+  	
+  	<p>DynaMock allowed the user to create new constraint types and seamlessly use them
+  	in DynaMock tests.  Adding new stubs was possible but ugly.  New expectation types 
+  	were not supported at all.
+  	jMock is much easier to extend: the user can seamlessly add new types of
+  	constraint, expectation, matcher, and stub.</p>
+  	
+  	<p>Under the hood, jMock has a layered architecture.  The "jMock API" that is used
+  	in unit tests is a thin layer of syntactic sugar on top of a flexible but inconvenient
+  	"core API".
+  	The core API can be used to extend the sugary API, or even replace it completely.
+  	For example, an optional extension uses the core API to make jMock use
+  	<a href="http://cglib.sourceforge.net/">CGLIB</a> so that tests can mock concrete classes.
+  	The core API has also been used to write an API very similar to that of 
+  	<a href="http://www.easymock.org/">EasyMock</a>.
+  	</p>
+  	
+  	<!-- not yet!
+  	
+  	<h2>jMock is at Version 1.0.0</h2>
+  	
+	<p>DynaMock always had a 0.0.<var>x</var> version number and the API changed significantly
+	between releases.  The jMock project has made a 1.0.0 release and follows strict 
+	<a href="versioning.html">rules</a> that govern how releases may make changes to the API
+	and how those changes are reflected in the version number of each release.</p>
+	
+	-->
+	
+  </body>
+</html>
