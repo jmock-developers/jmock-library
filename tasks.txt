@@ -16,14 +16,14 @@
 - Convert calculator example to use "builder" API.
 - Write java.util.MockObjectsTestCase class with convenience methods for testing with mocks
 - Removed as many PMD violations as possible (remaining empty catch blocks are intentional)
-
+- Translate web site to xhtml+css, skinned with StaticMesh or something similar. 
+  
 *** Stuff to do ***
 
 Code tasks moved to ToDo.java
 
 Organisation:
--Get a logo.
--Setup Jira.
--Stop using Maven.  Create Ant file for common tasks if we have to.
--Translate web site to xhtml+css, skinned with StaticMesh or something similar. 
- (nat has started working on this)
+- Get a logo.
+- Setup Jira.
+- Stop using Maven.  Create Ant file for common tasks if we have to.
+- Scripts to create snapshots and run unit and acceptance tests in damagecontrol
