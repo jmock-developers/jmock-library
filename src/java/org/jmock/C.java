@@ -1,11 +1,22 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock;
 
-import org.jmock.constraint.*;
-import org.jmock.dynamic.*;
+import org.jmock.constraint.And;
+import org.jmock.constraint.IsAnything;
+import org.jmock.constraint.IsEqual;
+import org.jmock.constraint.IsGreaterThan;
+import org.jmock.constraint.IsInstanceOf;
+import org.jmock.constraint.IsLessThan;
+import org.jmock.constraint.IsNot;
+import org.jmock.constraint.IsNull;
+import org.jmock.constraint.IsSame;
+import org.jmock.constraint.Or;
+import org.jmock.constraint.StringContains;
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
+
 
 /**
  * Convenient factory functions and constants for building Constraints.
