@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<rss version="2.0"> 
+	<channel>
+		<title>jMock News</title>
+		<link>http://www.jmock.org/</link>
+		<description>jMock is a lightweight mock object testing library for Java.</description>
+		<image>
+			<url>http://www.jmock.org/logo.gif</url>
+			<title>jMock</title>
+			<link>http://www.jmock.org/</link>
+		</image>
+		<language>en-us</language>
+		
+		<item>
+			<title>See jMock in Action at the ADC</title>
+			<category>Event</category>
+			<link>http://www.jmock.org</link>
+			<description>jMock will be used in the 
+				<em>Top-Down TDD using Mock Objects and Inversion of Control</em>
+      	tutorial run by Manish Shah and Damian Guy at the
+      	<a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
+      </description>
+			<pubDate>15 Jun 2004</pubDate>
+		</item>
+
+		<item>
+			<title>jMock 1.0.1 Released</title>
+			<category>Release</category>
+			<link>http://www.jmock.org/downloads.html</link>
+			<description>
+				Released <a href="downloads.html">jMock 1.0.1</a>, that fixes and improves the 
+				generation of error messages.      
+			</description>
+			<pubDate>07 Jun 2004</pubDate>
+		</item>
+		
+		<item>
+			<title>EasyMock Comparison</title>
+			<category>Documentation</category>
+			<link>http://www.jmock.org/easymock-comparison.html</link>
+			<description>
+			  Added an article <a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</a>.
+			</description>
+			<pubDate>04 Jun 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Print Media Support</title>
+			<category>Documentation</category>
+			<link>http://www.jmock.org</link>
+			<description>
+			  Added style sheets for print media. Articles on this site are now easier to read 
+			  when printed on paper.
+			</description>
+			<pubDate>03 Jun 2004</pubDate>
+		</item>
+		
+		<item>
+			<title>jMock 1.0.0 Released</title>
+			<category>Release</category>
+			<link>http://www.jmock.org/download.html</link>
+			<description>
+				Version 1.0.0 has been released. <a href="http://www.jmock.org/download.html">Download it now</a>.
+			</description>
+			<pubDate>01 Jun 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Custom Stubs</title>
+			<category>Documentation</category>
+			<link>http://www.jmock.org/custom-stubs.html</link>
+			<description>
+				A new tutorial has been uploaded, showing how to 
+				<a href="http://www.jmock.org/custom-stubs.html">write custom stubs</a>.
+			</description>
+			<pubDate>23 May 2004</pubDate>
+		</item>
+
+		<item>
+			<title>jMock 1.0.0.RC1 Released</title>
+			<category>Release</category>
+			<link>http://www.jmock.org/download.html</link>
+			<description>
+				Version 1.0.0.RC1 now available for <a href="download.html">download</a>.
+			</description>
+			<pubDate>22 May 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Binary Snapshots</title>
+			<category>Development</category>
+			<link>http://www.jmock.org/download.html</link>
+			<description>
+				<b>New!</b> Binary snapshots are now available. <a
+				href="http://www.jmock.org/download.html">Get them while they're hot if you want to 
+				look cool!</a>
+			</description>
+			<pubDate>21 May 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Continuous Integration is Running Again</title>
+			<category>Development</category>
+			<link>http://www.jmock.org</link>
+			<description>
+			  After some downtime while we moved the project hosting
+			  onto a new server, the continuous integration process is now building
+        snapshots and updating the website again.
+			</description>
+			<pubDate>21 May 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Yoga for your Unit Tests</title>
+			<category>Documentation</category>
+			<link>http://www.jmock.org/yoga.html</link>
+			<description>
+				A new article, <a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</a>,
+				describes how to use jMock to avoid brittle tests.
+			</description>
+			<pubDate>23 Apr 2004</pubDate>
+		</item>
+
+		<item>
+			<title>DynaMock Comparison</title>
+			<category>Documentation</category>
+			<link>http://www.jmock.org/dynamock-comparison.html</link>
+			<description>
+				A new article, 
+				<a href="http://www.jmock.org/dynamock-comparison.html">Comparing jMock and Dynamock</a>,
+				explains the difference between jMock and the 
+				DynaMock API of <a href="http://www.mockobjects.com">mockobjects.com</a>.
+			</description>
+			<pubDate>01 Mar 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Mocking Concrete Classes</title>
+			<category>Development</category>
+			<link>http://www.jmock.org</link>
+			<description>
+				<a href="http://cglib.sourceforge.net/">CGLIB</a> support
+				has recently been committed to <a href="repository.html">CVS</a>. This
+				optional extension will allow you to mock concrete classes, helpful if you
+				have to work with awkward and/or legacy code.
+			</description>
+			<pubDate>20 Feb 2004</pubDate>
+		</item>
+
+		<item>
+			<title>Source Snapshots</title>
+			<category>Development</category>
+			<link>http://www.jmock.org/download.html#snapshot</link>
+			<description>
+				<a href="http://www.jmock.org/download.html#snapshot">Source snapshots</a> are
+				now available for download. Snapshots are created by the continuous
+				integration system whenever anything is committed to the 
+				<a href="http://www.jmock.org/repository.html">CVS repository</a>.
+			</description>
+			<pubDate>18 Feb 2004</pubDate>
+		</item>
+		
+		
+		<!-- item template
+
+		<item>
+			<title></title>
+			<category>Pick one: Release, Documentation, Event, Development</category>
+			<link>http://www.jmock.org/</link>
+			<description>
+			</description>
+			<dc:creator>Nat Pryce</dc:creator>
+			<pubDate>2004-MM-DD</pubDate>
+		</item>
+
+		Categories:
+			Release          jMock releases
+			Documentation    new articles and website changes
+			Event            events at which jMock is being used
+			Development      new features committed to CVS or other development news
+
+		-->
+			
+	</channel>
+</rss>
