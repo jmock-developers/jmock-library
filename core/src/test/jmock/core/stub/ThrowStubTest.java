@@ -107,4 +107,16 @@ public class ThrowStubTest
 		}
 		fail("should have thrown an Error");
 	}
+	
+	public void testSetsStackTraceWhenExceptionIsThrown() {
+		try {
+			throwStub.invoke(invocation);
+		}
+		catch( Throwable t ) {
+			StackTraceElement[] stackTrace = t.getStackTrace();
+
+			assertEquals( "thrown from ThrowStub object",
+			              throwStub.getClass().getName(), stackTrace[0].getClassName() );
+		}
+	}
 }
