@@ -2,16 +2,13 @@
  */
 package org.jmock.easy;
 
+import java.lang.reflect.Method;
+
 import org.jmock.core.CoreMock;
 import org.jmock.core.FIFOInvocationDispatcher;
 import org.jmock.core.Stub;
-import org.jmock.core.stub.ReturnStub;
-import org.jmock.core.stub.VoidStub;
-import org.jmock.core.stub.ThrowStub;
 import org.jmock.easy.internal.InvocationMatch;
 import org.jmock.easy.internal.Range;
-
-import java.lang.reflect.Method;
 
 
 public class EasyCoreMock extends CoreMock
