@@ -3,6 +3,8 @@ package test.jmock.builder;
 
 import junit.framework.TestCase;
 
+import org.jmock.C;
+import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.CallOnceMatcher;
@@ -17,7 +19,32 @@ public class InvocationMockerBuilderTest extends TestCase {
     public void testWhenPassedAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
+    	assertNotNull("Should be Stub Builder", builder.whenPassed(new Constraint[0]));
+    	
+    	mocker.verifyExpectations();
+    }
+    
+    public void testWhenPassedWithOneObjectArgumentAddsArgumentsMatcher() {
+    	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
+    	
     	assertNotNull("Should be Stub Builder", builder.whenPassed(new Object()));
+    	
+    	mocker.verifyExpectations();
+    }
+    
+    public void testWhenPassedWithTwoObjectArgumentsAddsArgumentsMatcher() {
+    	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
+    	
+    	assertNotNull("Should be Stub Builder", 
+    				  builder.whenPassed(new Object(),new Object()));
+    	
+    	mocker.verifyExpectations();
+    }
+    
+    public void testNoParamsAddsNoArgumentMatcher() {
+    	mocker.addedMatcher.setExpected(C.NO_ARGS);
+    	
+    	assertNotNull("Should be Stub Builder", builder.noParams());
     	
     	mocker.verifyExpectations();
     }
