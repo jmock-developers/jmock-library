@@ -129,4 +129,20 @@ public class InvocationMockerDescriberTest extends TestCase
 
         Verifier.verifyObject(this);
     }
+
+    public void testAddsSeparatorAfterMethodNameIfNoArgumentsMatcher() {
+        MockInvocationMatcher otherMatcher = new MockInvocationMatcher();
+        otherMatcher.describeToOutput = "OTHER-MATCHER";
+
+        matchers.add(expectation);
+        matchers.add(methodNameMatcher);
+        matchers.add(otherMatcher);
+
+        describer.describeTo(buffer, matchers, stub, name);
+
+        assertEquals("EXPECTATION: METHOD-NAME, OTHER-MATCHER, STUB",
+                     buffer.toString());
+        
+        Verifier.verifyObject(this);
+    }
 }

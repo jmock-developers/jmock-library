@@ -8,6 +8,7 @@ import org.jmock.core.InvocationMatcher;
 import org.jmock.core.InvocationMocker.Describer;
 import org.jmock.core.Stub;
 import org.jmock.core.matcher.MethodNameMatcher;
+import org.jmock.core.matcher.ArgumentsMatcher;
 
 
 /* This encapsulates knowledge about how the InvocationMockerBuilder class
@@ -38,11 +39,15 @@ public class InvocationMockerDescriber implements Describer
                 if (!needSeparator) buffer.append("stub"); // first matcher
                 buffer.append(": ");
                 lastWasMethodName = true;
-            } else {
+            } else if( matcher instanceof ArgumentsMatcher ) {
                 if (needSeparator && !lastWasMethodName) buffer.append(SEP);
                 lastWasMethodName = false;
-            }
 
+            } else {
+                if (needSeparator) buffer.append(SEP);
+                lastWasMethodName = false;
+            }
+            
             matcher.describeTo(buffer);
             needSeparator = true;
         }
