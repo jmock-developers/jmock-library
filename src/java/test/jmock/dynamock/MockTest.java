@@ -1,47 +1,45 @@
 package test.jmock.dynamock;
 
+import junit.framework.TestCase;
+
 import org.jmock.C;
-import org.jmock.Constraint;
 import org.jmock.dynamic.framework.Stub;
 import org.jmock.dynamic.stub.ReturnStub;
-import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 import org.jmock.dynamock.Mock;
 
-
 import test.jmock.dynamic.testsupport.MockBuildableInvokable;
-import test.jmock.dynamic.testsupport.MockConstraint;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
 import test.jmock.dynamic.testsupport.MockInvocationMatcher;
 import test.jmock.dynamic.testsupport.MockInvokable;
-import junit.framework.TestCase;
+import test.jmock.dynamic.testsupport.MockStub;
 
 
 public class MockTest 
 	extends TestCase 
 {
 	final String methodName = "method name";
+	final Object result = new Object() { public String toString() { return "result"; } };
+	final Throwable throwable = new Throwable("dummy throwable");
+	
 	
 	MockBuildableInvokableFactory mockFactory;
 	MockDynamicMock mockCoreMock;
 	MockInvocationMatcher mockNameMatcher;
 	MockInvocationMatcher mockArgumentsMatcher;
+	MockInvocationMatcher mockCallOnceMatcher;
 	MockBuildableInvokable mockInvocationMocker;
-	Constraint[] argumentConstraints;
+	MockStub mockStub;
 	Mock mock;
-	
-	
+
 	public void setUp() {
 		mockCoreMock = new MockDynamicMock();
 		mockFactory = new MockBuildableInvokableFactory();
 		mockNameMatcher = new MockInvocationMatcher("mockNameMatcher");
 		mockArgumentsMatcher = new MockInvocationMatcher("mockArgumentsMatcher");
+		mockCallOnceMatcher = new MockInvocationMatcher("mockCallOnceMatcher");
 		mockInvocationMocker = new MockBuildableInvokable("mockInvocationMocker");
-		
-		argumentConstraints = new Constraint[] {
-			new MockConstraint("ARGS[0]",null,true),
-			new MockConstraint("ARGS[1]",null,true)
-		};
+		mockStub = new MockStub("mockStub");
 		
 		mock = new Mock( mockCoreMock, mockFactory );
 	}
@@ -49,9 +47,11 @@ public class MockTest
 	private void verifyAll() {
 		mockCoreMock.verifyExpectations();
 		mockFactory.verify();
-		mockInvocationMocker.verifyExpectations();
 		mockNameMatcher.verifyExpectations();
 		mockArgumentsMatcher.verifyExpectations();
+		mockCallOnceMatcher.verifyExpectations();
+		mockInvocationMocker.verifyExpectations();
+		mockStub.verifyExpectations();
 	}
 	
 	public void testDelegatesToStringToCoreMock() {
@@ -99,35 +99,31 @@ public class MockTest
 	}
 	
 	public void testStubMethodCreatesMatchersAndUsesSuppliedStub() {
-		Stub stub = new VoidStub();
-		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
 		mockFactory.createMethodNameMatcherName.setExpected(methodName);
 		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
 		
-		mockInvocationMocker.setStub.setExpected(stub);
+		mockInvocationMocker.setStub.setExpected(mockStub);
 		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
 		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
 		
 		mockCoreMock.addInvokable.setExpected( mockInvocationMocker );
 		
-		mock.stub( methodName, mockArgumentsMatcher, stub );
+		mock.stub( methodName, mockArgumentsMatcher, mockStub );
 		
 		verifyAll();
 	}
 	
 	public void testStubVoidMethodCreatesMatchersAndVoidStub() {
-		Stub stub = new VoidStub();
-		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
 		mockFactory.createMethodNameMatcherName.setExpected(methodName);
 		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
 		mockFactory.createVoidStubCalls.setExpected(1);
-		mockFactory.createVoidStubResult = stub;
+		mockFactory.createVoidStubResult = mockStub;
 		
-		mockInvocationMocker.setStub.setExpected(stub);
+		mockInvocationMocker.setStub.setExpected(mockStub);
 		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
 		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
 		
@@ -139,7 +135,6 @@ public class MockTest
 	}
 	
 	public void testStubAndReturnMethodCreatesMatchersAndReturnStub() {
-		Object result = new Object() { public String toString() { return "result"; } };
 		Stub stub = new ReturnStub(result);
 		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
@@ -161,17 +156,14 @@ public class MockTest
 	}
 	
 	public void testStubAndThrowMethodCreatesMatchersAndThrowStub() {
-		Throwable throwable = new Throwable("dummy throwable");
-		Stub stub = new ThrowStub(throwable);
-		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
 		mockFactory.createMethodNameMatcherName.setExpected(methodName);
 		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
 		mockFactory.createThrowStubThrowable.setExpected(throwable);
-		mockFactory.createThrowStubResult = stub;
+		mockFactory.createThrowStubResult = mockStub;
 		
-		mockInvocationMocker.setStub.setExpected(stub);
+		mockInvocationMocker.setStub.setExpected(mockStub);
 		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
 		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
 		
@@ -202,16 +194,14 @@ public class MockTest
 	}
 	
 	public void testStubVoidMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		Stub stub = new VoidStub();
-		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
 		mockFactory.createMethodNameMatcherName.setExpected(methodName);
 		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
 		mockFactory.createVoidStubCalls.setExpected(1);
-		mockFactory.createVoidStubResult = stub;
+		mockFactory.createVoidStubResult = mockStub;
 		
-		mockInvocationMocker.setStub.setExpected(stub);
+		mockInvocationMocker.setStub.setExpected(mockStub);
 		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
 		mockInvocationMocker.addedMatchers.addExpected(C.NO_ARGS);
 		
@@ -223,17 +213,14 @@ public class MockTest
 	}
 	
 	public void testStubAndReturnMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		Object result = new Object() { public String toString() { return "result"; } };
-		Stub stub = new ReturnStub(result);
-		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
 		mockFactory.createMethodNameMatcherName.setExpected(methodName);
 		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
 		mockFactory.createReturnStubValue.setExpected(result);
-		mockFactory.createReturnStubResult = stub;
+		mockFactory.createReturnStubResult = mockStub;
 		
-		mockInvocationMocker.setStub.setExpected(stub);
+		mockInvocationMocker.setStub.setExpected(mockStub);
 		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
 		mockInvocationMocker.addedMatchers.addExpected(C.NO_ARGS);
 		
@@ -245,23 +232,107 @@ public class MockTest
 	}
 	
 	public void testStubAndThrowMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		Throwable throwable = new Throwable("dummy throwable");
-		Stub stub = new ThrowStub(throwable);
-		
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
 		mockFactory.createMethodNameMatcherName.setExpected(methodName);
 		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
 		mockFactory.createThrowStubThrowable.setExpected(throwable);
-		mockFactory.createThrowStubResult = stub;
+		mockFactory.createThrowStubResult = mockStub;
 		
-		mockInvocationMocker.setStub.setExpected(stub);
+		mockInvocationMocker.setStub.setExpected(mockStub);
 		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
 		mockInvocationMocker.addedMatchers.addExpected(C.NO_ARGS);
 		
 		mockCoreMock.addInvokable.setExpected( mockInvocationMocker );
 		
 		mock.stubAndThrow( methodName, throwable );
+		
+		verifyAll();
+	}
+
+
+	public void testExpectMethodCreatesMatchersAndUsesSuppliedStub() {
+		mockFactory.createBuildableInvokableCalls.setExpected(1);
+		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
+		mockFactory.createMethodNameMatcherName.setExpected(methodName);
+		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
+		mockFactory.createCallOnceMatcherCalls.setExpected(1);
+		mockFactory.createCallOnceMatcherResult = mockCallOnceMatcher;
+		
+		mockInvocationMocker.setStub.setExpected(mockStub);
+		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockCallOnceMatcher);
+		
+		mockCoreMock.addInvokable.setExpected( mockInvocationMocker );
+		
+		mock.expect( methodName, mockArgumentsMatcher, mockStub );
+		
+		verifyAll();
+	}
+	
+	public void testExpectVoidMethodCreatesMatchersAndVoidStub() {
+		mockFactory.createBuildableInvokableCalls.setExpected(1);
+		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
+		mockFactory.createMethodNameMatcherName.setExpected(methodName);
+		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
+		mockFactory.createCallOnceMatcherCalls.setExpected(1);
+		mockFactory.createCallOnceMatcherResult = mockCallOnceMatcher;
+		mockFactory.createVoidStubCalls.setExpected(1);
+		mockFactory.createVoidStubResult = mockStub;
+		
+		mockInvocationMocker.setStub.setExpected(mockStub);
+		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockCallOnceMatcher);
+		
+		mockCoreMock.addInvokable.setExpected( mockInvocationMocker );
+		
+		mock.expectVoid( methodName, mockArgumentsMatcher );
+		
+		verifyAll();
+	}
+	
+	public void testExpectAndReturnMethodCreatesMatchersAndReturnStub() {
+		mockFactory.createBuildableInvokableCalls.setExpected(1);
+		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
+		mockFactory.createMethodNameMatcherName.setExpected(methodName);
+		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
+		mockFactory.createCallOnceMatcherCalls.setExpected(1);
+		mockFactory.createCallOnceMatcherResult = mockCallOnceMatcher;
+		mockFactory.createReturnStubValue.setExpected(result);
+		mockFactory.createReturnStubResult = mockStub;
+		
+		mockInvocationMocker.setStub.setExpected(mockStub);
+		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockCallOnceMatcher);
+		
+		mockCoreMock.addInvokable.setExpected( mockInvocationMocker );
+		
+		mock.expectAndReturn( methodName, mockArgumentsMatcher, result );
+		
+		verifyAll();
+	}
+
+	public void testExpectAndThrowMethodCreatesMatchersAndThrowStub() {
+		mockFactory.createBuildableInvokableCalls.setExpected(1);
+		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
+		mockFactory.createMethodNameMatcherName.setExpected(methodName);
+		mockFactory.createMethodNameMatcherResult = mockNameMatcher;
+		mockFactory.createCallOnceMatcherCalls.setExpected(1);
+		mockFactory.createCallOnceMatcherResult = mockCallOnceMatcher;
+		mockFactory.createThrowStubThrowable.setExpected(throwable);
+		mockFactory.createThrowStubResult = mockStub;
+		
+		mockInvocationMocker.setStub.setExpected(mockStub);
+		mockInvocationMocker.addedMatchers.addExpected(mockNameMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockArgumentsMatcher);
+		mockInvocationMocker.addedMatchers.addExpected(mockCallOnceMatcher);
+		
+		mockCoreMock.addInvokable.setExpected( mockInvocationMocker );
+		
+		mock.expectAndThrow( methodName, mockArgumentsMatcher, throwable );
 		
 		verifyAll();
 	}
