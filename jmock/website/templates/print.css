@@ -126,6 +126,11 @@ ul, ol {
     border-bottom: solid black 2pt;
 }
 
+#content th.Row {
+    border: solid black 1pt;
+    border-right: solid black 2pt;
+}
+
 #content td {
     border: solid black 1pt;
 }
