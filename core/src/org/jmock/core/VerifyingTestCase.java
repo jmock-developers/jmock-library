@@ -8,12 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A {@link junit.framework.TestCase} that verifies any {@link org.jmock.core.Verifiable}
- * fields after the test has run and before the fixture has been torn down.
+ * A {@link junit.framework.TestCase} that verifies {@link org.jmock.core.Verifiable}
+ * fields and registered Verifiable objects after the test has run and before the fixture
+ * has been torn down.
  */
 public abstract class VerifyingTestCase extends TestCase 
 {
-
     private List objectsThatRequireVerification = new ArrayList();
 
     /* This is virtually a copy/paste of the same method in the TestCase class to allow

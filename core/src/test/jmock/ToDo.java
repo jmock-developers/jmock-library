@@ -1,7 +1,9 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO Extract org.jmock.Mock interface and move class to org.jmock.builder.MockObjectBuilder 
+	//TODO Rename Mock to MockObjectBuilder
+    //TODO Extract org.jmock.MockObjectBuilder interface and move class to org.jmock.builder
+	//TODO Rename proxy() to mock()
     //TODO Remove constructors for Mock/CoreMock that generate a default name
     //TODO Good error reporting (i.e. more than just a ClassCastException) when the type of a returned object is wrong.
     
