@@ -11,12 +11,7 @@ public class DynamicUtil {
         }
         
         if (Proxy.isProxyClass(element.getClass())) {
-        	Object invocationHandler = Proxy.getInvocationHandler(element);
-        	if( invocationHandler instanceof DynamicMock ) {
-        		return invocationHandler.toString();
-        	} else {
-        		return element.toString();
-        	}
+        	return unpackProxy(element).toString();
         }
 
         if (element.getClass().isArray()) {
@@ -24,6 +19,13 @@ public class DynamicUtil {
         } else {
             return element.toString();
         }
+    }
+
+    private static Object unpackProxy(Object element) {
+        Object invocationHandler = Proxy.getInvocationHandler(element);
+        return (invocationHandler instanceof DynamicMock
+                ? invocationHandler
+                : element);
     }
 
     public static StringBuffer join(Object array, StringBuffer buf) {
