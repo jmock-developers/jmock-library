@@ -10,7 +10,7 @@ import org.jmock.core.*;
 
 
 public class Mock
-	implements BuilderNamespace, Verifiable 
+	implements DynamicMock, BuilderNamespace, Verifiable 
 {
     DynamicMock coreMock;
     HashMap idTable = new HashMap();
@@ -43,9 +43,13 @@ public class Mock
         coreMock.verify();
     }
     
+    public void addInvokable( Invokable invokable ) {
+        coreMock.addInvokable(invokable);
+    }
+
     public NameMatchBuilder stub() {
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
-        coreMock.addInvokable(mocker);
+        addInvokable(mocker);
         
         return new InvocationMockerBuilder(mocker,this);
     }
@@ -54,13 +58,17 @@ public class Mock
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         
         mocker.addMatcher(expectation);
-        coreMock.addInvokable(mocker);
+        addInvokable(mocker);
         
         return new InvocationMockerBuilder(mocker,this);
     }
     
     public void setDefaultStub( Stub newDefaultStub ) {
         coreMock.setDefaultStub(newDefaultStub);
+    }
+    
+    public void reset() {
+        coreMock.reset();
     }
     
     public MatchBuilder lookupID(String id) {

@@ -6,12 +6,14 @@ import junit.framework.TestCase;
 
 import org.jmock.Mock;
 import org.jmock.core.InvocationMatcher;
+import org.jmock.core.Invokable;
 import org.jmock.expectation.AssertMo;
 
 import test.jmock.builder.testsupport.MockMatchBuilder;
 import test.jmock.core.DummyInterface;
 import test.jmock.core.testsupport.MockDynamicMock;
 import test.jmock.core.testsupport.MockInvocationMatcher;
+import test.jmock.core.testsupport.MockInvokable;
 import test.jmock.core.testsupport.MockStub;
 
 public class MockTest extends TestCase {
@@ -24,15 +26,34 @@ public class MockTest extends TestCase {
         assertEquals("Should be same string", "some string here", mock.toString());
     }
     
-    public void testPassesExplicitNameToUnderlyingCoreMock() {
+    public void testPassesExplicitNameToCoreMock() {
         String explicitName = "EXPLICIT NAME";
         
         assertEquals( "should be explicit name", explicitName, 
                       new Mock(DummyInterface.class,explicitName).toString() );
     }
     
+    public void testDelegatgesResetToCoreMock() {
+        mockCoreMock.resetCalls.setExpected(1);
+        
+        mock.reset();
+        
+        mockCoreMock.verifyExpectations();
+    }
+    
+    public void testDelegatesAddInvokableToCoreMock() {
+        Invokable invokable = new MockInvokable();
+        
+        mockCoreMock.addInvokableCalls.setExpected(1);
+        mockCoreMock.addInvokable.setExpected(invokable);
+        
+        mock.addInvokable(invokable);
+        
+        mockCoreMock.verifyExpectations();
+    }
+    
     public void testStubAddsInvocationMockerAndReturnsBuilder() {
-        mockCoreMock.addCalls.setExpected(1);
+        mockCoreMock.addInvokableCalls.setExpected(1);
 
         assertNotNull("Should be method expectation", mock.stub());
         mockCoreMock.verifyExpectations();
@@ -41,7 +62,7 @@ public class MockTest extends TestCase {
     public void testExpectAddsInvocationMockerAndAddsExpectationAndReturnsBuilder() {
         InvocationMatcher expectation = new MockInvocationMatcher(); 
         
-        mockCoreMock.addCalls.setExpected(1);
+        mockCoreMock.addInvokableCalls.setExpected(1);
         
         assertNotNull("Should be method expectation", mock.expect(expectation));
         mockCoreMock.verifyExpectations();
