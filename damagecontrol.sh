@@ -1,11 +1,6 @@
 #!/bin/bash
 # Damage control build script for jMock.
 
-echo **** ENVIRONMENT VARIABLES ****
-env
-echo *******************************
-
-
 export BUILD_TIMESTAMP=$(date --utc +%Y%m%d-%H%M%S)
 
 source VERSION
