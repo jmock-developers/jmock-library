@@ -2,10 +2,13 @@
 package test.jmock.dynamock;
 
 public interface MockTestActions {
+	void stubNoParams();
     void expectNoParams();
-
+    
+    void stubOneParam();
     void expectOneParam();
 
+    void stubTwoParams();
     void expectTwoParams();
 
     void expectNotNoParams();

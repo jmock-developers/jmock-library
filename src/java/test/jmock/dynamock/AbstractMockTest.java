@@ -27,13 +27,26 @@ public abstract class AbstractMockTest extends TestCase {
         Mock otherMock = new Mock(MockTestActions.class, "otherMock");
         assertEquals("Should have same name", "otherMock", otherMock.toString());
     }
-
-    public void testPassesIfMockedMethodCalled() {
+    
+    public void testPassesIfStubbedMethodCalled() {
+    	actions.stubNoParams();
+    	actions.callNoParams();
+    	actions.verifyMock();
+    }
+    
+    public void testPassesIfExpectedMethodCalled() {
         actions.expectNoParams();
         actions.callNoParams();
         actions.verifyMock();
     }
 
+    public void testPassesIfStubbedMethodCalledTwice() {
+    	actions.stubNoParams();
+    	actions.callNoParams();
+    	actions.callNoParams();
+    	actions.verifyMock();
+    }
+    
     public void testFailsIfMockedMethodCalledTwice() {
         actions.expectNoParams();
         actions.callNoParams();
@@ -44,8 +57,13 @@ public abstract class AbstractMockTest extends TestCase {
             return;
         }
     }
-
-    public void testFailsIfMockedMethodNotCalled() {
+    
+    public void testPassesIfStubbedMethodNotCalled() {
+    	actions.stubNoParams();
+    	actions.verifyMock();
+    }
+    
+    public void testFailsIfExpectedMethodNotCalled() {
         actions.expectNoParams();
 
         try {
@@ -66,13 +84,19 @@ public abstract class AbstractMockTest extends TestCase {
         }
         fail("Should have thrown exception");
     }
-
-    public void testPassesIfMockedMethodCalledWithParameters() {
+    
+    public void testPassesIfStubbedMethodCalledWithParameters() {
+    	actions.stubTwoParams();
+    	actions.callTwoParams();
+    	actions.verifyMock();
+    }
+    
+    public void testPassesIfExpectedMethodCalledWithParameters() {
         actions.expectTwoParams();
         actions.callTwoParams();
         actions.verifyMock();
     }
-
+    
     public void testInvocationFailsIfParameterValueIncorrect() {
         actions.expectTwoParams();
 

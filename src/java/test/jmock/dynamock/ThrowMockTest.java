@@ -5,7 +5,7 @@ import org.jmock.C;
 import org.jmock.dynamock.Mock;
 
 
-public class ThrowableMockTest extends AbstractMockTest {
+public class ThrowMockTest extends AbstractMockTest {
     public class TargetException extends Exception {
     };
     public interface TargetType {
@@ -18,14 +18,26 @@ public class ThrowableMockTest extends AbstractMockTest {
 
     public class ReturnMockTestActions implements MockTestActions {
         private Mock mockTarget = new Mock(TargetType.class);
-        private TargetType targetType = ((TargetType) mockTarget.proxy());
-
+        private TargetType targetProxy = ((TargetType) mockTarget.proxy());
+        
+        public void stubNoParams() {
+        	mockTarget.stubAndThrow("noParams", new TargetException());
+        }
+        
         public void expectNoParams() {
             mockTarget.expectAndThrow("noParams", new TargetException());
         }
 
+        public void stubOneParam() {
+        	mockTarget.matchAndThrow("oneParam", "one", new TargetException());
+        }
+
         public void expectOneParam() {
             mockTarget.expectAndThrow("oneParam", "one", new TargetException());
+        }
+        
+        public void stubTwoParams() {
+        	mockTarget.stubAndThrow("twoParams", C.eq("one", "two"), new TargetException());
         }
 
         public void expectTwoParams() {
@@ -38,7 +50,7 @@ public class ThrowableMockTest extends AbstractMockTest {
 
         public void callNoParams() {
             try {
-                targetType.noParams();
+                targetProxy.noParams();
             } catch (TargetException expected) {
                 return;
             }
@@ -47,7 +59,7 @@ public class ThrowableMockTest extends AbstractMockTest {
 
         public void callOneParam() {
             try {
-                targetType.oneParam("one");
+                targetProxy.oneParam("one");
             } catch (TargetException expected) {
                 return;
             }
@@ -56,7 +68,7 @@ public class ThrowableMockTest extends AbstractMockTest {
 
         public void callTwoParams() {
             try {
-                targetType.twoParams("one", "two");
+                targetProxy.twoParams("one", "two");
             } catch (TargetException expected) {
                 return;
             }
@@ -65,7 +77,7 @@ public class ThrowableMockTest extends AbstractMockTest {
 
         public void callIncorrectSecondParameter() {
             try {
-                targetType.twoParams("one", "not two");
+                targetProxy.twoParams("one", "not two");
             } catch (TargetException e) {
                 return; // skip
             }

@@ -10,8 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class InvocationMocker implements Invokable, StubMatchersCollection {
-
+public class InvocationMocker 
+	implements BuildableInvokable 
+{
     private List matchers = new ArrayList();
     private Stub stub;
 
@@ -87,5 +88,4 @@ public class InvocationMocker implements Invokable, StubMatchersCollection {
     public String toString() {
         return writeTo(new StringBuffer()).toString();
     }
-
 }
