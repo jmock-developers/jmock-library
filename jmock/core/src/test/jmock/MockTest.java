@@ -166,5 +166,16 @@ public class MockTest extends TestCase
 
         fail("expected failure");
     }
+
+    public void testClearsIDsWhenReset() {
+        MockMatchBuilder builder1 = new MockMatchBuilder();
+        MockMatchBuilder builder2 = new MockMatchBuilder();
+
+        mock.registerUniqueID(BUILDER_ID, builder1);
+
+        mock.reset();
+
+        mock.registerUniqueID(BUILDER_ID, builder2);
+    }
 }
 
