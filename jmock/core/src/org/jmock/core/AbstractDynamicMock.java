@@ -2,16 +2,7 @@
  */
 package org.jmock.core;
 
-import java.util.List;
-
 import junit.framework.AssertionFailedError;
-
-import org.jmock.core.constraint.IsAnything;
-import org.jmock.core.matcher.ArgumentsMatcher;
-import org.jmock.core.matcher.MethodNameMatcher;
-import org.jmock.core.matcher.NoArgumentsMatcher;
-import org.jmock.core.stub.CustomStub;
-import org.jmock.core.stub.ReturnStub;
 
 
 public abstract class AbstractDynamicMock
