@@ -10,9 +10,8 @@ import junit.framework.AssertionFailedError;
 
 import org.jmock.core.stub.VoidStub;
 
-
 public class InvocationMocker 
-	implements BuildableInvokable
+	implements Invokable, StubMatchersCollection
 {
     public interface Describer {
         public boolean hasDescription();
@@ -28,7 +27,7 @@ public class InvocationMocker
     
     
     public InvocationMocker() {
-        this.describer = DEFAULT_DESCRIBER;
+        this(DEFAULT_DESCRIBER);
     }
     
     public InvocationMocker( Describer describer ) {
