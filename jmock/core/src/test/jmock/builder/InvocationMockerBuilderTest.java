@@ -1,17 +1,17 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.builder;
 
-import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
-import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamic.Stub;
-import org.jmock.dynamic.matcher.*;
-import org.jmock.dynamic.stub.ReturnStub;
-import org.jmock.dynamic.stub.TestFailureStub;
-import org.jmock.dynamic.stub.ThrowStub;
-import org.jmock.dynamic.stub.VoidStub;
+import org.jmock.core.Constraint;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.MockObjectSupportTestCase;
+import org.jmock.core.Stub;
+import org.jmock.core.matcher.*;
+import org.jmock.core.stub.ReturnStub;
+import org.jmock.core.stub.TestFailureStub;
+import org.jmock.core.stub.ThrowStub;
+import org.jmock.core.stub.VoidStub;
 import org.jmock.util.Dummy;
-import org.jmock.util.MockObjectSupportTestCase;
 
 import test.jmock.builder.testsupport.MockBuilderIdentityTable;
 import test.jmock.builder.testsupport.MockStubMatchersCollection;

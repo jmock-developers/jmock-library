@@ -7,10 +7,10 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import org.jmock.dynamic.AbstractDynamicMock;
-import org.jmock.dynamic.Invocation;
-import org.jmock.dynamic.InvocationDispatcher;
-import org.jmock.dynamic.LIFOInvocationDispatcher;
+import org.jmock.core.AbstractDynamicMock;
+import org.jmock.core.Invocation;
+import org.jmock.core.InvocationDispatcher;
+import org.jmock.core.LIFOInvocationDispatcher;
 
 
 public class CGLIBCoreMock

@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
-import junit.framework.Assert;
-
 import java.util.ArrayList;
 import java.util.Collection;
+
+import junit.framework.Assert;
 
 public class ExpectationList extends AbstractExpectationCollection {
     protected ArrayList myExpectedItems = new ArrayList();

@@ -4,7 +4,7 @@ package org.jmock.expectation;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.jmock.*;
+import org.jmock.core.Verifiable;
 
 /**
  * The ReturnObjectBag is a map containing instances  of ReturnObjectList.

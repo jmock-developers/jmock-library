@@ -69,7 +69,9 @@ final Object message = new Object();</pre>
     <p>Here is the complete test.</p>
     
     <div class="Source Java">
-      <pre>class PublisherTest extends MockObjectTestCase {
+<pre>import org.jmock.*;
+
+class PublisherTest extends MockObjectTestCase {
     public void testOneSubscriberReceivesAMessage() {
         // set up
         Mock mockSubscriber = new Mock(Subscriber.class);

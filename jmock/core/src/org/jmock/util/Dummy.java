@@ -1,12 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.util;
 
-import org.jmock.dynamic.CoreMock;
-import org.jmock.dynamic.DynamicUtil;
-import org.jmock.dynamic.Invocation;
-import org.jmock.dynamic.InvocationMocker;
-import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
-import org.jmock.dynamic.stub.CustomStub;
+import org.jmock.core.CoreMock;
+import org.jmock.core.DynamicUtil;
+import org.jmock.core.Invocation;
+import org.jmock.core.InvocationMocker;
+import org.jmock.core.matcher.StatelessInvocationMatcher;
+import org.jmock.core.stub.CustomStub;
 
 public class Dummy {
 	private Dummy() {

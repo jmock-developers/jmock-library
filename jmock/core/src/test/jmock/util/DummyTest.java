@@ -1,11 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.util;
 
+import junit.framework.TestCase;
+
 import org.jmock.util.Dummy;
 import org.jmock.util.NotImplementedException;
-
-
-import junit.framework.TestCase;
 
 
 public class DummyTest extends TestCase {

@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
-import junit.framework.AssertionFailedError;
-
 import java.util.Collection;
 import java.util.Vector;
+
+import junit.framework.AssertionFailedError;
 
 /**
  * Sequence values as required by MockMaker

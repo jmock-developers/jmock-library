@@ -3,10 +3,10 @@ package org.jmock.builder;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamic.Stub;
-import org.jmock.dynamic.InvocationMocker.Describer;
-import org.jmock.dynamic.matcher.MethodNameMatcher;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.Stub;
+import org.jmock.core.InvocationMocker.Describer;
+import org.jmock.core.matcher.MethodNameMatcher;
 
 
 // This encapsulates knowledge about how the InvocationMockerBuilder class

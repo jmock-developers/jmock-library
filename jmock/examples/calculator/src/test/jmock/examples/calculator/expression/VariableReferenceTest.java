@@ -2,8 +2,8 @@
  */
 package test.jmock.examples.calculator.expression;
 
-import org.jmock.builder.Mock;
-import org.jmock.builder.MockObjectTestCase;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 import org.jmock.examples.calculator.CalculatorException;
 import org.jmock.examples.calculator.Environment;
 import org.jmock.examples.calculator.Expression;

@@ -1,7 +1,7 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
-import org.jmock.dynamic.Stub;
+import org.jmock.core.Stub;
 
 
 

@@ -3,8 +3,8 @@
 package test.jmock.examples.calculator;
 
 
-import org.jmock.builder.Mock;
-import org.jmock.builder.MockObjectTestCase;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.ExpressionFactory;
 import org.jmock.examples.calculator.InfixParser;

@@ -1,11 +1,11 @@
 package test.jmock.builder.testsupport;
 
-import org.jmock.Verifiable;
 import org.jmock.builder.BuilderIdentityTable;
 import org.jmock.builder.IdentityBuilder;
 import org.jmock.builder.MatchBuilder;
-import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamic.Stub;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.Stub;
+import org.jmock.core.Verifiable;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
