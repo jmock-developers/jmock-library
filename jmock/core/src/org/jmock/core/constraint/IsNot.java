@@ -17,7 +17,9 @@ public class IsNot implements Constraint {
 		return !constraint.eval(arg);
 	}
 
-	public String toString() {
-		return "not " + constraint;
+	public StringBuffer describeTo( StringBuffer buffer ) {
+		buffer.append("not ");
+        constraint.describeTo(buffer);
+        return buffer;
 	}
 }

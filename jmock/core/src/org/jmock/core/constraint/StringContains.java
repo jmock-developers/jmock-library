@@ -17,7 +17,10 @@ public class StringContains implements Constraint {
 		return o instanceof String && ((String)o).indexOf(substring) >= 0;
 	}
 
-	public String toString() {
-		return "a string containing \"" + substring + "\"";
+    
+    public StringBuffer describeTo(StringBuffer buffer) {
+		return buffer.append("a string containing \"")
+                     .append(substring)
+                     .append("\"");
 	}
 }

@@ -168,7 +168,31 @@ logger.stub().method("getLoggingLevel").noParams()
     supported by jMock are not accurate enough to keep your tests flexible,
     you can extend jMock with matching rules of your own.</p>
     
-    <p>To be continued...</p>
+    <p>If you need more flexibility over matching method names, you can specify
+    a constraint instead of an exact name.  An invocation will match if the
+    constraint evaluates to <code>true</code> when applied to the method name.</p>
+    
+    <div class="Source Java">
+<pre>...
+
+public void testMethod() {
+    ...
+    mock.stub().method(startingWith("get")).will(new DefaultResultStub());
+    ...
+}
+
+private Constraint startingWith( String prefix ) {
+    return new StringStartsWith(prefix);
+}
+
+...
+</pre>
+    </div>
+    
+    <p>See <a href="custom-constraints.html">Writing Custom Constraints</a> for the definition
+    of the <code>StringStartsWith</code> class.</p>
+    
+    <p>More to come...</p>
     
     <h1>Conclusion</h1>
     

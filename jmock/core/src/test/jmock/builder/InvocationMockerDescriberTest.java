@@ -9,9 +9,9 @@ import org.jmock.builder.InvocationMockerDescriber;
 import org.jmock.core.Constraint;
 import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
-import org.jmock.util.Dummy;
 import org.jmock.util.Verifier;
 
+import test.jmock.core.testsupport.MockConstraint;
 import test.jmock.core.testsupport.MockInvocationMatcher;
 import test.jmock.core.testsupport.MockStub;
 
@@ -35,8 +35,8 @@ public class InvocationMockerDescriberTest extends TestCase {
         describer = new InvocationMockerDescriber();
         
         methodNameMatcher = new MethodNameMatcher(METHOD_NAME);
-        arg1 = (Constraint)Dummy.newDummy(Constraint.class,"ARG1");
-        arg2 = (Constraint)Dummy.newDummy(Constraint.class,"ARG2");
+        arg1 = new MockConstraint("ARG1");
+        arg2 = new MockConstraint("ARG2");
         argumentsMatcher = new ArgumentsMatcher(new Constraint[]{arg1,arg2});
         matchers = new ArrayList();
         expectation = new MockInvocationMatcher();

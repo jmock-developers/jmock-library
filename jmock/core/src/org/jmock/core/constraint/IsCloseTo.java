@@ -20,8 +20,11 @@ public class IsCloseTo implements Constraint {
         double argValue = ((Number)arg).doubleValue();
         return Math.abs((argValue - value)) <= error;
     }
-
-    public String toString() {
-        return "a numeric value within " + error + " of " + value;
+    
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a numeric value within ")
+                     .append(error)
+                     .append(" of ")
+                     .append(value);
     }
 }

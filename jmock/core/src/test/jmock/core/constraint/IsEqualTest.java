@@ -79,19 +79,20 @@ public class IsEqualTest extends ConstraintsTest {
         Constraint c = new IsEqual(argument);
         
     	assertTrue( "should contain argument's toString in toString result",
-                    c.toString().indexOf(argumentDescription) >= 0 );
-                      
-            
+            c.describeTo(new StringBuffer()).toString().indexOf(argumentDescription) >= 0 );
     }
     
     public void testReturnsAnObviousDescriptionIfCreatedWithANestedConstraintByMistake() {
-        assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
-            "eq(<eq(<NestedConstraint>)>)", new IsEqual(new IsEqual("NestedConstraint")).toString());
+        IsEqual innerConstraint = new IsEqual("NestedConstraint");
+        assertEquals("should get an obvious description to reflect nesting if viewed in a debugger",
+            "eq(<"+innerConstraint.toString()+">)", 
+            (new IsEqual(innerConstraint)).describeTo(new StringBuffer()).toString());
     }
     
     public void testReturnsGoodDescriptionIfCreatedWithNullReference() {
-        assertEquals("Should print toString even if argument is null",
-            "eq(null)", new IsEqual(null).toString());
+        assertEquals("should get a description even if argument is null",
+            "eq(null)", 
+            new IsEqual(null).describeTo(new StringBuffer()).toString());
     }
 }
 

@@ -4,7 +4,7 @@ package org.jmock.core;
 /**
  * A constraint over acceptable values.
  */
-public interface Constraint {
+public interface Constraint extends SelfDescribing {
     /**
      * Evaluates the constraint for argument <var>o</var>.
      * 

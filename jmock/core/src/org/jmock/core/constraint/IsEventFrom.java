@@ -39,7 +39,10 @@ public class IsEventFrom implements Constraint {
 		}
 	}
 
-	public String toString() {
-		return "an event of type " + eventClass.getName() + " from " + source;
+	public StringBuffer describeTo( StringBuffer buffer ) {
+		return buffer.append("an event of type ")
+                     .append(eventClass.getName())
+                     .append(" from ")
+                     .append(source);
 	}
 }

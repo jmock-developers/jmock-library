@@ -20,9 +20,18 @@ public class IsEqual implements Constraint {
         return areEqual( object, arg );
     }
     
-    public String toString() {
-        String objectString = (object == null) ? "null" : "<" + object + ">";
-        return "eq("+objectString+")";
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        buffer.append("eq(");
+        if( object == null ) {
+            buffer.append("null");
+        } else {
+            buffer.append("<");
+            buffer.append(object);
+            buffer.append(">");
+        }
+        buffer.append(")");
+        
+        return buffer;
     }
     
     private static boolean areEqual( Object o1, Object o2 ) {

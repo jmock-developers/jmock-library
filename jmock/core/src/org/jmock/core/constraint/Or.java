@@ -10,17 +10,22 @@ import org.jmock.core.Constraint;
  */
 public class Or implements Constraint {
 	Constraint left, right;
-
+	
 	public Or(Constraint left, Constraint right) {
 		this.left = left;
 		this.right = right;
 	}
-
+	
 	public boolean eval(Object o) {
 		return left.eval(o) || right.eval(o);
 	}
-
-	public String toString() {
-		return "(" + left + " or " + right + ")";
-	}
+	
+    public StringBuffer describeTo(StringBuffer buffer) {
+        buffer.append("(");
+        left.describeTo(buffer);
+        buffer.append(" or ");
+        right.describeTo(buffer);
+        buffer.append(")");
+        return buffer;
+    }
 }

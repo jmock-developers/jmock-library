@@ -8,7 +8,7 @@ public class MethodNameMatcher
     extends StatelessInvocationMatcher 
 {
     private Constraint constraint;
-
+    
     public MethodNameMatcher(Constraint constraint) {
         this.constraint = constraint;
     }
@@ -18,17 +18,17 @@ public class MethodNameMatcher
             public boolean eval(Object o) {
                 return methodName.equals(o);
             }
-            public String toString() {
-                return methodName;
+            public StringBuffer describeTo(StringBuffer buffer) {
+                return buffer.append(methodName);
             }
         });
     }
-
+    
     public boolean matches(Invocation invocation) {
         return constraint.eval(invocation.getMethodName());
     }
 
     public StringBuffer describeTo(StringBuffer buffer) {
-        return buffer.append(constraint);
+        return constraint.describeTo(buffer);
     }
 }

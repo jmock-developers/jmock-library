@@ -9,9 +9,10 @@ import org.jmock.core.InvocationMocker.Describer;
 import org.jmock.core.matcher.MethodNameMatcher;
 
 
-// This encapsulates knowledge about how the InvocationMockerBuilder class
-// adds matchers to an InvocationMocker.  Therefore it should be considered
-// to be part of the implementation of the InvocationMockerBuilder class.
+/* This encapsulates knowledge about how the InvocationMockerBuilder class
+ * adds matchers to an InvocationMocker.  Therefore it should be considered
+ * to be part of the implementation of the InvocationMockerBuilder class.
+ */
 public class InvocationMockerDescriber implements Describer {
     private static final String SEP = ", ";
     

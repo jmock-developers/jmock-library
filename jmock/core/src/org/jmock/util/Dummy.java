@@ -26,7 +26,7 @@ public class Dummy {
             	return invocation.getDeclaringClass() == interfaceClass;
             }
             public StringBuffer describeTo(StringBuffer buf) {
-            	return buf.append("anu method declared in " + interfaceClass);
+            	return buf.append("any method declared in " + interfaceClass);
             }
         } );
         mocker.setStub( new CustomStub("dummy method") {
@@ -40,7 +40,7 @@ public class Dummy {
         
         return mock.proxy();
 	}
-
+	
 	public static Object newDummy( final String name ) {
         return new Object() {
         	public String toString() {
