@@ -21,7 +21,6 @@ public class BananaStoreTest extends MockObjectTestCase {
         
         mockPayment.expect(once()).method("transferTo").with(same(shopAccount),eq(totalCost));
         mockOrderTracker.expect(once()).method("orderCompleted").with(same(order));
-        mockOrderTracker.expect(once()).method("orderCompleted").with(same(order));
         
         shop.buy( order, 
             (Payment)mockPayment.proxy(), 
