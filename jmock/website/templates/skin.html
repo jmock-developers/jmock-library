@@ -11,12 +11,12 @@
     <link media="print" rel="stylesheet" type="text/css" href="/print.css"/>
     <template:include srcvar="content" elements="/html/head/*[not(name()='title')]"/>
   </head>
-  
+
   <body>
     <div id="banner">
       <a href="/index.html"><img id="logo" src="/logo.gif" alt="jMock"/></a>
     </div>
-    
+
     <template:when var="isindex" value="true">
       <div id="center" class="Content3Column">
         <div id="content">
@@ -27,7 +27,7 @@
 	    </div>
       </div>
     </template:when>
-    
+
     <template:when var="isindex" value="false">
       <div id="center" class="Content2Column">
         <div id="content">
@@ -38,7 +38,7 @@
 	    </div>
       </div>
     </template:when>
-    
+
     <div class="SidePanel" id="left">
       <div class="MenuGroup">
         <h1>Software</h1>
@@ -49,7 +49,7 @@
           <li><a href="/license.html">Project License</a></li>
         </ul>
       </div>
-      
+
       <div class="MenuGroup">
         <h1><a href="/docs.html">Documentation...</a></h1>
         <ul>
@@ -59,7 +59,7 @@
           <li><a href="http://www.mockobjects.com">More about Mock Objects</a></li>
         </ul>
       </div>
-      
+
       <div class="MenuGroup">
         <h1>User Support</h1>
         <ul>
@@ -68,7 +68,7 @@
           <li><a href="/news.html">News</a></li>
         </ul>
       </div>
-      
+
       <div class="MenuGroup">
         <h1><a href="/development.html">Development...</a></h1>
         <ul>
@@ -77,7 +77,7 @@
           <!-- <li><a href="/logo-competition/index.html">Logo Competition</a></li> -->
         </ul>
       </div>
-      
+
       <div class="MenuGroup">
         <h1>Related Sites</h1>
         <ul>
@@ -88,7 +88,7 @@
         </ul>
       </div>
     </div>
-    
+
     <template:when var="isindex">
       <div class="SidePanel" id="right">
         <div class="NewsGroup">
@@ -107,14 +107,14 @@
               <td><a href="/download.html#snapshot"><template:text var="snapshot"/></a></td>
             </tr>
           </table>
-          
+
           <p class="NewsMore"><a href="versioning.html">About jMock version numbers...</a></p>
         </div>
-        
+
         <div class="NewsGroup">
           <h1><a href="/news.html">News...</a></h1>
-          <template:include src="../content/news.html" 
-                        elements="/html/body/*[@class='NewsItem' and position()<=5]"/>
+          <template:include src="../content/news.html"
+                        elements="/html/body/*[@class='NewsItem' and position() &lt; 7]"/>
           <!-- <p class="NewsMore"><a href="news.rdf">News feed (XML)</a></p> -->
         </div>
       </div>
