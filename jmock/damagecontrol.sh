@@ -21,21 +21,23 @@ DEPLOY=${DEPLOY:-1} # deploy by default
 DEPLOY_ROOT=${DEPLOY_ROOT:-dcontrol@$HOSTNAME:/home/projects/jmock}
 
 function build-step {
-	$* || exit 1
+	  $* || exit 1
 }
 
-
-echo '****'
-echo id = $(id)
-echo '****'
+function deploy {
+	  echo deploying $1 to $2
+    scp -r $1 $2
+}
 
 
 build-step ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
 
+echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
+
 if let $DEPLOY; then
-    build-step scp -r $BUILDDIR/dist/ $DEPLOY_ROOT
-    build-step scp -r $WEBDIR $DEPLOY_ROOT
-    build-step scp -r $BUILDDIR/javadoc/ $DEPLOY_ROOT/public_html/docs/
+    build-step deploy $BUILDDIR/dist/ $DEPLOY_ROOT
+    build-step deploy $WEBDIR $DEPLOY_ROOT
+    build-step deploy $BUILDDIR/javadoc/ $DEPLOY_ROOT/public_html/docs/
 fi
 
 echo all done.
