@@ -3,6 +3,7 @@ package org.jmock.builder;
 
 import org.jmock.Constraint;
 import org.jmock.dynamic.StubMatchersCollection;
+import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
@@ -43,6 +44,11 @@ public class InvocationMockerBuilder
     public StubBuilder noParams() {
     	mocker.addMatcher(NoArgumentsMatcher.INSTANCE);
     	return this;
+    }
+    
+    public StubBuilder anyParams() {
+        mocker.addMatcher(AnyArgumentsMatcher.INSTANCE);
+        return this;
     }
     
     public ExpectationBuilder isVoid() {

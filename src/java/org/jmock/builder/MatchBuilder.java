@@ -11,6 +11,5 @@ public interface MatchBuilder extends StubBuilder {
     StubBuilder args(Constraint arg1, Constraint arg2, Constraint arg3, Constraint arg4);
     
 	StubBuilder noParams();
-    
-    //TODO: add an anyParams method
+    StubBuilder anyParams();
 }
