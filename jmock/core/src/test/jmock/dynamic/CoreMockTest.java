@@ -108,8 +108,7 @@ public class CoreMockTest extends TestCase {
     }
     
     public void testCalculatesHashCodeForProxy() throws Exception {
-        coreMock = new CoreMock( DummyInterface.class, "coreMock",
-                                 new LIFOInvocationDispatcher());
+        coreMock = new CoreMock( DummyInterface.class, "coreMock" );
         
         proxy = (DummyInterface)coreMock.proxy();
         

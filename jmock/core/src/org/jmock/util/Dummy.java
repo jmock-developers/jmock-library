@@ -5,7 +5,6 @@ import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMocker;
-import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 import org.jmock.dynamic.stub.CustomStub;
 
@@ -19,7 +18,7 @@ public class Dummy {
 	}
 
 	public static Object newDummy( final Class interfaceClass, final String name ) {
-		CoreMock mock = new CoreMock( interfaceClass, name, new LIFOInvocationDispatcher() );
+		CoreMock mock = new CoreMock( interfaceClass, name );
         InvocationMocker mocker = new InvocationMocker();
         
         mocker.addMatcher( new StatelessInvocationMatcher() {

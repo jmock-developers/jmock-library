@@ -17,9 +17,7 @@ public class Mock
     }
     
     public Mock( Class mockedClass, String nonDefaultName ) {
-        this( new CoreMock( mockedClass, 
-        					nonDefaultName, 
-        					new LIFOInvocationDispatcher() ), 
+        this( new CoreMock( mockedClass, nonDefaultName ), 
     		  new InvokableFactory() );
     }
     

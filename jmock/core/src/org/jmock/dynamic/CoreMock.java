@@ -22,7 +22,11 @@ public class CoreMock
     private Class mockedType;
     private Object proxy;
     private String name;
-
+    
+    public CoreMock( Class mockedType, String name ) {
+        this( mockedType, name, new LIFOInvocationDispatcher() );
+    }
+    
     public CoreMock( Class mockedType, 
                      String name, 
                      InvocationDispatcher invocationDispatcher ) 
