@@ -20,7 +20,7 @@
       	tutorial run by Manish Shah and Damian Guy at the
       	<a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
       </description>
-			<pubDate>2004-06-15</pubDate>
+			<pubDate>15 Jun 2004</pubDate>
 		</item>
 
 		<item>
@@ -31,7 +31,7 @@
 				Released <a href="downloads.html">jMock 1.0.1</a>, that fixes and improves the 
 				generation of error messages.      
 			</description>
-			<pubDate>2004-06-07</pubDate>
+			<pubDate>07 Jun 2004</pubDate>
 		</item>
 		
 		<item>
@@ -41,7 +41,7 @@
 			<description>
 			  Added an article <a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</a>.
 			</description>
-			<pubDate>2004-06-04</pubDate>
+			<pubDate>04 Jun 2004</pubDate>
 		</item>
 
 		<item>
@@ -52,7 +52,7 @@
 			  Added style sheets for print media. Articles on this site are now easier to read 
 			  when printed on paper.
 			</description>
-			<pubDate>2004-06-03</pubDate>
+			<pubDate>03 Jun 2004</pubDate>
 		</item>
 		
 		<item>
@@ -62,7 +62,7 @@
 			<description>
 				Version 1.0.0 has been released. <a href="http://www.jmock.org/download.html">Download it now</a>.
 			</description>
-			<pubDate>2004-06-01</pubDate>
+			<pubDate>01 Jun 2004</pubDate>
 		</item>
 
 		<item>
@@ -73,7 +73,7 @@
 				A new tutorial has been uploaded, showing how to 
 				<a href="http://www.jmock.org/custom-stubs.html">write custom stubs</a>.
 			</description>
-			<pubDate>2004-05-23</pubDate>
+			<pubDate>23 May 2004</pubDate>
 		</item>
 
 		<item>
@@ -83,7 +83,7 @@
 			<description>
 				Version 1.0.0.RC1 now available for <a href="download.html">download</a>.
 			</description>
-			<pubDate>2004-05-22</pubDate>
+			<pubDate>22 May 2004</pubDate>
 		</item>
 
 		<item>
@@ -95,7 +95,7 @@
 				href="http://www.jmock.org/download.html">Get them while they're hot if you want to 
 				look cool!</a>
 			</description>
-			<pubDate>2004-05-21</pubDate>
+			<pubDate>21 May 2004</pubDate>
 		</item>
 
 		<item>
@@ -107,7 +107,7 @@
 			  onto a new server, the continuous integration process is now building
         snapshots and updating the website again.
 			</description>
-			<pubDate>2004-05-21</pubDate>
+			<pubDate>21 May 2004</pubDate>
 		</item>
 
 		<item>
@@ -118,7 +118,7 @@
 				A new article, <a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</a>,
 				describes how to use jMock to avoid brittle tests.
 			</description>
-			<pubDate>2004-04-23</pubDate>
+			<pubDate>23 Apr 2004</pubDate>
 		</item>
 
 		<item>
@@ -131,7 +131,7 @@
 				explains the difference between jMock and the 
 				DynaMock API of <a href="http://www.mockobjects.com">mockobjects.com</a>.
 			</description>
-			<pubDate>2004-03-01</pubDate>
+			<pubDate>01 Mar 2004</pubDate>
 		</item>
 
 		<item>
@@ -144,7 +144,7 @@
 				optional extension will allow you to mock concrete classes, helpful if you
 				have to work with awkward and/or legacy code.
 			</description>
-			<pubDate>2004-02-20</pubDate>
+			<pubDate>20 Feb 2004</pubDate>
 		</item>
 
 		<item>
@@ -157,7 +157,7 @@
 				integration system whenever anything is committed to the 
 				<a href="http://www.jmock.org/repository.html">CVS repository</a>.
 			</description>
-			<pubDate>2004-02-18</pubDate>
+			<pubDate>18 Feb 2004</pubDate>
 		</item>
 		
 		
