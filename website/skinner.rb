@@ -178,27 +178,32 @@ def class_to_javadoc_url( name )
 end
 
 def add_print_footnotes( skinned_content )
+	footnotes = {}
+	
     footnotes_div = Element.new("div")
     footnotes_div.add_attribute( "class", "LinkFootnotes" )
     footnotes_div.add_element( "p", {"class", "LinkFootnotesHeader"} ).add_text("Links:");
-
-    footnote_index = 1
-
+	
     skinned_content.each_element "#{CONTENT_PATH}//a[@href]" do |link|
-        href = BASE_URL.merge( link.attributes["href"] )
-
-        footnote = footnotes_div.add_element("p")
-        footnote.add_text( footnote_index.to_s + ". " );
-        footnote.add_element( "a", {"href" => href.to_s } ).add_text( href.to_s )
-
+        href = BASE_URL.merge( link.attributes["href"] ).to_s
+        
+        if footnotes.has_key? href
+        	footnote_index = footnotes[href]
+        else
+        	footnote_index = footnotes.size + 1
+        	footnotes[href] = footnote_index
+        	
+	        footnote = footnotes_div.add_element("p")
+	        footnote.add_text( "#{footnote_index}. " );
+	        footnote.add_element( "a", {"href" => href } ).add_text( href )
+        end
+		
         footnote_ref = Element.new("span")
         footnote_ref.add_attribute( "class", "LinkFootnoteRef" )
         footnote_ref.add_element("sup").add_text(footnote_index.to_s)
         link.parent.insert_after( link, footnote_ref )
-        
-        footnote_index = footnote_index + 1
     end
-
+	
     if footnotes_div.size > 1
         skinned_content.elements[CONTENT_PATH].add( footnotes_div )
     end
