@@ -26,7 +26,7 @@
     
     <ul>
       <li>report whether it matches against an invocation
-      (the <code>match</code> method).</li>
+      (the <code>matches</code> method).</li>
       <li>check and record information about a dispatched invocation, if required
       (the <code>invoked</code> method).</li>
       <li>verify that expected invocations have actually been received.
@@ -41,15 +41,15 @@
       (the <code>hasDescription</code> method).</li>
     </ul>
     
-    <p>In most cases, you will want to define a new matching rule that does not care if a matched
-    invocation actually occurs.  Also, you should always provide
+    <p>In most cases, you will want to define a new matching rule that does change state when an invocation occurs.
+    Also, you should always provide
     a description for your matching rule, so the <code>hasDescription</code> method should
     always return <code>true</code>.  This common behaviour is already implemented in the
     abstract
     <a href="docs/javadoc/org/jmock/core/matcher/StatelessInvocationMatcher.html"><code>StatelessInvocationMatcher</code></a>
     class.  You can therefore define a new matching rule by extending 
     <code>StatelessInvocationMatcher</code> and defining the 
-    <code>match</code> and <code>describeTo</code> methods.</p>
+    <code>matches</code> and <code>describeTo</code> methods.</p>
     
     <h2>An Example Custom Matcher</h2>
     
@@ -57,7 +57,7 @@
     Returning default results is performed by a
     <a href="docs/javadoc/org/jmock/core/stub/DefaultResultStub.html"><code>DefaultResultStub</code></a>.
     But how do we match property getter methods?  We need to write a custom 
-    InvocationMatcher that only matches invocations of bean property getter methods.
+    <code>InvocationMatcher</code> that only matches invocations of bean property getter methods.
     Here's what a test will look like that uses such a custom matcher:</p>
     
     <div class="Source Java">
@@ -72,21 +72,78 @@ public void testListChildren() {
 }</pre>
     </div>
     
-    <p>We can write the BeanPropertyGetterMatcher class by extending StatelessInvocationMatcher:</p>
+    <p>We can write the <code>BeanPropertyGetterMatcher</code> class by extending
+    <code>StatelessInvocationMatcher</code>:</p>
     
     <div class="Source Java">
-<pre>public class BeanPropertyGetterMatcher 
-    extends StatelessInvocationMatcher 
-{
+<pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
    ...
-}</pre>    
+}</pre>
     </div>
     
-    <p>We now need to write the <code>match</code> method to return whether the invocation is
+    <p>We now need to write the <code>matches</code> method to return whether the invocation is
     the getter method of a Java Bean property, using the Java Beans API.  The method will
     use Bean introspection to list the property descriptors of the class that defines the
     invoked method.  It then searches the list of property descriptors for a descriptor with
     a getter method that is the same as the invoked method.</p>
     
+    <div class="Source Java">
+<pre>public boolean matches(Invocation invocation) {
+    Class beanClass = invocation.invokedMethod.getDeclaringClass();
+
+    try {
+        BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+        PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
+
+        for( int i = 0; i < properties.length; i++ ) {
+            if( invocation.invokedMethod.equals( properties[i].getReadMethod() ) ) return true;
+        }
+        return false;
+    }
+    catch( IntrospectionException ex ) {
+        throw new AssertionFailedError("could not introspect bean class" + beanClass + ": " + ex.getMessage() );
+    }
+}</pre>
+    </div>
+
+    <p>Finally we must write the <code>describeTo</code> method to generate a description of what our new class
+    matches.  The description will be included in the description of any expectation that uses the matcher, which
+    itself will be included in error messages when tests fail.  Our new class matches any bean property getter,
+    so that's what our description will be:</p>
+
+    <div class="Source Java">
+<pre>public StringBuffer describeTo(StringBuffer buffer) {
+    return buffer.append("any bean property getter");
+}</pre>
+    </div>
+
+    <p>The entire matcher class is shown below:</p>
+
+    <div class="Source Java">
+<pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
+
+    public boolean matches(Invocation invocation) {
+        Class beanClass = invocation.invokedMethod.getDeclaringClass();
+
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+            PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
+
+            for( int i = 0; i < properties.length; i++ ) {
+                if( invocation.invokedMethod.equals( properties[i].getReadMethod() ) ) return true;
+            }
+            return false;
+        }
+        catch( IntrospectionException ex ) {
+            throw new AssertionFailedError("could not introspect bean class" + beanClass + ": " + ex.getMessage() );
+        }
+    }
+
+    public StringBuffer describeTo(StringBuffer buffer) {
+        return buffer.append("any bean property getter");
+    }
+}</pre>
+    </div>
+
   </body>
 </html>
