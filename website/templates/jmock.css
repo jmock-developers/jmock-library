@@ -329,6 +329,11 @@ ul, ol {
     padding: 2px;
 }
 
+.More {
+		font-size: smaller;
+		text-align: right;
+}
+
 
 /*---------------------------------------------------------------------------
  *  News panel
