@@ -24,11 +24,11 @@ public class InvocationMockerBuilder
         this.idTable = idTable;
     }
     
-    public ParameterMatchBuilder method(Constraint nameConstraint) {
+    public ArgumentsMatchBuilder method(Constraint nameConstraint) {
         return addMatcher( new MethodNameMatcher(nameConstraint) );
     }
     
-    public ParameterMatchBuilder method(String name) {
+    public ArgumentsMatchBuilder method(String name) {
         addMatcher( new MethodNameMatcher(name) );
         idTable.registerMethodName( name, this );
         return this;
@@ -58,11 +58,11 @@ public class InvocationMockerBuilder
         return addMatcher(new ArgumentsMatcher(constraints));
 	}
 
-	public MatchBuilder noParams() {
+	public MatchBuilder withNoArguments() {
         return addMatcher(NoArgumentsMatcher.INSTANCE);
     }
     
-    public MatchBuilder anyParams() {
+    public MatchBuilder withAnyArguments() {
         return addMatcher(AnyArgumentsMatcher.INSTANCE);
     }
     
