@@ -8,7 +8,7 @@ import org.jmock.util.Verifier;
 
 public class MockVerifiable implements Verifiable {
 	public ExpectationCounter verifyCalls = 
-        new ExpectationCounter("verify.calls");
+        new ExpectationCounter("verify #calls");
 	public AssertionFailedError verifyFailure;
 	
     /**
@@ -20,7 +20,7 @@ public class MockVerifiable implements Verifiable {
 			throw verifyFailure;
 		}
 	}
-
+    
 	public void verifyExpectations() {
 		Verifier.verifyObject(this);
 	}
