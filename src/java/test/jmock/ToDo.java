@@ -8,14 +8,14 @@ public class ToDo {
     //TODO Make jmock.expectation package use Constraints instead of calling equals on expected value
     //TODO Better tests for error messages
     //DONE Implement matchers for call ordering.
-	//TODO Add method to builder API for ordering calls across mocks
+	//DONE Add method to builder API for ordering calls across mocks
 	//TODO Implement API for call ordering in dynamock API
     //TODO REMOVE ALL TO-DO COMMENTS
     //DONE Extract NoArgs and AnyArgs matcher classes from C
     //DONE Stop core packages relying on C
-    //TODO Put low-level hook methods into builder interfaces (just need to be able to add Invokables to Mock)
-    //TODO Remove getters from Invocation ? 
-        
+    //DONE Put low-level hook methods into builder interfaces
+    //TODO Remove getters from Invocation?
+    
     // Sensible defaults to reduce test brittleness:
     //TODO Sensible default: If no expectation/match setup, invocation should produce no-op instead of fail.
     //TODO ExpectNotCalled (or equivalent) makes tests more expressive.
