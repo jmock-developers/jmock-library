@@ -1,40 +1,46 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.dynamic;
+package org.jmock.cglib;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 import junit.framework.AssertionFailedError;
 
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
 import org.jmock.Constraint;
 import org.jmock.constraint.IsAnything;
+import org.jmock.dynamic.*;
+import org.jmock.dynamic.DynamicMock;
+import org.jmock.dynamic.InvocationDispatcher;
+import org.jmock.dynamic.Invokable;
+import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.CustomStub;
 import org.jmock.dynamic.stub.ReturnStub;
 
-
-public class CoreMock 
-	implements DynamicMock, InvocationHandler
+//TODO: factor out AbstractDynamicMock class
+public class CGLIBCoreMock
+	implements DynamicMock, MethodInterceptor
 {
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;
     private Object proxy;
     private String name;
     
-    public CoreMock( Class mockedType, String name ) {
+    public CGLIBCoreMock( Class mockedType, String name ) {
         this( mockedType, name, new LIFOInvocationDispatcher() );
     }
     
-    public CoreMock( Class mockedType, 
-                     String name, 
-                     InvocationDispatcher invocationDispatcher ) 
+    public CGLIBCoreMock( Class mockedType, 
+                          String name, 
+                          InvocationDispatcher invocationDispatcher ) 
     {
         this.mockedType = mockedType;
-        this.proxy = Proxy.newProxyInstance( getClass().getClassLoader(), 
-                                             new Class[]{mockedType}, 
-                                             this);
+        this.proxy = Enhancer.create( mockedType, this );
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
         
@@ -49,10 +55,11 @@ public class CoreMock
         return this.proxy;
     }
     
-    public Object invoke(Object invokedProxy, Method method, Object[] args)
-            throws Throwable 
+    public Object intercept( Object thisProxy, Method method, Object[] args, 
+                             MethodProxy superProxy ) 
+        throws Throwable
     {
-        Invocation invocation = new Invocation(invokedProxy,method, args);
+        Invocation invocation = new Invocation(proxy,method,args);
         return mockInvocation(invocation);
     }
     
@@ -64,13 +71,16 @@ public class CoreMock
         }
         catch (AssertionFailedError failure) {
             DynamicMockError mockFailure = 
-            	new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
+            	new DynamicMockError( this, 
+                                      invocation, 
+                                      invocationDispatcher, 
+                                      failure.getMessage() );
             
 			mockFailure.fillInStackTrace();
 			throw mockFailure;
         }
     }
-
+    
     public void verify() {
         try {
             invocationDispatcher.verify();
@@ -142,7 +152,7 @@ public class CoreMock
             super("returns hashCode for proxy");
         }
         public Object invoke( Invocation invocation ) throws Throwable {
-            return new Integer(CoreMock.this.hashCode());
+            return new Integer(CGLIBCoreMock.this.hashCode());
         }
     }
 }
