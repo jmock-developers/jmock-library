@@ -16,14 +16,26 @@ public class VoidMockTest extends AbstractMockTest {
 
     public class VoidMockTestActions implements MockTestActions {
         private Mock mockTarget = new Mock(TargetType.class);
-        private TargetType targetType = ((TargetType) mockTarget.proxy());
+        private TargetType targetProxy = ((TargetType) mockTarget.proxy());
+
+        public void stubNoParams() {
+        	mockTarget.stubVoid("noParams");
+        }
 
         public void expectNoParams() {
             mockTarget.expect("noParams");
         }
 
+        public void stubOneParam() {
+        	mockTarget.match("oneParam", "one");
+        }
+
         public void expectOneParam() {
             mockTarget.expect("oneParam", "one");
+        }
+
+        public void stubTwoParams() {
+        	mockTarget.stubVoid("twoParams", C.eq("one", "two"));
         }
 
         public void expectTwoParams() {
@@ -35,19 +47,19 @@ public class VoidMockTest extends AbstractMockTest {
         }
 
         public void callNoParams() {
-            targetType.noParams();
+            targetProxy.noParams();
         }
 
         public void callOneParam() {
-            targetType.oneParam("one");
+            targetProxy.oneParam("one");
         }
 
         public void callTwoParams() {
-            targetType.twoParams("one", "two");
+            targetProxy.twoParams("one", "two");
         }
 
         public void callIncorrectSecondParameter() {
-            targetType.twoParams("one", "not two");
+            targetProxy.twoParams("one", "not two");
         }
 
         public void verifyMock() {

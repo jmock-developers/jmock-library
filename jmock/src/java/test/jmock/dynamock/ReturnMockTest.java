@@ -16,18 +16,30 @@ public class ReturnMockTest extends AbstractMockTest {
 
     public class ThrowableMockTestActions implements MockTestActions {
         private Mock mockTarget = new Mock(TargetType.class);
-        private TargetType targetType = ((TargetType) mockTarget.proxy());
+        private TargetType targetProxy = ((TargetType) mockTarget.proxy());
 
+        public void stubNoParams() {
+        	mockTarget.stubAndReturn( "noParams", "result" );
+        }
+        
         public void expectNoParams() {
             mockTarget.expectAndReturn("noParams", "result");
         }
 
+        public void stubOneParam() {
+        	mockTarget.matchAndReturn( "oneParam", "one", "result" );
+        }
+        
         public void expectOneParam() {
             mockTarget.expectAndReturn("oneParam", "one", "result");
         }
-
+        
+        public void stubTwoParams() {
+        	mockTarget.stubAndReturn( "twoParams", C.eq("one", "two"), "result" );
+        }
+        
         public void expectTwoParams() {
-            mockTarget.expectAndReturn("twoParams", C.eq("one", "two"), "result");
+            mockTarget.expectAndReturn("twoParams", C.eq("one", "two"), "result" );
         }
 
         public void expectNotNoParams() {
@@ -35,19 +47,19 @@ public class ReturnMockTest extends AbstractMockTest {
         }
 
         public void callNoParams() {
-            assertEquals("Should be no params result", "result", targetType.noParams());
+            assertEquals("Should be no params result", "result", targetProxy.noParams());
         }
 
         public void callOneParam() {
-            assertEquals("Should be one params result", "result", targetType.oneParam("one"));
+            assertEquals("Should be one params result", "result", targetProxy.oneParam("one"));
         }
 
         public void callTwoParams() {
-            assertEquals("Should be two params result", "result", targetType.twoParams("one", "two"));
+            assertEquals("Should be two params result", "result", targetProxy.twoParams("one", "two"));
         }
 
         public void callIncorrectSecondParameter() {
-            targetType.twoParams("one", "not two");
+            targetProxy.twoParams("one", "not two");
         }
 
         public void verifyMock() {

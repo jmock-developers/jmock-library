@@ -27,11 +27,6 @@
 - Setup Jira.
 - Update developers/contributors/cvs/mailing-list maven details.
 
-*** Confusing? ***
-
-- Mock, CoreMock, DynaMock, DynamicMock, MockObject. Arg!
-- ExpectationBuilder.
-
 *** Suggested improvements ***
 
 (sensible defaults reduce test brittleness)
