@@ -10,9 +10,7 @@ import org.jmock.expectation.AssertMo;
 import test.jmock.core.testsupport.MethodFactory;
 
 
-public class DefaultResultStubTest
-        extends TestCase
-{
+public class DefaultResultStubTest extends TestCase {
     static final Object[] NO_ARG_VALUES = new Object[0];
 
     private static MethodFactory METHOD_FACTORY = new MethodFactory();
@@ -34,7 +32,8 @@ public class DefaultResultStubTest
     }
 
     public void testReturnsUsefulDefaultResultsForBasicTypes()
-            throws Throwable {
+            throws Throwable
+    {
         assertHasRegisteredValue(stub, boolean.class, Boolean.FALSE);
         assertHasRegisteredValue(stub, void.class, null);
         assertHasRegisteredValue(stub, byte.class, new Byte((byte)0));
@@ -55,12 +54,13 @@ public class DefaultResultStubTest
         assertHasRegisteredValue(stub, String.class, "");
     }
 
-    private static class AnyType
+    public static class AnyType
     {
     }
 
     public void testReturnsEmptyArrayForAllArrayTypes()
-            throws Throwable {
+            throws Throwable
+    {
         int[] defaultArrayForPrimitiveType =
                 (int[])stub.invoke(invocationReturning(int[].class));
         assertEquals("should be empty array", 0, defaultArrayForPrimitiveType.length);
@@ -70,14 +70,14 @@ public class DefaultResultStubTest
         assertEquals("should be empty array", 0, defaultArrayForAnyType.length);
     }
 
-    public interface InterfaceType
-    {
+    public interface InterfaceType {
         int returnInt();
     }
 
     // Inspired by http://www.c2.com/cgi/wiki?JavaNullProxy
     public void testReturnsProxyOfNewMockObjectWithSameDefaultResultStubForInterfaceTypes()
-            throws Throwable {
+            throws Throwable
+    {
         int intResult = -1;
 
         stub.addResult(int.class, new Integer(intResult));
@@ -89,7 +89,8 @@ public class DefaultResultStubTest
     }
 
     public void testDefaultResultsCanBeExplicitlyOverriddenByType()
-            throws Throwable {
+            throws Throwable
+    {
         int newDefaultIntResult = 20;
         String newDefaultStringResult = "hello";
 
@@ -104,7 +105,8 @@ public class DefaultResultStubTest
     }
 
     public void testAnExplicitlyRegisteredResultOverridesThePreviousResultForTheSameType()
-            throws Throwable {
+            throws Throwable
+    {
         stub.addResult(String.class, "result1");
         stub.addResult(String.class, "result2");
 
@@ -117,7 +119,8 @@ public class DefaultResultStubTest
     }
 
     public void testInvocationWithAnUnregisteredReturnTypeCausesAnAssertionFailedError()
-            throws Throwable {
+            throws Throwable
+    {
         Class unsupportedReturnType = UnsupportedReturnType.class;
         Class[] supportedReturnTypes = {
             boolean.class, byte.class, char.class, short.class, int.class, long.class,
@@ -149,14 +152,16 @@ public class DefaultResultStubTest
     public void assertHasRegisteredValue( DefaultResultStub defaultResultStub,
                                           Class resultType,
                                           Object resultValue )
-            throws Throwable {
+            throws Throwable
+    {
         assertEquals("expected " + resultValue + " to be returned",
                      resultValue, defaultResultStub.invoke(invocationReturning(resultType)));
     }
 
     public void assertHasNotRegisteredReturnType( DefaultResultStub defaultResultStub,
                                                   Class resultType )
-            throws Throwable {
+            throws Throwable
+    {
         try {
             defaultResultStub.invoke(invocationReturning(resultType));
             fail("stub should not support return type " + resultType);

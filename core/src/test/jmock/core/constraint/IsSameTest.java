@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.IsSame;
 
 
-public class IsSameTest extends ConstraintsTest
+public class IsSameTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTrueIfArgumentIsReferenceToASpecifiedObject() {
         Object o1 = new Object();

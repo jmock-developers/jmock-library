@@ -6,7 +6,7 @@ import org.jmock.core.Constraint;
 import org.jmock.core.constraint.IsEqual;
 
 
-public class IsEqualTest extends ConstraintsTest
+public class IsEqualTest extends AbstractConstraintsTest
 {
     public void testComparesObjectsUsingEqualsMethod() {
         Integer i1 = new Integer(1);

@@ -68,6 +68,7 @@ public class Formatting
     }
 
     public static String classShortName( Class c ) {
-        return c.getName().substring(c.getName().lastIndexOf(".") + 1);
+        String fullTypeName = c.getName();
+        return fullTypeName.substring(Math.max(fullTypeName.lastIndexOf('.'), fullTypeName.lastIndexOf('$')) + 1);
     }
 }

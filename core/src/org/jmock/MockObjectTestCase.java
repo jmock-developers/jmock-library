@@ -41,11 +41,7 @@ public abstract class MockObjectTestCase
     }
 
     public String defaultMockNameForType( Class mockedType ) {
-        String fullTypeName = mockedType.getName();
-        String typeName =
-                fullTypeName.substring(Math.max(fullTypeName.lastIndexOf('.'), fullTypeName.lastIndexOf('$')) + 1);
-
-        return "mock" + typeName;
+        return "mock" + Formatting.classShortName(mockedType);
     }
 
     public Stub returnValue( Object o ) {

@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.IsNull;
 
 
-public class IsNullTest extends ConstraintsTest
+public class IsNullTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTrueIfArgumentIsNull() {
         IsNull isNull = new IsNull();

@@ -9,7 +9,7 @@ import test.jmock.core.testsupport.AlwaysFalse;
 import test.jmock.core.testsupport.AlwaysTrue;
 
 
-public abstract class ConstraintsTest extends TestCase
+public abstract class AbstractConstraintsTest extends TestCase
 {
     protected static final Constraint TRUE_CONSTRAINT = AlwaysTrue.INSTANCE;
     protected static final Constraint FALSE_CONSTRAINT = AlwaysFalse.INSTANCE;

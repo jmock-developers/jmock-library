@@ -41,7 +41,7 @@ public class DummyTest extends TestCase
         Object dummy = Dummy.newDummy(ExampleInterface.class);
 
         assertEquals("should return name from toString",
-                     "dummyDummyTest$ExampleInterface", dummy.toString());
+                     "dummyExampleInterface", dummy.toString());
     }
 
     public void testImplementsEqualsByComparingObjectReferences() {
