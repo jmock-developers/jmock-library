@@ -8,6 +8,9 @@ import java.util.Map;
 
 import junit.framework.AssertionFailedError;
 
+import org.jmock.dynamic.*;
+import org.jmock.dynamic.CoreMock;
+import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Stub;
 
@@ -37,6 +40,13 @@ public class DefaultResultStub
 			return resultValuesByType.get(returnType);
 		} else if( returnType.isArray() ) {
             return Array.newInstance( returnType.getComponentType(), 0 );
+        } else if( returnType.isInterface() ) {
+             CoreMock nullMock = new CoreMock(
+                 returnType,
+                 "null"+DynamicUtil.classShortName(returnType),
+                 new LIFOInvocationDispatcher());
+             nullMock.setDefaultStub(this);
+             return nullMock.proxy();
         } else {
 			throw new AssertionFailedError( createErrorMessage(invocation) );
 		}
@@ -55,11 +65,14 @@ public class DefaultResultStub
 		} else {
 			buf.append("expected one of: ");
 			
-			Iterator i = resultValuesByType.keySet().iterator(); 
-			buf.append( i.next().toString() );
+			Iterator i = resultValuesByType.keySet().iterator();
+            boolean separatorRequired = false;
+            
 			while( i.hasNext() ) {
-				buf.append(", ");
-				buf.append( i.next().toString() );
+				if( separatorRequired ) buf.append(", ");
+				buf.append( ((Class)i.next()).getName() );
+                
+                separatorRequired = true;
 			}
 		}
 		
@@ -67,6 +80,7 @@ public class DefaultResultStub
 	}
 	
 	protected void createDefaultResults() {
+        addResult( boolean.class,     Boolean.FALSE );       
         addResult( void.class,        null );
 		addResult( byte.class,        new Byte((byte)0) );
 		addResult( short.class,       new Short((short)0) );
@@ -75,6 +89,7 @@ public class DefaultResultStub
 		addResult( char.class,        new Character('\0') );
 		addResult( float.class,       new Float(0.0F) );
 		addResult( double.class,      new Double(0.0) );
+        addResult( Boolean.class,     Boolean.FALSE );       
 		addResult( Byte.class,        new Byte((byte)0) );
 		addResult( Short.class,       new Short((short)0) );
 		addResult( Integer.class,     new Integer(0) );
