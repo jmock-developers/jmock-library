@@ -17,60 +17,46 @@ public class MockMatchBuilder
     ExpectationValue addedExpectationType = new ExpectationValue("added expectation type");
     
     public IdentityBuilder isVoid() {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("isVoid");
+        throw new NoSuchMethodError("isVoid not implemented");
     }
     public MatchBuilder match(InvocationMatcher customMatcher) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("match");
+        throw new NoSuchMethodError("match not implemented");
     }
     public IdentityBuilder stub(Stub customStub) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("stub");
+        throw new NoSuchMethodError("stub not implemented");
     }
     public IdentityBuilder will(Stub stubAction) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("will");
+        throw new NoSuchMethodError("will not implemented");
     }
     public IdentityBuilder willReturn(boolean result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(byte result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(char result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(double result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(float result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(int result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(long result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(Object result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willReturn(short result) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willReturn");
+        throw new NoSuchMethodError("willReturn not implemented");
     }
     public IdentityBuilder willThrow(Throwable throwable) {
-        // TODO Auto-generated method stub
-        throw new NoSuchMethodError("willThrow");
+        throw new NoSuchMethodError("willThrow not implemented");
     }
     
     public IdentityBuilder expect(InvocationMatcher expectation) {
