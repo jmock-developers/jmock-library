@@ -1,14 +1,14 @@
 package test.jmock.dynamic.stub;
 
 import org.jmock.dynamic.Invocation;
-import org.jmock.dynamic.stub.SideEffect;
+import org.jmock.dynamic.stub.CustomStub;
 
 import junit.framework.TestCase;
 
 
 
-public class SideEffectTest extends TestCase {
-    static class ConcreteSideEffect extends SideEffect {
+public class CustomStubTest extends TestCase {
+    static class ConcreteSideEffect extends CustomStub {
     	public ConcreteSideEffect(String description) {
     		super(description);      
         }
@@ -20,7 +20,7 @@ public class SideEffectTest extends TestCase {
     
 	public void testWritesDescriptionToStringBuffer() {
         String description = "DESCRIPTION";
-		SideEffect sideEffect = new ConcreteSideEffect(description);
+		CustomStub sideEffect = new ConcreteSideEffect(description);
         
         StringBuffer buf = new StringBuffer();
         
