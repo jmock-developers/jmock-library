@@ -1,0 +1,22 @@
+Recordng -> Create, CallSequence, Replay
+CallSequence -> [VoidSequence | ReturnSequence]*
+
+
+VoidSequence -> FixedVoidSequence | DefaultVoidSequence
+
+FixedVoidSequence -> VoidSequence
+DefaultVoidSequence -> VoidSequence, [SetDefaultVoid | CoreDefaultExpecation]
+VoidSequence -> VoidCall | [VoidExpectation]*
+VoidExpectation -> SetVoidCallable | CoreExpectation
+
+
+ReturnSequence -> FixedReturnSequence | DefaultReturnSequence
+
+FixedReturnSequence -> ReturnSequence, ReturnExpectation
+DefaultReturnSequence -> ReturnSequence, [SetDefaultReturn | CoreDefaultExpecation]
+ReturnSequence -> ReturnCall, [ReturnExpectation]*
+ReturnExpectation -> SetReturnValue | CoreExpectation
+
+
+CoreExpectation -> SetThrow | SetMatcher
+CoreDefaultExpectation -> SetDefaultThrow | SetDefaultMatcher
