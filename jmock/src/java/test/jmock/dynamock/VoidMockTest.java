@@ -39,7 +39,7 @@ public class VoidMockTest extends AbstractMockTest {
         }
 
         public void expectTwoParams() {
-            mockTarget.expect("twoParams", C.eq("one", "two"));
+            mockTarget.expectVoid("twoParams", C.eq("one", "two"));
         }
 
         public void expectNotNoParams() {

@@ -45,6 +45,15 @@ public class MockBuildableInvokableFactory
 		return createArgumentsMatcherResult;
 	}
 	
+	public ExpectationCounter createCallOnceMatcherCalls =
+		new ExpectationCounter("createCallOnceMatcher #calls");
+	public InvocationMatcher createCallOnceMatcherResult;
+	
+	public InvocationMatcher createCallOnceMatcher() {
+		createCallOnceMatcherCalls.inc();
+		return createCallOnceMatcherResult;
+	}
+	
 	public ExpectationCounter createVoidStubCalls =
 		new ExpectationCounter("createVoidStub calls");
 	public Stub createVoidStubResult;
