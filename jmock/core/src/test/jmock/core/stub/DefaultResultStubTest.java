@@ -53,7 +53,7 @@ public class DefaultResultStubTest
         assertHasRegisteredValue( stub, Character.class, new Character('\0') );
         assertHasRegisteredValue( stub, Float.class, new Float(0.0F) );
         assertHasRegisteredValue( stub, Double.class, new Double(0.0) );
-        assertHasRegisteredValue( stub, String.class, "<default string result>" );
+        assertHasRegisteredValue( stub, String.class, "" );
     }
     
     private static class AnyType {}

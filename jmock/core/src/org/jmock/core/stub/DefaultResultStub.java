@@ -94,6 +94,6 @@ public class DefaultResultStub
 		addResult( Character.class,   new Character('\0') );
 		addResult( Float.class,       new Float(0.0F) );
 		addResult( Double.class,      new Double(0.0) );
-		addResult( String.class,      "<default string result>" );
+		addResult( String.class,      "" );
 	}
 }
