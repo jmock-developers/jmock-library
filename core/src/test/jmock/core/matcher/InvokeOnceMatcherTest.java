@@ -32,8 +32,8 @@ public class InvokeOnceMatcherTest extends TestCase
             matcher.verify();
         }
         catch (AssertionFailedError ex) {
-            AssertMo.assertIncludes("should report invokedMethod not invoked",
-                                    "expected invokedMethod was not invoked", ex.getMessage());
+            AssertMo.assertIncludes("should report expected method not invoked",
+                                    "expected method was not invoked", ex.getMessage());
             return;
         }
         fail("Should have thrown exception");

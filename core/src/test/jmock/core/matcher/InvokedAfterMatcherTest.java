@@ -66,4 +66,18 @@ public class InvokedAfterMatcherTest extends TestCase
         assertTrue("should include 'after <id of prior call>' in description",
                    buf.toString().indexOf("after " + PRIOR_CALL_ID) >= 0);
     }
+
+    public void testIncludesWhetherPriorCallHasOccurredInDescription() {
+        String description;
+
+        description = after.describeTo(new StringBuffer()).toString();
+        assertTrue( "should include \"(not invoked)\"",
+                    description.indexOf("(not invoked)") >= 0 );
+
+        recorder.invoked(invocation1);
+        description = after.describeTo(new StringBuffer()).toString();
+        assertTrue( "should include \"(invoked)\"",
+                    description.indexOf("(invoked)") >= 0 );
+
+    }
 }
