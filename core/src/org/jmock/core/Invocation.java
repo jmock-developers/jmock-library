@@ -18,7 +18,7 @@ public class Invocation {
     private Class returnType;
     private Object[] parameterValues;
 
-    public Invocation( Object invoked, Class declaringClass, 
+    private Invocation( Object invoked, Class declaringClass,
                        String name, Class[] parameterTypes, Class returnType,
                        Object[] parameterValues ) 
     {
@@ -30,8 +30,8 @@ public class Invocation {
         this.parameterValues = 
             (parameterValues == null ? new Object[0] : parameterValues);
     }
-
-    public Invocation( Object invoked, Method method, Object[] parameterValues) {
+	
+    public Invocation( Object invoked, Method method, Object[] parameterValues ) {
         this( invoked, method.getDeclaringClass(), 
               method.getName(), method.getParameterTypes(), method.getReturnType(),
               parameterValues );

@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import org.jmock.core.Invocation;
 import org.jmock.core.matcher.TestFailureMatcher;
+import test.jmock.core.testsupport.MethodFactory;
 
 public class TestFailureMatcherTest 
 	extends TestCase 
@@ -16,9 +17,14 @@ public class TestFailureMatcherTest
 	TestFailureMatcher testFailureMatcher; 
 	
 	public void setUp() {
-		invocation = new Invocation( 
-            "INVOKED-OBJECT", Void.class, "ignoredName",  new Class[0], 
-			void.class, new Object[0]);
+		MethodFactory methodFactory = new MethodFactory();
+
+		invocation = new Invocation(
+            "INVOKED-OBJECT",
+            methodFactory.newMethod( "ignoredName", MethodFactory.NO_ARGUMENTS, void.class,
+                                     MethodFactory.NO_EXCEPTIONS),
+			new Object[0] );
+		
 		testFailureMatcher  = new TestFailureMatcher(MESSAGE);
 	}
 	

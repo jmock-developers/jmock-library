@@ -8,8 +8,6 @@ import org.objectweb.asm.Constants;
 public class ClassLoaderAcceptanceTest extends MockObjectTestCase {
     
     static class EmptyInterfaceCreator extends ClassLoader {
-        ClassLoader resourceLoader;
-        
         protected Class findClass(String name) {
             ClassWriter writer = new ClassWriter(true);
             writer.visit(Constants.ACC_PUBLIC|Constants.ACC_INTERFACE,

@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.jmock.core.Invocation;
 import org.jmock.core.stub.VoidStub;
+import test.jmock.core.testsupport.MethodFactory;
 
 public class VoidStubTest 
 	extends TestCase 
@@ -13,9 +14,9 @@ public class VoidStubTest
 	VoidStub voidStub; 
 	
 	public void setUp() {
-		invocation = new Invocation( 
-            "INVOKED-OBJECT", Void.class, "ignoredName", new Class[0], 
-			void.class, new Object[0]);
+		MethodFactory methodFactory = new MethodFactory();
+		invocation = new Invocation(
+            "INVOKED-OBJECT", methodFactory.newMethodReturning(void.class), new Object[0] );
 		voidStub  = new VoidStub();
 	}
 	
