@@ -19,30 +19,11 @@
 
 *** Stuff to do ***
 
+Code tasks moved to ToDo.java
+
 Organisation:
 -Get a logo.
 -Setup Jira.
--Update developers/contributors/cvs/mailing-list maven details.
-
-Code:
--JavaDoc all classes in root org.jmock package.
--Find cool new name for "builder" API
--Clean up org.jmock.expecation package.
--Make jmock.expectation package use Constraints instead of calling equals on expected value
--DO SOMETHING WITH THE EMPTY TEST CLASSES IN test.jmock.dynamic
--Implement matchers for call ordering.
--REMOVE ALL TODO: COMMENTS
-
-(sensible defaults reduce test brittleness)
--TODO: Sensible default: If no expectation/match setup, invocation should produce no-op instead of fail.
--TODO: ExpectNotCalled (or equivalent) makes tests more expressive.
-
-
-*** Suggested improvements ***
-
-(sensible defaults reduce test brittleness)
-- Sensible default: When no args specified in Mock, use ANY-args instead of NO-args.
-  -- I disagree: if you allow any arguments, putting C.ANY_ARGS shows what you are doing and isn't
-     particularly verbose
-- Extract interface from Invocation.
-  -- WHY? It's a pure value object with no behaviour.
+-Stop using Maven.  Create Ant file for common tasks if we have to.
+-Translate web site to xhtml+css, skinned with StaticMesh or something similar. 
+ (nat has started working on this)
