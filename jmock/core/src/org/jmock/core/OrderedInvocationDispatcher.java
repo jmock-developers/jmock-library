@@ -3,16 +3,14 @@
  */
 package org.jmock.core;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import org.jmock.core.stub.TestFailureStub;
 
 public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	public interface DispatchPolicy {
-		InvokableIterator dispatchIterator(List invokables);
+        Collection makeCollection();
+		InvokableIterator dispatchIterator(Collection invokables);
 	}
 
 	public interface InvokableIterator {
@@ -22,11 +20,12 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 
 	public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
 	private DispatchPolicy policy;
-	private List invokables = new ArrayList();
+	private Collection invokables;
 	private Stub defaultStub = new TestFailureStub("no match found");
 
 	public OrderedInvocationDispatcher(DispatchPolicy policy) {
 		this.policy = policy;
+        this.invokables = policy.makeCollection();
 	}
 
 	public Object dispatch(Invocation invocation) throws Throwable {
@@ -92,7 +91,10 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	static public class FIFO extends OrderedInvocationDispatcher {
 		public FIFO() { super(POLICY); }
 		private static final DispatchPolicy POLICY = new DispatchPolicy() {
-			public InvokableIterator dispatchIterator(final List invokables) {
+            public Collection makeCollection() {
+                return new ArrayList();
+            }
+			public InvokableIterator dispatchIterator(final Collection invokables) {
 				return new InvokableIterator() {
 					private Iterator iterator = invokables.iterator();
                     
@@ -106,9 +108,12 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	static public class LIFO extends OrderedInvocationDispatcher {
 		public LIFO() { super(POLICY); }
 		private static final DispatchPolicy POLICY = new DispatchPolicy() {
-			public InvokableIterator dispatchIterator(final List invokables) {
+            public Collection makeCollection() {
+                return new ArrayList();
+            }
+			public InvokableIterator dispatchIterator(final Collection invokables) {
 				return new InvokableIterator() {
-					ListIterator i = invokables.listIterator(invokables.size());
+					ListIterator i = ((List)invokables).listIterator(invokables.size());
                     
 					public boolean hasMore() { return i.hasPrevious(); }
 					public Invokable next() { return (Invokable) i.previous(); }

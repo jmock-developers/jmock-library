@@ -5,6 +5,7 @@ package org.jmock.easy;
 import java.lang.reflect.Method;
 
 import org.jmock.core.CoreMock;
+import org.jmock.core.Invokable;
 import org.jmock.core.OrderedInvocationDispatcher;
 import org.jmock.core.Stub;
 import org.jmock.easy.internal.InvocationMatch;
@@ -20,6 +21,10 @@ public class EasyCoreMock extends CoreMock
 		super(mockedType, CoreMock.mockNameFromClass(mockedType), new OrderedInvocationDispatcher.FIFO());
 	}
 
+    public void addDefaultInvokable(Invokable invokable) {
+        addInvokable(invokable);
+    }
+    
 	public void replay() {
 		addInvocationMockerAndFlush();
 		isRecording = false;	
@@ -41,14 +46,13 @@ public class EasyCoreMock extends CoreMock
 	}
 
     public void setExpectedStub(Range range, Stub stub) {
-        match.expectCallCount(range);
-        match.setStub(stub);
+        match.expectCallCount(range, stub);
     }
 
     public void setDefaultStub(Stub stub) {
         match.addInvocationMockerTo(this);
-        match.stub();
-        match.setStub(stub);
+        match.setDefault(stub);
     }
+
 }
 
