@@ -7,6 +7,5 @@ public interface DynamicMock
 {
     Class getMockedType();
     Object proxy();
-    void reset();
 }
 

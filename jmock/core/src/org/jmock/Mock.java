@@ -82,7 +82,8 @@ public class Mock
     }
 
     public void reset() {
-        coreMock.reset();
+        dispatcher.clear();
+        dispatcher.setupDefaultBehaviour(name, proxy());
     }
 
     public MatchBuilder lookupID( String id ) {

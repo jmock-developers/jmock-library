@@ -35,12 +35,15 @@ public class MockTest extends TestCase
                      new Mock(DummyInterface.class, explicitName).toString());
     }
 
-    public void testDelegatgesResetToCoreMock() {
-        mockCoreMock.resetCalls.setExpected(1);
+    public void testResetSetsInvocationDispatcher() {
+        mockCoreMock.proxyResult = new Object();
+        
+        mockDispatcher.clearCalls.setExpected(1);
+        mockDispatcher.expectSetupDefaultBehaviour(MOCK_NAME, mockCoreMock.proxyResult);
 
         mock.reset();
 
-        mockCoreMock.verifyExpectations();
+        mockDispatcher.verifyExpectations();
     }
 
     public void testDelegatesAddInvokableToDispatcher() {

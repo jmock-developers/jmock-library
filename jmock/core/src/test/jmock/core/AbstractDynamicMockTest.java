@@ -132,13 +132,4 @@ public abstract class AbstractDynamicMockTest extends TestCase
         AssertMo.assertIncludes("result of toString() should include name",
                                 MOCK_NAME, coreMock.toString());
     }
-
-    public void testResetsDispatcher() {
-        mockDispatcher.clearCalls.setExpected(1);
-
-        coreMock.reset();
-
-        mockDispatcher.verifyExpectations();
-    }
-
 }

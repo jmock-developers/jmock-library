@@ -46,11 +46,6 @@ public abstract class AbstractDynamicMock
         return this.name;
     }
 
-    public void reset() {
-        invocationDispatcher.clear();
-        invocationDispatcher.setupDefaultBehaviour(name, proxy());
-    }
-
     public static String mockNameFromClass( Class c ) {
         return "mock" + Formatting.classShortName(c);
     }

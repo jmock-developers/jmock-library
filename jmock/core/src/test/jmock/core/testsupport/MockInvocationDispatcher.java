@@ -7,6 +7,7 @@ import org.jmock.core.InvocationDispatcher;
 import org.jmock.core.Invokable;
 import org.jmock.core.Stub;
 import org.jmock.expectation.ExpectationCounter;
+import org.jmock.expectation.ExpectationList;
 import org.jmock.expectation.ExpectationValue;
 
 
@@ -22,8 +23,13 @@ public class MockInvocationDispatcher
     public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
     public String writeToOutput = "MockInvocationDispatcher.describeTo output";
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
+    public ExpectationList setupDefaultBehaviour = new ExpectationList("setup default behaviour");
 
-
+    public void expectSetupDefaultBehaviour(String name, Object proxy) {
+    	setupDefaultBehaviour.addExpected(name);
+        setupDefaultBehaviour.addExpected(proxy);
+    }
+    
     public void setDefaultStub( Stub newDefaultStub ) {
         setDefaultStub.setActual(newDefaultStub);
     }
@@ -50,6 +56,7 @@ public class MockInvocationDispatcher
     }
 
 	public void setupDefaultBehaviour(String name, Object proxy) {
-		throw new NoSuchMethodError();		
+		setupDefaultBehaviour.addActual(name);
+        setupDefaultBehaviour.addActual(proxy);
 	}
 }
