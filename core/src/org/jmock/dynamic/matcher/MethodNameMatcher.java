@@ -2,7 +2,6 @@
 package org.jmock.dynamic.matcher;
 
 import org.jmock.Constraint;
-import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.Invocation;
 
 public class MethodNameMatcher
@@ -14,8 +13,15 @@ public class MethodNameMatcher
         this.constraint = constraint;
     }
 
-    public MethodNameMatcher(String methodName) {
-        this(new IsEqual(methodName));
+    public MethodNameMatcher(final String methodName) {
+        this(new Constraint() {
+            public boolean eval(Object o) {
+                return methodName.equals(o);
+            }
+            public String toString() {
+                return methodName;
+            }
+        });
     }
 
     public boolean matches(Invocation invocation) {
@@ -23,6 +29,6 @@ public class MethodNameMatcher
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        return buffer.append("Method ").append(constraint);
+        return buffer.append(constraint);
     }
 }

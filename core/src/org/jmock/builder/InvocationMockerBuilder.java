@@ -2,7 +2,6 @@
 package org.jmock.builder;
 
 import org.jmock.Constraint;
-import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.StubMatchersCollection;
@@ -31,7 +30,7 @@ public class InvocationMockerBuilder
     }
     
     public ParameterMatchBuilder method(String name) {
-        method(new IsEqual(name));
+        addMatcher( new MethodNameMatcher(name) );
         idTable.registerID( name, this );
         return this;
     }

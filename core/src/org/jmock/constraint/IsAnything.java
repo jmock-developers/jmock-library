@@ -12,7 +12,7 @@ public class IsAnything implements Constraint {
     }
 
     public String toString() {
-        return "any value";
+        return "ANYTHING";
     }
 }
 
