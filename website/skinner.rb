@@ -213,6 +213,7 @@ end
 def build_site
     skin_content CONTENT_DIR
     skin_assets.each {|f| copy_to_output f, SKIN_DIR}
+    copy_to_output( "../CHANGELOG", ".." )
 end
 
 begin
