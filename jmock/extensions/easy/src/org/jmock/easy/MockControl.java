@@ -39,7 +39,7 @@ public class MockControl
 	}
 
 	public void verify() {
-		coreMock.verify();
+		dispatcher.verify();
 	}
 
 	public void setVoidCallable(Range range) {
