@@ -3,6 +3,7 @@ package org.jmock.dynamic;
 import org.jmock.Constraint;
 import org.jmock.constraint.IsAnything;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.CustomStub;
 import org.jmock.dynamic.stub.ReturnStub;
@@ -99,7 +100,9 @@ public abstract class AbstractDynamicMock
     
     private static class SilentInvocationMocker extends InvocationMocker {
         public SilentInvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
-            super(methodName, arguments, stub);
+            addMatcher( new MethodNameMatcher(methodName) );
+            addMatcher(arguments);
+            setStub(stub);
         }
         
         public boolean hasDescription() {

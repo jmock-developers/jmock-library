@@ -1,13 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
-import junit.framework.AssertionFailedError;
-import org.jmock.dynamic.matcher.MethodNameMatcher;
-import org.jmock.dynamic.stub.VoidStub;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import junit.framework.AssertionFailedError;
+
+import org.jmock.dynamic.stub.VoidStub;
 
 
 public class InvocationMocker 
@@ -29,12 +29,6 @@ public class InvocationMocker
     public InvocationMocker() {
     }
     
-    public InvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
-        addMatcher(new MethodNameMatcher(methodName));
-        addMatcher(arguments);
-        setStub(stub);
-    }
-
     public InvocationMocker(InvocationMatcher[] matchers, Stub stub) {
         for (int i = 0; i < matchers.length; i++) addMatcher(matchers[i]);
         setStub(stub);
