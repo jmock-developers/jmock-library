@@ -5,7 +5,7 @@
   </head>
 
   <body>
-    <h1 id="stable">Stable Version: <span class="version"><template:text var="release"/></span></h1>
+    <h1 id="release">Stable Version: <span class="version"><template:text var="release"/></span></h1>
     <template:when var="release_available" value="true">
       <ul>
         <li><a><template:attr name="href" valuevar="release_jmock_jar"/>jMock binary JAR</a></li>
@@ -45,7 +45,7 @@
     </template:when>
 
 
-    <h1 id="prerelease">Development Snapshot: <span class="version"><template:text var="snapshot"/></span></h1>
+    <h1 id="snapshot">Development Snapshot: <span class="version"><template:text var="snapshot"/></span></h1>
     <template:when var="snapshot_available" value="true">
       <ul>
         <li><a><template:attr name="href" valuevar="snapshot_jmock_jar"/>jMock binary JAR</a></li>
@@ -58,7 +58,7 @@
       </ul>
     </template:when>
 
-    <template:when var="prerelease_available" value="false">
+    <template:when var="snapshot_available" value="false">
       <p>Not yet available</p>
     </template:when>
 
