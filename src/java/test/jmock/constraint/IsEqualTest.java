@@ -73,7 +73,7 @@ public class IsEqualTest extends TestCase {
         assertTrue("Should not equal a different array", !c.eval(i3));
         assertTrue("Should not equal a different sized array", !c.eval(i4));
         assertTrue("Should not equal a different sized subarray", !c.eval(i5));
-        }
+    }
     
     public void testReturnsAnObviousDescriptionIfCreatedWithANestedConstraint() {
         assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
@@ -93,5 +93,5 @@ public class IsEqualTest extends TestCase {
         assertEquals("Should print toString even if argument is null",
             " = null", new IsEqual(null).toString());
     }
-    
 }
+
