@@ -98,7 +98,8 @@ public class ConstraintsTest extends TestCase {
                 " = null", new IsEqual(null).toString());
     }
 
-    public void testIsEqualEquals() throws Exception {
+    // TODO: delete this test; the behaviour has been removed because it doesn't make sense.
+    public void xtestIsEqualEquals() throws Exception {
         assertEquals("Should be equal", new IsEqual("a"), new IsEqual("a"));
         assertFalse("Should not be equal - same type different values", new IsEqual("a").equals(new IsEqual("b")));
         assertFalse("Should not be equal - different type", new IsEqual("a").equals("b"));

@@ -29,10 +29,6 @@ public class IsEqual implements Constraint {
         return " = " + DynamicUtil.toReadableString(_object);
     }
 
-    public boolean equals(Object anObject) {
-        return eval(anObject);
-    }
-
     private Object convertArrayToList(Object equalArg) {
         if (equalArg instanceof Object[]) {
             return Arrays.asList((Object[]) equalArg);
@@ -40,6 +36,4 @@ public class IsEqual implements Constraint {
             return equalArg;
         }
     }
-
-    
 }
