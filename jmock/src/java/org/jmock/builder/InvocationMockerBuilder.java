@@ -8,20 +8,26 @@ import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
+import org.jmock.dynamic.matcher.InvokedAfterMatcher;
+import org.jmock.dynamic.matcher.InvokedRecorder;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 
 public class InvocationMockerBuilder 
-    implements MatchBuilder, StubBuilder, ExpectationBuilder 
+    implements MatchBuilder, StubBuilder, ExpectationBuilder
 {
     private StubMatchersCollection mocker;
-
-    public InvocationMockerBuilder(StubMatchersCollection mocker) {
+    private BuilderIdentityTable idTable;
+    
+    public InvocationMockerBuilder( StubMatchersCollection mocker, 
+									BuilderIdentityTable idTable ) 
+    {
         this.mocker = mocker;
+        this.idTable = idTable;
     }
-
+    
 	public StubBuilder with(Constraint arg1) {
 		return with(new Constraint[]{arg1});
 	}
@@ -81,11 +87,11 @@ public class InvocationMockerBuilder
     public ExpectationBuilder willReturn(float returnValue) {
         return willReturn(new Float(returnValue));
     }
-
+    
     public ExpectationBuilder willReturn(double returnValue) {
         return willReturn(new Double(returnValue));
     }
-
+    
     public ExpectationBuilder willReturn(Object returnValue) {
         return setStub(new ReturnStub(returnValue));
     }
@@ -102,11 +108,21 @@ public class InvocationMockerBuilder
 		return addExpectation( new InvokeOnceMatcher() );
 	}
 	
-    public ExpectationBuilder expectAfter( ExpectationBuilder previousCall ) {
-        //TODO Complete this method
+	public ExpectationBuilder id( String invocationID ) {
+		idTable.registerID( invocationID, this );
+		return this;
+	}
+	
+    public ExpectationBuilder after( String priorCallID ) {
+    	ExpectationBuilder priorCallBuilder = idTable.lookupID(priorCallID);
+    	InvokedRecorder priorCallRecorder = new InvokedRecorder();
+    	
+    	priorCallBuilder.addExpectation(priorCallRecorder);
+    	mocker.addMatcher(new InvokedAfterMatcher(priorCallRecorder,priorCallID));
+    	
         return this;
     }
-
+    
     private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
         mocker.addMatcher(matcher);
         return this;

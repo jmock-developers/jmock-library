@@ -1,6 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
+import java.util.HashMap;
+
+import junit.framework.AssertionFailedError;
+
 import org.jmock.Verifiable;
 import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicMock;
@@ -9,9 +13,11 @@ import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 
 public class Mock
-        implements Verifiable 
+	implements BuilderIdentityTable, Verifiable 
 {
     DynamicMock coreMock;
+    HashMap idTable = new HashMap();
+    
     
     public Mock(Class mockedType) {
         this( mockedType, CoreMock.mockNameFromClass(mockedType) );
@@ -41,9 +47,26 @@ public class Mock
     	InvocationMocker mocker = new InvocationMocker();
     	mocker.addMatcher( new MethodNameMatcher(methodName));
         coreMock.add(mocker);
-        return new InvocationMockerBuilder(mocker);
+        return new InvocationMockerBuilder(mocker,this);
     }
 
     //TODO setDefaultResult(Class, value);
     //TODO setDefaultResult(int value); ...
+    
+    
+	public ExpectationBuilder lookupID(String id) {
+		if( idTable.containsKey(id) ) {
+			return (ExpectationBuilder)idTable.get(id);
+		} else {
+			throw new AssertionFailedError("no expected invocation named '"+id+"'");
+		}
+	}
+	
+	public void registerID( String id, ExpectationBuilder invocation ) {
+		if( idTable.containsKey(id) ) {
+			throw new AssertionFailedError("duplicate invocation named '"+id+"'");
+		} else {
+			idTable.put( id, invocation );
+		}
+	}
 }

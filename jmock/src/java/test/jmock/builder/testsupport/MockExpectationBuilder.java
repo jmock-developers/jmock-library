@@ -34,7 +34,21 @@ public class MockExpectationBuilder
 		return this;
 	}
     
-    public void verify() {
+	public ExpectationValue afterPreviousCallID = new ExpectationValue("after previousCallID");
+	
+	public ExpectationBuilder after( String previousCallID ) {
+		afterPreviousCallID.setActual(previousCallID);
+		return this;
+	}
+	
+	public ExpectationValue id = new ExpectationValue("id");
+	
+	public ExpectationBuilder id( String newID ) {
+		id.setActual(newID);
+		return this;
+	}
+	
+	public void verify() {
     	Verifier.verifyObject(this);
     }
 }
