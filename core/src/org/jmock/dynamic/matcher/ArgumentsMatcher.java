@@ -14,12 +14,12 @@ public class ArgumentsMatcher
     public ArgumentsMatcher(Constraint[] constraints) {
         ArgumentsMatcher.this.constraints = (Constraint[])constraints.clone();
     }
-
+    
     public boolean matches(Invocation invocation) {
         return constraints.length == invocation.getParameterValues().size()
                 && matchesValues(invocation.getParameterValues());
     }
-
+    
     private boolean matchesValues(List list) {
         for (int i = 0; i < constraints.length; ++i) {
             if (!constraints[i].eval(list.get(i))) {
@@ -28,11 +28,7 @@ public class ArgumentsMatcher
         }
         return true;
     }
-
-    public String toString() {
-        return writeTo(new StringBuffer()).toString();
-    }
-
+    
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append("( ");
         for (int i = 0; i < constraints.length; i++) {
