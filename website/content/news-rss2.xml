@@ -10,16 +10,31 @@
 			<link>http://www.jmock.org/</link>
 		</image>
 		<language>en-us</language>
-		
+
+        <item>
+            <title>FishEye for the Mock Guy</title>
+            <category>Development</category>
+            <link>http://cvs.jmock.org/</link>
+            <description>
+                We now use <a href="http://www.thecortex.net/fisheye/">FishEye</a> to expose the
+                <a href="repository.html">CVS repository</a> via the web.  A great feature is
+                an <a href="http://cvs.jmock.org/changelog/~rss,/jmock/rss.xml">RSS feed of CVS commits</a>,
+                so you can be informed about new features as we check them in.
+            </description>
+            <dc:creator>Nat Pryce</dc:creator>
+            <pubDate>2004-06-30</pubDate>
+        </item>
+        
 		<item>
 			<title>See jMock in Action at the ADC</title>
 			<category>Event</category>
 			<link>http://www.jmock.org</link>
-			<description>jMock will be used in the 
-				<em>Top-Down TDD using Mock Objects and Inversion of Control</em>
-      	tutorial run by Manish Shah and Damian Guy at the
-      	<a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
-      </description>
+			<description>
+                jMock will be used in the
+		        <em>Top-Down TDD using Mock Objects and Inversion of Control</em>
+                tutorial run by Manish Shah and Damian Guy at the
+                <a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
+            </description>
 			<pubDate>15 Jun 2004</pubDate>
 		</item>
 
