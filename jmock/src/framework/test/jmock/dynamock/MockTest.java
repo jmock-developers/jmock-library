@@ -26,7 +26,7 @@ public class MockTest
 	MockInvocationMatcher mockArgumentsMatcher;
 	MockInvocationMatcher mockCallOnceMatcher;
 	MockBuildableInvokable mockInvocationMocker;
-	MockStub mockVoidStub, mockThrowStub, mockReturnStub, mockCustomStub;
+	MockStub mockVoidStub, mockThrowStub, mockReturnStub, mockCustomStub, mockTestFailureStub;
 	Mock mock;
 
 	public void setUp() {
@@ -40,7 +40,8 @@ public class MockTest
 		mockReturnStub = new MockStub("mockReturnStub");
 		mockThrowStub = new MockStub("mockThrowStub");
 		mockCustomStub = new MockStub("mockCustomStub");
-		
+        mockTestFailureStub = new MockStub("mockTestFailureStub");
+        
 		mock = new Mock( mockCoreMock, mockFactory );
 	}
 	
@@ -193,8 +194,17 @@ public class MockTest
 		
 		verifyAll();
 	}
-		
-
+	
+    public void testExpectNotCalledCreatesMatchersAndTestFailureStub() {
+        expectConstructionOfInvocationMocker();
+        expectConstructionOfMethodMatchers(mockArgumentsMatcher);
+        expectConstructionOfTestFailureStub();
+        
+        mock.expectNotCalled( methodName, mockArgumentsMatcher );
+        
+        verifyAll();
+    }
+	
 	private void expectConstructionOfInvocationMocker() {
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
 		mockFactory.createBuildableInvokableResult = mockInvocationMocker;
@@ -215,7 +225,7 @@ public class MockTest
 
 		mockInvocationMocker.addedMatchers.addExpected(mockCallOnceMatcher);
 	}
-
+	
 	private void expectConstructionOfCustomStub() {
 		mockInvocationMocker.setStub.setExpected(mockCustomStub);
 	}
@@ -237,4 +247,10 @@ public class MockTest
 		mockFactory.createThrowStubResult = mockThrowStub;
 		mockInvocationMocker.setStub.setExpected(mockThrowStub);
 	}
+    
+    private void expectConstructionOfTestFailureStub() {
+        mockFactory.createTestFailureStubErrorMessage.setExpected("must not be called");
+        mockFactory.createTestFailureStubResult = mockTestFailureStub;
+        mockInvocationMocker.setStub.setExpected(mockTestFailureStub);
+    }
 }
