@@ -254,6 +254,12 @@ ul, ol {
 	margin-bottom: 8px;
 }
 
+#content div.Float {
+    background: #fff;
+    padding: 4px;
+    border: 1px solid #aaf;
+}
+
 #content .Diagram {
 	display: block;
 	margin-left: auto;
