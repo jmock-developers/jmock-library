@@ -4,6 +4,7 @@ package test.jmock.builder;
 import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.builder.MockObjectTestCase;
+import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
@@ -12,6 +13,7 @@ import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
+import org.jmock.util.Dummy;
 
 import test.jmock.builder.testsupport.*;
 
@@ -27,7 +29,18 @@ public class InvocationMockerBuilder_Test extends MockObjectTestCase {
     	builder = new InvocationMockerBuilder( mocker, idTable );
     }
     
-    public void testWhenPassedAddsArgumentsMatcher() {
+    public void testCanAddCustomMatcher() {
+    	InvocationMatcher matcher = 
+    		(InvocationMatcher)Dummy.newDummy(InvocationMatcher.class,"matcher");
+    	
+    	mocker.addedMatcher.setExpected( matcher );
+    	
+    	assertNotNull("Should be Stub Builder", builder.match(matcher));
+    	
+    	mocker.verifyExpectations();
+    }
+    
+    public void testWithMethodAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
     	assertNotNull("Should be Stub Builder", builder.with(new Constraint[0]));
@@ -35,7 +48,7 @@ public class InvocationMockerBuilder_Test extends MockObjectTestCase {
     	mocker.verifyExpectations();
     }
     
-    public void testWhenPassedWithOneObjectArgumentAddsArgumentsMatcher() {
+    public void testWithMethodWithOneObjectArgumentAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
     	assertNotNull("Should be Stub Builder", builder.with(eq(new Object())));
@@ -43,7 +56,7 @@ public class InvocationMockerBuilder_Test extends MockObjectTestCase {
     	mocker.verifyExpectations();
     }
     
-    public void testWhenPassedWithTwoObjectArgumentsAddsArgumentsMatcher() {
+    public void testWithMethodWithTwoObjectArgumentsAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
     	assertNotNull("Should be Stub Builder", 

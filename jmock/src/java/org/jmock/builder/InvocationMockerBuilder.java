@@ -16,6 +16,7 @@ import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 
+
 public class InvocationMockerBuilder 
     implements MatchBuilder, StubBuilder, ExpectationBuilder
 {
@@ -27,6 +28,10 @@ public class InvocationMockerBuilder
     {
         this.mocker = mocker;
         this.idTable = idTable;
+    }
+    
+    public StubBuilder match( InvocationMatcher customMatcher ) {
+    	return addMatcher(customMatcher);
     }
     
 	public StubBuilder with(Constraint arg1) {
@@ -46,15 +51,15 @@ public class InvocationMockerBuilder
     }
     
     public StubBuilder with(Constraint[] constraints) {
-        return addMatcher(new ArgumentsMatcher(constraints));
+        return match(new ArgumentsMatcher(constraints));
 	}
 
 	public StubBuilder noParams() {
-        return addMatcher(NoArgumentsMatcher.INSTANCE);
+        return match(NoArgumentsMatcher.INSTANCE);
     }
     
     public StubBuilder anyParams() {
-        return addMatcher(AnyArgumentsMatcher.INSTANCE);
+        return match(AnyArgumentsMatcher.INSTANCE);
     }
     
     public ExpectationBuilder isVoid() {
