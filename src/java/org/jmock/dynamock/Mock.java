@@ -24,7 +24,7 @@ public class Mock
     public Mock( Class mockedClass ) {
     	this( mockedClass, CoreMock.mockNameFromClass(mockedClass) );
     }
-
+    
     public Mock( Class mockedClass, String nonDefaultName ) {
         this( new CoreMock( mockedClass, 
         					nonDefaultName, 
@@ -85,24 +85,6 @@ public class Mock
 		stub( methodName, argumentsMatcher, factory.createThrowStub(throwable) );
 	}
 	
-	public void stub( String methodName, Stub stub ) {
-		stub( methodName, C.NO_ARGS, stub );
-	}
-
-	public void stubVoid( String methodName ) {
-		stubVoid( methodName, C.NO_ARGS );
-	}
-
-	public void stubAndReturn( String methodName, Object result) {
-		stubAndReturn( methodName, C.NO_ARGS, result );
-	}
-
-	public void stubAndThrow( String methodName, Throwable throwable ) {
-		stubAndThrow( methodName, C.NO_ARGS, throwable );
-	}
-	
-	
-	
 	public void expect( String methodName, InvocationMatcher argumentsMatcher, Stub stub ) {
 		BuildableInvokable buildableInvokable = createStub( methodName, argumentsMatcher, stub );
 		
@@ -125,124 +107,10 @@ public class Mock
 		expect( methodName, argumentsMatcher, factory.createThrowStub(throwable) );
 	}
 
-	public void expect( String methodName, Stub stub ) {
-		expect( methodName, C.NO_ARGS, stub );
-	}
-	
-	public void expectVoid( String methodName ) {
-		expectVoid(methodName, C.NO_ARGS);
-	}
-
-	public void expectAndReturn(String methodName, Object result) {
-		expectAndReturn(methodName, C.NO_ARGS, result);
-	}
-
-	public void expectAndThrow(String methodName, Throwable exception) {
-		expectAndThrow(methodName, C.NO_ARGS, exception);
-	}
-	
-	
 	/*------------------------------------------------------------------------------------------
 	 *  THE FOLLOWING METHODS ARE NOT UNIT TESTED
 	 */
 	
-    public void expectVoid(String methodName, Object singleEqualArg) {
-        expectVoid(methodName, createInvocationMatcher(singleEqualArg));
-    }
-
-    public void expectAndReturn(String methodName, boolean result) {
-        expectAndReturn(methodName, new Boolean(result));
-    }
-
-    public void expectAndReturn(String methodName, int result) {
-        expectAndReturn(methodName, new Integer(result));
-    }
-
-    public void expectAndReturn(String methodName, Object singleEqualArg, Object result) {
-        expectAndReturn(methodName, createInvocationMatcher(singleEqualArg), result);
-    }
-
-    public void expectAndReturn(String methodName, Object singleEqualArg, boolean result) {
-        expectAndReturn(methodName, singleEqualArg, new Boolean(result));
-    }
-
-    public void expectAndReturn(String methodName, Object singleEqualArg, int result) {
-        expectAndReturn(methodName, singleEqualArg, new Integer(result));
-    }
-
-    public void expectAndReturn(String methodName, InvocationMatcher args, boolean result) {
-        expectAndReturn(methodName, args, new Boolean(result));
-    }
-
-    public void expectAndReturn(String methodName, InvocationMatcher args, int result) {
-        expectAndReturn(methodName, args, new Integer(result));
-    }
-
-    public void expectAndThrow(String methodName, Object singleEqualArg, Throwable exception) {
-        expectAndThrow(methodName, createInvocationMatcher(singleEqualArg), exception);
-    }
-    
-    public void stubVoid(String methodName, Object singleEqualArg) {
-        stubVoid(methodName, createInvocationMatcher(singleEqualArg));
-    }
-
-    public void stubVoid(String methodName, int singleEqualArg) {
-        stubVoid(methodName, new Integer(singleEqualArg));
-    }
-
-    public void stubVoid(String methodName, boolean singleEqualArg) {
-        stubVoid(methodName, new Boolean(singleEqualArg));
-    }
-
-    public void stubAndReturn(String methodName, boolean result) {
-        stubAndReturn(methodName, new Boolean(result));
-    }
-
-    public void stubAndReturn(String methodName, int result) {
-        stubAndReturn(methodName, new Integer(result));
-    }
-
-    public void stubAndReturn(String methodName, Object singleEqualArg, Object result) {
-        stubAndReturn(methodName, createInvocationMatcher(singleEqualArg), result);
-    }
-
-    public void stubAndReturn(String methodName, boolean singleEqualArg, Object result) {
-        stubAndReturn(methodName, new Boolean(singleEqualArg), result);
-    }
-
-    public void stubAndReturn(String methodName, int singleEqualArg, Object result) {
-        stubAndReturn(methodName, new Integer(singleEqualArg), result);
-    }
-
-    public void stubAndReturn(String methodName, Object singleEqualArg, boolean result) {
-        stubAndReturn(methodName, singleEqualArg, new Boolean(result));
-    }
-
-    public void stubAndReturn(String methodName, Object singleEqualArg, int result) {
-        stubAndReturn(methodName, singleEqualArg, new Integer(result));
-    }
-
-    public void stubAndReturn(String methodName, InvocationMatcher args, boolean result) {
-        stubAndReturn(methodName, args, new Boolean(result));
-    }
-    
-    public void stubAndReturn(String methodName, InvocationMatcher args, int result) {
-        stubAndReturn(methodName, args, new Integer(result));
-    }
-    
-    public void stubAndThrow(String methodName, Object singleEqualArg, Throwable throwable) {
-        stubAndThrow(methodName, createInvocationMatcher(singleEqualArg), throwable);
-    }
-
-    public void stubAndThrow(String methodName, boolean singleEqualArg, Throwable throwable) {
-        stubAndThrow(methodName, new Boolean(singleEqualArg), throwable);
-    }
-
-    public void stubAndThrow(String methodName, int singleEqualArg, Throwable throwable) {
-        stubAndThrow(methodName, new Integer(singleEqualArg), throwable);
-    }
-
-
     /**
      * @deprecated Not required, as if methodName is called, you will get an exception
      */
@@ -260,7 +128,7 @@ public class Mock
     private InvocationMatcher createInvocationMatcher(Object argumentValue) {
     	return createInvocationMatcher(C.eq(argumentValue));
     }
-
+    
     private BuildableInvokable createStub(String methodName, InvocationMatcher argumentsMatcher, Stub stub) {
     	BuildableInvokable buildableInvokable = factory.createBuildableInvokable();
     	

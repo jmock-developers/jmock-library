@@ -3,7 +3,6 @@ package test.jmock.dynamock;
 import junit.framework.TestCase;
 
 import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamock.C;
 import org.jmock.dynamock.Mock;
 
 import test.jmock.dynamic.testsupport.MockBuildableInvokable;
@@ -131,7 +130,6 @@ public class MockTest
 		verifyAll();
 	}
 	
-	
 	public void testStubAndThrowMethodCreatesMatchersAndThrowStub() {
 		expectConstructionOfInvocationMocker();
 		expectConstructionOfMethodMatchers(mockArgumentsMatcher);
@@ -141,47 +139,6 @@ public class MockTest
 		
 		verifyAll();
 	}
-	
-	public void testStubMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfCustomStub();
-		
-		mock.stub( methodName, mockCustomStub );
-		
-		verifyAll();
-	}
-	
-	public void testStubVoidMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfVoidStub();
-		
-		mock.stubVoid( methodName );
-		
-		verifyAll();
-	}
-	
-	public void testStubAndReturnMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfReturnStub();
-		
-		mock.stubAndReturn( methodName, result );
-		
-		verifyAll();
-	}
-	
-	public void testStubAndThrowMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfThrowStub();
-		
-		mock.stubAndThrow( methodName, throwable );
-		
-		verifyAll();
-	}
-	
 
 	public void testExpectMethodCreatesMatchersAndUsesSuppliedStub() {
 		expectConstructionOfInvocationMocker();
@@ -226,53 +183,7 @@ public class MockTest
 		
 		verifyAll();
 	}
-	
-	public void testExpectMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfCallOnceMatcher();
-		expectConstructionOfCustomStub();
 		
-		mock.expect( methodName, mockCustomStub );
-		
-		verifyAll();
-	}
-	
-	public void testExpectVoidMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfCallOnceMatcher();
-		expectConstructionOfVoidStub();
-		
-		mock.expectVoid( methodName );
-		
-		verifyAll();
-	}
-	
-	public void testExpectAndReturnMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfCallOnceMatcher();
-		expectConstructionOfReturnStub();
-		
-		mock.expectAndReturn( methodName, result );
-		
-		verifyAll();
-	}
-	
-	public void testExpectAndThrowMethodWithNoArgumentsMatcherImpliesNoArguments() {
-		expectConstructionOfInvocationMocker();
-		expectConstructionOfMethodMatchers(C.NO_ARGS);
-		expectConstructionOfCallOnceMatcher();
-		expectConstructionOfThrowStub();
-		
-		mock.expectAndThrow( methodName, throwable );
-		
-		verifyAll();
-	}
-
-
-	
 
 	private void expectConstructionOfInvocationMocker() {
 		mockFactory.createBuildableInvokableCalls.setExpected(1);
