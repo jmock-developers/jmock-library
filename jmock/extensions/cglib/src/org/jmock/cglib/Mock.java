@@ -2,22 +2,22 @@
  */
 package org.jmock.cglib;
 
-import org.jmock.core.DynamicMock;
+import org.jmock.core.CoreMock;
+import org.jmock.core.InvocationDispatcher;
 import org.jmock.core.OrderedInvocationDispatcher;
 
 
 public class Mock extends org.jmock.Mock
 {
     public Mock( Class mockedType ) {
-        this(new CGLIBCoreMock(mockedType));
+        this(mockedType, CoreMock.mockNameFromClass(mockedType));
     }
 
     public Mock( Class mockedType, String name ) {
-        this(new CGLIBCoreMock(mockedType, name));
+        this(mockedType, name, new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()) );
     }
 
-    public Mock( DynamicMock coreMock ) {
-        super(coreMock, 
-                new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
+    public Mock( Class mockedType, String name, InvocationDispatcher dispatcher ) {
+        super( new CGLIBCoreMock(mockedType, name, dispatcher), dispatcher );
     }
 }

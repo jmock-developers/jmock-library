@@ -50,7 +50,7 @@ public class Mock
     }
 
     public void addInvokable( Invokable invokable ) {
-        coreMock.addInvokable(invokable);
+        dispatcher.add(invokable);
     }
 
     public NameMatchBuilder stubs() {

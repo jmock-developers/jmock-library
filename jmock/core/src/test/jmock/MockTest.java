@@ -42,31 +42,30 @@ public class MockTest extends TestCase
         mockCoreMock.verifyExpectations();
     }
 
-    public void testDelegatesAddInvokableToCoreMock() {
+    public void testDelegatesAddInvokableToDispatcher() {
         Invokable invokable = new MockInvokable();
 
-        mockCoreMock.addInvokableCalls.setExpected(1);
-        mockCoreMock.addInvokable.setExpected(invokable);
+        mockDispatcher.addInvokable.setExpected(invokable);
 
         mock.addInvokable(invokable);
 
-        mockCoreMock.verifyExpectations();
+        mockDispatcher.verifyExpectations();
     }
 
     public void testStubAddsInvocationMockerAndReturnsBuilder() {
-        mockCoreMock.addInvokableCalls.setExpected(1);
+        mockDispatcher.addCalls.setExpected(1);
 
         assertNotNull("Should be invokedMethod expectation", mock.stubs());
-        mockCoreMock.verifyExpectations();
+        mockDispatcher.verifyExpectations();
     }
 
-    public void testExpectAddsInvocationMockerAndAddsExpectationAndReturnsBuilder() {
+    public void testExpectsAddsInvocationMockerAndAddsExpectationAndReturnsBuilder() {
         InvocationMatcher expectation = new MockInvocationMatcher();
 
-        mockCoreMock.addInvokableCalls.setExpected(1);
+        mockDispatcher.addCalls.setExpected(1);
 
         assertNotNull("Should be invokedMethod expectation", mock.expects(expectation));
-        mockCoreMock.verifyExpectations();
+        mockDispatcher.verifyExpectations();
     }
 
     public void testVerifyCallsUnderlyingMock() {

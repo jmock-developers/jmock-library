@@ -16,13 +16,15 @@ public class EasyCoreMock extends CoreMock
 {
 	private boolean isRecording = true;
 	private InvocationMatch match = new InvocationMatch();
+    private InvocationDispatcher dispatcher;
 	
 	public EasyCoreMock(Class mockedType, InvocationDispatcher dispatcher) {
 		super(mockedType, CoreMock.mockNameFromClass(mockedType), dispatcher);
+        this.dispatcher = dispatcher;
 	}
 
     public void addDefaultInvokable(Invokable invokable) {
-        addInvokable(invokable);
+        dispatcher.add(invokable);
     }
     
 	public void replay() {
@@ -41,7 +43,7 @@ public class EasyCoreMock extends CoreMock
 	}
 
 	private void addInvocationMockerAndFlush() {
-		match.addInvocationMockerTo(this);
+		match.addInvocationMockerTo(dispatcher);
 		match.flush();
 	}
 
@@ -50,7 +52,7 @@ public class EasyCoreMock extends CoreMock
     }
 
     public void setDefaultStub(Stub stub) {
-        match.addInvocationMockerTo(this);
+        match.addInvocationMockerTo(dispatcher);
         match.setDefault(stub);
     }
 

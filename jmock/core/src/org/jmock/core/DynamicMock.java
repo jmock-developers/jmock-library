@@ -10,8 +10,6 @@ public interface DynamicMock
 
     Object proxy();
 
-    void addInvokable( Invokable invokable );
-
     void reset();
 }
 

@@ -6,10 +6,7 @@ package org.jmock.easy.internal;
 import java.lang.reflect.Method;
 
 import org.jmock.builder.InvocationMockerDescriber;
-import org.jmock.core.Constraint;
-import org.jmock.core.InvocationMatcher;
-import org.jmock.core.InvocationMocker;
-import org.jmock.core.Stub;
+import org.jmock.core.*;
 import org.jmock.core.constraint.IsEqual;
 import org.jmock.core.matcher.ArgumentTypesMatcher;
 import org.jmock.core.matcher.ArgumentsMatcher;
@@ -34,15 +31,15 @@ public class InvocationMatch {
 		stub = new DefaultResultStub();
 	}
 
-	public void addInvocationMockerTo(EasyCoreMock mock) {
+	public void addInvocationMockerTo(InvocationDispatcher dispatcher) {
 		if (isUnset())
 			return;
 		
         if (isDefault()) {
-            mock.addDefaultInvokable(
+            dispatcher.add(
                     createInvocationMocker(new ArgumentTypesMatcher(parameterTypes)));
         } else {
-        	mock.addInvokable(
+        	dispatcher.add(
                     createInvocationMocker(new ArgumentsMatcher(equalArgs(methodArguments))));
         }
 	}

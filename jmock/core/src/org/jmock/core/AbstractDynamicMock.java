@@ -55,10 +55,6 @@ public abstract class AbstractDynamicMock
         return this.name;
     }
 
-    public void addInvokable( Invokable invokable ) {
-        invocationDispatcher.add(invokable);
-    }
-
     public void reset() {
         //TODO write tests for this
         invocationDispatcher.clear();

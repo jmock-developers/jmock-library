@@ -2,6 +2,7 @@
  */
 package org.jmock.util;
 
+import org.jmock.core.*;
 import org.jmock.core.CoreMock;
 import org.jmock.core.Formatting;
 import org.jmock.core.Invocation;
@@ -21,7 +22,8 @@ public class Dummy
     }
 
     public static Object newDummy( final Class interfaceClass, final String name ) {
-        CoreMock mock = new CoreMock(interfaceClass, name);
+        OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
+        CoreMock mock = new CoreMock(interfaceClass, name, dispatcher);
         InvocationMocker mocker = new InvocationMocker();
 
         mocker.addMatcher(new StatelessInvocationMatcher()
@@ -41,7 +43,7 @@ public class Dummy
             }
         });
 
-        mock.addInvokable(mocker);
+        dispatcher.add(mocker);
 
         return mock.proxy();
     }

@@ -9,7 +9,6 @@ import org.jmock.core.*;
 import org.jmock.expectation.AssertMo;
 
 import test.jmock.core.testsupport.MockInvocationDispatcher;
-import test.jmock.core.testsupport.MockInvokable;
 
 
 public abstract class AbstractDynamicMockTest extends TestCase
@@ -19,7 +18,6 @@ public abstract class AbstractDynamicMockTest extends TestCase
     private DummyInterface proxy;
     private DynamicMock coreMock;
     private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
-    private MockInvokable mockInvokable = new MockInvokable();
 
     public void setUp() {
         coreMock = createDynamicMock( MOCK_NAME, mockDispatcher );
@@ -142,14 +140,6 @@ public abstract class AbstractDynamicMockTest extends TestCase
     public void testReturnsNameFromToString() {
         AssertMo.assertIncludes("result of toString() should include name",
                                 MOCK_NAME, coreMock.toString());
-    }
-
-    public void testAddsInvokablesToDispatcher() {
-        mockDispatcher.addInvokable.setExpected(mockInvokable);
-
-        coreMock.addInvokable(mockInvokable);
-
-        mockDispatcher.verifyExpectations();
     }
 
     public void testResetsDispatcher() {

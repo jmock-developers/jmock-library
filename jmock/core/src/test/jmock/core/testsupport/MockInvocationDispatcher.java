@@ -17,7 +17,8 @@ public class MockInvocationDispatcher
     public ExpectationValue dispatchInvocation = new ExpectationValue("dispatchInvocation");
     public Object dispatchResult;
     public Throwable dispatchThrowable;
-    public ExpectationValue addInvokable = new ExpectationValue("addInvokable");
+    public ExpectationValue addInvokable = new ExpectationValue("add invokable");
+    public ExpectationCounter addCalls = new ExpectationCounter("add calls");
     public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
     public String writeToOutput = "MockInvocationDispatcher.describeTo output";
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
@@ -29,6 +30,7 @@ public class MockInvocationDispatcher
 
     public void add( Invokable invokable ) {
         addInvokable.setActual(invokable);
+        addCalls.inc();
     }
 
     public void clear() {
