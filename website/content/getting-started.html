@@ -33,7 +33,7 @@
     <div class="Source Java">
       <pre>Mock mockSubscriber = new Mock(Subscriber.class);
 Publisher publisher = new Publisher();
-publisher.add((Subscriber) mockSubscriber.proxy());
+publisher.add( (Subscriber)mockSubscriber.proxy() );
 
 final Object message = new Object();</pre>
     </div>
@@ -49,8 +49,7 @@ final Object message = new Object();</pre>
     because it has a void return type.</p>
    
     <div class="Source Java">
-<pre>mockSubscriber.method("receive").with( same(message) )
-    .expectOnce();</pre>
+	<pre>mockSubscriber.expect(once()).method("receive").with( same(message) );</pre>
     </div>
   
     <p>We then <i>execute</i> the code that we want to test.</p>
@@ -80,8 +79,7 @@ final Object message = new Object();</pre>
         final Object message = new Object();
         
         // expectations
-        mockSubscriber.method("receive").with( same(message) )
-            .expectOnce();
+        mockSubscriber.expect(once()).method("receive").with( same(message) );
         
         // execute
         publisher.publish(message);
