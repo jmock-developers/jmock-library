@@ -42,8 +42,36 @@ public class InvocationMockerBuilder
     	return this;
     }
 
+    public ExpectationBuilder willReturn(boolean returnValue) {
+        return willReturn(new Boolean(returnValue));
+    }
+
+    public ExpectationBuilder willReturn(byte returnValue) {
+        return willReturn(new Byte(returnValue));
+    }
+
+    public ExpectationBuilder willReturn(char returnValue) {
+        return willReturn(new Character(returnValue));
+    }
+
+    public ExpectationBuilder willReturn(short returnValue) {
+        return willReturn(new Short(returnValue));
+    }
+
     public ExpectationBuilder willReturn(int returnValue) {
         return willReturn(new Integer(returnValue));
+    }
+
+    public ExpectationBuilder willReturn(long returnValue) {
+        return willReturn(new Long(returnValue));
+    }
+
+    public ExpectationBuilder willReturn(float returnValue) {
+        return willReturn(new Float(returnValue));
+    }
+
+    public ExpectationBuilder willReturn(double returnValue) {
+        return willReturn(new Double(returnValue));
     }
 
     public ExpectationBuilder willReturn(Object returnValue) {
