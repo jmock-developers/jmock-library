@@ -10,7 +10,7 @@ export WEBDIR=website/output
 export JAVADOCDIR=$WEBDIR/docs/javadoc
 
 export WEBSITE=dcontrol@www.codehaus.org:/www/jmock.codehaus.org/
-export DISTSITE=dcontrol@dist.codehaus.org/www/dist.codehaus.org/jmock
+export DISTSITE=dcontrol@dist.codehaus.org:/www/dist.codehaus.org/jmock
 
 function run_task {
 	local task=$1
