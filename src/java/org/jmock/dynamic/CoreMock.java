@@ -38,13 +38,11 @@ public class CoreMock
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable 
     {
-        Invocation invocation = new Invocation(method, args);
+        Invocation invocation = new Invocation(method, name, args);
         try {
             return invocationDispatcher.dispatch(invocation);
-        } catch (DynamicMockError error) {
-            DynamicMockError newError = new DynamicMockError(invocation, invocationDispatcher, name);
-            newError.fillInStackTrace();
-            throw newError;
+        } catch (DynamicMockError ex) {
+            throw ex;
         } catch (AssertionFailedError ex) {
             DynamicMockError error = new DynamicMockError(invocation, invocationDispatcher, ex.getMessage());
             error.fillInStackTrace();
@@ -87,12 +85,22 @@ public class CoreMock
     }
     
     private void setupDefaultBehaviour() {
-        add(new InvocationMocker("toString", NoArgumentsMatcher.INSTANCE, new ReturnStub(this.name)));
-        add(new InvocationMocker("equals", 
+        add(new SilentInvocationMocker("toString", NoArgumentsMatcher.INSTANCE, new ReturnStub(this.name)));
+        add(new SilentInvocationMocker("equals", 
                 new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
                 new IsSameAsProxy(this.proxy)));
     }
 
+    private static class SilentInvocationMocker extends InvocationMocker {
+        public SilentInvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
+            super(methodName, arguments, stub);
+        }
+
+        public StringBuffer writeTo(StringBuffer buffer) {
+            return buffer;
+        }
+    }
+    
     private static class IsSameAsProxy extends CustomStub {
         private Object proxy;
         

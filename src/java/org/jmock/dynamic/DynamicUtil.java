@@ -29,7 +29,11 @@ public class DynamicUtil {
     }
 
     public static StringBuffer join(Object array, StringBuffer buf) {
-        buf.append("[");
+        return join(array, buf, "[", "]");
+    }
+    
+    public static StringBuffer join(Object array, StringBuffer buf, String prefix, String postfix) {
+        buf.append(prefix);
         for (int i = 0; i < Array.getLength(array); i++) {
             if (i > 0) buf.append(", ");
 
@@ -45,7 +49,7 @@ public class DynamicUtil {
                 buf.append(">");
             }
         }
-        buf.append("]");
+        buf.append(postfix);
         return buf;
    }
 

@@ -11,15 +11,17 @@ import java.util.*;
  */
 public class Invocation {
     private Class declaringClass;
-    private String name;
+    private String callerName;
+    private String methodName;
     private List parameterTypes;
     private Class returnType;
     private List parameterValues;
 
-    public Invocation(Class declaringClass, String name, Class[] parameterTypes,
+    public Invocation(Class declaringClass, String callerName, String name, Class[] parameterTypes,
                       Class returnType, Object[] parameterValues) {
         this.declaringClass = declaringClass;
-        this.name = name;
+        this.callerName = callerName;
+        this.methodName = name;
         this.parameterTypes = Arrays.asList(parameterTypes);
         this.returnType = returnType;
         if (parameterValues == null) {
@@ -29,8 +31,8 @@ public class Invocation {
         }
     }
 
-    public Invocation(Method method, Object[] parameterValues) {
-        this(method.getDeclaringClass(), method.getName(), method.getParameterTypes(),
+    public Invocation(Method method, String callerName, Object[] parameterValues) {
+        this(method.getDeclaringClass(), callerName, method.getName(), method.getParameterTypes(),
                 method.getReturnType(), parameterValues);
     }
 
@@ -39,7 +41,7 @@ public class Invocation {
     }
 
     public String getMethodName() {
-        return name;
+        return methodName;
     }
 
     public List getParameterTypes() {
@@ -63,7 +65,7 @@ public class Invocation {
     }
 
     public int hashCode() {
-        return name.hashCode() ^
+        return methodName.hashCode() ^
                 listHashCode(parameterTypes) ^
                 returnType.hashCode() ^
                 listHashCode(parameterValues);
@@ -79,21 +81,16 @@ public class Invocation {
 
     public boolean equals(Invocation call) {
         return call != null
-            && name.equals(call.name)
+            && methodName.equals(call.methodName)
             && parameterTypes.equals(call.parameterTypes)
             && returnType.equals(call.returnType)
             && parameterValues.equals(call.parameterValues);
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        buffer.append("Invocation: ");
-        writeDeclaringClassName(buffer).append(".").append(name).append("(");
-        DynamicUtil.join(parameterValues.toArray(), buffer);
-        buffer.append(")\n");
-        return buffer;
-    }
-    
-    private StringBuffer writeDeclaringClassName(StringBuffer buffer) {
-        return buffer.append(DynamicUtil.classShortName(declaringClass));
+        buffer.append("Invoked: ");
+        buffer.append(callerName).append(".").append(methodName);
+        DynamicUtil.join(parameterValues.toArray(), buffer, "(", ")");
+        return buffer.append("\n");
     }
 }

@@ -25,6 +25,6 @@ public class IsSame implements Constraint {
 	}
 
 	public String toString() {
-		return "the same object as <" + object + ">";
+		return "== <" + object + ">";
 	}
 }

@@ -13,7 +13,7 @@ public class VoidStubTest
 	VoidStub voidStub; 
 	
 	public void setUp() {
-		invocation = new Invocation( Void.class, "ignoredName", 
+		invocation = new Invocation( Void.class, "test", "ignoredName", 
 				new Class[0], void.class, new Object[0]);
 		voidStub  = new VoidStub();
 	}

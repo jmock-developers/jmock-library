@@ -90,7 +90,7 @@ public class CoreMockTest extends TestCase {
         mockDispatcher.dispatchResult = new Boolean(false);
 
         mockDispatcher.dispatchInvocation.setExpected(
-                new Invocation(Void.class, "equals", new Class[]{Object.class}, boolean.class,
+                new Invocation(Void.class, "test", "equals", new Class[]{Object.class}, boolean.class,
                         new Object[]{"not a proxy"}));
 
         assertFalse( "Should handle proxy inequality by calling through", 
@@ -101,7 +101,7 @@ public class CoreMockTest extends TestCase {
     public void testProxyEqualityWithNull() throws Exception {
         mockDispatcher.dispatchResult = new Boolean(true);
         mockDispatcher.dispatchInvocation.setExpected(
-                new Invocation(Void.class, "equals", new Class[]{Object.class}, boolean.class,
+                new Invocation(Void.class, "test", "equals", new Class[]{Object.class}, boolean.class,
                         new Object[]{null}));
 
         assertTrue("Proxy should handle null equality", proxy.equals(null));

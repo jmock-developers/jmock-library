@@ -10,6 +10,6 @@ public class NoArgumentsMatcher extends StatelessInvocationMatcher {
         return invocation.getParameterValues().isEmpty();
     }
     public StringBuffer writeTo(StringBuffer buffer) {
-        return buffer.append("No arguments");
+        return buffer.append("(no arguments)");
     }
 }

@@ -21,7 +21,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
     private MockInvokable invokable2 = new MockInvokable();
 
     public void setUp() throws NoSuchMethodException {
-        invocation = new Invocation(getDummyMethod(), null);
+        invocation = new Invocation(getDummyMethod(), "test", null);
         dispatcher = new LIFOInvocationDispatcher();
     }
 

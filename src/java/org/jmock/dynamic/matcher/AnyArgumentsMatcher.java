@@ -11,6 +11,6 @@ public class AnyArgumentsMatcher extends StatelessInvocationMatcher {
         return true;
     }
     public StringBuffer writeTo(StringBuffer buffer) {
-        return buffer.append("Any arguments");
+        return buffer.append("(any arguments)");
     }
 }
