@@ -1,10 +1,9 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.builder;
 
-import junit.framework.TestCase;
-
 import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
+import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
@@ -12,14 +11,14 @@ import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 import org.jmock.dynamock.C;
 
-public class InvocationMockerBuilderTest extends TestCase {
+public class InvocationMockerBuilderTest extends MockObjectTestCase {
     private MockStubMatchersCollection mocker = new MockStubMatchersCollection();
     private InvocationMockerBuilder builder = new InvocationMockerBuilder(mocker);
 
     public void testWhenPassedAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
-    	assertNotNull("Should be Stub Builder", builder.passed(new Constraint[0]));
+    	assertNotNull("Should be Stub Builder", builder.args(new Constraint[0]));
     	
     	mocker.verifyExpectations();
     }
@@ -27,7 +26,7 @@ public class InvocationMockerBuilderTest extends TestCase {
     public void testWhenPassedWithOneObjectArgumentAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
-    	assertNotNull("Should be Stub Builder", builder.passed(new Object()));
+    	assertNotNull("Should be Stub Builder", builder.args(eq(new Object())));
     	
     	mocker.verifyExpectations();
     }
@@ -36,7 +35,7 @@ public class InvocationMockerBuilderTest extends TestCase {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
     	assertNotNull("Should be Stub Builder", 
-    				  builder.passed(new Object(),new Object()));
+    				  builder.args(eq(new Object()), eq(new Object())));
     	
     	mocker.verifyExpectations();
     }

@@ -1,10 +1,9 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.builder;
 
-import junit.framework.TestCase;
-
 import org.jmock.Constraint;
 import org.jmock.builder.Mock;
+import org.jmock.builder.MockObjectTestCase;
 import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.InvocationMocker;
@@ -14,7 +13,7 @@ import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.stub.VoidStub;
 
 
-public class DynamicMockExample extends TestCase {
+public class DynamicMockExample extends MockObjectTestCase {
     public interface Market {
     	String[] listStocks();
     	int getPrice( String ticker );
@@ -71,11 +70,11 @@ public class DynamicMockExample extends TestCase {
         Agent agent = new Agent((Market) mockMarket.proxy());
         
         mockMarket.method("listStocks").noParams().willReturn(new String[]{"IBM","ORCL"});
-        mockMarket.method("getPrice").passed("IBM").willReturn(10)
+        mockMarket.method("getPrice").args(eq("IBM")).willReturn(10)
         	.expectOnce();
-        mockMarket.method("getPrice").passed("ORCL").willReturn(25)
+        mockMarket.method("getPrice").args(eq("ORCL")).willReturn(25)
         	.expectOnce();
-        mockMarket.method("buyStock").passed("IBM", new Integer(2)).isVoid()
+        mockMarket.method("buyStock").args(eq("IBM"), eq(2)).isVoid()
         	.expectOnce();
         
         agent.buyLowestPriceStock(20);
