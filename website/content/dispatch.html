@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Stubs, Expectations and the Dispatch of Mocked Methods</title>
+  <meta name="generator" content="amaya 8.5, see http://www.w3.org/Amaya/" />
+</head>
+
+<body>
+<h1>Stubs, Expectations and the Dispatch of Mocked Methods</h1>
+
+<p>Stubs and expectations are basically the same thing. A stub is just an
+expectation of zero or more calls to a method. The <code>stubs()</code>
+method is syntactic sugar to make the intent of the test more explicit.</p>
+
+<p>When a method is invoked on a mock object, the mock object searches for
+through its expectations in a last-in-first-out to find one that matches the
+invocation. After the invocation, an expectation might stop matching further
+invocations. E.g. an <code>expects(once())</code> expectation only matches
+once.</p>
+
+<p>If you set up the same expectation <var>n</var> times, the method can be
+called <var>n</var> times, and the "will" actions of those expectations will
+be executed in LIFO order.</p>
+
+<p>There are a couple of possible gotchas caused by this scheme:</p>
+<ul>
+  <li>if you create an expectation and then a stub for the same method, the
+    stub will always override the expectation and the expectation will never
+    be met.</li>
+  <li>if you create a stub and then an expectation for the same method, the
+    expectation will match, and when it stops matching the stub will be used
+    instead, masking test failures.</li>
+</ul>
+
+<p>The best thing to do is <em>not</em> set up multiple expectations and
+stubs for the same method with exactly the same matchers. Instead, use the
+<tt><code>onConsecutiveCalls</code></tt> method to create multiple actions
+for a method. For example:</p>
+
+<div class="Java Source">
+<pre>mock.expects(atLeastOnce()).method(m).with(...)
+   .will( onConsecutiveCalls(
+       returnValue(10),
+       returnValue(20),
+       throwException(new IOException("end of stream")) ) );</pre>
+</div>
+
+<p></p>
+</body>
+</html>
