@@ -3,13 +3,12 @@ package test.jmock.dynamic.testsupport;
 import org.jmock.Verifiable;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Stub;
-import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
 
 
 public class MockStub 
-	implements Stub, Verifiable 
+	implements Stub, Verifiable
 {
 	private String name;
 	
@@ -40,14 +39,7 @@ public class MockStub
 		return buffer;
 	}
 	
-    // TODO: stub class is not verifiable so remove this!
-	public ExpectationCounter verifyCalls = new ExpectationCounter("verify #calls");
-	
 	public void verify() {
-		verifyCalls.inc();
-	}
-	
-	public void verifyExpectations() {
 		Verifier.verifyObject(this);
 	}
 }
