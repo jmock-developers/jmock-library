@@ -15,8 +15,8 @@ public class ExpectNotCalledAcceptanceTest
     public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
         Mock mock = new Mock(MockedInterface.class,"mock");
         
-        mock.stub().method("method").noParams();
-        mock.expect(notCalled()).method("method").noParams();
+        mock.stub().method("method").withNoArguments();
+        mock.expect(notCalled()).method("method").withNoArguments();
         
         try {
             ((MockedInterface)mock.proxy()).method();
@@ -30,8 +30,8 @@ public class ExpectNotCalledAcceptanceTest
     public void testExpectNotCalledVerifiesIfNotCalled() {
         Mock mock = new Mock(MockedInterface.class,"mock");
         
-        mock.stub().method("method").noParams().isVoid();
-        mock.expect(notCalled()).method("method").noParams();
+        mock.stub().method("method").withNoArguments().isVoid();
+        mock.expect(notCalled()).method("method").withNoArguments();
         
         mock.verify();
     }

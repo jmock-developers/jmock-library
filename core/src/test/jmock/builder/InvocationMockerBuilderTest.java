@@ -88,7 +88,7 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     public void testNoParamsAddsNoArgumentMatcher() {
     	mocker.addedMatcher.setExpected(NoArgumentsMatcher.INSTANCE);
     	
-    	assertNotNull("Should be Stub Builder", builder.noParams());
+    	assertNotNull("Should be Stub Builder", builder.withNoArguments());
     	
     	mocker.verifyExpectations();
     }
@@ -96,7 +96,7 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     public void testAnyParamsAddsAnyArgumentMatcher() {
         mocker.addedMatcher.setExpected(AnyArgumentsMatcher.INSTANCE);
         
-        assertNotNull("Should be Stub Builder", builder.anyParams());
+        assertNotNull("Should be Stub Builder", builder.withAnyArguments());
         
         mocker.verifyExpectations();
     }
