@@ -51,7 +51,7 @@ public class InvokedAfterMatcherTest extends TestCase {
 	public void testIdentifiesPriorCallInDescription() {
 		StringBuffer buf = new StringBuffer();
 		
-		after.writeTo(buf);
+		after.describeTo(buf);
 		
 		assertTrue( "should include 'after <id of prior call>' in description",
 					buf.toString().indexOf("after "+PRIOR_CALL_ID) >= 0 );

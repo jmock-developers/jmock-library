@@ -9,7 +9,7 @@ public class InvokeAtLeastOnceMatcher
     	verifyHasBeenInvoked();
     }
     
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         buffer.append("expected at least once");
         if( hasBeenInvoked() ) {
             buffer.append(" and has been invoked");

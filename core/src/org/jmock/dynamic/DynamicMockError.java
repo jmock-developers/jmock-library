@@ -26,7 +26,7 @@ public class DynamicMockError
         buffer.append("Invoked: ");
         invocation.writeTo(buffer);
         buffer.append("in:\n");
-        dispatcher.writeTo(buffer);
+        dispatcher.describeTo(buffer);
         return buffer;
     }
     

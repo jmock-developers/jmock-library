@@ -102,7 +102,7 @@ public abstract class AbstractDynamicMock
             super(methodName, arguments, stub);
         }
 
-        public StringBuffer writeTo(StringBuffer buffer) {
+        public StringBuffer describeTo(StringBuffer buffer) {
             return buffer;
         }
     }

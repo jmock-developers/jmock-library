@@ -29,7 +29,7 @@ public class InvokedAfterMatcher
 		}
 	}
 	
-	public StringBuffer writeTo(StringBuffer buffer) {
+	public StringBuffer describeTo(StringBuffer buffer) {
 		return buffer.append("after ").append(priorCallDescription);
 	}
 }

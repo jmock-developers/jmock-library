@@ -23,7 +23,7 @@ public abstract class CustomStub implements Stub {
         this.description = description;
 	}
 	
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append(description);
     }
 }

@@ -13,7 +13,7 @@ public class VoidStub
         return null;
     }
     
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("returns <void>");
     }
 }

@@ -80,15 +80,15 @@ public class InvocationMocker
         this.stub = stub;
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         Iterator it = matchers.iterator();
         while (it.hasNext()) {
             int oldLength = buffer.length();
-            ((InvocationMatcher) it.next()).writeTo(buffer);
+            ((InvocationMatcher) it.next()).describeTo(buffer);
             
             if( buffer.length() != oldLength ) buffer.append(", ");
         }
-        stub.writeTo(buffer);
+        stub.describeTo(buffer);
         
         if( name != null ) {
             buffer.append( " [").append(name).append("]");
@@ -97,6 +97,6 @@ public class InvocationMocker
     }
     
     public String toString() {
-        return writeTo(new StringBuffer()).toString();
+        return describeTo(new StringBuffer()).toString();
     }
 }

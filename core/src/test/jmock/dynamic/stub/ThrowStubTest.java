@@ -32,7 +32,7 @@ public class ThrowStubTest
 	public void testIncludesDetailsOfThrowableInDescription() {
 		StringBuffer buffer = new StringBuffer();
 		
-		throwStub.writeTo(buffer);
+		throwStub.describeTo(buffer);
 		
 		String description = buffer.toString();
 		

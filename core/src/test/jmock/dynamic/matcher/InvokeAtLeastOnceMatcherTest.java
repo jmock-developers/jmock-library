@@ -43,7 +43,7 @@ public class InvokeAtLeastOnceMatcherTest extends TestCase {
     private static final String MATCH_DESCRIPTION = "expected at least once";
     
 	public void testWritesDescriptionOfMatch() {
-		String description = matcher.writeTo(new StringBuffer()).toString();
+		String description = matcher.describeTo(new StringBuffer()).toString();
 		
 		assertEquals( "should describe match", MATCH_DESCRIPTION, description );
 	}
@@ -51,7 +51,7 @@ public class InvokeAtLeastOnceMatcherTest extends TestCase {
     public void testReportsWhetherInvokedInDescription() {
         matcher.invoked(emptyInvocation);
         
-        String description = matcher.writeTo(new StringBuffer()).toString();
+        String description = matcher.describeTo(new StringBuffer()).toString();
         
         assertTrue( "should describe match", 
                     description.indexOf(MATCH_DESCRIPTION) >= 0 );

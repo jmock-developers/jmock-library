@@ -17,7 +17,7 @@ public class ReturnStub
         return result;
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("returns <").append(result).append(">");
     }
 }

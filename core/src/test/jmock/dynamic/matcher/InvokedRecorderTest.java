@@ -58,6 +58,6 @@ public class InvokedRecorderTest extends TestCase {
     
     public void testDoesNotWriteDescription() {
     	assertEquals( "should not be any description",
-    				  "", (recorder.writeTo(new StringBuffer())).toString() );
+    				  "", (recorder.describeTo(new StringBuffer())).toString() );
     }
 }

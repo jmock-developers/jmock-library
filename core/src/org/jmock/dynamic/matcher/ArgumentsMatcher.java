@@ -29,7 +29,7 @@ public class ArgumentsMatcher
         return true;
     }
     
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         buffer.append("( ");
         for (int i = 0; i < constraints.length; i++) {
             if (i > 0) buffer.append(", ");

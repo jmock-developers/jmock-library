@@ -41,7 +41,7 @@ public class MockInvocationDispatcher
         return dispatchResult;
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
     	return buffer.append( writeToOutput );
     }
 }

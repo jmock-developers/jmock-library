@@ -24,7 +24,7 @@ public class InvocationMockerTest extends TestCase {
             return true;
         }
 
-        public StringBuffer writeTo(StringBuffer buffer) {
+        public StringBuffer describeTo(StringBuffer buffer) {
             return buffer.append("match all");
         }
     };
@@ -33,7 +33,7 @@ public class InvocationMockerTest extends TestCase {
             return false;
         }
 
-        public StringBuffer writeTo(StringBuffer buffer) {
+        public StringBuffer describeTo(StringBuffer buffer) {
             return buffer.append("match none");
         }
     };
@@ -52,7 +52,7 @@ public class InvocationMockerTest extends TestCase {
             this.invocation.setActual(actualInvocation);
         }
 
-        public StringBuffer writeTo(StringBuffer buffer) {
+        public StringBuffer describeTo(StringBuffer buffer) {
             return buffer.append("Mock matcher");
         }
 
@@ -69,7 +69,7 @@ public class InvocationMockerTest extends TestCase {
             return "stub result";
         }
 
-        public StringBuffer writeTo(StringBuffer buffer) {
+        public StringBuffer describeTo(StringBuffer buffer) {
             return buffer.append("Mock stub");
         }
 
@@ -170,7 +170,7 @@ public class InvocationMockerTest extends TestCase {
         
         mocker.setName( name );
         
-        String description = mocker.writeTo(new StringBuffer()).toString();
+        String description = mocker.describeTo(new StringBuffer()).toString();
         assertTrue( "name should be in description",
                     description.indexOf(name) >= 0 );
     }

@@ -41,7 +41,7 @@ public class MockInvocationMatcher
 	public ExpectationValue writeToBuffer = new ExpectationValue("writeTo buffer");
 	public String writeToOutput = "";
 	
-	public StringBuffer writeTo(StringBuffer buffer) {
+	public StringBuffer describeTo(StringBuffer buffer) {
 		writeToBuffer.setActual(buffer);
 		buffer.append(writeToOutput);
 		return buffer;

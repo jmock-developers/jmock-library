@@ -17,7 +17,7 @@ public class TestFailureStub implements Stub {
 		throw new AssertionFailedError(errorMessage);
     }
     
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("fails the test and reports \"" + errorMessage + "\"");
     }
 }
