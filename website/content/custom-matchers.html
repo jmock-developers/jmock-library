@@ -95,7 +95,7 @@ public void testListChildren() {
         BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
         PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
 
-        for( int i = 0; i < properties.length; i++ ) {
+        for( int i = 0; i &lt; properties.length; i++ ) {
             if( invocation.invokedMethod.equals( properties[i].getReadMethod() ) ) return true;
         }
         return false;
@@ -129,7 +129,7 @@ public void testListChildren() {
             BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
             PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
 
-            for( int i = 0; i < properties.length; i++ ) {
+            for( int i = 0; i &lt; properties.length; i++ ) {
                 if( invocation.invokedMethod.equals( properties[i].getReadMethod() ) ) return true;
             }
             return false;
