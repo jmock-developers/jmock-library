@@ -8,7 +8,9 @@ import org.jmock.dynamic.stub.ReturnStub;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class CoreMock implements DynamicMock {
+public class CoreMock 
+	implements DynamicMock 
+{
     private InvocationDispatcher invocationDispatcher;
     private Object proxy;
     private String name;
@@ -30,8 +32,6 @@ public class CoreMock implements DynamicMock {
         try {
             if (invocation.isCheckingEqualityOnProxy()) {
                 return new Boolean(args[0] == this.proxy);
-            } else if (invocation.isMockNameGetter()) {
-                return this.getMockName();
             } else {
                 return invocationDispatcher.dispatch(invocation);
             }

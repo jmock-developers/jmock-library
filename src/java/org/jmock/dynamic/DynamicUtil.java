@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,14 +75,14 @@ public class DynamicUtil {
         if (element == null) {
             return "null";
         }
+        
         if (Proxy.isProxyClass(element.getClass())) {
-            try {
-                Method mockNameMethod = CoreMock.class.getDeclaredMethod("getMockName", new Class[0]);
-                Object debugableResult = Proxy.getInvocationHandler(element).invoke(element, mockNameMethod, new Object[0]);
-                return debugableResult.toString();
-            } catch (Throwable e) {
-                return element.getClass().getName();
-            }
+        	Object invocationHandler = Proxy.getInvocationHandler(element);
+        	if( invocationHandler instanceof DynamicMock ) {
+        		return invocationHandler.toString();
+        	} else {
+        		return element.toString();
+        	}
         }
 
         if (element.getClass().isArray()) {
@@ -110,9 +109,7 @@ public class DynamicUtil {
 
     public static void join(Object[] elements, StringBuffer buf) {
         for (int i = 0; i < elements.length; i++) {
-            if (i > 0) {
-                buf.append(", ");
-            }
+            if (i > 0) buf.append(", ");
 
             Object element = elements[i];
 

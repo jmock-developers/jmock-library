@@ -81,7 +81,7 @@ public class CoreMockTest extends TestCase {
 
         mockDispatcher.dispatchInvocation.setExpectNothing();
 
-        assertTrue("Proxy equality is implemented directly", proxy.equals(proxy));
+        assertTrue( "Proxy equality is implemented directly", proxy.equals(proxy));
         mockDispatcher.verifyExpectations();
     }
 
@@ -92,7 +92,8 @@ public class CoreMockTest extends TestCase {
                 new Invocation(Void.class, "equals", new Class[]{Object.class}, boolean.class,
                         new Object[]{"not a proxy"}));
 
-        assertFalse("Should handle proxy inequality by calling through", proxy.equals("not a proxy"));
+        assertFalse( "Should handle proxy inequality by calling through", 
+                     proxy.equals("not a proxy") );
         mockDispatcher.verifyExpectations();
     }
 
@@ -106,24 +107,18 @@ public class CoreMockTest extends TestCase {
         mockDispatcher.verifyExpectations();
     }
 
-    public void testCallingGetMockNameOnProxyReturnsNameOfUnderlyingMock() {
-        mockDispatcher.dispatchInvocation.setExpectNothing();
-
-        assertEquals("proxy.getMockName() returns name of underlying mock", MOCK_NAME, proxy.getMockName());
-
-        mockDispatcher.verifyExpectations();
-    }
-
     public void testGeneratesMockNameFromInterfaceNameIfNoNameSpecified() throws Exception {
         assertEquals("mockString", CoreMock.mockNameFromClass(String.class));
     }
 
     public void testResultOfToStringContainsName() {
-        AssertMo.assertIncludes("result of toString() should include name", MOCK_NAME, coreMock.toString());
+        AssertMo.assertIncludes( "result of toString() should include name", 
+        						 MOCK_NAME, coreMock.toString());
     }
 
     public void testProxyToString() throws Exception {
-        assertEquals("Should get a coreMock name without touching the underlying coreMock", MOCK_NAME, DynamicUtil.proxyToString(proxy));
+        assertEquals( "Should get a coreMock name without touching the underlying coreMock", 
+    				  MOCK_NAME, DynamicUtil.proxyToString(proxy));
         coreMock.verify();  // should not fail on a proxyToString call
     }
 
