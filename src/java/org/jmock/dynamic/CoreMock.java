@@ -67,8 +67,6 @@ public class CoreMock
         return this.name;
     }
     
-    // TODO: need method to add invokable at start of list, to allow default behaviours to
-    //       be added to the mock without hiding the default toString and equals methods.
     public void add(Invokable invokable) {
         invocationDispatcher.add(invokable);
     }
