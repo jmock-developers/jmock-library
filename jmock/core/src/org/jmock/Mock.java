@@ -14,6 +14,8 @@ public class Mock
 {
     DynamicMock coreMock;
     HashMap idTable = new HashMap();
+    String pendingMethodName = null;
+    IdentityBuilder pendingBuilder = null;
     
     
     public Mock(Class mockedType) {
@@ -45,12 +47,17 @@ public class Mock
     }
     
     public NameMatchBuilder stub() {
+        flushPendingMethodName();
+        
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         coreMock.add(mocker);
+        
         return new InvocationMockerBuilder(mocker,this);
     }
     
     public NameMatchBuilder expect( InvocationMatcher expectation ) {
+        flushPendingMethodName();
+        
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         
         mocker.addMatcher(expectation);
@@ -78,23 +85,50 @@ public class Mock
         coreMock.setDefaultStub(newDefaultStub);
     }
     
-    public MatchBuilder lookupID(String id) {
-		if( ! idTable.containsKey(id) ) {
-            throw new AssertionFailedError("no expected invocation named '"+id+"'");
-		} 
-		return (MatchBuilder)idTable.get(id);
+    public MatchBuilder lookupIDForSameMock(String id) {
+        return lookupID(id);
+    }
+    
+    public MatchBuilder lookupIDForOtherMock(String id) {
+        flushPendingMethodName();
+        return lookupID(id);
 	}
 	
-    public void registerUniqueID( String id, IdentityBuilder builder ) {
+    private MatchBuilder lookupID(String id) throws AssertionFailedError {
+        if( ! idTable.containsKey(id) ) {
+            throw new AssertionFailedError("no expected invocation named '"+id+"'");
+        }
+        
+        return (MatchBuilder)idTable.get(id);
+    }
+    
+    public void registerUniqueID( String id, MatchBuilder builder ) {
         if( idTable.containsKey(id) ) {
             throw new AssertionFailedError(
                 "duplicate invocation named \"" + id + "\"" );
         }
         
-        registerID( id, builder );
+        storeID( id, builder );
     }
     
-	public void registerID( String id, IdentityBuilder builder ) {
+    public void registerMethodName( String id, MatchBuilder builder ) {
+        pendingMethodName = id;
+        pendingBuilder = builder;
+    }
+    
+	private void storeID( String id, IdentityBuilder builder ) {
         idTable.put( id, builder );
 	}
+    
+    private void flushPendingMethodName() {
+        if( pendingMethodName != null ) {
+            storeID( pendingMethodName, pendingBuilder );
+            clearPendingMethodName();
+        }
+    }
+    
+    private void clearPendingMethodName() {
+        pendingMethodName = null;
+        pendingBuilder = null;
+    }
 }

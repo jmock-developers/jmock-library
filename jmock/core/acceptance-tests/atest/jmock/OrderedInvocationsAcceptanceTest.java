@@ -1,15 +1,15 @@
 package atest.jmock;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
 import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 import org.jmock.core.DynamicMockError;
 import org.jmock.expectation.AssertMo;
 
 
 public class OrderedInvocationsAcceptanceTest 
-    extends TestCase
+    extends MockObjectTestCase
 {
 	private Mock mock;
 	private ExampleInterface proxy;
@@ -18,6 +18,7 @@ public class OrderedInvocationsAcceptanceTest
 		void hello();
         void goodbye();
         void moreTeaVicar();
+        int count();
     }
     
     public void setUp() {
@@ -74,10 +75,18 @@ public class OrderedInvocationsAcceptanceTest
 	
 	public void testCanUseMethodNameAsDefaultInvocationID() {
 		mock.stub().method("hello").isVoid();
-		mock.stub().method("goodbye").after("hello");
-		
-		mock.verify();
+		mock.stub().method("goodbye").after("hello"); // should not throw error
 	}
+    
+    public void testCanUseMethodNameToSpecifyOrderOfCallsToSameMethod() {
+        mock.stub().method("count").will(returnValue(1));
+        mock.stub().method("count").after("count").will(returnValue(2));
+        mock.stub().method("count").after("count").will(returnValue(3));
+        
+        assertEquals("count 1", 1, proxy.count() );
+        assertEquals("count 2", 2, proxy.count() );
+        assertEquals("count 3", 3, proxy.count() );
+    }
 	
 	public void testCanSpecifyOrderOverDifferentMocks() {
 		Mock otherMock = new Mock( ExampleInterface.class, "otherMock" );
@@ -139,6 +148,21 @@ public class OrderedInvocationsAcceptanceTest
                                      duplicateID, ex.getMessage() );
             return;
         }
+        fail("should have failed");
+    }
+    
+    public void testDetectsMissingIDs() {
+        String missingID = "MISSING-ID";
+        
+        try {
+            mock.stub().method("hello").after(missingID);
+        }
+        catch( AssertionFailedError ex ) {
+            AssertMo.assertIncludes( "error message contains missing id",
+                                     missingID, ex.getMessage() );
+            return;
+        }
+        
         fail("should have failed");
     }
 }
