@@ -1,5 +1,7 @@
 package org.jmock.dynamic.matcher;
 
+import junit.framework.AssertionFailedError;
+
 import org.jmock.dynamic.Invocation;
 
 
@@ -17,7 +19,14 @@ public class InvokedAfterMatcher
 	}
 	
 	public boolean matches(Invocation invocation) {
-		return priorCallRecorder.hasBeenInvoked();
+		return true;
+	}
+	
+	public void invoked( Invocation invocation ) {
+		if( !priorCallRecorder.hasBeenInvoked() ) {
+			throw new AssertionFailedError( 
+				"called out of order; should be called after " + priorCallDescription );
+		}
 	}
 	
 	public StringBuffer writeTo(StringBuffer buffer) {

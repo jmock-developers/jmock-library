@@ -4,6 +4,7 @@ import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.InvokedAfterMatcher;
 import org.jmock.dynamic.matcher.InvokedRecorder;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 
@@ -26,14 +27,22 @@ public class InvokedAfterMatcherTest extends TestCase {
 		after = new InvokedAfterMatcher( recorder, PRIOR_CALL_ID );
 	}
 	
-	public void testDoesNotMatchBeforeCallToOtherInvocation() {		
-		assertFalse( "should not match", after.matches(invocation2) );
+	public void testAlwaysMatches() {		
+		assertTrue( "should match before previous invocation", after.matches(invocation2) );
+		recorder.invoked(invocation1);
+		assertTrue( "should match after previous invocation", after.matches(invocation2) );
 	}
 	
-	public void testMatchesAfterCallToOtherInvocation() {
-		recorder.invoked(invocation1);
-		
-		assertTrue( "should now match", after.matches(invocation2) );
+	public void testFailsIfInvokedOutOfOrder() {
+		try {
+			after.invoked(invocation2);
+		}
+		catch( AssertionFailedError ex ) {
+			assertTrue( "should contain description of prior call",
+						ex.getMessage().indexOf(PRIOR_CALL_ID) >= 0 );
+			return;
+		}
+		fail("AssertionFailedError expected");
 	}
 	
 	public void testIdentifiesPriorCallInDescription() {
