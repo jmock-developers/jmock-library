@@ -23,15 +23,15 @@ public class VoidMockTest extends AbstractMockTest {
         }
 
         public void expectNoParams() {
-            mockTarget.expect("noParams");
+            mockTarget.expectVoid("noParams");
         }
 
         public void stubOneParam() {
-        	mockTarget.match("oneParam", "one");
+        	mockTarget.stubVoid("oneParam", "one");
         }
 
         public void expectOneParam() {
-            mockTarget.expect("oneParam", "one");
+            mockTarget.expectVoid("oneParam", "one");
         }
 
         public void stubTwoParams() {
@@ -43,7 +43,7 @@ public class VoidMockTest extends AbstractMockTest {
         }
 
         public void expectNotNoParams() {
-            mockTarget.expect("notNoParams");
+            mockTarget.expectVoid("notNoParams");
         }
 
         public void callNoParams() {
