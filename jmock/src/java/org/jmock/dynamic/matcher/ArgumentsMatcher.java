@@ -2,7 +2,7 @@
 package org.jmock.dynamic.matcher;
 
 import org.jmock.Constraint;
-import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.framework.Invocation;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package org.jmock.dynamic.matcher;
 
 import org.jmock.Constraint;
 import org.jmock.constraint.IsEqual;
-import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.framework.Invocation;
 
 public class MethodNameMatcher
     extends StatelessInvocationMatcher 

@@ -3,7 +3,7 @@ package test.jmock.dynamic.matcher;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.framework.Invocation;
 import org.jmock.dynamic.matcher.CallOnceMatcher;
 
 public class CallOnceMatcherTest extends TestCase {

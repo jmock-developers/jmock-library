@@ -4,7 +4,7 @@ package test.jmock.dynamic.matcher;
 import test.jmock.AbstractTestCase;
 import org.jmock.C;
 import org.jmock.Constraint;
-import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.framework.Invocation;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 
 

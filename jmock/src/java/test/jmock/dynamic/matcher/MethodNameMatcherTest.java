@@ -3,9 +3,9 @@ package test.jmock.dynamic.matcher;
 
 import junit.framework.TestCase;
 
-import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.framework.Invocation;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
-import test.jmock.dynamic.support.MockConstraint;
+import test.jmock.dynamic.testsupport.MockConstraint;
 
 
 public class MethodNameMatcherTest 

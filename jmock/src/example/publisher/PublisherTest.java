@@ -1,7 +1,8 @@
 package publisher;
 
 import junit.framework.TestCase;
-import org.jmock.Mock;
+
+import org.jmock.dynamock.Mock;
 
 public class PublisherTest extends TestCase {
 
