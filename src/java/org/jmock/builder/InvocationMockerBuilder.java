@@ -2,6 +2,7 @@
 package org.jmock.builder;
 
 import org.jmock.Constraint;
+import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
@@ -55,7 +56,7 @@ public class InvocationMockerBuilder
     	mocker.setStub(VoidStub.INSTANCE);
     	return this;
     }
-
+    
     public ExpectationBuilder willReturn(boolean returnValue) {
         return willReturn(new Boolean(returnValue));
     }
@@ -92,15 +93,23 @@ public class InvocationMockerBuilder
         mocker.setStub(new ReturnStub(returnValue));
         return this;
     }
-
+    
     public ExpectationBuilder willThrow(Throwable throwable) {
         mocker.setStub(new ThrowStub(throwable));
         return this;
     }
     
+    public ExpectationBuilder addExpectation( InvocationMatcher expectation ) {
+        mocker.addMatcher( expectation );
+        return this;
+    }
+    
 	public ExpectationBuilder expectOnce() {
-		mocker.addMatcher( new InvokeOnceMatcher() );
-		return this;
+		return addExpectation( new InvokeOnceMatcher() );
 	}
-
+	
+    public ExpectationBuilder expectAfter( ExpectationBuilder previousCall ) {
+        //TODO Complete this method
+        return this;
+    }
 }
