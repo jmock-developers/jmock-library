@@ -1,20 +1,14 @@
 package test.jmock.core.testsupport;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import junit.framework.TestCase;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
-<<<<<<< MethodFactoryTest.java
+
 public class MethodFactoryTest extends TestCase
 {
-	private class ReturnType
-	{
-	};
-=======
-public class MethodFactoryTest extends TestCase {
-	private class ReturnType {}
->>>>>>> 1.3
+	private class ReturnType {};
 
 	static final String METHOD_NAME = "METHOD_NAME";
 	static final Class[] ARG_TYPES = new Class[]{int.class, Object.class, double[].class, String[].class};

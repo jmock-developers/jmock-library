@@ -1,9 +1,10 @@
 package test.jmock.core.testsupport;
 
-import java.lang.reflect.Method;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Constants;
 import org.objectweb.asm.Type;
+
+import java.lang.reflect.Method;
 
 
 public class MethodFactory extends ClassLoader
@@ -55,16 +56,11 @@ public class MethodFactory extends ClassLoader
 		}
 	}
 
-<<<<<<< MethodFactory.java
 	private static String nameToClassFormat( String name ) {
 		return name.replace('.', '/');
-=======
-	static String nameToClassFormat( String name ) {
-		return name.replace('.','/');
->>>>>>> 1.2
 	}
 
-	static String[] classNamesInClassFormat( Class[] classes ) {
+	private static String[] classNamesInClassFormat( Class[] classes ) {
 		String[] namesInClassFormat = new String[classes.length];
 
 		for (int i = 0; i < classes.length; i++) {
@@ -74,13 +70,8 @@ public class MethodFactory extends ClassLoader
 		return namesInClassFormat;
 	}
 
-<<<<<<< MethodFactory.java
 	private static String methodDescriptor( Class returnClass, Class[] argClasses ) {
 		return Type.getMethodDescriptor(Type.getType(returnClass), classesToTypes(argClasses));
-=======
-	static String methodDescriptor( Class returnClass, Class[] argClasses) {
-		return Type.getMethodDescriptor( Type.getType(returnClass), classesToTypes(argClasses) );
->>>>>>> 1.2
 	}
 
 	private static Type[] classesToTypes( Class[] classes ) {

@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.jmock.core.Invocation;
 import org.jmock.core.matcher.InvokedAfterMatcher;
 import org.jmock.core.matcher.InvokedRecorder;
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class InvokedAfterMatcherTest extends TestCase
@@ -18,19 +19,18 @@ public class InvokedAfterMatcherTest extends TestCase
 
 
 	public void setUp() {
-<<<<<<< InvokedAfterMatcherTest.java
 		MethodFactory methodFactory = new MethodFactory();
 
-		Invocation invocation1 = new Invocation("INVOKED-OBJECT-1",
-		                                        methodFactory.newMethod("invocation1", MethodFactory.NO_ARGUMENTS, Void.class, MethodFactory.NO_EXCEPTIONS),
-		                                        new Object[0]);
+		invocation1 = new Invocation("INVOKED-OBJECT-1",
+		                             methodFactory.newMethod("invocation1", MethodFactory.NO_ARGUMENTS,
+		                                                     Void.class, MethodFactory.NO_EXCEPTIONS),
+		                             new Object[0]);
 
-		Invocation invocation2 = new Invocation("INVOKED-OBJECT-2",
-		                                        methodFactory.newMethod("invocation2", MethodFactory.NO_ARGUMENTS, Void.class, MethodFactory.NO_EXCEPTIONS),
-		                                        new Object[0]);
+		invocation2 = new Invocation("INVOKED-OBJECT-2",
+		                             methodFactory.newMethod("invocation2", MethodFactory.NO_ARGUMENTS,
+		                                                     Void.class, MethodFactory.NO_EXCEPTIONS),
+		                             new Object[0]);
 
-=======
->>>>>>> 1.3
 		recorder = new InvokedRecorder();
 		after = new InvokedAfterMatcher(recorder, PRIOR_CALL_ID);
 	}

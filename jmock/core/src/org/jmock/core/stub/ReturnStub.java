@@ -1,23 +1,11 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.core.stub;
 
-<<<<<<< ReturnStub.java
 import java.util.HashMap;
 import java.util.Map;
 import junit.framework.Assert;
-=======
-import java.util.HashMap;
-import java.util.Map;
-
-import junit.framework.Assert;
-
->>>>>>> 1.6
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
-<<<<<<< ReturnStub.java
-
-=======
->>>>>>> 1.6
 
 public class ReturnStub
         extends Assert

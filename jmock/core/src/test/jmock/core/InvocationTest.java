@@ -3,15 +3,7 @@ package test.jmock.core;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-<<<<<<< InvocationTest.java
-=======
-
->>>>>>> 1.5
 import junit.framework.TestCase;
-<<<<<<< InvocationTest.java
-=======
-
->>>>>>> 1.5
 import org.jmock.core.Invocation;
 import org.jmock.expectation.AssertMo;
 
