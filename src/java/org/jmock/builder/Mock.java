@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
-import org.jmock.dynamic.framework.CoreMock;
-import org.jmock.dynamic.framework.DynamicMock;
-import org.jmock.dynamic.framework.InvocationMocker;
-import org.jmock.dynamic.framework.LIFOInvocationDispatcher;
+import org.jmock.dynamic.CoreMock;
+import org.jmock.dynamic.DynamicMock;
+import org.jmock.dynamic.InvocationMocker;
+import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.expectation.Verifiable;
 

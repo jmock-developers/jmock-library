@@ -1,8 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic.testsupport;
 
-import org.jmock.dynamic.framework.Invocation;
-import org.jmock.dynamic.framework.Invokable;
+import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.Invokable;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.Verifier;

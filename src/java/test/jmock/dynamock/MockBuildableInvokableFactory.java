@@ -1,10 +1,10 @@
 package test.jmock.dynamock;
 
 import org.jmock.Constraint;
-import org.jmock.dynamic.framework.BuildableInvokable;
-import org.jmock.dynamic.framework.InvocationMatcher;
-import org.jmock.dynamic.framework.Invokable;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.BuildableInvokable;
+import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.Invokable;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamock.BuildableInvokableFactory;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationList;

@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.dynamic.framework;
+package test.jmock.dynamic;
 
 import junit.framework.TestCase;
 
 import org.jmock.dynamock.Mock;
-import org.jmock.dynamic.framework.Invocation;
+import org.jmock.dynamic.Invocation;
 import org.jmock.expectation.AssertMo;
 
 import java.lang.reflect.Method;

@@ -3,7 +3,7 @@ package test.jmock.constraint;
 
 import junit.framework.TestCase;
 import org.jmock.Constraint;
-import test.jmock.dynamic.framework.DummyInterface;
+import test.jmock.dynamic.DummyInterface;
 
 import org.jmock.dynamock.Mock;
 import org.jmock.expectation.AssertMo;

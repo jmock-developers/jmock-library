@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.dynamic.framework;
+package org.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 import org.jmock.dynamic.matcher.MethodNameMatcher;

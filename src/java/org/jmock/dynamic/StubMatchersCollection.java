@@ -1,4 +1,4 @@
-package org.jmock.dynamic.framework;
+package org.jmock.dynamic;
 
 public interface StubMatchersCollection {
 	public abstract void addMatcher(InvocationMatcher matcher);

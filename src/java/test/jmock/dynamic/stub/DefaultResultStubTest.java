@@ -1,7 +1,7 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic.stub;
 
-import org.jmock.dynamic.framework.Invocation;
+import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.stub.DefaultResultStub;
 import org.jmock.expectation.AssertMo;
 

@@ -2,10 +2,10 @@
 package org.jmock.dynamock;
 
 import org.jmock.Constraint;
-import org.jmock.dynamic.framework.BuildableInvokable;
-import org.jmock.dynamic.framework.InvocationMatcher;
-import org.jmock.dynamic.framework.InvocationMocker;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.BuildableInvokable;
+import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.InvocationMocker;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.CallOnceMatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
