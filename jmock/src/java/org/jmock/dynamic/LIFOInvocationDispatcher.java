@@ -2,15 +2,23 @@
 package org.jmock.dynamic;
 
 import org.jmock.Verifiable;
+import org.jmock.dynamic.stub.CustomStub;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-public class LIFOInvocationDispatcher implements InvocationDispatcher {
-
+public class LIFOInvocationDispatcher 
+    implements InvocationDispatcher 
+{
     private ArrayList invokables = new ArrayList();
-
+    private Stub defaultStub = new CustomStub("report no matching method") {
+    	public Object invoke( Invocation invocation ) throws Throwable {
+    		throw new DynamicMockError( invocation, LIFOInvocationDispatcher.this, 
+    				                    "No match found" );
+        }
+    };
+    
     public Object dispatch(Invocation invocation) throws Throwable {
         ListIterator i = invokables.listIterator(invokables.size());
         while (i.hasPrevious()) {
@@ -19,9 +27,10 @@ public class LIFOInvocationDispatcher implements InvocationDispatcher {
                 return invokable.invoke(invocation);
             }
         }
-        throw new DynamicMockError(invocation, this, "No match found");
+        
+        return defaultStub.invoke(invocation);
     }
-
+    
     public void add(Invokable invokable) {
         invokables.add(invokable);
     }
