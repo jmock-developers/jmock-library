@@ -189,6 +189,7 @@
             <fileset file="README.txt"/>
             <fileset file="LICENSE.txt"/>
             <fileset file="VERSION"/>
+            <fileset file="CHANGELOG"/>
             <fileset file="build.properties"/>
             <fileset file="overview.html"/>
         </copy>
