@@ -3,7 +3,7 @@ package org.jmock.builder;
 
 import org.jmock.C;
 import org.jmock.Constraint;
-import org.jmock.dynamic.framework.InvocationMocker;
+import org.jmock.dynamic.framework.StubMatchersCollection;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
@@ -11,15 +11,10 @@ import org.jmock.dynamic.stub.VoidStub;
 
 public class InvocationMockerBuilder implements MatchBuilder, ExpectationBuilder {
 
-    private InvocationMocker mocker;
+    private StubMatchersCollection mocker;
 
-    public InvocationMockerBuilder(InvocationMocker mocker) {
+    public InvocationMockerBuilder(StubMatchersCollection mocker) {
         this.mocker = mocker;
-    }
-
-    public ExpectationBuilder isVoid() {
-        mocker.setStub(new VoidStub());
-        return this;
     }
 
 	public StubBuilder whenPassed(Object arg1) {
@@ -31,7 +26,12 @@ public class InvocationMockerBuilder implements MatchBuilder, ExpectationBuilder
 		return this;
 	}
 
-	public ExpectationBuilder willReturn(Object returnValue) {
+    public ExpectationBuilder isVoid() {
+    	mocker.setStub(new VoidStub());
+    	return this;
+    }
+
+    public ExpectationBuilder willReturn(Object returnValue) {
         mocker.setStub(new ReturnStub(returnValue));
         return this;
     }
