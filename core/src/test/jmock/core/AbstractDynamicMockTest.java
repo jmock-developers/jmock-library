@@ -43,7 +43,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
                    mockedType(), coreMock.getMockedType());
     }
 
-    public void testMockAnnotatesAssertionFailedError()
+    public void testAnnotatesAssertionFailedErrorsWithDetailsOfInvocation()
             throws Throwable {
         final String originalMessage = "original message";
 
@@ -60,7 +60,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
         }
     }
 
-    public void testProxyReturnsConfiguredResult() throws Throwable {
+    public void testReturnsConfiguredResultFromProxy() throws Throwable {
         final String RESULT = "configured result";
 
         mockDispatcher.dispatchResult = RESULT;
@@ -68,7 +68,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
         assertSame("result is returned by coreMock", RESULT, proxy.oneArgMethod("arg"));
     }
 
-    public void testExceptionsPropagatedThroughProxy() throws Throwable {
+    public void testPropagatesExceptionsThroughProxy() throws Throwable {
         final Throwable throwable = new DummyThrowable();
 
         mockDispatcher.dispatchThrowable = throwable;
@@ -83,7 +83,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
         fail("Should have thrown exception");
     }
 
-    public void testMockVerifies() throws Exception {
+    public void testVerifiesByVerifyingDispatcher() throws Exception {
         mockDispatcher.verifyCalls.setExpected(1);
 
         coreMock.verify();
@@ -183,5 +183,80 @@ public abstract class AbstractDynamicMockTest extends TestCase
             return;
         }
         fail("Should have thrown exception");
+    }
+
+    public void testAlwaysReportsFirstFailureThatOccurredDuringTheTest() throws Throwable {
+        DynamicMockError firstFailure = null;
+
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("first failure");
+
+        try {
+            proxy.noArgVoidMethod();
+        }
+        catch( DynamicMockError err ) {
+            firstFailure = err;
+        }
+
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("second failure");
+
+        try {
+            proxy.noArgVoidMethod();
+        }
+        catch( DynamicMockError err ) {
+            assertSame( "should have thrown first error", firstFailure, err );
+            return;
+        }
+
+        fail("should have thrown DynamicMockError");
+    }
+
+    public void testForgetsPreviousFailureWhenReset() throws Throwable {
+        DynamicMockError firstFailure = null;
+
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("first failure");
+        try {
+            proxy.noArgVoidMethod();
+            fail("should have thrown DynamicMockError");
+        }
+        catch( DynamicMockError err ) {
+            firstFailure = err;
+        }
+
+        coreMock.reset();
+
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("second failure");
+        try {
+            proxy.noArgVoidMethod();
+            fail("should have thrown DynamicMockError");
+        }
+        catch( DynamicMockError err ) {
+            assertNotSame( "should have not have rethrown first error", firstFailure, err );
+            return;
+        }
+    }
+
+    public void testForgetsPreviousFailureWhenVerified() throws Throwable {
+        DynamicMockError firstFailure = null;
+
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("first failure");
+        try {
+            proxy.noArgVoidMethod();
+            fail("should have thrown DynamicMockError");
+        }
+        catch( DynamicMockError err ) {
+            firstFailure = err;
+        }
+
+        coreMock.verify();
+
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("second failure");
+        try {
+            proxy.noArgVoidMethod();
+            fail("should have thrown DynamicMockError");
+        }
+        catch( DynamicMockError err ) {
+            assertNotSame( "should have not have rethrown first error", firstFailure, err );
+            return;
+        }
     }
 }

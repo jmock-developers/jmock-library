@@ -18,6 +18,8 @@ public abstract class AbstractDynamicMock
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;
     private String name;
+    private DynamicMockError firstFailure = null;
+
 
     public AbstractDynamicMock( Class mockedType, String name ) {
         this(mockedType, name, new LIFOInvocationDispatcher());
@@ -43,15 +45,18 @@ public abstract class AbstractDynamicMock
             return invocationDispatcher.dispatch(invocation);
         }
         catch (AssertionFailedError failure) {
-            DynamicMockError mockFailure =
-                    new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
+            if (firstFailure == null) {
+                firstFailure = new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
+                firstFailure.fillInStackTrace();
+            }
 
-            mockFailure.fillInStackTrace();
-            throw mockFailure;
+            throw firstFailure;
         }
     }
 
     public void verify() {
+        forgetFirstFailure();
+
         try {
             invocationDispatcher.verify();
         }
@@ -79,6 +84,7 @@ public abstract class AbstractDynamicMock
     public void reset() {
         //TODO write tests for this
         invocationDispatcher.clear();
+        forgetFirstFailure();
         setupDefaultBehaviour();
     }
 
@@ -96,6 +102,10 @@ public abstract class AbstractDynamicMock
         addInvokable(hiddenInvocationMocker("hashCode",
                                             NoArgumentsMatcher.INSTANCE,
                                             new HashCodeStub()));
+    }
+
+    private void forgetFirstFailure() {
+        firstFailure = null;
     }
 
     private static final InvocationMocker.Describer NO_DESCRIPTION =
