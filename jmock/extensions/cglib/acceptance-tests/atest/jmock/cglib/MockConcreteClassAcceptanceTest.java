@@ -18,7 +18,7 @@ public class MockConcreteClassAcceptanceTest extends MockObjectTestCase {
         ArrayList proxy = (ArrayList)listMock.proxy();
         Object newElement = newDummy("newElement");
         
-        listMock.expect(once()).method("add").with(eq(newElement)).will(returnValue(true));
+        listMock.expects(once()).method("add").with(eq(newElement)).will(returnValue(true));
         
         proxy.add(newElement);
         listMock.verify();
