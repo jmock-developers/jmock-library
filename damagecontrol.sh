@@ -19,6 +19,7 @@ function run_task {
 		echo $task done;
 	else
 		echo $task failed;
+		exit 1
 	fi
 }
 
