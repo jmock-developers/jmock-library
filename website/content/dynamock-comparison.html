@@ -38,9 +38,9 @@ mock.matchAndReturn( "method2", C.eq(b1,b2), result2 );</pre>
   	</div>
 	
   	<div class="Source Java JMock">
-<pre>mock.expect(once()).method("method1").with(eq(a))
+<pre>mock.expects(once()).method("method1").with(eq(a))
     .will(returnValue(result1));
-mock.stub().method("method2").with(eq(b1),eq(b2))
+mock.stubs().method("method2").with(eq(b1),eq(b2))
     .will(returnValue(result2));</pre>
   	</div>
   	
@@ -74,13 +74,13 @@ mock.expectAndReturn( "methodName", result1 );
 mock.expectAndReturn( "methodName", arg, result2 );</pre>
   	</div>  	
   	<div class="Source Java JMock">
-<pre>mock.expect(once()).method("methodName").noParams()
+<pre>mock.expects(once()).method("methodName").noParams()
     .will(returnValue(result1));
-mock.expect(once()).method("methodName").with(eq(arg))
+mock.expects(once()).method("methodName").with(eq(arg))
     .will(returnValue(result2));</pre>
   	</div>  	
   	
-  	<h2>jMock Supports Multiple Kinds of Expectation</h2>
+  	<h2>jMock Allows Different Kinds of Expectation</h2>
   	
   	<p>A DynaMock expectation requires the expected method to be called once and only 
   	once.  We sometimes want to specify that a method must be called at least once.
@@ -90,7 +90,7 @@ mock.expect(once()).method("methodName").with(eq(arg))
   	jMock itself.</p>
   	
   	<div class="Source Java JMock">
-<pre>mock.expect(atLeastOnce()).method("methodName").with(eq(argument))
+<pre>mock.expects(atLeastOnce()).method("methodName").with(eq(argument))
     .will(returnValue(resultValue));</pre>
   	</div>
   	
@@ -114,11 +114,11 @@ mock.expect(once()).method("methodName").with(eq(arg))
   	but <code>methodB</code> and <code>methodC</code> can occur in any order:</p>
   	
   	<div class="Source Java JMock">
-<pre>mock.expect(once()).method("methodA").noParams()
+<pre>mock.expects(once()).method("methodA").noParams()
     .id("first call to methodA");
-mock.expect(once()).method("methodB").noParams()
+mock.expects(once()).method("methodB").noParams()
     .after("first call to methodA");
-mock.expect(once()).method("methodC").noParams()
+mock.expects(once()).method("methodC").noParams()
     .after("first call to methodA");</pre>
   	</div>
   	
@@ -126,9 +126,9 @@ mock.expect(once()).method("methodC").noParams()
   	<em>different</em> mocks:</p>
   	
   	<div class="Source Java JMock">
-<pre>mock1.expect(once()).method("methodA").noParams()
+<pre>mock1.expects(once()).method("methodA").noParams()
     .id("first call to methodA");
-mock2.expect(once()).method("methodB").noParams()
+mock2.expects(once()).method("methodB").noParams()
     .after(mock1,"first call to methodA");</pre>
   	</div>
   	
@@ -169,7 +169,7 @@ class MyTestCase extends MockObjectTestCase {
     public void testSomething() {
         Mock mock = new Mock(MyInterface.class);
 		
-        mock.expect(once()).method("set").with(eq("key"),eq("value"))
+        mock.expects(once()).method("set").with(eq("key"),eq("value"))
             .will(returnValue("oldValue"));
         ...
     }

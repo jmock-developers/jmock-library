@@ -57,9 +57,9 @@
     
     <div class="Source Java">
 <pre>
-logger.stub().method("getLoggingLevel").noParams()
+logger.stubs().method("getLoggingLevel").noParams()
     .will(returnValue(Logger.WARNING));
-logger.expect(once()).method("setLoggingLevel").with(eq(newLevel));
+logger.expects(once()).method("setLoggingLevel").with(eq(newLevel));
 </pre>
     </div>
     
@@ -79,7 +79,7 @@ logger.expect(once()).method("setLoggingLevel").with(eq(newLevel));
     <div class="Source Java">
 <pre>String expectedErrorMessage = "unable to connect to ORDERS database: network timeout";
 
-logger.expect(once()).method("error").with(eq(expectedErrorMessage));</pre>
+logger.expects(once()).method("error").with(eq(expectedErrorMessage));</pre>
     </div>
     
     <p>This will work in the short term, but will cause problems long term 
@@ -98,7 +98,7 @@ logger.expect(once()).method("error").with(eq(expectedErrorMessage));</pre>
 <pre>String action = "connect to ORDERS database";
 String cause = "network timeout";
 
-logger.expect(once()).method("error")
+logger.expects(once()).method("error")
     .with( and(stringContains(action),stringContains(cause)) );</pre>
     </div>
     
@@ -126,12 +126,13 @@ logger.expect(once()).method("error")
     </p>
     
     <div class="Source Java">
-<pre>logger.expect(once()).method("setLoggingLevel").with(eq(Logger.WARNING))
+<pre>logger.expects(once()).method("setLoggingLevel").with(eq(Logger.WARNING))
     .id("warning level set");
-logger.expect(once()).method("warn").with(warningMessage)
+logger.expects(once()).method("warn").with(warningMessage)
     .after("warning level set");
-logger.stub().method("getLoggingLevel").noParams()
-    .after("warning level set").will(returnValue(Logger.WARNING));</pre>
+logger.stubs().method("getLoggingLevel").noParams()
+    .after("warning level set")
+    .will(returnValue(Logger.WARNING));</pre>
     </div>
     
     <p>A rule of thumb to follow when specifying the expected order
@@ -183,7 +184,7 @@ private DefaultResultStub returnADefaultValue = new DefaultResultStub();
     
 public void testMethod() {
     ...
-    mock.stub().method(startingWith("get")).noParams().will(returnADefaultValue);
+    mock.stubs().method(startingWith("get")).noParams().will(returnADefaultValue);
     ...
 }
 
@@ -208,7 +209,7 @@ private DefaultResultStub returnADefaultValue = new DefaultResultStub();
 
 public void testMethod() {
     ...
-    mock.stub().match(aBeanPropertyGetter()).will(returnADefaultValue);
+    mock.stubs().match(aBeanPropertyGetter()).will(returnADefaultValue);
     ...
 }
 

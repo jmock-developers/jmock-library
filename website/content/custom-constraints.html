@@ -85,7 +85,7 @@ public class StringStartsWith implements Constraint {
     public void testSomething() {
         ...
         
-        mockLogger.expect(once()).method("error").with( aStringStartingWith("FATAL") );
+        mockLogger.expects(once()).method("error").with( aStringStartingWith("FATAL") );
         
         ...
     }

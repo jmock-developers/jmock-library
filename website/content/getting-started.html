@@ -64,7 +64,7 @@ final Object message = new Object();</pre>
     because it has a void return type.</p>
    
     <div class="Source Java">
-		<pre>mockSubscriber.expect(once()).method("receive").with( same(message) );</pre>
+		<pre>mockSubscriber.expects(once()).method("receive").with( same(message) );</pre>
     </div>
   
     <p>We then <i>execute</i> the code that we want to test.</p>
@@ -96,7 +96,7 @@ class PublisherTest extends MockObjectTestCase {
         final Object message = new Object();
         
         // expectations
-        mockSubscriber.expect(once()).method("receive").with( same(message) );
+        mockSubscriber.expects(once()).method("receive").with( same(message) );
         
         // execute
         publisher.publish(message);
