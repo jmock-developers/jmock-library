@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class InvocationMocker implements Invokable {
+
+public class InvocationMocker implements Invokable, StubMatchersCollection {
 
     private List matchers = new ArrayList();
     private Stub stub;
@@ -65,9 +66,8 @@ public class InvocationMocker implements Invokable {
         }
     }
 
-    public InvocationMocker addMatcher(InvocationMatcher matcher) {
+    public void addMatcher(InvocationMatcher matcher) {
         matchers.add(matcher);
-        return this;
     }
 
     public void setStub(Stub stub) {

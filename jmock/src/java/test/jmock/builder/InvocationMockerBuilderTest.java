@@ -2,32 +2,25 @@
 package test.jmock.builder;
 
 import junit.framework.TestCase;
-import org.jmock.expectation.ExpectationValue;
-import org.jmock.expectation.Verifier;
+
 import org.jmock.builder.InvocationMockerBuilder;
-import org.jmock.dynamic.framework.InvocationMocker;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 
 public class InvocationMockerBuilderTest extends TestCase {
-    public class MockInvocationMocker extends InvocationMocker {
-        public ExpectationValue setStubType = new ExpectationValue("setStub type");
-
-        public void setStub(Stub stub) {
-            setStubType.setActual(stub.getClass());
-        }
-
-        public void verifyExpectations() {
-            Verifier.verifyObject(this);
-        }
-    }
-
-
-    private MockInvocationMocker mocker = new MockInvocationMocker();
+    private MockStubMatchersCollection mocker = new MockStubMatchersCollection();
     private InvocationMockerBuilder builder = new InvocationMockerBuilder(mocker);
 
+    public void testWhenPassedAddsArgumentsMatcher() {
+    	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
+    	
+    	assertNotNull("Should be Stub Builder", builder.whenPassed(new Object()));
+    	
+    	mocker.verifyExpectations();
+    }
+    
     public void testIsVoidSetsVoidStub() {
         mocker.setStubType.setExpected(VoidStub.class);
 
@@ -36,7 +29,7 @@ public class InvocationMockerBuilderTest extends TestCase {
         mocker.verifyExpectations();
     }
 
-    public void testReturnsSetsReturnStub() {
+    public void testWillReturnSetsReturnStub() {
         mocker.setStubType.setExpected(ReturnStub.class);
 
         assertNotNull("Should be expectation builder", builder.willReturn("return value"));
@@ -44,7 +37,7 @@ public class InvocationMockerBuilderTest extends TestCase {
         mocker.verifyExpectations();
     }
 
-    public void testThrowsSetsThrowStub() {
+    public void testWillThrowSetsThrowStub() {
         mocker.setStubType.setExpected(ThrowStub.class);
 
         assertNotNull("Should be expectation builder", builder.willThrow(new Exception("thrown value")));

@@ -3,7 +3,6 @@ package org.jmock.dynamock;
 
 import org.jmock.C;
 import org.jmock.Constraint;
-import org.jmock.builder.InvokableFactory;
 import org.jmock.dynamic.framework.CoreMock;
 import org.jmock.dynamic.framework.DynamicMock;
 import org.jmock.dynamic.framework.InvocationDispatcher;
