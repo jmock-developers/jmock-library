@@ -10,6 +10,8 @@ CONTENT_DIR = File.join(BASE_DIR,"content")
 SKIN_DIR = File.join(BASE_DIR,"templates")
 OUTPUT_DIR = File.join(BASE_DIR,"output")
 
+CVSWEB_ROOT = "http://cvs.jmock.codehaus.org/viewcvs.cgi/jmock/website/content/"
+
 TEMPLATE = XEMPLATE::load_template( File.join(SKIN_DIR,"skin.html") )
 
 def env( varname, default_value )
@@ -91,19 +93,26 @@ end
 
 def skin_content_file( content_file, root_content_dir )
     output_file = output_file( content_file, root_content_dir )
+    
+    history_url = CVSWEB_ROOT + content_file[(root_content_dir.size+1)..-1]
+    history_link = Element.new("a")
+    history_link.attributes["href"] = history_url
+    history_link.text = "Document history"
+    
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
         "snapshot" => String.new(env("SNAPSHOT_ID","n/a")),
         "prerelease" => String.new(env("PRERELEASE_ID","n/a")),
-        "release" => String.new(env("RELEASE_ID","n/a"))
+        "release" => String.new(env("RELEASE_ID","n/a")),
+        "history" => history_link
     }
     
     skinned_content = TEMPLATE.expand( config )
     
     # workaround for MSIE
     add_class( 
-        skinned_content.elements["/html/body/div[@id='content']/*[1]"], 
+        skinned_content.elements["/html/body/div[@id='center']/div[@id='content']/*[1]"], 
         "FirstChild" )
     
     log "#{content_file} ~> #{output_file}"
