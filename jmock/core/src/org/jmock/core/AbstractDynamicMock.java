@@ -55,10 +55,6 @@ public abstract class AbstractDynamicMock
         return this.name;
     }
 
-    public void setDefaultStub( Stub newDefaultStub ) {
-        invocationDispatcher.setDefaultStub(newDefaultStub);
-    }
-
     public void addInvokable( Invokable invokable ) {
         invocationDispatcher.add(invokable);
     }

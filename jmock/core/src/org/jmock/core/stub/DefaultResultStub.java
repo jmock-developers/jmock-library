@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import junit.framework.AssertionFailedError;
+import org.jmock.core.*;
 import org.jmock.core.CoreMock;
 import org.jmock.core.Formatting;
 import org.jmock.core.Invocation;
@@ -40,8 +41,9 @@ public class DefaultResultStub
         } else if (returnType.isArray()) {
             return Array.newInstance(returnType.getComponentType(), 0);
         } else if (returnType.isInterface()) {
-            CoreMock nullMock = new CoreMock(returnType, "null" + Formatting.classShortName(returnType));
-            nullMock.setDefaultStub(this);
+            OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
+            CoreMock nullMock = new CoreMock(returnType, "null" + Formatting.classShortName(returnType), dispatcher);
+            dispatcher.setDefaultStub(this);
             return nullMock.proxy();
         } else {
             throw new AssertionFailedError(createErrorMessage(invocation));

@@ -10,7 +10,6 @@ import org.jmock.expectation.AssertMo;
 
 import test.jmock.core.testsupport.MockInvocationDispatcher;
 import test.jmock.core.testsupport.MockInvokable;
-import test.jmock.core.testsupport.MockStub;
 
 
 public abstract class AbstractDynamicMockTest extends TestCase
@@ -149,16 +148,6 @@ public abstract class AbstractDynamicMockTest extends TestCase
         mockDispatcher.addInvokable.setExpected(mockInvokable);
 
         coreMock.addInvokable(mockInvokable);
-
-        mockDispatcher.verifyExpectations();
-    }
-
-    public void testExposesDefaultStubOfDispatcher() {
-        MockStub dummyStub = new MockStub("dummyStub");
-
-        mockDispatcher.setDefaultStub.setExpected(dummyStub);
-
-        coreMock.setDefaultStub(dummyStub);
 
         mockDispatcher.verifyExpectations();
     }

@@ -5,8 +5,8 @@ package org.jmock.easy;
 import java.lang.reflect.Method;
 
 import org.jmock.core.CoreMock;
+import org.jmock.core.InvocationDispatcher;
 import org.jmock.core.Invokable;
-import org.jmock.core.OrderedInvocationDispatcher;
 import org.jmock.core.Stub;
 import org.jmock.easy.internal.InvocationMatch;
 import org.jmock.easy.internal.Range;
@@ -17,9 +17,8 @@ public class EasyCoreMock extends CoreMock
 	private boolean isRecording = true;
 	private InvocationMatch match = new InvocationMatch();
 	
-	public EasyCoreMock(Class mockedType) {
-		super(mockedType, CoreMock.mockNameFromClass(mockedType), 
-                new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.FIFOInvokablesCollection()));
+	public EasyCoreMock(Class mockedType, InvocationDispatcher dispatcher) {
+		super(mockedType, CoreMock.mockNameFromClass(mockedType), dispatcher);
 	}
 
     public void addDefaultInvokable(Invokable invokable) {
