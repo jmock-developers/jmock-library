@@ -54,11 +54,11 @@ public class MethodFactory extends ClassLoader {
 		}
 	}
 
-	private static String nameToClassFormat( String name ) {
+	static String nameToClassFormat( String name ) {
 		return name.replace('.','/');
 	}
 
-	private static String[] classNamesInClassFormat( Class[] classes ) {
+	static String[] classNamesInClassFormat( Class[] classes ) {
 		String[] namesInClassFormat = new String[classes.length];
 
 		for( int i = 0; i < classes.length; i++ ) {
@@ -68,7 +68,7 @@ public class MethodFactory extends ClassLoader {
 		return namesInClassFormat;
 	}
 
-	private static String methodDescriptor( Class returnClass, Class[] argClasses) {
+	static String methodDescriptor( Class returnClass, Class[] argClasses) {
 		return Type.getMethodDescriptor( Type.getType(returnClass), classesToTypes(argClasses) );
 	}
 

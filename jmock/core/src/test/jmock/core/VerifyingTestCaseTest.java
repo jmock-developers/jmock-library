@@ -3,7 +3,6 @@ package test.jmock.core;
 import junit.framework.TestCase;
 
 import org.jmock.core.VerifyingTestCase;
-import org.jmock.core.Verifiable;
 import org.jmock.expectation.ExpectationCounter;
 
 import test.jmock.core.testsupport.MockVerifiable;

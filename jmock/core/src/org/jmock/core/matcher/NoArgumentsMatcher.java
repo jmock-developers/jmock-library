@@ -2,8 +2,6 @@ package org.jmock.core.matcher;
 
 import org.jmock.core.Invocation;
 
-import java.util.List;
-
 
 public class NoArgumentsMatcher extends StatelessInvocationMatcher {
     public static final NoArgumentsMatcher INSTANCE = new NoArgumentsMatcher();

@@ -2,16 +2,13 @@
 package test.jmock.core;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationHandler;
 import java.util.Arrays;
-import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.CoreMock;
 import org.jmock.core.Invocation;
 import org.jmock.expectation.AssertMo;
+
 import test.jmock.core.testsupport.MethodFactory;
 
 

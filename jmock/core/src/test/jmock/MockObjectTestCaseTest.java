@@ -1,9 +1,9 @@
 package test.jmock;
 
 import junit.framework.TestCase;
+
 import org.jmock.MockObjectTestCase;
 import org.jmock.core.Verifiable;
-import org.jmock.core.MockObjectSupportTestCase;
 import org.jmock.expectation.ExpectationList;
 
 public class MockObjectTestCaseTest extends TestCase
@@ -26,7 +26,7 @@ public class MockObjectTestCaseTest extends TestCase
     }
 
     private SampleMockObjectTestCase testCase;
-    private ExpectationList requiresVerification;
+    ExpectationList requiresVerification;
 
     public void setUp() {
         requiresVerification = new ExpectationList("registerToVerify #arguments");
