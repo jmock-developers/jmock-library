@@ -1,12 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.TestCase;
+
 import org.jmock.expectation.MapEntry;
 
-import test.jmock.AbstractTestCase;
 
-
-public class MapEntryTest extends AbstractTestCase {
+public class MapEntryTest extends TestCase {
 
     public void testEquals() {
         assertEquals(

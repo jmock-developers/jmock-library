@@ -4,13 +4,13 @@ package test.jmock.expectation;
 import java.util.Vector;
 
 import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
+import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationCollection;
 
-import test.jmock.AbstractTestCase;
 
-
-public abstract class AbstractTestExpectationCollection extends AbstractTestCase {
+public abstract class AbstractTestExpectationCollection extends TestCase {
     ExpectationCollection myExpectation;
 
     public void testEmpty() {
@@ -63,7 +63,7 @@ public abstract class AbstractTestExpectationCollection extends AbstractTestCase
 
         myExpectation.addActualMany(new String[]{"C", "A"});
 
-        assertVerifyFails(myExpectation);
+        AssertMo.assertVerifyFails(myExpectation);
     }
 
     public void testFlushActual() {
@@ -152,7 +152,7 @@ public abstract class AbstractTestExpectationCollection extends AbstractTestCase
 
         myExpectation.addActualMany(actualItems.elements());
 
-        assertVerifyFails(myExpectation);
+        AssertMo.assertVerifyFails(myExpectation);
     }
 
     public void testMultiFailureFromIterator() {
@@ -169,7 +169,7 @@ public abstract class AbstractTestExpectationCollection extends AbstractTestCase
 
         myExpectation.addActualMany(actualItems.iterator());
 
-        assertVerifyFails(myExpectation);
+        AssertMo.assertVerifyFails(myExpectation);
     }
 
     public void testMultiFailureSizes() {
@@ -178,7 +178,7 @@ public abstract class AbstractTestExpectationCollection extends AbstractTestCase
 
         myExpectation.addActualMany(new String[]{"A", "B", "C"});
 
-        assertVerifyFails(myExpectation);
+        AssertMo.assertVerifyFails(myExpectation);
     }
 
     public void testExpectingALong() {

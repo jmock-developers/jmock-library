@@ -1,18 +1,19 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
+import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ReturnObjectList;
 
-import test.jmock.AbstractTestCase;
-import junit.framework.AssertionFailedError;
-
-public class ReturnObjectListTest extends AbstractTestCase {
+public class ReturnObjectListTest extends TestCase {
     private ReturnObjectList list = new ReturnObjectList("test");
 
     public void testLeftoverObjectFails() {
         list.addObjectToReturn("one");
 
-        assertVerifyFails(list);
+        AssertMo.assertVerifyFails(list);
     }
 
     public void testEmptyList() {

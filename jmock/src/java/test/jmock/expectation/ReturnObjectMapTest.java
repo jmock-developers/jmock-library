@@ -1,12 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
+import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ReturnObjectMap;
 
-import test.jmock.AbstractTestCase;
-import junit.framework.AssertionFailedError;
-
-public class ReturnObjectMapTest extends AbstractTestCase {
+public class ReturnObjectMapTest extends TestCase {
     private ReturnObjectMap map;
     private static final String KEY1 = "key1";
     private static final String KEY2 = "key2";
@@ -23,7 +24,7 @@ public class ReturnObjectMapTest extends AbstractTestCase {
     public void testLeftoverObjectFails() {
         map.putReturnValue(KEY1, VALUE_ONE);
 
-        assertVerifyFails(map);
+        AssertMo.assertVerifyFails(map);
     }
 
     public void testEmptyList() {

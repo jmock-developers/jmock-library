@@ -1,10 +1,9 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic;
 
+import junit.framework.TestCase;
+
 import org.jmock.Constraint;
-import org.jmock.expectation.ExpectationCounter;
-import org.jmock.expectation.ExpectationValue;
-import org.jmock.util.Verifier;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.InvocationMocker;
@@ -14,11 +13,12 @@ import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 import org.jmock.dynamic.stub.VoidStub;
 import org.jmock.dynamock.C;
+import org.jmock.expectation.ExpectationCounter;
+import org.jmock.expectation.ExpectationValue;
+import org.jmock.util.Verifier;
 
-import test.jmock.AbstractTestCase;
 
-
-public class InvocationMockerTest extends AbstractTestCase {
+public class InvocationMockerTest extends TestCase {
     private InvocationMatcher matchAll = new StatelessInvocationMatcher() {
         public boolean matches(Invocation invocation) {
             return true;

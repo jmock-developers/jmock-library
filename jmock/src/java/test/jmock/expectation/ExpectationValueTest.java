@@ -1,12 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
+import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationValue;
 
-import test.jmock.AbstractTestCase;
-import junit.framework.AssertionFailedError;
-
-public class ExpectationValueTest extends AbstractTestCase {
+public class ExpectationValueTest extends TestCase {
 
     private ExpectationValue myExpectation = new ExpectationValue("ExpectationValue for testing");
 
@@ -55,7 +56,7 @@ public class ExpectationValueTest extends AbstractTestCase {
         myExpectation.setFailOnVerify();
 
         myExpectation.setActual("another object");
-        assertVerifyFails(myExpectation);
+        AssertMo.assertVerifyFails(myExpectation);
     }
 
     public void testFlushActual() {

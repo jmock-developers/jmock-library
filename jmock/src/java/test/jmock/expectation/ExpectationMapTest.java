@@ -1,13 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationMap;
 
-import junit.framework.AssertionFailedError;
-import test.jmock.AbstractTestCase;
-
-public class ExpectationMapTest extends AbstractTestCase {
+public class ExpectationMapTest extends TestCase {
 
     public void testExpectMissingEntry() {
         ExpectationMap map = new ExpectationMap("map");
