@@ -95,7 +95,7 @@ public abstract class AbstractDynamicMockTest extends TestCase
     }
 
     public void testTestsEqualityForProxy() throws Exception {
-        coreMock = createDynamicMock( "coreMock", new OrderedInvocationDispatcher.LIFO());
+        coreMock = createDynamicMock( "coreMock", new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
         proxy = (DummyInterface)coreMock.proxy();
 
         assertTrue("should be equal", proxy.equals(proxy));

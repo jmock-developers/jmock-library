@@ -8,28 +8,30 @@ import java.util.*;
 import org.jmock.core.stub.TestFailureStub;
 
 public class OrderedInvocationDispatcher implements InvocationDispatcher {
+	public interface InvokablesCollection {
+		InvokablesIterator iterator();
+		void add(Invokable invokable);
+		void clear();
+	}
 	public interface DispatchPolicy {
-        Collection makeCollection();
-		InvokableIterator dispatchIterator(Collection invokables);
+		InvokablesCollection makeCollection();
 	}
 
-	public interface InvokableIterator {
+	public interface InvokablesIterator {
 		boolean hasMore();
 		Invokable next();
 	}
 
 	public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
-	private DispatchPolicy policy;
-	private Collection invokables;
+	private InvokablesCollection invokables;
 	private Stub defaultStub = new TestFailureStub("no match found");
 
-	public OrderedInvocationDispatcher(DispatchPolicy policy) {
-		this.policy = policy;
-        this.invokables = policy.makeCollection();
+	public OrderedInvocationDispatcher(InvokablesCollection invokables) {
+		this.invokables = invokables;
 	}
 
 	public Object dispatch(Invocation invocation) throws Throwable {
-		InvokableIterator i = policy.dispatchIterator(invokables);
+		InvokablesIterator i = invokables.iterator();
 		while (i.hasMore()) {
 			Invokable invokable = i.next();
 			if (invokable.matches(invocation)) {
@@ -49,9 +51,9 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	}
 
 	public void verify() {
-		Iterator i = invokables.iterator();
-		while (i.hasNext()) {
-			((Verifiable) i.next()).verify();
+		InvokablesIterator i = invokables.iterator();
+		while (i.hasMore()) {
+			i.next().verify();
 		}
 	}
 
@@ -70,9 +72,9 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	}
 
 	private void writeInvokablesTo(StringBuffer buffer) {
-		Iterator iterator = invokables.iterator();
-		while (iterator.hasNext()) {
-			Invokable invokable = (Invokable) iterator.next();
+		InvokablesIterator iterator = invokables.iterator();
+		while (iterator.hasMore()) {
+			Invokable invokable = iterator.next();
 			if (invokable.hasDescription()) {
 				invokable.describeTo(buffer).append("\n");
 			}
@@ -80,45 +82,60 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	}
 
 	private boolean anyInvokableHasDescription() {
-		Iterator iterator = invokables.iterator();
-		while (iterator.hasNext()) {
-			if (((Invokable) iterator.next()).hasDescription())
+		InvokablesIterator iterator = invokables.iterator();
+		while (iterator.hasMore()) {
+			if (iterator.next().hasDescription()) {
 				return true;
+			}
 		}
 		return false;
 	}
 
-	static public class FIFO extends OrderedInvocationDispatcher {
-		public FIFO() { super(POLICY); }
-		private static final DispatchPolicy POLICY = new DispatchPolicy() {
-            public Collection makeCollection() {
-                return new ArrayList();
-            }
-			public InvokableIterator dispatchIterator(final Collection invokables) {
-				return new InvokableIterator() {
-					private Iterator iterator = invokables.iterator();
-                    
-					public boolean hasMore() { return iterator.hasNext(); }
-					public Invokable next() { return (Invokable) iterator.next(); }
-				};
-			}
-		};
+	static public class FIFOInvokablesCollection implements InvokablesCollection {
+		private List list = new ArrayList();
+
+		public InvokablesIterator iterator() {
+			return new InvokablesIterator() {
+				private Iterator iterator = list.iterator();
+
+				public boolean hasMore() {
+					return iterator.hasNext();
+				}
+				public Invokable next() {
+					return (Invokable) iterator.next();
+				}
+			};
+		}
+
+		public void add(Invokable invokable) {
+			list.add(invokable);
+		}
+		public void clear() {
+			list.clear();
+		}
 	}
 
-	static public class LIFO extends OrderedInvocationDispatcher {
-		public LIFO() { super(POLICY); }
-		private static final DispatchPolicy POLICY = new DispatchPolicy() {
-            public Collection makeCollection() {
-                return new ArrayList();
-            }
-			public InvokableIterator dispatchIterator(final Collection invokables) {
-				return new InvokableIterator() {
-					ListIterator i = ((List)invokables).listIterator(invokables.size());
-                    
-					public boolean hasMore() { return i.hasPrevious(); }
-					public Invokable next() { return (Invokable) i.previous(); }
-				};
-			}
-		};
+	static public class LIFOInvokablesCollection implements InvokablesCollection {
+		private List list = new ArrayList();
+
+		public InvokablesIterator iterator() {
+			return new InvokablesIterator() {
+				ListIterator i = list.listIterator(list.size());
+
+				public boolean hasMore() {
+					return i.hasPrevious();
+				}
+				public Invokable next() {
+					return (Invokable) i.previous();
+				}
+			};
+		}
+
+		public void add(Invokable invokable) {
+			list.add(invokable);
+		}
+		public void clear() {
+			list.clear();
+		}
 	}
 }

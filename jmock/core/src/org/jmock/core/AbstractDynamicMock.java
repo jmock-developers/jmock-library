@@ -22,7 +22,7 @@ public abstract class AbstractDynamicMock
     private String name;
 
     public AbstractDynamicMock( Class mockedType, String name ) {
-        this(mockedType, name, new OrderedInvocationDispatcher.LIFO());
+        this(mockedType, name, new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
     }
 
     public AbstractDynamicMock( Class mockedType,

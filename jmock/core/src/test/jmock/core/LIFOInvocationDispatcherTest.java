@@ -26,7 +26,7 @@ public class LIFOInvocationDispatcherTest extends TestCase
 
     public void setUp() throws NoSuchMethodException {
         invocation = new Invocation("INVOKED-OBJECT", getDummyMethod(), null);
-        dispatcher = new OrderedInvocationDispatcher.LIFO();
+        dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
     }
 
     public void dummyMethod() { /* just used to create Invocation objects */

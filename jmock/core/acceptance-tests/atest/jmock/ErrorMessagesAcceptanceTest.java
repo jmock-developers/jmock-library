@@ -57,7 +57,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
                                  errorMessage, expectedMethod2);
 
             assertSubstringOrder("should report acceptable methods in search order",
-                                 errorMessage, expectedMethod1, expectedMethod2);
+                                 errorMessage, expectedMethod2, expectedMethod1);
 
             return;
         }

@@ -18,7 +18,8 @@ public class EasyCoreMock extends CoreMock
 	private InvocationMatch match = new InvocationMatch();
 	
 	public EasyCoreMock(Class mockedType) {
-		super(mockedType, CoreMock.mockNameFromClass(mockedType), new OrderedInvocationDispatcher.FIFO());
+		super(mockedType, CoreMock.mockNameFromClass(mockedType), 
+                new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.FIFOInvokablesCollection()));
 	}
 
     public void addDefaultInvokable(Invokable invokable) {
