@@ -15,6 +15,7 @@ public class Mock_OrderedInvocations_IntegrationTest
 	public static interface ExampleInterface {
 		void hello();
         void goodbye();
+        void moreTeaVicar();
     }
     
     public void setUp() {
@@ -23,7 +24,7 @@ public class Mock_OrderedInvocations_IntegrationTest
     }
     
     public void testOrderedCallsCanOccurInOrder() {
-    	mock.method("hello").isVoid().id("hello call");
+    	mock.method("hello").id("hello call");
     	mock.method("goodbye").after("hello call");
     	
     	proxy.hello();
@@ -33,8 +34,8 @@ public class Mock_OrderedInvocations_IntegrationTest
     }
     
 	public void testOrderedCallsMustNotOccurOutOfOrder() {
-		mock.method("hello").isVoid().id("hello call");
-		mock.method("goodbye").after("hello call");
+		mock.method("hello").id("hello call");
+		mock.method("goodbye").noParams().after("hello call");
 		
 		try {
             proxy.goodbye();
@@ -48,9 +49,28 @@ public class Mock_OrderedInvocations_IntegrationTest
         mock.verify();
     }
 	
+	public void testOrderingDoesNotAffectUnrelatedCalls() {
+		mock.method("hello").id("hello call");
+		mock.method("goodbye").after("hello call");
+		mock.method("moreTeaVicar");
+		
+		proxy.hello();
+		proxy.moreTeaVicar();
+		proxy.goodbye();
+		
+		mock.verify();
+	}
+	
 	public void testOrderingConstraintsDoNotImplyExpectedCall() {
 		mock.method("hello").isVoid().id("hello call");
 		mock.method("goodbye").after("hello call");
+		
+		mock.verify();
+	}
+	
+	public void testCanUseMethodNameAsDefaultInvocationID() {
+		mock.method("hello").isVoid();
+		mock.method("goodbye").after("hello");
 		
 		mock.verify();
 	}

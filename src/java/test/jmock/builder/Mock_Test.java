@@ -4,6 +4,7 @@ package test.jmock.builder;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.jmock.builder.ExpectationBuilder;
 import org.jmock.builder.Mock;
 
 import test.jmock.builder.testsupport.MockExpectationBuilder;
@@ -86,4 +87,22 @@ public class Mock_Test extends TestCase {
     	}
     	fail("expected AssertionFailedError");
     }
+    
+    public void testUsesMethodNameAsDefaultBuilderID() {
+    	String methodName = "METHOD-NAME";
+    	
+    	ExpectationBuilder builder = mock.method(methodName);
+    	assertSame( "should be builder", builder, mock.lookupID(methodName) );
+    }
+
+    
+    public void testOverridesDefaultBuilderIDForSameMethodName() {
+    	String methodName = "METHOD-NAME";
+    	
+    	ExpectationBuilder builder1 = mock.method(methodName);
+    	ExpectationBuilder builder2 = mock.method(methodName);
+    	
+    	assertSame( "should be builder2", builder2, mock.lookupID(methodName) );
+    }
 }
+
