@@ -78,14 +78,17 @@ public class OrderedInvocationsAcceptanceTest
 		mock.stub().method("goodbye").after("hello"); // should not throw error
 	}
     
-    public void testCanUseMethodNameToSpecifyOrderOfCallsToSameMethod() {
+    public void testUsingSameMethodNameAsParameterToAfterIsAnError() {
         mock.stub().method("count").will(returnValue(1));
-        mock.stub().method("count").after("count").will(returnValue(2));
-        mock.stub().method("count").after("count").will(returnValue(3));
-        
-        assertEquals("count 1", 1, proxy.count() );
-        assertEquals("count 2", 2, proxy.count() );
-        assertEquals("count 3", 3, proxy.count() );
+        try {
+            mock.stub().method("count").after("count").will(returnValue(2));
+        }
+        catch( AssertionFailedError ex ) {
+            AssertMo.assertIncludes( "should include repeated method name",
+                                     "count", ex.getMessage() );
+            return;
+        }
+        fail("should have failed");
     }
 	
 	public void testCanSpecifyOrderOverDifferentMocks() {
