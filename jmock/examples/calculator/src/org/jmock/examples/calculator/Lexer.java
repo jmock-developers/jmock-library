@@ -33,9 +33,8 @@ public class Lexer
     public Token nextToken() throws IOException, ParseException {
         if (pushBack.isEmpty()) {
             return readToken();
-        } else {
-            return (Token)pushBack.pop();
-        }
+        } 
+        return (Token)pushBack.pop();
     }
 
     private Token readToken() throws IOException, ParseException {

@@ -13,9 +13,8 @@ public class SimpleEnvironment implements Environment
     public Expression getVariable( String name ) throws CalculatorException {
         if (variables.containsKey(name)) {
             return (Expression)variables.get(name);
-        } else {
-            throw new CalculatorException("variable \"" + name + "\" not defined");
-        }
+        } 
+        throw new CalculatorException("variable \"" + name + "\" not defined");
     }
 
     public void setVariable( String name, Expression expression ) {

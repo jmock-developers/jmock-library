@@ -33,15 +33,16 @@ public class IsEventFrom implements Constraint
     }
 
     public boolean eval( Object o ) {
-        if (o instanceof EventObject) {
-            EventObject ev = (EventObject)o;
-            return eventClass.isInstance(o) && ev.getSource() == source;
-        } else {
-            return false;
-        }
+        return (o instanceof EventObject)
+    		&& eventClass.isInstance(o) 
+			&& eventHasSameSource((EventObject)o);
     }
 
-    public StringBuffer describeTo( StringBuffer buffer ) {
+    private boolean eventHasSameSource(EventObject ev) {
+		return ev.getSource() == source;
+	}
+
+	public StringBuffer describeTo( StringBuffer buffer ) {
         return buffer.append("an event of type ")
                 .append(eventClass.getName())
                 .append(" from ")
