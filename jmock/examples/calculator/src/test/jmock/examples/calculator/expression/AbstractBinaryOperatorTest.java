@@ -13,13 +13,13 @@ public abstract class AbstractBinaryOperatorTest
     extends MockObjectTestCase
 {
     SimpleEnvironment environment;
-    private Mock mockLeft;
-    private Mock mockRight;
+    private Mock left;
+    private Mock right;
 
     public void setUp() {
         environment = new SimpleEnvironment();
-        mockLeft = new Mock(Expression.class, "mockLeft");
-        mockRight = new Mock(Expression.class, "mockRight");
+        left = new Mock(Expression.class, "left");
+        right = new Mock(Expression.class, "right");
     }
 
     protected void runOperatorTest() throws Exception {
@@ -36,15 +36,13 @@ public abstract class AbstractBinaryOperatorTest
     }
 
     public void testReportsErrorsInLeftSubexpression() {
-        Expression expression =
-            makeExpression(
-                (Expression)mockLeft.proxy(),
-                (Expression)mockRight.proxy());
-
+        Expression expression = makeExpression( (Expression)left.proxy(),
+                                                (Expression)right.proxy() );
+        
         CalculatorException thrown =
             new CalculatorException("thrown exception");
 
-        mockLeft.expect(once()).method("evaluate").with(eq(environment))
+        left.expect(once()).method("evaluate").with(same(environment))
             .will(throwException(thrown));
 
         try {
@@ -56,17 +54,15 @@ public abstract class AbstractBinaryOperatorTest
     }
 
     public void testReportsErrorsInRightSubexpression() {
-        Expression expression =
-            makeExpression(
-                (Expression)mockLeft.proxy(),
-                (Expression)mockRight.proxy());
-
+        Expression expression = makeExpression( (Expression)left.proxy(),
+                                                (Expression)right.proxy());
+        
         CalculatorException thrown =
             new CalculatorException("thrown exception");
         
-        mockLeft.expect(once()).method("evaluate").with(eq(environment))
+        left.expect(once()).method("evaluate").with(same(environment))
             .will(returnValue(0.0));
-        mockRight.expect(once()).method("evaluate").with(eq(environment))
+        right.expect(once()).method("evaluate").with(same(environment))
             .will(throwException(thrown));
         
         try {
@@ -82,9 +78,9 @@ public abstract class AbstractBinaryOperatorTest
     }
     
     protected abstract Expression makeExpression(
-        Expression left,
-        Expression right);
-
-    protected abstract double expectedValue(double left, double right);
+        Expression leftExpression,
+        Expression rightExpression );
+    
+    protected abstract double expectedValue( double leftValue, double rightValue );
 
 }
