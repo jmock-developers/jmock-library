@@ -69,7 +69,7 @@ module XEMPLATE
                 if child.kind_of? REXML::Element
                     expand_element( expanded_parent, child, bindings )
                 else
-                    expanded_parent.add( deep_clone_node(child) )
+                    expanded_parent.add( XEMPLATE.deep_clone_node(child) )
                 end
             end
         end
@@ -148,7 +148,7 @@ module XEMPLATE
         
         def add_children( parent, children )
             children.each do |child|
-                parent.add( deep_clone_node(child) )
+                parent.add( XEMPLATE.deep_clone_node(child) )
             end
         end
         
@@ -242,13 +242,14 @@ module XEMPLATE
             doc
         end
         
-        # Yuck!  But REXML forces us to do this.
-        def deep_clone_node( node )
-            if node.kind_of? Parent
-                node.deep_clone
-            else
-                node.clone
-            end
+    end
+
+    # Yuck!  But REXML forces us to do this.
+    def XEMPLATE.deep_clone_node( node )
+        if node.kind_of? Parent
+            node.deep_clone
+        else
+            node.clone
         end
     end
 end

@@ -239,6 +239,11 @@ ul, ol {
 	content: "jMock: ";
 }
 
+.EasyMock:before {
+	content: "EasyMock: ";
+}
+
+
 /* The following are for images, but can also apply to div's containing images. */
 
 #content .Float {
@@ -381,3 +386,8 @@ ul, ol {
 .Meta a:visited { color: #C0C0C0; }
 .Meta a:active { color: red; }
 .Meta a:hover { color: red; }
+
+
+.LinkFootnotes, .LinkFootnoteRef {
+    display: none;
+}

@@ -3,6 +3,7 @@
 require 'ftools'
 require 'rexml/document'
 require 'xemplate'
+require 'uri'
 include REXML
 
 BASE_DIR = "."
@@ -21,6 +22,16 @@ NO_VERSION = "n/a"
 
 TEMPLATE = XEMPLATE::load_template( File.join(SKIN_DIR,"skin.html") )
 
+CONTENT_PATH = "/html/body/div[@id='center']/div[@id='content']"
+
+BASE_URL = URI.parse("http://www.jmock.org/")
+
+
+$logger = $stdout
+def log( message )
+	$logger.puts( message )
+	$logger.flush
+end
 
 def jmock_jar( version )
     "#{DIST_ROOT}/jars/jmock-#{version}.jar"
@@ -38,12 +49,6 @@ def jmock_javadoc_jar( version )
     "#{DIST_ROOT}/distributions/jmock-#{version}-javadoc.jar"
 end
 
-
-$logger = $stdout
-def log( message )
-	$logger.puts( message )
-	$logger.flush
-end
 
 def is_markup( filename )
 	filename =~ /.(html|xml)$/
@@ -134,12 +139,10 @@ def skin_content_file( content_file, root_content_dir )
     end
 
     skinned_content = TEMPLATE.expand( config )
-    
-    # workaround for MSIE
-    add_class( 
-        skinned_content.elements["/html/body/div[@id='center']/div[@id='content']/*[1]"], 
-        "FirstChild" )
-    
+
+    add_class( skinned_content.elements["#{CONTENT_PATH}/*[1]"], "FirstChild" )
+    add_print_footnotes( skinned_content )
+
     log "#{content_file} ~> #{output_file}"
     
     write_to_output( skinned_content, output_file )
@@ -151,6 +154,33 @@ def add_class( element, new_class )
         new_class = "#{old_class} #{new_class}"
     end
     element.add_attribute( "class", new_class )
+end
+
+def add_print_footnotes( skinned_content )
+    footnotes_div = Element.new("div")
+    footnotes_div.add_attribute( "class", "LinkFootnotes" )
+    footnotes_div.add_element( "p", {"class", "LinkFootnotesHeader"} ).add_text("Links:");
+
+    footnote_index = 1
+
+    skinned_content.each_element "#{CONTENT_PATH}//a" do |link|
+        href = BASE_URL.merge( link.attributes["href"] )
+
+        footnote = footnotes_div.add_element("p")
+        footnote.add_text( footnote_index.to_s + ". " );
+        footnote.add_element( "a", {"href" => href.to_s } ).add_text( href.to_s )
+
+        footnote_ref = Element.new("span")
+        footnote_ref.add_attribute( "class", "LinkFootnoteRef" )
+        footnote_ref.add_element("sup").add_text(footnote_index.to_s)
+        link.parent.insert_after( link, footnote_ref )
+        
+        footnote_index = footnote_index + 1
+    end
+
+    if footnotes_div.size > 1
+        skinned_content.elements[CONTENT_PATH].add( footnotes_div )
+    end
 end
 
 def write_to_output( xhtml, output_file )

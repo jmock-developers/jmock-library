@@ -1,0 +1,214 @@
+#right, #left {
+    display: none;
+}
+
+#center {
+    top: 0pt;
+    left: 0pt;
+    right: 0pt;
+}
+
+#banner {
+    display: none;
+}
+
+
+/*---------------------------------------------------------------------------
+ *  Default element styles
+ */
+
+body {
+    padding: 0pt;
+    margin: 0pt;
+    border: 0pt;
+
+    font-family: helvetica, arial, sans-serif;
+    font-size: 11pt;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    font-weight: normal;
+    color: black;
+    background-color: none;
+}
+
+img {
+    border: 0pt;
+    padding: 0pt;
+    margin: 0pt;
+}
+
+p {
+    border: 0pt;
+    padding: 0pt;
+    margin: 0pt;
+    margin-bottom: 10pt;
+}
+
+blockquote {
+	margin-bottom: 10pt;
+}
+
+td {
+    font-size: 12pt;
+    padding: 2pt;
+}
+
+th {
+    font-size: 12pt;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 2pt;
+}
+
+th.Row {
+	text-align: left;
+	vertical-align: top;
+}
+
+ul, ol {
+    border: 0pt;
+    padding: 0pt;
+    margin-top: 0pt;
+    margin-bottom: 12pt;
+    margin-left: 20pt;
+}
+
+/*---------------------------------------------------------------------------
+ *  Page content
+ */
+
+#content {
+    margin: 0pt;
+}
+
+#content h1 {
+    font-size: 18pt;
+    font-weight:bold;
+    margin-top: 24pt;
+    margin-bottom: 12pt;
+}
+
+#content h2 {
+    margin-top: 24pt;
+    margin-bottom: 16pt;
+    font-size: 15pt;
+    font-weight: bold;
+}
+
+
+#content .FirstChild {  /* IE doesn't understand first-child pseudoelement */
+    margin-top: 0pt;
+}
+
+#content a {
+    text-decoration: none;
+}
+
+#content a:link, a:visited, a:hover, a:active {
+    color: black;
+}
+
+#content li {
+    margin-bottom: 6px;
+}
+
+#content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#content th {
+    border: solid black 1pt;
+    border-bottom: solid black 2pt;
+}
+
+#content td {
+    border: solid black 1pt;
+}
+
+.Source pre {
+    padding: 4pt;
+    padding-left: 8pt;
+    font-family: courier new, monospace;
+    font-size: 11pt;
+    border-left: 1px solid;
+}
+
+.Source:before {
+	margin: 0pt;
+	padding: 0pt;
+	border: 0pt;
+	font-size: inherit;
+	line-spacing: 100%;
+}
+
+.DynaMock:before {
+	content: "DynaMock: ";
+}
+
+.EasyMock:before {
+	content: "EasyMock: ";
+}
+
+.JMock:before {
+	content: "jMock: ";
+}
+
+/* The following are for images, but can also apply to div's containing images. */
+
+#content .Float {
+	float: right;
+	margin-left: 8pt;
+	margin-right: 0pt;
+	margin-top: 8pt;
+	margin-bottom: 8pt;
+}
+
+#content .Diagram {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 8pt;
+	margin-bottom: 8pt;
+}
+
+
+#content .Inline {
+	display: inline;
+}
+
+.RuleOfThumb {
+	font-weight: bold;
+}
+
+/*---------------------------------------------------------------------------
+ *  Document meta-information
+ */
+
+.Meta {
+    display: none;
+}
+
+.LinkFootnotes {
+    display: block;
+    margin-top: 24pt;
+    font-size: 8pt;
+}
+
+.LinkFootnotesHeader {
+    border-top: solid black 1pt;
+    width: 150pt;
+}
+
+.LinkFootnotes p {
+    margin: 0pt;
+}
+
+.LinkFootnoteRef {
+    display: inline;
+}
+
