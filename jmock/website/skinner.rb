@@ -90,13 +90,22 @@ def write_to_output( xhtml, output_file )
 end
 
 def delete_old_output
-    Dir[File.join(OUTPUT_DIR,"*")].each do |file|
-        File.delete(file)
+    if FileTest.exists?(OUTPUT_DIR)
+        Dir[File.join(OUTPUT_DIR,"*")].each do |file|
+            File.delete(file)
+        end
+    end
+end
+
+def create_output_directory
+    if !FileTest.exists?(OUTPUT_DIR)
+       Dir.mkdir(OUTPUT_DIR)
     end
 end
 
 def build_site
     delete_old_output
+    create_output_directory
     skin_content_to_output
     copy_to_output content_assets
     copy_to_output skin_assets
