@@ -3,7 +3,7 @@ package org.jmock.builder;
 
 import org.jmock.C;
 import org.jmock.Constraint;
-import org.jmock.dynamic.framework.StubMatchersCollection;
+import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.CallOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;

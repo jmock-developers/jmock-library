@@ -3,7 +3,7 @@ package test.jmock.dynamic.stub;
 
 import junit.framework.TestCase;
 
-import org.jmock.dynamic.framework.Invocation;
+import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.stub.VoidStub;
 
 public class VoidStubTest 

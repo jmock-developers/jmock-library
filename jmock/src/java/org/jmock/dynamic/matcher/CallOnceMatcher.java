@@ -2,8 +2,8 @@
 package org.jmock.dynamic.matcher;
 
 import junit.framework.Assert;
-import org.jmock.dynamic.framework.Invocation;
-import org.jmock.dynamic.framework.InvocationMatcher;
+import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.InvocationMatcher;
 
 public class CallOnceMatcher implements InvocationMatcher {
     private boolean wasInvoked = false;

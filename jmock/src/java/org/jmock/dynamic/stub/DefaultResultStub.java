@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.jmock.dynamic.framework.Invocation;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 
 import junit.framework.AssertionFailedError;

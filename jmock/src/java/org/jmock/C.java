@@ -2,8 +2,8 @@
 package org.jmock;
 
 import org.jmock.constraint.*;
-import org.jmock.dynamic.framework.*;
-import org.jmock.dynamic.framework.Invocation;
+import org.jmock.dynamic.*;
+import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 

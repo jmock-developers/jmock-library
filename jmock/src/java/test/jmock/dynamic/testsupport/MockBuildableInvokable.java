@@ -1,8 +1,8 @@
 package test.jmock.dynamic.testsupport;
 
-import org.jmock.dynamic.framework.BuildableInvokable;
-import org.jmock.dynamic.framework.InvocationMatcher;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.BuildableInvokable;
+import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.Stub;
 import org.jmock.expectation.ExpectationSet;
 import org.jmock.expectation.ExpectationValue;
 

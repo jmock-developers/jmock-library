@@ -3,7 +3,7 @@ package test.jmock.dynamock;
 import junit.framework.TestCase;
 
 import org.jmock.C;
-import org.jmock.dynamic.framework.InvocationMatcher;
+import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamock.Mock;
 
 import test.jmock.dynamic.testsupport.MockBuildableInvokable;

@@ -1,14 +1,14 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.dynamic.framework;
+package test.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import test.jmock.dynamic.testsupport.MockInvocationDispatcher;
 import test.jmock.dynamic.testsupport.MockInvokable;
 
-import org.jmock.dynamic.framework.CoreMock;
-import org.jmock.dynamic.framework.DynamicUtil;
-import org.jmock.dynamic.framework.Invocation;
+import org.jmock.dynamic.CoreMock;
+import org.jmock.dynamic.DynamicUtil;
+import org.jmock.dynamic.Invocation;
 import org.jmock.expectation.AssertMo;
 
 

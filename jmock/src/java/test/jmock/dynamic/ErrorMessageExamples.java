@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.dynamic.framework;
+package test.jmock.dynamic;
 
 import junit.framework.Assert;
 import junit.textui.TestRunner;

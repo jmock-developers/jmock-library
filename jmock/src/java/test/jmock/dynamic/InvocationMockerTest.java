@@ -1,15 +1,15 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.dynamic.framework;
+package test.jmock.dynamic;
 
 import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.Verifier;
-import org.jmock.dynamic.framework.Invocation;
-import org.jmock.dynamic.framework.InvocationMatcher;
-import org.jmock.dynamic.framework.InvocationMocker;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.InvocationMocker;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;

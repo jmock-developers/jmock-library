@@ -2,8 +2,8 @@
 package test.jmock.dynamic.stub;
 
 import junit.framework.TestCase;
-import test.jmock.dynamic.framework.DummyThrowable;
-import org.jmock.dynamic.framework.Invocation;
+import test.jmock.dynamic.DummyThrowable;
+import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.stub.ThrowStub;
 
 public class ThrowStubTest 

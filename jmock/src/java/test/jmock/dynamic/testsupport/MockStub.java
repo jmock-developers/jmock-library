@@ -1,7 +1,7 @@
 package test.jmock.dynamic.testsupport;
 
-import org.jmock.dynamic.framework.Invocation;
-import org.jmock.dynamic.framework.Stub;
+import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.Stub;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.Verifiable;

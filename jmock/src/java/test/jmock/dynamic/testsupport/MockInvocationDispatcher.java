@@ -3,9 +3,9 @@ package test.jmock.dynamic.testsupport;
 
 import junit.framework.AssertionFailedError;
 
-import org.jmock.dynamic.framework.Invocation;
-import org.jmock.dynamic.framework.InvocationDispatcher;
-import org.jmock.dynamic.framework.Invokable;
+import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.InvocationDispatcher;
+import org.jmock.dynamic.Invokable;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.MockObject;
