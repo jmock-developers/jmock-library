@@ -7,7 +7,8 @@ import org.jmock.dynamic.Invocation;
 import java.util.List;
 
 public class ArgumentsMatcher
-        extends StatelessInvocationMatcher {
+        extends StatelessInvocationMatcher 
+{
     private Constraint[] constraints;
 
     public ArgumentsMatcher(Constraint[] constraints) {

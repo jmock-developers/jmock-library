@@ -6,33 +6,13 @@ import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.dynamic.Invocation;
 
-public class InvocationMatcherTest extends AbstractTestCase {
+public class ArgumentsMatcherTest extends AbstractTestCase {
     private Invocation emptyInvocation =
             new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
 
     private Invocation exampleInvocation =
             new Invocation(Void.class, "example", new Class[]{String.class}, Void.class,
                     new Object[]{"arg1", "arg2"});
-
-    public void testNameMatchesWhenConstraintIsAnything() {
-        MethodNameMatcher matcher = new MethodNameMatcher(C.IS_ANYTHING);
-        assertTrue("Should match name", matcher.matches(exampleInvocation));
-    }
-
-    public void testNameMatchesWhenConstraintIsNothing() {
-        MethodNameMatcher matcher = new MethodNameMatcher(C.not(C.IS_ANYTHING));
-        assertFalse("Should not match name", matcher.matches(exampleInvocation));
-    }
-
-    public void testNameMatchesGivenString() {
-        MethodNameMatcher matcher = new MethodNameMatcher("example");
-        assertTrue("Should match name", matcher.matches(exampleInvocation));
-    }
-
-    public void testNameDoesNotMatchIncorrectString() {
-        MethodNameMatcher matcher = new MethodNameMatcher("not an example");
-        assertFalse("Should not match name", matcher.matches(exampleInvocation));
-    }
 
     public void testMatchWhenNoArgumentsOrConstraints() throws Throwable {
         ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);
@@ -69,6 +49,4 @@ public class InvocationMatcherTest extends AbstractTestCase {
 
         assertTrue("Arguments match", matcher.matches(exampleInvocation));
     }
-
-
 }
