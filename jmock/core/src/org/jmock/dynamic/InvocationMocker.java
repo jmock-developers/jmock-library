@@ -2,6 +2,7 @@
 package org.jmock.dynamic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,18 +17,25 @@ public class InvocationMocker
     public interface Describer {
         public boolean hasDescription();
         
-        public void describeTo( StringBuffer buf,
+        public void describeTo( StringBuffer buffer,
                                 List matchers, Stub stub, String name );
     }
-    
     
     private String name = null;
     private List matchers = new ArrayList();
     private Stub stub = VoidStub.INSTANCE;
+    private Describer describer;
     
     
+    public InvocationMocker() {
+        this.describer = DEFAULT_DESCRIBER;
+    }
     
-    public boolean matches(Invocation invocation) {
+    public InvocationMocker( Describer describer ) {
+        this.describer = describer;
+    }
+
+    public boolean matches( Invocation invocation ) {
         Iterator i = matchers.iterator();
         while (i.hasNext()) {
             if (!((InvocationMatcher) i.next()).matches(invocation)) {
@@ -37,7 +45,7 @@ public class InvocationMocker
         return true;
     }
 
-    public Object invoke(Invocation invocation) throws Throwable {
+    public Object invoke( Invocation invocation ) throws Throwable {
         Iterator i = matchers.iterator();
         while (i.hasNext()) {
             ((InvocationMatcher) i.next()).invoked(invocation);
@@ -71,31 +79,46 @@ public class InvocationMocker
         this.stub = stub;
     }
     
-    public boolean hasDescription() {
-        return true;
+    public String toString() {
+        return describeTo(new StringBuffer()).toString();
     }
     
-    //TODO: make the description configurable by delegating to a formatter interface
+    public boolean hasDescription() {
+        return describer.hasDescription();
+    }
+    
     public StringBuffer describeTo(StringBuffer buffer) {
-        Iterator it = matchers.iterator();
-        while (it.hasNext()) {
-            InvocationMatcher matcher = (InvocationMatcher) it.next();
-            
-            if( matcher.hasDescription() ) {
-                matcher.describeTo(buffer).append(", ");
-            }
-        }
-        
-        stub.describeTo(buffer);
-        
-        if( name != null ) {
-            buffer.append( " [").append(name).append("]");
-        }
+        describer.describeTo( buffer,
+                              Collections.unmodifiableList(matchers), 
+                              stub,
+                              name);
         
         return buffer;
     }
     
-    public String toString() {
-        return describeTo(new StringBuffer()).toString();
-    }
+    private static final Describer DEFAULT_DESCRIBER = new Describer() {
+        public boolean hasDescription() {
+            return true;
+        }
+
+        public void describeTo( StringBuffer buffer, 
+                                List matchers, Stub stub, String name ) 
+        {
+            Iterator it = matchers.iterator();
+            while (it.hasNext()) {
+                InvocationMatcher matcher = (InvocationMatcher) it.next();
+                
+                if( matcher.hasDescription() ) {
+                    matcher.describeTo(buffer).append(", ");
+                }
+            }
+            
+            stub.describeTo(buffer);
+            
+            if( name != null ) {
+                buffer.append( " [").append(name).append("]");
+            }
+            
+        }
+    };
 }

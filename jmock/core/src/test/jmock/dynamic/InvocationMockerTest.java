@@ -1,14 +1,18 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 
+import org.jmock.Verifiable;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.InvocationMocker;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 import org.jmock.expectation.ExpectationCounter;
+import org.jmock.expectation.ExpectationList;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
 
@@ -157,5 +161,67 @@ public class InvocationMockerTest extends TestCase {
         String description = mocker.describeTo(new StringBuffer()).toString();
         assertTrue( "name should be in description",
                     description.indexOf(name) >= 0 );
+    }
+    
+    
+    class MockDescriber implements InvocationMocker.Describer, Verifiable {
+        public ExpectationCounter hasDescriptionCalls = 
+            new ExpectationCounter("hasDescription #calls");
+        public boolean hasDescriptionResult = false;
+        
+        public boolean hasDescription() {
+            hasDescriptionCalls.inc();
+            return hasDescriptionResult;
+        }
+        
+        public ExpectationValue describeToBuf = 
+            new ExpectationValue("describeTo buf");
+        public ExpectationList describeToMatchers = 
+            new ExpectationList("describeTo matchers");
+        public ExpectationValue describeToStub = 
+            new ExpectationValue("describeTo stub");
+        public ExpectationValue describeToName = 
+            new ExpectationValue("describeTo name");
+        
+        public void describeTo(StringBuffer buf, List matchers, Stub stub, String name) {
+            describeToBuf.setActual(buf);
+            describeToMatchers.addActualMany(matchers.iterator());
+            describeToStub.setActual(stub);
+            describeToName.setActual(name);
+        }
+        
+        public void verify() {
+            Verifier.verifyObject(this);
+        }
+    }
+    
+    public void testDelegatesRequestForDescriptionDescriberObject() {
+        MockDescriber mockDescriber = new MockDescriber();
+        MockInvocationMatcher mockMatcher1 = new MockInvocationMatcher();
+        MockInvocationMatcher mockMatcher2 = new MockInvocationMatcher();
+        MockStub mockStub = new MockStub();
+        String invocationMockerName = "INVOCATION-MOCKER-NAME";
+        StringBuffer buf = new StringBuffer();
+        
+        
+        invocationMocker = new InvocationMocker(mockDescriber);
+        invocationMocker.addMatcher(mockMatcher1);
+        invocationMocker.addMatcher(mockMatcher2);
+        invocationMocker.setStub(mockStub);
+        invocationMocker.setName(invocationMockerName);
+        
+        mockDescriber.hasDescriptionCalls.setExpected(1);
+        mockDescriber.hasDescriptionResult = true;
+        
+        mockDescriber.describeToBuf.setExpected(buf);
+        mockDescriber.describeToMatchers.addActual(mockMatcher1);
+        mockDescriber.describeToMatchers.addActual(mockMatcher2);
+        mockDescriber.describeToStub.setExpected(mockStub);
+        mockDescriber.describeToName.setExpected(invocationMockerName);
+        
+        assertTrue( "should have description", invocationMocker.hasDescription() );
+        invocationMocker.describeTo(buf);
+        
+        mockDescriber.verify();
     }
 }
