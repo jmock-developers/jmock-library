@@ -16,6 +16,10 @@ public class DefaultResultStub
 {
 	private Map resultValuesByType = new HashMap();
 	
+    public DefaultResultStub() {
+        createDefaultResults();
+    }
+    
 	public StringBuffer writeTo( StringBuffer buf ) {
 		return buf.append("a guessed result");
 	}
@@ -62,26 +66,22 @@ public class DefaultResultStub
 		return buf.toString();
 	}
 	
-	public static DefaultResultStub createStub() {
-		DefaultResultStub stub = new DefaultResultStub();
-		
-        stub.addResult( void.class, null );
-		stub.addResult( byte.class, new Byte((byte)0) );
-		stub.addResult( short.class, new Short((short)0) );
-		stub.addResult( int.class, new Integer(0) );
-		stub.addResult( long.class, new Long(0L) );
-		stub.addResult( char.class, new Character('\0') );
-		stub.addResult( float.class, new Float(0.0F) );
-		stub.addResult( double.class, new Double(0.0) );
-		stub.addResult( Byte.class, new Byte((byte)0) );
-		stub.addResult( Short.class, new Short((short)0) );
-		stub.addResult( Integer.class, new Integer(0) );
-		stub.addResult( Long.class, new Long(0L) );
-		stub.addResult( Character.class, new Character('\0') );
-		stub.addResult( Float.class, new Float(0.0F) );
-		stub.addResult( Double.class, new Double(0.0) );
-		stub.addResult( String.class, "<default string result>" );
-		
-		return stub;
+	protected void createDefaultResults() {
+        addResult( void.class,        null );
+		addResult( byte.class,        new Byte((byte)0) );
+		addResult( short.class,       new Short((short)0) );
+		addResult( int.class,         new Integer(0) );
+		addResult( long.class,        new Long(0L) );
+		addResult( char.class,        new Character('\0') );
+		addResult( float.class,       new Float(0.0F) );
+		addResult( double.class,      new Double(0.0) );
+		addResult( Byte.class,        new Byte((byte)0) );
+		addResult( Short.class,       new Short((short)0) );
+		addResult( Integer.class,     new Integer(0) );
+		addResult( Long.class,        new Long(0L) );
+		addResult( Character.class,   new Character('\0') );
+		addResult( Float.class,       new Float(0.0F) );
+		addResult( Double.class,      new Double(0.0) );
+		addResult( String.class,      "<default string result>" );
 	}
 }

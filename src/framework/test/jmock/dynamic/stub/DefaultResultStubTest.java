@@ -30,12 +30,27 @@ public class DefaultResultStubTest
 			"guessed result", stub.writeTo(new StringBuffer()).toString() );
 	}
 	
-	public void testIsConstructedEmpty() throws Throwable {
-        assertHasNotRegisteredReturnType(stub,String.class);
-        assertHasNotRegisteredReturnType(stub,int.class);
-        assertHasNotRegisteredReturnType(stub,void.class);
-	}
-	
+    public void testReturnsUsefulDefaultResultsForBasicTypes()
+        throws Throwable
+    {
+        assertHasRegisteredValue( stub, void.class, null );
+        assertHasRegisteredValue( stub, byte.class, new Byte((byte)0) );
+        assertHasRegisteredValue( stub, short.class, new Short((short)0) );
+        assertHasRegisteredValue( stub, int.class, new Integer(0) );
+        assertHasRegisteredValue( stub, long.class, new Long(0L) );
+        assertHasRegisteredValue( stub, char.class, new Character('\0') );
+        assertHasRegisteredValue( stub, float.class, new Float(0.0F) );
+        assertHasRegisteredValue( stub, double.class, new Double(0.0) );
+        assertHasRegisteredValue( stub, Byte.class, new Byte((byte)0) );
+        assertHasRegisteredValue( stub, Short.class, new Short((short)0) );
+        assertHasRegisteredValue( stub, Integer.class, new Integer(0) );
+        assertHasRegisteredValue( stub, Long.class, new Long(0L) );
+        assertHasRegisteredValue( stub, Character.class, new Character('\0') );
+        assertHasRegisteredValue( stub, Float.class, new Float(0.0F) );
+        assertHasRegisteredValue( stub, Double.class, new Double(0.0) );
+        assertHasRegisteredValue( stub, String.class, "<default string result>" );
+    }
+    
     private static class AnyType {}
 
     public void testReturnsEmptyArrayForAllArrayTypes()
@@ -52,20 +67,23 @@ public class DefaultResultStubTest
         assertEquals( "should be empty array", 0, defaultArrayForAnyType.length );
     }
     
-	public void testReturnsRegisteredValuesForAppropriateReturnTypesFromCall()
+	public void testDefaultResultsCanBeExplicitlyOverriddenByType()
 		throws Throwable
 	{
-		stub.addResult( String.class, "hello" );        
-		stub.addResult( int.class, new Integer(0) );
+		int newDefaultIntResult = 20;
+        String newDefaultStringResult = "hello";
+        
+        stub.addResult( String.class, newDefaultStringResult );
+		stub.addResult( int.class, new Integer(newDefaultIntResult) );
 		
 		assertEquals( "expected registered value for string result type",
-				      "hello", stub.invoke(resultCall(String.class)) );
+				      newDefaultStringResult, stub.invoke(resultCall(String.class)) );
 		
 		assertEquals( "expected registered value for int result type",
-					  new Integer(0), stub.invoke(resultCall(int.class)) );
+					  new Integer(newDefaultIntResult), stub.invoke(resultCall(int.class)) );
 	}
 	
-	public void testRegisteredResultOverridePreviousResultsForTheSameType()
+	public void testAnExplicitlyRegisteredResultOverridesThePreviousResultForTheSameType()
 	    throws Throwable
 	{
 		stub.addResult( String.class, "result1" );
@@ -75,7 +93,7 @@ public class DefaultResultStubTest
 				      "result2", stub.invoke(resultCall(String.class)) );
 	}
 	
-	public void testCallWithUnregisteredReturnTypeThrowsAssertionFailedError()
+	public void testInvocationWithAnUnregisteredReturnTypeCausesAnAssertionFailedError()
         throws Throwable
     {
         Class unsupportedReturnType = Long.class;
@@ -101,44 +119,6 @@ public class DefaultResultStubTest
             			supportedReturnTypes[i].toString(), message );
             }
 		}
-	}
-	
-	public void testCallWhenNoRegisteredReturnTypeThrowsAssertionFailedError()
-        throws Throwable
-    {
-		try {
-            stub.invoke( resultCall(Long.class) );
-		}
-		catch( AssertionFailedError ex ) {
-			String message = ex.getMessage();
-			
-			AssertMo.assertIncludes( 
-				"message should report no registered return types",
-				"no result types are registered", message );
-		}
-	}
-	
-	public void testFactoryMethodCreatesAStubLoadedWithUsefulResults()
-		throws Throwable
-	{
-		stub = DefaultResultStub.createStub();
-		
-        assertHasRegisteredValue( stub, void.class, null );
-		assertHasRegisteredValue( stub, byte.class, new Byte((byte)0) );
-		assertHasRegisteredValue( stub, short.class, new Short((short)0) );
-		assertHasRegisteredValue( stub, int.class, new Integer(0) );
-		assertHasRegisteredValue( stub, long.class, new Long(0L) );
-		assertHasRegisteredValue( stub, char.class, new Character('\0') );
-		assertHasRegisteredValue( stub, float.class, new Float(0.0F) );
-		assertHasRegisteredValue( stub, double.class, new Double(0.0) );
-		assertHasRegisteredValue( stub, Byte.class, new Byte((byte)0) );
-		assertHasRegisteredValue( stub, Short.class, new Short((short)0) );
-		assertHasRegisteredValue( stub, Integer.class, new Integer(0) );
-		assertHasRegisteredValue( stub, Long.class, new Long(0L) );
-		assertHasRegisteredValue( stub, Character.class, new Character('\0') );
-		assertHasRegisteredValue( stub, Float.class, new Float(0.0F) );
-		assertHasRegisteredValue( stub, Double.class, new Double(0.0) );
-		assertHasRegisteredValue( stub, String.class, "<default string result>" );
 	}
 	
 	public void assertHasRegisteredValue( DefaultResultStub defaultResultStub,
