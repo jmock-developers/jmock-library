@@ -5,9 +5,9 @@ require 'rexml/document'
 require 'xemplate'
 include REXML
 
-SNAPSHOT_ID = ENV["SNAPSHOT_ID"] || "n/a"
-PRERELEASE_ID = ENV["PRERELEASE_ID"] || "n/a"
 RELEASE_ID = ENV["RELEASE_ID"] || "n/a"
+PRERELEASE_ID = ENV["PRERELEASE_ID"] || "n/a"
+SNAPSHOT_ID = ENV["SNAPSHOT_ID"] || "n/a"
 
 BASE_DIR = "."
 CONTENT_DIR = File.join(BASE_DIR,"content")
@@ -94,9 +94,9 @@ def skin_content_file( content_file, root_content_dir )
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
-        "snapshot" => SNAPSHOT_ID,
-        "prerelease" => PRERELEASE_ID,
-        "release" => RELEASE_ID
+        "snapshot" => String.new(SNAPSHOT_ID),
+        "prerelease" => String.new(PRERELEASE_ID),
+        "release" => String.new(RELEASE_ID)
     }
     
     skinned_content = TEMPLATE.expand( config )
