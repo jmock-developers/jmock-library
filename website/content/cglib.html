@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>Mocking Classes with CGLIB</title>
+  </head>
+  
+  <body>
+    <h1>Mocking Classes with jMock and CGLIB</h1>
+    
+    <p>Because it uses Java's standard reflection capability, the default 
+    configuration of the jMock framework can only mock interfaces, not classes.
+    The optional <code>org.jmock.cglib</code> extension package uses the
+    <a href="http://cglib.sourceforge.net">CGLIB 2</a> library to create mock objects
+    of classes as well as interfaces.
+    </p>
+    
+    <p>To use the CGLIB extension:</p>
+    
+    <ol>
+      <li>Download <a href="http://sourceforge.net/project/showfiles.php?group_id=56933&package_id=98218">CGLIB 2</a> and the 
+      <a href="http://www.jmock.org/downloads.html">jMock CGLIB extension</a>.</li>
+      
+      <li>Add CGLIB and the <code>jmock-cglib-</code><var>version</var><code>.jar</code> 
+      file to the CLASSPATH.</li>
+	
+      <li>Import from <code>org.jmock.cglib</code> instead of <code>org.jmock</code> in
+      your test cases:
+        <div class="Source Java">
+<pre>import org.jmock.cglib.Mock;
+import org.jmock.cglib.MockObjectTestCase;</pre>
+        </div>
+      </li>
+      
+      <li>Create mocks of concrete classes in your tests:</p>
+        <div class="Source Java">
+          <pre>Mock mockGraphics = new Mock(java.awt.Graphics.class,"mockGraphics");</pre>
+        </div>
+      </li>
+      
+      <li>Err... that's it.</li>
+    </ol>
+    
+    <p>The <code>Mock</code> and <code>MockObjectTestsCase</code> classes defined 
+    in the org.jmock.cglib package are completely compatible with those of the 
+    vanilla jMock API.  All they do is use CGLIB to proxy calls instead of the
+    Java reflection API.  This makes it easy to convert a test class to use the
+    CGLIB extension when you find that there is no way you can possibly avoid 
+    mocking a concrete class: just change the imports of
+    <code>Mock</code> and <code>MockObjectTestsCase</code> for that test class
+    and all the mock objects will then use CGLIB to proxy calls.</p>
+  </body>
+</html>
