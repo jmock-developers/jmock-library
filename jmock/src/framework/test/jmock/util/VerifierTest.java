@@ -11,11 +11,12 @@ public class VerifierTest extends TestCase {
 
     class OneVerifiable extends MockObject {
         private ExpectationValue myValue = new ExpectationValue("should fail");
-        private int unusedField;
+        private int unusedField = 0;
 
         public OneVerifiable() {
             myValue.setFailOnVerify();
             myValue.setExpected("good");
+            unusedField = unusedField+1; // to avoid compiler warning
         }
 
         public void setValue(String aValue) {
