@@ -34,8 +34,7 @@ public class CGLIBCoreMockTest extends TestCase
 		}
 	}
 
-	static class ConcreteType
-	{
+	static class ConcreteType {
 		public void method() {
 		}
 	}
@@ -53,14 +52,16 @@ public class CGLIBCoreMockTest extends TestCase
 	}
 
 	public void testMockAnnotatesAssertionFailedError()
-	        throws Throwable {
+	        throws Throwable
+	{
 		final String originalMessage = "original message";
 
-		Object arg = new AssertionFailedError(originalMessage);
-		mockDispatcher.dispatchResult = arg;
+		Throwable throwable = new AssertionFailedError(originalMessage);
+		mockDispatcher.dispatchThrowable = throwable;
 
 		try {
 			proxy.noArgVoidMethod();
+			fail("should throw AssertionFailedError");
 		}
 		catch (AssertionFailedError err) {
 			AssertMo.assertIncludes("should contain original message", originalMessage, err.getMessage());
