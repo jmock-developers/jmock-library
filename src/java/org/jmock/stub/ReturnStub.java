@@ -6,7 +6,8 @@ import org.jmock.dynamic.Invocation;
 
 public class ReturnStub
         extends CallStub
-        implements Stub {
+        implements Stub 
+{
     private Object result;
 
     public ReturnStub(Object result) {
