@@ -4,8 +4,6 @@
 	<classpathentry kind="src" path="core/acceptance-tests"/>
 	<classpathentry kind="src" path="extensions/cglib/src"/>
 	<classpathentry kind="src" path="extensions/cglib/acceptance-tests"/>
-	<classpathentry kind="src" path="extensions/dynamock/src"/>
-	<classpathentry kind="src" path="extensions/dynamock/acceptance-tests"/>
 	<classpathentry kind="src" path="examples/calculator/src"/>
 	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
 	<classpathentry kind="src" path="examples/publisher/src"/>
