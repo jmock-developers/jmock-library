@@ -1,0 +1,31 @@
+<html>
+  <head>
+  	<title>Comparing jMock and Dynamock</title>
+  </head>
+  
+  <body>
+  	<h1>Comparing jMock and EasyMock</h1>
+  	
+  	<p><a href="http://www.easymock.org">EasyMock</a> is also a dynamic mock object library for Java.
+  	What are the main differences between jMock and EasyMock?</p>
+  	
+    <h2>EasyMock doesn't use strings to identify methods</h2>
+    <p>EasyMock therefore better cooperates with refactoring tools.
+    In practice we have found that this does not effect jMock badly,
+    especially if you use tools like IntelliJ or Eclipse.</p>
+
+    <h2>jMock makes it easier to keep tests flexible.</h2>
+    <p>Constraints, matchers, etc.</p>
+
+    <h2>jMock is designed for readability</h2>
+    <p>jMock has a "specifiation" API. EasyMock uses a "record/playback" API.  Tests written with jMock are much
+    easier to read as documentation.</p>
+
+    <h2>jMock lets you stub methods with side effects</h2>
+    <p>See <a href="custom-stubs.html">here</a>.</p>
+
+    <h2>jMock gives you more control over the order of invocations</h2>
+    <p>jMock lets the programmer specify partial orders of invocations and specify ordering between invocations
+    on different mock objects.</p>
+  </body>
+</html>
