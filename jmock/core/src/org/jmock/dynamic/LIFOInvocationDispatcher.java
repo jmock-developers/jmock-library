@@ -48,7 +48,7 @@ public class LIFOInvocationDispatcher
         invokables.clear();
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         int oldLength = buffer.length();
         writeInvokablesTo( buffer );
         
@@ -62,7 +62,7 @@ public class LIFOInvocationDispatcher
 	private void writeInvokablesTo(StringBuffer buffer) {
 		Iterator iterator = invokables.iterator();
 		while (iterator.hasNext()) {
-		    ((Invokable) iterator.next()).writeTo(buffer);
+		    ((Invokable) iterator.next()).describeTo(buffer);
 		}
 	}
 }

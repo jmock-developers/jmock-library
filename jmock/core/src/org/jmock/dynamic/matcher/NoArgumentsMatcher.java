@@ -9,7 +9,7 @@ public class NoArgumentsMatcher extends StatelessInvocationMatcher {
     public boolean matches(Invocation invocation) {
         return invocation.getParameterValues().isEmpty();
     }
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("(no arguments)");
     }
 }

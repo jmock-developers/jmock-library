@@ -48,7 +48,7 @@ public class TestFailureMatcherTest
 	public void testUsesErrorMessageAsDescription() {
 		StringBuffer buffer = new StringBuffer();
 		
-		testFailureMatcher.writeTo(buffer);
+		testFailureMatcher.describeTo(buffer);
 		
 		assertEquals( "description", MESSAGE, buffer.toString() );
 	}

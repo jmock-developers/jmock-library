@@ -24,7 +24,7 @@ public class CustomStubTest extends TestCase {
         
         StringBuffer buf = new StringBuffer();
         
-        assertSame( "should return buffer", buf, sideEffect.writeTo(buf) );
+        assertSame( "should return buffer", buf, sideEffect.describeTo(buf) );
         
         assertEquals( "should be description", description, buf.toString() );
     }

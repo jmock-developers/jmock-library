@@ -67,7 +67,7 @@ public class MockCallable
         return "MockCallable " + name;
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         throw new AssertionError("should implement writeTo");
     }
 }

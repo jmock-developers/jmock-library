@@ -22,7 +22,7 @@ public class DefaultResultStub
         createDefaultResults();
     }
     
-	public StringBuffer writeTo( StringBuffer buf ) {
+	public StringBuffer describeTo( StringBuffer buf ) {
 		return buf.append("a guessed result");
 	}
 	

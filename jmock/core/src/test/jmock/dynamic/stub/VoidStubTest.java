@@ -27,7 +27,7 @@ public class VoidStubTest
     public void testIncludesVoidInDescription() {
     	StringBuffer buffer = new StringBuffer();
     	
-    	voidStub.writeTo(buffer);
+    	voidStub.describeTo(buffer);
     	
     	String description = buffer.toString();
     	

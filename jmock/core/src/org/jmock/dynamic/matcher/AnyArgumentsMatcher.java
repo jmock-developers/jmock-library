@@ -10,7 +10,7 @@ public class AnyArgumentsMatcher extends StatelessInvocationMatcher {
     public boolean matches(Invocation invocation) {
         return true;
     }
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("(any arguments)");
     }
 }

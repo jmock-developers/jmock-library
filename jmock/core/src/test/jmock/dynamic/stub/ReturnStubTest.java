@@ -29,7 +29,7 @@ public class ReturnStubTest
     public void testIncludesValueInDescription() {
     	StringBuffer buffer = new StringBuffer();
     	
-    	returnStub.writeTo(buffer);
+    	returnStub.describeTo(buffer);
     	
     	String description = buffer.toString();
     	

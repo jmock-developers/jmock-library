@@ -17,7 +17,7 @@ public class ThrowStub
         throw throwable;
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("throws <").append(throwable).append(">");
     }
 }

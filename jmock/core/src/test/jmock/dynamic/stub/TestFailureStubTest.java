@@ -36,7 +36,7 @@ public class TestFailureStubTest
 	public void testIncludesErrorMessageInDescription() {
 		StringBuffer buffer = new StringBuffer();
 		
-		testFailureStub.writeTo(buffer);
+		testFailureStub.describeTo(buffer);
 		
 		String description = buffer.toString();
 		

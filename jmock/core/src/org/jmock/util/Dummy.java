@@ -25,7 +25,7 @@ public class Dummy {
             public boolean matches( Invocation invocation ) {
             	return invocation.getDeclaringClass() == interfaceClass;
             }
-            public StringBuffer writeTo(StringBuffer buf) {
+            public StringBuffer describeTo(StringBuffer buf) {
             	return buf.append("anu method declared in " + interfaceClass);
             }
         } );

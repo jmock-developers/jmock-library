@@ -28,7 +28,7 @@ public class MockInvokable extends MockVerifiable implements Invokable {
         return invokeResult;
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         throw new AssertionError("should implement writeTo");
     }
 }

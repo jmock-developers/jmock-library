@@ -28,7 +28,7 @@ public class MethodNameMatcher
         return constraint.eval(invocation.getMethodName());
     }
 
-    public StringBuffer writeTo(StringBuffer buffer) {
+    public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append(constraint);
     }
 }
