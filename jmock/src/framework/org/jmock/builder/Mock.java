@@ -32,6 +32,11 @@ public class Mock
         this.coreMock = coreMock;
     }
     
+
+    public Class[] getMockedTypes() {
+        return coreMock.getMockedTypes();
+    }
+
     public Object proxy() {
         return coreMock.proxy();
     }
@@ -72,5 +77,4 @@ public class Mock
         }
         idTable.put( id, builder );
 	}
-
 }

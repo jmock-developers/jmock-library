@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationHandler;
 public interface DynamicMock
     extends Verifiable, InvocationHandler 
 {
+    Class[] getMockedTypes();
+    
     Object proxy();
     
     void setDefaultStub( Stub newDefaultStub );

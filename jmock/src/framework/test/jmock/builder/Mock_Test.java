@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import org.jmock.builder.ExpectationBuilder;
 import org.jmock.builder.Mock;
+import org.jmock.expectation.AssertMo;
 
 import test.jmock.builder.testsupport.MockExpectationBuilder;
 import test.jmock.dynamic.DummyInterface;
@@ -44,6 +45,17 @@ public class Mock_Test extends TestCase {
         mockCoreMock.verifyExpectations();
     }
     
+    private interface MockedType {}
+    
+    public void testReportsTypesMockByUnderlyingMock(){
+        Class[] mockedTypes = new Class[] { MockedType.class };
+        
+        mockCoreMock.getMockedTypesCalls.setExpected(1);
+        mockCoreMock.getMockedTypesResult = mockedTypes;
+        
+        AssertMo.assertEquals( "mocked types", 
+                               mockedTypes, mock.getMockedTypes() );
+    }
     
     public void testPassesDefaultStubToCoreMock() {
         MockStub mockDefaultStub = new MockStub();
