@@ -330,8 +330,7 @@ ul, ol {
 }
 
 .More {
-		right: 0px;
-		margin-left: auto;
+		width: 100%;
 		font-size: smaller;
 		text-align: right;
 }
