@@ -6,26 +6,16 @@ import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
 
-public class ReturnTypeAcceptanceTest extends MockObjectTestCase
-{
-    public interface ReturnTypes
-    {
+public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
+    public interface ReturnTypes {
         String returnString();
-
         boolean returnBoolean();
-
         byte returnByte();
-
         char returnChar();
-
         short returnShort();
-
         int returnInt();
-
         long returnLong();
-
         float returnFloat();
-
         double returnDouble();
     }
 

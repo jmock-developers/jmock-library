@@ -68,11 +68,11 @@ public class ReturnStub
 
     private void reportTypeError( Class returnType, Class valueType ) {
         fail("tried to return an incompatible value: " +
-             "expected a " + returnType + " but returned a " + valueType);
+             "expected a " + returnType.getName() + " but returned a " + valueType.getName());
     }
 
     private void reportInvalidNullValue( Class returnType ) {
-        fail("tried to return null value from invokedMethod returning " + returnType);
+        fail("tried to return null value from invokedMethod returning " + returnType.getName());
     }
 
     private void reportReturnFromVoidMethod() {
