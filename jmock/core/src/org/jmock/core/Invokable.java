@@ -4,7 +4,7 @@ package org.jmock.core;
 
 
 public interface Invokable
-        extends Verifiable, SelfDescribing
+    extends Verifiable, SelfDescribing
 {
     boolean matches( Invocation invocation );
 
