@@ -26,6 +26,16 @@
     <property name="src.jar" location="${dist.dir}/jmock-${version}-src.jar"/>
 
 
+    <target name="jars" depends="core.jar,cglib.jar,src.jar"/>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="rebuild" depends="clean,jars"/>
+
+    <target name="test" depends="core.test.unit,core.test.acceptance,cglib.test.unit,cglib.test.acceptance"/>
+
     <!-- JMOCK CORE -->
 
     <target name="core.build.dir">
@@ -46,6 +56,46 @@
                 <fileset dir="${lib.dir}"/>
             </classpath>
         </javac>
+    </target>
+
+    <!-- Ant cannot run the jMock unit tests.  Make sure that you run all the unit tests in your
+         IDE before committing changes to CVS.  You cannot trust the results of Ant's test runner.
+     -->
+    <target name="core.test.unit" depends="core.compile">
+        <mkdir dir="${report.test.unit.dir}"/>
+        <!--
+        <junit printsummary="yes" haltonfailure="true" haltonerror="true">
+            <classpath>
+                <fileset dir="${lib.dir}"/>
+                <pathelement path="${core.build.dir}"/>
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest fork="no" todir="${report.test.unit.dir}">
+                <fileset dir="${core.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*">
+                </fileset>
+            </batchtest>
+        </junit>
+        -->
+    </target>
+
+    <target name="core.test.acceptance" depends="core.atest.compile">
+        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
+        <mkdir dir="${report.test.acceptance.dir}"/>
+        <junit printsummary="yes">
+            <classpath>
+                <fileset dir="${lib.dir}"/>
+                <pathelement path="${core.build.dir}"/>
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest fork="no" todir="${report.test.acceptance.dir}">
+                <fileset dir="${core.atest.dir}" includes="atest/**/*Test.java" excludes="test/**/Abstract*"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="core.jar" depends="core.test.unit">
+        <mkdir dir="${dist.dir}"/>
+        <jar basedir="${core.build.dir}" destfile="${core.jar}" excludes="test/**" index="true"/>
     </target>
 
     <!-- CGLIB EXTENSION -->
@@ -72,19 +122,46 @@
         </javac>
     </target>
 
-    <!-- JAR FILES -->
+    <target name="cglib.test.unit" depends="cglib.compile">
+        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
+        <mkdir dir="${report.test.unit.dir}"/>
+        <junit printsummary="yes" haltonfailure="true" haltonerror="true">
+            <classpath>
+                <fileset dir="${lib.dir}"/>
+                <pathelement path="${core.build.dir}"/>
+                <pathelement path="${cglib.build.dir}"/>
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest fork="no" todir="${report.test.unit.dir}">
+                <fileset dir="${cglib.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*"/>
+            </batchtest>
+        </junit>
+    </target>
 
-    <target name="jars" depends="core.jar,cglib.jar,src.jar"/>
+    <target name="cglib.test.acceptance" depends="cglib.atest.compile">
+        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
+        <mkdir dir="${report.test.acceptance.dir}"/>
+        <junit printsummary="yes">
+            <classpath>
+                <fileset dir="${lib.dir}"/>
+                <pathelement path="${core.build.dir}"/>
+                <pathelement path="${cglib.build.dir}"/>
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest fork="no" todir="${report.test.acceptance.dir}">
+                <fileset dir="${cglib.atest.dir}" includes="atest/**/*Test.java" excludes="test/**/Abstract*"/>
+            </batchtest>
+        </junit>
+    </target>
 
-	<target name="core.jar" depends="core.compile">
-		<mkdir dir="${dist.dir}"/>
-		<jar basedir="${core.build.dir}" destfile="${core.jar}" excludes="test/**" index="true"/>
-	</target>
-	
-	<target name="cglib.jar" depends="cglib.compile">
-		<mkdir dir="${dist.dir}"/>
-		<jar basedir="${cglib.build.dir}" destfile="${cglib.jar}" excludes="test/**" index="true"/>
-	</target>
+    <target name="cglib.jar" depends="cglib.test.unit">
+        <mkdir dir="${dist.dir}"/>
+        <jar basedir="${cglib.build.dir}" destfile="${cglib.jar}" excludes="test/**" index="true"/>
+    </target>
+
+
+
+    <!-- SOURCE DISTRIBUTION -->
 
     <target name="src.jar">
         <mkdir dir="${dist.dir}"/>
@@ -99,38 +176,4 @@
         </jar>
     </target>
 
-    <!-- TESTS -->
-    <!-- NOTE: not working yet -->
-
-    <target name="test" depends="test.unit,test.acceptance"/>
-
-    <target name="test.unit" depends="core.compile,cglib.compile">
-        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
-        <mkdir dir="${report.test.unit.dir}"/>
-        <junit printsummary="yes" haltonerror="true">
-            <formatter type="plain"/>
-            <batchtest fork="no" todir="${report.test.unit.dir}">
-                <fileset dir="${core.src.dir}" includes="test/**/*Test.java"/>
-                <fileset dir="${cglib.src.dir}" includes="test/**/*Test.java"/>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="test.acceptance" depends="core.atest.compile,cglib.atest.compile">
-        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
-        <mkdir dir="${report.test.acceptance.dir}"/>
-        <junit printsummary="yes" haltonerror="true">
-            <formatter type="plain"/>
-            <batchtest fork="no" todir="${report.test.acceptance.dir}">
-                <fileset dir="${core.atest.dir}" includes="atest/**/*Test.java"/>
-                <fileset dir="${cglib.atest.dir}" includes="atest/**/*Test.java"/>
-            </batchtest>
-        </junit>
-    </target>
-
-	<target name="clean">
-		<delete dir="${build.dir}"/>
-	</target>
-	
-	<target name="rebuild" depends="clean,jars"/>
 </project>
