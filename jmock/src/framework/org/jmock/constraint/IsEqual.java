@@ -4,7 +4,6 @@ package org.jmock.constraint;
 import java.lang.reflect.Array;
 
 import org.jmock.Constraint;
-import org.jmock.dynamic.DynamicUtil;
 
 /**
  * Is the value equal to another value, as tested by the
@@ -12,7 +11,7 @@ import org.jmock.dynamic.DynamicUtil;
  */
 public class IsEqual implements Constraint {
     private Object object;
-
+    
     public IsEqual( Object equalArg ) {
         object = equalArg;
     }
@@ -20,9 +19,9 @@ public class IsEqual implements Constraint {
     public boolean eval(Object arg) {
         return areEqual( object, arg );
     }
-
+    
     public String toString() {
-        return "= " + DynamicUtil.toReadableString(object);
+        return "= " + object;
     }
     
     private static boolean areEqual( Object o1, Object o2 ) {
