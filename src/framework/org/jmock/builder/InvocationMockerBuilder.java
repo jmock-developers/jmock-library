@@ -124,6 +124,7 @@ public class InvocationMockerBuilder
 	}
 	
 	public ExpectationBuilder id( String invocationID ) {
+        mocker.setName(invocationID);
 		idTable.registerID( invocationID, this );
 		return this;
 	}

@@ -35,7 +35,13 @@ public class MockStubMatchersCollection implements StubMatchersCollection {
             }
         }
     }
-
+    
+    public ExpectationValue setName = new ExpectationValue("setName name");
+    
+    public void setName( String name ) {
+        setName.setActual(name);
+    }
+	
     public void verifyExpectations() {
         Verifier.verifyObject(this);
     }

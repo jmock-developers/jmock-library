@@ -1,6 +1,7 @@
 package org.jmock.dynamic;
 
 public interface StubMatchersCollection {
-	public abstract void addMatcher(InvocationMatcher matcher);
-	public abstract void setStub(Stub stub);
+    void setName( String name );
+	void addMatcher(InvocationMatcher matcher);
+	void setStub(Stub stub);
 }

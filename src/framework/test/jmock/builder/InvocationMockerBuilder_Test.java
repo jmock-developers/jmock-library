@@ -135,12 +135,14 @@ public class InvocationMockerBuilder_Test extends MockObjectSupportTestCase {
     
     static final String INVOCATION_ID = "INVOCATION-ID";
     
-    public void testRegistersItselfInBuilderIdentityTable() {
+    public void testNamesInvocationMockerAndRegistersItselfInBuilderIdentityTable() {
+        mocker.setName.setExpected(INVOCATION_ID);
     	idTable.registerID.setExpected(INVOCATION_ID);
     	idTable.registerIDInvocation.setExpected(builder);
     	
     	builder.id(INVOCATION_ID);
     	
     	idTable.verify();
+        mocker.verifyExpectations();
     }
 }
