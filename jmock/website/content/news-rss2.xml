@@ -10,7 +10,20 @@
 			<link>http://www.jmock.org/</link>
 		</image>
 		<language>en-us</language>
-
+        
+        <item>
+            <title>jMock at OOPSLA</title>
+            <category>Event</category>
+            <link>http://www.oopsla.org/2004/</link>
+            <description>jMock will be presented and demonstrated at OOPSLA'04,  October 24-28, Vancouver.</description>
+            <xhtml:div>
+                <a href="http://www.oopsla.org/2004/">OOPSLA'04</a> will contain two jMock sessions, a presentation
+                entitled <a href="http://www.oopsla.org/2004/ShowEvent.do?id=461">Mock Roles not Objects</a>
+                &amp; <a href="http://www.oopsla.org/2004/ShowEvent.do?id=652">a live demonstration</a>.
+            </xhtml:div>
+            <pubDate>15 Oct 2004</pubDate>
+        </item>
+        
         <item>
             <title>FishEye for the Mock Guy</title>
             <category>Development</category>
@@ -22,7 +35,7 @@
                 an <a href="http://cvs.jmock.org/changelog/~rss,/jmock/rss.xml">RSS feed of CVS commits</a>,
                 so you can be informed about new features as we check them in.
             </xhtml:div>
-            <pubDate>2004-06-30</pubDate>
+            <pubDate>30 Jun 2004</pubDate>
         </item>
 
 		<item>
