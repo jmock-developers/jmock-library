@@ -36,6 +36,10 @@ public class Mock
 		return coreMock.proxy();
 	}
 	
+    public Class[] getMockedTypes() {
+        return coreMock.getMockedTypes();
+    }
+    
 	public void reset() {
 		coreMock.reset();
 	}
@@ -117,5 +121,4 @@ public class Mock
     	
     	return buildableInvokable;
     }
-
 }
