@@ -4,7 +4,6 @@ package org.jmock.dynamic;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -78,14 +77,6 @@ public class Invocation {
         return hashCode;
     }
     
-    private int listHashCode(List array) {
-        int hashCode = 0;
-        for (Iterator i = array.iterator(); i.hasNext();) {
-            hashCode ^= i.next().hashCode();
-        }
-        return hashCode;
-    }
-
     public boolean equals(Invocation call) {
         return call != null
             && methodName.equals(call.methodName)
