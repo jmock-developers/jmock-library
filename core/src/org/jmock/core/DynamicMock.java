@@ -4,7 +4,7 @@ package org.jmock.core;
 
 
 public interface DynamicMock
-        extends Verifiable
+    extends Verifiable
 {
     Class getMockedType();
 
