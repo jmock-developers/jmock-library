@@ -38,15 +38,6 @@ public abstract class AbstractDynamicMock
         }
     }
 
-    public void verify() {
-        try {
-            invocationDispatcher.verify();
-        }
-        catch (AssertionFailedError ex) {
-            throw new AssertionFailedError( "mock object " + name + ": " + ex.getMessage());
-        }
-    }
-
     public String toString() {
         return this.name;
     }
