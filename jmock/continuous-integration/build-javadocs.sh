@@ -12,6 +12,6 @@ $JAVA_HOME/bin/javadoc \
 	-link http://java.sun.com/j2se/1.4.2/docs/api \
 	-link http://cglib.sourceforge.net/apidocs \
 	-sourcepath $SRCDIRS \
-	-classpath ${LIBJARS// /:}
+	-classpath ${LIBJARS// /:} \
 	-subpackages org.jmock
 exit $?
