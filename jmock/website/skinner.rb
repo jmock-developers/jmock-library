@@ -94,18 +94,13 @@ end
 def skin_content_file( content_file, root_content_dir )
     output_file = output_file( content_file, root_content_dir )
     
-    history_url = CVSWEB_ROOT + content_file[(root_content_dir.size+1)..-1]
-    history_link = Element.new("a")
-    history_link.attributes["href"] = history_url
-    history_link.text = "Document history"
-    
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
         "snapshot" => String.new(env("SNAPSHOT_ID","n/a")),
         "prerelease" => String.new(env("PRERELEASE_ID","n/a")),
         "release" => String.new(env("RELEASE_ID","n/a")),
-        "history" => history_link
+        "history" => CVSWEB_ROOT + content_file[(root_content_dir.size+1)..-1]
     }
     
     skinned_content = TEMPLATE.expand( config )

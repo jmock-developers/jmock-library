@@ -21,7 +21,7 @@
           <template:include srcvar="content" elements="/html/body/*"/>
     	</div>
 	    <div class="Meta">
-	      <p><template:dynamic var="history"/></p>
+	      <p><a><template:attr name="href" valuevar="history"/>Document History</a></p>
 	    </div>
       </div>
     </template:when>
@@ -32,12 +32,11 @@
           <template:include srcvar="content" elements="/html/body/*"/>
         </div>
 	    <div class="Meta">
-	      <p><template:dynamic var="history"/></p>
+	      <p><a><template:attr name="href" valuevar="history"/>Document History</a></p>
 	    </div>
       </div>
     </template:when>
     
-      
     <div class="SidePanel" id="left">
       <div class="MenuGroup">
         <h1>Software</h1>
