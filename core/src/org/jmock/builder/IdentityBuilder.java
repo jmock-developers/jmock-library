@@ -4,5 +4,5 @@ package org.jmock.builder;
 
 public interface IdentityBuilder
 {
-	void id( String id );
+    void id( String id );
 }

@@ -10,74 +10,74 @@ import org.jmock.expectation.ExpectationDoubleValue;
 public class ExpectationDoubleValueTest extends TestCase
 {
 
-	private ExpectationDoubleValue myExpectation =
-	        new ExpectationDoubleValue("ExpectationDoubleValue for testing");
+    private ExpectationDoubleValue myExpectation =
+            new ExpectationDoubleValue("ExpectationDoubleValue for testing");
 
-	public void testExpectNothing() {
-		myExpectation.setExpectNothing();
+    public void testExpectNothing() {
+        myExpectation.setExpectNothing();
 
-		assertTrue("Should have an expectation",
-		           myExpectation.hasExpectations());
-	}
+        assertTrue("Should have an expectation",
+                   myExpectation.hasExpectations());
+    }
 
-	public void testExpectNothingFail() {
-		myExpectation.setExpectNothing();
+    public void testExpectNothingFail() {
+        myExpectation.setExpectNothing();
 
-		try {
-			myExpectation.setActual(100.0);
-			fail("Should fail fast");
-		}
-		catch (AssertionFailedError ex) {
-			// expected
-		}
+        try {
+            myExpectation.setActual(100.0);
+            fail("Should fail fast");
+        }
+        catch (AssertionFailedError ex) {
+            // expected
+        }
 
-	}
+    }
 
-	public void testFailOnVerify() {
-		myExpectation.setExpected(0.0, 0.0);
-		myExpectation.setFailOnVerify();
+    public void testFailOnVerify() {
+        myExpectation.setExpected(0.0, 0.0);
+        myExpectation.setFailOnVerify();
 
-		myExpectation.setActual(1.0);
-		AssertMo.assertVerifyFails(myExpectation);
-	}
+        myExpectation.setActual(1.0);
+        AssertMo.assertVerifyFails(myExpectation);
+    }
 
-	public void testFlushActual() {
-		myExpectation.setActual(10);
+    public void testFlushActual() {
+        myExpectation.setActual(10);
 
-		myExpectation.setExpectNothing();
+        myExpectation.setExpectNothing();
 
-		myExpectation.verify();
-	}
+        myExpectation.verify();
+    }
 
-	public void testHasNoExpectations() {
-		myExpectation.setActual(0.0);
+    public void testHasNoExpectations() {
+        myExpectation.setActual(0.0);
 
-		assertTrue("Has no expectations",
-		           !myExpectation.hasExpectations());
-	}
+        assertTrue("Has no expectations",
+                   !myExpectation.hasExpectations());
+    }
 
-	public void testFailOutsideError() {
-		myExpectation.setExpected(100.0, 1.0);
+    public void testFailOutsideError() {
+        myExpectation.setExpected(100.0, 1.0);
 
-		try {
-			myExpectation.setActual(102.0);
-			fail("Should fail fast on double");
-		}
-		catch (AssertionFailedError ex) {
-			//expected
-		}
+        try {
+            myExpectation.setActual(102.0);
+            fail("Should fail fast on double");
+        }
+        catch (AssertionFailedError ex) {
+            //expected
+        }
 
-	}
+    }
 
-	public void testPassOnError() {
-		myExpectation.setExpected(100.0, 1.0);
-		myExpectation.setActual(101.0);
-		myExpectation.verify();
-	}
+    public void testPassOnError() {
+        myExpectation.setExpected(100.0, 1.0);
+        myExpectation.setActual(101.0);
+        myExpectation.verify();
+    }
 
-	public void testPassWithinError() {
-		myExpectation.setExpected(100.0, 1.0);
-		myExpectation.setActual(100);
-		myExpectation.verify();
-	}
+    public void testPassWithinError() {
+        myExpectation.setExpected(100.0, 1.0);
+        myExpectation.setActual(100);
+        myExpectation.verify();
+    }
 }

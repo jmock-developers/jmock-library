@@ -19,13 +19,13 @@ import org.jmock.core.Stub;
  */
 public abstract class CustomStub implements Stub
 {
-	private String description;
+    private String description;
 
-	public CustomStub( String description ) {
-		this.description = description;
-	}
+    public CustomStub( String description ) {
+        this.description = description;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append(description);
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append(description);
+    }
 }

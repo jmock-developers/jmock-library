@@ -7,18 +7,18 @@ import org.jmock.core.stub.DefaultResultStub;
 
 public class BeanPropertyGetterMatcherTest extends MockObjectTestCase
 {
-	private DefaultResultStub returnDefaultValue = new DefaultResultStub();
-	private BeanPropertyGetterMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
+    private DefaultResultStub returnDefaultValue = new DefaultResultStub();
+    private BeanPropertyGetterMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
 
-	public void testCanMatchPropertyGetters() {
-		Mock mockPerson = mock(Person.class);
-		Person person = (Person)mockPerson.proxy();
+    public void testCanMatchPropertyGetters() {
+        Mock mockPerson = mock(Person.class);
+        Person person = (Person)mockPerson.proxy();
 
-		mockPerson.stubs().match(beanPropertyGetters).will(returnDefaultValue);
+        mockPerson.stubs().match(beanPropertyGetters).will(returnDefaultValue);
 
-		assertEquals("age", 0, person.age());
-		assertEquals("name", "", person.name());
-		assertEquals("children", 0, person.children().length);
-		assertNotNull("spouse", person.spouse());
-	}
+        assertEquals("age", 0, person.age());
+        assertEquals("name", "", person.name());
+        assertEquals("children", 0, person.children().length);
+        assertNotNull("spouse", person.spouse());
+    }
 }

@@ -17,96 +17,96 @@ import test.jmock.core.stub.StubSequence;
 public abstract class MockObjectTestCase
         extends MockObjectSupportTestCase
 {
-	public MockObjectTestCase() {
-	}
+    public MockObjectTestCase() {
+    }
 
-	public MockObjectTestCase( String name ) {
-		super(name);
-	}
+    public MockObjectTestCase( String name ) {
+        super(name);
+    }
 
-	public Mock mock( Class mockedType ) {
-		return mock(mockedType, defaultMockNameForType(mockedType));
-	}
+    public Mock mock( Class mockedType ) {
+        return mock(mockedType, defaultMockNameForType(mockedType));
+    }
 
-	public Mock mock( Class mockedType, String roleName ) {
-		Mock newMock = new Mock(newCoreMock(mockedType, roleName));
-		registerToVerify(newMock);
-		return newMock;
-	}
+    public Mock mock( Class mockedType, String roleName ) {
+        Mock newMock = new Mock(newCoreMock(mockedType, roleName));
+        registerToVerify(newMock);
+        return newMock;
+    }
 
-	protected DynamicMock newCoreMock( Class mockedType, String roleName ) {
-		return new CoreMock(mockedType, roleName);
-	}
+    protected DynamicMock newCoreMock( Class mockedType, String roleName ) {
+        return new CoreMock(mockedType, roleName);
+    }
 
-	public String defaultMockNameForType( Class mockedType ) {
-		String fullTypeName = mockedType.getName();
-		String typeName =
-		        fullTypeName.substring(Math.max(fullTypeName.lastIndexOf('.'), fullTypeName.lastIndexOf('$')) + 1);
+    public String defaultMockNameForType( Class mockedType ) {
+        String fullTypeName = mockedType.getName();
+        String typeName =
+                fullTypeName.substring(Math.max(fullTypeName.lastIndexOf('.'), fullTypeName.lastIndexOf('$')) + 1);
 
-		return "mock" + typeName;
-	}
+        return "mock" + typeName;
+    }
 
-	public Stub returnValue( Object o ) {
-		return new ReturnStub(o);
-	}
+    public Stub returnValue( Object o ) {
+        return new ReturnStub(o);
+    }
 
-	public Stub returnValue( boolean result ) {
-		return returnValue(new Boolean(result));
-	}
+    public Stub returnValue( boolean result ) {
+        return returnValue(new Boolean(result));
+    }
 
-	public Stub returnValue( byte result ) {
-		return returnValue(new Byte(result));
-	}
+    public Stub returnValue( byte result ) {
+        return returnValue(new Byte(result));
+    }
 
-	public Stub returnValue( char result ) {
-		return returnValue(new Character(result));
-	}
+    public Stub returnValue( char result ) {
+        return returnValue(new Character(result));
+    }
 
-	public Stub returnValue( short result ) {
-		return returnValue(new Short(result));
-	}
+    public Stub returnValue( short result ) {
+        return returnValue(new Short(result));
+    }
 
-	public Stub returnValue( int result ) {
-		return returnValue(new Integer(result));
-	}
+    public Stub returnValue( int result ) {
+        return returnValue(new Integer(result));
+    }
 
-	public Stub returnValue( long result ) {
-		return returnValue(new Long(result));
-	}
+    public Stub returnValue( long result ) {
+        return returnValue(new Long(result));
+    }
 
-	public Stub returnValue( float result ) {
-		return returnValue(new Float(result));
-	}
+    public Stub returnValue( float result ) {
+        return returnValue(new Float(result));
+    }
 
-	public Stub returnValue( double result ) {
-		return returnValue(new Double(result));
-	}
+    public Stub returnValue( double result ) {
+        return returnValue(new Double(result));
+    }
 
-	public Stub throwException( Throwable throwable ) {
-		return new ThrowStub(throwable);
-	}
+    public Stub throwException( Throwable throwable ) {
+        return new ThrowStub(throwable);
+    }
 
-	public InvocationMatcher once() {
-		return new InvokeOnceMatcher();
-	}
+    public InvocationMatcher once() {
+        return new InvokeOnceMatcher();
+    }
 
-	public InvocationMatcher atLeastOnce() {
-		return new InvokeAtLeastOnceMatcher();
-	}
+    public InvocationMatcher atLeastOnce() {
+        return new InvokeAtLeastOnceMatcher();
+    }
 
-	public InvocationMatcher never() {
-		return new TestFailureMatcher("expect not called");
-	}
+    public InvocationMatcher never() {
+        return new TestFailureMatcher("expect not called");
+    }
 
-	public Stub onConsecutiveCalls( Stub stub1, Stub stub2 ) {
-		return new StubSequence(new Stub[]{stub1, stub2});
-	}
+    public Stub onConsecutiveCalls( Stub stub1, Stub stub2 ) {
+        return new StubSequence(new Stub[]{stub1, stub2});
+    }
 
-	public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3 ) {
-		return new StubSequence(new Stub[]{stub1, stub2, stub3});
-	}
+    public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3 ) {
+        return new StubSequence(new Stub[]{stub1, stub2, stub3});
+    }
 
-	public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3, Stub stub4 ) {
-		return new StubSequence(new Stub[]{stub1, stub2, stub3, stub4});
-	}
+    public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3, Stub stub4 ) {
+        return new StubSequence(new Stub[]{stub1, stub2, stub3, stub4});
+    }
 }

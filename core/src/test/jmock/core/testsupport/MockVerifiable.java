@@ -8,26 +8,26 @@ import org.jmock.util.Verifier;
 
 public class MockVerifiable implements Verifiable
 {
-	public ExpectationCounter verifyCalls =
-	        new ExpectationCounter("verify #calls");
-	public AssertionFailedError verifyFailure;
+    public ExpectationCounter verifyCalls =
+            new ExpectationCounter("verify #calls");
+    public AssertionFailedError verifyFailure;
 
-	public void setExpectedVerifyCalls( int expectedCalls ) {
-		verifyCalls.setExpected(expectedCalls);
-	}
+    public void setExpectedVerifyCalls( int expectedCalls ) {
+        verifyCalls.setExpected(expectedCalls);
+    }
 
-	/**
-	 * @deprecated Use verifyExpectations to verify this object
-	 */
-	public void verify() {
-		verifyCalls.inc();
-		if (verifyFailure != null) {
-			throw verifyFailure;
-		}
-	}
+    /**
+     * @deprecated Use verifyExpectations to verify this object
+     */
+    public void verify() {
+        verifyCalls.inc();
+        if (verifyFailure != null) {
+            throw verifyFailure;
+        }
+    }
 
-	public void verifyExpectations() {
-		Verifier.verifyObject(this);
-	}
+    public void verifyExpectations() {
+        Verifier.verifyObject(this);
+    }
 
 }

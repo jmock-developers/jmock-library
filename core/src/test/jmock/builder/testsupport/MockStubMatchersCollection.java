@@ -10,39 +10,39 @@ import org.jmock.util.Verifier;
 
 public class MockStubMatchersCollection implements StubMatchersCollection
 {
-	public ExpectationValue addedMatcher = new ExpectationValue("added matcher");
-	public ExpectationValue addedMatcherType = new ExpectationValue("added matcher type");
+    public ExpectationValue addedMatcher = new ExpectationValue("added matcher");
+    public ExpectationValue addedMatcherType = new ExpectationValue("added matcher type");
 
-	public void addMatcher( InvocationMatcher matcher ) {
-		addedMatcher.setActual(matcher);
-		addedMatcherType.setActual(matcher.getClass());
-	}
+    public void addMatcher( InvocationMatcher matcher ) {
+        addedMatcher.setActual(matcher);
+        addedMatcherType.setActual(matcher.getClass());
+    }
 
-	public ExpectationValue setStubType = new ExpectationValue("set stub type");
-	public ExpectationValue setStub = new ExpectationValue("set stub");
-	public ExpectationValue setStubReturnValue = new ExpectationValue("set stub return value");
+    public ExpectationValue setStubType = new ExpectationValue("set stub type");
+    public ExpectationValue setStub = new ExpectationValue("set stub");
+    public ExpectationValue setStubReturnValue = new ExpectationValue("set stub return value");
 
-	public void setStub( Stub stub ) {
-		setStub.setActual(stub);
-		setStubType.setActual(stub.getClass());
+    public void setStub( Stub stub ) {
+        setStub.setActual(stub);
+        setStubType.setActual(stub.getClass());
 
-		if (setStubReturnValue.hasExpectations()) {
-			try {
-				setStubReturnValue.setActual(stub.invoke(null));
-			}
-			catch (Throwable t) {
-				Assert.fail("unexpected throw from stub: " + t);
-			}
-		}
-	}
+        if (setStubReturnValue.hasExpectations()) {
+            try {
+                setStubReturnValue.setActual(stub.invoke(null));
+            }
+            catch (Throwable t) {
+                Assert.fail("unexpected throw from stub: " + t);
+            }
+        }
+    }
 
-	public ExpectationValue setName = new ExpectationValue("setName name");
+    public ExpectationValue setName = new ExpectationValue("setName name");
 
-	public void setName( String name ) {
-		setName.setActual(name);
-	}
+    public void setName( String name ) {
+        setName.setActual(name);
+    }
 
-	public void verifyExpectations() {
-		Verifier.verifyObject(this);
-	}
+    public void verifyExpectations() {
+        Verifier.verifyObject(this);
+    }
 }

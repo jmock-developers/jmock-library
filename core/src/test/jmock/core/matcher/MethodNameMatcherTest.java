@@ -11,40 +11,40 @@ import test.jmock.core.testsupport.MockConstraint;
 public class MethodNameMatcherTest
         extends TestCase
 {
-	private String METHOD_NAME = "methodName";
-	private String OTHER_NAME = "otherName";
+    private String METHOD_NAME = "methodName";
+    private String OTHER_NAME = "otherName";
 
-	private Invocation exampleInvocation;
+    private Invocation exampleInvocation;
 
-	public void setUp() {
-		MethodFactory methodFactory = new MethodFactory();
-		exampleInvocation = new Invocation("INVOKED-OBJECT",
-		                                   methodFactory.newMethod(METHOD_NAME, new Class[]{String.class, String.class}, Void.class,
-		                                                           MethodFactory.NO_EXCEPTIONS),
-		                                   new Object[]{"arg1", "arg2"});
-	}
+    public void setUp() {
+        MethodFactory methodFactory = new MethodFactory();
+        exampleInvocation = new Invocation("INVOKED-OBJECT",
+                                           methodFactory.newMethod(METHOD_NAME, new Class[]{String.class, String.class}, Void.class,
+                                                                   MethodFactory.NO_EXCEPTIONS),
+                                           new Object[]{"arg1", "arg2"});
+    }
 
-	public void testDelegatesMethodNameMatchToConstraint() {
-		MockConstraint mockConstraint = new MockConstraint("name constraint", METHOD_NAME, true);
-		MethodNameMatcher matcher = new MethodNameMatcher(mockConstraint);
+    public void testDelegatesMethodNameMatchToConstraint() {
+        MockConstraint mockConstraint = new MockConstraint("name constraint", METHOD_NAME, true);
+        MethodNameMatcher matcher = new MethodNameMatcher(mockConstraint);
 
-		assertTrue("should match", matcher.matches(exampleInvocation));
-	}
+        assertTrue("should match", matcher.matches(exampleInvocation));
+    }
 
-	public void testDoesNotMatchIfConstraintFails() {
-		MockConstraint mockConstraint = new MockConstraint("name constraint", METHOD_NAME, false);
-		MethodNameMatcher matcher = new MethodNameMatcher(mockConstraint);
+    public void testDoesNotMatchIfConstraintFails() {
+        MockConstraint mockConstraint = new MockConstraint("name constraint", METHOD_NAME, false);
+        MethodNameMatcher matcher = new MethodNameMatcher(mockConstraint);
 
-		assertFalse("should not match", matcher.matches(exampleInvocation));
-	}
+        assertFalse("should not match", matcher.matches(exampleInvocation));
+    }
 
-	public void testTestsMethodNameForEqualityToString() {
-		MethodNameMatcher matcher;
+    public void testTestsMethodNameForEqualityToString() {
+        MethodNameMatcher matcher;
 
-		matcher = new MethodNameMatcher(METHOD_NAME);
-		assertTrue("Should match name", matcher.matches(exampleInvocation));
+        matcher = new MethodNameMatcher(METHOD_NAME);
+        assertTrue("Should match name", matcher.matches(exampleInvocation));
 
-		matcher = new MethodNameMatcher(OTHER_NAME);
-		assertFalse("Should not match other name", matcher.matches(exampleInvocation));
-	}
+        matcher = new MethodNameMatcher(OTHER_NAME);
+        assertFalse("Should not match other name", matcher.matches(exampleInvocation));
+    }
 }

@@ -9,20 +9,20 @@ import org.jmock.core.Constraint;
  */
 public class StringContains implements Constraint
 {
-	private String substring;
+    private String substring;
 
-	public StringContains( String substring ) {
-		this.substring = substring;
-	}
+    public StringContains( String substring ) {
+        this.substring = substring;
+    }
 
-	public boolean eval( Object o ) {
-		return o instanceof String && ((String)o).indexOf(substring) >= 0;
-	}
+    public boolean eval( Object o ) {
+        return o instanceof String && ((String)o).indexOf(substring) >= 0;
+    }
 
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("a string containing \"")
-		        .append(substring)
-		        .append("\"");
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a string containing \"")
+                .append(substring)
+                .append("\"");
+    }
 }

@@ -7,15 +7,15 @@ import org.jmock.core.InvocationMatcher;
 
 public abstract class StatelessInvocationMatcher implements InvocationMatcher
 {
-	public void invoked( Invocation invocation ) {
-		// Do nothing because state cannot change
-	}
+    public void invoked( Invocation invocation ) {
+        // Do nothing because state cannot change
+    }
 
-	public void verify() {
-		// Nothing to verify because state cannot change
-	}
+    public void verify() {
+        // Nothing to verify because state cannot change
+    }
 
-	public boolean hasDescription() {
-		return true;
-	}
+    public boolean hasDescription() {
+        return true;
+    }
 }

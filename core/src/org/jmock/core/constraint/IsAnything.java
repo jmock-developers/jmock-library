@@ -9,12 +9,12 @@ import org.jmock.core.Constraint;
  */
 public class IsAnything implements Constraint
 {
-	public boolean eval( Object o ) {
-		return true;
-	}
+    public boolean eval( Object o ) {
+        return true;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("ANYTHING");
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("ANYTHING");
+    }
 }
 

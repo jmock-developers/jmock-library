@@ -14,50 +14,50 @@ public class MockDynamicMock
         extends MockVerifiable
         implements DynamicMock
 {
-	public ExpectationCounter getMockedTypeCalls =
-	        new ExpectationCounter("getMockedTypes #calls");
-	public Class getMockedTypeResult;
+    public ExpectationCounter getMockedTypeCalls =
+            new ExpectationCounter("getMockedTypes #calls");
+    public Class getMockedTypeResult;
 
-	public Class getMockedType() {
-		getMockedTypeCalls.inc();
-		return getMockedTypeResult;
-	}
+    public Class getMockedType() {
+        getMockedTypeCalls.inc();
+        return getMockedTypeResult;
+    }
 
-	public ExpectationCounter addInvokableCalls = new ExpectationCounter("addInvokable #calls");
-	public ExpectationValue addInvokable = new ExpectationValue("addInvokable invokable");
+    public ExpectationCounter addInvokableCalls = new ExpectationCounter("addInvokable #calls");
+    public ExpectationValue addInvokable = new ExpectationValue("addInvokable invokable");
 
-	public void addInvokable( Invokable invokable ) {
-		AssertMo.assertNotNull("invokable", invokable);
-		addInvokable.setActual(invokable);
-		addInvokableCalls.inc();
-	}
+    public void addInvokable( Invokable invokable ) {
+        AssertMo.assertNotNull("invokable", invokable);
+        addInvokable.setActual(invokable);
+        addInvokableCalls.inc();
+    }
 
-	public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
+    public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
 
-	public void setDefaultStub( Stub newDefaultStub ) {
-		setDefaultStub.setActual(newDefaultStub);
-	}
+    public void setDefaultStub( Stub newDefaultStub ) {
+        setDefaultStub.setActual(newDefaultStub);
+    }
 
-	public Object proxyResult;
+    public Object proxyResult;
 
-	public Object proxy() {
-		return proxyResult;
-	}
+    public Object proxy() {
+        return proxyResult;
+    }
 
-	public ExpectationCounter resetCalls = new ExpectationCounter("reset #calls");
+    public ExpectationCounter resetCalls = new ExpectationCounter("reset #calls");
 
-	public void reset() {
-		resetCalls.inc();
-	}
+    public void reset() {
+        resetCalls.inc();
+    }
 
-	public Object invoke( Object arg0, Method arg1, Object[] arg2 )
-	        throws Throwable {
-		return null;
-	}
+    public Object invoke( Object arg0, Method arg1, Object[] arg2 )
+            throws Throwable {
+        return null;
+    }
 
-	public String toStringResult;
+    public String toStringResult;
 
-	public String toString() {
-		return toStringResult;
-	}
+    public String toString() {
+        return toStringResult;
+    }
 }

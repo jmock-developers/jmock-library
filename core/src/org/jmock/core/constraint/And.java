@@ -11,23 +11,23 @@ import org.jmock.core.Constraint;
  */
 public class And implements Constraint
 {
-	Constraint left, right;
+    Constraint left, right;
 
-	public And( Constraint left, Constraint right ) {
-		this.left = left;
-		this.right = right;
-	}
+    public And( Constraint left, Constraint right ) {
+        this.left = left;
+        this.right = right;
+    }
 
-	public boolean eval( Object o ) {
-		return left.eval(o) && right.eval(o);
-	}
+    public boolean eval( Object o ) {
+        return left.eval(o) && right.eval(o);
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		buffer.append("(");
-		left.describeTo(buffer);
-		buffer.append(" and ");
-		right.describeTo(buffer);
-		buffer.append(")");
-		return buffer;
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        buffer.append("(");
+        left.describeTo(buffer);
+        buffer.append(" and ");
+        right.describeTo(buffer);
+        buffer.append(")");
+        return buffer;
+    }
 }

@@ -9,31 +9,31 @@ import org.jmock.core.InvocationMatcher;
 public class InvokeCountMatcher
         implements InvocationMatcher
 {
-	int expectedCount;
-	int invocationCount = 0;
+    int expectedCount;
+    int invocationCount = 0;
 
-	public InvokeCountMatcher( int expectedCount ) {
-		this.expectedCount = expectedCount;
-	}
+    public InvokeCountMatcher( int expectedCount ) {
+        this.expectedCount = expectedCount;
+    }
 
-	public boolean matches( Invocation invocation ) {
-		return invocationCount < expectedCount;
-	}
+    public boolean matches( Invocation invocation ) {
+        return invocationCount < expectedCount;
+    }
 
-	public void verify() {
-		Assert.assertTrue("Invoked wrong number of times", expectedCount == invocationCount);
-	}
+    public void verify() {
+        Assert.assertTrue("Invoked wrong number of times", expectedCount == invocationCount);
+    }
 
-	public boolean hasDescription() {
-		return true;
-	}
+    public boolean hasDescription() {
+        return true;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		return buffer.append("expected ").append(expectedCount)
-		        .append(" times, invokedObject ").append(invocationCount).append(" times");
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("expected ").append(expectedCount)
+                .append(" times, invokedObject ").append(invocationCount).append(" times");
+    }
 
-	public void invoked( Invocation invocation ) {
-		invocationCount++;
-	}
+    public void invoked( Invocation invocation ) {
+        invocationCount++;
+    }
 }

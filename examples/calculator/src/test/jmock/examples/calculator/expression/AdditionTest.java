@@ -10,15 +10,15 @@ import org.jmock.examples.calculator.expression.Addition;
 public class AdditionTest extends AbstractBinaryOperatorTest
 {
 
-	public void testAddsLeftAndRightSubexpressions() throws Exception {
-		runOperatorTest();
-	}
+    public void testAddsLeftAndRightSubexpressions() throws Exception {
+        runOperatorTest();
+    }
 
-	protected double expectedValue( double left, double right ) {
-		return left + right;
-	}
+    protected double expectedValue( double left, double right ) {
+        return left + right;
+    }
 
-	protected Expression makeExpression( Expression left, Expression right ) {
-		return new Addition(left, right);
-	}
+    protected Expression makeExpression( Expression left, Expression right ) {
+        return new Addition(left, right);
+    }
 }

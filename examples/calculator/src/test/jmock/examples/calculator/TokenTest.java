@@ -8,13 +8,13 @@ import org.jmock.examples.calculator.Token;
 
 public class TokenTest extends TestCase
 {
-	public void testStoresTokenTypeAndStringValue() {
-		int tokenType = 1000;
-		String tokenValue = "<TOKEN VALUE>";
+    public void testStoresTokenTypeAndStringValue() {
+        int tokenType = 1000;
+        String tokenValue = "<TOKEN VALUE>";
 
-		Token token = new Token(tokenType, tokenValue);
+        Token token = new Token(tokenType, tokenValue);
 
-		assertEquals("should be token type", tokenType, token.getType());
-		assertEquals("should be token value", tokenValue, token.getValue());
-	}
+        assertEquals("should be token type", tokenType, token.getType());
+        assertEquals("should be token value", tokenValue, token.getValue());
+    }
 }

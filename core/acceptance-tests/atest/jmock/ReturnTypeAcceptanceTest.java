@@ -6,104 +6,104 @@ import org.jmock.MockObjectTestCase;
 
 public class ReturnTypeAcceptanceTest extends MockObjectTestCase
 {
-	public interface ReturnTypes
-	{
-		String returnString();
+    public interface ReturnTypes
+    {
+        String returnString();
 
-		boolean returnBoolean();
+        boolean returnBoolean();
 
-		byte returnByte();
+        byte returnByte();
 
-		char returnChar();
+        char returnChar();
 
-		short returnShort();
+        short returnShort();
 
-		int returnInt();
+        int returnInt();
 
-		long returnLong();
+        long returnLong();
 
-		float returnFloat();
+        float returnFloat();
 
-		double returnDouble();
-	}
+        double returnDouble();
+    }
 
-	private Mock mock;
-	private ReturnTypes proxy;
+    private Mock mock;
+    private ReturnTypes proxy;
 
-	public void setUp() {
-		mock = mock(ReturnTypes.class, "theMock");
-		proxy = (ReturnTypes)mock.proxy();
-	}
+    public void setUp() {
+        mock = mock(ReturnTypes.class, "theMock");
+        proxy = (ReturnTypes)mock.proxy();
+    }
 
-	public void testCanReturnObjectReferences() {
-		String result = new String("RESULT");
+    public void testCanReturnObjectReferences() {
+        String result = new String("RESULT");
 
-		mock.stubs().method("returnString").will(returnValue(result));
+        mock.stubs().method("returnString").will(returnValue(result));
 
-		assertSame("should be same result", result, proxy.returnString());
-	}
+        assertSame("should be same result", result, proxy.returnString());
+    }
 
-	public void testCanReturnBooleanValues() {
-		mock.stubs().method("returnBoolean").will(returnValue(true));
-		assertTrue("should be true", proxy.returnBoolean());
+    public void testCanReturnBooleanValues() {
+        mock.stubs().method("returnBoolean").will(returnValue(true));
+        assertTrue("should be true", proxy.returnBoolean());
 
-		mock.stubs().method("returnBoolean").will(returnValue(false));
-		assertFalse("should be false", proxy.returnBoolean());
-	}
+        mock.stubs().method("returnBoolean").will(returnValue(false));
+        assertFalse("should be false", proxy.returnBoolean());
+    }
 
-	public void testCanReturnByteValues() {
-		byte result = 123;
+    public void testCanReturnByteValues() {
+        byte result = 123;
 
-		mock.stubs().method("returnByte").will(returnValue(result));
+        mock.stubs().method("returnByte").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnByte());
-	}
+        assertEquals("should be same result", result, proxy.returnByte());
+    }
 
-	public void testCanReturnCharValues() {
-		char result = '\u1234';
+    public void testCanReturnCharValues() {
+        char result = '\u1234';
 
-		mock.stubs().method("returnChar").will(returnValue(result));
+        mock.stubs().method("returnChar").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnChar());
-	}
+        assertEquals("should be same result", result, proxy.returnChar());
+    }
 
-	public void testCanReturnShortValues() {
-		short result = 12345;
+    public void testCanReturnShortValues() {
+        short result = 12345;
 
-		mock.stubs().method("returnShort").will(returnValue(result));
+        mock.stubs().method("returnShort").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnShort());
-	}
+        assertEquals("should be same result", result, proxy.returnShort());
+    }
 
-	public void testCanReturnIntValues() {
-		int result = 1234567890;
+    public void testCanReturnIntValues() {
+        int result = 1234567890;
 
-		mock.stubs().method("returnInt").will(returnValue(result));
+        mock.stubs().method("returnInt").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnInt());
-	}
+        assertEquals("should be same result", result, proxy.returnInt());
+    }
 
-	public void testCanReturnLongValues() {
-		long result = 1234567890124356789L;
+    public void testCanReturnLongValues() {
+        long result = 1234567890124356789L;
 
-		mock.stubs().method("returnLong").will(returnValue(result));
+        mock.stubs().method("returnLong").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnLong());
-	}
+        assertEquals("should be same result", result, proxy.returnLong());
+    }
 
-	public void testCanReturnFloatValues() {
-		float result = 12345.67890f;
+    public void testCanReturnFloatValues() {
+        float result = 12345.67890f;
 
-		mock.stubs().method("returnFloat").will(returnValue(result));
+        mock.stubs().method("returnFloat").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnFloat(), 0.0);
-	}
+        assertEquals("should be same result", result, proxy.returnFloat(), 0.0);
+    }
 
-	public void testCanReturnDoubleValues() {
-		double result = 1234567890.1234567890;
+    public void testCanReturnDoubleValues() {
+        double result = 1234567890.1234567890;
 
-		mock.stubs().method("returnDouble").will(returnValue(result));
+        mock.stubs().method("returnDouble").will(returnValue(result));
 
-		assertEquals("should be same result", result, proxy.returnDouble(), 0.0);
-	}
+        assertEquals("should be same result", result, proxy.returnDouble(), 0.0);
+    }
 }

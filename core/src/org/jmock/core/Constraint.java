@@ -6,12 +6,12 @@ package org.jmock.core;
  */
 public interface Constraint extends SelfDescribing
 {
-	/**
-	 * Evaluates the constraint for argument <var>o</var>.
-	 *
-	 * @param o the object against which the constraint is evaluated.
-	 * @return <code>true</code> if <var>o</var> meets the constraint,
-	 *         <code>false</code> if it does not.
-	 */
-	boolean eval( Object o );
+    /**
+     * Evaluates the constraint for argument <var>o</var>.
+     *
+     * @param o the object against which the constraint is evaluated.
+     * @return <code>true</code> if <var>o</var> meets the constraint,
+     *         <code>false</code> if it does not.
+     */
+    boolean eval( Object o );
 }

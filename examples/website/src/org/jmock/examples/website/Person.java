@@ -2,19 +2,19 @@ package org.jmock.examples.website;
 
 public interface Person
 {
-	String name();
+    String name();
 
-	int age();
+    int age();
 
-	Person spouse();
+    Person spouse();
 
-	Person[] children();
+    Person[] children();
 
-	void birth();
+    void birth();
 
-	void school();
+    void school();
 
-	void work();
+    void work();
 
-	void death();
+    void death();
 }

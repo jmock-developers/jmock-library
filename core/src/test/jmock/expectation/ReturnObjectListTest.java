@@ -9,33 +9,33 @@ import org.jmock.expectation.ReturnObjectList;
 
 public class ReturnObjectListTest extends TestCase
 {
-	private ReturnObjectList list = new ReturnObjectList("test");
+    private ReturnObjectList list = new ReturnObjectList("test");
 
-	public void testLeftoverObjectFails() {
-		list.addObjectToReturn("one");
+    public void testLeftoverObjectFails() {
+        list.addObjectToReturn("one");
 
-		AssertMo.assertVerifyFails(list);
-	}
+        AssertMo.assertVerifyFails(list);
+    }
 
-	public void testEmptyList() {
-		list.verify();
-	}
+    public void testEmptyList() {
+        list.verify();
+    }
 
-	public void testReturnSucceeds() {
-		list.addObjectToReturn("one");
-		list.addObjectToReturn("two");
+    public void testReturnSucceeds() {
+        list.addObjectToReturn("one");
+        list.addObjectToReturn("two");
 
-		assertEquals("Should be first result", "one", list.nextReturnObject());
-		assertEquals("Should be second result", "two", list.nextReturnObject());
-		list.verify();
-	}
+        assertEquals("Should be first result", "one", list.nextReturnObject());
+        assertEquals("Should be second result", "two", list.nextReturnObject());
+        list.verify();
+    }
 
-	public void testTooManyReturns() {
-		try {
-			list.nextReturnObject();
-			fail("Error should have been raised");
-		}
-		catch (AssertionFailedError expected) {
-		}
-	}
+    public void testTooManyReturns() {
+        try {
+            list.nextReturnObject();
+            fail("Error should have been raised");
+        }
+        catch (AssertionFailedError expected) {
+        }
+    }
 }

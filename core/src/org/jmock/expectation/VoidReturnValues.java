@@ -10,15 +10,15 @@ package org.jmock.expectation;
  */
 public class VoidReturnValues extends ReturnValues
 {
-	public VoidReturnValues( String name, boolean keepUsingLastReturnValue ) {
-		super(name, keepUsingLastReturnValue);
-	}
+    public VoidReturnValues( String name, boolean keepUsingLastReturnValue ) {
+        super(name, keepUsingLastReturnValue);
+    }
 
-	public VoidReturnValues( boolean keepUsingLastReturnValue ) {
-		super(keepUsingLastReturnValue);
-	}
+    public VoidReturnValues( boolean keepUsingLastReturnValue ) {
+        super(keepUsingLastReturnValue);
+    }
 
-	public Object getNext() {
-		return myContents.isEmpty() ? null : pop();
-	}
+    public Object getNext() {
+        return myContents.isEmpty() ? null : pop();
+    }
 }

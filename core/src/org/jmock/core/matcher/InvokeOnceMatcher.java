@@ -7,21 +7,21 @@ import org.jmock.core.Invocation;
 public class InvokeOnceMatcher
         extends InvokedRecorder
 {
-	public boolean matches( Invocation invocation ) {
-		return !hasBeenInvoked();
-	}
+    public boolean matches( Invocation invocation ) {
+        return !hasBeenInvoked();
+    }
 
-	public void verify() {
-		verifyHasBeenInvoked();
-	}
+    public void verify() {
+        verifyHasBeenInvoked();
+    }
 
-	public boolean hasDescription() {
-		return true;
-	}
+    public boolean hasDescription() {
+        return true;
+    }
 
-	public StringBuffer describeTo( StringBuffer buffer ) {
-		buffer.append("expected once");
-		if (hasBeenInvoked()) buffer.append(" and has been invokedObject");
-		return buffer;
-	}
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        buffer.append("expected once");
+        if (hasBeenInvoked()) buffer.append(" and has been invokedObject");
+        return buffer;
+    }
 }

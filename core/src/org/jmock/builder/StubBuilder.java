@@ -6,7 +6,7 @@ import org.jmock.core.Stub;
 
 public interface StubBuilder extends IdentityBuilder
 {
-	IdentityBuilder will( Stub stubAction );
+    IdentityBuilder will( Stub stubAction );
 
-	IdentityBuilder isVoid();
+    IdentityBuilder isVoid();
 }

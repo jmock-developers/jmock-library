@@ -20,60 +20,60 @@ import org.jmock.core.Verifiable;
 public class ReturnObjectList implements Verifiable
 {
 
-	private final Vector myObjects = new Vector();
-	private final String myName;
+    private final Vector myObjects = new Vector();
+    private final String myName;
 
-	/**
-	 * Construct a new empty list
-	 *
-	 * @param aName Label used to identify list
-	 */
-	public ReturnObjectList( String aName ) {
-		this.myName = aName;
-	}
+    /**
+     * Construct a new empty list
+     *
+     * @param aName Label used to identify list
+     */
+    public ReturnObjectList( String aName ) {
+        this.myName = aName;
+    }
 
-	/**
-	 * Add a next object to the end of the list.
-	 *
-	 * @param anObjectToReturn object to be added to the list
-	 */
-	public void addObjectToReturn( Object anObjectToReturn ) {
-		myObjects.add(anObjectToReturn);
-	}
+    /**
+     * Add a next object to the end of the list.
+     *
+     * @param anObjectToReturn object to be added to the list
+     */
+    public void addObjectToReturn( Object anObjectToReturn ) {
+        myObjects.add(anObjectToReturn);
+    }
 
-	/**
-	 * Add a next boolean to the end of the list.
-	 *
-	 * @param aBooleanToReturn boolean to be added to the list
-	 */
-	public void addObjectToReturn( boolean aBooleanToReturn ) {
-		myObjects.add(new Boolean(aBooleanToReturn));
-	}
+    /**
+     * Add a next boolean to the end of the list.
+     *
+     * @param aBooleanToReturn boolean to be added to the list
+     */
+    public void addObjectToReturn( boolean aBooleanToReturn ) {
+        myObjects.add(new Boolean(aBooleanToReturn));
+    }
 
-	/**
-	 * Add a next integer to the end of the list.
-	 *
-	 * @param anIntegerToReturn integer to be added to the list
-	 */
-	public void addObjectToReturn( int anIntegerToReturn ) {
-		myObjects.add(new Integer(anIntegerToReturn));
-	}
+    /**
+     * Add a next integer to the end of the list.
+     *
+     * @param anIntegerToReturn integer to be added to the list
+     */
+    public void addObjectToReturn( int anIntegerToReturn ) {
+        myObjects.add(new Integer(anIntegerToReturn));
+    }
 
-	/**
-	 * Returns the next object from the list. Each object it returned in the
-	 * order in which they where added.
-	 */
-	public Object nextReturnObject() {
-		AssertMo.assertTrue(myName + " has run out of objects.",
-		                    myObjects.size() > 0);
-		return myObjects.remove(0);
-	}
+    /**
+     * Returns the next object from the list. Each object it returned in the
+     * order in which they where added.
+     */
+    public Object nextReturnObject() {
+        AssertMo.assertTrue(myName + " has run out of objects.",
+                            myObjects.size() > 0);
+        return myObjects.remove(0);
+    }
 
-	/**
-	 * Verify that there are no objects left within the list.
-	 */
-	public void verify() {
-		AssertMo.assertEquals(myName + " has un-used objects.", 0,
-		                      myObjects.size());
-	}
+    /**
+     * Verify that there are no objects left within the list.
+     */
+    public void verify() {
+        AssertMo.assertEquals(myName + " has un-used objects.", 0,
+                              myObjects.size());
+    }
 }

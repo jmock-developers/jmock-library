@@ -8,11 +8,11 @@ import org.jmock.examples.calculator.Expression;
 public class Subtraction extends BinaryOperator
 {
 
-	public Subtraction( Expression left, Expression right ) {
-		super(left, right);
-	}
+    public Subtraction( Expression left, Expression right ) {
+        super(left, right);
+    }
 
-	protected double operator( double left, double right ) {
-		return left - right;
-	}
+    protected double operator( double left, double right ) {
+        return left - right;
+    }
 }

@@ -10,73 +10,73 @@ import org.jmock.expectation.ExpectationSegment;
 public class ExpectationSegmentTest extends TestCase
 {
 
-	private ExpectationSegment myExpectation;
+    private ExpectationSegment myExpectation;
 
-	public void setUp() {
-		myExpectation = new ExpectationSegment("Expectation segment");
-	}
+    public void setUp() {
+        myExpectation = new ExpectationSegment("Expectation segment");
+    }
 
-	public void testExpectNothing() {
-		myExpectation.setExpectNothing();
+    public void testExpectNothing() {
+        myExpectation.setExpectNothing();
 
-		assertTrue("Should have an expectation", myExpectation.hasExpectations());
-	}
+        assertTrue("Should have an expectation", myExpectation.hasExpectations());
+    }
 
-	public void testExpectNothingFail() {
-		myExpectation.setExpectNothing();
+    public void testExpectNothingFail() {
+        myExpectation.setExpectNothing();
 
-		boolean hasThrownException = false;
-		try {
-			myExpectation.setActual("some string");
-		}
-		catch (AssertionFailedError ex) {
-			hasThrownException = true;
-		}
+        boolean hasThrownException = false;
+        try {
+            myExpectation.setActual("some string");
+        }
+        catch (AssertionFailedError ex) {
+            hasThrownException = true;
+        }
 
-		assertTrue("Should fail fast", hasThrownException);
-	}
+        assertTrue("Should fail fast", hasThrownException);
+    }
 
-	public void testFailOnVerify() {
-		myExpectation.setExpected("a segment");
-		myExpectation.setFailOnVerify();
+    public void testFailOnVerify() {
+        myExpectation.setExpected("a segment");
+        myExpectation.setFailOnVerify();
 
-		myExpectation.setActual("string without stuff");
-		AssertMo.assertVerifyFails(myExpectation);
-	}
+        myExpectation.setActual("string without stuff");
+        AssertMo.assertVerifyFails(myExpectation);
+    }
 
-	public void testFailsImmediately() {
+    public void testFailsImmediately() {
 
-		boolean hasThrownException = false;
-		myExpectation.setExpected("inner");
-		try {
-			myExpectation.setActual("String not containing segment");
-		}
-		catch (AssertionFailedError expected) {
-			hasThrownException = true;
-		}
+        boolean hasThrownException = false;
+        myExpectation.setExpected("inner");
+        try {
+            myExpectation.setActual("String not containing segment");
+        }
+        catch (AssertionFailedError expected) {
+            hasThrownException = true;
+        }
 
-		assertTrue("Should have thrown exception", hasThrownException);
-	}
+        assertTrue("Should have thrown exception", hasThrownException);
+    }
 
-	public void testFlushActual() {
-		myExpectation.setActual("a string");
+    public void testFlushActual() {
+        myExpectation.setActual("a string");
 
-		myExpectation.setExpectNothing();
+        myExpectation.setExpectNothing();
 
-		myExpectation.verify();
-	}
+        myExpectation.verify();
+    }
 
-	public void testHasNoExpectations() {
-		myExpectation.setActual("a string");
+    public void testHasNoExpectations() {
+        myExpectation.setActual("a string");
 
-		assertTrue("Has no expectations", !myExpectation.hasExpectations());
-	}
+        assertTrue("Has no expectations", !myExpectation.hasExpectations());
+    }
 
-	public void testPasses() {
+    public void testPasses() {
 
-		myExpectation.setExpected("inner");
-		myExpectation.setActual("String containing inner segment");
+        myExpectation.setExpected("inner");
+        myExpectation.setActual("String containing inner segment");
 
-		myExpectation.verify();
-	}
+        myExpectation.verify();
+    }
 }
