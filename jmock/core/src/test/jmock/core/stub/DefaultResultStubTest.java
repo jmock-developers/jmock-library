@@ -52,6 +52,8 @@ public class DefaultResultStubTest extends TestCase {
         assertHasRegisteredValue(stub, Float.class, new Float(0.0F));
         assertHasRegisteredValue(stub, Double.class, new Double(0.0));
         assertHasRegisteredValue(stub, String.class, "");
+        assertNotNull( "should return an object for Object return type",
+                       stub.invoke(invocationReturning(Object.class)) );
     }
 
     public void testReturnsEmptyArrayForAllArrayTypes()
