@@ -7,4 +7,5 @@ rm -r $WEBDIR
 mkdir -p $WEBDIR
 
 # Generate the skinned and styled site content
-(cd website && ruby ./skinner.rb)
+cd website && ruby ./skinner.rb
+exit $?
