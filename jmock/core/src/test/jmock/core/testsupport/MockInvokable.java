@@ -4,6 +4,7 @@ package test.jmock.core.testsupport;
 import org.jmock.core.Invocation;
 import org.jmock.core.Invokable;
 import org.jmock.expectation.ExpectationValue;
+import junit.framework.AssertionFailedError;
 
 public class MockInvokable extends MockVerifiable implements Invokable {
 
@@ -33,6 +34,6 @@ public class MockInvokable extends MockVerifiable implements Invokable {
     }
     
     public StringBuffer describeTo(StringBuffer buffer) {
-        throw new AssertionError("should implement writeTo");
+        throw new AssertionFailedError("should implement writeTo");
     }
 }
