@@ -14,8 +14,8 @@ $JAVA_HOME/bin/javadoc \
 	-link http://cglib.sourceforge.net/apidocs \
 	-sourcepath $SRCDIRS \
 	-subpackages org.jmock \
-	-group "User API" org.jmock.builder \
-	-group "Extension API" org.jmock:org.jmock.constraint:org.jmock.dynamic:org.jmock.dynamic.matcher:org.jmock.dynamic.stub:org.jmock.util \
+	-group "User API" org.jmock \
+	-group "Extension API" org.jmock.builder:org.jmock.core:org.jmock.core.constraint:org.jmock.core.matcher:org.jmock.core.stub:org.jmock.util \
 	-group "Optional Extensions" org.jmock.cglib:org.jmock.dynamock \
 	-group "Legacy API" org.jmock.expectation
 exit $?
