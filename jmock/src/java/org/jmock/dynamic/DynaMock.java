@@ -3,7 +3,6 @@ package org.jmock.dynamic;
 
 import org.jmock.C;
 import org.jmock.expectation.Verifiable;
-import org.jmock.stub.StubBuilder;
 import org.jmock.stub.VoidStub;
 
 public class DynaMock

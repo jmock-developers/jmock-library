@@ -2,7 +2,6 @@
 package org.jmock.dynamic;
 
 import org.jmock.stub.ReturnStub;
-import org.jmock.stub.StubBuilder;
 import org.jmock.stub.ThrowStub;
 import org.jmock.stub.VoidStub;
 

@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.stub;
+package org.jmock.dynamic;
 
-import org.jmock.dynamic.ExpectationBuilder;
 
 public interface StubBuilder {
     ExpectationBuilder isVoid();
