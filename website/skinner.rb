@@ -123,6 +123,8 @@ end
 
 begin
     build_site
+    $stdout.puts "done"
+    $stdout.flush
 rescue REXML::ParseException => ex
     $stderr.puts "parse error: " + ex.message
     $stderr.flush
