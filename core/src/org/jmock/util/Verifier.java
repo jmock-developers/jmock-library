@@ -9,17 +9,8 @@ import java.util.Vector;
 import org.jmock.Verifiable;
 
 /**
- * Helper class to verify all {@link org.jmock.expectation.Expectation Expectation}s
- * of an object.
- * The {@link org.jmock.expectation.Verifier Verifier} class provides two static
- * methods to verify objects:
- * <ul>
- * <li>{@link org.jmock.expectation.Verifier#verifyObject(java.lang.Object) verifyObject(Object)}</li>
- * <li>{@link Verifier#verifyField(Field,Object,Vector) verifyField(Field, Object)}</li>
- * </ul>
- * These two methods can be used to verify any expectation to assert that
- * they still hold.<p>
- * <b>Example usage:</b><p>
+ * Helper class to verify all {@link org.jmock.Verifiable} fields of an object.
+ * <p><b>Example usage:</b><p>
  * Verifying all expectations on one object at a time:<p>
  * <pre>
  * public class MockX implements Verifiable {
@@ -31,12 +22,11 @@ import org.jmock.Verifiable;
  *    }
  * }
  * </pre>
- * This example shows how most mocks implement
- * {@link org.jmock.expectation.Verifiable Verifiable}, i.e.:  by delegation.
+ * This example shows how most mock objects implement
+ * {@link org.jmock.Verifiable Verifiable} by delegation.
  * 
  * @version $Id$
- * @see org.jmock.expectation.Expectation
- * @see org.jmock.expectation.Verifiable
+ * @see org.jmock.Verifiable
  */
 public class Verifier {
 
@@ -69,7 +59,7 @@ public class Verifier {
             alreadyProcessed.removeElement(anObject);
         }
     }
-
+    
     static private void verifyField(Field aField, Object anObject, Vector alreadyProcessed) {
         try {
             aField.setAccessible(true);
