@@ -87,9 +87,7 @@ public class CoreMock
     }
     
     public static String className(Class c) {
-        //TODO use package name
-        String name = c.getName();
-        return name.substring(name.lastIndexOf('.') + 1);
+        return c.getName().substring(c.getPackage().getName().length() + 1);
     }
     
 
