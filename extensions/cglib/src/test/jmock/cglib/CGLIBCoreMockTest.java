@@ -2,20 +2,12 @@
  */
 package test.jmock.cglib;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 import org.jmock.cglib.CGLIBCoreMock;
-import org.jmock.core.Invocation;
-import org.jmock.core.LIFOInvocationDispatcher;
 import org.jmock.core.DynamicMock;
 import org.jmock.core.InvocationDispatcher;
-import org.jmock.expectation.AssertMo;
-import test.jmock.core.DummyInterface;
-import test.jmock.core.DummyThrowable;
+
 import test.jmock.core.AbstractDynamicMockTest;
-import test.jmock.core.testsupport.MockInvocationDispatcher;
-import test.jmock.core.testsupport.MockInvokable;
-import test.jmock.core.testsupport.MockStub;
+import test.jmock.core.DummyInterface;
 
 
 public class CGLIBCoreMockTest extends AbstractDynamicMockTest

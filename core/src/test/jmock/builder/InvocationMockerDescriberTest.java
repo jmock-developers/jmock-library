@@ -4,12 +4,15 @@ package test.jmock.builder;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import junit.framework.TestCase;
+
 import org.jmock.builder.InvocationMockerDescriber;
 import org.jmock.core.Constraint;
 import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
 import org.jmock.util.Verifier;
+
 import test.jmock.core.testsupport.MockConstraint;
 import test.jmock.core.testsupport.MockInvocationMatcher;
 import test.jmock.core.testsupport.MockStub;
