@@ -20,23 +20,23 @@ public class InvocationMockerBuilder
         this.mocker = mocker;
     }
 
-	public StubBuilder args(Constraint arg1) {
-		return args(new Constraint[]{arg1});
+	public StubBuilder with(Constraint arg1) {
+		return with(new Constraint[]{arg1});
 	}
 
-	public StubBuilder args(Constraint arg1, Constraint arg2) {
-		return args(new Constraint[] {arg1, arg2} );
+	public StubBuilder with(Constraint arg1, Constraint arg2) {
+		return with(new Constraint[] {arg1, arg2} );
 	}
 	
-    public StubBuilder args(Constraint arg1, Constraint arg2, Constraint arg3) {
-        return args(new Constraint[] {arg1, arg2, arg3} );
+    public StubBuilder with(Constraint arg1, Constraint arg2, Constraint arg3) {
+        return with(new Constraint[] {arg1, arg2, arg3} );
     }
     
-    public StubBuilder args(Constraint arg1, Constraint arg2, Constraint arg3, Constraint arg4) {
-        return args(new Constraint[] {arg1, arg2, arg3, arg4} );
+    public StubBuilder with(Constraint arg1, Constraint arg2, Constraint arg3, Constraint arg4) {
+        return with(new Constraint[] {arg1, arg2, arg3, arg4} );
     }
     
-    public StubBuilder args(Constraint[] constraints) {
+    public StubBuilder with(Constraint[] constraints) {
 		mocker.addMatcher(new ArgumentsMatcher(constraints));
 		return this;
 	}

@@ -41,11 +41,11 @@ public class DynamicMockExample extends MockObjectTestCase {
         Agent agent = new Agent((Market) mockMarket.proxy());
         
         mockMarket.method("listStocks").noParams().willReturn(new String[]{"IBM","ORCL"});
-        mockMarket.method("getPrice").args(eq("IBM")).willReturn(10)
+        mockMarket.method("getPrice").with(eq("IBM")).willReturn(10)
         	.expectOnce();
-        mockMarket.method("getPrice").args(eq("ORCL")).willReturn(25)
+        mockMarket.method("getPrice").with(eq("ORCL")).willReturn(25)
         	.expectOnce();
-        mockMarket.method("buyStock").args(eq("IBM"), eq(2)).isVoid()
+        mockMarket.method("buyStock").with(eq("IBM"), eq(2)).isVoid()
         	.expectOnce();
         
         agent.buyLowestPriceStock(20);
