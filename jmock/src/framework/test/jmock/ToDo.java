@@ -11,6 +11,7 @@ public class ToDo {
     //TODO Remove getters from Invocation (?)
 	//TODO Extract interface from Invocation class (?)
     //TODO List expected/stubbed methods in verify errors
+    //TODO CoreMock should implement the hashCode method for proxies
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
