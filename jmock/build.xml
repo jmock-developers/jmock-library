@@ -1,0 +1,102 @@
+<project default="jars">
+	<property name="version" value="1.0-RC1"/>
+
+	<property name="build.dir" location="build"/>
+	<property name="lib.dir" location="lib"/>
+	<property name="dist.dir" location="${build.dir}/dist"/>
+
+    <property name="examples.dir" location="examples"/>
+    <property name="extensions.dir" location="extensions"/>
+
+    <property name="core.dir" location="core"/>
+    <property name="core.src.dir" location="${core.dir}/src"/>
+    <property name="core.atest.dir" location="${core.dir}/atest"/>
+	<property name="core.build.dir" location="build/core"/>
+	<property name="core.jar" location="${dist.dir}/jmock-${version}.jar"/>
+	
+    <property name="cglib.dir" location="${extensions.dir}/cglib"/>
+    <property name="cglib.src.dir" location="${cglib.dir}/src"/>
+    <property name="cglib.atest.dir" location="${cglib.dir}/atest"/>
+	<property name="cglib.build.dir" location="build/cglib"/>
+	<property name="cglib.jar" location="${dist.dir}/jmock-cglib-${version}.jar"/>
+
+    <property name="src.jar" location="${dist.dir}/jmock-${version}-src.jar"/>
+
+	<target name="core.compile">
+		<mkdir dir="${core.build.dir}"/>
+		<javac srcdir="${core.src.dir}" destdir="${core.build.dir}">
+			<classpath>
+				<fileset dir="${lib.dir}"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="cglib.compile">
+		<mkdir dir="${cglib.build.dir}"/>
+		<javac srcdir="${cglib.src.dir}" destdir="${cglib.build.dir}">
+			<classpath>
+				<fileset dir="${lib.dir}"/>
+				<pathelement path="${core.build.dir}"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="core.jar" depends="core.compile">
+		<mkdir dir="${dist.dir}"/>
+		<jar basedir="${core.build.dir}" destfile="${core.jar}" excludes="test/**" index="true"/>
+	</target>
+	
+	<target name="cglib.jar" depends="cglib.compile">
+		<mkdir dir="${dist.dir}"/>
+		<jar basedir="${cglib.build.dir}" destfile="${cglib.jar}" excludes="test/**" index="true"/>
+	</target>
+
+    <target name="src.jar">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${src.jar}">
+            <fileset dir="${core.dir}"/>
+            <fileset dir="${extensions.dir}"/>
+            <fileset dir="${examples.dir}"/>
+            <filename name="build.xml"/>
+            <filename name="README.txt"/>
+            <filename name="LICENSE.txt"/>
+            <filename name="overview.html"/>
+        </jar>
+    </target>
+
+    <!-- Will fix this
+
+    <target name="test.unit" depends="core.compile,cglib.compile">
+        <junit printsummary="yes">
+            <formatter type="plain"/>
+            <batchtest fork="no">
+                <fileset dir="${core.src.dir}" includes="test/**/*Test.java"/>
+                <fileset dir="${cglib.src.dir}" includes="test/**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="test.acceptance" depends="core.compile,cglib.compile">
+        <junit printsummary="yes">
+            <classpath>
+                <pathelement location="${lib.dir}"/>
+                <pathelement path="${java.class.path}"/>
+            </classpath>
+
+            <formatter type="plain"/>
+
+            <batchtest fork="no">
+                <fileset dir="${core.atest.dir}" includes="test/**/*Test.java"/>
+                <fileset dir="${cglib.atest.dir}" includes="test/**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+    -->
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="jars" depends="core.jar,cglib.jar,src.jar"/>
+	<target name="rebuild" depends="clean,jars"/>
+</project>
