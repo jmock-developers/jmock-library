@@ -1,9 +1,14 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock;
 
-import org.jmock.dynamic.*;
-import org.jmock.expectation.Verifiable;
+import org.jmock.dynamic.CoreMock;
+import org.jmock.dynamic.DynamicMock;
+import org.jmock.dynamic.InvocationDispatcher;
+import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.InvokableFactory;
+import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.expectation.Verifiable;
 
 public class Mock implements Verifiable {
     private InvokableFactory invokableFactory;
@@ -11,7 +16,6 @@ public class Mock implements Verifiable {
 
     public Mock(InvokableFactory invokableFactory, InvocationDispatcher invocationDispatcher, Class mockedClass, String name) {
         coreMock = new CoreMock(mockedClass, name, invocationDispatcher);
-
         this.invokableFactory = invokableFactory;
     }
 
