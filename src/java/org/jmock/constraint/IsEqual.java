@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.constraint;
 
+import java.lang.reflect.Array;
+
 import org.jmock.Constraint;
 import org.jmock.dynamic.DynamicUtil;
-
-import java.util.Arrays;
 
 /**
  * Is the value equal to another value, as tested by the
@@ -13,28 +13,47 @@ import java.util.Arrays;
 public class IsEqual implements Constraint {
     private Object object;
 
-    public IsEqual(Object equalArg) {
-        object = convertArrayToList(equalArg);
+    public IsEqual( Object equalArg ) {
+        object = equalArg;
     }
-
+    
     public boolean eval(Object arg) {
-        arg = convertArrayToList(arg);
-        if (arg == null) {
-            return arg == object;
-        }
-        return arg.equals(object);
+        return areEqual( object, arg );
     }
 
     public String toString() {
         return " = " + DynamicUtil.toReadableString(object);
     }
     
-    // TODO: get rid of instanceof!
-    private Object convertArrayToList(Object equalArg) {
-        if (equalArg instanceof Object[]) {
-            return Arrays.asList((Object[]) equalArg);
+    private static boolean areEqual( Object o1, Object o2 ) {
+        if( o1 == null ) {
+        	return o2 == null;
+        } else if( o2 == null ) {
+        	return o1 == null;
+        } else if( isArray(o1) ) {
+    		return isArray(o2) && areArraysEqual( o1, o2 );
         } else {
-            return equalArg;
+            return o1.equals(o2);
         }
+    }
+    
+    private static boolean areArraysEqual( Object o1, Object o2 ) {
+        return areArrayLengthsEqual(o1, o2)
+            && areArrayElementsEqual( o1, o2 );
+    }
+    
+    private static boolean areArrayLengthsEqual(Object o1, Object o2) {
+		return Array.getLength(o1) == Array.getLength(o2);
+	}
+
+	private static boolean areArrayElementsEqual( Object o1, Object o2 ) {
+        for( int i = 0; i < Array.getLength(o1); i++ ) {
+        	if( !areEqual( Array.get(o1,i), Array.get(o2,i) ) ) return false;
+        }
+        return true;
+    }
+    
+    private static boolean isArray( Object o ) {
+    	return o.getClass().isArray();
     }
 }
