@@ -4,10 +4,6 @@ import junit.framework.TestCase;
 
 import org.jmock.Constraint;
 import org.jmock.constraint.IsEqual;
-import org.jmock.dynamock.Mock;
-import org.jmock.expectation.AssertMo;
-
-import test.jmock.dynamic.DummyInterface;
 
 
 public class IsEqualTest extends TestCase {
@@ -75,18 +71,24 @@ public class IsEqualTest extends TestCase {
         assertTrue("Should not equal a different sized subarray", !c.eval(i5));
     }
     
-    public void testReturnsAnObviousDescriptionIfCreatedWithANestedConstraint() {
-        assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
-            " =  = NestedConstraint", new IsEqual(new IsEqual("NestedConstraint")).toString());
+    public void testIncludesTheResultOfCallingToStringOnItsArgumentInTheDescription() {
+        final String argumentDescription = "ARGUMENT DESCRIPTION";
+        Object argument = new Object() {
+        	public String toString() {
+        		return argumentDescription;
+            }
+        };
+        Constraint c = new IsEqual(argument);
+        
+    	assertTrue( "should contain argument's toString in toString result",
+                    c.toString().indexOf(argumentDescription) >= 0 );
+                      
+            
     }
     
-    // TODO: remove this test? This behaviour is already tested by the tests for the CoreMock class.
-    public void testReturnsMockNameAsDescriptionIfCreatedWithProxyOfMock() {
-        Mock mockDummyInterface = new Mock(DummyInterface.class, "MockName");
-        Constraint p = new IsEqual(mockDummyInterface.proxy());
-
-        AssertMo.assertIncludes("should get resolved toString() with no expectation error", 
-            "MockName", p.toString());
+    public void testReturnsAnObviousDescriptionIfCreatedWithANestedConstraintByMistake() {
+        assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
+            " =  = NestedConstraint", new IsEqual(new IsEqual("NestedConstraint")).toString());
     }
     
     public void testReturnsGoodDescriptionIfCreatedWithNullReference() {
