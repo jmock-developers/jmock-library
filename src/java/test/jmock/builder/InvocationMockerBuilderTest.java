@@ -3,7 +3,6 @@ package test.jmock.builder;
 
 import junit.framework.TestCase;
 
-import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
@@ -11,6 +10,7 @@ import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
+import org.jmock.dynamock.C;
 
 public class InvocationMockerBuilderTest extends TestCase {
     private MockStubMatchersCollection mocker = new MockStubMatchersCollection();

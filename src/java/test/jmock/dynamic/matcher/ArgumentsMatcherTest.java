@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic.matcher;
 
-import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamock.C;
 
 import test.jmock.AbstractTestCase;
 

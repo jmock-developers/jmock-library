@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
-import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
@@ -9,6 +8,7 @@ import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
+import org.jmock.dynamock.C;
 
 public class InvocationMockerBuilder 
     implements MatchBuilder, StubBuilder, ExpectationBuilder 

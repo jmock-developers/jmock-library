@@ -6,9 +6,9 @@ import java.lang.reflect.Proxy;
 
 import junit.framework.AssertionFailedError;
 
-import org.jmock.C;
 import org.jmock.dynamic.stub.CustomStub;
 import org.jmock.dynamic.stub.ReturnStub;
+import org.jmock.dynamock.C;
 
 
 public class CoreMock 
@@ -25,6 +25,7 @@ public class CoreMock
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
         
+        // TODO: this class should not rely on the C class. 
         add(new InvocationMocker("toString", C.args(), new ReturnStub(name)));
         add(new InvocationMocker("equals", C.args(C.IS_ANYTHING), 
         	new CustomStub("returns whether equal to proxy") {
