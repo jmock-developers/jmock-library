@@ -15,10 +15,10 @@ public class InvocationMockerBuilder
     implements NameMatchBuilder
 {
     private StubMatchersCollection mocker;
-    private BuilderIdentityTable idTable;
+    private BuilderNamespace idTable;
     
     public InvocationMockerBuilder( StubMatchersCollection mocker, 
-									BuilderIdentityTable idTable ) 
+									BuilderNamespace idTable ) 
     {
         this.mocker = mocker;
         this.idTable = idTable;
@@ -94,12 +94,12 @@ public class InvocationMockerBuilder
         return this;
     }
     
-    public MatchBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
+    public MatchBuilder after( BuilderNamespace otherMock, String priorCallID ) {
     	setupOrderingMatchers( otherMock, priorCallID, priorCallID + " on " + otherMock );
     	return this;
     }
     
-    private void setupOrderingMatchers( BuilderIdentityTable idTable, 
+    private void setupOrderingMatchers( BuilderNamespace idTable, 
 										String priorCallID, 
 										String priorCallDescription ) 
     {
