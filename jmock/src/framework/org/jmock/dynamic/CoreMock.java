@@ -86,12 +86,17 @@ public class CoreMock
     }
     
     private void setupDefaultBehaviour() {
-        add(new SilentInvocationMocker("toString", NoArgumentsMatcher.INSTANCE, new ReturnStub(this.name)));
-        add(new SilentInvocationMocker("equals", 
-                new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
-                new IsSameAsProxy(this.proxy)));
+        add( new SilentInvocationMocker( "toString", 
+            NoArgumentsMatcher.INSTANCE, 
+            new ReturnStub(name)));
+        add( new SilentInvocationMocker("equals", 
+            new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
+            new IsSameAsProxyStub()));
+        add( new SilentInvocationMocker("hashCode",
+            NoArgumentsMatcher.INSTANCE,
+            new HashCodeStub()));
     }
-
+    
     private static class SilentInvocationMocker extends InvocationMocker {
         public SilentInvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
             super(methodName, arguments, stub);
@@ -102,16 +107,22 @@ public class CoreMock
         }
     }
     
-    private static class IsSameAsProxy extends CustomStub {
-        private Object proxyRef;
-        
-        private IsSameAsProxy(Object proxyRef) {
+    private class IsSameAsProxyStub extends CustomStub {
+        private IsSameAsProxyStub() {
             super("returns whether equal to proxy");
-            this.proxyRef = proxyRef;
         }
         
         public Object invoke( Invocation invocation ) throws Throwable {
-            return new Boolean(invocation.getParameterValues().get(0) == proxyRef);
+            return new Boolean(invocation.getParameterValues().get(0) == proxy);
+        }
+    }
+    
+    private class HashCodeStub extends CustomStub {
+        private HashCodeStub() {
+            super("returns hashCode for proxy");
+        }
+        public Object invoke( Invocation invocation ) throws Throwable {
+            return new Integer(CoreMock.this.hashCode());
         }
     }
 }
