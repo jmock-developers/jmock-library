@@ -26,10 +26,8 @@ public class IsEqual implements Constraint {
     }
     
     private static boolean areEqual( Object o1, Object o2 ) {
-        if( o1 == null ) {
-        	return o2 == null;
-        } else if( o2 == null ) {
-        	return o1 == null;
+        if( o1 == null || o2 == null) {
+        	return o1 == null && o2 == null;
         } else if( isArray(o1) ) {
     		return isArray(o2) && areArraysEqual( o1, o2 );
         } else {
