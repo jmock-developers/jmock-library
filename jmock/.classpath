@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="core/src"/>
-	<classpathentry kind="src" path="examples/timed-cache/src"/>
 	<classpathentry kind="src" path="core/acceptance-tests"/>
 	<classpathentry kind="src" path="extensions/cglib/src"/>
 	<classpathentry kind="src" path="extensions/cglib/acceptance-tests"/>
+	<classpathentry kind="src" path="examples/timed-cache/src"/>
 	<classpathentry kind="src" path="examples/calculator/src"/>
 	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
 	<classpathentry kind="src" path="examples/publisher/src"/>
