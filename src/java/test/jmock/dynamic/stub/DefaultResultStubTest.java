@@ -15,9 +15,7 @@ public class DefaultResultStubTest
 	static final Object[] NO_ARG_VALUES = new Object[0];
 	static final Class[] NO_ARG_TYPES = new Class[0];
 	
-	
 	private DefaultResultStub stub;
-	private Invocation invocation;
     
 	public DefaultResultStubTest(String name) {
 		super(name);
