@@ -9,28 +9,40 @@
 <body>
 <h1>Stubs, Expectations and the Dispatch of Mocked Methods</h1>
 
-<p>Stubs and expectations are basically the same thing. A stub is just an
-expectation of zero or more calls to a method. The <code>stubs()</code>
+<p>In jMock, stubs and expectations are basically the same thing. A stub is just an
+expectation of zero or more invocations. The <code>stubs()</code>
 method is syntactic sugar to make the intent of the test more explicit.</p>
 
 <p>When a method is invoked on a mock object, the mock object searches for
 through its expectations in a last-in-first-out to find one that matches the
-invocation. After the invocation, an expectation might stop matching further
-invocations. E.g. an <code>expects(once())</code> expectation only matches
-once.</p>
-
-<p>If you set up the same expectation <var>n</var> times, the method can be
+invocation. After the invocation, the matching expectation might stop matching
+further invocations. E.g. an <code>expects(once())</code> expectation only matches
+once.
+If you set up the same expectation <var>n</var> times, the method can be
 called <var>n</var> times, and the "will" actions of those expectations will
-be executed in LIFO order.</p>
+be executed in LIFO order.
+</p>
 
-<p>There are a couple of possible gotchas caused by this scheme:</p>
+<p>This scheme allows you to:</p>
+<ul>
+  <li>Set up default stubs in your the <code>setUp</code> method of your test class
+  and override some of those stubs in individual tests.</li>
+  <li>Set up different expectations for the same method with different action per
+  invocation.  However, it's better to use the <code>onConsecutiveCalls</code>
+  method to do this, as described below.</li>
+</ul>
+
+<p>However, there are some possible &quot;gotchas&quot; caused by this scheme:</p>
 <ul>
   <li>if you create an expectation and then a stub for the same method, the
     stub will always override the expectation and the expectation will never
     be met.</li>
   <li>if you create a stub and then an expectation for the same method, the
     expectation will match, and when it stops matching the stub will be used
-    instead, masking test failures.</li>
+    instead, possibly masking test failures.</li>
+  <li>if you create different expectations for the same method, they will be
+    invoked in the opposite order than that in which they were specified, rather
+    than the same order.</li>
 </ul>
 
 <p>The best thing to do is <em>not</em> set up multiple expectations and
