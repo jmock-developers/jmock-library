@@ -6,6 +6,7 @@ import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
@@ -94,10 +95,18 @@ public class InvocationMockerBuilder_Test extends MockObjectTestCase {
         mocker.verifyExpectations();
     }
     
-    public void testExpectOnceAddsCallOnceMatcher() {
+    public void testExpectOnceAddsInvokeOnceMatcher() {
     	mocker.addedMatcherType.setExpected(InvokeOnceMatcher.class);
     	
     	assertNotNull("Should be ExpectationBuilder", builder.expectOnce() );
+    	
+    	mocker.verifyExpectations();
+    }
+    
+    public void testExpectAtLeastOnceAddsInvokeAtLeastOnceMatcher() {
+    	mocker.addedMatcherType.setExpected(InvokeAtLeastOnceMatcher.class);
+    	
+    	assertNotNull("Should be ExpectationBuilder", builder.expectAtLeastOnce() );
     	
     	mocker.verifyExpectations();
     }
