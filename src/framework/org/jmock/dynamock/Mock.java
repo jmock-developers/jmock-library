@@ -52,7 +52,10 @@ public class Mock
 	public void verify() {
 		coreMock.verify();
 	}
-
+	
+    public void setDefaultStub( Stub newDefaultStub ) {
+        coreMock.setDefaultStub(newDefaultStub);
+    }
 	
 	/**
 	 * Adds an invokable object to the mock object. 

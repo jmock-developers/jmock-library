@@ -89,6 +89,16 @@ public class MockTest
 		
 		assertSame( "expected proxy of core mock", proxy, mock.proxy() );
 	}
+    
+    public void testPassesDefaultStubToCoreMock() {
+        MockStub mockDefaultStub = new MockStub();
+        
+        mockCoreMock.setDefaultStub.setExpected(mockDefaultStub);
+        
+        mock.setDefaultStub( mockDefaultStub );
+        
+        mockCoreMock.verifyExpectations();
+    }
 	
 	public void testDelegatesAddToCoreMock() {
 		MockInvokable invokable = new MockInvokable();
