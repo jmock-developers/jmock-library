@@ -1,11 +1,10 @@
 /*  Copyright (c) 2000-2004 jMock.org
  */
-package org.jmock.easy.internal;
+package org.jmock.core.matcher;
 
 import org.jmock.core.Constraint;
 import org.jmock.core.Invocation;
 import org.jmock.core.constraint.IsEqual;
-import org.jmock.core.matcher.StatelessInvocationMatcher;
 
 public class ArgumentTypesMatcher
         extends StatelessInvocationMatcher

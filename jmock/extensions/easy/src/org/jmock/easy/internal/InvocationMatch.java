@@ -11,6 +11,7 @@ import org.jmock.core.InvocationMatcher;
 import org.jmock.core.InvocationMocker;
 import org.jmock.core.Stub;
 import org.jmock.core.constraint.IsEqual;
+import org.jmock.core.matcher.ArgumentTypesMatcher;
 import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
