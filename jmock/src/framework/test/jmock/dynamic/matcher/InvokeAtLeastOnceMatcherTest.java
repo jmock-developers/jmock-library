@@ -8,7 +8,7 @@ import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
 
 
 public class InvokeAtLeastOnceMatcherTest extends TestCase {
-	private Invocation emptyInvocation =
+    private Invocation emptyInvocation =
 		new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
 	private InvokeAtLeastOnceMatcher matcher = new InvokeAtLeastOnceMatcher();
 
@@ -39,9 +39,22 @@ public class InvokeAtLeastOnceMatcherTest extends TestCase {
 		matcher.verify();
 	}
 	
+    private static final String MATCH_DESCRIPTION = "expected at least once";
+    
 	public void testWritesDescriptionOfMatch() {
 		String description = matcher.writeTo(new StringBuffer()).toString();
 		
-		assertEquals( "should describe match", "called at least once", description );
+		assertEquals( "should describe match", MATCH_DESCRIPTION, description );
 	}
+    
+    public void testReportsWhetherInvokedInDescription() {
+        matcher.invoked(emptyInvocation);
+        
+        String description = matcher.writeTo(new StringBuffer()).toString();
+        
+        assertTrue( "should describe match", 
+                    description.indexOf(MATCH_DESCRIPTION) >= 0 );
+        assertTrue( "should report has been called", 
+                    description.indexOf("has been invoked") >= 0 );
+    }
 }

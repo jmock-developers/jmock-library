@@ -10,6 +10,10 @@ public class InvokeAtLeastOnceMatcher
     }
     
     public StringBuffer writeTo(StringBuffer buffer) {
-        return buffer.append("called at least once");
+        buffer.append("expected at least once");
+        if( hasBeenInvoked() ) {
+            buffer.append(" and has been invoked");
+        }
+        return buffer;
     }
 }
