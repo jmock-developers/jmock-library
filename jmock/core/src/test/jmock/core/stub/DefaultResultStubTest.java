@@ -27,7 +27,8 @@ public class DefaultResultStubTest
 	
 	public void testWritesDescritionToStringBuffer() {
 		AssertMo.assertIncludes( "contains expected description", 
-			"guessed result", stub.describeTo(new StringBuffer()).toString() );
+			"returns a default value", 
+            stub.describeTo(new StringBuffer()).toString() );
 	}
 	
     public void testReturnsUsefulDefaultResultsForBasicTypes()
