@@ -6,21 +6,21 @@ import org.jmock.examples.bananashop.*;
 
 public class BananaStoreTest extends MockObjectTestCase {
     public void testTransfersMoneyFromBankAndInformsCustomerOnSuccessfulBuy() { 
-        Amount totalCost = (Amount)newDummy(Amount.class, "total cost"); 
-        BankAccount storeAccount = (BankAccount)newDummy(BankAccount.class,"shopAccount");
+        Amount orderCost = (Amount)newDummy(Amount.class, "total cost"); 
+        BankAccount storeBankAccount = (BankAccount)newDummy(BankAccount.class);
 
         Mock mockOrderTracker  = new Mock(OrderTracker.class);
         Mock mockPayment = new Mock(Payment.class);
         Mock mockOrder = new Mock(Order.class);    
         final Order order = (Order)mockOrder.proxy();
 
-        BananaStore store = new BananaStore(storeAccount);
+        BananaStore store = new BananaStore(storeBankAccount);
 
         mockOrder.stub().method("getTotalCost").withNoArguments()
-            .will(returnValue(totalCost));
+            .will(returnValue(orderCost));
         
-        mockPayment.expect(once()).method("transferTo").with(same(storeAccount),eq(totalCost));
-        mockOrderTracker.expect(once()).method("orderCompleted").with(same(order));
+        mockPayment.expect(once()).method("transferTo").with( same(storeBankAccount), eq(orderCost) );
+        mockOrderTracker.expect(once()).method("orderCompleted").with( same(order) );
         
         store.buy( order, 
             (Payment)mockPayment.proxy(), 
