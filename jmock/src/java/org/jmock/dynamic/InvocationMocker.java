@@ -3,6 +3,7 @@ package org.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
+import org.jmock.dynamic.stub.VoidStub;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,6 +29,10 @@ public class InvocationMocker implements Invokable {
         this.stub = stub;
     }
 
+    public InvocationMocker() {
+    	this( VoidStub.INSTANCE );
+    }
+    
     public boolean matches(Invocation invocation) {
         Iterator i = matchers.iterator();
         while (i.hasNext()) {
