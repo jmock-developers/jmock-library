@@ -98,6 +98,19 @@ p {
 
 td {
     font-size: 12px;
+    padding: 2px;
+}
+
+th {
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 2px;
+}
+
+th.Row {
+	text-align: left;
+	vertical-align: top;
 }
 
 ul, ol {
