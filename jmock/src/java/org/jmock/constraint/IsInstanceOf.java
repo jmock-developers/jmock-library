@@ -12,7 +12,7 @@ public class IsInstanceOf implements Constraint {
     /**
      * Creates a new instance of IsInstanceOf
      * 
-     * @param theclass The predicate evaluates to true for instances of this class
+     * @param theClass The predicate evaluates to true for instances of this class
      *                 or one of its subclasses.
      */
     public IsInstanceOf(Class theClass) {
