@@ -76,18 +76,15 @@ public class MapEntry implements Map.Entry {
 
     public int hashCode() {
         int hash = myKey.hashCode();
+        
         if (myValue.getClass().isArray()) {
-            int i = 0;
-
-            try {
-                while (true) {
-                    hash = hash ^ Array.get(myValue, i++).hashCode();
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
+            for( int i = 0; i < Array.getLength(myValue); i++ ) {
+                hash = hash ^ Array.get(myValue, i).hashCode();
             }
         } else {
             hash = hash ^ myValue.hashCode();
         }
+        
         return hash;
     }
 
