@@ -10,9 +10,25 @@ import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.ThrowStub;
 
 
-public abstract class MockObjectTestCase 
+public class MockObjectTestCase 
 	extends MockObjectSupportTestCase
 {
+    public Mock mock( Class mockedType ) {
+        return mock( mockedType, defaultMockNameForType(mockedType) );
+    }
+    
+    public Mock mock( Class mockedType, String roleName ) {
+        return mock(mockedType,roleName);
+    }
+    
+    public String defaultMockNameForType( Class mockedType ) {
+        String fullTypeName = mockedType.getName();
+        String typeName = fullTypeName.substring( 
+            Math.max(fullTypeName.lastIndexOf('.'),fullTypeName.lastIndexOf('$')) + 1 );
+        
+        return "mock" + typeName;
+    }
+    
 	public Stub returnValue( Object o ) {
 	    return new ReturnStub(o);
     }

@@ -28,7 +28,7 @@ public class InfixParserTest
     
     
     public void setUp() {
-        mockExpressionFactory = new Mock(ExpressionFactory.class);
+        mockExpressionFactory = mock(ExpressionFactory.class);
         parser = new InfixParser( (ExpressionFactory)mockExpressionFactory.proxy() );
     }
     

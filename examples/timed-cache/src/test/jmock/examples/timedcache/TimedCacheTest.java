@@ -12,9 +12,9 @@ public class TimedCacheTest extends MockObjectTestCase {
     final private Object VALUE = newDummy("value");
     final private Object NEW_VALUE = newDummy("newValue");
 
-    private Mock mockClock = new Mock(Clock.class);
-    private Mock mockLoader = new Mock(ObjectLoader.class);
-    private Mock mockReloadPolicy = new Mock(ReloadPolicy.class);
+    private Mock mockClock = mock(Clock.class);
+    private Mock mockLoader = mock(ObjectLoader.class);
+    private Mock mockReloadPolicy = mock(ReloadPolicy.class);
     private TimedCache cache = new TimedCache( (ObjectLoader)mockLoader.proxy(),
             						   			(Clock)mockClock.proxy(), 
             						   			(ReloadPolicy)mockReloadPolicy.proxy() );

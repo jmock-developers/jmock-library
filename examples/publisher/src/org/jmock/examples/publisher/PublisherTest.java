@@ -7,7 +7,7 @@ public class PublisherTest extends MockObjectTestCase {
 
     public void testOneSubscriberReceivesAMessage() {
         // setup
-        Mock mockSubscriber = new Mock(Subscriber.class);
+        Mock mockSubscriber = mock(Subscriber.class);
         Publisher publisher = new Publisher();
         publisher.add((Subscriber) mockSubscriber.proxy());
 

@@ -21,7 +21,7 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
     private ReturnTypes proxy;
     
     public void setUp() {
-    	mock = new Mock( ReturnTypes.class, "theMock" );
+    	mock = mock( ReturnTypes.class, "theMock" );
         proxy = (ReturnTypes)mock.proxy();
     }
     

@@ -18,8 +18,8 @@ public abstract class AbstractBinaryOperatorTest
 
     public void setUp() {
         environment = new SimpleEnvironment();
-        left = new Mock(Expression.class, "left");
-        right = new Mock(Expression.class, "right");
+        left = mock(Expression.class, "left");
+        right = mock(Expression.class, "right");
     }
 
     protected void runOperatorTest() throws Exception {

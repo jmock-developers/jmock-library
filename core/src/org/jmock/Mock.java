@@ -15,7 +15,6 @@ public class Mock
     DynamicMock coreMock;
     HashMap idTable = new HashMap();
     
-    
     public Mock(Class mockedType) {
         this( mockedType, CoreMock.mockNameFromClass(mockedType) );
     }

@@ -18,7 +18,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         String callID = "callID";
         Object arg2 = new Object();
         Object notArg2 = new Object();
-        Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
+        Mock mock = mock(Types.WithTwoMethods.class, MOCK_NAME);
 
         mock.expect(once()).method("twoArgsReturnsInt").with(ANYTHING,ANYTHING)
             .will(returnValue(1)).id(callID);
@@ -66,7 +66,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
     }
     
     public void testShowsNoExpectationsStringWhenNoExpectationsSet() {
-        Mock mock = new Mock(Types.WithTwoMethods.class);
+        Mock mock = mock(Types.WithTwoMethods.class);
         try {
             ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt("arg1", "arg2");
         } catch (DynamicMockError error) {
@@ -86,7 +86,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         String expectedMethod =  
             "expected once: twoArgsReturnsInt( eq(<"+arg1+">), same(<"+arg2+">) ), returns <1>";
         
-        Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
+        Mock mock = mock(Types.WithTwoMethods.class, MOCK_NAME);
 
         mock.expect(once()).method("twoArgsReturnsInt").with(eq(arg1),same(arg2))
             .will(returnValue(1));

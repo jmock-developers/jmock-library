@@ -36,7 +36,7 @@ public class DynamicMockExample extends MockObjectTestCase {
     }
     
     public void testBuilderExample() {
-    	Mock market = new Mock(Market.class);
+    	Mock market = mock(Market.class);
         Agent agent = new Agent((Market) market.proxy());
         
         market.stub().method("listStocks").withNoArguments()
@@ -53,7 +53,7 @@ public class DynamicMockExample extends MockObjectTestCase {
     }
     
     public void xtestDynaMockExample() {
-        Mock mockMarket = new Mock(Market.class);
+        Mock mockMarket = mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
 //	
 //	 
