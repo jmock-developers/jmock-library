@@ -3,7 +3,7 @@ package test.jmock;
 public class ToDo {
     //TODO JavaDoc interfaces and those classes that need it.
     //TODO Find cool new name for "builder" API and rename packages ("hotmock" top candidate)
-    //TODO Better tests for error messages
+    //TODO More tests for error messages
     //TODO Better format for expected calls in error messages
     //      - make expected and actual call signatures look similar
 	//TODO Implement API for call ordering in dynamock API
@@ -11,7 +11,6 @@ public class ToDo {
     //TODO Remove getters from Invocation (?)
 	//TODO Extract interface from Invocation class (?)
     //TODO List expected/stubbed methods in verify errors
-    //TODO CoreMock should implement the hashCode method for proxies
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
@@ -29,6 +28,7 @@ public class ToDo {
     //DONE Default result stub should return zero-length arrays for array types
     //DONE Make name of mock more visible in error messages
     //DONE ExpectNotCalled (or equivalent) makes tests more expressive.
+    //DONE CoreMock should implement the hashCode method for proxies
 	
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
