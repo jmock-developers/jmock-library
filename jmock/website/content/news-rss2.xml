@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"> 
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"
+                   xmlns:html="http://www.w3.org/1999/xhtml"> 
 									 
 	<channel>
 		<title>jMock News</title>
@@ -21,13 +22,13 @@
 		-->
 		
 		<item>
-			<title>See jMock in Action</title>
+			<title>See jMock in Action at the ADC</title>
 			<category>Event</category>
 			<link>http://www.jmock.org</link>
 			<description>jMock will be used in the 
-				<em>Top-Down TDD using Mock Objects and Inversion of Control</em>
+				<html:em>Top-Down TDD using Mock Objects and Inversion of Control</html:em>
       	tutorial run by Manish Shah and Damian Guy at the
-      	<a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
+      	<html:a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</html:a>.
       </description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-06-15</dc:date>
@@ -38,7 +39,7 @@
 			<category>Release</category>
 			<link>http://www.jmock.org/downloads.html</link>
 			<description>
-				Released <a href="downloads.html">jMock 1.0.1</a>, that fixes and improves the 
+				Released <html:a href="downloads.html">jMock 1.0.1</html:a>, that fixes and improves the 
 				generation of error messages.      
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
@@ -50,7 +51,7 @@
 			<category>Documentation</category>
 			<link>http://www.jmock.org/easymock-comparison.html</link>
 			<description>
-			  Added an article <a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</a>.
+			  Added an article <html:a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</html:a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-06-04</dc:date>
@@ -73,7 +74,8 @@
 			<category>Release</category>
 			<link>http://www.jmock.org/download.html</link>
 			<description>
-				Version 1.0.0 has been released. <a href="http://www.jmock.org/download.html">Download it now</a>.
+				Version 1.0.0 has been released. 
+				<html:a href="http://www.jmock.org/download.html">Download it now</html:a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-06-01</dc:date>
@@ -85,7 +87,7 @@
 			<link>http://www.jmock.org/custom-stubs.html</link>
 			<description>
 				A new tutorial has been uploaded, showing how to 
-				<a href="http://www.jmock.org/custom-stubs.html">write custom stubs</a>.
+				<html:a href="http://www.jmock.org/custom-stubs.html">write custom stubs</html:a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-05-23</dc:date>
@@ -96,7 +98,7 @@
 			<category>Release</category>
 			<link>http://www.jmock.org/download.html</link>
 			<description>
-				Version 1.0.0.RC1 now available for <a href="download.html">download</a>.
+				Version 1.0.0.RC1 now available for <html:a href="download.html">download</html:a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-05-22</dc:date>
@@ -107,16 +109,16 @@
 			<category>Development</category>
 			<link>http://www.jmock.org/download.html</link>
 			<description>
-				<b>New!</b> Binary snapshots are now available. <a
+				<html:b>New!</html:b> Binary snapshots are now available. <html:a
 				href="http://www.jmock.org/download.html">Get them while they're hot if you want to 
-				look cool!</a>
+				look cool!</html:a>
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-05-21</dc:date>
 		</item>
 
 		<item>
-			<title>Continuous Integration Back Up</title>
+			<title>Continuous Integration is Running Again</title>
 			<category>Development</category>
 			<link>http://www.jmock.org</link>
 			<description>
@@ -133,7 +135,7 @@
 			<category>Documentation</category>
 			<link>http://www.jmock.org/yoga.html</link>
 			<description>
-				A new article, <a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</a>,
+				A new article, <html:a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</html:a>,
 				describes how to use jMock to avoid brittle tests.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
@@ -146,9 +148,9 @@
 			<link>http://www.jmock.org/dynamock-comparison.html</link>
 			<description>
 				A new article, 
-				<a href="http://www.jmock.org/dynamock-comparison.html">Comparing jMock and Dynamock</a>,
+				<html:a href="http://www.jmock.org/dynamock-comparison.html">Comparing jMock and Dynamock</html:a>,
 				explains the difference between jMock and the 
-				DynaMock API of <a href="http://www.mockobjects.com">mockobjects.com</a>.
+				DynaMock API of <html:a href="http://www.mockobjects.com">mockobjects.com</html:a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-03-01</dc:date>
@@ -159,8 +161,8 @@
 			<category>Development</category>
 			<link>http://www.jmock.org</link>
 			<description>
-				<a href="http://cglib.sourceforge.net/">CGLIB</a> support
-				has recently been committed to <a href="repository.html">CVS</a>. This
+				<html:a href="http://cglib.sourceforge.net/">CGLIB</html:a> support
+				has recently been committed to <html:a href="repository.html">CVS</html:a>. This
 				optional extension will allow you to mock concrete classes, helpful if you
 				have to work with awkward and/or legacy code.
 			</description>
@@ -173,10 +175,10 @@
 			<category>Development</category>
 			<link>http://www.jmock.org/download.html#snapshot</link>
 			<description>
-				<a href="http://www.jmock.org/download.html#snapshot">Source snapshots</a> are
+				<html:a href="http://www.jmock.org/download.html#snapshot">Source snapshots</html:a> are
 				now available for download. Snapshots are created by the continuous
 				integration system whenever anything is committed to the 
-				<a href="http://www.jmock.org/repository.html">CVS repository</a>.
+				<html:a href="http://www.jmock.org/repository.html">CVS repository</html:a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-02-18</dc:date>
