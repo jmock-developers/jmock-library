@@ -30,8 +30,8 @@ BASE_URL = URI.parse("http://www.jmock.org/")
 
 $logger = $stdout
 def log( message )
-	$logger.puts( message )
-	$logger.flush
+    $logger.puts( message )
+    $logger.flush
 end
 
 def jmock_jar( version )
@@ -52,15 +52,15 @@ end
 
 
 def is_markup( filename )
-	filename =~ /.(html|xml)$/
+    filename =~ /.(html)$/
 end
 
 def is_cvs_data( filename )
-	filename =~ /\/CVS(\/|$)/
+    filename =~ /\/CVS(\/|$)/
 end
 
 def is_directory( filename )
-	FileTest.directory? filename
+    FileTest.directory? filename
 end
 
 def list_files dir
@@ -76,50 +76,52 @@ def output_file( asset_file, root_asset_dir )
 end
 
 def filename_relative_to( file, root_dir )
-	if file[0,root_dir.length] != root_dir
-		raise "#{file} is not within directory #{root_dir}"
-	end
-	
-	root_dir_length = root_dir.length
-	root_dir_length = root_dir_length + 1 if root_dir[-1] != '/'
-	
-	file[root_dir_length, file.length-root_dir_length]
+    if file[0,root_dir.length] != root_dir
+        raise "#{file} is not within directory #{root_dir}"
+    end
+    
+    root_dir_length = root_dir.length
+    root_dir_length = root_dir_length + 1 if root_dir[-1] != '/'
+    
+    file[root_dir_length, file.length-root_dir_length]
 end
 
 def copy_to_output( asset_file, root_asset_dir )
-	dest_file = output_file( asset_file, root_asset_dir )
-	
-  	log "#{asset_file} -> #{dest_file}"
-	
+    dest_file = output_file( asset_file, root_asset_dir )
+    
+    log "#{asset_file} -> #{dest_file}"
+    
     File.copy( asset_file, dest_file )
 end
 
 def make_output_directory( asset_dir, root_asset_dir )
-	new_dir = output_file( asset_dir, root_asset_dir )
-	
-	if not File.exists? new_dir
-		log "making directory #{new_dir}"
-		
-		Dir.mkdir( new_dir )
-	end
+    new_dir = output_file( asset_dir, root_asset_dir )
+    
+    if not File.exists? new_dir
+        log "making directory #{new_dir}"
+        
+        Dir.mkdir( new_dir )
+    end
 end
 
 def skin_content( content_dir, root_content_dir=content_dir )
     list_files(content_dir).each do |content_file|
-    	if is_directory(content_file)
-    		make_output_directory( content_file, root_content_dir )
-    		skin_content( content_file, root_content_dir )
-    	elsif is_markup(content_file)
-	    	skin_content_file( content_file, root_content_dir )
-    	else
-				copy_to_output( content_file, root_content_dir )
-			end
+        if is_directory(content_file)
+            make_output_directory( content_file, root_content_dir )
+            skin_content( content_file, root_content_dir )
+        elsif is_markup(content_file)
+            skin_content_file( content_file, root_content_dir )
+        else
+                copy_to_output( content_file, root_content_dir )
+            end
     end
 end
 
 def skin_content_file( content_file, root_content_dir )
     output_file = output_file( content_file, root_content_dir )
 
+    log "#{content_file} ~> #{output_file}"
+    
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
@@ -145,8 +147,6 @@ def skin_content_file( content_file, root_content_dir )
     convert_javadoc_links( skinned_content )
     add_print_footnotes( skinned_content )
 
-    log "#{content_file} ~> #{output_file}"
-    
     write_to_output( skinned_content, output_file )
 end
 
@@ -159,22 +159,22 @@ def add_class( element, new_class )
 end
 
 def convert_javadoc_links( skinned_content )
-	skinned_content.each_element "#{CONTENT_PATH}//a" do |link|
-			href = link.attributes["href"]
-			
-			if href =~ /^java:(.*)/
-				link.attributes["href"] = class_to_javadoc_url($1)
-			end
-	end
+    skinned_content.each_element "#{CONTENT_PATH}//a" do |link|
+            href = link.attributes["href"]
+            
+            if href =~ /^java:(.*)/
+                link.attributes["href"] = class_to_javadoc_url($1)
+            end
+    end
 end
 
 def class_to_javadoc_url( name )
-	path = name.split(".")
-	if path.last == "*"
-		path[path.size-1] = "package-summary"
-	end
-	
-	"#{JAVADOC_ROOT}/#{path.join("/")}.html"
+    path = name.split(".")
+    if path.last == "*"
+        path[path.size-1] = "package-summary"
+    end
+    
+    "#{JAVADOC_ROOT}/#{path.join("/")}.html"
 end
 
 def add_print_footnotes( skinned_content )

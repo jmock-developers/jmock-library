@@ -111,11 +111,37 @@
         </div>
 
         <div class="NewsGroup">
-          <h1><a href="/news.html">News...</a></h1>
-          <template:include src="../content/news.html"
-                        elements="/html/body/*[@class='NewsItem' and position() &lt; 7]"/>
-          <!-- <p class="NewsMore"><a href="news.rss">News feed (XML)</a></p> -->
+          <h1>Recent News</h1>
+
+					<div class="NewsItem">
+						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/title/text()"/></p>
+						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/pubDate/text()"/></p>
+						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/description/node()"/></p>
+					</div>
+					<div class="NewsItem">
+						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/title/text()"/></p>
+						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/pubDate/text()"/></p>
+						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/description/node()"/></p>
+					</div>
+					<div class="NewsItem">
+						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/title/text()"/></p>
+						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/pubDate/text()"/></p>
+						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/description/node()"/></p>
+					</div>
+					<div class="NewsItem">
+						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/title/text()"/></p>
+						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/pubDate/text()"/></p>
+						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/description/node()"/></p>
+					</div>
+					<div class="NewsItem">
+						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/title/text()"/></p>
+						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/pubDate/text()"/></p>
+						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/description/node()"/></p>
+					</div>
+
+          <p class="NewsMore"><a href="news-rss2.xml">News feed (RSS 2.0)</a></p>
         </div>
+
       </div>
     </template:when>
   </body>
