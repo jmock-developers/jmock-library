@@ -144,7 +144,7 @@ public class Mock
 	
 	
 	/*------------------------------------------------------------------------------------------
-	 *  THE FOLLOWING METHODS ARE NOT TESTED
+	 *  THE FOLLOWING METHODS ARE NOT UNIT TESTED
 	 */
 	
     public void expectVoid(String methodName, Object singleEqualArg) {
@@ -249,7 +249,7 @@ public class Mock
      */
     public void expectNotCalled(String methodName) {
     }
-
+    
     private InvocationMatcher createInvocationMatcher(Constraint[] constraints) {
     	return new ArgumentsMatcher(constraints);
     }
