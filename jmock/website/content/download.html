@@ -6,19 +6,62 @@
 
   <body>
     <h1 id="stable">Stable Version: <span class="version"><template:text var="release"/></span></h1>
-    <p>Not yet available</p>
+    <template:when var="release_available" value="true">
+      <ul>
+        <li><a><template:attr name="href" valuevar="release_jmock_jar"/>jMock binary JAR</a></li>
+        <li><a><template:attr name="href" valuevar="release_jmock_cglib_jar"/>jMock/CGLIB extension binary JAR</a>
+          &mdash; download this as well as the
+          <a><template:attr name="href" valuevar="release_jmock_jar"/>jMock binary JAR</a>
+          if you want to mock concrete classes.</li>
+        <li><a><template:attr name="href" valuevar="release_jmock_src_jar"/>All jMock Source</a></li>
+        <li><a><template:attr name="href" valuevar="release_jmock_src_jar"/>Javadocs</a></li>
+      </ul>
+    </template:when>
+
+    <template:when var="release_available" value="false">
+      <p>Not yet available</p>
+    </template:when>
+
+    <p>
+    Older versions can be downloaded from <code><a href="http://dist.codehaus.org/jmock">dist.codehaus.org</a></code>.
+    </p>
 
     <h1 id="prerelease">Prerelease Version: <span class="version"><template:text var="prerelease"/></span></h1>
-    <ul>
-      <li><a href="http://dist.codehaus.org/jmock/jars/jmock-1.0.0.RC1.jar">jMock binary JAR</a></li>
-      <li><a href="http://dist.codehaus.org/jmock/jars/jmock-cglib-1.0.0.RC1.jar">jMock/CGLIB extension binary JAR</a>
-      &mdash; download this as well as the
-      <a href="http://dist.codehaus.org/jmock/jars/jmock-1.0.0.RC1.jar">jMock binary JAR</a>
-      if you want to mock concrete classes.</li>
-      <li><a href="http://dist.codehaus.org/jmock/distributions/jmock-1.0.0.RC1-src.jar">All jMock Source</a></li>
-      <li><a href="http://dist.codehaus.org/jmock/distributions/jmock-1.0.0.RC1-javadoc.jar">Javadocs</a></li>
-    </ul>
+    <template:when var="prerelease_available" value="true">
+      <ul>
+        <li><a><template:attr name="href" valuevar="prerelease_jmock_jar"/>jMock binary JAR</a></li>
+        <li><a><template:attr name="href" valuevar="prerelease_jmock_cglib_jar"/>jMock/CGLIB extension binary JAR</a>
+          &mdash; download this as well as the
+          <a><template:attr name="href" valuevar="prerelease_jmock_jar"/>jMock binary JAR</a>
+          if you want to mock concrete classes.</li>
+        <li><a><template:attr name="href" valuevar="prerelease_jmock_src_jar"/>All jMock Source</a></li>
+        <li><a><template:attr name="href" valuevar="prerelease_jmock_src_jar"/>Javadocs</a></li>
+      </ul>
+    </template:when>
 
+    <template:when var="prerelease_available" value="false">
+      <p>Not yet available</p>
+    </template:when>
+
+
+    <h1 id="prerelease">Development Snapshot: <span class="version"><template:text var="snapshot"/></span></h1>
+    <template:when var="snapshot_available" value="true">
+      <ul>
+        <li><a><template:attr name="href" valuevar="snapshot_jmock_jar"/>jMock binary JAR</a></li>
+        <li><a><template:attr name="href" valuevar="snapshot_jmock_cglib_jar"/>jMock/CGLIB extension binary JAR</a>
+          &mdash; download this as well as the
+          <a><template:attr name="href" valuevar="snapshot_jmock_jar"/>jMock binary JAR</a>
+          if you want to mock concrete classes.</li>
+        <li><a><template:attr name="href" valuevar="snapshot_jmock_src_jar"/>All jMock Source</a></li>
+        <li><a><template:attr name="href" valuevar="snapshot_jmock_src_jar"/>Javadocs</a></li>
+      </ul>
+    </template:when>
+
+    <template:when var="prerelease_available" value="false">
+      <p>Not yet available</p>
+    </template:when>
+
+    <!--
     <h1 id="snapshot">Development Snapshot: <span class="version"><template:text var="snapshot"/></span></h1>
     <ul>
       <li><a href="http://dist.codehaus.org/jmock/jars/jmock-SNAPSHOT.jar">jMock binary JAR</a></li>
@@ -29,11 +72,13 @@
       <li><a href="http://dist.codehaus.org/jmock/distributions/jmock-SNAPSHOT-src.jar">All jMock Source</a></li>
       <li><a href="http://dist.codehaus.org/jmock/distributions/jmock-SNAPSHOT-javadoc.jar">Javadocs</a></li>
     </ul>
+    -->
 
     <p>The snapshot source archive unpacks into a directory named after the snapshot version,
     so you can easily install multiple snapshots side by side within the same directory.</p>
 
     <p>The very latest code is also available from the
-    <a href="repository.html">source code repository</a>.</p>
+    <a href="repository.html">source code repository</a>.
+    </p>
   </body>
 </html>
