@@ -1,3 +1,4 @@
+Bug fix: Ignore all but the first test failure (JMOCK-30)
 Bug fix: Builder disallowed methods defined in Object class
 DefaultResultStub returns value for Object return type
 Improved error messages
