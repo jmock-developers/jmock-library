@@ -11,10 +11,4 @@ public interface Types {
         int twoArgsReturnInt(String arg1, Object arg2);
         void noArgsReturnsNothing();
     }
-    
-    public interface ReturnedType {}
-    
-    public interface Returner {
-    	ReturnedType returnIt();
-    }
 }
