@@ -54,10 +54,6 @@ public class DefaultResultStubTest extends TestCase {
         assertHasRegisteredValue(stub, String.class, "");
     }
 
-    public static class AnyType
-    {
-    }
-
     public void testReturnsEmptyArrayForAllArrayTypes()
             throws Throwable
     {
@@ -65,9 +61,9 @@ public class DefaultResultStubTest extends TestCase {
                 (int[])stub.invoke(invocationReturning(int[].class));
         assertEquals("should be empty array", 0, defaultArrayForPrimitiveType.length);
 
-        AnyType[] defaultArrayForAnyType =
-                (AnyType[])stub.invoke(invocationReturning(AnyType[].class));
-        assertEquals("should be empty array", 0, defaultArrayForAnyType.length);
+        Object[] defaultArrayForReferenceType =
+                (Object[])stub.invoke(invocationReturning(Object[].class));
+        assertEquals("should be empty array", 0, defaultArrayForReferenceType.length);
     }
 
     public interface InterfaceType {

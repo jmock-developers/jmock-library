@@ -21,7 +21,8 @@ public class MethodFactory extends ClassLoader
     public Method newMethod( final String methodName,
                              final Class[] argTypes,
                              final Class returnType,
-                             final Class[] exceptionTypes ) {
+                             final Class[] exceptionTypes )
+    {
         ClassLoader classLoader = new ClassLoader()
         {
             protected Class findClass( String interfaceName ) {
