@@ -1,46 +1,44 @@
 <project default="jars">
     <property file="build.properties"/>
-    <echo message="Archive ID ${version.archive}"/>
-    <echo message="Version ID ${version.extract}"/>
 
-    <property name="lib.dir" location="lib"/>
-    <property name="examples.dir" location="examples"/>
-    <property name="extensions.dir" location="extensions"/>
-    <property name="website.dir" location="website"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="examples.dir" value="examples"/>
+    <property name="extensions.dir" value="extensions"/>
+    <property name="website.dir" value="website"/>
 
-    <property name="build.dir" location="build"/>
-    <property name="build.dist.dir" location="${build.dir}/dist"/>
-    <property name="build.dist.bin.dir" location="${build.dist.dir}/jars"/>
-    <property name="build.dist.src.dir" location="${build.dist.dir}/distributions"/>
+    <property name="build.dir" value="build"/>
+    <property name="build.dist.dir" value="${build.dir}/dist"/>
+    <property name="build.dist.bin.dir" value="${build.dist.dir}/jars"/>
+    <property name="build.dist.src.dir" value="${build.dist.dir}/distributions"/>
     <property name="timestamped.src.dir" value="jmock-${version.extract}"/>
-    <property name="build.src.dir" location="${build.dir}/${timestamped.src.dir}"/>
-    <property name="build.javadoc.dir" location="${build.dir}/javadoc-${version.extract}"/>
-    <property name="build.website.dir" location="website/output"/>
+    <property name="build.src.dir" value="${build.dir}/${timestamped.src.dir}"/>
+    <property name="build.javadoc.dir" value="${build.dir}/javadoc-${version.extract}"/>
+    <property name="build.website.dir" value="website/output"/>
 
-    <property name="report.test.unit.dir" location="${build.dir}/reports/unit-tests"/>
-    <property name="report.test.acceptance.dir" location="${build.dir}/reports/acceptance-tests"/>
+    <property name="report.test.unit.dir" value="${build.dir}/reports/unit-tests"/>
+    <property name="report.test.acceptance.dir" value="${build.dir}/reports/acceptance-tests"/>
 
-    <property name="core.dir" location="core"/>
-    <property name="core.src.dir" location="${core.dir}/src"/>
-    <property name="core.atest.dir" location="${core.dir}/acceptance-tests"/>
-    <property name="core.build.dir" location="build/core"/>
-    <property name="core.jar" location="${build.dist.bin.dir}/jmock-${version.archive}.jar"/>
+    <property name="core.dir" value="core"/>
+    <property name="core.src.dir" value="${core.dir}/src"/>
+    <property name="core.atest.dir" value="${core.dir}/acceptance-tests"/>
+    <property name="core.build.dir" value="build/core"/>
+    <property name="core.jar" value="${build.dist.bin.dir}/jmock-${version.archive}.jar"/>
 
-    <property name="cglib.dir" location="${extensions.dir}/cglib"/>
-    <property name="cglib.src.dir" location="${cglib.dir}/src"/>
-    <property name="cglib.atest.dir" location="${cglib.dir}/acceptance-tests"/>
-    <property name="cglib.build.dir" location="build/cglib"/>
-    <property name="cglib.jar" location="${build.dist.bin.dir}/jmock-cglib-${version.archive}.jar"/>
+    <property name="cglib.dir" value="${extensions.dir}/cglib"/>
+    <property name="cglib.src.dir" value="${cglib.dir}/src"/>
+    <property name="cglib.atest.dir" value="${cglib.dir}/acceptance-tests"/>
+    <property name="cglib.build.dir" value="build/cglib"/>
+    <property name="cglib.jar" value="${build.dist.bin.dir}/jmock-cglib-${version.archive}.jar"/>
 
-    <property name="src.jar" location="${build.dist.src.dir}/jmock-${version.archive}-src.jar"/>
-    <property name="javadoc.jar" location="${build.dist.src.dir}/jmock-${version.archive}-javadoc.jar"/>
+    <property name="src.jar" value="${build.dist.src.dir}/jmock-${version.archive}-src.jar"/>
+    <property name="javadoc.jar" value="${build.dist.src.dir}/jmock-${version.archive}-javadoc.jar"/>
 
-    <property name="deploy.root.dir" location="/home/projects/jmock"/>
-    <property name="deploy.website.dir" location="${deploy.root.dir}/public_html"/>
-    <property name="deploy.javadoc.dir" location="${deploy.website.dir}/docs/javadoc"/>
-    <property name="deploy.dist.dir" location="${deploy.root.dir}/dist"/>
-    <property name="deploy.dist.bin.dir" location="${deploy.dist.dir}/jars"/>
-    <property name="deploy.dist.src.dir" location="${deploy.dist.dir}/distributions"/>
+    <property name="deploy.root.dir" value="/home/projects/jmock"/>
+    <property name="deploy.website.dir" value="${deploy.root.dir}/public_html"/>
+    <property name="deploy.javadoc.dir" value="${deploy.website.dir}/docs/javadoc"/>
+    <property name="deploy.dist.dir" value="${deploy.root.dir}/dist"/>
+    <property name="deploy.dist.bin.dir" value="${deploy.dist.dir}/jars"/>
+    <property name="deploy.dist.src.dir" value="${deploy.dist.dir}/distributions"/>
 
 
 
@@ -182,16 +180,19 @@
         <mkdir dir="${build.src.dir}"/>
 
         <copy todir="${build.src.dir}">
-            <fileset dir="${core.dir}"/>
-            <fileset dir="${extensions.dir}"/>
-            <fileset dir="${examples.dir}"/>
-            <fileset file="build.xml"/>
-            <fileset file="README.txt"/>
-            <fileset file="LICENSE.txt"/>
-            <fileset file="VERSION"/>
-            <fileset file="CHANGELOG"/>
-            <fileset file="build.properties"/>
-            <fileset file="overview.html"/>
+            <fileset dir=".">
+                <include name="${core.dir}/**"/>
+                <include name="${extensions.dir}/**"/>
+                <include name="${examples.dir}/**"/>
+                <include name="${lib.dir}/**"/>
+                <include name="build.xml"/>
+                <include name="README.txt"/>
+                <include name="LICENSE.txt"/>
+                <include name="VERSION"/>
+                <include name="CHANGELOG"/>
+                <include name="build.properties"/>
+                <include name="overview.html"/>
+            </fileset>
         </copy>
 
         <jar destfile="${src.jar}" basedir="${build.dir}" includes="${timestamped.src.dir}/**"/>
