@@ -14,7 +14,7 @@ public class StringContains implements Constraint {
 	}
 
 	public boolean eval(Object o) {
-		return o instanceof String && ((String) o).indexOf(substring) >= 0;
+		return o instanceof String && ((String)o).indexOf(substring) >= 0;
 	}
 
 	public String toString() {
