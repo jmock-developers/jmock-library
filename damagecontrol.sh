@@ -23,11 +23,11 @@ DEPLOY_ROOT=${DEPLOY_ROOT:-/home/projects/jmock}
 
 function deploy {
     echo deploying contents of $1 to $2
-    mkdir -p $2
-    cp --recursive $1/* $2/
+    mkdir -p $2 || exit 1
+    cp --recursive $1/* $2/ || exit 1
 }
 
-ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
+ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website || exit 1
 
 if let $DEPLOY; then
     deploy $BUILDDIR/dist $DEPLOY_ROOT/dist
