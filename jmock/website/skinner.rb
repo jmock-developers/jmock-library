@@ -5,16 +5,16 @@ require 'rexml/document'
 require 'xemplate'
 include REXML
 
-RELEASE_ID = ENV["RELEASE_ID"] || "n/a"
-PRERELEASE_ID = ENV["PRERELEASE_ID"] || "n/a"
-SNAPSHOT_ID = ENV["SNAPSHOT_ID"] || "n/a"
-
 BASE_DIR = "."
 CONTENT_DIR = File.join(BASE_DIR,"content")
 SKIN_DIR = File.join(BASE_DIR,"templates")
 OUTPUT_DIR = File.join(BASE_DIR,"output")
 
 TEMPLATE = XEMPLATE::load_template( File.join(SKIN_DIR,"skin.html") )
+
+def env( varname, default_value )
+	ENV[varname] || default_value
+end
 
 $logger = $stdout
 
@@ -94,9 +94,9 @@ def skin_content_file( content_file, root_content_dir )
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
-        "snapshot" => String.new(SNAPSHOT_ID),
-        "prerelease" => String.new(PRERELEASE_ID),
-        "release" => String.new(RELEASE_ID)
+        "snapshot" => String.new(env("SNAPSHOT_ID","n/a")),
+        "prerelease" => String.new(env("PRERELEASE_ID","n/a")),
+        "release" => String.new(env("RELEASE_ID","n/a"))
     }
     
     skinned_content = TEMPLATE.expand( config )
