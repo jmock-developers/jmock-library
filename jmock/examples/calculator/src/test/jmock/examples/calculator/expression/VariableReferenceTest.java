@@ -3,10 +3,7 @@
 package test.jmock.examples.calculator.expression;
 
 import org.jmock.builder.Mock;
-
-import junit.framework.TestCase;
-
-
+import org.jmock.builder.MockObjectTestCase;
 import org.jmock.examples.calculator.CalculatorException;
 import org.jmock.examples.calculator.Environment;
 import org.jmock.examples.calculator.Expression;
@@ -14,7 +11,7 @@ import org.jmock.examples.calculator.SimpleEnvironment;
 import org.jmock.examples.calculator.expression.VariableReference;
 
 
-public class VariableReferenceTest extends TestCase {
+public class VariableReferenceTest extends MockObjectTestCase {
     
     private final String variableName = "VARIABLE NAME";
     private Mock mockDefinition;
@@ -24,7 +21,6 @@ public class VariableReferenceTest extends TestCase {
         mockDefinition = new Mock(Expression.class,"mockDefinition");
         variableReference = new VariableReference(variableName);
     }
-    
 
     public void testEvaluatesDefinitionOfReferencedVariable() throws Exception {
         Mock mockEnvironment = new Mock(Environment.class);
@@ -41,9 +37,6 @@ public class VariableReferenceTest extends TestCase {
             result, 
             variableReference.evaluate( (Environment)mockEnvironment.proxy() ), 
             0 );
-            
-        mockEnvironment.verify();
-        mockDefinition.verify();
     }
     
     public void testPassesBackExceptionsFromVariableDefiniton() {
@@ -61,8 +54,6 @@ public class VariableReferenceTest extends TestCase {
         catch( CalculatorException caught ) {
             assertSame( "should be thrown exception", thrown, caught );
         }
-        
-        mockDefinition.verify();
     }
     
     public void testThrowsCalculatorExceptionIfVariableNotDefined() {
@@ -76,7 +67,5 @@ public class VariableReferenceTest extends TestCase {
             assertTrue( "should contain variable name in message",
                         ex.getMessage().indexOf(variableName) >= 0 );
         }
-        
-        mockDefinition.verify();
     }
 }

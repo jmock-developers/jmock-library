@@ -3,17 +3,15 @@
 package test.jmock.examples.calculator.expression;
 
 import org.jmock.builder.Mock;
-
-import junit.framework.TestCase;
-
-
+import org.jmock.builder.MockObjectTestCase;
 import org.jmock.examples.calculator.CalculatorException;
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.SimpleEnvironment;
 import org.jmock.examples.calculator.expression.Literal;
 
-public abstract class AbstractBinaryOperatorTest extends TestCase {
-
+public abstract class AbstractBinaryOperatorTest 
+    extends MockObjectTestCase
+{
     SimpleEnvironment environment;
     private Mock mockLeft;
     private Mock mockRight;
@@ -22,11 +20,6 @@ public abstract class AbstractBinaryOperatorTest extends TestCase {
         environment = new SimpleEnvironment();
         mockLeft = new Mock(Expression.class, "mockLeft");
         mockRight = new Mock(Expression.class, "mockRight");
-    }
-
-    public void verifyAll() {
-        mockLeft.verify();
-        mockRight.verify();
     }
 
     protected void runOperatorTest() throws Exception {
@@ -63,8 +56,6 @@ public abstract class AbstractBinaryOperatorTest extends TestCase {
         } catch (CalculatorException caught) {
             assertSame("should be thrown exception", thrown, caught);
         }
-
-        verifyAll();
     }
 
     public void testReportsErrorsInRightSubexpression() {
@@ -87,8 +78,6 @@ public abstract class AbstractBinaryOperatorTest extends TestCase {
         } catch (CalculatorException caught) {
             assertSame("should be thrown exception", thrown, caught);
         }
-
-        verifyAll();
     }
     
     protected Expression makeExpression( double leftLiteral, double rightLiteral ) {

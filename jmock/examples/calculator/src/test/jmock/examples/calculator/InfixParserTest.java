@@ -3,22 +3,19 @@
 package test.jmock.examples.calculator;
 
 
-import org.jmock.C;
+import org.jmock.builder.MockObjectTestCase;
+import org.jmock.dynamock.C;
 import org.jmock.dynamock.Mock;
-
-import junit.framework.TestCase;
-
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.ExpressionFactory;
 import org.jmock.examples.calculator.InfixParser;
 import org.jmock.examples.calculator.ParseException;
 import org.jmock.examples.calculator.SimpleEnvironment;
 import org.jmock.util.Dummy;
-import org.jmock.util.Verifier;
 
 
 public class InfixParserTest 
-    extends TestCase 
+    extends MockObjectTestCase 
 {
     private Mock mockExpressionFactory;
     private InfixParser parser;
@@ -39,16 +36,10 @@ public class InfixParserTest
         environment = new SimpleEnvironment();
     }
     
-    public void verifyAll() {
-        Verifier.verifyObject(this);
-    }
-    
     public void testParsesLiteral() throws Exception {
         mockExpressionFactory.expectAndReturn("newLiteral", C.args(C.eq(4.0)), mockLiteral1 );
         
         assertSame( "should be literal", mockLiteral1, parser.parse("4.0") );
-        
-        verifyAll();
     }
     
     public void testParsesVariableReference() throws Exception {
@@ -57,8 +48,6 @@ public class InfixParserTest
         
         assertSame( "should be variable reference", 
                     mockVariableReference, parser.parse("varName") );
-                    
-        verifyAll();
     }
     
     public void testParsesAddition() throws Exception {
@@ -68,8 +57,6 @@ public class InfixParserTest
             C.eq(mockLiteral1,mockLiteral2), mockAddition );
         
         assertSame( "should be addition", mockAddition, parser.parse("1+2") );
-        
-        verifyAll();
     }
 
     public void testThrowsExceptionForInvalidAdditionSyntax() throws Exception {
@@ -86,8 +73,6 @@ public class InfixParserTest
             fail("ParseException expected when missing lhs");
         }
         catch( ParseException expected ) {}
-        
-        verifyAll();
     }
 
     public void testParsesSubtraction() throws Exception {
@@ -97,8 +82,6 @@ public class InfixParserTest
             C.eq(mockLiteral1,mockLiteral2), mockSubtraction);
         
         assertSame( "should be addition", mockSubtraction, parser.parse("1-2") );
-        
-        verifyAll();
     }
     
     public void testThrowsExceptionForInvalidSubtractionSyntax() throws Exception {
@@ -114,8 +97,6 @@ public class InfixParserTest
             fail("ParseException expected when missing lhs");
         }
         catch( ParseException expected ) {}
-        
-        verifyAll();
     }
     
     public void testParsesMultiplication() throws Exception {
@@ -125,8 +106,6 @@ public class InfixParserTest
             C.eq(mockLiteral1,mockLiteral2), mockMultiplication);
         
         assertSame( "should be multiplication", mockMultiplication, parser.parse("1*2") );
-        
-        verifyAll();
     }
     
     public void testParsesDivision() throws Exception {
@@ -136,8 +115,6 @@ public class InfixParserTest
             C.eq(mockLiteral1,mockLiteral2), mockDivision);
         
         assertSame( "should be division", mockDivision, parser.parse("1/2") );
-        
-        verifyAll();
     }
     
     public void testParsesPower() throws Exception {
@@ -147,8 +124,6 @@ public class InfixParserTest
             C.eq(mockLiteral1,mockLiteral2), mockPower);
         
         assertSame( "should be power", mockPower, parser.parse("1^2") );
-        
-        verifyAll();
     }
     
     public void testParseParenthesis() throws Exception {
