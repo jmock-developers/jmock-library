@@ -36,7 +36,7 @@ function deploy {
 echo version.archive=SNAPSHOT > build.properties
 echo version.extract=$BUILD_TIMESTAMP >> build.properties
 
-build-step ant jars website
+build-step ant test jars website
 
 echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
 
