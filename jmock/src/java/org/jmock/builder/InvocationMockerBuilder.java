@@ -22,11 +22,20 @@ public class InvocationMockerBuilder implements MatchBuilder, ExpectationBuilder
 		return whenPassed(new Constraint[]{C.eq(arg1)});
 	}
 
-    public StubBuilder whenPassed(Constraint[] constraints) {
+	public StubBuilder whenPassed(Object arg1, Object arg2) {
+		return whenPassed(new Constraint[] {C.eq(arg1), C.eq(arg2)} );
+	}
+	
+	public StubBuilder whenPassed(Constraint[] constraints) {
 		mocker.addMatcher(new ArgumentsMatcher(constraints));
 		return this;
 	}
 
+    public StubBuilder noParams() {
+    	mocker.addMatcher(C.NO_ARGS);
+    	return this;
+    }
+    
     public ExpectationBuilder isVoid() {
     	mocker.setStub(new VoidStub());
     	return this;
@@ -46,4 +55,5 @@ public class InvocationMockerBuilder implements MatchBuilder, ExpectationBuilder
 		mocker.addMatcher( new CallOnceMatcher() );
 		return this;
 	}
+
 }
