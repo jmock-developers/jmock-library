@@ -12,53 +12,46 @@
 #left {
     position: absolute;
     z-index: 2;
-    left: 0px;
-    width: 200px;
-    top: 92px;
-    bottom: 0px;
+    left: 8px;
+    width: 184px;
+    top: 100px;
+    bottom: 8px;
     margin: 0px;
-    padding: 8px;
+    padding: 0px;
 }
 
 #right {
     position: absolute;
     z-index: 1;
-    right: 0px;
-    width: 200px;
-    top: 92px;
-    bottom: 0px;
+    right: 8px;
+    width: 184px;
+    top: 100px;
+    bottom: 8px;
     margin: 0px;
-    padding: 8px;
+    padding: 0px;
 }
 
 .Content3Column {
     position: absolute;
-    top: 92px;
-    bottom: 0px;
-    left: 200px;
-    right: 200px;
+    top: 100px;
+    bottom: 8px;
+    left: 208px;
+    right: 216px;
 }
 
 .Content2Column {
     position: absolute;
-    top: 92px;
-    bottom: 0px;
-    left: 200px;
-    right: 0px;
+    top: 100px;
+    bottom: 8px;
+    left: 208px;
+    right: 16px;
 }
 
 #content {
-    min-width: 200px;
     z-index: 3;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    margin: 0px;
     border: none;
-    
-    background-color: green;
+    padding: 0px;
 }
 
 
