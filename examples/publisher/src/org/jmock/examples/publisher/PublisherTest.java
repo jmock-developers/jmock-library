@@ -1,4 +1,4 @@
-package publisher;
+package org.jmock.examples.publisher;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;

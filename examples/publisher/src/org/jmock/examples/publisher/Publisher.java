@@ -1,4 +1,4 @@
-package publisher;
+package org.jmock.examples.publisher;
 
 public class Publisher {
     private Subscriber subscriber;
