@@ -3,12 +3,16 @@ package org.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 
-public class DynamicMockError extends AssertionFailedError {
-
+public class DynamicMockError 
+	extends AssertionFailedError 
+{
     public final Invocation invocation;
     public final InvocationDispatcher dispatcher;
 
-    public DynamicMockError(Invocation invocation, InvocationDispatcher dispatcher, String message) {
+    public DynamicMockError( Invocation invocation, 
+							 InvocationDispatcher dispatcher, 
+							 String message ) 
+    {
         super(message);
         this.invocation = invocation;
         this.dispatcher = dispatcher;
