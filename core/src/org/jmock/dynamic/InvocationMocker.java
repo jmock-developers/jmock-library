@@ -21,18 +21,11 @@ public class InvocationMocker
     }
     
     
-    private String name = null; // default to no name
+    private String name = null;
     private List matchers = new ArrayList();
     private Stub stub = VoidStub.INSTANCE;
     
     
-    public InvocationMocker() {
-    }
-    
-    public InvocationMocker(InvocationMatcher[] matchers, Stub stub) {
-        for (int i = 0; i < matchers.length; i++) addMatcher(matchers[i]);
-        setStub(stub);
-    }
     
     public boolean matches(Invocation invocation) {
         Iterator i = matchers.iterator();
