@@ -18,39 +18,76 @@
     parameters.  Luckily, jMock makes it easy to write custom stubs for methods with 
     strange behaviours and keep your tests easy to read when you do so.</p>
     
-    <p><em>Example here</em></p>
+    <p>Here's a simple example: we want to test a <code>NameCollector</code> object that
+    collects the names of a collection <code>Named</code> objects.
+    It will do so by passing a <code>List</code> to the <code>collectName</code> method
+    of the named objects.
+    The named objects implement <code>collectName</code> by addding their name to the list
+    they receive.
+    The <code>Named</code> interface is shown below:</p>
+
+    <div class="Source Java">
+<pre>public interface Named {
+    void collectName( List list );
+}</pre>
+    </div>
+
+    <p>To test the behaviour of our object we will need to mock the <code>Named</code> interface,
+    and in particular we need to stub the <em>side effect</em> of the <code>collectName</code>
+    method. jMock provides stubs for returning values and throwing exceptions but we will have
+    to write our own class to stub the side effect of the <code>Named</code> objects.</p>
     
-    <p>To write a custom stub:</p>
+    <p>To write a stub:</p>
     <ol>
-      <li>Write a class that implements the 
-      <a href="/docs/javadoc/org/jmock/core/Stub.html"><code>Stub</code></a> interface.
+      <li>
+        <p>Write a class that implements the
+        <code><a href="/docs/javadoc/org/jmock/core/Stub.html">Stub</a></code> interface.
+        Here's a stub that adds an element to a List received as the first argument of the method.</p>
+
+        <div class="Source Java">
+<pre>public class AddToListStub implements Stub
+{
+    Object element;
+
+    public AddToListStub( Object element ) {
+        this.element = element;
+    }
+
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("adds &lt;"+element+"&gt; to a list");
+    }
+
+    public Object invoke( Invocation invocation ) throws Throwable {
+        ((List)invocation.parameterValues.get(0)).add(element);
+        return null;
+    }
+}</pre>
+        </div>
       </li>
       
-      <li>Write a factory method in your tests class that instantiates your new stub 
-      class</li>
-      
-      <li>Call your factory method within the actual parameter list of the mock's 
-      <code>will</code> method.</li>
+      <li>
+        <p>Write a factory method in your tests class that instantiates your new stub
+        class.</p>
+
+        <div class="Source Java">
+<pre>private Stub addToList( String name ) {
+    return new AddToListStub(name);
+}</pre>
+        </div>
+      </li>
+      <li>
+
+        <p>Call your factory method within the actual parameter list of the mock's
+        <code>will</code> method.</p>
+
+        <div class="Source Java">
+<pre>Mock mockNamed = mock(Named.class);
+String name = "name";
+
+mockNamed.expects(once()).method("collectName").with(NOT_NULL)
+    .will(addToList(name));</pre>
+        </div>
+      </li>
     </ol>
-    
-    <h1>Writing a Custom Stub Class</h1>
-    
-    <p>A mock object stubs the behaviour of a method invocation by delegating to an
-    object that implements the
-    <a href="/docs/javadoc/org/jmock/core/Stub.html"><code>Stub</code></a> interface.
-    A Stub must do two things:</p>
-    
-    <ol>
-      <li>Stub the behaviour of an 
-      <a href="/docs/javadoc/org/jmock/core/Invocation.html">Invocation</a>
-      (the <code>stub</code> method).</li>
-      
-      <li>Describe itself. (the <code>describeTo</code> method).</li>
-    </ol>
-    
-    <h2>Writing a New Stub Class</h2>
-    
-    <h2>For Your Convenience: The CustomStub Class</h2>
-    
   </body>
 </html>
