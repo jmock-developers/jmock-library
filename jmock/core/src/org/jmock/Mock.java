@@ -46,7 +46,7 @@ public class Mock
     
     public NameMatchBuilder stub() {
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
-        coreMock.add(mocker);
+        coreMock.addInvokable(mocker);
         
         return new InvocationMockerBuilder(mocker,this);
     }
@@ -55,7 +55,7 @@ public class Mock
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         
         mocker.addMatcher(expectation);
-        coreMock.add(mocker);
+        coreMock.addInvokable(mocker);
         
         return new InvocationMockerBuilder(mocker,this);
     }

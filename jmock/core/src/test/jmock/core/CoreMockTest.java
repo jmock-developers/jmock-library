@@ -142,7 +142,7 @@ public class CoreMockTest extends TestCase {
     public void testAddsInvokablesToDispatcher() {
         mockDispatcher.addInvokable.setExpected(mockInvokable);
 
-        coreMock.add(mockInvokable);
+        coreMock.addInvokable(mockInvokable);
 
         mockDispatcher.verifyExpectations();
     }

@@ -26,7 +26,7 @@ public class MockDynamicMock
     public ExpectationCounter addCalls = new ExpectationCounter("add #calls");
     public ExpectationValue addInvokable = new ExpectationValue("add invokable");
 
-    public void add(Invokable invokable) {
+    public void addInvokable(Invokable invokable) {
         AssertMo.assertNotNull("invokable", invokable);
         addInvokable.setActual(invokable);
         addCalls.inc();
