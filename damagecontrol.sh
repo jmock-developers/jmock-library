@@ -29,9 +29,10 @@ function deploy {
 ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website || exit 1
 
 if let $DEPLOY; then
-    deploy $BUILDDIR/dist $DEPLOY_ROOT/dist
-    deploy $WEBDIR $DEPLOY_ROOT/public_html
-    deploy $BUILDDIR/javadoc $DEPLOY_ROOT/public_html/docs/javadoc
+    cp $BUILDDIR/dist/jars/* $DEPLOY_ROOT/dist/jars/
+    cp $BUILDDIR/dist/distributions/* $DEPLOY_ROOT/dist/distributions/
+    #deploy $WEBDIR $DEPLOY_ROOT/public_html
+    #deploy $BUILDDIR/javadoc $DEPLOY_ROOT/public_html/docs/javadoc
 fi
 
 echo all done.
