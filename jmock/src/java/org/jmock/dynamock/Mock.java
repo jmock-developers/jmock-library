@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamock;
 
-import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.Verifiable;
 import org.jmock.dynamic.BuildableInvokable;
