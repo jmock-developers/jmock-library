@@ -14,7 +14,7 @@ public class LIFOInvocationDispatcher
     public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
     
 	private ArrayList invokables = new ArrayList();
-    private Stub defaultStub = new NoMatchFoundStub(this);
+    private Stub defaultStub = new NoMatchFoundStub();
 
     public Object dispatch(Invocation invocation) throws Throwable {
         ListIterator i = invokables.listIterator(invokables.size());

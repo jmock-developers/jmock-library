@@ -1,16 +1,17 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic;
 
-import junit.framework.TestCase;
-import test.jmock.dynamic.testsupport.MockInvokable;
-import test.jmock.dynamic.testsupport.MockStub;
-
 import java.lang.reflect.Method;
 
-import org.jmock.dynamic.DynamicMockError;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.util.Dummy;
+
+import test.jmock.dynamic.testsupport.MockInvokable;
+import test.jmock.dynamic.testsupport.MockStub;
 
 
 public class LIFOInvocationDispatcherTest extends TestCase {
@@ -21,7 +22,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
     private MockInvokable invokable2 = new MockInvokable();
 
     public void setUp() throws NoSuchMethodException {
-        invocation = new Invocation(getDummyMethod(), "test", null);
+        invocation = new Invocation(getDummyMethod(), null);
         dispatcher = new LIFOInvocationDispatcher();
     }
 
@@ -31,8 +32,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
     public void testInvokeFailsWhenEmpty() throws Throwable {
         try {
             dispatcher.dispatch(invocation);
-        } catch (DynamicMockError ex) {
-            assertSame("should be same invocation", invocation, ex.invocation);
+        } catch (AssertionFailedError expected) {
             return;
         }
         fail("expected AssertionFailedError");
@@ -88,8 +88,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
 
         try {
             dispatcher.dispatch(invocation);
-        } catch (DynamicMockError ex) {
-            assertSame("should be same invocation", invocation, ex.invocation);
+        } catch (AssertionFailedError ex) {
             return;
         }
         fail("expected AssertionFailedError");

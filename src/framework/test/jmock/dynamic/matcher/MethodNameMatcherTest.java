@@ -15,8 +15,7 @@ public class MethodNameMatcherTest
 	private String OTHER_NAME = "~other name~";
 	
 	private Invocation exampleInvocation = 
-		new Invocation( Void.class, "test", METHOD_NAME, new Class[]{String.class}, Void.class,
-					    new Object[]{"arg1", "arg2"});
+		new Invocation( Void.class, METHOD_NAME, new Class[]{String.class}, Void.class, new Object[]{"arg1", "arg2"});
 
 	public void testDelegatesMethodNameMatchToConstraint() {
 		MockConstraint mockConstraint = new MockConstraint("name constraint", METHOD_NAME, true );

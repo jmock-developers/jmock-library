@@ -12,16 +12,14 @@ import java.util.List;
  */
 public class Invocation {
     private Class declaringClass;
-    private String callerName;
     private String methodName;
     private Class[] parameterTypes;
     private Class returnType;
     private Object[] parameterValues;
 
-    public Invocation(Class declaringClass, String callerName, String name, Class[] parameterTypes,
-                      Class returnType, Object[] parameterValues) {
+    public Invocation(Class declaringClass, String name, Class[] parameterTypes, Class returnType,
+                      Object[] parameterValues) {
         this.declaringClass = declaringClass;
-        this.callerName = callerName;
         this.methodName = name;
         this.parameterTypes = parameterTypes;
         this.returnType = returnType;
@@ -29,9 +27,9 @@ public class Invocation {
             (parameterValues == null ? new Object[0] : parameterValues);
     }
 
-    public Invocation(Method method, String callerName, Object[] parameterValues) {
-        this(method.getDeclaringClass(), callerName, method.getName(), method.getParameterTypes(),
-                method.getReturnType(), parameterValues);
+    public Invocation(Method method, Object[] parameterValues) {
+        this(method.getDeclaringClass(), method.getName(), method.getParameterTypes(), method.getReturnType(),
+                parameterValues);
     }
 
     public Class getDeclaringClass() {
@@ -86,8 +84,7 @@ public class Invocation {
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        buffer.append("Invoked: ");
-        buffer.append(callerName).append(".").append(methodName);
+        buffer.append(methodName);
         DynamicUtil.join(parameterValues, buffer, "(", ")");
         return buffer.append("\n");
     }
