@@ -1,3 +1,4 @@
+Improved error messages
 Can set description of IsAnything and IsNothing constraints
 Added IsNothing constraint
 Added exactly(n) expectation to expect an invocation an exact number of times.
