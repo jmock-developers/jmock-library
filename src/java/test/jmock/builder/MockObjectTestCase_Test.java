@@ -3,8 +3,8 @@ package test.jmock.builder;
 import junit.framework.TestCase;
 
 import org.jmock.Constraint;
-import org.jmock.builder.MockObjectTestCase;
 import org.jmock.util.Dummy;
+import org.jmock.util.MockObjectSupportTestCase;
 
 import test.jmock.dynamic.testsupport.*;
 
@@ -14,20 +14,20 @@ public class MockObjectTestCase_Test extends TestCase {
     Constraint trueConstraint = AlwaysTrue.INSTANCE;
     Constraint falseConstraint = AlwaysFalse.INSTANCE;
     
-    private MockObjectTestCase testCase;
+    private MockObjectSupportTestCase testCase;
     
     public void setUp() {
-    	testCase = new MockObjectTestCase();
+    	testCase = new MockObjectSupportTestCase();
     }
     
     public void testHasConvenienceConstantForIsAnything() {
-        assertConstraintTrue( MockObjectTestCase.ANYTHING, new Object() );
-        assertConstraintTrue( MockObjectTestCase.ANYTHING, new Object() );
+        assertConstraintTrue( MockObjectSupportTestCase.ANYTHING, new Object() );
+        assertConstraintTrue( MockObjectSupportTestCase.ANYTHING, new Object() );
     }
     
     public void testHasConvenienceConstantForIsNull() {
-        assertConstraintTrue( MockObjectTestCase.NULL, null );
-        assertConstraintFalse( MockObjectTestCase.NULL, "not null" );
+        assertConstraintTrue( MockObjectSupportTestCase.NULL, null );
+        assertConstraintFalse( MockObjectSupportTestCase.NULL, "not null" );
     }
     
     public void testHasConvenienceMethodForCreatingIsEqualConstraints() {

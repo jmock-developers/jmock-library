@@ -2,10 +2,10 @@
 package test.jmock.builder;
 
 import org.jmock.builder.Mock;
-import org.jmock.builder.MockObjectTestCase;
+import org.jmock.util.MockObjectSupportTestCase;
 
 
-public class DynamicMockExample extends MockObjectTestCase {
+public class DynamicMockExample extends MockObjectSupportTestCase {
     public interface Market {
     	String[] listStocks();
     	int getPrice( String ticker );
