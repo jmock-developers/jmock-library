@@ -70,8 +70,6 @@ public class Lexer {
     }
     
     private Token readNumber() throws IOException {
-        int ch;
-        
         collectDigits();
         if( peekChar() == DECIMAL_PLACE ) {
             tokenValue.append( (char)readChar() );
