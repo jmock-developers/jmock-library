@@ -7,8 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * An object that holds information about an invocation dispatched to
- * a Mock object.
+ * An object that holds information about an invocation dispatched to a Mock object.
  */
 public class Invocation {
     private Object invoked;
@@ -25,7 +24,15 @@ public class Invocation {
     public Object getInvokedObject() {
         return invoked;
     }
-    
+
+	public Method getInvokedMethod() {
+		return method;
+	}
+	
+	public List getParameterValues() {
+	    return Collections.unmodifiableList(Arrays.asList(parameterValues));
+	}
+
     public Class getDeclaringClass() {
         return method.getDeclaringClass();
     }
@@ -36,10 +43,6 @@ public class Invocation {
 
     public List getParameterTypes() {
         return Collections.unmodifiableList(Arrays.asList(method.getParameterTypes()));
-    }
-
-    public List getParameterValues() {
-        return Collections.unmodifiableList(Arrays.asList(parameterValues));
     }
 
     public Class getReturnType() {
