@@ -8,7 +8,7 @@ WEBDIR=website/output
 JAVADOCDIR=$WEBDIR/docs/javadoc
 
 (cd website; ruby ./skinner.rb)
-javadoc \
+$JAVA_HOME/bin/javadoc \
 	-windowtitle 'jMock API Documentation' \
 	-d $JAVADOCDIR \
 	-sourcepath $SRCDIR \
