@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<html>
+  <head>
+    <title>Yoga for Your Unit Tests</title>
+  </head>
+  <body>
+    <h1>jMock: Yoga for Your Unit Tests</h1>
+    
+    <p>Brittle tests are a common "gotcha" of test driven development.
+    A brittle unit test will stop passing when you make 
+    unrelated changes to your application code.  A test suite that
+    contains a lot of brittle tests will slow down development and
+    inhibit refactoring.</p>
+    
+    <p>Brittleness results from the test overspecifying the behaviour 
+    of the unit being tested.
+    You can keep your tests flexible by following a simple rule of thumb: 
+    <span class="RuleOfThumb">specify exactly what you want to happen <em>and no more</em></span>.
+    This article describes how various features of jMock can help you
+    strike the right balance between an accurate specification 
+    of a unit's required behaviour and a flexible test that allows easy 
+    evolution of the code base.</p>
+    
+    <h1>Stubs and Expectations</h1>
+    
+    <p>
+    jMock distinguishes between stubbed and expected methods.  A stubbed
+    method call can occur during a test run, but if it does not occur 
+    the test still passes.  
+    An expected method call, on the other hand, <em>must</em> occur 
+    during a test run;  
+    if it does not occur, the test fails when it verifies the mock.
+    When setting up your mocks you must choose whether to stub or expect 
+    each invocation.  In general, we have found that tests are kept flexible 
+    when we follow this rule of thumb: 
+    <span class="RuleOfThumb">stub queries and expect commands</span>,
+    where a query is a method with no side effects that does nothing
+    but query the state of an object and a command is a method with side
+    effects that may, or may not, return a result.
+    Of course, this rule does not hold all the time, but it's a useful 
+    starting point.
+    </p>
+    
+    <p>A stub can be called any number of times.  The number of times a 
+    methid is expected is defined by the expectation itself.  
+    The <code>once()</code> expectation allows the method to be called
+    once only; subsequent calls will make the test fail.
+    The <code>atLeastOnce()</code> expectation allows the method to be called
+    any number of times.  The test will only fail if the method is never 
+    called at all.  
+    You can define further expectation types if these are not sufficient
+    for your needs.</p>
+    
+    <p>In the following example, the <code>getLoggingLevel</code> is
+    stubbed: it does not have to be called.  
+    The <code>setLoggingLevel</code> must be called once and once only.
+    </p>
+    
+    <div class="Source Java">
+<pre>
+logger.stub().method("getLoggingLevel").noParams()
+    .will(returnValue(Logger.WARNING));
+logger.expect(once()).method("setLoggingLevel").with(eq(newLevel));
+</pre>
+    </div>
+    
+    <h1>Parameter Constraints</h1>
+    
+    <p>jMock requires that you specify a <i>constraint</i> on each actual
+    parameter of a expected invocation, rather than specify just the 
+    expected parameter value.  Specifying equality to an expected value 
+    is the most common case, but is too strict for many scenarios.
+    For example, consider a system that logs errors to a 
+    <code>Logger</code> object.
+    To test that an object correctly detects and logs an error, such
+    as a failed attempt to connect to a database, you could 
+    set up an expectation on a mock logger to check the value of the
+    message passed to the logger:</p>
+    
+    <div class="Source Java">
+<pre>String expectedErrorMessage = "unable to connect to ORDERS database: network timeout";
+
+logger.expect(once()).method("error").with(eq(expectedErrorMessage));</pre>
+    </div>
+    
+    <p>This will work in the short term, but will cause problems long term 
+    because it too precisely specifies the expected value of the error message, 
+    including minor details of punctuation and whitespace.  
+    If you change that formatting later, the test will fail even though the 
+    code under test still does what you want it to do.
+    You really only care that the error message contains the information 
+    you want to report to the user &mdash; the action that failed and 
+    the cause of the failure &mdash; not how that information is formatted.
+    You can use the constraint functions defined by the 
+    <code>MockObjectTestCase</code> class to specify exactly what you want
+    to happen:</p>
+    
+    <div class="Source Java">
+<pre>String action = "connect to ORDERS database";
+String cause = "network timeout";
+
+logger.expect(once()).method("error")
+    .with( and(stringContains(action),stringContains(cause)) );</pre>
+    </div>
+    
+    <p>The <code>MockObjectTestCase</code> class defines several functions that
+    can be used to define constraints.  There are more constraint types
+    defined in the 
+    <code><a href="docs/javadoc/org/jmock/constraint/package-summary.html">org.jmock.constraint</a></code>
+    package.  You can even define your own constraints, as described below.</p>
+    
+    <p>Constraints require you to type a little more when writing your tests, 
+    and require you to think more carefully about what behaviour you expect, 
+    but the result is that your tests are easier to read because they clearly 
+    express your intent and more flexible because they don't overspecify
+    expected behaviour.</p>
+    
+    <h2>Custom Constraints</h2>
+    
+    <p>
+    If necessary, you can easily define new constraints that seamlessly extend
+    the existing constraints defined by jMock.
+    </p>
+    
+    <p>A constraint is an object that implements the 
+    <code><a href="docs/javadoc/org/jmock/Constraint.html">org.jmock.Constraint</a></code>
+    interface. It does two things:</p>
+    
+    <ul>
+      <li>report whether a parameter value meets the constraint 
+      (the <code>eval</code> method).</li>
+      <li>provide a readable description to be included in test failure messages 
+      (the <code>toString</code> method).</li>
+    </ul>
+    
+    <p>The
+    <code><a href="docs/javadoc/org/jmock/constraint/package-summary.html">org.jmock.constraint</a></code>
+    package contains many constraint implementations and the programmer can 
+    easily specify their own constraints by writing their own implementations 
+    of the <code>Constraint</code> interface.</p>
+    
+    <p>To create a new constraint:</p>
+    <ol>
+      <li><p>Write a class that implements the <code>Constraint</code>
+      interface.  The following constraint class tests whether a string
+      starts with a given prefix.</p>
+    
+      <div class="Source Java">
+<pre>import org.jmock.Constraint;
+
+public class StartsWith implements Constraint {
+    private String prefix;
+    
+    public StartsWith( String prefix ) {
+        this.prefix = prefix;
+    }
+    
+    public boolean eval( Object o ) {
+        return o instanceof String &amp;&amp; ((String)o).startsWith(prefix);
+    }
+    
+    public String toString() {
+        return "a string starting with \"" + prefix + "\"";
+    }
+}</pre>
+      </div>
+    </li>
+    <li><p>Write a factory method in your test case that creates an instance
+    of your new constraint.</p>
+      <div class="Source Java">
+<pre>public class MyTestCase extends MockObjectTestCase {
+    ...
+    
+    private Constraint startsWith( String prefix ) {
+        return new StartsWith(prefix);
+    }
+}</pre>
+      </div>
+    </li>
+    
+    <li><p>Use your factory method to create constraints in your tests:</p>
+      <div class="Source Java">
+<pre>public class MyTestCase extends MockObjectTestCase {
+    ...
+    
+    public void testSomething() {
+        ...
+        
+        logger.expect(once()).method("error").with( startsWith("FATAL") );
+        
+        ...
+    }
+    
+    private Constraint startsWith( String prefix ) {
+        return new StartsWith(prefix);
+    }
+}</pre>
+        </div>
+      </li>
+    </ol>
+  
+    <h1>Invocation Order</h1>
+    
+    <p>
+    By default, jMock allows invocations upon a mock object to occur in 
+    any order.  Sometimes, however, the order of calls is important, such
+    as when you are testing an object that fires events or writes data
+    to an output stream.
+    In such cases you can explicitly specify that a call should occur
+    after one or more others.
+    </p>
+    
+    <div class="Source Java">
+    <pre>
+    logger.expect(once()).method("setLoggingLevel").with(eq(Logger.WARNING))
+    .id("warning level set");
+    logger.expect(once()).method("warn").with(warningMessage)
+    .after("warning level set");
+    logger.stub().method("getLoggingLevel").noParams()
+    .after("warning level set").will(returnValue(Logger.WARNING));
+    </pre>
+    </div>
+    
+    <p>A rule of thumb to follow when specifying the expected order
+    of method calls is: 
+    <span class="RuleOfThumb">specify ordering <em>only</em> between those 
+    calls you want to occur in order</span>.  
+    The example above allows the <code>warn</code> and 
+    <code>getLoggingLevel</code>
+    methods to occur in any order, as long as they occur after the call to
+    <code>setLoggingLevel</code>. Thus we can change the order in which our 
+    tested object calls <code>warn</code> and <code>getLoggingLevel</code> 
+    without breaking our tests.</p>
+    
+    <p>Specifying the order of calls is orthogonal to whether those calls are
+    expectations or stubs.  So, the example above specifies that the
+    <code>getLoggingLevel</code> method does not have to be called, 
+    but if it is, it must be called after 
+    <code>setLoggingLevel</code>, and that the
+    <code>warn</code> method must be called and must be called after
+    <code>setLoggingLevel</code>.
+    </p>
+    
+    <h1>Matchers</h1>
+    
+    <p>The methods <code>method(</code><var>methodName</var><code>)</code> and
+    <code>with(</code><var>argument constraints</var><code>)</code> are
+    syntactic sugar that create matchers against an incoming invocation.
+    </p>
+    
+    <p>To be continued...</p>
+    
+    <h1>Conclusion</h1>
+  
+    <p>To be written...</p>
+    
+  </body>
+</html>
