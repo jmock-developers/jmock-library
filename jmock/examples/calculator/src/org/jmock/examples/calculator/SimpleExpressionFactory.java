@@ -1,0 +1,36 @@
+/* Copyright Dec 7, 2003 Nat Pryce, all rights reserved.
+ */
+package org.jmock.examples.calculator;
+
+import org.jmock.examples.calculator.expression.*;
+import org.jmock.examples.calculator.expression.Addition;
+import org.jmock.examples.calculator.expression.Division;
+import org.jmock.examples.calculator.expression.Literal;
+import org.jmock.examples.calculator.expression.Multiplication;
+import org.jmock.examples.calculator.expression.Power;
+import org.jmock.examples.calculator.expression.Subtraction;
+
+
+public class SimpleExpressionFactory implements ExpressionFactory {
+    public Expression newLiteral( double value ) {
+        return new Literal(value);
+    }
+    public Expression newAddition( Expression left, Expression right ) {
+        return new Addition(left,right);
+    }
+    public Expression newSubtraction( Expression left, Expression right ) {
+        return new Subtraction(left,right);
+    }
+    public Expression newMultiplication( Expression left, Expression right ) {
+        return new Multiplication(left,right);
+    }
+    public Expression newDivision( Expression left, Expression right ) {
+        return new Division(left,right);
+    }
+    public Expression newPower( Expression left, Expression right ) {
+        return new Power(left,right);
+    }
+    public Expression newVariableReference(String variableName) {
+        return new VariableReference(variableName);
+    }
+}
