@@ -41,11 +41,16 @@ public class CoreMock
         Invocation invocation = new Invocation(method, name, args);
         try {
             return invocationDispatcher.dispatch(invocation);
-        } catch (AssertionFailedError failure) {
-            if (failure instanceof DynamicMockError) 
-                throw failure;
+        }
+        catch( DynamicMockError failure ) {
+        	throw failure;
+        } 
+        catch (AssertionFailedError failure) {
+            DynamicMockError mockFailure = 
+            	new DynamicMockError(invocation, invocationDispatcher, failure.getMessage());
             
-            throw new DynamicMockError(invocation, invocationDispatcher, failure.getMessage()).fillInStackTrace();
+			mockFailure.fillInStackTrace();
+			throw mockFailure;
         }
     }
     
