@@ -21,68 +21,84 @@ def is_cvs_data( filename )
 	filename =~ /\/CVS(\/|$)/
 end
 
-def content_files
-    Dir[File.join(CONTENT_DIR,"*")].reject {|f| is_cvs_data(f)}
+def is_directory( filename )
+	FileTest.directory? filename
 end
 
-def content_html
-    content_files.select {|f| is_markup(f)}
-end
-
-def content_assets
-    content_files.reject {|f| is_markup(f)}
+def list_files dir
+    Dir[File.join(dir,"*")].reject {|f| is_cvs_data(f)}
 end
 
 def skin_assets
     Dir[File.join(SKIN_DIR,"*")].reject {|f| is_cvs_data(f) or is_markup(f)}
 end
 
-def output_file( basename )
-    File.join(OUTPUT_DIR,basename)
+def output_file( asset_file, root_asset_dir )
+    File.join( OUTPUT_DIR, filename_relative_to(asset_file,root_asset_dir) )
 end
 
-def copy_to_output( files )
-    files.each do |asset_file|
-    	$stdout.puts "#{asset_file} -> #{File.join(OUTPUT_DIR,File.basename(asset_file))}"
-	    $stdout.flush
-	    
-        File.copy( asset_file, OUTPUT_DIR )
+def filename_relative_to( file, root_dir )
+	if file[0,root_dir.length] != root_dir
+		raise "#{file} is not within directory #{root_dir}"
+	end
+	
+	root_dir_length = root_dir.length
+	root_dir_length = root_dir_length + 1 if root_dir[-1] != '/'
+	
+	file[root_dir_length, file.length-root_dir_length]
+end
+
+def copy_to_output( asset_file, root_asset_dir )
+	dest_file = output_file( asset_file, root_asset_dir )
+	
+  	$stdout.puts "#{asset_file} -> #{dest_file}"
+	$stdout.flush
+	
+    File.copy( asset_file, dest_file )
+end
+
+def make_output_directory( asset_dir, root_asset_dir )
+	new_dir = output_file( asset_dir, root_asset_dir )
+	
+	if not File.exists? new_dir
+		$stdout.puts "making directory #{new_dir}"
+		$stdout.flush
+		
+		Dir.mkdir( new_dir )
+	end
+end
+
+def skin_content( content_dir, root_content_dir=content_dir )
+    list_files(content_dir).each do |content_file|
+    	if is_directory(content_file)
+    		make_output_directory( content_file, root_content_dir )
+    		skin_content( content_file, root_content_dir )
+    	elsif is_markup(content_file)
+	    	skin_content_file( content_file, root_content_dir )
+    	else
+			copy_to_output( content_file, root_content_dir )
+		end
     end
 end
 
-def load_xml( file )
-    File.open(file) do |input|
-        begin
-            Document.new(input)
-        rescue ParseException => ex
-            raise ParseException,
-                  file + ", line " + ex.line.to_s + ": " + ex.message, 
-                  ex.backtrace
-        end
-    end
-end
-
-def skin_content_to_output
-    content_html.each do |content_file|
-        basename = File.basename(content_file)
-        output_file = output_file(basename)
-        config = {
-            "content" => content_file,
-            "isindex" => (content_file =~ /content\/index\.html$/) != nil
-        }
-        
-        skinned_content = TEMPLATE.expand( config )
-        
-        # workaround for MSIE
-        add_class( 
-            skinned_content.elements["/html/body/div[@id='content']/*[1]"], 
-            "FirstChild" )
-        
-        $stdout.puts "#{content_file} ~> #{output_file}"
-	    $stdout.flush
-	    
-        write_to_output( skinned_content, output_file )
-    end
+def skin_content_file( content_file, root_content_dir )
+    output_file = output_file( content_file, root_content_dir )
+    config = {
+        "content" => content_file,
+        "isindex" => (content_file =~ /content\/index\.html$/) != nil
+    }
+    
+    skinned_content = TEMPLATE.expand( config )
+    
+    # workaround for MSIE
+    add_class( 
+        skinned_content.elements["/html/body/div[@id='content']/*[1]"], 
+        "FirstChild" )
+    
+    $stdout.puts "#{content_file} ~> #{output_file}"
+    $stdout.flush
+    
+    write_to_output( skinned_content, output_file )
 end
 
 def add_class( element, new_class )
@@ -99,21 +115,9 @@ def write_to_output( xhtml, output_file )
     end
 end
 
-def delete_dir_contents dir
-	Dir[File.join(dir,"*")].each do |file|
-		if FileTest.directory? file
-			delete_dir_contents file
-			Dir.delete(file)
-		else
-	    	File.delete(file)
-		end
-    end
-end
-
 def build_site
-    skin_content_to_output
-    copy_to_output content_assets
-    copy_to_output skin_assets
+    skin_content CONTENT_DIR
+    skin_assets.each {|f| copy_to_output f, SKIN_DIR}
 end
 
 begin
