@@ -115,7 +115,7 @@ mock.expect(once()).method("methodName").with(eq(arg))
   	
   	<div class="Source Java JMock">
 <pre>mock.expect(once()).method("methodA").noParams()
-	.id("first call to methodA");
+    .id("first call to methodA");
 mock.expect(once()).method("methodB").noParams()
     .after("first call to methodA");
 mock.expect(once()).method("methodC").noParams()
@@ -137,26 +137,32 @@ mock.expect(once()).method("methodC").noParams()
   	from more than one test case superclass.</p>
   	
   	<div class="Source Java DynaMock">
-<pre>class MyTestCase extends TestCase {
+<pre>import junit.framework.TestCase;
+import com.mockobjects.dynamic.Mock;
+
+class MyTestCase extends TestCase {
     public void testSomething() {
         Mock mock = new Mock(MyInterface.class);
 		
         mock.expectAndReturn( "set", C.args(C.eq("key"),C.eq("value")), "oldValue" );
         
         ...
-	}
+    }
 }</pre>
 	</div>
 
   	<div class="Source Java JMock">
-<pre>class MyTestCase extends MockObjectTestCase {
-	public void testSomething() {
+<pre>import org.jmock.MockObjectTestCase;
+import org.jmock.Mock;
+
+class MyTestCase extends MockObjectTestCase {
+    public void testSomething() {
         Mock mock = new Mock(MyInterface.class);
 		
         mock.expect(once()).method("set").with(eq("key"),eq("value"))
             .will(returnValue("oldValue"));
         ...
-	}
+    }
 }</pre>
   	</div>
   	
