@@ -1,9 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
+import org.jmock.dynamic.Stub;
+
 
 
 public interface StubBuilder extends ExpectationBuilder {
+	ExpectationBuilder stub( Stub customStub );
+	
     ExpectationBuilder isVoid();
     
     ExpectationBuilder willReturn(Object returnValue);

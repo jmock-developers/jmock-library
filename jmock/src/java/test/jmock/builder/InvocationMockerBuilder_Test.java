@@ -5,6 +5,7 @@ import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
@@ -79,6 +80,14 @@ public class InvocationMockerBuilder_Test extends MockObjectTestCase {
         assertNotNull("Should be Stub Builder", builder.anyParams());
         
         mocker.verifyExpectations();
+    }
+    
+    public void testCanSetCustomStub() {
+    	Stub stub = (Stub)Dummy.newDummy(Stub.class,"stub");
+    	
+    	mocker.setStub.setExpected(stub);
+    	
+    	assertNotNull("should be expectation builder", builder.stub(stub) );
     }
     
     public void testIsVoidSetsVoidStub() {
