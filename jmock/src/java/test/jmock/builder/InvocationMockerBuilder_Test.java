@@ -3,7 +3,6 @@ package test.jmock.builder;
 
 import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
-import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
@@ -15,10 +14,11 @@ import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 import org.jmock.util.Dummy;
+import org.jmock.util.MockObjectSupportTestCase;
 
 import test.jmock.builder.testsupport.*;
 
-public class InvocationMockerBuilder_Test extends MockObjectTestCase {
+public class InvocationMockerBuilder_Test extends MockObjectSupportTestCase {
     private MockStubMatchersCollection mocker;
     private MockBuilderIdentityTable idTable;
     private InvocationMockerBuilder builder;

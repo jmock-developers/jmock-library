@@ -12,7 +12,7 @@ import org.jmock.examples.calculator.ParseException;
 import org.jmock.examples.calculator.Parser;
 
 public class CalculatorTest 
-    extends MockObjectTestCase 
+    extends MockObjectTestCase
 {
     private Mock mockExpression;
     private Mock mockParser;

@@ -3,7 +3,8 @@
  */
 package test.jmock.builder;
 
-import org.jmock.builder.*;
+import org.jmock.builder.Mock;
+import org.jmock.builder.MockObjectTestCase;
 
 public class Mock_ErrorMessage_IntegrationTest extends MockObjectTestCase {
 
