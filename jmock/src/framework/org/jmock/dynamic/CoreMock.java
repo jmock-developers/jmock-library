@@ -103,14 +103,15 @@ public class CoreMock
     }
     
     private static class IsSameAsProxy extends CustomStub {
-        private Object proxy;
+        private Object proxyRef;
         
-        private IsSameAsProxy(Object proxy) {
+        private IsSameAsProxy(Object proxyRef) {
             super("returns whether equal to proxy");
-            this.proxy = proxy;
+            this.proxyRef = proxyRef;
         }
+        
         public Object invoke( Invocation invocation ) throws Throwable {
-            return new Boolean(invocation.getParameterValues().get(0) == proxy);
+            return new Boolean(invocation.getParameterValues().get(0) == proxyRef);
         }
     }
 }
