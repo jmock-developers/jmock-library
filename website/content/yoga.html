@@ -23,7 +23,7 @@
     of a unit's required behaviour and a flexible test that allows easy 
     evolution of the code base.</p>
     
-    <h1>Stubs and Expectations</h1>
+    <h2>Stubs and Expectations</h2>
     
     <p>
     jMock distinguishes between stubbed and expected methods.  A stubbed
@@ -66,7 +66,7 @@ logger.expect(once()).method("setLoggingLevel").with(eq(newLevel));
 </pre>
     </div>
     
-    <h1>Parameter Constraints</h1>
+    <h2>Parameter Constraints</h2>
     
     <p>jMock requires that you specify a <i>constraint</i> on each actual
     parameter of a expected invocation, rather than specify just the 
@@ -117,7 +117,7 @@ logger.expect(once()).method("error")
     express your intent and more flexible because they don't overspecify
     expected behaviour.</p>
   
-    <h1>Invocation Order</h1>
+    <h2>Invocation Order</h2>
     
     <p>
     By default, jMock allows invocations upon a mock object to occur in 
@@ -156,7 +156,7 @@ logger.stub().method("getLoggingLevel").noParams()
     <code>warn</code> method must be called and must be called after
     <code>setLoggingLevel</code>.</p>
     
-    <h1>Matchers</h1>
+    <h2>Matchers</h2>
     
     <p>The methods <code>method(</code><var>methodName</var><code>)</code>,
     <code>with(</code><var>argument&nbsp;constraints</var><code>)</code> and
@@ -168,16 +168,25 @@ logger.stub().method("getLoggingLevel").noParams()
     supported by jMock are not accurate enough to keep your tests flexible,
     you can extend jMock with matching rules of your own.</p>
     
-    <p>If you need more flexibility over matching method names, you can specify
-    a constraint instead of an exact name.  An invocation will match if the
-    constraint evaluates to <code>true</code> when applied to the method name.</p>
+    <p>If you need more control over how method names are matched, you can specify
+    a constraint over names instead of a precise name value.  An invocation will match 
+    if the constraint evaluates to <code>true</code> when applied to the method name.
+    Suppose that you want to stub all calls to the property getter methods of a mock object
+    by synthesising a default result based on the type of the property.
+    You could achieve with a constraint that matches method names that begin with
+    &quot;get&quot; and that have no parameters.
+    (See <a href="custom-constraints.html">Writing Custom Constraints</a> for the definition
+    of the <code>StringStartsWith</code> class).
+    </p>
     
     <div class="Source Java">
 <pre>...
 
+private DefaultResultStub returnADefaultValue = new DefaultResultStub();
+    
 public void testMethod() {
     ...
-    mock.stub().method(startingWith("get")).will(new DefaultResultStub());
+    mock.stub().method(startingWith("get")).noParams().will(returnADefaultValue);
     ...
 }
 
@@ -185,22 +194,42 @@ private Constraint startingWith( String prefix ) {
     return new StringStartsWith(prefix);
 }
 
+...</pre>
+    </div>
+    
+    <p>This example is, however, still brittle.  You want the mock to stub all property 
+    getter methods but that is not actually what the test specifies.  To precisely
+    specify the required behaviour you can 
+    <a href="custom-matchers.html">write your own matching rule</a> 
+    that uses the Java Bean API to test if a method is a property getter.
+    </p>
+    
+    <div class="Source Java">
+<pre>...
+
+private DefaultResultStub returnADefaultValue = new DefaultResultStub();
+
+public void testMethod() {
+    ...
+    mock.stub().match(aBeanPropertyGetter()).will(returnADefaultValue);
+    ...
+}
+
+private InvocationMatcher aBeanPropertyGetter() {
+    return new BeanPropertyGetterMatcher();
+}
+
 ...
 </pre>
     </div>
     
-    <p>See <a href="custom-constraints.html">Writing Custom Constraints</a> for the definition
-    of the <code>StringStartsWith</code> class.</p>
-    
-    <p>More to come...</p>
-    
-    <h1>Conclusion</h1>
+    <h2>Conclusion</h2>
     
     <p>This article should have given you some idea of why the jMock API is designed as it is
     and how that API can help you avoid brittle tests. 
     The most important rule of thumb we follow to keep our tests flexible is:</p>
     
-    <blockquote><strong>Specify exactly what you want to happen <em>and no more</em>.</strong></blockquote>
+    <blockquote><span class="RuleOfThumb">Specify exactly what you want to happen <em>and no more</em>.</span></blockquote>
     
     <p>This guideline is just as applicable when writing unit tests that do not use mock 
     objects.</p>
