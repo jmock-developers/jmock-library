@@ -6,19 +6,13 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import org.jmock.Verifiable;
-import org.jmock.dynamic.stub.CustomStub;
 
 
 public class LIFOInvocationDispatcher 
     implements InvocationDispatcher 
 {
     private ArrayList invokables = new ArrayList();
-    private Stub defaultStub = new CustomStub("report no matching method") {
-    	public Object invoke( Invocation invocation ) throws Throwable {
-    		throw new DynamicMockError( invocation, LIFOInvocationDispatcher.this, 
-    				                    "No match found" );
-        }
-    };
+    private Stub defaultStub = new NoMatchFoundStub(this);
 
     public Object dispatch(Invocation invocation) throws Throwable {
         ListIterator i = invokables.listIterator(invokables.size());
