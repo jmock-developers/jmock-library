@@ -4,12 +4,12 @@ package test.jmock.dynamic.matcher;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jmock.dynamic.Invocation;
-import org.jmock.dynamic.matcher.CallOnceMatcher;
+import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 
-public class CallOnceMatcherTest extends TestCase {
+public class InvokeOnceMatcherTest extends TestCase {
     private Invocation emptyInvocation =
             new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
-    private CallOnceMatcher matcher = new CallOnceMatcher();
+    private InvokeOnceMatcher matcher = new InvokeOnceMatcher();
 
     public void testWillMatchIfNotYetInvoked() {
         assertTrue("Should match", matcher.matches(emptyInvocation));
