@@ -2,6 +2,7 @@
  */
 package test.jmock.builder;
 
+import junit.framework.AssertionFailedError;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.core.Constraint;
 import org.jmock.core.InvocationMatcher;
@@ -13,12 +14,18 @@ import org.jmock.core.matcher.MethodNameMatcher;
 import org.jmock.core.matcher.NoArgumentsMatcher;
 import org.jmock.core.stub.VoidStub;
 import org.jmock.util.Dummy;
+import org.jmock.Mock;
+import org.jmock.expectation.AssertMo;
 import test.jmock.builder.testsupport.MockBuilderIdentityTable;
 import test.jmock.builder.testsupport.MockStubMatchersCollection;
 
 
 public class InvocationMockerBuilderTest extends MockObjectSupportTestCase
 {
+    public interface MockedInterface {
+        void method();
+    }
+
     private MockStubMatchersCollection mocker;
     private MockBuilderIdentityTable idTable;
     private InvocationMockerBuilder builder;
@@ -27,21 +34,51 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase
         mocker = new MockStubMatchersCollection();
         idTable = new MockBuilderIdentityTable();
 
-        builder = new InvocationMockerBuilder(mocker, idTable);
+        builder = new InvocationMockerBuilder(mocker, idTable, MockedInterface.class);
     }
 
     public void testSpecifyingMethodNameNameAddsMethodNameMatcherAndAddsSelfToIdentityTable() {
         mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
-        idTable.registerMethodName.setExpected("methodName");
+        idTable.registerMethodName.setExpected("method");
         idTable.registerMethodNameBuilder.setExpected(builder);
 
-        assertNotNull("Should be Stub Builder", builder.method("methodName"));
+        assertNotNull("Should be Stub Builder", builder.method("method"));
 
         mocker.verifyExpectations();
         idTable.verify();
     }
 
-    public void testMethodMethodWithConstraintAddsMethodNameMatcherButDoesNotAddSelfToIdentityTable() {
+    public void testSpecifyingMethodWithIllegalNameThrowsIllegalArgumentError() {
+        String illegalMethodName = "illegalMethodName()";
+
+        try {
+            builder.method(illegalMethodName);
+        }
+        catch( IllegalArgumentException ex ) {
+            AssertMo.assertIncludes( "should contain illegal method name",
+                                     illegalMethodName, ex.getMessage() );
+            return;
+        }
+        fail("should have thrown IllegalArgumentException");
+    }
+
+    public void testMethodNameNotInMockedTypeCausesTestFailure() {
+        String methodNameNotInMockedInterface = "methodNameNotInMockedInterface";
+
+        try {
+            builder.method(methodNameNotInMockedInterface);
+        }
+        catch( AssertionFailedError ex ) {
+            AssertMo.assertIncludes( "should contain wrong method name",
+                                     methodNameNotInMockedInterface, ex.getMessage() );
+            AssertMo.assertIncludes( "should contain name of mocked type",
+                                     MockedInterface.class.getName(), ex.getMessage() );
+            return;
+        }
+        fail("should have thrown AssertionFailedError");
+    }
+
+    public void testSpecifyingMethodWithConstraintAddsMethodNameMatcherButDoesNotAddSelfToIdentityTable() {
         Constraint nameConstraint = (Constraint)newDummy(Constraint.class, "nameConstraint");
 
         mocker.addedMatcherType.setExpected(MethodNameMatcher.class);

@@ -47,19 +47,20 @@ public class Mock
     }
 
     public NameMatchBuilder stubs() {
-        InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
-        addInvokable(mocker);
-
-        return new InvocationMockerBuilder(mocker, this);
+        return addNewInvocationMocker();
     }
 
     public NameMatchBuilder expects( InvocationMatcher expectation ) {
-        InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
+        NameMatchBuilder builder = addNewInvocationMocker();
+        builder.match(expectation);
+        return builder;
+    }
 
-        mocker.addMatcher(expectation);
+    private NameMatchBuilder addNewInvocationMocker() {
+        InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
         addInvokable(mocker);
 
-        return new InvocationMockerBuilder(mocker, this);
+        return new InvocationMockerBuilder( mocker, this, getMockedType() );
     }
 
     public void setDefaultStub( Stub newDefaultStub ) {

@@ -9,7 +9,7 @@ public interface Types
 {
     public interface WithTwoMethods
     {
-        int twoArgsReturnInt( String arg1, Object arg2 );
+        int twoArgsReturnsInt( String arg1, Object arg2 );
 
         void noArgsReturnsNothing();
     }
