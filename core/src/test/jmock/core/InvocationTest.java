@@ -36,17 +36,18 @@ public class InvocationTest extends TestCase {
 	}
 
     public void testCanBeConstructedFromAMethodObject() throws Exception {
-        Invocation call = new Invocation( INVOKED, method, ARG_VALUES);
+        Invocation invocation = new Invocation( INVOKED, method, ARG_VALUES);
 
-        assertSame( "invoked object", INVOKED, call.getInvokedObject() );
-        assertEquals("name", method.getName(), call.getMethodName());
+        assertSame( "invoked object", INVOKED, invocation.getInvokedObject() );
+	    assertEquals( "invoked method", method, invocation.getInvokedMethod() );
+        assertEquals("name", method.getName(), invocation.getMethodName());
         assertEquals("parameter types",
                 Arrays.asList(method.getParameterTypes()),
-                call.getParameterTypes());
+                invocation.getParameterTypes());
         assertEquals("return type",
-                method.getReturnType(), call.getReturnType());
+                method.getReturnType(), invocation.getReturnType());
         assertEquals("argument values",
-                Arrays.asList(ARG_VALUES), call.getParameterValues());
+                Arrays.asList(ARG_VALUES), invocation.getParameterValues());
     }
 
     public void testConstructorInterpretsNullParameterValueArrayAsZeroArguments() {
@@ -57,8 +58,8 @@ public class InvocationTest extends TestCase {
     }
 
     public void testTestsForEqualityOnTargetAndMethodSignatureAndArguments() {
-        Invocation call1 = new Invocation(INVOKED, method, ARG_VALUES);
-        Invocation call2 = new Invocation(INVOKED, method, ARG_VALUES);
+        Invocation invocation1 = new Invocation(INVOKED, method, ARG_VALUES);
+        Invocation invocation2 = new Invocation(INVOKED, method, ARG_VALUES);
         Invocation differentTarget = new Invocation("OTHER TARGET", method, ARG_VALUES);
 
 	    Invocation differentMethod = new Invocation(
@@ -68,27 +69,27 @@ public class InvocationTest extends TestCase {
         Invocation differentArgValues = new Invocation(INVOKED,method,
                 new Object[]{new Integer(1), Boolean.FALSE});
 
-        assertTrue("should be equal to itself", call1.equals(call1));
-        assertTrue("identical calls should be equal", call1.equals(call2));
+        assertTrue("should be equal to itself", invocation1.equals(invocation1));
+        assertTrue("identical calls should be equal", invocation1.equals(invocation2));
 
         assertFalse("should not be equal to object that is not an Invocation",
-            call1.equals(new Object()));
+            invocation1.equals(new Object()));
         assertFalse("should not be equal to null", 
-            call1.equals(null));
+            invocation1.equals(null));
         assertFalse("should not be equal if different invoked object",
-            call1.equals(differentTarget));
+            invocation1.equals(differentTarget));
         assertFalse("should not be equal if different method",
-            call1.equals(differentMethod));
+            invocation1.equals(differentMethod));
         assertFalse("should not be equal if different argumentValues",
-            call1.equals(differentArgValues));
+            invocation1.equals(differentArgValues));
     }
 
     public void testFollowsEqualsHashcodeProtocol() {
-        Invocation call1 = new Invocation(INVOKED, method, ARG_VALUES);
-        Invocation call2 = new Invocation(INVOKED, method, ARG_VALUES);
+        Invocation invocation1 = new Invocation(INVOKED, method, ARG_VALUES);
+        Invocation invocation2 = new Invocation(INVOKED, method, ARG_VALUES);
 
-        assertEquals("should have equal hash codes",
-                     call1.hashCode(), call2.hashCode());
+        assertEquals( "should have equal hash codes",
+                      invocation1.hashCode(), invocation2.hashCode());
     }
 
     public void testToStringWithTwoArguments() throws Exception {
