@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="extensions/cglib/src"/>
 	<classpathentry kind="src" path="extensions/cglib/acceptance-tests"/>
 	<classpathentry kind="src" path="examples/timed-cache/src"/>
-	<classpathentry kind="src" path="examples/customisation/src"/>
 	<classpathentry kind="src" path="examples/calculator/src"/>
 	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
 	<classpathentry kind="src" path="examples/publisher/src"/>
