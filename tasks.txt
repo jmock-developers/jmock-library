@@ -4,13 +4,14 @@
 - Mavenified project.
 - Shifted everything from com.mockobjects to org.jmock.
 - Moved old expectation classes to org.jmock.expectation package.
-- Seperated stubs into their own package.
+- Separated stubs into their own package.
 - Reformatted code and optimized imports.
 - Added BSD-like license in LICENSE.txt and headers in all Java files.
 - Moved important classes to root org.jmock package.
 - Cleaned up test cases to remove pre junit 3.x fluff.
 - Added maven reports to website.
 - Create welcome page.
+- Make it simpler to add custom stubs (for side-effects).
 
 *** Stuff to do ***
 
@@ -25,7 +26,8 @@
 
 (sensible defaults reduce test brittleness)
 - Sensible default: When no args specified in Mock, use ANY-args instead of NO-args.
+  -- I disagree: if you allow any arguments, putting C.ANY_ARGS shows what you are doing and isn't
+     particularly verbose
 - Sensible default: If no expectation/match setup, invocation should produce no-op instead of fail.
 - ExpectNotCalled (or equivalent) makes tests more expressive.
 - Extract interface from Invocation.
-- Make it simpler to add custom stubs (for side-effects).
