@@ -10,23 +10,24 @@ import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 
-public class InvocationMockerBuilder implements MatchBuilder, ExpectationBuilder {
-
+public class InvocationMockerBuilder 
+    implements MatchBuilder, StubBuilder, ExpectationBuilder 
+{
     private StubMatchersCollection mocker;
 
     public InvocationMockerBuilder(StubMatchersCollection mocker) {
         this.mocker = mocker;
     }
 
-	public StubBuilder whenPassed(Object arg1) {
-		return whenPassed(new Constraint[]{C.eq(arg1)});
+	public StubBuilder passed(Object arg1) {
+		return passed(new Constraint[]{C.eq(arg1)});
 	}
 
-	public StubBuilder whenPassed(Object arg1, Object arg2) {
-		return whenPassed(new Constraint[] {C.eq(arg1), C.eq(arg2)} );
+	public StubBuilder passed(Object arg1, Object arg2) {
+		return passed(new Constraint[] {C.eq(arg1), C.eq(arg2)} );
 	}
 	
-	public StubBuilder whenPassed(Constraint[] constraints) {
+	public StubBuilder passed(Constraint[] constraints) {
 		mocker.addMatcher(new ArgumentsMatcher(constraints));
 		return this;
 	}

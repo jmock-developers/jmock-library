@@ -2,11 +2,9 @@
  */
 package test.jmock.examples.calculator;
 
-import org.jmock.dynamock.Mock;
-
 import junit.framework.TestCase;
 
-
+import org.jmock.builder.Mock;
 import org.jmock.examples.calculator.CalculatorException;
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.SimpleEnvironment;
@@ -34,20 +32,20 @@ public class SimpleEnvironmentTest extends TestCase {
 
     public void testStoresVariableDefinitionByName() throws Exception {
         String nameX = "<NAME X>";
-        Mock mockExpressionX = new Mock(Expression.class, "mockExpressionX");
+        Expression dummyExpressionX = dummyExpression("dummyExpressionX");
         String nameY = "<NAME Y>";
-        Mock mockExpressionY = new Mock(Expression.class, "mockExpressionY");
+        Expression dummyExpressionY = dummyExpression("dummyExpressionY");
+        
+        environment.setVariable( nameX, dummyExpressionX );
+        environment.setVariable( nameY, dummyExpressionY );
 
-        environment.setVariable(nameX, (Expression)mockExpressionX.proxy());
-        environment.setVariable(nameY, (Expression)mockExpressionY.proxy());
-
-        assertSame(
-            "should be variable definition X",
-            mockExpressionX.proxy(),
-            environment.getVariable(nameX));
-        assertSame(
-            "should be variable definition Y",
-            mockExpressionY.proxy(),
-            environment.getVariable(nameY));
+        assertSame( "should be variable definition X",
+        		    dummyExpressionX, environment.getVariable(nameX));
+        assertSame( "should be variable definition Y",
+            		dummyExpressionY, environment.getVariable(nameY));
+    }
+    
+    private Expression dummyExpression( String name ) {
+        return (Expression)(new Mock(Expression.class,name).proxy());
     }
 }

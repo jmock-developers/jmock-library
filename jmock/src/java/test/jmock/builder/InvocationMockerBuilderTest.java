@@ -19,7 +19,7 @@ public class InvocationMockerBuilderTest extends TestCase {
     public void testWhenPassedAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
-    	assertNotNull("Should be Stub Builder", builder.whenPassed(new Constraint[0]));
+    	assertNotNull("Should be Stub Builder", builder.passed(new Constraint[0]));
     	
     	mocker.verifyExpectations();
     }
@@ -27,7 +27,7 @@ public class InvocationMockerBuilderTest extends TestCase {
     public void testWhenPassedWithOneObjectArgumentAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
-    	assertNotNull("Should be Stub Builder", builder.whenPassed(new Object()));
+    	assertNotNull("Should be Stub Builder", builder.passed(new Object()));
     	
     	mocker.verifyExpectations();
     }
@@ -36,7 +36,7 @@ public class InvocationMockerBuilderTest extends TestCase {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
     	assertNotNull("Should be Stub Builder", 
-    				  builder.whenPassed(new Object(),new Object()));
+    				  builder.passed(new Object(),new Object()));
     	
     	mocker.verifyExpectations();
     }

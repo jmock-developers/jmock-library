@@ -2,13 +2,16 @@
  */
 package test.jmock.examples.calculator;
 
-import org.jmock.C;
-import org.jmock.dynamock.Mock;
-
-import org.jmock.examples.calculator.*;
-import org.jmock.util.Verifier;
-
 import junit.framework.TestCase;
+
+import org.jmock.builder.Mock;
+import org.jmock.examples.calculator.Calculator;
+import org.jmock.examples.calculator.CalculatorException;
+import org.jmock.examples.calculator.Environment;
+import org.jmock.examples.calculator.Expression;
+import org.jmock.examples.calculator.ParseException;
+import org.jmock.examples.calculator.Parser;
+import org.jmock.util.Verifier;
 
 public class CalculatorTest extends TestCase {
     
@@ -38,10 +41,12 @@ public class CalculatorTest extends TestCase {
     public void testParsesAndCalculatesExpression() throws Exception {
         final double expressionValue = 1.0;
         
-        mockParser.expectAndReturn( "parse", C.args(C.eq(expressionString)), 
-                                    (Expression)mockExpression.proxy() );
-        mockExpression.expectAndReturn( "evaluate", C.args(C.same(mockEnvironment.proxy())), 
-                                        new Double(expressionValue) );
+        mockParser.method("parse").passed(expressionString)
+            .willReturn(mockExpression.proxy())
+            .expectOnce();
+        mockExpression.method("evaluate").passed(mockEnvironment.proxy())
+            .willReturn(new Double(expressionValue))
+            .expectOnce();
         
         assertEquals( "should be expression value",
                       expressionValue, calculator.calculate(expressionString), 0.0 ); 
@@ -52,8 +57,8 @@ public class CalculatorTest extends TestCase {
     public void testReportsParseErrors() throws Exception {
         final Throwable throwable = new ParseException("dummy ParseException");
         
-        mockParser.expectAndThrow( "parse", C.args(C.eq(expressionString)), 
-                                   throwable );
+        mockParser.method("parse").passed(expressionString).willThrow(throwable)
+            .expectOnce(); 
         
         try {
             calculator.calculate(expressionString);
@@ -69,10 +74,10 @@ public class CalculatorTest extends TestCase {
     public void testReportsEvaluationErrors() throws Exception {
         final Throwable throwable = new CalculatorException("dummy CalculatorException");
         
-        mockParser.expectAndReturn( "parse", C.args(C.eq(expressionString)), 
-                                    mockExpression.proxy() );
-        mockExpression.expectAndThrow( "evaluate", C.args(C.same(mockEnvironment.proxy())),
-                                       throwable );
+        mockParser.method("parse").passed(expressionString).willReturn(mockExpression.proxy())
+            .expectOnce();
+        mockExpression.method("evaluate").passed(mockEnvironment.proxy()).willThrow(throwable)
+            .expectOnce();
         
         try {
             calculator.calculate(expressionString);
@@ -86,11 +91,12 @@ public class CalculatorTest extends TestCase {
     }
     
     public void testSetsVariableExpression() throws Throwable {
-        mockParser.expectAndReturn( "parse", C.args(C.eq(variableValueString)),
-                                    (Expression)mockVariableExpression.proxy() );
+        mockParser.method("parse").passed(variableValueString)
+            .willReturn(mockVariableExpression.proxy())
+            .expectOnce();
         
-        mockEnvironment.expectVoid( "setVariable",
-            C.eq( variableName, (Expression)mockVariableExpression.proxy() ) );
+        mockEnvironment.method("setVariable").passed(variableName,mockVariableExpression.proxy())
+            .expectOnce();
         
         calculator.setVariable( variableName, variableValueString );
         
