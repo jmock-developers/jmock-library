@@ -1,12 +1,9 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.core.stub;
 
+import junit.framework.Assert;
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
-import org.jmock.core.DynamicMockError;
-import junit.framework.Assert;
-
-import java.lang.reflect.Method;
 
 public class ThrowStub
     extends Assert
@@ -31,24 +28,30 @@ public class ThrowStub
         return buffer.append("throws <").append(throwable).append(">");
     }
 
-	private void checkTypeCompatiblity(Class[] allowedTypes) {
-		for (int i = 0; i < allowedTypes.length; i++) {
-			if (allowedTypes[i].isInstance(throwable)) return;
+	private void checkTypeCompatiblity(Class[] allowedExceptionTypes) {
+		for (int i = 0; i < allowedExceptionTypes.length; i++) {
+			if (allowedExceptionTypes[i].isInstance(throwable)) return;
 		}
 
-		reportTypeError(allowedTypes);
+		reportIncompatibleCheckedException(allowedExceptionTypes);
 	}
 
-	private void reportTypeError( Class[] allowedTypes ) {
+	private void reportIncompatibleCheckedException( Class[] allowedTypes ) {
 		StringBuffer message = new StringBuffer();
-		message.append("tried to throw an incompatible exception: expected one of ");
-		for( int i = 0; i < allowedTypes.length; i++ ) {
-			if( i > 0 ) message.append(",");
-			message.append( allowedTypes[i].getName() );
-		}
-		message.append(" but threw a ");
-		message.append( throwable.getClass().getName() );
 
+		message.append("tried to throw a ");
+		message.append( throwable.getClass().getName() );
+		message.append(" from a method that throws ");
+
+		if( allowedTypes.length == 0 ) {
+			message.append("no exceptions");
+		} else {
+			for( int i = 0; i < allowedTypes.length; i++ ) {
+				if( i > 0 ) message.append(",");
+				message.append( allowedTypes[i].getName() );
+			}
+		}
+		
 		fail(message.toString());
 	}
 
