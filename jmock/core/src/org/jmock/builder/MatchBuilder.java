@@ -8,24 +8,4 @@ public interface MatchBuilder extends StubBuilder {
     
 	MatchBuilder after( String previousCallID );
     MatchBuilder after( BuilderIdentityTable otherMock, String previousCallID );
-	
-    /**
-     * @deprecated use expect(expectation). Will be removed in version 1.0.
-     */
-	IdentityBuilder addExpectation( InvocationMatcher expectation );
-	
-    /**
-     * @deprecated use mock.expect(once())... Will be removed in version 1.0.
-     */
-	IdentityBuilder expectOnce();
-    
-    /**
-     * @deprecated use mock.expect(atLeastOnce())... Will be removed in version 1.0.
-     */
-	IdentityBuilder expectAtLeastOnce();
-	
-    /**
-     * @deprecated use mock.expect(notCalled())... Will be removed in version 1.0.
-     */
-    IdentityBuilder expectNotCalled();
 }

@@ -8,9 +8,6 @@ import org.jmock.core.InvocationMatcher;
 import org.jmock.core.Stub;
 import org.jmock.core.StubMatchersCollection;
 import org.jmock.core.matcher.*;
-import org.jmock.core.stub.ReturnStub;
-import org.jmock.core.stub.TestFailureStub;
-import org.jmock.core.stub.ThrowStub;
 import org.jmock.core.stub.VoidStub;
 
 
@@ -69,77 +66,22 @@ public class InvocationMockerBuilder
         return addMatcher(AnyArgumentsMatcher.INSTANCE);
     }
     
-    public IdentityBuilder stub(Stub stub) {
-    	return will(stub);
-    }
-    
     public IdentityBuilder will(Stub stubAction) {
-        mocker.setStub(stubAction);
+        setStub(stubAction);
         return this;
     }
     
     public IdentityBuilder isVoid() {
-    	return stub(VoidStub.INSTANCE);
+    	setStub(VoidStub.INSTANCE);
+        return this;
     }
     
-    public IdentityBuilder willReturn(boolean returnValue) {
-        return willReturn(new Boolean(returnValue));
-    }
-
-    public IdentityBuilder willReturn(byte returnValue) {
-        return willReturn(new Byte(returnValue));
-    }
-
-    public IdentityBuilder willReturn(char returnValue) {
-        return willReturn(new Character(returnValue));
-    }
-
-    public IdentityBuilder willReturn(short returnValue) {
-        return willReturn(new Short(returnValue));
-    }
-
-    public IdentityBuilder willReturn(int returnValue) {
-        return willReturn(new Integer(returnValue));
-    }
-
-    public IdentityBuilder willReturn(long returnValue) {
-        return willReturn(new Long(returnValue));
-    }
-
-    public IdentityBuilder willReturn(float returnValue) {
-        return willReturn(new Float(returnValue));
-    }
-    
-    public IdentityBuilder willReturn(double returnValue) {
-        return willReturn(new Double(returnValue));
-    }
-    
-    public IdentityBuilder willReturn(Object returnValue) {
-        return stub(new ReturnStub(returnValue));
-    }
-    
-    public IdentityBuilder willThrow(Throwable throwable) {
-        return stub(new ThrowStub(throwable));
+    private void setStub(Stub stubAction) {
+        mocker.setStub(stubAction);
     }
     
     public IdentityBuilder expect( InvocationMatcher expectation ) {
         return addMatcher( expectation );
-    }
-    
-    public IdentityBuilder addExpectation( InvocationMatcher expectation ) {
-        return expect( expectation );
-    }
-    
-	public IdentityBuilder expectOnce() {
-		return addExpectation( new InvokeOnceMatcher() );
-	}
-	
-	public IdentityBuilder expectAtLeastOnce() {
-		return addExpectation( new InvokeAtLeastOnceMatcher() );
-	}
-	
-    public IdentityBuilder expectNotCalled() {
-        return stub( new TestFailureStub("must not be called") );
     }
     
 	public void id( String invocationID ) {
