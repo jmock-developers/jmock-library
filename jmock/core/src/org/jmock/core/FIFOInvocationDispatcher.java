@@ -14,7 +14,7 @@ public class FIFOInvocationDispatcher
     public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
 
     private ArrayList invokables = new ArrayList();
-    private Stub defaultStub = new TestFailureStub("no match found");
+    private Stub defaultStub = new TestFailureStub("unexpected invocation");
 
     public Object dispatch( Invocation invocation ) throws Throwable {
         ListIterator i = invokables.listIterator();
