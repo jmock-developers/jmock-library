@@ -14,6 +14,6 @@ public class VoidStub
     }
     
     public StringBuffer describeTo(StringBuffer buffer) {
-        return buffer.append("returns <void>");
+        return buffer.append("is void");
     }
 }

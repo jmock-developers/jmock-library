@@ -23,7 +23,7 @@ public class VoidStubTest
         assertNull( "Should return null", 
         		    new VoidStub().invoke(invocation) );
     }
-
+	
     public void testIncludesVoidInDescription() {
     	StringBuffer buffer = new StringBuffer();
     	
