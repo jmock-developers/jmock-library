@@ -11,9 +11,8 @@ public class ArgumentsMatcher
 {
     private Constraint[] constraints;
 
-    // TODO: encapsulate the constraints array
     public ArgumentsMatcher(Constraint[] constraints) {
-        ArgumentsMatcher.this.constraints = constraints;
+        ArgumentsMatcher.this.constraints = (Constraint[])constraints.clone();
     }
 
     public boolean matches(Invocation invocation) {
@@ -30,9 +29,8 @@ public class ArgumentsMatcher
         return true;
     }
 
-    // TODO: encapsulate the constraints array
     public Constraint[] getConstraints() {
-        return constraints;
+        return (Constraint[])constraints.clone();
     }
 
     public String toString() {
