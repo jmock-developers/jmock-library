@@ -7,4 +7,5 @@ build
 build.properties
 target
 .out
-bin
+classes
+
