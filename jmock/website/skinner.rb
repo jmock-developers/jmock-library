@@ -184,7 +184,7 @@ def add_print_footnotes( skinned_content )
 
     footnote_index = 1
 
-    skinned_content.each_element "#{CONTENT_PATH}//a" do |link|
+    skinned_content.each_element "#{CONTENT_PATH}//a[@href]" do |link|
         href = BASE_URL.merge( link.attributes["href"] )
 
         footnote = footnotes_div.add_element("p")
@@ -206,7 +206,7 @@ end
 
 def write_to_output( xhtml, output_file )
     File.open( output_file, "w" ) do |output|
-        xhtml.write( output, 0, false, true )
+        xhtml.write( output, -1, true, true )
     end
 end
 
