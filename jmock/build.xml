@@ -12,7 +12,7 @@
     <property name="build.dist.src.dir" value="${build.dist.dir}/distributions"/>
     <property name="timestamped.src.dir" value="jmock-${version.extract}"/>
     <property name="build.src.dir" value="${build.dir}/${timestamped.src.dir}"/>
-    <property name="build.javadoc.dir" value="${build.dir}/javadoc-${version.extract}"/>
+    <property name="build.javadoc.subdir" value="javadoc-${version.extract}"/>
     <property name="build.website.dir" value="website/output"/>
 
     <property name="report.test.unit.dir" value="${build.dir}/reports/unit-tests"/>
@@ -210,8 +210,8 @@
     </target>
 
     <target name="javadoc">
-        <mkdir dir="${build.javadoc.dir}"/>
-        <javadoc destdir="${build.javadoc.dir}"
+        <mkdir dir="${build.dir}/${build.javadoc.subdir}"/>
+        <javadoc destdir="${build.dir}/${build.javadoc.subdir}"
             overview="overview.html"
             windowtitle="jMock API Documentation"
             useexternalfile="true">
@@ -258,6 +258,6 @@
 
     <target name="javadoc.jar" depends="javadoc">
         <mkdir dir="${build.dist.src.dir}"/>
-        <jar destfile="${javadoc.jar}" basedir="${build.dir}" includes="${build.javadoc.dir}/**"/>
+        <jar destfile="${javadoc.jar}" basedir="${build.dir}" includes="${build.javadoc.subdir}/**"/>
     </target>
 </project>
