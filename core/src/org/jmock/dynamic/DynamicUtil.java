@@ -51,7 +51,7 @@ public class DynamicUtil {
         }
         buf.append(postfix);
         return buf;
-   }
+    }
     
 	public static String classShortName(Class c) {
         return c.getName().substring(c.getName().lastIndexOf(".") + 1);
