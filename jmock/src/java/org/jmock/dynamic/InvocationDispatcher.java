@@ -5,7 +5,10 @@ import org.jmock.Verifiable;
 
 public interface InvocationDispatcher extends Verifiable {
     Object dispatch(Invocation invocation) throws Throwable;
-
+    
+    Stub getDefaultStub();
+    void setDefaultStub( Stub newDefaultStub );
+    
     void add(Invokable invokable);
 
     void clear();

@@ -40,4 +40,12 @@ public class Dummy {
         
         return mock.proxy();
 	}
+
+	public static Object newDummy( final String name ) {
+        return new Object() {
+        	public String toString() {
+        		return name;
+            }
+        };
+	}
 }

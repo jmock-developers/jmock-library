@@ -3,6 +3,7 @@ package test.jmock.dynamic.testsupport;
 
 import org.jmock.dynamic.DynamicMock;
 import org.jmock.dynamic.Invokable;
+import org.jmock.dynamic.Stub;
 import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
@@ -21,6 +22,20 @@ public class MockDynamicMock
         assertNotNull("invokable", invokable);
         addInvokable.setActual(invokable);
         addCalls.inc();
+    }
+    
+    public ExpectationCounter getDefaultStubCalls = new ExpectationCounter("getDefaultStub #calls");
+    public Stub getDefaultStubResult;
+    public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
+    
+    
+    public Stub getDefaultStub() {
+        getDefaultStubCalls.inc();
+        return getDefaultStubResult;
+    }
+    
+    public void setDefaultStub( Stub newDefaultStub ) {
+        setDefaultStub.setActual(newDefaultStub);
     }
     
     public Object proxyResult;

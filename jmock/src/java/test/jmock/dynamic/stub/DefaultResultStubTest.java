@@ -17,7 +17,8 @@ public class DefaultResultStubTest
 	
 	
 	private DefaultResultStub stub;
-	
+	private Invocation invocation;
+    
 	public DefaultResultStubTest(String name) {
 		super(name);
 	}
@@ -31,26 +32,10 @@ public class DefaultResultStubTest
 			"guessed result", stub.writeTo(new StringBuffer()).toString() );
 	}
 	
-	public void testIsConstructedEmpty() {
-		assertFalse( "should not match string result type",
-			         stub.matches( resultCall(String.class) ) );
-		assertFalse( "should not match int result type",
-					 stub.matches( resultCall(int.class) ) );
-		assertFalse( "should not match Integer result type",
-					 stub.matches( resultCall(Integer.class) ) );
-		
-	}
-	
-	public void testMatchesCallsThatHaveARegisteredReturnType() {
-		stub.addResult( String.class, "hello" );        
-		stub.addResult( int.class, new Integer(0) );
-		
-		assertTrue( "should match string result type",
-					stub.matches( resultCall(String.class) ) );
-		assertTrue( "should match int result type",
-					stub.matches( resultCall(int.class) ) );
-		assertFalse( "should not match Integer result type",
-					 stub.matches( resultCall(Integer.class) ) );
+	public void testIsConstructedEmpty() throws Throwable {
+        assertHasNotRegisteredReturnType(stub,String.class);
+        assertHasNotRegisteredReturnType(stub,int.class);
+        assertHasNotRegisteredReturnType(stub,void.class);
 	}
 	
 	public void testReturnsRegisteredValuesForAppropriateReturnTypesFromCall()
@@ -67,38 +52,48 @@ public class DefaultResultStubTest
 	}
 	
 	public void testRegisteredResultOverridePreviousResultsForTheSameType()
-	throws Throwable
+	    throws Throwable
 	{
 		stub.addResult( String.class, "result1" );
 		stub.addResult( String.class, "result2" );
 		
 		assertEquals( "expected second result",
-				"result2", stub.invoke(resultCall(String.class)) );
+				      "result2", stub.invoke(resultCall(String.class)) );
 	}
 	
-	public void testCallWithUnregisteredReturnTypeThrowsAssertionFailedError() {
+	public void testCallWithUnregisteredReturnTypeThrowsAssertionFailedError()
+        throws Throwable
+    {
+        Class unsupportedReturnType = Long.class;
+        Class[] supportedReturnTypes = new Class[] {
+             String.class, int.class, Double.class
+        };
+        
 		try {
-			stub.addResult( String.class, "hello" );        
-			stub.addResult( int.class, new Integer(0) );
-			stub.addResult( Double.class, new Double(0.0) );
+            for( int i = 0; i < supportedReturnTypes.length; i++ ) {
+            	stub.addResult( supportedReturnTypes[i], null ); // don't care about return value
+            }
+            
+            stub.invoke( resultCall(unsupportedReturnType) );
 		}
 		catch( AssertionFailedError ex ) {
 			String message = ex.getMessage();
 			
-			AssertMo.assertIncludes( "message should include expected types",
-									 String.class.toString(), message );
-			AssertMo.assertIncludes( "message should include expected types",
-									 int.class.toString(), message );
-			AssertMo.assertIncludes( "message should include expected types",
-									 Double.class.toString(), message );
+            AssertMo.assertIncludes( "message should include unsupported type",
+                                     unsupportedReturnType.toString(), message );
+            
+            for( int i = 0; i < supportedReturnTypes.length; i++ ) {
+            	AssertMo.assertIncludes( "message should include expected types",
+            			supportedReturnTypes[i].toString(), message );
+            }
 		}
 	}
-
-	public void testCallWhenNoRegisteredReturnTypeThrowsAssertionFailedError() {
+	
+	public void testCallWhenNoRegisteredReturnTypeThrowsAssertionFailedError()
+        throws Throwable
+    {
 		try {
-			stub.addResult( String.class, "hello" );        
-			stub.addResult( int.class, new Integer(0) );
-			stub.addResult( Double.class, new Double(0.0) );
+            stub.invoke( resultCall(Long.class) );
 		}
 		catch( AssertionFailedError ex ) {
 			String message = ex.getMessage();
@@ -114,6 +109,7 @@ public class DefaultResultStubTest
 	{
 		stub = DefaultResultStub.createStub();
 		
+        assertHasRegisteredValue( stub, void.class, null );
 		assertHasRegisteredValue( stub, byte.class, new Byte((byte)0) );
 		assertHasRegisteredValue( stub, short.class, new Short((short)0) );
 		assertHasRegisteredValue( stub, int.class, new Integer(0) );
@@ -136,15 +132,23 @@ public class DefaultResultStubTest
 										  Object resultValue )
 		throws Throwable
 	{
-		Invocation call = resultCall(resultType);
-		
-		assertTrue( "should have result registered for type " + resultType,
-					stub.matches(call) );
-		
 		assertEquals( "expected "+resultValue+" to be returned",
-					  resultValue, stub.invoke(call) );
+					  resultValue, stub.invoke(resultCall(resultType)) );
 	}
 	
+    public void assertHasNotRegisteredReturnType( DefaultResultStub stub,
+												  Class resultType )
+        throws Throwable
+    {
+    	try {
+            stub.invoke(resultCall(resultType));
+            fail("stub should not support return type " + resultType);
+        }
+        catch( AssertionFailedError expected ) {
+        	return;
+        }
+    }
+    
 	private Invocation resultCall( Class resultType ) {
 		return new Invocation(
 			getClass(), "ignoredMethodName", NO_ARG_TYPES, resultType, NO_ARG_VALUES );
