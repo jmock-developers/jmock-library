@@ -26,8 +26,8 @@ public class Mock_ErrorMessage_IntegrationTest extends MockObjectTestCase {
                     "No match found\n" +
                     "Invoked: mockTypes$WithTwoMethods.twoArgsReturnInt(<not arg1>, <" + obj2 + ">)\n" +
                     "in:\n" +
-                    "Method  = twoArgsReturnsInt, (<any value>, <any value>), called once, returns <1>\n" +
-                    "Method  = twoArgsReturnsInt, (< = arg1>, <== <" + obj1 + ">>), called once, returns <1>",
+                    "Method  = twoArgsReturnsInt, (<any value>, <any value>), expected once, returns <1>\n" +
+                    "Method  = twoArgsReturnsInt, (< = arg1>, <== <" + obj1 + ">>), expected once, returns <1>",
                     error.getMessage().trim());
             return;
         }
