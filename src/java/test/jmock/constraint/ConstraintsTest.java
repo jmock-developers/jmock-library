@@ -1,15 +1,23 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.constraint;
 
-import junit.framework.TestCase;
-import org.jmock.Constraint;
-import test.jmock.dynamic.DummyInterface;
-
-import org.jmock.dynamock.Mock;
-import org.jmock.expectation.AssertMo;
-import org.jmock.constraint.*;
-
 import java.util.EventObject;
+
+import junit.framework.TestCase;
+
+import org.jmock.Constraint;
+import org.jmock.constraint.And;
+import org.jmock.constraint.IsAnything;
+import org.jmock.constraint.IsCloseTo;
+import org.jmock.constraint.IsEventFrom;
+import org.jmock.constraint.IsGreaterThan;
+import org.jmock.constraint.IsInstanceOf;
+import org.jmock.constraint.IsLessThan;
+import org.jmock.constraint.IsNot;
+import org.jmock.constraint.IsNull;
+import org.jmock.constraint.IsSame;
+import org.jmock.constraint.Or;
+import org.jmock.constraint.StringContains;
 
 public class ConstraintsTest extends TestCase {
     class True implements Constraint {
@@ -45,64 +53,6 @@ public class ConstraintsTest extends TestCase {
 
         assertTrue(p.eval(o1));
         assertTrue(!p.eval(o2));
-    }
-
-    public void testIsEqual() {
-        Integer i1 = new Integer(1);
-        Integer i2 = new Integer(2);
-        Constraint p = new IsEqual(i1);
-
-        assertTrue(p.eval(i1));
-        assertTrue(p.eval(new Integer(1)));
-        assertTrue(!p.eval(i2));
-    }
-
-    public void testIsEqualNull() {
-        Integer i1 = new Integer(1);
-        Constraint p = new IsEqual(i1);
-        assertTrue(!p.eval(null));
-        Constraint nullEquals = new IsEqual(null);
-        assertTrue(nullEquals.eval(null));
-        assertTrue(!nullEquals.eval(i1));
-    }
-
-    public void testIsEqualObjectArray() {
-        String[] s1 = new String[]{"a", "b"};
-        String[] s2 = new String[]{"a", "b"};
-        String[] s3 = new String[]{"c", "d"};
-        String[] s4 = new String[]{"a", "b", "c", "d"};
-
-        Constraint p = new IsEqual(s1);
-
-        assertTrue("Should equal itself", p.eval(s1));
-        assertTrue("Should equal a similar array", p.eval(s2));
-        assertTrue("Should not equal a different array", !p.eval(s3));
-        assertTrue("Should not equal a different sized array", !p.eval(s4));
-    }
-
-    public void testIsEqualToStringForNestedConstraint() {
-        assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
-                " =  = NestedConstraint", new IsEqual(new IsEqual("NestedConstraint")).toString());
-    }
-
-    public void testIsEqualToStringOnProxyArgument() {
-        // Required for error message reporting
-        Mock mockDummyInterface = new Mock(DummyInterface.class, "MockName");
-        Constraint p = new IsEqual(mockDummyInterface.proxy());
-
-        AssertMo.assertIncludes("Should get resolved toString() with no expectation error", "MockName", p.toString());
-    }
-
-    public void testIsEqualNullToString() {
-        assertEquals("Should print toString even if argument is null",
-                " = null", new IsEqual(null).toString());
-    }
-
-    // TODO: delete this test; the behaviour has been removed because it doesn't make sense.
-    public void xtestIsEqualEquals() throws Exception {
-        assertEquals("Should be equal", new IsEqual("a"), new IsEqual("a"));
-        assertFalse("Should not be equal - same type different values", new IsEqual("a").equals(new IsEqual("b")));
-        assertFalse("Should not be equal - different type", new IsEqual("a").equals("b"));
     }
 
     public void testIsGreaterThan() {
