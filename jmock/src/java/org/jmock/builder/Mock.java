@@ -43,4 +43,7 @@ public class Mock
         coreMock.add(mocker);
         return new InvocationMockerBuilder(mocker);
     }
+
+    //TODO setDefaultResult(Class, value);
+    //TODO setDefaultResult(int value); ...
 }
