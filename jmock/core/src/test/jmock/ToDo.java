@@ -8,7 +8,6 @@ public class ToDo {
     //      - make expected and actual call signatures look similar
     //TODO List expected/stubbed methods in verify errors
     //TODO open hooks to allow different proxying mechanisms to reuse CoreMock implementation
-    //TODO reorganise directories. Change src/{framework,acceptance-tests} to core/{src,acceptance-tests}.
     
     //TODO Implement API for call ordering in dynamock API (or... see below)
     //TODO remove dynamock API or find a maintainer
@@ -36,8 +35,9 @@ public class ToDo {
     //DONE new hotmock syntax for expectNotCalled
     //DONE moved expect(...) and stub() to beginning of expectation statement
     //DONE demote dynamock API to an optional extension
-    //DONE move default behaviour of default result stub into constructor.
-	
+    //DONE move default behaviour of default result stub into constructor
+    //DONE reorganise directories. Change src/{framework,acceptance-tests} to core/{src,acceptance-tests}.
+
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
 	
