@@ -3,6 +3,7 @@ package org.jmock.builder;
 
 import org.jmock.Constraint;
 import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
@@ -38,23 +39,19 @@ public class InvocationMockerBuilder
     }
     
     public StubBuilder with(Constraint[] constraints) {
-		mocker.addMatcher(new ArgumentsMatcher(constraints));
-		return this;
+        return addMatcher(new ArgumentsMatcher(constraints));
 	}
 
-    public StubBuilder noParams() {
-    	mocker.addMatcher(NoArgumentsMatcher.INSTANCE);
-    	return this;
+	public StubBuilder noParams() {
+        return addMatcher(NoArgumentsMatcher.INSTANCE);
     }
     
     public StubBuilder anyParams() {
-        mocker.addMatcher(AnyArgumentsMatcher.INSTANCE);
-        return this;
+        return addMatcher(AnyArgumentsMatcher.INSTANCE);
     }
     
     public ExpectationBuilder isVoid() {
-    	mocker.setStub(VoidStub.INSTANCE);
-    	return this;
+    	return setStub(VoidStub.INSTANCE);
     }
     
     public ExpectationBuilder willReturn(boolean returnValue) {
@@ -90,18 +87,15 @@ public class InvocationMockerBuilder
     }
 
     public ExpectationBuilder willReturn(Object returnValue) {
-        mocker.setStub(new ReturnStub(returnValue));
-        return this;
+        return setStub(new ReturnStub(returnValue));
     }
     
     public ExpectationBuilder willThrow(Throwable throwable) {
-        mocker.setStub(new ThrowStub(throwable));
-        return this;
+        return setStub(new ThrowStub(throwable));
     }
     
     public ExpectationBuilder addExpectation( InvocationMatcher expectation ) {
-        mocker.addMatcher( expectation );
-        return this;
+        return addMatcher( expectation );
     }
     
 	public ExpectationBuilder expectOnce() {
@@ -110,6 +104,16 @@ public class InvocationMockerBuilder
 	
     public ExpectationBuilder expectAfter( ExpectationBuilder previousCall ) {
         //TODO Complete this method
+        return this;
+    }
+
+    private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
+        mocker.addMatcher(matcher);
+        return this;
+    }
+    
+    private InvocationMockerBuilder setStub(Stub stub) {
+        mocker.setStub(stub);
         return this;
     }
 }
