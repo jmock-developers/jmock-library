@@ -10,46 +10,29 @@ export SNAPSHOT_VERSION=$BUILD_TIMESTAMP
 
 export LIBDIR=lib
 export BUILDDIR=build
-export PACKAGEDIR=$BUILDDIR/dist
 export WEBDIR=website/output
-export JAVADOCDIR=$WEBDIR/docs/javadoc
 
-export WEBSITE=dcontrol@jmock.codehaus.org:/www/jmock.codehaus.org
-export DISTHOST=dcontrol@dist.codehaus.org
-export DISTROOT=/www/dist.codehaus.org/jmock
-export DISTSITE=$DISTHOST:$DISTROOT
+export CLASSPATH=$LIBDIR/junit-3.8.1.jar:$LIBDIR/cglib-full-2.0.jar:$BUILDDIR/core:$BUILDDIR/cglib
+case $(uname --operating-system) in
+Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
+esac
 
-# Note: change the path separators to ':' before committing to CVS
-export CLASSPATH=$LIBDIR/junit-3.8.1.jar\;$LIBDIR/cglib-full-2.0.jar\;$BUILDDIR/core\;$BUILDDIR/cglib
+DEPLOY=${DEPLOY:-1} # deploy by default
+DEPLOY_ROOT=${DEPLOY_ROOT:-/home/projects/jmock}
 
-function run_task {
-	local task=$1
-	
-	echo -n $task ""
-	if sh continuous-integration/$task.sh > /dev/null; then
-		echo done
-	else
-		echo failed
-		exit 1
-	fi
+
+function deploy {
+    echo deploying contents of $1 to $2
+    mkdir -p $2
+    cp --recursive $1/* $2/
 }
 
-function tasks {
-	for task in $*; do
-		run_task $task;
-	done
-}
+ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
 
-echo
-echo Build time: $(date --utc "+%d/%m/%Y %H:%M:%S")
-echo
-
-ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars 
-tasks build-website
-ant -Djava.doc.dir=$JAVADOCDIR javadoc
-
-if let ${DEPLOY:-1}; then
-    # deploy by default
-	tasks deploy-website deploy-snapshots;
+if let $DEPLOY; then
+    deploy $BUILDDIR/dist/ $DEPLOY_ROOT/dist
+    deploy $WEBDIR $DEPLOY_ROOT/public_html
+    deploy $BUILDDIR/javadoc $DEPLOY_ROOT/public_html/docs/javadoc
 fi
+
 echo all done.
