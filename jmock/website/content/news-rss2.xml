@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"
-                   xmlns:html="http://www.w3.org/1999/xhtml"> 
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"> 
 									 
 	<channel>
 		<title>jMock News</title>
@@ -13,22 +12,14 @@
 		</image>
 		<language>en-us</language>
 		
-		<!-- 
-			Categories:
-				Release          jMock releases
-				Documentation    new articles and website changes
-				Event            events at which jMock is being used
-				Development      new features committed to CVS or other development news
-		-->
-		
 		<item>
-			<title>See jMock in Action at the ADC</title>
+			<title>See jMock in Action</title>
 			<category>Event</category>
 			<link>http://www.jmock.org</link>
 			<description>jMock will be used in the 
-				<html:em>Top-Down TDD using Mock Objects and Inversion of Control</html:em>
+				<em>Top-Down TDD using Mock Objects and Inversion of Control</em>
       	tutorial run by Manish Shah and Damian Guy at the
-      	<html:a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</html:a>.
+      	<a href="http://www.agiledevelopmentconference.com/">Agile Development Conference</a>.
       </description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-06-15</dc:date>
@@ -39,7 +30,7 @@
 			<category>Release</category>
 			<link>http://www.jmock.org/downloads.html</link>
 			<description>
-				Released <html:a href="downloads.html">jMock 1.0.1</html:a>, that fixes and improves the 
+				Released <a href="downloads.html">jMock 1.0.1</a>, that fixes and improves the 
 				generation of error messages.      
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
@@ -51,7 +42,7 @@
 			<category>Documentation</category>
 			<link>http://www.jmock.org/easymock-comparison.html</link>
 			<description>
-			  Added an article <html:a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</html:a>.
+			  Added an article <a href="http://www.jmock.org/easymock-comparison.html">comparing jMock and EasyMock</a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-06-04</dc:date>
@@ -74,8 +65,7 @@
 			<category>Release</category>
 			<link>http://www.jmock.org/download.html</link>
 			<description>
-				Version 1.0.0 has been released. 
-				<html:a href="http://www.jmock.org/download.html">Download it now</html:a>.
+				Version 1.0.0 has been released. <a href="http://www.jmock.org/download.html">Download it now</a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-06-01</dc:date>
@@ -87,7 +77,7 @@
 			<link>http://www.jmock.org/custom-stubs.html</link>
 			<description>
 				A new tutorial has been uploaded, showing how to 
-				<html:a href="http://www.jmock.org/custom-stubs.html">write custom stubs</html:a>.
+				<a href="http://www.jmock.org/custom-stubs.html">write custom stubs</a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-05-23</dc:date>
@@ -98,7 +88,7 @@
 			<category>Release</category>
 			<link>http://www.jmock.org/download.html</link>
 			<description>
-				Version 1.0.0.RC1 now available for <html:a href="download.html">download</html:a>.
+				Version 1.0.0.RC1 now available for <a href="download.html">download</a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-05-22</dc:date>
@@ -109,16 +99,16 @@
 			<category>Development</category>
 			<link>http://www.jmock.org/download.html</link>
 			<description>
-				<html:b>New!</html:b> Binary snapshots are now available. <html:a
+				<b>New!</b> Binary snapshots are now available. <a
 				href="http://www.jmock.org/download.html">Get them while they're hot if you want to 
-				look cool!</html:a>
+				look cool!</a>
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-05-21</dc:date>
 		</item>
 
 		<item>
-			<title>Continuous Integration is Running Again</title>
+			<title>Continuous Integration Back Up</title>
 			<category>Development</category>
 			<link>http://www.jmock.org</link>
 			<description>
@@ -135,7 +125,7 @@
 			<category>Documentation</category>
 			<link>http://www.jmock.org/yoga.html</link>
 			<description>
-				A new article, <html:a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</html:a>,
+				A new article, <a href="http://www.jmock.org/yoga.html">Yoga for your Unit Tests</a>,
 				describes how to use jMock to avoid brittle tests.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
@@ -148,9 +138,9 @@
 			<link>http://www.jmock.org/dynamock-comparison.html</link>
 			<description>
 				A new article, 
-				<html:a href="http://www.jmock.org/dynamock-comparison.html">Comparing jMock and Dynamock</html:a>,
+				<a href="http://www.jmock.org/dynamock-comparison.html">Comparing jMock and Dynamock</a>,
 				explains the difference between jMock and the 
-				DynaMock API of <html:a href="http://www.mockobjects.com">mockobjects.com</html:a>.
+				DynaMock API of <a href="http://www.mockobjects.com">mockobjects.com</a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-03-01</dc:date>
@@ -161,8 +151,8 @@
 			<category>Development</category>
 			<link>http://www.jmock.org</link>
 			<description>
-				<html:a href="http://cglib.sourceforge.net/">CGLIB</html:a> support
-				has recently been committed to <html:a href="repository.html">CVS</html:a>. This
+				<a href="http://cglib.sourceforge.net/">CGLIB</a> support
+				has recently been committed to <a href="repository.html">CVS</a>. This
 				optional extension will allow you to mock concrete classes, helpful if you
 				have to work with awkward and/or legacy code.
 			</description>
@@ -175,10 +165,10 @@
 			<category>Development</category>
 			<link>http://www.jmock.org/download.html#snapshot</link>
 			<description>
-				<html:a href="http://www.jmock.org/download.html#snapshot">Source snapshots</html:a> are
+				<a href="http://www.jmock.org/download.html#snapshot">Source snapshots</a> are
 				now available for download. Snapshots are created by the continuous
 				integration system whenever anything is committed to the 
-				<html:a href="http://www.jmock.org/repository.html">CVS repository</html:a>.
+				<a href="http://www.jmock.org/repository.html">CVS repository</a>.
 			</description>
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-02-18</dc:date>
@@ -186,6 +176,7 @@
 		
 		
 		<!-- item template
+
 		<item>
 			<title></title>
 			<category>Pick one: Release, Documentation, Event, Development</category>
@@ -195,6 +186,13 @@
 			<dc:creator>Nat Pryce</dc:creator>
 			<dc:date>2004-MM-DD</dc:date>
 		</item>
+
+		Categories:
+			Release          jMock releases
+			Documentation    new articles and website changes
+			Event            events at which jMock is being used
+			Development      new features committed to CVS or other development news
+
 		-->
 			
 	</channel>
