@@ -6,13 +6,12 @@ package atest.jmock.cglib;
 
 import java.util.ArrayList;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.jmock.cglib.CGLIBCoreMock;
+import org.jmock.cglib.Mock;
+import org.jmock.cglib.MockObjectTestCase;
 
 public class MockConcreteClassAcceptanceTest extends MockObjectTestCase {
     public void testCanMockConcreteClasses() throws Exception {
-        Mock listMock = new Mock(new CGLIBCoreMock(ArrayList.class,"listMock"));
+        Mock listMock = new Mock(ArrayList.class,"listMock");
         
         assertTrue( "proxy is an ArrayList", listMock.proxy() instanceof ArrayList );
         
