@@ -10,7 +10,7 @@ import test.jmock.core.testsupport.AlwaysFalse;
 import test.jmock.core.testsupport.AlwaysTrue;
 
 
-public abstract class MockObjectSupportTestCaseTest extends TestCase
+public class MockObjectSupportTestCaseTest extends TestCase
 {
     private static final String DUMMY_NAME = "DUMMY NAME";
 
@@ -27,17 +27,13 @@ public abstract class MockObjectSupportTestCaseTest extends TestCase
     MockObjectSupportTestCase testCase;
 
     public void setUp() {
-        testCase = new MockObjectSupportTestCase()
-        {
-        };
+        testCase = new MockObjectSupportTestCase() {};
     }
 
     public void testCanBeConstructedWithAName() {
         String name = "NAME";
 
-        testCase = new MockObjectSupportTestCase(name)
-        {
-        };
+        testCase = new MockObjectSupportTestCase(name) {};
 
         assertEquals("name", name, testCase.getName());
     }
@@ -62,7 +58,7 @@ public abstract class MockObjectSupportTestCaseTest extends TestCase
         Object dummy = testCase.newDummy(ExampleInterface.class);
 
         assertEquals("should return name from toString",
-                     "dummyDummyTest$ExampleInterface", dummy.toString());
+                     "dummyExampleInterface", dummy.toString());
     }
 
     public void testHasConvenienceConstantForIsAnything() {

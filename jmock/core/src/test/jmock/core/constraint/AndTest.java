@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.And;
 
 
-public class AndTest extends ConstraintsTest
+public class AndTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTheTheLogicalConjunctionOfTwoOtherConstraints() {
         assertTrue(new And(TRUE_CONSTRAINT, TRUE_CONSTRAINT).eval(ARGUMENT_IGNORED));

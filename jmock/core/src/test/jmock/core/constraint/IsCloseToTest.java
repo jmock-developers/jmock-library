@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.IsCloseTo;
 
 
-public class IsCloseToTest extends ConstraintsTest
+public class IsCloseToTest extends AbstractConstraintsTest
 {
 
     public void testEvaluatesToTrueIfArgumentIsEqualToADoubleValueWithinSomeError() {

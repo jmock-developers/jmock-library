@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.IsInstanceOf;
 
 
-public class IsInstanceOfTest extends ConstraintsTest
+public class IsInstanceOfTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTrueIfArgumentIsInstanceOfASpecificClass() {
         IsInstanceOf isInstanceOf = new IsInstanceOf(Number.class);

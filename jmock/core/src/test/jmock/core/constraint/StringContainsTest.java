@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.StringContains;
 
 
-public class StringContainsTest extends ConstraintsTest
+public class StringContainsTest extends AbstractConstraintsTest
 {
     static final String EXCERPT = "EXCERPT";
 

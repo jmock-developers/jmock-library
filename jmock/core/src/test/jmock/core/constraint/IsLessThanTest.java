@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.IsLessThan;
 
 
-public class IsLessThanTest extends ConstraintsTest
+public class IsLessThanTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTrueIfArgumentIsLessThanAComparableObject() {
         IsLessThan c = new IsLessThan(new Integer(1));

@@ -5,7 +5,7 @@ package test.jmock.core.constraint;
 import org.jmock.core.constraint.Or;
 
 
-public class OrTest extends ConstraintsTest
+public class OrTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTheTheLogicalDisjunctionOfTwoOtherConstraint() {
         assertTrue(new Or(TRUE_CONSTRAINT, TRUE_CONSTRAINT).eval(ARGUMENT_IGNORED));

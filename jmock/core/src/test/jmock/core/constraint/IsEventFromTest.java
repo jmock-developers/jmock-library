@@ -6,7 +6,7 @@ import java.util.EventObject;
 import org.jmock.core.constraint.IsEventFrom;
 
 
-public class IsEventFromTest extends ConstraintsTest
+public class IsEventFromTest extends AbstractConstraintsTest
 {
     public void testEvaluatesToTrueIfArgumentIsAnEventObjectFiredByASpecifiedSource() {
         Object o = new Object();
