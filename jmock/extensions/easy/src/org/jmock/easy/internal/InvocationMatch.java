@@ -56,18 +56,22 @@ public class InvocationMatch {
         this.stub = stub;
     }
 
-	private boolean isUnset() {
-		return methodNameMatcher == null;
-	}
-
 	private InvocationMocker createInvocationMocker() {
 		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
-        if (callCountMatcher != null)
-    		mocker.addMatcher(callCountMatcher);
+        if (isExpectation())
+        		mocker.addMatcher(callCountMatcher);
 		mocker.addMatcher(methodNameMatcher);
 		mocker.addMatcher(argsMatcher);
 		mocker.setStub(stub);
 		return mocker;
+	}
+
+	private boolean isUnset() {
+		return methodNameMatcher == null;
+	}
+
+	private boolean isExpectation() {
+		return callCountMatcher != null;
 	}
 
 	static private Constraint[] equalArgs(Object[] args) {
