@@ -109,97 +109,13 @@ logger.expect(once()).method("error")
     can be used to define constraints.  There are more constraint types
     defined in the 
     <code><a href="docs/javadoc/org/jmock/core/constraint/package-summary.html">org.jmock.constraint</a></code>
-    package.  You can even define your own constraints, as described below.</p>
+    package.  You can even <a href="custom-constraints.html">define your own constraints</a>.</p>
     
     <p>Constraints require you to type a little more when writing your tests, 
     and require you to think more carefully about what behaviour you expect, 
     but the result is that your tests are easier to read because they clearly 
     express your intent and more flexible because they don't overspecify
     expected behaviour.</p>
-    
-    <h2>Custom Constraints</h2>
-    
-    <p>
-    If necessary, you can easily define new constraints that seamlessly extend
-    the existing constraints defined by jMock.
-    </p>
-    
-    <p>A constraint is an object that implements the 
-    <code><a href="docs/javadoc/org/jmock/core/Constraint.html">org.jmock.Constraint</a></code>
-    interface. It does two things:</p>
-    
-    <ul>
-      <li>report whether a parameter value meets the constraint 
-      (the <code>eval</code> method).</li>
-      <li>provide a readable description to be included in test failure messages 
-      (the <code>toString</code> method).</li>
-    </ul>
-    
-    <p>The
-    <code><a href="docs/javadoc/org/jmock/constraint/package-summary.html">org.jmock.constraint</a></code>
-    package contains many constraint implementations and the programmer can 
-    easily specify their own constraints by writing their own implementations 
-    of the <code>Constraint</code> interface.</p>
-    
-    <p>To create a new constraint:</p>
-    <ol>
-      <li><p>Write a class that implements the <code>Constraint</code>
-      interface.  The following constraint class tests whether a string
-      starts with a given prefix.</p>
-    
-      <div class="Source Java">
-<pre>import org.jmock.core.Constraint;
-
-public class StartsWith implements Constraint {
-    private String prefix;
-    
-    public StartsWith( String prefix ) {
-        this.prefix = prefix;
-    }
-    
-    public boolean eval( Object o ) {
-        return o instanceof String &amp;&amp; ((String)o).startsWith(prefix);
-    }
-    
-    public String toString() {
-        return "a string starting with \"" + prefix + "\"";
-    }
-}</pre>
-      </div>
-    </li>
-    <li><p>Write a factory method in your test case that creates an instance
-    of your new constraint.</p>
-      <div class="Source Java">
-<pre>public class MyTestCase extends MockObjectTestCase {
-    ...
-    
-    private Constraint startsWith( String prefix ) {
-        return new StartsWith(prefix);
-    }
-}</pre>
-      </div>
-    </li>
-    
-    <li><p>Use your factory method to create constraints in your tests:</p>
-      <div class="Source Java">
-<pre>public class MyTestCase extends MockObjectTestCase {
-    ...
-    
-    public void testSomething() {
-        ...
-        
-        logger.expect(once()).method("error").with( startsWith("FATAL") );
-        
-        ...
-    }
-    
-    private Constraint startsWith( String prefix ) {
-        return new StartsWith(prefix);
-    }
-}</pre>
-        </div>
-      </li>
-    </ol>
   
     <h1>Invocation Order</h1>
     
