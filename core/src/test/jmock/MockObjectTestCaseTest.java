@@ -27,7 +27,7 @@ public class MockObjectTestCaseTest extends TestCase
 	}
 
 	private SampleMockObjectTestCase testCase;
-	private ExpectationList requiresVerification;
+	ExpectationList requiresVerification;
 
     public void setUp() {
         requiresVerification = new ExpectationList("registerToVerify #arguments");
