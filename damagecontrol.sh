@@ -25,6 +25,10 @@ function build-step {
 }
 
 
+echo ****
+echo id = $(id)
+echo ****
+
 
 build-step ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
 
