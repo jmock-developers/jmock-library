@@ -1,6 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
+import junit.framework.AssertionFailedError;
+
 import org.jmock.core.Constraint;
 import org.jmock.core.InvocationMatcher;
 import org.jmock.core.Stub;
@@ -146,21 +148,27 @@ public class InvocationMockerBuilder
 	}
 	
     public MatchBuilder after( String priorCallID ) {
-    	setupOrderingMatchers( idTable.lookupIDForSameMock(priorCallID), 
-                               priorCallID, priorCallID );
+    	setupOrderingMatchers( idTable, priorCallID, priorCallID );
         return this;
     }
     
     public MatchBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
-    	setupOrderingMatchers( otherMock.lookupIDForOtherMock(priorCallID), 
-                               priorCallID, priorCallID + " on " + otherMock );
+    	setupOrderingMatchers( otherMock, priorCallID, priorCallID + " on " + otherMock );
     	return this;
     }
     
-    private void setupOrderingMatchers( MatchBuilder priorCallBuilder, 
+    private void setupOrderingMatchers( BuilderIdentityTable idTable, 
 										String priorCallID, 
 										String priorCallDescription ) 
     {
+        MatchBuilder priorCallBuilder = idTable.lookupID(priorCallID);
+        
+        if( priorCallBuilder == this ) {
+            throw new AssertionFailedError(
+                "confusing identifier of prior invocation \""+priorCallID+"\"; "+
+                "give it an explicit call identifier");
+        }
+        
     	InvokedRecorder priorCallRecorder = new InvokedRecorder();
     	
     	priorCallBuilder.match(priorCallRecorder);

@@ -12,31 +12,18 @@ import org.jmock.util.Verifier;
 public class MockBuilderIdentityTable
 	implements BuilderIdentityTable, Verifiable
 {
-	public ExpectationValue lookupIDForSameMock = new ExpectationValue("lookupID id");
-	public MatchBuilder lookupIDForSameMockResult;
-	public AssertionFailedError lookupIDForSameMockError;
+	public ExpectationValue lookupID = new ExpectationValue("lookupID id");
+	public MatchBuilder lookupIDResult;
+	public AssertionFailedError lookupIDError;
 	
-	public MatchBuilder lookupIDForSameMock(String id) {
-		lookupIDForSameMock.setActual(id);
-		if( lookupIDForSameMockError != null ) {
-			throw lookupIDForSameMockError;
+	public MatchBuilder lookupID(String id) {
+		lookupID.setActual(id);
+		if( lookupIDError != null ) {
+			throw lookupIDError;
 		} else {
-			return lookupIDForSameMockResult;
+			return lookupIDResult;
 		}
 	}
-	
-    public ExpectationValue lookupIDForOtherMock = new ExpectationValue("lookupID id");
-    public MatchBuilder lookupIDForOtherMockResult;
-    public AssertionFailedError lookupIDForOtherMockError;
-    
-    public MatchBuilder lookupIDForOtherMock(String id) {
-        lookupIDForOtherMock.setActual(id);
-        if( lookupIDForOtherMockError != null ) {
-            throw lookupIDForOtherMockError;
-        } else {
-            return lookupIDForOtherMockResult;
-        }
-    }
     
     public ExpectationValue registerUniqueID = 
         new ExpectationValue("registerUniqueID id");

@@ -9,13 +9,12 @@ import org.jmock.builder.*;
 import org.jmock.core.*;
 import org.jmock.core.matcher.MethodNameMatcher;
 
+
 public class Mock
 	implements BuilderIdentityTable, Verifiable 
 {
     DynamicMock coreMock;
     HashMap idTable = new HashMap();
-    String pendingMethodName = null;
-    IdentityBuilder pendingBuilder = null;
     
     
     public Mock(Class mockedType) {
@@ -47,8 +46,6 @@ public class Mock
     }
     
     public NameMatchBuilder stub() {
-        flushPendingMethodName();
-        
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         coreMock.add(mocker);
         
@@ -56,8 +53,6 @@ public class Mock
     }
     
     public NameMatchBuilder expect( InvocationMatcher expectation ) {
-        flushPendingMethodName();
-        
         InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         
         mocker.addMatcher(expectation);
@@ -85,16 +80,7 @@ public class Mock
         coreMock.setDefaultStub(newDefaultStub);
     }
     
-    public MatchBuilder lookupIDForSameMock(String id) {
-        return lookupID(id);
-    }
-    
-    public MatchBuilder lookupIDForOtherMock(String id) {
-        flushPendingMethodName();
-        return lookupID(id);
-	}
-	
-    private MatchBuilder lookupID(String id) throws AssertionFailedError {
+    public MatchBuilder lookupID(String id) {
         if( ! idTable.containsKey(id) ) {
             throw new AssertionFailedError("no expected invocation named '"+id+"'");
         }
@@ -112,23 +98,10 @@ public class Mock
     }
     
     public void registerMethodName( String id, MatchBuilder builder ) {
-        pendingMethodName = id;
-        pendingBuilder = builder;
+        storeID( id, builder );
     }
     
 	private void storeID( String id, IdentityBuilder builder ) {
         idTable.put( id, builder );
 	}
-    
-    private void flushPendingMethodName() {
-        if( pendingMethodName != null ) {
-            storeID( pendingMethodName, pendingBuilder );
-            clearPendingMethodName();
-        }
-    }
-    
-    private void clearPendingMethodName() {
-        pendingMethodName = null;
-        pendingBuilder = null;
-    }
 }
