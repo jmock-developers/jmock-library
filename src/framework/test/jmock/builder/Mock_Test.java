@@ -47,7 +47,7 @@ public class Mock_Test extends TestCase {
     
     private interface MockedType {}
     
-    public void testReportsTypesMockByUnderlyingMock(){
+    public void testReportsTypesMockedByUnderlyingMock(){
         Class[] mockedTypes = new Class[] { MockedType.class };
         
         mockCoreMock.getMockedTypesCalls.setExpected(1);

@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamock.Mock;
+import org.jmock.expectation.AssertMo;
 
 import test.jmock.dynamic.testsupport.MockBuildableInvokable;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
@@ -90,6 +91,18 @@ public class MockTest
 		
 		assertSame( "expected proxy of core mock", proxy, mock.proxy() );
 	}
+    
+    private interface MockedType {}
+    
+    public void testReportsTypesMockedByCoreMock(){
+        Class[] mockedTypes = new Class[] { MockedType.class };
+        
+        mockCoreMock.getMockedTypesCalls.setExpected(1);
+        mockCoreMock.getMockedTypesResult = mockedTypes;
+        
+        AssertMo.assertEquals( "mocked types", 
+                               mockedTypes, mock.getMockedTypes() );
+    }
     
     public void testPassesDefaultStubToCoreMock() {
         MockStub mockDefaultStub = new MockStub();
