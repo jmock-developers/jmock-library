@@ -46,4 +46,8 @@ public class MockInvocationDispatcher
     public StringBuffer describeTo( StringBuffer buffer ) {
         return buffer.append(writeToOutput);
     }
+
+	public void setupDefaultBehaviour(String name, Object proxy) {
+		throw new NoSuchMethodError();		
+	}
 }

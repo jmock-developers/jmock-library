@@ -25,6 +25,7 @@ public class CoreMock
         this.proxy = Proxy.newProxyInstance(mockedType.getClassLoader(),
                                             new Class[]{mockedType},
                                             this);
+        invocationDispatcher.setupDefaultBehaviour(name, proxy);
     }
 
     public Object proxy() {

@@ -6,6 +6,8 @@ package org.jmock.core;
 public interface InvocationDispatcher
         extends Verifiable, SelfDescribing
 {
+    void setupDefaultBehaviour(String name, Object proxy);
+    
     Object dispatch( Invocation invocation ) throws Throwable;
 
     void setDefaultStub( Stub newDefaultStub );
