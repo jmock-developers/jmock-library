@@ -1,43 +1,58 @@
 <project default="jars">
    	<property name="version" value="SNAPSHOT"/>
 
-	<property name="build.dir" location="build"/>
-	<property name="lib.dir" location="lib"/>
-	<property name="dist.dir" location="${build.dir}/dist"/>
-    <property name="build.src.dir" location="${build.dir}/jmock-${build.timestamp}"/>
-    <property name="website.dir" location="website/output"/>
-    <property name="javadoc.dir" location="${website.dir}/docs/javadoc"/>
-    
-    <property name="report.test.unit.dir" location="${build.dir}/reports/unit-tests"/>
-    <property name="report.test.acceptance.dir" location="${build.dir}/reports/acceptance-tests"/>
-
+    <property name="lib.dir" location="lib"/>
     <property name="examples.dir" location="examples"/>
     <property name="extensions.dir" location="extensions"/>
+    <property name="website.dir" location="website"/>
+
+    <property name="build.dir" location="build"/>
+    <property name="build.dist.dir" location="${build.dir}/dist"/>
+    <property name="build.dist.bin.dir" location="${build.dist.dir}/jars"/>
+    <property name="build.dist.src.dir" location="${build.dist.dir}/distributions"/>
+    <property name="build.javadoc.dir" location="${build.dir}/javadoc"/>
+    <property name="build.src.dir" location="${build.dir}/jmock-${build.timestamp}"/>
+    <property name="build.website.dir" location="website/output"/>
+
+    <property name="report.test.unit.dir" location="${build.dir}/reports/unit-tests"/>
+    <property name="report.test.acceptance.dir" location="${build.dir}/reports/acceptance-tests"/>
 
     <property name="core.dir" location="core"/>
     <property name="core.src.dir" location="${core.dir}/src"/>
     <property name="core.atest.dir" location="${core.dir}/acceptance-tests"/>
 	<property name="core.build.dir" location="build/core"/>
-	<property name="core.jar" location="${dist.dir}/jmock-${version}.jar"/>
+	<property name="core.jar" location="${build.dist.bin.dir}/jmock-${version}.jar"/>
 	
     <property name="cglib.dir" location="${extensions.dir}/cglib"/>
     <property name="cglib.src.dir" location="${cglib.dir}/src"/>
     <property name="cglib.atest.dir" location="${cglib.dir}/acceptance-tests"/>
 	<property name="cglib.build.dir" location="build/cglib"/>
-	<property name="cglib.jar" location="${dist.dir}/jmock-cglib-${version}.jar"/>
+	<property name="cglib.jar" location="${build.dist.bin.dir}/jmock-cglib-${version}.jar"/>
 
-    <property name="src.jar" location="${dist.dir}/jmock-${version}-src.jar"/>
+    <property name="src.jar" location="${build.dist.src.dir}/jmock-${version}-src.jar"/>
+    <property name="javadoc.jar" location="${build.dist.src.dir}/jmock-${version}-javadoc.jar"/>
+
+    <property name="deploy.root.dir" location="/home/projects/jmock"/>
+    <property name="deploy.website.dir" location="${deploy.root.dir}/public_html"/>
+    <property name="deploy.javadoc.dir" location="${deploy.website.dir}/docs/javadoc"/>
+    <property name="deploy.dist.dir" location="${deploy.root.dir}/dist"/>
+    <property name="deploy.dist.bin.dir" location="${deploy.dist.dir}/jars"/>
+    <property name="deploy.dist.src.dir" location="${deploy.dist.dir}/distributions"/>
 
 
-    <target name="jars" depends="core.jar,cglib.jar,src.jar"/>
+
+    <!-- Shortcut targets -->
+
+    <target name="jars" depends="core.jar,cglib.jar,src.jar,javadoc.jar"/>
+    <target name="rebuild" depends="clean,jars"/>
+    <target name="test" depends="test.unit,test.acceptance"/>
+    <target name="test.unit" depends="core.test.unit,cglib.test.unit"/>
+    <target name="test.acceptance" depends="core.test.acceptance,cglib.test.acceptance"/>
 
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${build.website.dir}"/>
     </target>
-
-    <target name="rebuild" depends="clean,jars"/>
-
-    <target name="test" depends="core.test.unit,core.test.acceptance,cglib.test.unit,cglib.test.acceptance"/>
 
     <!-- JMOCK CORE -->
 
@@ -92,7 +107,7 @@
     </target>
 
     <target name="core.jar" depends="core.test.unit">
-        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dist.bin.dir}"/>
         <jar basedir="${core.build.dir}" destfile="${core.jar}" excludes="test/**" index="true"/>
     </target>
 
@@ -153,17 +168,17 @@
     </target>
 
     <target name="cglib.jar" depends="cglib.test.unit">
-        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dist.bin.dir}"/>
         <jar basedir="${cglib.build.dir}" destfile="${cglib.jar}" excludes="test/**" index="true"/>
     </target>
-
-
 
     <!-- SOURCE DISTRIBUTION -->
 
     <target name="src.jar">
+        <mkdir dir="${build.dist.src.dir}"/>
+
         <mkdir dir="${build.src.dir}"/>
-        
+
         <copy todir="${build.src.dir}">
             <fileset dir="${core.dir}"/>
             <fileset dir="${extensions.dir}"/>
@@ -181,10 +196,18 @@
     </target>
 
 
+    <!-- DOCUMENTATION -->
+
+    <target name="website">
+        <mkdir dir="${build.website.dir}"/>
+        <exec dir="${website.dir}" executable="ruby" failonerror="true">
+            <arg value="skinner.rb"/>
+        </exec>
+    </target>
 
     <target name="javadoc">
-        <mkdir dir="${javadoc.dir}"/>
-        <javadoc destdir="${javadoc.dir}"
+        <mkdir dir="${build.javadoc.dir}"/>
+        <javadoc destdir="${build.javadoc.dir}"
                  overview="overview.html"
                  windowtitle="jMock API Documentation"
                  useexternalfile="true">
@@ -228,4 +251,10 @@
             <link href="http://cglib.sourceforge.net/apidocs"/>
         </javadoc>
     </target>
+
+    <target name="javadoc.jar" depends="javadoc">
+        <mkdir dir="${build.dist.src.dir}"/>
+        <jar destfile="${javadoc.jar}" basedir="${build.javadoc.dir}"/>
+    </target>
+
 </project>
