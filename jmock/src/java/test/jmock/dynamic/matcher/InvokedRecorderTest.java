@@ -10,7 +10,7 @@ import org.jmock.expectation.AssertMo;
 public class InvokedRecorderTest extends TestCase {
     private Invocation emptyInvocation =
         new Invocation(Void.class, "test", "example", new Class[0], Void.class, new Object[0]);
-    private InvokedRecorder recorder = new InvokedRecorder();
+    InvokedRecorder recorder = new InvokedRecorder();
     
     public void testAlwaysMatches() {
         assertTrue( "should match before invocation", 
