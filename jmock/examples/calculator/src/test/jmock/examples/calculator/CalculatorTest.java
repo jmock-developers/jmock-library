@@ -24,10 +24,10 @@ public class CalculatorTest
     private Mock mockVariableExpression;
     
     public void setUp() {
-        mockExpression = new Mock(Expression.class);
-        mockParser = new Mock(Parser.class);
-        mockEnvironment = new Mock(Environment.class);
-        mockVariableExpression = new Mock(Expression.class,"mockVariableExpression");
+        mockExpression = mock(Expression.class);
+        mockParser = mock(Parser.class);
+        mockEnvironment = mock(Environment.class);
+        mockVariableExpression = mock(Expression.class,"mockVariableExpression");
         
         calculator = new Calculator( (Parser)mockParser.proxy(),
                                      (Environment)mockEnvironment.proxy() );

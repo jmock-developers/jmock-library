@@ -29,7 +29,7 @@ public class ClassLoaderAcceptanceTest extends MockObjectTestCase {
         ClassLoader interfaceClassLoader = new EmptyInterfaceCreator();
         Class interfaceClass = interfaceClassLoader.loadClass("$UniqueTypeName$");
         
-        Mock mock = new Mock(interfaceClass); // Should not throw an exception
+        Mock mock = mock(interfaceClass); // Should not throw an exception
         
         mock.verify(); // stop warning about unused variable
     }

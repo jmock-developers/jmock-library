@@ -18,12 +18,12 @@ public class VariableReferenceTest extends MockObjectTestCase {
     private VariableReference variableReference;
     
     public void setUp() {
-        mockDefinition = new Mock(Expression.class,"mockDefinition");
+        mockDefinition = mock(Expression.class,"mockDefinition");
         variableReference = new VariableReference(variableName);
     }
 
     public void testEvaluatesDefinitionOfReferencedVariable() throws Exception {
-        Mock mockEnvironment = new Mock(Environment.class);
+        Mock mockEnvironment = mock(Environment.class);
         double result = 1234;
         
         mockEnvironment.expect(once()).method("getVariable").with(eq(variableName))

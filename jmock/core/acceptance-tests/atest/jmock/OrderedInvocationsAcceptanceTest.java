@@ -22,7 +22,7 @@ public class OrderedInvocationsAcceptanceTest
     }
     
     public void setUp() {
-        mock = new Mock(ExampleInterface.class,"mock");
+        mock = mock(ExampleInterface.class,"mock");
         proxy = (ExampleInterface)mock.proxy();
     }
     
@@ -92,7 +92,7 @@ public class OrderedInvocationsAcceptanceTest
     }
 	
 	public void testCanSpecifyOrderOverDifferentMocks() {
-		Mock otherMock = new Mock( ExampleInterface.class, "otherMock" );
+		Mock otherMock = mock( ExampleInterface.class, "otherMock" );
 		ExampleInterface otherProxy = (ExampleInterface)otherMock.proxy();
 		
 		otherMock.stub().method("hello").isVoid();
@@ -106,7 +106,7 @@ public class OrderedInvocationsAcceptanceTest
 	public void testDetectsUnexpectedOrderOverDifferentMocks() {
 		String otherMockName = "otherMock";
 		String priorCall = "HELLO-CALL-ID";
-		Mock otherMock = new Mock( ExampleInterface.class, otherMockName );
+		Mock otherMock = mock( ExampleInterface.class, otherMockName );
 		
 		otherMock.stub().method("hello").id(priorCall);
 		mock.stub().method("goodbye").after(otherMock,priorCall);
