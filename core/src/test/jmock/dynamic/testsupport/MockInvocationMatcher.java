@@ -38,16 +38,16 @@ public class MockInvocationMatcher
 		invokedInvocation.setActual(invocation);
 	}
 	
-	public ExpectationValue writeToBuffer = new ExpectationValue("writeTo buffer");
-	public String writeToOutput = "";
+	public ExpectationValue describeToBuffer = new ExpectationValue("writeTo buffer");
+	public String describeToOutput = "";
 	
     public boolean hasDescription() {
-        return writeToOutput.length() > 0;
+        return describeToOutput.length() > 0;
     }
     
 	public StringBuffer describeTo(StringBuffer buffer) {
-		writeToBuffer.setActual(buffer);
-		buffer.append(writeToOutput);
+		describeToBuffer.setActual(buffer);
+		buffer.append(describeToOutput);
 		return buffer;
 	}
 }

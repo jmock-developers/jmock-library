@@ -45,13 +45,13 @@ public class Mock
     }
     
     public NameMatchBuilder stub() {
-        InvocationMocker mocker = new InvocationMocker();
+        InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         coreMock.add(mocker);
         return new InvocationMockerBuilder(mocker,this);
     }
     
     public NameMatchBuilder expect( InvocationMatcher expectation ) {
-        InvocationMocker mocker = new InvocationMocker();
+        InvocationMocker mocker = new InvocationMocker( new InvocationMockerDescriber() );
         
         mocker.addMatcher(expectation);
         coreMock.add(mocker);
