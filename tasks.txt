@@ -18,10 +18,6 @@
 - Removed as many PMD violations as possible (remaining empty catch blocks are intentional)
 - Translate web site to xhtml+css, skinned with StaticMesh or something similar. 
 - Setup Jira.
-  
-*** Stuff to do ***
-
-Code tasks moved to ToDo.java
-
-Organisation:
 - Ant files to build and run unit and acceptance tests in damagecontrol.
+  
+Code tasks moved to ToDo.java
