@@ -4,7 +4,7 @@ import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
 
-public class StubSequenceAcceptanceTest extends MockObjectTestCase
+public class ConsecutiveCallsAcceptanceTest extends MockObjectTestCase
 {
 	public interface Greeter
 	{
@@ -16,9 +16,9 @@ public class StubSequenceAcceptanceTest extends MockObjectTestCase
 		Greeter greeter = (Greeter)mock.proxy();
 
 		mock.expects(atLeastOnce()).method("greeting").withNoArguments()
-		        .will(onSubsequentCalls(returnValue("hello"),
-		                                returnValue("bonjour"),
-		                                returnValue("guten Tag")));
+		        .will(onConsecutiveCalls(returnValue("hello"),
+		                                 returnValue("bonjour"),
+		                                 returnValue("guten Tag")));
 
 		assertEquals("hello", greeter.greeting());
 		assertEquals("bonjour", greeter.greeting());

@@ -98,15 +98,15 @@ public abstract class MockObjectTestCase
 		return new TestFailureMatcher("expect not called");
 	}
 
-	public Stub onSubsequentCalls( Stub stub1, Stub stub2 ) {
+	public Stub onConsecutiveCalls( Stub stub1, Stub stub2 ) {
 		return new StubSequence(new Stub[]{stub1, stub2});
 	}
 
-	public Stub onSubsequentCalls( Stub stub1, Stub stub2, Stub stub3 ) {
+	public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3 ) {
 		return new StubSequence(new Stub[]{stub1, stub2, stub3});
 	}
 
-	public Stub onSubsequentCalls( Stub stub1, Stub stub2, Stub stub3, Stub stub4 ) {
+	public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3, Stub stub4 ) {
 		return new StubSequence(new Stub[]{stub1, stub2, stub3, stub4});
 	}
 }

@@ -50,7 +50,7 @@ public class ToDo
 	//DONE Move generation of mock name to MockObjectTestCase (or support test case)
 	//DONE Good error reporting (i.e. more than just a ClassCastException) when the type of a returned object is wrong.
 	//DONE Ditto for thrown exceptions
-	//DONE roll returnValues into main branch (see MockObjectTestCase.onSubsequentCalls).
+	//DONE roll returnValues into main branch (see MockObjectTestCase.onConsecutiveCalls).
 
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
