@@ -31,8 +31,6 @@ public abstract class AbstractDynamicMock
         this.mockedType = mockedType;
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
-
-        setupDefaultBehaviour();
     }
 
     public Class getMockedType() {
@@ -81,68 +79,10 @@ public abstract class AbstractDynamicMock
     public void reset() {
         //TODO write tests for this
         invocationDispatcher.clear();
-        setupDefaultBehaviour();
+        invocationDispatcher.setupDefaultBehaviour(name, proxy());
     }
 
     public static String mockNameFromClass( Class c ) {
         return "mock" + Formatting.classShortName(c);
-    }
-
-    private void setupDefaultBehaviour() {
-        addInvokable(hiddenInvocationMocker("toString",
-                                            NoArgumentsMatcher.INSTANCE,
-                                            new ReturnStub(name)));
-        addInvokable(hiddenInvocationMocker("equals",
-                                            new ArgumentsMatcher(new Constraint[]{new IsAnything()}),
-                                            new IsSameAsProxyStub()));
-        addInvokable(hiddenInvocationMocker("hashCode",
-                                            NoArgumentsMatcher.INSTANCE,
-                                            new HashCodeStub()));
-    }
-
-    private static final InvocationMocker.Describer NO_DESCRIPTION =
-        new InvocationMocker.Describer()
-        {
-            public boolean hasDescription() {
-                return false;
-            }
-
-            public void describeTo( StringBuffer buffer, List matchers, Stub stub, String name ) {
-            }
-        };
-
-    private InvocationMocker hiddenInvocationMocker( String methodName,
-                                                     InvocationMatcher arguments,
-                                                     Stub stub )
-    {
-        InvocationMocker invocationMocker = new InvocationMocker(NO_DESCRIPTION);
-
-        invocationMocker.addMatcher(new MethodNameMatcher(methodName));
-        invocationMocker.addMatcher(arguments);
-        invocationMocker.setStub(stub);
-
-        return invocationMocker;
-    }
-
-    private class IsSameAsProxyStub extends CustomStub
-    {
-        private IsSameAsProxyStub() {
-            super("returns whether equal to proxy");
-        }
-
-        public Object invoke( Invocation invocation ) throws Throwable {
-            return new Boolean(invocation.parameterValues.get(0) == proxy());
-        }
-    }
-
-    private class HashCodeStub extends CustomStub
-    {
-        private HashCodeStub() {
-            super("returns hashCode for proxy");
-        }
-
-        public Object invoke( Invocation invocation ) throws Throwable {
-            return new Integer(AbstractDynamicMock.this.hashCode());
-        }
     }
 }
