@@ -37,10 +37,6 @@ public class ArgumentsMatcher
         return writeTo(new StringBuffer()).toString();
     }
 
-    public boolean equals(Object other) {
-        return other != null && toString().equals(other.toString());
-    }
-
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append("Arguments [");
         for (int i = 0; i < constraints.length; ++i) {
