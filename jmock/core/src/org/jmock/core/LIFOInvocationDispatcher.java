@@ -2,18 +2,16 @@
  */
 package org.jmock.core;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.List;
-import org.jmock.core.stub.TestFailureStub;
+import java.util.ListIterator;
 
 
 public class LIFOInvocationDispatcher
     extends AbstractInvocationDispatcher
 {
-    protected Iterator dispatchOrder( List invokables ) {
-        final ListIterator i = invokables.listIterator(this.invokables.size());
+    protected Iterator dispatchOrder( List invokablesList ) {
+        final ListIterator i = invokablesList.listIterator(this.invokables.size());
         return new Iterator() {
             public boolean hasNext() {
                 return i.hasPrevious();
