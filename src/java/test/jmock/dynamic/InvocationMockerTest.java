@@ -4,6 +4,7 @@ package test.jmock.dynamic;
 import junit.framework.TestCase;
 
 import org.jmock.Constraint;
+import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.InvocationMocker;
@@ -12,7 +13,6 @@ import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 import org.jmock.dynamic.stub.VoidStub;
-import org.jmock.dynamock.C;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
@@ -75,9 +75,11 @@ public class InvocationMockerTest extends TestCase {
 
     };
 
+    private static final String ARG2 = "arg2";
+    private static final String ARG1 = "arg1";
     private Invocation exampleInvocation =
             new Invocation(Void.class, "example", new Class[]{String.class, String.class}, Void.class,
-                    new Object[]{"arg1", "arg2"});
+                    new Object[]{ARG1, ARG2});
 
 
     public void testMatchesIfEverythingMatches() {
@@ -98,7 +100,7 @@ public class InvocationMockerTest extends TestCase {
         InvocationMocker invocationMocker = new InvocationMocker(
                 new InvocationMatcher[]{
                     new MethodNameMatcher("example"),
-                    new ArgumentsMatcher(new Constraint[]{C.eq("arg1"), C.eq("arg2")})}, null);
+                    new ArgumentsMatcher(makeConstraintArray(ARG1, ARG2))}, null);
 
         assertTrue("Should have matched", invocationMocker.matches(exampleInvocation));
     }
@@ -107,7 +109,7 @@ public class InvocationMockerTest extends TestCase {
         InvocationMocker invocationMocker = new InvocationMocker(
                 new InvocationMatcher[]{
                     new MethodNameMatcher("example"),
-                    new ArgumentsMatcher(new Constraint[]{C.eq("arg1"), C.eq("not arg2")})}, null);
+                    new ArgumentsMatcher(makeConstraintArray(ARG1, "not " + ARG2))}, null);
 
         assertFalse("Should not have matched", invocationMocker.matches(exampleInvocation));
     }
@@ -159,5 +161,9 @@ public class InvocationMockerTest extends TestCase {
         mocker.invoke(exampleInvocation);
 
         Verifier.verifyObject(mockInvocationMatcher);
+    }
+
+    private Constraint[] makeConstraintArray(Object arg1, Object arg2) {
+        return new Constraint[] { new IsEqual(arg1), new IsEqual(arg2) };
     }
 }

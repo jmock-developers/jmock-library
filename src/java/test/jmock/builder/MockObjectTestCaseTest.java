@@ -6,18 +6,13 @@ import org.jmock.Constraint;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.util.Dummy;
 
+import test.jmock.dynamic.testsupport.*;
+
 
 
 public class MockObjectTestCaseTest extends TestCase {
-    Constraint trueConstraint = new Constraint() {
-        public boolean eval( Object o ) { return true; }
-        public String toString() { return "trueConstraint"; }
-    };
-    
-    Constraint falseConstraint = new Constraint() {
-        public boolean eval( Object o ) { return false; }
-        public String toString() { return "falseConstraint"; }
-    };
+    Constraint trueConstraint = AlwaysTrue.INSTANCE;
+    Constraint falseConstraint = AlwaysFalse.INSTANCE;
     
     private MockObjectTestCase testCase;
     

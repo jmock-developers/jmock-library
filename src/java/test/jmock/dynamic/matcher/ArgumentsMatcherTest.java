@@ -4,9 +4,12 @@ package test.jmock.dynamic.matcher;
 import junit.framework.TestCase;
 
 import org.jmock.Constraint;
+import org.jmock.constraint.IsSame;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamock.C;
+
+import test.jmock.dynamic.testsupport.AlwaysFalse;
+import test.jmock.dynamic.testsupport.AlwaysTrue;
 
 
 public class ArgumentsMatcherTest extends TestCase {
@@ -34,7 +37,7 @@ public class ArgumentsMatcherTest extends TestCase {
     public void testNoMatchWhenTooFewArguments() throws Throwable {
         ArgumentsMatcher matcher =
                 new ArgumentsMatcher(
-                        new Constraint[]{C.IS_ANYTHING, C.IS_ANYTHING, C.IS_ANYTHING});
+                        new Constraint[]{AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE});
 
         assertFalse("Too many arguments", matcher.matches(exampleInvocation));
     }
@@ -42,7 +45,7 @@ public class ArgumentsMatcherTest extends TestCase {
     public void testNoMatchWhenAnyArgumentDoNotConform() throws Throwable {
         ArgumentsMatcher matcher =
                 new ArgumentsMatcher(
-                        new Constraint[]{C.IS_ANYTHING, C.eq("wrong")});
+                        new Constraint[]{AlwaysTrue.INSTANCE, same("wrong")});
 
         assertFalse("Incorrect argument", matcher.matches(exampleInvocation));
     }
@@ -50,20 +53,24 @@ public class ArgumentsMatcherTest extends TestCase {
     public void testArgumentsMatchWhenAllValuesMatch() throws Throwable {
         ArgumentsMatcher matcher =
                 new ArgumentsMatcher(
-                        new Constraint[]{C.IS_ANYTHING, C.eq(exampleArg2)});
+                        new Constraint[]{AlwaysTrue.INSTANCE, same(exampleArg2)});
 
         assertTrue("Arguments match", matcher.matches(exampleInvocation));
     }
     
     public void testEncapsulatesArrayOfConstraints() {
-        Constraint[] constraintArray = { C.eq(exampleArg1), C.eq(exampleArg2) };
+        Constraint[] constraintArray = { same(exampleArg1), same(exampleArg2) };
         
         ArgumentsMatcher matcher = new ArgumentsMatcher( constraintArray );
         
-        constraintArray[0] = C.IS_FALSE;
+        constraintArray[0] = AlwaysFalse.INSTANCE;
         assertTrue( "arguments should match", matcher.matches(exampleInvocation) );
         
-        matcher.getConstraints()[0] = C.IS_FALSE;
+        matcher.getConstraints()[0] = AlwaysFalse.INSTANCE;
         assertTrue( "arguments should match", matcher.matches(exampleInvocation) );
+    }
+    
+    private Constraint same( Object arg ) { 
+        return new IsSame(arg);
     }
 }
