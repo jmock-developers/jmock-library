@@ -1,4 +1,8 @@
 
+Added exactly(n) expectation to expect an invocation an exact number of times.
+
+* 1.0.1
+
 Improved error messages
 
 * 1.0.0
