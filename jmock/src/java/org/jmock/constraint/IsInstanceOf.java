@@ -24,6 +24,6 @@ public class IsInstanceOf implements Constraint {
     }
 
     public String toString() {
-        return "an instance of <" + theClass.getName() + ">";
+        return "an instance of " + theClass.getName();
     }
 }
