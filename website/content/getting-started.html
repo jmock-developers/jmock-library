@@ -22,7 +22,7 @@ Subscribers.</p>
 
 <div class="Source Java">
 <pre>interface Subscriber {
-    void receive(Object message);
+    void receive(String message);
 }</pre>
 </div>
 
@@ -51,20 +51,24 @@ the message.  We then register the Subscriber with the Publisher. Finally we
 create a message object to publish.</p>
 
 <div class="Source Java">
-<pre>Mock mockSubscriber = new Mock(Subscriber.class);
+<pre>Mock mockSubscriber = mock(Subscriber.class);
 Publisher publisher = new Publisher();
 publisher.add( (Subscriber)mockSubscriber.proxy() );
 
-final Object message = new Object();</pre>
+final String message = "message";</pre>
 </div>
 
 <p>Next we define <i>expectations</i> on the mock Subscriber that specify the
 methods that we expect to be called upon it during the test run.  We expect
 the receive method to be called with a single argument, the message that will
-be sent.  The <code>same</code> method is defined in the MockObjectTestCase
-class and specifies that we expect the argument to be the same object as
-<var>message</var>. We don't need to specify what will be returned from the
-receive method because it has a void return type.</p>
+be sent.  The <code>eq</code> method is defined in the MockObjectTestCase
+class and specifies a &quot;<a href="constraints.html">constraint</a>&quot; 
+on the value of the argument passed to the subscriber: 
+we expect the argument to be the equal to the <var>message</var>, but not necessarily
+the same object.  (jMock provides <a href="constraints.html">several constraint types</a>
+that can be used to precisely specify expected argument values).
+We don't need to specify what will be returned from the receive method because it has 
+a void return type.</p>
 
 <div class="Source Java">
 <pre>mockSubscriber.expects(once()).method("receive").with( same(message) );</pre>
@@ -76,13 +80,9 @@ receive method because it has a void return type.</p>
 <pre>publisher.publish(message);</pre>
 </div>
 
-<p>Finally we <i>verify</i> that the mock Subscriber was called as expected. 
-If we do not verify, our test will detect incorrect calls to the mock
-Subscriber but not the complete lack of calls.</p>
-
-<div class="Source Java">
-<pre>mockSubscriber.verify();</pre>
-</div>
+<p>After the test has finished, jMock will <i>verify</i> that the mock 
+Subscriber was called as expected.  If the expected calls were not
+made, the test will fail.</p>
 
 <p>Here is the complete test.</p>
 
@@ -92,20 +92,17 @@ Subscriber but not the complete lack of calls.</p>
 class PublisherTest extends MockObjectTestCase {
     public void testOneSubscriberReceivesAMessage() {
         // set up
-        Mock mockSubscriber = new Mock(Subscriber.class);
+        Mock mockSubscriber = mock(Subscriber.class);
         Publisher publisher = new Publisher();
         publisher.add((Subscriber) mockSubscriber.proxy());
         
-        final Object message = new Object();
+        final String message = "message";
         
         // expectations
-        mockSubscriber.expects(once()).method("receive").with( same(message) );
+        mockSubscriber.expects(once()).method("receive").with( eq(message) );
         
         // execute
         publisher.publish(message);
-        
-        // verify
-        mockSubscriber.verify();
     }
 }</pre>
 </div>
