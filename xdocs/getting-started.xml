@@ -40,7 +40,7 @@ final Object message = new Object();]]></source>
             because it has a void return type.
             </p>
 
-<source><![CDATA[mockSubscriber.expect("receive", message);]]></source>
+<source><![CDATA[mockSubscriber.expectVoid("receive", message);]]></source>
 
             <p>We then <i>execute</i> the code that we want to test.</p>
 
@@ -62,7 +62,7 @@ final Object message = new Object();]]></source>
     final Object message = new Object();
 
     // expectations
-    mockSubscriber.expect("receive", message);
+    mockSubscriber.expectVoid("receive", message);
 
     // execute
     publisher.publish(message);
