@@ -42,10 +42,6 @@ public abstract class AbstractDynamicMock
         return this.name;
     }
 
-    public String getMockName() {
-        return this.name;
-    }
-
     public static String mockNameFromClass( Class c ) {
         return "mock" + Formatting.classShortName(c);
     }

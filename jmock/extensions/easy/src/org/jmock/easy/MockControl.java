@@ -2,6 +2,7 @@
  */
 package org.jmock.easy;
 
+import org.jmock.core.CoreMock;
 import org.jmock.core.InvocationDispatcher;
 import org.jmock.core.OrderedInvocationDispatcher;
 import org.jmock.core.Verifiable;
@@ -20,14 +21,16 @@ public class MockControl
     public static final Range ONE_OR_MORE = new Range(1, Integer.MAX_VALUE);
     public static final Range ZERO_OR_MORE = new Range(0, Integer.MAX_VALUE);
 
-    public MockControl(EasyCoreMock coreMock, InvocationDispatcher dispatcher) {
+    public MockControl(EasyCoreMock coreMock, String name, InvocationDispatcher dispatcher) {
 		this.coreMock = coreMock;
         this.dispatcher = dispatcher;
+        dispatcher.setupDefaultBehaviour(name, coreMock.proxy());
 	}
 	
 	public static MockControl createControl(Class mockedType) {
         InvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.FIFOInvokablesCollection());
-		return new MockControl(new EasyCoreMock(mockedType, dispatcher), dispatcher);
+		return new MockControl(
+                new EasyCoreMock(mockedType, dispatcher), CoreMock.mockNameFromClass(mockedType), dispatcher);
 	}
 
 	public Object getMock() {

@@ -42,7 +42,9 @@ public class DefaultResultStub
             return Array.newInstance(returnType.getComponentType(), 0);
         } else if (returnType.isInterface()) {
             OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
-            CoreMock nullMock = new CoreMock(returnType, "null" + Formatting.classShortName(returnType), dispatcher);
+            String name = "null" + Formatting.classShortName(returnType);
+			CoreMock nullMock = new CoreMock(returnType, name, dispatcher);
+            dispatcher.setupDefaultBehaviour(name, nullMock.proxy());
             dispatcher.setDefaultStub(this);
             return nullMock.proxy();
         } else {

@@ -33,6 +33,7 @@ public class Mock
         this.coreMock = coreMock;
         this.name = name;
         this.dispatcher = dispatcher;
+        setupDefaultDispatcherBehaviour();
     }
 
     public Class getMockedType() {
@@ -83,10 +84,15 @@ public class Mock
 
     public void reset() {
         dispatcher.clear();
+        setupDefaultDispatcherBehaviour();
+    }
+
+    private void setupDefaultDispatcherBehaviour() {
         dispatcher.setupDefaultBehaviour(name, proxy());
     }
 
-    public MatchBuilder lookupID( String id ) {
+
+	public MatchBuilder lookupID( String id ) {
         if (!idTable.containsKey(id)) {
             throw new AssertionFailedError("no expected invocation named '" + id + "'");
         }
