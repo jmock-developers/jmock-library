@@ -6,10 +6,10 @@ import org.jmock.core.Constraint;
 import org.jmock.core.InvocationMatcher;
 import org.jmock.core.MockObjectSupportTestCase;
 import org.jmock.core.Stub;
-import org.jmock.core.matcher.*;
-import org.jmock.core.stub.ReturnStub;
-import org.jmock.core.stub.TestFailureStub;
-import org.jmock.core.stub.ThrowStub;
+import org.jmock.core.matcher.AnyArgumentsMatcher;
+import org.jmock.core.matcher.ArgumentsMatcher;
+import org.jmock.core.matcher.MethodNameMatcher;
+import org.jmock.core.matcher.NoArgumentsMatcher;
 import org.jmock.core.stub.VoidStub;
 import org.jmock.util.Dummy;
 
@@ -106,7 +106,7 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     	
     	mocker.setStub.setExpected(stub);
     	
-    	assertNotNull("should be expectation builder", builder.stub(stub) );
+    	assertNotNull("should be expectation builder", builder.will(stub) );
     }
     
     public void testIsVoidSetsVoidStub() {
@@ -115,41 +115,6 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
         assertNotNull("Should be expectation builder", builder.isVoid());
 
         mocker.verifyExpectations();
-    }
-
-    public void testWillReturnSetsReturnStub() {
-        String returnValue = "return value";
-        
-        mocker.setStubType.setExpected(ReturnStub.class);
-        mocker.setStubReturnValue.setExpected(returnValue);
-
-		assertNotNull("Should be expectation builder", builder.willReturn(returnValue));
-
-        mocker.verifyExpectations();
-    }
-    
-    public void testWillThrowSetsThrowStub() {
-        mocker.setStubType.setExpected(ThrowStub.class);
-
-        assertNotNull("Should be expectation builder", builder.willThrow(new Exception("thrown value")));
-        
-        mocker.verifyExpectations();
-    }
-    
-    public void testExpectOnceAddsInvokeOnceMatcher() {
-    	mocker.addedMatcherType.setExpected(InvokeOnceMatcher.class);
-    	
-    	assertNotNull("Should be ExpectationBuilder", builder.expectOnce() );
-    	
-    	mocker.verifyExpectations();
-    }
-    
-    public void testExpectAtLeastOnceAddsInvokeAtLeastOnceMatcher() {
-    	mocker.addedMatcherType.setExpected(InvokeAtLeastOnceMatcher.class);
-    	
-    	assertNotNull("Should be ExpectationBuilder", builder.expectAtLeastOnce() );
-    	
-    	mocker.verifyExpectations();
     }
     
     static final String INVOCATION_ID = "INVOCATION-ID";
@@ -162,14 +127,6 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     	builder.id(INVOCATION_ID);
     	
     	idTable.verify();
-        mocker.verifyExpectations();
-    }
-    
-    public void testExpectNotCalledAddsTestFailureStub() {
-        mocker.setStubType.setExpected(TestFailureStub.class);
-        
-        builder.expectNotCalled();
-        
         mocker.verifyExpectations();
     }
 }

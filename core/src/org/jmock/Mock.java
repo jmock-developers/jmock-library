@@ -7,7 +7,6 @@ import junit.framework.AssertionFailedError;
 
 import org.jmock.builder.*;
 import org.jmock.core.*;
-import org.jmock.core.matcher.MethodNameMatcher;
 
 
 public class Mock
@@ -59,21 +58,6 @@ public class Mock
         coreMock.add(mocker);
         
         return new InvocationMockerBuilder(mocker,this);
-    }
-    
-    /**
-     * @deprecated use expect(...).method(methodName)... or stub().method(methodName)...
-     * Will be removed in version 1.0.
-     */
-    public ParameterMatchBuilder method(String methodName) {
-    	InvocationMocker mocker = new InvocationMocker();
-    	mocker.addMatcher( new MethodNameMatcher(methodName));
-    	coreMock.add(mocker);
-    	
-    	InvocationMockerBuilder builder = new InvocationMockerBuilder(mocker,this);
-        idTable.put( methodName, builder );
-    	
-		return builder;
     }
     
     public void setDefaultStub( Stub newDefaultStub ) {

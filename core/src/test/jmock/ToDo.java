@@ -2,8 +2,7 @@ package test.jmock;
 
 public class ToDo {
     //Source cleanup prior to version 1.0 alpha
-    //TODO REMOVE ALL TO-DO COMMENTS
-    //TODO Remove deprecated methods
+    //TODO RESOLVE ALL TO-DO COMMENTS
     //TODO JavaDoc interfaces and those classes that need it.
     //TODO Add copyright comments to files
     
@@ -39,6 +38,7 @@ public class ToDo {
     //DONE Test error message on verify failure
     //DONE Good names for high-level and low-level API packages
     //DONE Remove pending from BuilderId stuff. Complain if a matcher specifies an after clause for itself. 
+    //DONE Remove deprecated methods
     
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
