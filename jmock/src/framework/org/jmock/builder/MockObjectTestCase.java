@@ -1,7 +1,11 @@
 package org.jmock.builder;
 
+import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
+import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
+import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
+import org.jmock.dynamic.stub.TestFailureStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.util.MockObjectSupportTestCase;
 
@@ -36,8 +40,19 @@ public abstract class MockObjectTestCase
     public Stub returnValue( double result ) {
         return returnValue(new Double(result));
     }
-    
     public Stub throwException( Throwable throwable ) {
         return new ThrowStub(throwable);
+    }
+    
+    public Stub neverBeCalled() {
+        return new TestFailureStub("must not be called");
+    }
+    
+    public InvocationMatcher once() {
+        return new InvokeOnceMatcher();
+    }
+    
+    public InvocationMatcher atLeastOnce() {
+        return new InvokeAtLeastOnceMatcher();
     }
 }

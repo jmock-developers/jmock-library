@@ -42,14 +42,14 @@ public class DynamicMockExample extends MockObjectTestCase {
         
         mockMarket.method("listStocks").noParams().will(returnValue(new String[]{"IBM","ORCL"}));
         mockMarket.method("getPrice").with(eq("IBM")).will(returnValue(10))
-        	.expectOnce();
+        	.expect(atLeastOnce());
         mockMarket.method("getPrice").with(eq("ORCL")).will(returnValue(25))
-        	.expectOnce();
+        	.expect(atLeastOnce());
         mockMarket.method("buyStock").with(eq("IBM"), eq(2)).isVoid()
-        	.expectOnce();
+        	.expect(once());
         
         agent.buyLowestPriceStock(20);
-
+        
         mockMarket.verify();
     }
 

@@ -12,6 +12,7 @@ public class ExpectNotCalledAcceptanceTest
         public void method();
     }
     
+    //TODO: implement notCalled() expectation factory method and matcher.
     public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
         Mock mock = new Mock(MockedInterface.class,"mock");
         

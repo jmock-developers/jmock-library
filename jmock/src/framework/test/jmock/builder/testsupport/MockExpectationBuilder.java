@@ -15,6 +15,11 @@ public class MockExpectationBuilder
  
     ExpectationValue addedExpectationType = new ExpectationValue("added expectation type");
     
+    public ExpectationBuilder expect(InvocationMatcher expectation) {
+        addedExpectationType.setActual(expectation.getClass());
+        return this;
+    }
+    
 	public ExpectationBuilder addExpectation(InvocationMatcher expectation) {
         addedExpectationType.setActual(expectation.getClass());
 		return this;
