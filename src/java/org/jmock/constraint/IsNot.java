@@ -7,17 +7,17 @@ import org.jmock.Constraint;
  * Calculates the logical negation of a constraint.
  */
 public class IsNot implements Constraint {
-    private Constraint _predicate;
+	private Constraint constraint;
 
-    public IsNot(Constraint p) {
-        _predicate = p;
-    }
+	public IsNot(Constraint constraint) {
+		this.constraint = constraint;
+	}
 
-    public boolean eval(Object arg) {
-        return !_predicate.eval(arg);
-    }
+	public boolean eval(Object arg) {
+		return !constraint.eval(arg);
+	}
 
-    public String toString() {
-        return "not " + _predicate;
-    }
+	public String toString() {
+		return "not " + constraint;
+	}
 }

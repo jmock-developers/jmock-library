@@ -7,17 +7,17 @@ import org.jmock.Constraint;
  * Is the value less than another {@link java.lang.Comparable} value?
  */
 public class IsLessThan implements Constraint {
-    private Comparable _object;
+    private Comparable upperLimit;
 
-    public IsLessThan(Comparable o) {
-        _object = o;
+    public IsLessThan(Comparable upperLimit) {
+        this.upperLimit = upperLimit;
     }
 
     public boolean eval(Object arg) {
-        return _object.compareTo(arg) > 0;
+        return upperLimit.compareTo(arg) > 0;
     }
 
     public String toString() {
-        return "a value less than <" + _object + ">";
+        return "a value less than <" + upperLimit + ">";
     }
 }

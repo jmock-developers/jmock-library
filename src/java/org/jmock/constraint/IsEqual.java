@@ -11,24 +11,25 @@ import java.util.Arrays;
  * {@link java.lang.Object#equals} method?
  */
 public class IsEqual implements Constraint {
-    private Object _object;
+    private Object object;
 
     public IsEqual(Object equalArg) {
-        _object = convertArrayToList(equalArg);
+        object = convertArrayToList(equalArg);
     }
 
     public boolean eval(Object arg) {
         arg = convertArrayToList(arg);
         if (arg == null) {
-            return arg == _object;
+            return arg == object;
         }
-        return arg.equals(_object);
+        return arg.equals(object);
     }
 
     public String toString() {
-        return " = " + DynamicUtil.toReadableString(_object);
+        return " = " + DynamicUtil.toReadableString(object);
     }
-
+    
+    // TODO: get rid of instanceof!
     private Object convertArrayToList(Object equalArg) {
         if (equalArg instanceof Object[]) {
             return Arrays.asList((Object[]) equalArg);

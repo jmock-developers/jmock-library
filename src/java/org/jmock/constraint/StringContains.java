@@ -1,25 +1,23 @@
-/*
- * Created on 01-Dec-2003
- * 
- */
+/* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.constraint;
 
 import org.jmock.Constraint;
 
-public class StringContains 
-	implements Constraint 
-{
-	private String excerpt;
-	
-	public StringContains(String excerpt) {
-		this.excerpt = excerpt;
+/**
+ * Tests if the argument is a string that contains a substring.
+ */
+public class StringContains implements Constraint {
+	private String substring;
+
+	public StringContains(String substring) {
+		this.substring = substring;
 	}
 
-	public boolean eval( Object o ) {
-		return o instanceof String && ((String)o).indexOf(excerpt) >= 0;
+	public boolean eval(Object o) {
+		return o instanceof String && ((String) o).indexOf(substring) >= 0;
 	}
-	
+
 	public String toString() {
-		return "a string containing \"" + excerpt + "\"";
+		return "a string containing \"" + substring + "\"";
 	}
 }
