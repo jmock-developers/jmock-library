@@ -332,9 +332,10 @@ ul, ol {
 .NewsText a:hover { color: red; }
 
 .NewsMore {
-    font-weight: bold;
+	font-size: smaller;
     margin: 4px;
-    text-align: right
+    margin-top: 8px;
+    text-align: left;
 }
 
 .NewsGroup td {
