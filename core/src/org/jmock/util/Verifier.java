@@ -1,15 +1,15 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.util;
 
-import junit.framework.Assert;
-
 import java.lang.reflect.Field;
 import java.util.Vector;
 
-import org.jmock.Verifiable;
+import junit.framework.Assert;
+
+import org.jmock.core.Verifiable;
 
 /**
- * Helper class to verify all {@link org.jmock.Verifiable} fields of an object.
+ * Helper class to verify all {@link org.jmock.core.Verifiable} fields of an object.
  * <p><b>Example usage:</b><p>
  * Verifying all expectations on one object at a time:<p>
  * <pre>
@@ -23,10 +23,10 @@ import org.jmock.Verifiable;
  * }
  * </pre>
  * This example shows how most mock objects implement
- * {@link org.jmock.Verifiable Verifiable} by delegation.
+ * {@link org.jmock.core.Verifiable Verifiable} by delegation.
  * 
  * @version $Id$
- * @see org.jmock.Verifiable
+ * @see org.jmock.core.Verifiable
  */
 public class Verifier {
 

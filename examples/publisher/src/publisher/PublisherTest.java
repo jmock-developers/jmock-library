@@ -1,7 +1,7 @@
 package publisher;
 
-import org.jmock.builder.Mock;
-import org.jmock.builder.MockObjectTestCase;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 
 public class PublisherTest extends MockObjectTestCase {
 

@@ -1,11 +1,11 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
-import org.jmock.*;
-import org.jmock.util.*;
-
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+
+import org.jmock.core.Verifiable;
+import org.jmock.util.NotImplementedException;
 
 public class AssertMo extends Assert {
 

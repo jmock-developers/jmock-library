@@ -6,8 +6,8 @@ package atest.jmock.cglib;
 
 import java.util.ArrayList;
 
-import org.jmock.builder.Mock;
-import org.jmock.builder.MockObjectTestCase;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.CGLIBCoreMock;
 
 public class MockConcreteClassAcceptanceTest extends MockObjectTestCase {

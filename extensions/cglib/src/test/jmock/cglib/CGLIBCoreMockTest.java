@@ -5,15 +5,15 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import org.jmock.cglib.CGLIBCoreMock;
-import org.jmock.dynamic.Invocation;
-import org.jmock.dynamic.LIFOInvocationDispatcher;
+import org.jmock.core.Invocation;
+import org.jmock.core.LIFOInvocationDispatcher;
 import org.jmock.expectation.AssertMo;
 
-import test.jmock.dynamic.DummyInterface;
-import test.jmock.dynamic.DummyThrowable;
-import test.jmock.dynamic.testsupport.MockInvocationDispatcher;
-import test.jmock.dynamic.testsupport.MockInvokable;
-import test.jmock.dynamic.testsupport.MockStub;
+import test.jmock.core.DummyInterface;
+import test.jmock.core.DummyThrowable;
+import test.jmock.core.testsupport.MockInvocationDispatcher;
+import test.jmock.core.testsupport.MockInvokable;
+import test.jmock.core.testsupport.MockStub;
 
 
 public class CGLIBCoreMockTest extends TestCase {

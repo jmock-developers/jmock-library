@@ -2,9 +2,9 @@ package test.jmock.builder.testsupport;
 
 import junit.framework.Assert;
 
-import org.jmock.dynamic.InvocationMatcher;
-import org.jmock.dynamic.Stub;
-import org.jmock.dynamic.StubMatchersCollection;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.Stub;
+import org.jmock.core.StubMatchersCollection;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
 

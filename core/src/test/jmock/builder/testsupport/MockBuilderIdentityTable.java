@@ -2,10 +2,10 @@ package test.jmock.builder.testsupport;
 
 import junit.framework.AssertionFailedError;
 
-import org.jmock.Verifiable;
 import org.jmock.builder.BuilderIdentityTable;
 import org.jmock.builder.IdentityBuilder;
 import org.jmock.builder.MatchBuilder;
+import org.jmock.core.Verifiable;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
 

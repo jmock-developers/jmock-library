@@ -5,15 +5,15 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerDescriber;
-import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.MethodNameMatcher;
+import org.jmock.core.Constraint;
+import org.jmock.core.matcher.ArgumentsMatcher;
+import org.jmock.core.matcher.MethodNameMatcher;
 import org.jmock.util.Dummy;
 import org.jmock.util.Verifier;
 
-import test.jmock.dynamic.testsupport.MockInvocationMatcher;
-import test.jmock.dynamic.testsupport.MockStub;
+import test.jmock.core.testsupport.MockInvocationMatcher;
+import test.jmock.core.testsupport.MockStub;
 
 
 public class InvocationMockerDescriberTest extends TestCase {

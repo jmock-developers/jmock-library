@@ -3,7 +3,7 @@ package org.jmock.expectation;
 
 import java.util.HashMap;
 
-import org.jmock.*;
+import org.jmock.core.Verifiable;
 
 public class ExpectationMap implements Expectation, Verifiable {
     private HashMap myEntries;

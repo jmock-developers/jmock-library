@@ -1,7 +1,7 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
-import org.jmock.*;
+import org.jmock.core.Verifiable;
 
 /**
  * An <EM>Expectation</EM> is an object that we set up at the beginning of a unit test to

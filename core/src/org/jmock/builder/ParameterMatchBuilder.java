@@ -1,6 +1,6 @@
 package org.jmock.builder;
 
-import org.jmock.Constraint;
+import org.jmock.core.Constraint;
 
 
 public interface ParameterMatchBuilder extends MatchBuilder {

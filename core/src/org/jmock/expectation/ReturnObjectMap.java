@@ -4,7 +4,7 @@ package org.jmock.expectation;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import org.jmock.*;
+import org.jmock.core.Verifiable;
 
 /**
  * @version $Revision$

@@ -3,7 +3,7 @@ package org.jmock.expectation;
 
 import java.util.Vector;
 
-import org.jmock.*;
+import org.jmock.core.Verifiable;
 
 /**
  * <p>This class allows a list of objects to be setup which can be used whilst.The

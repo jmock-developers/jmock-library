@@ -1,8 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.expectation;
 
-import org.jmock.*;
-import org.jmock.util.*;
+import org.jmock.core.Verifiable;
+import org.jmock.util.Verifier;
 
 
 public abstract class MockObject implements Verifiable {
