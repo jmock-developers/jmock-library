@@ -41,7 +41,7 @@
 
     <div class="SidePanel" id="left">
       <div class="MenuGroup">
-        <h1><a href="/download.html">Software</a></h1>
+        <h1>Software</h1>
         <ul>
           <li><a href="/download.html">Download</a></li>
           <li><a href="/repository.html">Anonymous CVS Access</a></li>
@@ -51,12 +51,12 @@
       </div>
 
       <div class="MenuGroup">
-        <h1><a href="/docs.html">Documentation...</a></h1>
+        <h1>Documentation</h1>
         <ul>
           <li><a href="/getting-started.html">Getting Started</a></li>
           <!-- <li><a href="">Frequently Asked Questions</a></li> -->
           <li><a href="/docs/javadoc/index.html" target="jmock-javadoc">JavaDocs</a></li>
-          <li><a href="http://www.mockobjects.com">More about Mock Objects</a></li>
+          <li><a href="/docs.html" class="More">More...</a></li>
         </ul>
       </div>
 
@@ -70,10 +70,11 @@
       </div>
 
       <div class="MenuGroup">
-        <h1><a href="/development.html">Development...</a></h1>
+        <h1>Development</h1>
         <ul>
           <li><a href="/how-to-contribute.html">How to Contribute</a></li>
           <li><a href="/team.html">Development Team</a></li>
+          <li><a href="/development.html" class="More">More...</a></li>
         </ul>
       </div>
 
@@ -117,32 +118,32 @@
         <div class="NewsGroup">
           <h1>Recent News</h1>
 
-					<div class="NewsItem">
-						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/title/text()"/></p>
-						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/pubDate/text()"/></p>
-						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/xhtml:div/node()"/></p>
-					</div>
-					<div class="NewsItem">
-						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/title/text()"/></p>
-						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/pubDate/text()"/></p>
-						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/xhtml:div/node()"/></p>
-					</div>
-					<div class="NewsItem">
-						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/title/text()"/></p>
-						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/pubDate/text()"/></p>
-						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/xhtml:div/node()"/></p>
-					</div>
-					<div class="NewsItem">
-						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/title/text()"/></p>
-						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/pubDate/text()"/></p>
-						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/xhtml:div/node()"/></p>
-					</div>
-					<div class="NewsItem">
-						<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/title/text()"/></p>
-						<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/pubDate/text()"/></p>
-						<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/xhtml:div/node()"/></p>
-					</div>
-
+    		<div class="NewsItem">
+    			<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/title/text()"/></p>
+    			<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/pubDate/text()"/></p>
+    			<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[1]/xhtml:div/node()"/></p>
+    		</div>
+    		<div class="NewsItem">
+    			<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/title/text()"/></p>
+    			<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/pubDate/text()"/></p>
+    			<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[2]/xhtml:div/node()"/></p>
+    		</div>
+    		<div class="NewsItem">
+    			<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/title/text()"/></p>
+    			<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/pubDate/text()"/></p>
+    			<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[3]/xhtml:div/node()"/></p>
+    		</div>
+    		<div class="NewsItem">
+    			<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/title/text()"/></p>
+    			<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/pubDate/text()"/></p>
+    			<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[4]/xhtml:div/node()"/></p>
+    		</div>
+    		<div class="NewsItem">
+    			<p class="NewsTitle"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/title/text()"/></p>
+    			<p class="NewsDate"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/pubDate/text()"/></p>
+    			<p class="NewsText"><template:include src="../content/news-rss2.xml" elements="/rss/channel/item[5]/xhtml:div/node()"/></p>
+    		</div>
+    
           <p class="NewsMore"><a href="news-rss2.xml">News feed (RSS 2.0)</a></p>
         </div>
 
