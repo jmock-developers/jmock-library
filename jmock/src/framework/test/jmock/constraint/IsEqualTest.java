@@ -1,12 +1,10 @@
 package test.jmock.constraint;
 
-import junit.framework.TestCase;
-
 import org.jmock.Constraint;
 import org.jmock.constraint.IsEqual;
 
 
-public class IsEqualTest extends TestCase {
+public class IsEqualTest extends ConstraintsTest {
     public void testComparesObjectsUsingEqualsMethod() {
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
