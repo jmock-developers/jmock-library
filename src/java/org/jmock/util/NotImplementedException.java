@@ -1,9 +1,8 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.util;
 
-import junit.framework.AssertionFailedError;
 
-public class NotImplementedException extends AssertionFailedError {
+public class NotImplementedException extends RuntimeException {
 
     /**
      * NotImplementedException constructor comment.

@@ -38,6 +38,10 @@ public class Invocation {
                 method.getReturnType(), parameterValues);
     }
 
+    public Class getDeclaringClass() {
+        return declaringClass;
+    }
+
     public String getMethodName() {
         return name;
     }
@@ -87,8 +91,7 @@ public class Invocation {
 
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append("Invocation: ");
-        writeDeclaringClassName(buffer).append(".")
-                .append(name).append("(");
+        writeDeclaringClassName(buffer).append(".").append(name).append("(");
         DynamicUtil.join(parameterValues.toArray(), buffer);
         buffer.append(")\n");
         return buffer;

@@ -66,11 +66,13 @@ public class CoreMock
     public String getMockName() {
         return this.name;
     }
-
+    
+    // TODO: need method to add invokable at start of list, to allow default behaviours to
+    //       be added to the mock without hiding the default toString and equals methods.
     public void add(Invokable invokable) {
         invocationDispatcher.add(invokable);
     }
-
+    
     public void reset() {
         invocationDispatcher.clear();
     }
@@ -78,7 +80,7 @@ public class CoreMock
     public static String mockNameFromClass(Class c) {
         return "mock" + className(c);
     }
-
+    
     public static String className(Class c) {
         String name = c.getName();
         return name.substring(name.lastIndexOf('.') + 1);
