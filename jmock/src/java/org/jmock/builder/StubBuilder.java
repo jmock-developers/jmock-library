@@ -5,9 +5,7 @@ package org.jmock.builder;
 
 public interface StubBuilder {
     ExpectationBuilder isVoid();
-
-    ExpectationBuilder returns(Object returnValue);
-
+    ExpectationBuilder willReturn(Object returnValue);
     ExpectationBuilder willThrow(Throwable throwable);
 }
 

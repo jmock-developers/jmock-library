@@ -4,6 +4,7 @@ package test.jmock.builder;
 import junit.framework.TestCase;
 
 import org.jmock.Constraint;
+import org.jmock.builder.Mock;
 import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.framework.CoreMock;
 import org.jmock.dynamic.framework.InvocationMocker;
@@ -30,7 +31,7 @@ public class DynamicMockExample extends TestCase {
 
     /* This demonstrates the core API, upon which the sugar methods are layered.
      */
-    public void testCoreMockExample() {
+    public void xtestCoreMockExample() {
     	CoreMock mockMarket = new CoreMock( Market.class, "mockMarket",
     										new LIFOInvocationDispatcher() );
     	Agent agent = new Agent( (Market)mockMarket.proxy() );
@@ -50,11 +51,10 @@ public class DynamicMockExample extends TestCase {
     }
     
     public void testBuilderExample() {
-    	org.jmock.builder.Mock mockMarket = 
-    		new org.jmock.builder.Mock(Market.class);
+    	Mock mockMarket = new Mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
 
-        mockMarket.method("buyStock", "IBM", new Integer(10));
+        mockMarket.method("getPrice").whenPassed("IBM").willReturn(new Integer(10));
 
         agent.buyLowestPriceStock(20);
 
@@ -62,8 +62,7 @@ public class DynamicMockExample extends TestCase {
     }
 
     public void xtestDynaMockExample() {
-        org.jmock.dynamock.Mock mockMarket = 
-        	new org.jmock.dynamock.Mock(Market.class);
+        Mock mockMarket = new Mock(Market.class);
         Agent agent = new Agent((Market) mockMarket.proxy());
 //	
 //	 

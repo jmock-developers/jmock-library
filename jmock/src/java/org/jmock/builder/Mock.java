@@ -1,13 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
-import org.jmock.C;
-import org.jmock.expectation.Verifiable;
 import org.jmock.dynamic.framework.CoreMock;
 import org.jmock.dynamic.framework.DynamicMock;
 import org.jmock.dynamic.framework.InvocationMocker;
 import org.jmock.dynamic.framework.LIFOInvocationDispatcher;
-import org.jmock.dynamic.stub.VoidStub;
+import org.jmock.dynamic.matcher.MethodNameMatcher;
+import org.jmock.expectation.Verifiable;
 
 public class Mock
         implements Verifiable {
@@ -33,8 +32,9 @@ public class Mock
         coreMock.verify();
     }
 
-    public StubBuilder method(String methodName, Object arg1, Object arg2) {
-        InvocationMocker mocker = new InvocationMocker(methodName, C.eq(arg1, arg2), new VoidStub());
+    public MatchBuilder method(String methodName) {
+    	InvocationMocker mocker = new InvocationMocker();
+    	mocker.addMatcher( new MethodNameMatcher(methodName));
         coreMock.add(mocker);
         return new InvocationMockerBuilder(mocker);
     }

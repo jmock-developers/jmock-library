@@ -39,7 +39,7 @@ public class InvocationMockerBuilderTest extends TestCase {
     public void testReturnsSetsReturnStub() {
         mocker.setStubType.setExpected(ReturnStub.class);
 
-        assertNotNull("Should be expectation builder", builder.returns("return value"));
+        assertNotNull("Should be expectation builder", builder.willReturn("return value"));
 
         mocker.verifyExpectations();
     }
