@@ -4,6 +4,7 @@ package test.jmock.builder;
 import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.builder.MockObjectTestCase;
+import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
@@ -46,6 +47,14 @@ public class InvocationMockerBuilderTest extends MockObjectTestCase {
     	assertNotNull("Should be Stub Builder", builder.noParams());
     	
     	mocker.verifyExpectations();
+    }
+    
+    public void testAnyParamsAddsAnyArgumentMatcher() {
+        mocker.addedMatcher.setExpected(AnyArgumentsMatcher.INSTANCE);
+        
+        assertNotNull("Should be Stub Builder", builder.anyParams());
+        
+        mocker.verifyExpectations();
     }
     
     public void testIsVoidSetsVoidStub() {
