@@ -20,6 +20,7 @@ public class DynamicMockError
 
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append(super.getMessage()).append("\n");
+        buffer.append("Invoked: ");
         invocation.writeTo(buffer);
         buffer.append("in:\n");
         dispatcher.writeTo(buffer);

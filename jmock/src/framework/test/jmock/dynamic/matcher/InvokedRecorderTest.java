@@ -9,7 +9,7 @@ import org.jmock.expectation.AssertMo;
 
 public class InvokedRecorderTest extends TestCase {
     private Invocation emptyInvocation =
-        new Invocation(Void.class, "test", "example", new Class[0], Void.class, new Object[0]);
+        new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
     InvokedRecorder recorder = new InvokedRecorder();
     
     public void testAlwaysMatches() {

@@ -12,11 +12,11 @@ public class InvokedAfterMatcherTest extends TestCase {
 	private static final String PRIOR_CALL_ID = "RECORDER-ID";
 	
 	private Invocation invocation1 =
-		new Invocation( Void.class, "caller", 
-						"invocation1", new Class[0], Void.class, new Object[0] );
+		new Invocation( Void.class, "invocation1", 
+						new Class[0], Void.class, new Object[0] );
 	private Invocation invocation2 =
-		new Invocation( Void.class, "caller", 
-						"invocation2", new Class[0], Void.class, new Object[0] );
+		new Invocation( Void.class, "invocation2", 
+						new Class[0], Void.class, new Object[0] );
 	
 	private InvokedRecorder recorder;
 	private InvokedAfterMatcher after;

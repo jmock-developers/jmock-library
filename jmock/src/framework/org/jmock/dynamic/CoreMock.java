@@ -38,13 +38,10 @@ public class CoreMock
     public Object invoke(Object invokedProxy, Method method, Object[] args)
             throws Throwable 
     {
-        Invocation invocation = new Invocation(method, name, args);
+        Invocation invocation = new Invocation(method, args);
         try {
             return invocationDispatcher.dispatch(invocation);
         }
-        catch( DynamicMockError failure ) {
-        	throw failure;
-        } 
         catch (AssertionFailedError failure) {
             DynamicMockError mockFailure = 
             	new DynamicMockError(invocation, invocationDispatcher, failure.getMessage());

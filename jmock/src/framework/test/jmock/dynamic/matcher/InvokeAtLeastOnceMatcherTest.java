@@ -9,7 +9,7 @@ import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
 
 public class InvokeAtLeastOnceMatcherTest extends TestCase {
 	private Invocation emptyInvocation =
-		new Invocation(Void.class, "test", "example", new Class[0], Void.class, new Object[0]);
+		new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
 	private InvokeAtLeastOnceMatcher matcher = new InvokeAtLeastOnceMatcher();
 
 	public void testAlwaysMatches() {

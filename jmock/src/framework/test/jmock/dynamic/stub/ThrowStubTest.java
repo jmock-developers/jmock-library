@@ -15,8 +15,8 @@ public class ThrowStubTest
 	ThrowStub throwStub; 
 	
 	public void setUp() {
-		invocation = new Invocation( Void.class, "test",  "ignoredName", 
-				new Class[0], void.class, new Object[0]);
+		invocation = new Invocation( Void.class, "ignoredName",  new Class[0], 
+				void.class, new Object[0]);
 		throwStub  = new ThrowStub(THROWABLE);
 	}
 	

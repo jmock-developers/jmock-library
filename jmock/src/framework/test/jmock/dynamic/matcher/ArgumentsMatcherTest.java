@@ -14,13 +14,12 @@ import test.jmock.dynamic.testsupport.AlwaysTrue;
 
 public class ArgumentsMatcherTest extends TestCase {
 	private Invocation emptyInvocation =
-            new Invocation(Void.class, "test", "example", new Class[0], Void.class, new Object[0]);
+            new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
 
     private final String exampleArg1 = "arg1";
     private final String exampleArg2 = "arg2";
     private Invocation exampleInvocation =
-            new Invocation(Void.class, "test", "example", new Class[]{String.class}, Void.class,
-                    new Object[]{exampleArg1, exampleArg2});
+            new Invocation(Void.class, "example", new Class[]{String.class}, Void.class, new Object[]{exampleArg1, exampleArg2});
 
     public void testMatchWhenNoArgumentsOrConstraints() throws Throwable {
         ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);

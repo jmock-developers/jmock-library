@@ -28,8 +28,8 @@ public class InvocationTest
     }
 
     public void testCanBeConstructedWithExplicitCallDetails() {
-        Invocation call = new Invocation(DECLARING_CLASS, "test", METHOD_NAME, ARG_TYPES,
-                RETURN_TYPE, ARG_VALUES);
+        Invocation call = new Invocation(DECLARING_CLASS, METHOD_NAME, ARG_TYPES, RETURN_TYPE,
+                ARG_VALUES);
 
         assertEquals("name", METHOD_NAME, call.getMethodName());
         assertEquals("parameter types",
@@ -43,7 +43,7 @@ public class InvocationTest
     public void testCanBeConstructedFromAMethodObject() throws Exception {
         Method method = getClass().getMethod(METHOD_NAME, ARG_TYPES);
 
-        Invocation call = new Invocation(method, "test", ARG_VALUES);
+        Invocation call = new Invocation(method, ARG_VALUES);
 
         assertEquals("name", method.getName(), call.getMethodName());
         assertEquals("parameter types",
@@ -56,32 +56,26 @@ public class InvocationTest
     }
 
     public void testConstructorInterpretsNullParameterValueArrayAsZeroArguments() {
-        Invocation call = new Invocation(DECLARING_CLASS, "test", METHOD_NAME, new Class[0],
-                RETURN_TYPE, null);
+        Invocation call = new Invocation(DECLARING_CLASS, METHOD_NAME, new Class[0], RETURN_TYPE,
+                null);
 
         assertEquals("expected no parameters values",
                 0, call.getParameterValues().size());
     }
 
     public void testTestsForEqualityOnMethodSignatureAndArguments() {
-        Invocation call1 = new Invocation(DECLARING_CLASS,"test", 
-                METHOD_NAME, ARG_TYPES, RETURN_TYPE,
-                ARG_VALUES);
-        Invocation call2 = new Invocation(DECLARING_CLASS,"test", 
-                METHOD_NAME, ARG_TYPES, RETURN_TYPE,
-                ARG_VALUES);
-        Invocation differentName = new Invocation(DECLARING_CLASS,"test", 
-                "other" + METHOD_NAME, ARG_TYPES, RETURN_TYPE,
-                ARG_VALUES);
-        Invocation differentReturnType = new Invocation(DECLARING_CLASS,"test", 
-                "other" + METHOD_NAME, ARG_TYPES, int.class,
-                ARG_VALUES);
-        Invocation differentArgTypes = new Invocation(DECLARING_CLASS,"test", 
-                "other" + METHOD_NAME, new Class[]{double.class}, RETURN_TYPE,
-                ARG_VALUES);
-        Invocation differentArgValues = new Invocation(DECLARING_CLASS,"test", 
-                "other" + METHOD_NAME, ARG_TYPES, RETURN_TYPE,
-                new Object[]{new Integer(1), Boolean.FALSE});
+        Invocation call1 = new Invocation(DECLARING_CLASS,METHOD_NAME, 
+                ARG_TYPES, RETURN_TYPE, ARG_VALUES);
+        Invocation call2 = new Invocation(DECLARING_CLASS,METHOD_NAME, 
+                ARG_TYPES, RETURN_TYPE, ARG_VALUES);
+        Invocation differentName = new Invocation(DECLARING_CLASS,"other" + METHOD_NAME, 
+                ARG_TYPES, RETURN_TYPE, ARG_VALUES);
+        Invocation differentReturnType = new Invocation(DECLARING_CLASS,"other" + METHOD_NAME, 
+                ARG_TYPES, int.class, ARG_VALUES);
+        Invocation differentArgTypes = new Invocation(DECLARING_CLASS,"other" + METHOD_NAME, 
+                new Class[]{double.class}, RETURN_TYPE, ARG_VALUES);
+        Invocation differentArgValues = new Invocation(DECLARING_CLASS,"other" + METHOD_NAME, 
+                ARG_TYPES, RETURN_TYPE, new Object[]{new Integer(1), Boolean.FALSE});
 
         assertTrue("should be equal to itself", call1.equals(call1));
         assertTrue("identical calls should be equal", call1.equals(call2));
@@ -100,12 +94,10 @@ public class InvocationTest
     }
 
     public void testFollowsEqualsHashcodeProtocol() {
-        Invocation call1 = new Invocation(DECLARING_CLASS,"test", 
-                METHOD_NAME, ARG_TYPES, RETURN_TYPE,
-                ARG_VALUES);
-        Invocation call2 = new Invocation(DECLARING_CLASS,"test", 
-                METHOD_NAME, ARG_TYPES, RETURN_TYPE,
-                ARG_VALUES);
+        Invocation call1 = new Invocation(DECLARING_CLASS,METHOD_NAME, 
+                ARG_TYPES, RETURN_TYPE, ARG_VALUES);
+        Invocation call2 = new Invocation(DECLARING_CLASS,METHOD_NAME, 
+                ARG_TYPES, RETURN_TYPE, ARG_VALUES);
 
         assertEquals("should have equal hash codes",
                 call1.hashCode(), call2.hashCode());
@@ -113,8 +105,7 @@ public class InvocationTest
 
     public void testToStringWithTwoArguments() throws Exception {
         Invocation invocation =
-                new Invocation(DECLARING_CLASS, "test", "methodName", new Class[]{String.class, String.class}, void.class,
-                        new Object[]{"arg1", "arg2"});
+                new Invocation(DECLARING_CLASS, "methodName", new Class[]{String.class, String.class}, void.class, new Object[]{"arg1", "arg2"});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -124,8 +115,7 @@ public class InvocationTest
 
     public void testToStringWithStringArray() throws Exception {
         Invocation invocation =
-                new Invocation(DECLARING_CLASS, "test", "methodName", new Class[]{String[].class}, void.class,
-                        new Object[]{new String[]{"arg1", "arg2"}});
+                new Invocation(DECLARING_CLASS, "methodName", new Class[]{String[].class}, void.class, new Object[]{new String[]{"arg1", "arg2"}});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -134,8 +124,7 @@ public class InvocationTest
 
     public void testToStringWithPrimitiveArray() throws Exception {
         Invocation invocation =
-                new Invocation(DECLARING_CLASS, "test", "methodName", new Class[]{long[].class}, void.class,
-                        new Object[]{new long[]{1, 2}});
+                new Invocation(DECLARING_CLASS, "methodName", new Class[]{long[].class}, void.class, new Object[]{new long[]{1, 2}});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -146,8 +135,7 @@ public class InvocationTest
         Mock mockDummyInterface = new Mock(DummyInterface.class, "DummyMock");
 
         Invocation invocation =
-                new Invocation(DECLARING_CLASS, "test", "methodName", new Class[]{String.class, DummyInterface.class}, void.class,
-                        new Object[]{"arg1", mockDummyInterface.proxy()});
+                new Invocation(DECLARING_CLASS, "methodName", new Class[]{String.class, DummyInterface.class}, void.class, new Object[]{"arg1", mockDummyInterface.proxy()});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
@@ -157,8 +145,7 @@ public class InvocationTest
 
     public void testMethodToStringWithNullArg() throws Exception {
         Invocation invocation =
-                new Invocation(DECLARING_CLASS, "test", "methodName", new Class[]{String.class}, void.class,
-                        new Object[]{null});
+                new Invocation(DECLARING_CLASS, "methodName", new Class[]{String.class}, void.class, new Object[]{null});
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain method name", "methodName", result);
