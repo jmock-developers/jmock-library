@@ -118,7 +118,7 @@ public class CoreMockTest extends TestCase {
 
     public void testProxyToString() throws Exception {
         assertEquals( "Should get a coreMock name without touching the underlying coreMock", 
-    				  MOCK_NAME, DynamicUtil.proxyToString(proxy));
+    				  MOCK_NAME, DynamicUtil.toReadableString(proxy));
         coreMock.verify();  // should not fail on a proxyToString call
     }
 

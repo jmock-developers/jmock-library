@@ -32,7 +32,7 @@ public class IsEqual implements Constraint {
     }
 
     public String toString() {
-        return " = " + DynamicUtil.proxyToString(_object);
+        return " = " + DynamicUtil.toReadableString(_object);
     }
 
     public boolean equals(Object anObject) {

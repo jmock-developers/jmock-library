@@ -70,8 +70,7 @@ public class DynamicUtil {
         return result.toArray();
     }
 
-    public static String proxyToString(Object element) {
-
+    public static String toReadableString(Object element) {
         if (element == null) {
             return "null";
         }
@@ -121,7 +120,7 @@ public class DynamicUtil {
                 buf.append("]");
             } else {
                 buf.append("<");
-                buf.append(proxyToString(element));
+                buf.append(toReadableString(element));
                 buf.append(">");
             }
         }
