@@ -1,5 +1,7 @@
 <project default="jars">
-    <property name="version" value="SNAPSHOT"/>
+    <property file="build.properties"/>
+    <echo message="Archive ID ${version.archive}"/>
+    <echo message="Version ID ${version.extract}"/>
 
     <property name="lib.dir" location="lib"/>
     <property name="examples.dir" location="examples"/>
@@ -10,7 +12,9 @@
     <property name="build.dist.dir" location="${build.dir}/dist"/>
     <property name="build.dist.bin.dir" location="${build.dist.dir}/jars"/>
     <property name="build.dist.src.dir" location="${build.dist.dir}/distributions"/>
-    <property name="build.javadoc.dir" location="${build.dir}/javadoc"/>
+    <property name="timestamped.src.dir" value="jmock-${version.extract}"/>
+    <property name="build.src.dir" location="${build.dir}/${timestamped.src.dir}"/>
+    <property name="build.javadoc.dir" location="${build.dir}/javadoc-${version.extract}"/>
     <property name="build.website.dir" location="website/output"/>
 
     <property name="report.test.unit.dir" location="${build.dir}/reports/unit-tests"/>
@@ -20,18 +24,16 @@
     <property name="core.src.dir" location="${core.dir}/src"/>
     <property name="core.atest.dir" location="${core.dir}/acceptance-tests"/>
     <property name="core.build.dir" location="build/core"/>
-    <property name="core.jar" location="${build.dist.bin.dir}/jmock-${version}.jar"/>
+    <property name="core.jar" location="${build.dist.bin.dir}/jmock-${version.archive}.jar"/>
 
     <property name="cglib.dir" location="${extensions.dir}/cglib"/>
     <property name="cglib.src.dir" location="${cglib.dir}/src"/>
     <property name="cglib.atest.dir" location="${cglib.dir}/acceptance-tests"/>
     <property name="cglib.build.dir" location="build/cglib"/>
-    <property name="cglib.jar" location="${build.dist.bin.dir}/jmock-cglib-${version}.jar"/>
+    <property name="cglib.jar" location="${build.dist.bin.dir}/jmock-cglib-${version.archive}.jar"/>
 
-    <property name="timestamped.src.dir" value="jmock-${build.timestamp}"/>
-    <property name="build.src.dir" location="${build.dir}/${timestamped.src.dir}"/>
-    <property name="src.jar" location="${build.dist.src.dir}/jmock-${version}-src.jar"/>
-    <property name="javadoc.jar" location="${build.dist.src.dir}/jmock-${version}-javadoc.jar"/>
+    <property name="src.jar" location="${build.dist.src.dir}/jmock-${version.archive}-src.jar"/>
+    <property name="javadoc.jar" location="${build.dist.src.dir}/jmock-${version.archive}-javadoc.jar"/>
 
     <property name="deploy.root.dir" location="/home/projects/jmock"/>
     <property name="deploy.website.dir" location="${deploy.root.dir}/public_html"/>
@@ -187,10 +189,11 @@
             <fileset file="README.txt"/>
             <fileset file="LICENSE.txt"/>
             <fileset file="VERSION"/>
+            <fileset file="build.properties"/>
             <fileset file="overview.html"/>
         </copy>
 
-        <jar basedir="${build.dir}" destfile="${src.jar}" includes="${timestamped.src.dir}/**"/>
+        <jar destfile="${src.jar}" basedir="${build.dir}" includes="${timestamped.src.dir}/**"/>
 
         <delete dir="${build.src.dir}"/>
     </target>
@@ -253,7 +256,6 @@
 
     <target name="javadoc.jar" depends="javadoc">
         <mkdir dir="${build.dist.src.dir}"/>
-        <jar destfile="${javadoc.jar}" basedir="${build.javadoc.dir}"/>
+        <jar destfile="${javadoc.jar}" basedir="${build.dir}" includes="${build.javadoc.dir}/**"/>
     </target>
-
 </project>
