@@ -23,7 +23,6 @@ DEPLOY_ROOT=${DEPLOY_ROOT:-/home/projects/jmock}
 
 function deploy {
     echo deploying contents of $1 to $2
-    mkdir -p $2 || exit 1
     cp --recursive $1/* $2/ || exit 1
 }
 
