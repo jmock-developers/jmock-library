@@ -123,7 +123,6 @@ public class InvocationMockerBuilder
     	return this;
     }
     
-    	
     private void setupOrderingMatchers( BuilderIdentityTable priorMockObject, 
 										String priorCallID, 
 										String priorCallDescription ) 
@@ -135,7 +134,7 @@ public class InvocationMockerBuilder
     	mocker.addMatcher(new InvokedAfterMatcher( priorCallRecorder,
     	                                           priorCallDescription));
 	}
-
+    
 	private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
         mocker.addMatcher(matcher);
         return this;
