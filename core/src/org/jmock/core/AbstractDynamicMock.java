@@ -56,7 +56,7 @@ public abstract class AbstractDynamicMock
             invocationDispatcher.verify();
         }
         catch (AssertionFailedError ex) {
-            throw new AssertionFailedError(name + ": " + ex.getMessage());
+            throw new AssertionFailedError( "mock object " + name + ": " + ex.getMessage());
         }
     }
 

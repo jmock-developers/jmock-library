@@ -61,8 +61,7 @@ public class InvocationMocker
             }
         }
         catch (AssertionFailedError error) {
-            AssertionFailedError newError =
-                    new AssertionFailedError(error.getMessage() + ": " + toString());
+            AssertionFailedError newError = new AssertionFailedError(error.getMessage() + "\n" + toString());
             newError.fillInStackTrace();
             throw newError;
         }

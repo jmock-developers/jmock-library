@@ -36,8 +36,8 @@ public class InvokeAtLeastOnceMatcherTest extends TestCase
             matcher.verify();
         }
         catch (AssertionFailedError ex) {
-            AssertMo.assertIncludes("should report invokedMethod not invokedObject",
-                                    "expected invokedMethod was not invokedObject", ex.getMessage());
+            AssertMo.assertIncludes("should report method not invoked",
+                                    "expected method was not invoked", ex.getMessage());
             return;
         }
         fail("Should have thrown exception");
@@ -73,6 +73,6 @@ public class InvokeAtLeastOnceMatcherTest extends TestCase
         assertTrue("should describe match",
                    description.indexOf(MATCH_DESCRIPTION) >= 0);
         assertTrue("should report has been called",
-                   description.indexOf("has been invokedObject") >= 0);
+                   description.indexOf("has been invoked") >= 0);
     }
 }

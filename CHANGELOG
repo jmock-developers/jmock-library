@@ -1,4 +1,8 @@
 
+Improved error messages
+
+* 1.0.0
+
 Moved StubSequence into org.jmock.stub package
 Added NOT_NULL constraint constant to MockObjectSupportTestCase
 

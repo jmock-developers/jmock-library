@@ -8,8 +8,7 @@ import org.jmock.MockObjectTestCase;
 
 public class DynamicMockExample extends MockObjectTestCase
 {
-    public interface Market
-    {
+    public interface Market {
         String[] listStocks();
 
         int getPrice( String ticker );

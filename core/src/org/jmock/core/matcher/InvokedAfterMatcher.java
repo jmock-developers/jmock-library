@@ -29,6 +29,12 @@ public class InvokedAfterMatcher
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        return buffer.append("after ").append(priorCallDescription);
+        buffer.append("after ").append(priorCallDescription);
+        if( priorCallRecorder.hasBeenInvoked() ) {
+            buffer.append(" (invoked)");
+        } else {
+            buffer.append(" (not invoked)");
+        }
+        return buffer;
     }
 }

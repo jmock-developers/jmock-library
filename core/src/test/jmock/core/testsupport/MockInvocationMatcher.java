@@ -34,7 +34,7 @@ public class MockInvocationMatcher
         return matchesResult;
     }
 
-    public ExpectationValue invokedInvocation = new ExpectationValue("invokedObject invocation");
+    public ExpectationValue invokedInvocation = new ExpectationValue("invoked invocation");
 
     public void invoked( Invocation invocation ) {
         invokedInvocation.setActual(invocation);
