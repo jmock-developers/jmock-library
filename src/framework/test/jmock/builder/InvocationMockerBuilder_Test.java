@@ -10,6 +10,7 @@ import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.matcher.NoArgumentsMatcher;
+import org.jmock.dynamic.stub.TestFailureStub;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
@@ -143,6 +144,14 @@ public class InvocationMockerBuilder_Test extends MockObjectSupportTestCase {
     	builder.id(INVOCATION_ID);
     	
     	idTable.verify();
+        mocker.verifyExpectations();
+    }
+    
+    public void testExpectNotCalledAddsTestFailureStub() {
+        mocker.setStubType.setExpected(TestFailureStub.class);
+        
+        builder.expectNotCalled();
+        
         mocker.verifyExpectations();
     }
 }
