@@ -21,28 +21,23 @@ public class InvocationMocker
     }
     
     
-    private String name;
+    private String name = null; // default to no name
     private List matchers = new ArrayList();
-    private Stub stub;
+    private Stub stub = VoidStub.INSTANCE;
     
+    
+    public InvocationMocker() {
+    }
     
     public InvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
-        this(stub);
         addMatcher(new MethodNameMatcher(methodName));
         addMatcher(arguments);
+        setStub(stub);
     }
 
     public InvocationMocker(InvocationMatcher[] matchers, Stub stub) {
-        this(stub);
         for (int i = 0; i < matchers.length; i++) addMatcher(matchers[i]);
-    }
-    
-    public InvocationMocker() {
-        this( VoidStub.INSTANCE );
-    }
-    
-    private InvocationMocker(Stub stub) {
-        this.stub = stub;
+        setStub(stub);
     }
     
     public boolean matches(Invocation invocation) {
