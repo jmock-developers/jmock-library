@@ -1,8 +1,6 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO? Change default mock names from mockClassName to className
-    
     //Source cleanup prior to version 1.0 alpha
     //TODO REMOVE ALL TO-DO COMMENTS
     //TODO Remove deprecated methods

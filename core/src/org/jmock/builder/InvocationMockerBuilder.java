@@ -31,7 +31,7 @@ public class InvocationMockerBuilder
     
     public ParameterMatchBuilder method(String name) {
         addMatcher( new MethodNameMatcher(name) );
-        idTable.registerID( name, this );
+        idTable.registerMethodName( name, this );
         return this;
     }
     
@@ -146,23 +146,25 @@ public class InvocationMockerBuilder
 	}
 	
     public MatchBuilder after( String priorCallID ) {
-    	setupOrderingMatchers( idTable, priorCallID, priorCallID );
+    	setupOrderingMatchers( idTable.lookupIDForSameMock(priorCallID), 
+                               priorCallID, priorCallID );
         return this;
     }
     
     public MatchBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
-    	setupOrderingMatchers( otherMock, priorCallID, priorCallID + " on " + otherMock );
+    	setupOrderingMatchers( otherMock.lookupIDForOtherMock(priorCallID), 
+                               priorCallID, priorCallID + " on " + otherMock );
     	return this;
     }
     
-    private void setupOrderingMatchers( BuilderIdentityTable priorMockObject, 
+    private void setupOrderingMatchers( MatchBuilder priorCallBuilder, 
 										String priorCallID, 
 										String priorCallDescription ) 
     {
-		MatchBuilder priorCallBuilder = priorMockObject.lookupID(priorCallID);
     	InvokedRecorder priorCallRecorder = new InvokedRecorder();
     	
     	priorCallBuilder.match(priorCallRecorder);
+        
     	mocker.addMatcher(new InvokedAfterMatcher( priorCallRecorder,
     	                                           priorCallDescription));
 	}

@@ -82,18 +82,18 @@ public class MockTest extends TestCase {
     	MockMatchBuilder builder1 = new MockMatchBuilder();
     	MockMatchBuilder builder2 = new MockMatchBuilder();
     	
-    	mock.registerID( BUILDER_ID+1, builder1 );
-    	mock.registerID( BUILDER_ID+2, builder2 );
+    	mock.registerUniqueID( BUILDER_ID+1, builder1 );
+    	mock.registerUniqueID( BUILDER_ID+2, builder2 );
     	
     	assertSame( "should be builder1", 
-    				builder1, mock.lookupID(BUILDER_ID+1) );
+    				builder1, mock.lookupIDForSameMock(BUILDER_ID+1) );
     	assertSame( "should be builder2", 
-    				builder2, mock.lookupID(BUILDER_ID+2) );
+    				builder2, mock.lookupIDForSameMock(BUILDER_ID+2) );
     }
     
     public void testFailsOnLookingUpUnregisteredID() {
     	try {
-    		mock.lookupID(BUILDER_ID);
+    		mock.lookupIDForSameMock(BUILDER_ID);
     	}
     	catch( AssertionFailedError ex ) {
     		assertTrue( "error message should contain invalid id",
@@ -103,21 +103,31 @@ public class MockTest extends TestCase {
     	fail("expected AssertionFailedError");
     }
     
-    public void testDuplicateIDOverridesExistingID() {
+    public void testLookingUpMethodNameForSameMockReturnsLastButOneRegistration() {
     	MockMatchBuilder builder1 = new MockMatchBuilder();
     	MockMatchBuilder builder2 = new MockMatchBuilder();
     	
-    	mock.registerID( BUILDER_ID, builder1 );
-    	mock.registerID( BUILDER_ID, builder2 );
+    	mock.registerMethodName( BUILDER_ID, builder1 );
+    	mock.registerMethodName( BUILDER_ID, builder2 );
         
-        assertSame( "builder2", builder2, mock.lookupID(BUILDER_ID) );
+        assertSame( "builder2", builder2, mock.lookupIDForOtherMock(BUILDER_ID) );
+    }
+    
+    public void testLookingUpMethodNameForOtherMockReturnsLastRegistration() {
+        MockMatchBuilder builder1 = new MockMatchBuilder();
+        MockMatchBuilder builder2 = new MockMatchBuilder();
+        
+        mock.registerMethodName( BUILDER_ID, builder1 );
+        mock.registerMethodName( BUILDER_ID, builder2 );
+        
+        assertSame( "builder2", builder2, mock.lookupIDForOtherMock(BUILDER_ID) );
     }
     
     public void testDuplicateUniqueIDCausesTestFailure() {
         MockMatchBuilder builder1 = new MockMatchBuilder();
         MockMatchBuilder builder2 = new MockMatchBuilder();
         
-        mock.registerID( BUILDER_ID, builder1 );
+        mock.registerUniqueID( BUILDER_ID, builder1 );
         try {
             mock.registerUniqueID( BUILDER_ID, builder2 );
         }

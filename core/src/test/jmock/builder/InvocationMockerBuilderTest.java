@@ -30,8 +30,8 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     
     public void testSpecifyingMethodNameNameAddsMethodNameMatcherAndAddsSelfToIdentityTable() {
         mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
-        idTable.registerID.setExpected("methodName");
-        idTable.registerIDBuilder.setExpected(builder);
+        idTable.registerMethodName.setExpected("methodName");
+        idTable.registerMethodNameBuilder.setExpected(builder);
         
         assertNotNull("Should be Stub Builder", builder.method("methodName"));
         
