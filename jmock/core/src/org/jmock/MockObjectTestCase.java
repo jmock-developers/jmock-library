@@ -13,6 +13,13 @@ import org.jmock.core.stub.ThrowStub;
 public abstract class MockObjectTestCase
 	extends MockObjectSupportTestCase
 {
+	public MockObjectTestCase() {
+	}
+	
+	public MockObjectTestCase(String name) {
+		super(name);
+	}
+
     public Mock mock( Class mockedType ) {
         return mock( mockedType, defaultMockNameForType(mockedType) );
     }

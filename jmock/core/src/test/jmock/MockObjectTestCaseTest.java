@@ -3,6 +3,7 @@ package test.jmock;
 import junit.framework.TestCase;
 import org.jmock.MockObjectTestCase;
 import org.jmock.core.Verifiable;
+import org.jmock.core.MockObjectSupportTestCase;
 import org.jmock.expectation.ExpectationList;
 
 public class MockObjectTestCaseTest extends TestCase
@@ -32,6 +33,14 @@ public class MockObjectTestCaseTest extends TestCase
         testCase = new SampleMockObjectTestCase() {};
     }
     
+	public void testCanBeConstructedWithAName() {
+		String name = "NAME";
+
+		MockObjectTestCase namedTestCase = new MockObjectTestCase(name) {};
+
+		assertEquals( "name", name, namedTestCase.getName() );
+	}
+
     public void testRegistersAllMocksItCreatesForVerification() throws Throwable {
         // setup
         String roleName = "ROLE-NAME";
