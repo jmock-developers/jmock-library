@@ -13,7 +13,6 @@ import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
 import org.jmock.core.stub.DefaultResultStub;
-import org.jmock.easy.EasyCoreMock;
 
 
 public class InvocationMatch {
@@ -23,7 +22,7 @@ public class InvocationMatch {
 	private InvocationMatcher callCountMatcher;
 	private Stub         stub;
 	
-	public void setFromInvocation(EasyCoreMock mock, Method method, Object[] args) {
+	public void setFromInvocation(Method method, Object[] args) {
         parameterTypes = method.getParameterTypes();
 		callCountMatcher = new InvokeOnceMatcher();
 		methodNameMatcher = new MethodNameMatcher(method.getName());
@@ -31,16 +30,16 @@ public class InvocationMatch {
 		stub = new DefaultResultStub();
 	}
 
-	public void addInvocationMockerTo(InvocationDispatcher dispatcher) {
+	public void addInvocationMockerTo(EasyInvocationDispatcher dispatcher) {
 		if (isUnset())
 			return;
 		
-        if (isDefault()) {
+        if (isExpectation()) {
+            dispatcher.add(
+                    createInvocationMocker(new ArgumentsMatcher(equalArgs(methodArguments))));
+        } else {
             dispatcher.add(
                     createInvocationMocker(new ArgumentTypesMatcher(parameterTypes)));
-        } else {
-        	dispatcher.add(
-                    createInvocationMocker(new ArgumentsMatcher(equalArgs(methodArguments))));
         }
 	}
 	
@@ -78,10 +77,6 @@ public class InvocationMatch {
 	private boolean isUnset() {
 		return methodNameMatcher == null;
 	}
-
-    private boolean isDefault() {
-        return callCountMatcher == null;
-    }
 
     private boolean isExpectation() {
 		return callCountMatcher != null;

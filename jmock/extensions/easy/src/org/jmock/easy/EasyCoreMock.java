@@ -5,8 +5,8 @@ package org.jmock.easy;
 import java.lang.reflect.Method;
 
 import org.jmock.core.CoreMock;
-import org.jmock.core.InvocationDispatcher;
 import org.jmock.core.Stub;
+import org.jmock.easy.internal.EasyInvocationDispatcher;
 import org.jmock.easy.internal.InvocationMatch;
 
 
@@ -14,9 +14,9 @@ public class EasyCoreMock extends CoreMock
 {
 	private boolean isRecording = true;
 	private InvocationMatch match;
-    private InvocationDispatcher dispatcher;
+    private EasyInvocationDispatcher dispatcher;
 	
-	public EasyCoreMock(Class mockedType, InvocationDispatcher dispatcher, InvocationMatch match) {
+	public EasyCoreMock(Class mockedType, EasyInvocationDispatcher dispatcher, InvocationMatch match) {
 		super(mockedType, CoreMock.mockNameFromClass(mockedType), dispatcher);
         this.match = match;
         this.dispatcher = dispatcher;
@@ -31,7 +31,7 @@ public class EasyCoreMock extends CoreMock
 	{
 		if (isRecording) {
 			addInvocationMockerAndFlush();
-			match.setFromInvocation(this, method, args);
+			match.setFromInvocation(method, args);
 			return null;
 		}
 		return super.invoke(invokedProxy, method, args);
