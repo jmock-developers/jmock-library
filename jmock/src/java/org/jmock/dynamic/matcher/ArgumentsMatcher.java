@@ -40,7 +40,8 @@ public class ArgumentsMatcher
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append("Arguments [");
         for (int i = 0; i < constraints.length; ++i) {
-            buffer.append(constraints[i]).append(", ");
+            if( i > 0 ) buffer.append(", ");
+            buffer.append(constraints[i]);
         }
         buffer.append("]");
         return buffer;
