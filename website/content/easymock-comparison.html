@@ -6,6 +6,8 @@
   <meta http-equiv="Content-Type"
   content="application/xhtml+xml; charset=UTF-8" />
   <title>Comparing jMock and EasyMock</title>
+  <link href="custom-stubs.html" rel="stylesheet" type="text/css" />
+  <link href="custom-stubs.html" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -90,7 +92,17 @@ specifying.</p>
 
 <h2>jMock can stub methods with side effects</h2>
 
-<p>See <a href="custom-stubs.html">here</a>.</p>
+<p>EasyMock only stubs methods that return values or throw exceptions. jMock
+lets you write <a href="custom-stubs.html">custom stubs</a> that can call
+back into the tested object or perform other side effects.</p>
+
+<div class="Source jMock">
+<pre>Mock mockNamed = mock(Named.class);
+String name = "name";
+
+mockNamed.expects(once()).method("collectName").with(NOT_NULL)
+    .will(addListElement(name));</pre>
+</div>
 
 <h2>jMock gives you fine control over invocation order</h2>
 
