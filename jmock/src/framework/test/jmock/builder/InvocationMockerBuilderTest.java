@@ -19,7 +19,7 @@ import org.jmock.util.MockObjectSupportTestCase;
 
 import test.jmock.builder.testsupport.*;
 
-public class InvocationMockerBuilder_Test extends MockObjectSupportTestCase {
+public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     private MockStubMatchersCollection mocker;
     private MockBuilderIdentityTable idTable;
     private InvocationMockerBuilder builder;

@@ -8,8 +8,6 @@ public class ToDo {
     //      - make expected and actual call signatures look similar
 	//TODO Implement API for call ordering in dynamock API
     //TODO REMOVE ALL TO-DO COMMENTS
-    //TODO Remove getters from Invocation (?)
-	//TODO Extract interface from Invocation class (?)
     //TODO List expected/stubbed methods in verify errors
     
 	//-----------------------------------------------------------------------------------------
@@ -35,4 +33,6 @@ public class ToDo {
 	
     //TODO Clean up org.jmock.expecation package.
 	//TODO Make jmock.expectation package use Constraints instead of calling equals on expected value
+    //TODO Remove getters from Invocation (?)
+    //TODO Extract interface from Invocation class (?)
 }

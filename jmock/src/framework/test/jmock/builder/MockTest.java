@@ -13,7 +13,7 @@ import test.jmock.dynamic.DummyInterface;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
 import test.jmock.dynamic.testsupport.MockStub;
 
-public class Mock_Test extends TestCase {
+public class MockTest extends TestCase {
 
     private MockDynamicMock mockCoreMock = new MockDynamicMock();
     private Mock mock = new Mock(mockCoreMock);
