@@ -31,7 +31,8 @@ public class DefaultResultStub
     }
 
     public Object invoke( Invocation invocation )
-            throws Throwable {
+            throws Throwable
+    {
         Class returnType = invocation.invokedMethod.getReturnType();
 
         if (resultValuesByType.containsKey(returnType)) {
