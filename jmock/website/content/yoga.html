@@ -108,7 +108,7 @@ logger.expect(once()).method("error")
     <p>The <code>MockObjectTestCase</code> class defines several functions that
     can be used to define constraints.  There are more constraint types
     defined in the 
-    <code><a href="docs/javadoc/org/jmock/constraint/package-summary.html">org.jmock.constraint</a></code>
+    <code><a href="docs/javadoc/org/jmock/core/constraint/package-summary.html">org.jmock.constraint</a></code>
     package.  You can even define your own constraints, as described below.</p>
     
     <p>Constraints require you to type a little more when writing your tests, 
@@ -125,7 +125,7 @@ logger.expect(once()).method("error")
     </p>
     
     <p>A constraint is an object that implements the 
-    <code><a href="docs/javadoc/org/jmock/Constraint.html">org.jmock.Constraint</a></code>
+    <code><a href="docs/javadoc/org/jmock/core/Constraint.html">org.jmock.Constraint</a></code>
     interface. It does two things:</p>
     
     <ul>
@@ -148,7 +148,7 @@ logger.expect(once()).method("error")
       starts with a given prefix.</p>
     
       <div class="Source Java">
-<pre>import org.jmock.Constraint;
+<pre>import org.jmock.core.Constraint;
 
 public class StartsWith implements Constraint {
     private String prefix;
@@ -223,8 +223,8 @@ logger.stub().method("getLoggingLevel").noParams()
     
     <p>A rule of thumb to follow when specifying the expected order
     of method calls is: 
-    <span class="RuleOfThumb">specify ordering <em>only</em> between those 
-    calls you want to occur in order</span>.  
+    <span class="RuleOfThumb">test the ordering of <em>only</em> those 
+    calls you want to occur in order</span>.
     The example above allows the <code>warn</code> and 
     <code>getLoggingLevel</code>
     methods to occur in any order, as long as they occur after the call to
@@ -238,8 +238,7 @@ logger.stub().method("getLoggingLevel").noParams()
     but if it is, it must be called after 
     <code>setLoggingLevel</code>, and that the
     <code>warn</code> method must be called and must be called after
-    <code>setLoggingLevel</code>.
-    </p>
+    <code>setLoggingLevel</code>.</p>
     
     <h1>Matchers</h1>
     
@@ -251,14 +250,17 @@ logger.stub().method("getLoggingLevel").noParams()
     expectations.
     If jMock does not have a matching rule that you need, or the matching rules 
     supported by jMock are not accurate enough to keep your tests flexible,
-    you can extend jMock with matching rules of your own.
-    </p>
+    you can extend jMock with matching rules of your own.</p>
     
     <p>To be continued...</p>
     
     <h1>Conclusion</h1>
-  
-    <p>To be written...</p>
+    
+    <p>Let's review the most important rule of thumb we follow to keep our tests flexible:</p>
+    
+    <ol><li>Specify exactly what you want to happen <em>and no more</em>.</li></ol>
+    
+    <p>This guideline applies just as well to unit tests that do not use mock objects.</p>
     
   </body>
 </html>
