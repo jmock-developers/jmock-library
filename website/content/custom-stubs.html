@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Custom Stubs</title>
+  </head>
+  
+  <body>
+    <h1>Custom Stubs in jMock</h1>
+    <p>Or <i>Unusual Behaviours Deserve to be Mocked</i></p>
+    
+    <p>A mock object does two things: it tests that it receives the expected
+    method invocations and it stubs the behaviour of those methods.
+    Almost all methods can be stubbed in one of three basic ways: 
+    return nothing (a void method), return a result to the caller or throw an exception.  
+    Sometimes, however, you need to stub side effects of a method, such as a method that
+    calls back to the caller through an object reference passed as one of its
+    parameters.  Luckily, jMock makes it easy to write custom stubs for methods with 
+    strange behaviours and keep your tests easy to read when you do so.</p>
+    
+    <p><em>Example here</em></p>
+    
+    <p>To write a custom stub:</p>
+    <ol>
+      <li>Write a class that implements the 
+      <a href="/docs/javadoc/org/jmock/core/Stub.html"><code>Stub</code></a> interface.
+      </li>
+      
+      <li>Write a factory method in your tests class that instantiates your new stub 
+      class</li>
+      
+      <li>Call your factory method within the actual parameter list of the mock's 
+      <code>will</code> method.</li>
+    </ol>
+    
+    <h1>Writing a Custom Stub Class</h1>
+    
+    <p>A mock object stubs the behaviour of a method invocation by delegating to an
+    object that implements the
+    <a href="/docs/javadoc/org/jmock/core/Stub.html"><code>Stub</code></a> interface.
+    A Stub must do two things:</p>
+    
+    <ol>
+      <li>Stub the behaviour of an 
+      <a href="/docs/javadoc/org/jmock/core/Invocation.html">Invocation</a>
+      (the <code>stub</code> method).</li>
+      
+      <li>Describe itself. (the <code>describeTo</code> method).</li>
+    </ol>
+    
+    <div class="Source Java">
+<pre>public class CollectStub {
+    private Object[] elements;
+    
+    Collect
+
+</pre>
+    </div>
+    
+    <h2>The CustomStub Class</h2>
+    
+  </body>
+</html>
