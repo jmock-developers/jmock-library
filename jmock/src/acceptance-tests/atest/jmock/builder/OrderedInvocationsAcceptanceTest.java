@@ -6,7 +6,7 @@ import org.jmock.builder.Mock;
 import org.jmock.dynamic.DynamicMockError;
 
 
-public class Mock_OrderedInvocations_IntegrationTest 
+public class OrderedInvocationsAcceptanceTest 
     extends TestCase
 {
 	private Mock mock;
