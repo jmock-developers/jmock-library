@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.dynamock;
+package atest.jmock.dynamock;
 
 import junit.framework.TestCase;
 

@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.builder;
+package atest.jmock.builder;
 
 import org.jmock.builder.Mock;
 import org.jmock.util.MockObjectSupportTestCase;
