@@ -81,5 +81,17 @@ public class MockObjectSupportTestCase extends VerifyingTestCase
     public Or or( Constraint left, Constraint right ) {
     	return new Or(left,right);
     }
+    
+    public Object newDummy( Class dummyType ) {
+        return Dummy.newDummy(dummyType);
+    }
+    
+    public Object newDummy( Class dummyType, String name ) {
+        return Dummy.newDummy(dummyType,name);
+    }
+    
+    public Object newDummy( String name ) {
+        return Dummy.newDummy(name);
+    }
 }
 
