@@ -16,6 +16,14 @@ public abstract class VerifyingTestCase extends TestCase
 {
     private List objectsThatRequireVerification = new ArrayList();
 
+	public VerifyingTestCase() {
+		super();
+	}
+
+	public VerifyingTestCase( String name ) {
+		super(name);
+	}
+
     /* This is virtually a copy/paste of the same method in the TestCase class to allow
      * overriding of runTest in the normal manner. 
      * 

@@ -27,7 +27,15 @@ public abstract class MockObjectSupportTestCaseTest extends TestCase {
     public void setUp() {
         testCase = new MockObjectSupportTestCase() {};
     }
-    
+
+	public void testCanBeConstructedWithAName() {
+		String name = "NAME";
+
+		testCase = new MockObjectSupportTestCase(name) {};
+
+		assertEquals( "name", name, testCase.getName() );
+	}
+
     public void testCanCreateNamedDummyObjects() {
         Object dummy = testCase.newDummy(DUMMY_NAME);
         

@@ -13,8 +13,8 @@ import test.jmock.core.testsupport.MockVerifiable;
 public class VerifyingTestCaseTest extends TestCase {
     public static class ExampleTestCase extends VerifyingTestCase {
         private MockVerifiable verifiableField = new MockVerifiable();
-        
-        public ExampleTestCase() {
+
+	    public ExampleTestCase() {
         	setName("testMethod");
         }
         
@@ -31,7 +31,15 @@ public class VerifyingTestCaseTest extends TestCase {
         }
 
     }
-    
+
+	public void testCanBeConstructedWithAName() {
+		String name = "NAME";
+
+		VerifyingTestCase testCase = new VerifyingTestCase(name) {};
+
+		assertEquals( "name", name, testCase.getName() );
+	}
+	
     public void testAutomaticallyVerifiesVerifiableFieldsAfterTheTestRunAndBeforeTearDown()
         throws Throwable
     {

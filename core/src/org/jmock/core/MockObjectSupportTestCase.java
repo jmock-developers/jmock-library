@@ -8,7 +8,14 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
 {
 	public static final Constraint ANYTHING = new IsAnything();
     public static final Constraint NULL = new IsNull();
-    
+
+	public MockObjectSupportTestCase() {
+	}
+
+	public MockObjectSupportTestCase(String name) {
+		super(name);
+	}
+
 	public IsEqual eq( Object operand ) {
 		return new IsEqual(operand);
 	}
