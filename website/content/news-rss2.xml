@@ -12,6 +12,18 @@
 		<language>en-us</language>
         
         <item>
+            <title>Testing Multithreaded Code</title>
+            <category>Documentation</category>
+            <link>http://www.jmock.org/threads.html</link>
+            <description>A new article describing how to use jMock to test multithreaded code.</description>
+            <xhtml:div>
+                A <a href="http://www.jmock.org/threads.html">new article</a> describing how to use 
+                <a href="http://www.jmock.org/">jMock</a> to test multithreaded code.
+            </xhtml:div>
+            <pubDate>15 Oct 2004</pubDate>
+        </item>
+        
+        <item>
             <title>jMock at OOPSLA</title>
             <category>Event</category>
             <link>http://www.oopsla.org/2004/</link>
