@@ -211,14 +211,12 @@ public class StartsWith implements Constraint {
     </p>
     
     <div class="Source Java">
-    <pre>
-    logger.expect(once()).method("setLoggingLevel").with(eq(Logger.WARNING))
+<pre>logger.expect(once()).method("setLoggingLevel").with(eq(Logger.WARNING))
     .id("warning level set");
-    logger.expect(once()).method("warn").with(warningMessage)
+logger.expect(once()).method("warn").with(warningMessage)
     .after("warning level set");
-    logger.stub().method("getLoggingLevel").noParams()
-    .after("warning level set").will(returnValue(Logger.WARNING));
-    </pre>
+logger.stub().method("getLoggingLevel").noParams()
+    .after("warning level set").will(returnValue(Logger.WARNING));</pre>
     </div>
     
     <p>A rule of thumb to follow when specifying the expected order
