@@ -4,16 +4,28 @@ package org.jmock.core;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.jmock.core.stub.TestFailureStub;
 
-public abstract class OrderedInvocationDispatcher implements InvocationDispatcher {
-
-	abstract public Object dispatch(Invocation invocation) throws Throwable;
-
+public class OrderedInvocationDispatcher implements InvocationDispatcher {
+	public interface DispatchPolicy {
+		public Object dispatch(List invokables, Invocation invocation, Stub defaultStub) throws Throwable;
+	}
+	
 	public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
-	protected ArrayList invokables = new ArrayList();
-	protected Stub defaultStub = new TestFailureStub("no match found");
+	private DispatchPolicy policy;
+	private ArrayList invokables = new ArrayList();
+	private Stub defaultStub = new TestFailureStub("no match found");
+
+	
+	public OrderedInvocationDispatcher(DispatchPolicy policy) {
+		this.policy = policy;
+	}
+
+	public Object dispatch(Invocation invocation) throws Throwable {
+		return policy.dispatch(invokables, invocation, defaultStub);
+	}
 
 	public void setDefaultStub(Stub defaultStub) {
 	    this.defaultStub = defaultStub;
