@@ -15,7 +15,7 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	
 	public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
 	private DispatchPolicy policy;
-	private ArrayList invokables = new ArrayList();
+	private List invokables = new ArrayList();
 	private Stub defaultStub = new TestFailureStub("no match found");
 
 	
