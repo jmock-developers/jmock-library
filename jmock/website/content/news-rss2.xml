@@ -12,12 +12,23 @@
 		<language>en-us</language>
         
         <item>
+            <title>Constraints</title>
+            <category>Documentation</category>
+            <link>http://www.jmock.org/constraints.html</link>
+            <description>An overview of jMock's constraints has been added to the tutorials.</description>
+            <xhtml:div>An overview of jMock's <a href="http://www.jmock.org/constraints.html">constraints</a> has been added to the 
+            <a href="http://www.jmock.org/docs.html#tutorials">tutorials</a>.
+            </xhtml:div>
+            <pubDate>5 Jan 2005</pubDate>
+        </item>
+
+        <item>
             <title>Mock Roles, Not Objects</title>
             <category>Documentation</category>
-            <link>http://www.jmock.org/oopsla2004.html</link>
+            <link>http://www.jmock.org/oopsla2004.pdf</link>
             <description>The paper presented at OOSPA'04 is now available online.</description>
             <xhtml:div>
-                The paper, <a href="http://www.jmock.org/oopsla2004.html">Mock Roles Not Objects</a> 
+                The paper, <a href="http://www.jmock.org/oopsla2004.pdf">Mock Roles Not Objects</a> 
                 presented at <a href="http://www.oopsla.org/2004/">OOSPA'04</a> is now available online.
             </xhtml:div>
             <pubDate>21 Dec 2004</pubDate>
