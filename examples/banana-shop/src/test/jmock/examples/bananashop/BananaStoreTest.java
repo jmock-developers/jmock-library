@@ -14,7 +14,7 @@ public class BananaStoreTest extends MockObjectTestCase {
         Mock mockOrder = new Mock(Order.class);    
         final Order order = (Order)mockOrder.proxy();
 
-        BananaStore shop = new BananaStore(storeAccount);
+        BananaStore store = new BananaStore(storeAccount);
 
         mockOrder.stub().method("getTotalCost").withNoArguments()
             .will(returnValue(totalCost));
@@ -22,7 +22,7 @@ public class BananaStoreTest extends MockObjectTestCase {
         mockPayment.expect(once()).method("transferTo").with(same(storeAccount),eq(totalCost));
         mockOrderTracker.expect(once()).method("orderCompleted").with(same(order));
         
-        shop.buy( order, 
+        store.buy( order, 
             (Payment)mockPayment.proxy(), 
             (OrderTracker)mockOrderTracker.proxy() );
 
