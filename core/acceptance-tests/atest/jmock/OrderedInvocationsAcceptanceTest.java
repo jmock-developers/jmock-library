@@ -163,4 +163,12 @@ public class OrderedInvocationsAcceptanceTest
 
         fail("should have failed");
     }
+
+    public void testResetClearsIDs() {
+        String id = "ID";
+
+        mock.stubs().method("hello").id(id);
+        mock.reset();
+        mock.stubs().method("goodbye").id(id);
+    }
 }

@@ -68,6 +68,7 @@ public class Mock
     }
 
     public void reset() {
+        idTable.clear();
         coreMock.reset();
     }
 
