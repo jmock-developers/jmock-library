@@ -1,9 +1,10 @@
-<?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-      "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<?xml version="1.0" encoding="iso-8859-1"?>
+ xmlns="http://www.w3.org/1999/xhtml"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+       "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="" />
+  <meta http-equiv="Content-Type"
+  content="application/xhtml+xml; charset=iso-8859-1" />
   <title>Yoga for Your Unit Tests</title>
 </head>
 
@@ -91,8 +92,8 @@ logger.expects(once()).method("error")
 
 <p>The <code>MockObjectTestCase</code> class defines several functions that
 can be used to define constraints. There are more constraint types defined in
-the <code><a
-href="docs/javadoc/org/jmock/core/constraint/package-summary.html">org.jmock.constraint</a></code>
+the
+<code><a href="java:org.jmock.core.constraint.*">org.jmock.constraint</a></code>
 package. You can even <a href="custom-constraints.html">define your own
 constraints</a>.</p>
 
@@ -161,7 +162,7 @@ definition of the <code>StringStartsWith</code> class).</p>
 <pre>...
 
 private DefaultResultStub returnADefaultValue = new DefaultResultStub();
-    
+
 public void testMethod() {
     ...
     mock.stubs().method(startingWith("get")).noParams().will(returnADefaultValue);
@@ -211,5 +212,8 @@ important rule of thumb we follow to keep our tests flexible is:</p>
 
 <p>This guideline is just as applicable when writing unit tests that do not
 use mock objects.</p>
+<address>
+  Nat Pryce
+</address>
 </body>
 </html>

@@ -13,6 +13,7 @@ OUTPUT_DIR = File.join(BASE_DIR,"output")
 
 CVSWEB_ROOT = "http://cvs.jmock.codehaus.org/jmock/website/content/"
 DIST_ROOT = "http://dist.codehaus.org/jmock"
+JAVADOC_ROOT = "/docs/javadoc"
 
 SNAPSHOT_VERSION = ENV["BUILD_TIMESTAMP"]
 PRERELEASE_VERSION = ENV["PRERELEASE_VERSION"]
@@ -111,8 +112,8 @@ def skin_content( content_dir, root_content_dir=content_dir )
     	elsif is_markup(content_file)
 	    	skin_content_file( content_file, root_content_dir )
     	else
-			copy_to_output( content_file, root_content_dir )
-		end
+				copy_to_output( content_file, root_content_dir )
+			end
     end
 end
 
@@ -141,6 +142,7 @@ def skin_content_file( content_file, root_content_dir )
     skinned_content = TEMPLATE.expand( config )
 
     add_class( skinned_content.elements["#{CONTENT_PATH}/*[1]"], "FirstChild" )
+    convert_javadoc_links( skinned_content )
     add_print_footnotes( skinned_content )
 
     log "#{content_file} ~> #{output_file}"
@@ -154,6 +156,25 @@ def add_class( element, new_class )
         new_class = "#{old_class} #{new_class}"
     end
     element.add_attribute( "class", new_class )
+end
+
+def convert_javadoc_links( skinned_content )
+	skinned_content.each_element "#{CONTENT_PATH}//a" do |link|
+			href = link.attributes["href"]
+			
+			if href =~ /^java:(.*)/
+				link.attributes["href"] = class_to_javadoc_url($1)
+			end
+	end
+end
+
+def class_to_javadoc_url( name )
+	path = name.split(".")
+	if path.last == "*"
+		path[path.size-1] = "package-summary"
+	end
+	
+	"#{JAVADOC_ROOT}/#{path.join("/")}.html"
 end
 
 def add_print_footnotes( skinned_content )
