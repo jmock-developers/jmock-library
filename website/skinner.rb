@@ -97,9 +97,9 @@ def skin_content_file( content_file, root_content_dir )
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
-        "snapshot" => String.new(env("SNAPSHOT_ID","n/a")),
-        "prerelease" => String.new(env("PRERELEASE_ID","n/a")),
-        "release" => String.new(env("RELEASE_ID","n/a")),
+        "snapshot" => String.new(env("SNAPSHOT_VERSION","n/a")),
+        "prerelease" => String.new(env("PRERELEASE_VERSION","n/a")),
+        "release" => String.new(env("RELEASE_VERSION","n/a")),
         "history" => CVSWEB_ROOT + content_file[(root_content_dir.size+1)..-1]
     }
     
