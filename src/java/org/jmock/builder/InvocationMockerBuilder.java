@@ -42,6 +42,10 @@ public class InvocationMockerBuilder
     	return this;
     }
 
+    public ExpectationBuilder willReturn(int returnValue) {
+        return willReturn(new Integer(returnValue));
+    }
+
     public ExpectationBuilder willReturn(Object returnValue) {
         mocker.setStub(new ReturnStub(returnValue));
         return this;
