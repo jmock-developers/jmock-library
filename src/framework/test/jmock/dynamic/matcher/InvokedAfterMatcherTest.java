@@ -1,4 +1,4 @@
-package test.jmock.dynamic;
+package test.jmock.dynamic.matcher;
 
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.InvokedAfterMatcher;
@@ -27,12 +27,15 @@ public class InvokedAfterMatcherTest extends TestCase {
 		after = new InvokedAfterMatcher( recorder, PRIOR_CALL_ID );
 	}
 	
-	public void testAlwaysMatches() {		
-		assertTrue( "should match before previous invocation", after.matches(invocation2) );
+	public void testOnlyMatchesWhenInvokedAfterPriorInvocation() {
+		assertFalse( "should not match before previous invocation", 
+                     after.matches(invocation2) );
 		recorder.invoked(invocation1);
-		assertTrue( "should match after previous invocation", after.matches(invocation2) );
+		assertTrue( "should match after previous invocation", 
+                    after.matches(invocation2) );
 	}
 	
+    // Note: this will not happen in typical usage because it will not match out of order
 	public void testFailsIfInvokedOutOfOrder() {
 		try {
 			after.invoked(invocation2);
