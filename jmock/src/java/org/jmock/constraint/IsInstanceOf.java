@@ -7,7 +7,7 @@ import org.jmock.Constraint;
  * Tests whether the value is an instance of a class.
  */
 public class IsInstanceOf implements Constraint {
-    private Class _class;
+    private Class theClass;
 
     /**
      * Creates a new instance of IsInstanceOf
@@ -15,15 +15,15 @@ public class IsInstanceOf implements Constraint {
      * @param theclass The predicate evaluates to true for instances of this class
      *                 or one of its subclasses.
      */
-    public IsInstanceOf(Class theclass) {
-        _class = theclass;
+    public IsInstanceOf(Class theClass) {
+        this.theClass = theClass;
     }
 
     public boolean eval(Object arg) {
-        return _class.isInstance(arg);
+        return theClass.isInstance(arg);
     }
 
     public String toString() {
-        return "an instance of <" + _class.getName() + ">";
+        return "an instance of <" + theClass.getName() + ">";
     }
 }

@@ -8,20 +8,20 @@ import org.jmock.Constraint;
  * acceptable error?
  */
 public class IsCloseTo implements Constraint {
-    private double _error;
-    private double _value;
+    private double error;
+    private double value;
 
     public IsCloseTo(double value, double error) {
-        _error = error;
-        _value = value;
+        this.error = error;
+        this.value = value;
     }
 
     public boolean eval(Object arg) {
-        double arg_value = ((Number) arg).doubleValue();
-        return Math.abs((arg_value - _value)) <= _error;
+        double argValue = ((Number)arg).doubleValue();
+        return Math.abs((argValue - value)) <= error;
     }
 
     public String toString() {
-        return "a numeric value within " + _error + " of " + _value;
+        return "a numeric value within " + error + " of " + value;
     }
 }
