@@ -23,6 +23,7 @@ public class ThrowStub
 		    checkTypeCompatiblity( invocation.invokedMethod.getExceptionTypes() );
 	    }
 
+	    throwable.fillInStackTrace();
         throw throwable;
     }
 
@@ -54,6 +55,4 @@ public class ThrowStub
 	private boolean isThrowingCheckedException() {
 		return !(throwable instanceof RuntimeException || throwable instanceof Error);
 	}
-
-
 }
