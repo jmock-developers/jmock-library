@@ -122,6 +122,16 @@ mock.expect(once()).method("methodC").noParams()
     .after("first call to methodA");</pre>
   	</div>
   	
+  	<p>Even better, jMock can define ordering constraints over method calls to 
+  	<em>different</em> mocks:</p>
+  	
+  	<div class="Source Java JMock">
+<pre>mock1.expect(once()).method("methodA").noParams()
+    .id("first call to methodA");
+mock2.expect(once()).method("methodB").noParams()
+    .after(mock1,"first call to methodA");</pre>
+  	</div>
+  	
   	<h2>jMock Puts Support Functions in a Test Case Base Class</h2>
   	
   	<p>DynaMock uses a class named <code>C</code> to hold support functions that
