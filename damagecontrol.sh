@@ -20,18 +20,19 @@ esac
 DEPLOY=${DEPLOY:-1} # deploy by default
 DEPLOY_ROOT=${DEPLOY_ROOT:-~jmock}
 
-
-function deploy {
-    echo deploying contents of $1 to $2
-    cp --recursive $1/* $2/ || exit 1
+function build-step {
+	$* || exit 1
 }
 
-ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website || exit 1
+
+
+build-step ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
 
 if let $DEPLOY; then
-    deploy $BUILDDIR/dist $DEPLOY_ROOT/dist
-    deploy $WEBDIR $DEPLOY_ROOT/public_html
-    deploy $BUILDDIR/javadoc $DEPLOY_ROOT/public_html/docs/javadoc
+    build-step cp --recursive $BUILDDIR/dist/ $DEPLOY_ROOT
+    build-step cp --recursive $WEBDIR $DEPLOY_ROOT
+    build-step mkdir --parents $DEPLOY_ROOT/public_html/docs/
+    build-step cp --recursive $BUILDDIR/javadoc/ $DEPLOY_ROOT/public_html/docs/
 fi
 
 echo all done.
