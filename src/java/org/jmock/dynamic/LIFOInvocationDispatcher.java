@@ -32,10 +32,6 @@ public class LIFOInvocationDispatcher
         return defaultStub.invoke(invocation);
     }
     
-    public Stub getDefaultStub() {
-        return defaultStub;
-    }
-
     public void setDefaultStub(Stub defaultStub) {
         this.defaultStub = defaultStub;
     }

@@ -18,15 +18,8 @@ public class MockInvocationDispatcher
     public ExpectationValue addInvokable = new ExpectationValue("addInvokable");
     public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
     public String writeToOutput = "MockInvocationDispatcher.writeTo output";
-    public ExpectationCounter getDefaultStubCalls = new ExpectationCounter("getDefaultStub #calls");
-    public Stub getDefaultStubResult;
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
     
-    
-    public Stub getDefaultStub() {
-        getDefaultStubCalls.inc();
-        return getDefaultStubResult;
-    }
     
     public void setDefaultStub( Stub newDefaultStub ) {
         setDefaultStub.setActual(newDefaultStub);

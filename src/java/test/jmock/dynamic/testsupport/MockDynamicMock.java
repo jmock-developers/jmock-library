@@ -23,15 +23,8 @@ public class MockDynamicMock
         addCalls.inc();
     }
     
-    public ExpectationCounter getDefaultStubCalls = new ExpectationCounter("getDefaultStub #calls");
-    public Stub getDefaultStubResult;
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
     
-    
-    public Stub getDefaultStub() {
-        getDefaultStubCalls.inc();
-        return getDefaultStubResult;
-    }
     
     public void setDefaultStub( Stub newDefaultStub ) {
         setDefaultStub.setActual(newDefaultStub);

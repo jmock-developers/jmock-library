@@ -135,12 +135,8 @@ public class CoreMockTest extends TestCase {
         MockStub dummyStub = new MockStub("dummyStub");
         
     	mockDispatcher.setDefaultStub.setExpected( dummyStub );
-        mockDispatcher.getDefaultStubCalls.setExpected(1);
-        mockDispatcher.getDefaultStubResult = dummyStub;
         
         coreMock.setDefaultStub( dummyStub );
-        assertSame( "should be dispatcher's default stub", 
-                    dummyStub, coreMock.getDefaultStub() );
         
         mockDispatcher.verifyExpectations();
     }

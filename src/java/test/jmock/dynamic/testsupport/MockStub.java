@@ -20,7 +20,11 @@ public class MockStub
 		this.name = name;
 	}
 	
-	public ExpectationValue invokeInvocation = 
+    public String toString() {
+        return name;
+    }
+    
+    public ExpectationValue invokeInvocation = 
 		new ExpectationValue("invoke invocation");
 	public Object invokeResult;
 	
