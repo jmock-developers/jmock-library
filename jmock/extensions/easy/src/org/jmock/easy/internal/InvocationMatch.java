@@ -40,7 +40,10 @@ public class InvocationMatch {
 	public void addInvocationMockerTo(EasyInvocationDispatcher dispatcher) {
 		if (isUnset()) return;
 		
-        dispatcher.add(createInvocationMocker());
+        if (isExpectation())
+        	dispatcher.add(createInvocationMocker());
+        else
+            dispatcher.addDefault(createInvocationMocker());
 	}
 	
 	public void flush() {
@@ -55,7 +58,7 @@ public class InvocationMatch {
         setCallMatchAndStub(new InvokeRangeMatcher(range), aStub);
 	}
 
-    public void setDefault(Stub aStub) {
+    public void setDefaultForMethod(Stub aStub) {
         setCallMatchAndStub(null, aStub);
     }
 

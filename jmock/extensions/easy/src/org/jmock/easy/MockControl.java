@@ -74,7 +74,7 @@ public class MockControl
     }
 
     public void setDefaultReturnValue(Object value) {
-        dispatcher.setDefaultStub(new ReturnStub(value));
+        invocationMatch.setDefaultForMethod(new ReturnStub(value));
     }
 
     public void setDefaultReturnValue(boolean value) {

@@ -47,7 +47,7 @@ public class EasyCoreMock extends CoreMock
 
     public void setDefaultStub(Stub stub) {
         match.addInvocationMockerTo(dispatcher);
-        match.setDefault(stub);
+        match.setDefaultForMethod(stub);
     }
 
 }
