@@ -1,12 +1,16 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
+import org.jmock.SelfDescribing;
+
 
 /**
  * An object that stubs the behaviour of a method invocation on behalf of an
  * {@link org.jmock.dynamic.Invokable} object.
  */
-public interface Stub {
+public interface Stub
+    extends SelfDescribing
+{
     /**
      * Processes the invocation.
      * 
@@ -17,6 +21,4 @@ public interface Stub {
      *                   thrown from this method must be in the <code>throws</code> list of the invoked method.
      */
     Object invoke(Invocation invocation) throws Throwable;
-
-    StringBuffer writeTo(StringBuffer buffer);
 }
