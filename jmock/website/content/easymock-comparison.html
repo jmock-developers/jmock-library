@@ -2,30 +2,60 @@
   <head>
   	<title>Comparing jMock and Dynamock</title>
   </head>
-  
+
   <body>
   	<h1>Comparing jMock and EasyMock</h1>
-  	
+
   	<p><a href="http://www.easymock.org">EasyMock</a> is also a dynamic mock object library for Java.
   	What are the main differences between jMock and EasyMock?</p>
-  	
-    <h2>EasyMock doesn't use strings to identify methods</h2>
-    <p>EasyMock therefore better cooperates with refactoring tools.
-    In practice we have found that this does not effect jMock badly,
-    especially if you use tools like IntelliJ or Eclipse.</p>
 
-    <h2>jMock makes it easier to keep tests flexible.</h2>
-    <p>Constraints, matchers, etc.</p>
+    <h2>jMock uses strings to identify methods</h2>
 
-    <h2>jMock is designed for readability</h2>
-    <p>jMock has a "specifiation" API. EasyMock uses a "record/playback" API.  Tests written with jMock are much
-    easier to read as documentation.</p>
+    <p>EasyMock therefore works with refactoring tools better than jMock.
+    In practice we have found that the use of strings in jMock is not a huge disadvantage,
+    especially if you use tools like IntelliJ or Eclipse which can apply refactorings to string constants.</p>
 
-    <h2>jMock lets you stub methods with side effects</h2>
+    <h2>jMock lets you precisely specify required behaviour.</h2>
+
+    <p>Constraints, matchers, ordering etc.</p>
+
+
+    <h2>jMock is designed to be read</h2>
+
+    <p>jMock is a design tool not a testing tool.
+    jMock's API is designed so that tests can be read as documentation.
+    In EasyMock's &quot;record/playback&quot; API, expectations are normal method
+    invocations rather than <em>specifications</em>, but constraints upon those invocations
+    must be specified with separate API calls that duplicate information about the expected call.</p>
+
+    <h2>jMock expectations require more typing</h2>
+
+    <p>jMock requires that the programmer writing a test be very explicit about
+    what is and isn't expected.  The &quot;call-chain&quot; API style makes
+    expectations longer than EasyMock's terse &quot;record/playback&quot; style.
+    We were surprised to find that our users <em>prefered</em> all the extra typing
+    that jMock forced them to do because the result helped them quickly understand
+    what tests are specifying.</p>
+
+
+    <h2>jMock can stub methods with side effects</h2>
+    
     <p>See <a href="custom-stubs.html">here</a>.</p>
 
-    <h2>jMock gives you more control over the order of invocations</h2>
+
+    <h2>jMock gives you fine control over invocation order</h2>
+
     <p>jMock lets the programmer specify partial orders of invocations and specify ordering between invocations
     on different mock objects.</p>
+
+    <h2>jMock is seamlessly extensible</h2>
+
+    <p>User extensions to jMock are used in exactly the same way as the built-in jMock
+    constructs.  This makes it easier to read tests, because unimportant information
+    (whether a constraint is or is not an extension) is hidden from the reader.
+    User extensions to EasyMock must be used differently to the functionality provided
+    by EasyMock itself.
+    </p>
+
   </body>
 </html>
