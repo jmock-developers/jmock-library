@@ -8,7 +8,7 @@ import org.jmock.core.InvocationMatcher;
 
 
 public class InvokeCountMatcher
-        implements InvocationMatcher
+    implements InvocationMatcher
 {
     int expectedCount;
     int invocationCount = 0;
@@ -22,7 +22,7 @@ public class InvokeCountMatcher
     }
 
     public void verify() {
-        Assert.assertTrue("Invoked wrong number of times", expectedCount == invocationCount);
+        Assert.assertTrue("invoked wrong number of times", expectedCount == invocationCount );
     }
 
     public boolean hasDescription() {
