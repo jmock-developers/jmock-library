@@ -1,14 +1,55 @@
 <html>
   <head>
-    <title>Custom Stubs</title>
+    <title>Writing Custom Invocation Matchers</title>
   </head>
   
   <body>
     <h1>DRAFT</h1>
     
-    <h1>Custom Matchers in jMock</h1>
+    <h1>Writing Custom Invocation Matchers</h1>
     
-    <p>To be written.</p>
+    <p>Invocation matchers control how a mock object matches and verifies incoming invocations 
+    against expectations and stubbed behaviour.
+    The jMock API is a convenient syntactic sugar for specifying how matchers are added to
+    a mock object.
+    Sometimes the convenient API does not allow you to specify matching rules precisely or
+    flexibly enough.
+    In these cases you will need to write your own invocation matcher classes.
+    This article will show you how to do just that.
+    </p>
+    
+    <p><em>TODO: how invocation matchers are matched against incoming invocations.</em></p>
+    
+	<p>An invocation matcher is an object that implements the 
+    <code><a href="docs/javadoc/org/jmock/core/InvocationMatcher">InvocationMatcher</a></code>
+    interface. It has the following responsiblities:</p>
+    
+    <ul>
+      <li>report whether it matches against an invocation
+      (the <code>match</code> method).</li>
+      <li>check and record information about a dispatched invocation, if required
+      (the <code>invoked</code> method).</li>
+      <li>verify that expected invocations have actually been received.
+      (the <code>verify</code> method from the 
+      <a href="docs/javadoc/org/jmock/core/Verifiable.html"><code>Verifiable</code></a>
+      interface).</li>
+      <li>provide a readable description to be included in test failure messages 
+      (the <code>describeTo</code> method from the 
+      <a href="docs/javadoc/org/jmock/core/SelfDescribing.html"><code>SelfDescribing</code></a>
+      interface).</li>
+      <li>report if its description is not an empty string
+      (the <code>hasDescription</code> method).</li>
+    </ul>
+    
+    <p>In most cases, you will want to define a new matching rule that does not care if a matched
+    invocation actually occurs.  Also, you should always provide
+    a description for your matching rule, so the <code>hasDescription</code> method should
+    always return <code>true</code>.  This common behaviour is already implemented in the
+    abstract
+    <a href="docs/javadoc/org/jmock/core/matcher/StatelessInvocationMatcher.html"><code>StatelessInvocationMatcher</code></a>
+    class.  You can therefore define a new matching rule by extending 
+    <code>StatelessInvocationMatcher</code> and defining the 
+    <code>match</code> and <code>describeTo</code> methods.</p>
     
   </body>
 </html>
