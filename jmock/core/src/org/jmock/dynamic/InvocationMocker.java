@@ -96,7 +96,7 @@ public class InvocationMocker
         return buffer;
     }
     
-    private static final Describer DEFAULT_DESCRIBER = new Describer() {
+    public static final Describer DEFAULT_DESCRIBER = new Describer() {
         public boolean hasDescription() {
             return true;
         }
@@ -118,7 +118,6 @@ public class InvocationMocker
             if( name != null ) {
                 buffer.append( " [").append(name).append("]");
             }
-            
         }
     };
 }
