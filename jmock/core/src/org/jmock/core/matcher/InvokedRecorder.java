@@ -10,10 +10,14 @@ import org.jmock.core.InvocationMatcher;
 public class InvokedRecorder
         implements InvocationMatcher
 {
-    private boolean hasBeenInvoked = false;
+    private int invocationCount = 0;
+
+    public int getInvocationCount() {
+        return invocationCount;
+    }
 
     public boolean hasBeenInvoked() {
-        return hasBeenInvoked;
+        return invocationCount > 0;
     }
 
     public boolean matches( Invocation invocation ) {
@@ -21,7 +25,7 @@ public class InvokedRecorder
     }
 
     public void invoked( Invocation invocation ) {
-        hasBeenInvoked = true;
+        invocationCount++;
     }
 
     public boolean hasDescription() {
@@ -37,6 +41,12 @@ public class InvokedRecorder
     }
 
     public void verifyHasBeenInvoked() {
-        Assert.assertTrue("expected method was not invoked", hasBeenInvoked);
+        Assert.assertTrue("expected method was not invoked", hasBeenInvoked() );
+    }
+
+    public void verifyHasBeenInvokedExactly( int expectedCount ) {
+        Assert.assertTrue("expected method was not invoked the expected number of times: expected " +
+                          expectedCount + " times, was invoked " + invocationCount + " times",
+                          invocationCount == expectedCount );
     }
 }

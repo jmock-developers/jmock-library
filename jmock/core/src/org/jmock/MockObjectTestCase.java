@@ -6,6 +6,7 @@ import org.jmock.core.*;
 import org.jmock.core.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.TestFailureMatcher;
+import org.jmock.core.matcher.InvokeCountMatcher;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.StubSequence;
 import org.jmock.core.stub.ThrowStub;
@@ -92,6 +93,10 @@ public abstract class MockObjectTestCase
         return new InvokeAtLeastOnceMatcher();
     }
 
+    public InvocationMatcher exactly( int expectedCount ) {
+        return new InvokeCountMatcher(expectedCount);
+    }
+    
     public InvocationMatcher never() {
         return new TestFailureMatcher("expect not called");
     }

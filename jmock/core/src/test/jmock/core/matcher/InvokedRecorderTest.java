@@ -47,13 +47,28 @@ public class InvokedRecorderTest extends TestCase
     }
 
     public void testCanExplicitlyVerifyThatItHasBeenInvoked() {
-        AssertMo.assertFails("verifyHasBeenInvoked should fail", new Runnable()
-        {
+        AssertMo.assertFails("verifyHasBeenInvoked should fail", new Runnable() {
             public void run() {
                 recorder.verifyHasBeenInvoked();
             }
         });
         recorder.invoked(emptyInvocation);
+        recorder.verifyHasBeenInvoked();
+    }
+
+    public void testCanExplicitlyVerifyThatItHasBeenInvokedAnExactNumberOfTimes() {
+        final int count = 4;
+
+        for( int i = 0; i < count; i++ ) {
+            AssertMo.assertFails("verifyHasBeenInvokedExactly should fail", new Runnable() {
+                public void run() {
+                    recorder.verifyHasBeenInvokedExactly(count);
+                }
+            });
+
+            recorder.invoked(emptyInvocation);
+        }
+
         recorder.verifyHasBeenInvoked();
     }
 
