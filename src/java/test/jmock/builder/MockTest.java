@@ -19,7 +19,7 @@ public class MockTest extends TestCase {
     public void testMethodAddsInvocationMockerAndReturnsMethodExpectation() {
         mockCoreMock.addCalls.setExpected(1);
 
-        assertNotNull("Should be method expectation", mock.method("methodname", "param1", "param2"));
+        assertNotNull("Should be method expectation", mock.method("methodname"));
         mockCoreMock.verifyExpectations();
     }
 
