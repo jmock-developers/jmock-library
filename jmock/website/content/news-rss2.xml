@@ -12,6 +12,20 @@
 		<language>en-us</language>
         
         <item>
+            <title>Continuous Integration Running Again</title>
+            <category>Development</category>
+            <link>http://www.jmock.org/</link>
+            <description>The DamageControl continuous integration server has been fixed and is building jMock again.</description>
+            <xhtml:div>
+                The <a href="http://damagecontrol.codehaus.org/">DamageControl</a> 
+                continuous integration server has been fixed and is 
+                building jMock again.  This means that the website and news are up to date and new snapshots are
+                available.
+            </xhtml:div>
+            <pubDate>29 Oct 2004</pubDate>
+        </item>
+        
+        <item>
             <title>Testing Multithreaded Code</title>
             <category>Documentation</category>
             <link>http://www.jmock.org/threads.html</link>
@@ -20,7 +34,7 @@
                 A <a href="http://www.jmock.org/threads.html">new article</a> describing how to use 
                 <a href="http://www.jmock.org/">jMock</a> to test multithreaded code.
             </xhtml:div>
-            <pubDate>15 Oct 2004</pubDate>
+            <pubDate>28 Oct 2004</pubDate>
         </item>
         
         <item>
