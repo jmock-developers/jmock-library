@@ -3,6 +3,8 @@
  */
 package atest.jmock.builder;
 
+import junit.framework.AssertionFailedError;
+
 import org.jmock.builder.Mock;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.DynamicMockError;
@@ -76,6 +78,34 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         }
         
         fail("expected DynamicMockError");
+    }
+    
+    public void testShowsExpectationThatDoesNotVerify() {
+        String arg1 = "arg1";
+        Object arg2 = new Object();
+        String expectedMethod =  
+            "expected once: twoArgsReturnsInt( eq(<"+arg1+">), same(<"+arg2+">) ), returns <1>";
+        
+        Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
+
+        mock.expect(once()).method("twoArgsReturnsInt").with(eq(arg1),same(arg2))
+            .will(returnValue(1));
+        
+        try {
+            mock.verify();
+        }
+        catch( AssertionFailedError ex ) {
+            String message = ex.getMessage();
+            
+            assertStringContains( "error message should contain expected method", 
+                                  message, expectedMethod );
+            assertStringContains( "error message should describe error",
+                                  message, "was not invoked" );
+            
+            return;
+        }
+        
+        fail("expected AssertionFailedError");
     }
     
     public static void assertStringContains( String message, String string, String substring ) {

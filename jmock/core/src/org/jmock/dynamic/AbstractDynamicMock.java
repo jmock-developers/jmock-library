@@ -14,7 +14,7 @@ import junit.framework.AssertionFailedError;
 
 
 public abstract class AbstractDynamicMock 
-    implements DynamicMock 
+    implements DynamicMock
 {
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;

@@ -60,8 +60,8 @@ public class InvocationMocker
                 ((InvocationMatcher) i.next()).verify();
             }
         } catch (AssertionFailedError error) {
-            AssertionFailedError newError = new AssertionFailedError(error.getMessage() + " " +
-                    toString());
+            AssertionFailedError newError = 
+                new AssertionFailedError(error.getMessage() + ": " + toString());
             newError.fillInStackTrace();
             throw newError;
         }

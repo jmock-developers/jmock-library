@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
+import org.jmock.expectation.AssertMo;
 
 
 public class InvokeAtLeastOnceMatcherTest extends TestCase {
@@ -20,12 +21,14 @@ public class InvokeAtLeastOnceMatcherTest extends TestCase {
 	}
 	
 	public void testVerifyFailsIfNotYetInvoked() {
-		try {
-			matcher.verify();
-		} catch (AssertionFailedError expected) {
-			return;
-		}
-		fail("should have thrown exception");
+        try {
+            matcher.verify();
+        } catch (AssertionFailedError ex) {
+            AssertMo.assertIncludes( "should report method not invoked",
+                "expected method was not invoked", ex.getMessage() );
+            return;
+        }
+        fail("Should have thrown exception");
 	}
 	
 	public void testVerifyPassesAfterInvocation() {
