@@ -1,8 +1,7 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO Change default mock names from mockClassName to className [?]
-    //TODO Good names for high-level and low-level API packages
+    //TODO? Change default mock names from mockClassName to className
     
     //Source cleanup prior to version 1.0 alpha
     //TODO REMOVE ALL TO-DO COMMENTS
@@ -39,6 +38,7 @@ public class ToDo {
     //DONE Removed dynamock API. 
     //      - if anybody wants it they can pull it out of CVS and maintain it as an extension
     //DONE Test error message on verify failure
+    //DONE Good names for high-level and low-level API packages
     
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
