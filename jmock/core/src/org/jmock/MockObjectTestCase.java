@@ -118,9 +118,9 @@ public abstract class MockObjectTestCase
     }
     
     public InvocationMatcher never() {
-        return new TestFailureMatcher("expect not called");
+        return new TestFailureMatcher("expect never");
     }
-
+    
     public Stub onConsecutiveCalls( Stub stub1, Stub stub2 ) {
         return new StubSequence(new Stub[]{stub1, stub2});
     }

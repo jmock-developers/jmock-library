@@ -59,7 +59,7 @@ public class ReturnStubTest
         }
         catch (AssertionFailedError ex) {
             AssertMo.assertIncludes("expected return type", invocation.invokedMethod.getReturnType().toString(), ex.getMessage());
-            AssertMo.assertIncludes("returned value type", RESULT.getClass().toString(), ex.getMessage());
+            AssertMo.assertIncludes("returned value type", RESULT.getClass().getName(), ex.getMessage());
             return;
         }
         fail("should have failed");
