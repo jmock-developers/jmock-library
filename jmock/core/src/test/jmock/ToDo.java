@@ -62,4 +62,5 @@ public class ToDo
 	//TODO for trainer syntax: ((Thingy)mock.will(returnValue(10)).after("prev").id("asdad").train()),doIt(); ??
 	//TODO on failure, show previous invocations for all Mocks within test?
 	//TODO Extract construction and verification of mock objects into verifiable MockFactory class.
+	//TODO Refactor CoreMock test cases to remove duplication
 }
