@@ -34,6 +34,7 @@ public class ToDo {
     //DONE CoreMock should implement the hashCode method for proxies
     //DONE new hotmock syntax for expects and stubs 
     //DONE new hotmock syntax for expectNotCalled
+    //DONE moved expect(...) and stub() to beginning of expectation statement
     //DONE demote dynamock API to an optional extension
     //DONE move default behaviour of default result stub into constructor.
 	

@@ -19,10 +19,10 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Object notArg2 = new Object();
         Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
 
-        mock.method("twoArgsReturnsInt").with(ANYTHING, ANYTHING).will(returnValue(1))
-            .expect(once());
-        mock.method("twoArgsReturnsInt").with(eq(arg1), same(arg2)).will(returnValue(1))
-            .expect(once());
+        mock.expect(once()).method("twoArgsReturnsInt").with(ANYTHING,ANYTHING)
+            .will(returnValue(1));
+        mock.expect(once()).method("twoArgsReturnsInt").with(eq(arg1),same(arg2))
+            .will(returnValue(1));
         
         try {
             ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt(notArg1, notArg2);
@@ -31,9 +31,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             
             String causeOfError = "no match found";
             String expectedMethod1 = 
-                "twoArgsReturnsInt, (<any value>, <any value>), expected once, returns <1>";
+                "expected once, Method = twoArgsReturnsInt, (<any value>, <any value>), returns <1>";
             String expectedMethod2 =  
-                "twoArgsReturnsInt, (<= "+arg1+">, <== <"+arg2+">>), expected once, returns <1>";
+                "expected once, Method = twoArgsReturnsInt, (<= "+arg1+">, <== <"+arg2+">>), returns <1>";
             
             assertStringContains( "should contain mock name", 
                                   errorMessage, MOCK_NAME );
@@ -74,7 +74,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
                 errorMessage, "No expectations set" );
             return;
         }
-
+        
         fail("expected DynamicMockError");
     }
     
@@ -84,12 +84,11 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Object a2 = new Object();
         Object b2 = new Object();
         
-        mock.method("twoArgsReturnInt").with(eq("a1"),same(a2)).will(returnValue(1))
-            .expect(once());
-        mock.method("twoArgsReturnInt").with(eq("b1"),same(b2)).will(returnValue(2))
-            .expect(once());
-        mock.method("noArgsReturnsNothing").noParams().isVoid()
-            .expect(atLeastOnce());
+        mock.expect(once()).method("twoArgsReturnInt").with(eq("a1"),same(a2))
+            .will(returnValue(1));
+        mock.expect(once()).method("twoArgsReturnInt").with(eq("b1"),same(b2))
+            .will(returnValue(2));
+        mock.expect(atLeastOnce()).method("noArgsReturnsNothing").noParams();
         
         ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt("b1",b2);
         

@@ -33,40 +33,35 @@ public class InfixParserTest
     }
     
     public void testParsesLiteral() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(4.0))
-            .will(returnValue(mockLiteral1))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(4.0))
+            .will(returnValue(mockLiteral1));
         
         assertSame( "should be literal", mockLiteral1, parser.parse("4.0") );
     }
     
     public void testParsesVariableReference() throws Exception {
-        mockExpressionFactory.method("newVariableReference").with(eq("varName"))
-            .will(returnValue(mockVariableReference))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newVariableReference").with(eq("varName"))
+            .will(returnValue(mockVariableReference));
         
         assertSame( "should be variable reference", 
                     mockVariableReference, parser.parse("varName") );
     }
     
     public void testParsesAddition() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0))
-            .will(returnValue(mockLiteral1))
-            .expect(once());
-        mockExpressionFactory.method("newLiteral").with(eq(2.0))
-            .will(returnValue(mockLiteral2))
-            .expect(once());
-        mockExpressionFactory.method("newAddition").with(same(mockLiteral1),same(mockLiteral2))
-            .will(returnValue(mockAddition))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(2.0))
+            .will(returnValue(mockLiteral2));
+        mockExpressionFactory.expect(once()).method("newAddition")
+            .with(same(mockLiteral1),same(mockLiteral2))
+            .will(returnValue(mockAddition));
         
         assertSame( "should be addition", mockAddition, parser.parse("1+2") );
     }
 
     public void testThrowsExceptionForInvalidAdditionSyntax() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0))
-            .will(returnValue(mockLiteral1))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
         
         try {
             parser.parse("1+");
@@ -82,23 +77,19 @@ public class InfixParserTest
     }
 
     public void testParsesSubtraction() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0))
-            .will(returnValue(mockLiteral1))
-            .expect(once());
-        mockExpressionFactory.method("newLiteral").with(eq(2.0))
-            .will(returnValue(mockLiteral2))
-            .expect(once());
-        mockExpressionFactory.method("newSubtraction").with(same(mockLiteral1),same(mockLiteral2))
-            .will(returnValue(mockSubtraction))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(2.0))
+            .will(returnValue(mockLiteral2));
+        mockExpressionFactory.expect(once()).method("newSubtraction").with(same(mockLiteral1),same(mockLiteral2))
+            .will(returnValue(mockSubtraction));
         
         assertSame( "should be addition", mockSubtraction, parser.parse("1-2") );
     }
     
     public void testThrowsExceptionForInvalidSubtractionSyntax() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0))
-            .will(returnValue(mockLiteral1))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
         
         try {
             parser.parse("1-");
@@ -114,37 +105,35 @@ public class InfixParserTest
     }
     
     public void testParsesMultiplication() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0)).will(returnValue(mockLiteral1))
-            .expect(once());
-        mockExpressionFactory.method("newLiteral").with(eq(2.0)).will(returnValue(mockLiteral2))
-            .expect(once());
-        mockExpressionFactory.method("newMultiplication").with(same(mockLiteral1),same(mockLiteral2))
-            .will(returnValue(mockMultiplication))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(2.0))
+            .will(returnValue(mockLiteral2));
+        mockExpressionFactory.expect(once()).method("newMultiplication")
+            .with(same(mockLiteral1),same(mockLiteral2))
+            .will(returnValue(mockMultiplication));
         
         assertSame( "should be multiplication", mockMultiplication, parser.parse("1*2") );
     }
     
     public void testParsesDivision() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0)).will(returnValue(mockLiteral1))
-            .expect(once());
-        mockExpressionFactory.method("newLiteral").with(eq(2.0)).will(returnValue(mockLiteral2))
-            .expect(once());
-        mockExpressionFactory.method("newDivision").with(same(mockLiteral1),same(mockLiteral2))
-            .will(returnValue(mockDivision))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(2.0))
+            .will(returnValue(mockLiteral2));
+        mockExpressionFactory.expect(once()).method("newDivision").with(same(mockLiteral1),same(mockLiteral2))
+            .will(returnValue(mockDivision));
         
         assertSame( "should be division", mockDivision, parser.parse("1/2") );
     }
     
     public void testParsesPower() throws Exception {
-        mockExpressionFactory.method("newLiteral").with(eq(1.0)).will(returnValue(mockLiteral1))
-            .expect(once());
-        mockExpressionFactory.method("newLiteral").with(eq(2.0)).will(returnValue(mockLiteral2))
-            .expect(once());
-        mockExpressionFactory.method("newPower").with(same(mockLiteral1),same(mockLiteral2))
-            .will(returnValue(mockPower))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(1.0))
+            .will(returnValue(mockLiteral1));
+        mockExpressionFactory.expect(once()).method("newLiteral").with(eq(2.0))
+            .will(returnValue(mockLiteral2));
+        mockExpressionFactory.expect(once()).method("newPower").with(same(mockLiteral1),same(mockLiteral2))
+            .will(returnValue(mockPower));
         
         assertSame( "should be power", mockPower, parser.parse("1^2") );
     }
@@ -156,21 +145,16 @@ public class InfixParserTest
         Expression addition = dummyExpression("addition");
         Expression multiplication = dummyExpression("multiplication");
         
-        mockExpressionFactory.method("newVariableReference").with(eq("x"))
-            .will(returnValue(xReference))
-            .expect(once());
-        mockExpressionFactory.method("newVariableReference").with(eq("y"))
-            .will(returnValue(yReference))
-            .expect(once());
-        mockExpressionFactory.method("newVariableReference").with(eq("z"))
-            .will(returnValue(zReference))
-            .expect(once());
-        mockExpressionFactory.method("newAddition").with(same(xReference),same(yReference))
-            .will(returnValue(addition))
-            .expect(once());
-        mockExpressionFactory.method("newMultiplication").with(same(addition),same(zReference))
-            .will(returnValue(multiplication))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newVariableReference").with(eq("x"))
+            .will(returnValue(xReference));
+        mockExpressionFactory.expect(once()).method("newVariableReference").with(eq("y"))
+            .will(returnValue(yReference));
+        mockExpressionFactory.expect(once()).method("newVariableReference").with(eq("z"))
+            .will(returnValue(zReference));
+        mockExpressionFactory.expect(once()).method("newAddition").with(same(xReference),same(yReference))
+            .will(returnValue(addition));
+        mockExpressionFactory.expect(once()).method("newMultiplication").with(same(addition),same(zReference))
+            .will(returnValue(multiplication));
         
         assertSame( "should be multiplication", 
                     multiplication, parser.parse("(x+y)*z") );
@@ -203,9 +187,8 @@ public class InfixParserTest
     public void testReportsMissingClosingParenthesis() throws Exception {
         Expression xReference = dummyExpression("xReference");
         
-        mockExpressionFactory.method("newVariableReference").with(eq("x"))
-            .will(returnValue(xReference))
-            .expect(once());
+        mockExpressionFactory.expect(once()).method("newVariableReference").with(eq("x"))
+            .will(returnValue(xReference));
         
         try {
             parser.parse("(x");

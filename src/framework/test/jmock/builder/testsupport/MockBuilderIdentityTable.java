@@ -25,13 +25,22 @@ public class MockBuilderIdentityTable
 		}
 	}
 	
+    public ExpectationValue registerUniqueID = new ExpectationValue("registerUniqueID id");
+    public ExpectationValue registerUniqueIDBuilder = 
+        new ExpectationValue("registerUniqueID builder");
+    
+    public void registerUniqueID(String id, ExpectationBuilder builder) {
+        registerUniqueID.setActual(id);
+        registerUniqueIDBuilder.setActual(builder);
+    }
+    
 	public ExpectationValue registerID = new ExpectationValue("registerID id");
-	public ExpectationValue registerIDInvocation = 
-		new ExpectationValue("registerID invocation");
+	public ExpectationValue registerIDBuilder = 
+		new ExpectationValue("registerID builder");
 	
 	public void registerID(String id, ExpectationBuilder invocation) {
 		registerID.setActual(id);
-		registerIDInvocation.setActual(invocation);
+		registerIDBuilder.setActual(invocation);
 	}
 	
 	public void verify() {

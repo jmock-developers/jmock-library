@@ -1,11 +1,14 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.builder;
 
+import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
 
 
 
 public interface StubBuilder extends ExpectationBuilder {
+    StubBuilder match( InvocationMatcher customMatcher );
+    
     ExpectationBuilder will( Stub stubAction );
     ExpectationBuilder isVoid();
     
