@@ -30,3 +30,4 @@ $JAVA_HOME/bin/javadoc \
 
 # Copy content to web server
 scp -r $WEBDIR/* $WEBSITE
+echo "the live website has been updated"
