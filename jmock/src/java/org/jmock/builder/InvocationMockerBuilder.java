@@ -114,28 +114,29 @@ public class InvocationMockerBuilder
 	}
 	
     public ExpectationBuilder after( String priorCallID ) {
-    	ExpectationBuilder priorCallBuilder = idTable.lookupID(priorCallID);
-    	InvokedRecorder priorCallRecorder = new InvokedRecorder();
-    	
-    	priorCallBuilder.addExpectation(priorCallRecorder);
-    	mocker.addMatcher(new InvokedAfterMatcher(priorCallRecorder,priorCallID));
-    	
+    	setupOrderingMatchers( idTable, priorCallID, priorCallID );
         return this;
     }
     
     public ExpectationBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
-    	String priorCallDescription = priorCallID + " on " + otherMock;
-    	ExpectationBuilder priorCallBuilder = otherMock.lookupID(priorCallID);
+    	setupOrderingMatchers( otherMock, priorCallID, priorCallID + " on " + otherMock );
+    	return this;
+    }
+    
+    	
+    private void setupOrderingMatchers( BuilderIdentityTable priorMockObject, 
+										String priorCallID, 
+										String priorCallDescription ) 
+    {
+		ExpectationBuilder priorCallBuilder = priorMockObject.lookupID(priorCallID);
     	InvokedRecorder priorCallRecorder = new InvokedRecorder();
     	
     	priorCallBuilder.addExpectation(priorCallRecorder);
     	mocker.addMatcher(new InvokedAfterMatcher( priorCallRecorder,
     	                                           priorCallDescription));
-    	
-    	return this;
-    }
-    	
-    private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
+	}
+
+	private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
         mocker.addMatcher(matcher);
         return this;
     }
