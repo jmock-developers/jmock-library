@@ -13,3 +13,4 @@
 # comment lines begin with '#'
 passwd
 damagecontrol-jmock.conf
+dctrigger.rb
