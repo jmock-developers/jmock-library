@@ -18,7 +18,7 @@ Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
 esac
 
 DEPLOY=${DEPLOY:-1} # deploy by default
-DEPLOY_ROOT=${DEPLOY_ROOT:-~jmock}
+DEPLOY_ROOT=${DEPLOY_ROOT:-dcontrol@$HOSTNAME:/home/projects/jmock}
 
 function build-step {
 	$* || exit 1
