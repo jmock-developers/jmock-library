@@ -7,11 +7,13 @@ public class InvokedAfterMatcher
 	extends StatelessInvocationMatcher 
 {
 	private InvokedRecorder priorCallRecorder;
-	private String priorCallID;
+	private String priorCallDescription;
 	
-	public InvokedAfterMatcher( InvokedRecorder priorCallRecorder, String priorCallID ) {
+	public InvokedAfterMatcher( InvokedRecorder priorCallRecorder, 
+								String priorCallDescription ) 
+	{
 		this.priorCallRecorder = priorCallRecorder;
-		this.priorCallID = priorCallID;
+		this.priorCallDescription = priorCallDescription;
 	}
 	
 	public boolean matches(Invocation invocation) {
@@ -19,6 +21,6 @@ public class InvokedAfterMatcher
 	}
 	
 	public StringBuffer writeTo(StringBuffer buffer) {
-		return buffer.append("after ").append(priorCallID);
+		return buffer.append("after ").append(priorCallDescription);
 	}
 }

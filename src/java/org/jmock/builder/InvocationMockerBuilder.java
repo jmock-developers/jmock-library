@@ -123,6 +123,18 @@ public class InvocationMockerBuilder
         return this;
     }
     
+    public ExpectationBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
+    	String priorCallDescription = priorCallID + " on " + otherMock;
+    	ExpectationBuilder priorCallBuilder = otherMock.lookupID(priorCallID);
+    	InvokedRecorder priorCallRecorder = new InvokedRecorder();
+    	
+    	priorCallBuilder.addExpectation(priorCallRecorder);
+    	mocker.addMatcher(new InvokedAfterMatcher( priorCallRecorder,
+    	                                           priorCallDescription));
+    	
+    	return this;
+    }
+    	
     private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
         mocker.addMatcher(matcher);
         return this;
