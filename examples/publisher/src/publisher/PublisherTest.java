@@ -15,7 +15,7 @@ public class PublisherTest extends MockObjectTestCase {
 
         // expectations
         mockSubscriber.method("receive").with(eq(message)).isVoid()
-            .expectOnce();
+            .expect(once());
         
         // execute
         publisher.publish(message);

@@ -116,8 +116,12 @@ public class InvocationMockerBuilder
         return stub(new ThrowStub(throwable));
     }
     
-    public ExpectationBuilder addExpectation( InvocationMatcher expectation ) {
+    public ExpectationBuilder expect( InvocationMatcher expectation ) {
         return addMatcher( expectation );
+    }
+    
+    public ExpectationBuilder addExpectation( InvocationMatcher expectation ) {
+        return expect( expectation );
     }
     
 	public ExpectationBuilder expectOnce() {
@@ -155,7 +159,7 @@ public class InvocationMockerBuilder
 		ExpectationBuilder priorCallBuilder = priorMockObject.lookupID(priorCallID);
     	InvokedRecorder priorCallRecorder = new InvokedRecorder();
     	
-    	priorCallBuilder.addExpectation(priorCallRecorder);
+    	priorCallBuilder.expect(priorCallRecorder);
     	mocker.addMatcher(new InvokedAfterMatcher( priorCallRecorder,
     	                                           priorCallDescription));
 	}

@@ -38,10 +38,10 @@ public class CalculatorTest
         
         mockParser.method("parse").with(eq(expressionString))
             .will(returnValue(mockExpression.proxy()))
-            .expectOnce();
+            .expect(once());
         mockExpression.method("evaluate").with(same(mockEnvironment.proxy()))
             .will(returnValue(expressionValue))
-            .expectOnce();
+            .expect(once());
         
         assertEquals( "should be expression value",
                       expressionValue, calculator.calculate(expressionString), 0.0 ); 
@@ -51,7 +51,7 @@ public class CalculatorTest
         final Throwable throwable = new ParseException("dummy ParseException");
         
         mockParser.method("parse").with(eq(expressionString)).will(throwException(throwable))
-            .expectOnce(); 
+            .expect(once()); 
         
         try {
             calculator.calculate(expressionString);
@@ -67,10 +67,10 @@ public class CalculatorTest
         
         mockParser.method("parse").with(eq(expressionString))
             .will(returnValue(mockExpression.proxy()))
-            .expectOnce();
+            .expect(once());
         mockExpression.method("evaluate").with(same(mockEnvironment.proxy()))
             .will(throwException(throwable))
-            .expectOnce();
+            .expect(once());
         
         try {
             calculator.calculate(expressionString);
@@ -84,11 +84,11 @@ public class CalculatorTest
     public void testSetsVariableExpression() throws Throwable {
         mockParser.method("parse").with(eq(variableValueString))
             .will(returnValue(mockVariableExpression.proxy()))
-            .expectOnce();
+            .expect(once());
         
         mockEnvironment.method("setVariable")
             .with( eq(variableName), same(mockVariableExpression.proxy()) )
-            .expectOnce();
+            .expect(once());
         
         calculator.setVariable( variableName, variableValueString );
     }

@@ -45,7 +45,7 @@ public abstract class AbstractBinaryOperatorTest
             new CalculatorException("thrown exception");
 
         mockLeft.method("evaluate").with(eq(environment)).will(throwException(thrown))
-            .expectOnce();
+            .expect(once());
 
         try {
             expression.evaluate(environment);
@@ -65,9 +65,9 @@ public abstract class AbstractBinaryOperatorTest
             new CalculatorException("thrown exception");
         
         mockLeft.method("evaluate").with(eq(environment)).will(returnValue(0.0))
-            .expectOnce();
+            .expect(once());
         mockRight.method("evaluate").with(eq(environment)).will(throwException(thrown))
-            .expectOnce();
+            .expect(once());
         
         try {
             expression.evaluate(environment);

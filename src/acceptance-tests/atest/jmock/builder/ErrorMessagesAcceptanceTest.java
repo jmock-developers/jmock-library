@@ -20,9 +20,9 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Mock mock = new Mock(Types.WithTwoMethods.class, MOCK_NAME);
 
         mock.method("twoArgsReturnsInt").with(ANYTHING, ANYTHING).will(returnValue(1))
-            .expectOnce();
+            .expect(once());
         mock.method("twoArgsReturnsInt").with(eq(arg1), same(arg2)).will(returnValue(1))
-            .expectOnce();
+            .expect(once());
         
         try {
             ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt(notArg1, notArg2);
@@ -85,11 +85,11 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         Object b2 = new Object();
         
         mock.method("twoArgsReturnInt").with(eq("a1"),same(a2)).will(returnValue(1))
-            .expectOnce();
+            .expect(once());
         mock.method("twoArgsReturnInt").with(eq("b1"),same(b2)).will(returnValue(2))
-            .expectOnce();
+            .expect(once());
         mock.method("noArgsReturnsNothing").noParams().isVoid()
-            .expectAtLeastOnce();
+            .expect(atLeastOnce());
         
         ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt("b1",b2);
         
