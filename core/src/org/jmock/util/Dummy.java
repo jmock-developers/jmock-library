@@ -36,7 +36,7 @@ public class Dummy {
             }
         } );
         
-        mock.add(mocker);
+        mock.addInvokable(mocker);
         
         return mock.proxy();
 	}

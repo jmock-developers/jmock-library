@@ -11,7 +11,7 @@ public interface DynamicMock
     
     void setDefaultStub( Stub newDefaultStub );
     
-    void add(Invokable invokable);
+    void addInvokable(Invokable invokable);
 
     void reset();
 }

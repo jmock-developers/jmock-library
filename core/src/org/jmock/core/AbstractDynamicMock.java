@@ -73,7 +73,7 @@ public abstract class AbstractDynamicMock
         invocationDispatcher.setDefaultStub(newDefaultStub);
     }
     
-    public void add(Invokable invokable) {
+    public void addInvokable(Invokable invokable) {
         invocationDispatcher.add(invokable);
     }
     
@@ -88,15 +88,15 @@ public abstract class AbstractDynamicMock
     }
     
     private void setupDefaultBehaviour() {
-        add( hiddenInvocationMocker( 
+        addInvokable( hiddenInvocationMocker( 
                 "toString", 
                 NoArgumentsMatcher.INSTANCE, 
                 new ReturnStub(name)));
-        add( hiddenInvocationMocker(
+        addInvokable( hiddenInvocationMocker(
                 "equals", 
                 new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
                 new IsSameAsProxyStub()));
-        add( hiddenInvocationMocker(
+        addInvokable( hiddenInvocationMocker(
                 "hashCode",
                 NoArgumentsMatcher.INSTANCE,
                 new HashCodeStub()));
