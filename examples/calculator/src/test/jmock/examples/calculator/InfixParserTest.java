@@ -170,7 +170,31 @@ public class InfixParserTest
                     multiplication, parser.parse("(x+y)*z") );
     }
     
-    public void testThrowsExceptionIfNoClosingParenthesis() throws Exception {
+    public void testReportsUnexpectedEndOfInput() {
+    	try {
+    		parser.parse("");
+            fail("ParseException expected");
+        }
+        catch( ParseException ex ) {
+        	assertTrue( "error message should report unexpected end of input",
+                        ex.getMessage().indexOf("unexpected end of input") >= 0 );
+        }
+    }
+    
+    public void testReportsUnexpectedToken() {
+        String wrongOperator = "*";
+        
+		try {
+            parser.parse(wrongOperator);
+            fail("ParseException expected");
+        }
+        catch( ParseException ex ) {
+            assertTrue( "error message should include unexpected token",
+                ex.getMessage().indexOf(wrongOperator) >= 0 );
+        }
+    }
+    
+    public void testReportsMissingClosingParenthesis() throws Exception {
         Expression xReference = dummyExpression("xReference");
         
         mockExpressionFactory.expectAndReturn("newVariableReference","x",xReference);

@@ -134,9 +134,11 @@ public class InfixParser implements Parser {
                 return result;
             }
             
+        case Token.END:
+            throw new ParseException("unexpected end of input");
+            
         default:
-            throw new ParseException("unexpected token \""+
-                (token.getValue() == null? "end-of-input" : token.getValue())+"\"");
+            throw new ParseException("unexpected token \"" + token.getValue() +"\"" );
         }
     }
     
