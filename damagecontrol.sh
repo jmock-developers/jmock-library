@@ -22,7 +22,7 @@ mkdir $WEBDIR
 $JAVA_HOME/bin/javadoc \
 	-windowtitle 'jMock API Documentation' \
 	-d $JAVADOCDIR \
-	-linkoffline http://www.junit.org/junit/javadoc/3.8.1/index.htm \
+	-link http://www.junit.org/junit/javadoc/3.8.1/index.htm \
 	-link http://java.sun.com/j2se/1.4.2/docs/api/index.html \
 	-sourcepath $SRCDIR \
 	-subpackages org.jmock
