@@ -10,7 +10,7 @@ import test.jmock.dynamic.testsupport.*;
 
 
 
-public class MockObjectTestCaseTest extends TestCase {
+public class MockObjectTestCase_Test extends TestCase {
     Constraint trueConstraint = AlwaysTrue.INSTANCE;
     Constraint falseConstraint = AlwaysFalse.INSTANCE;
     

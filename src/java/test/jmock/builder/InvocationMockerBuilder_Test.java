@@ -12,7 +12,9 @@ import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 
-public class InvocationMockerBuilderTest extends MockObjectTestCase {
+import test.jmock.builder.testsupport.*;
+
+public class InvocationMockerBuilder_Test extends MockObjectTestCase {
     private MockStubMatchersCollection mocker = new MockStubMatchersCollection();
     private InvocationMockerBuilder builder = new InvocationMockerBuilder(mocker);
 

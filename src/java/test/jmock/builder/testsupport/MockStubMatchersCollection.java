@@ -1,4 +1,4 @@
-package test.jmock.builder;
+package test.jmock.builder.testsupport;
 
 import junit.framework.Assert;
 
