@@ -49,4 +49,5 @@ public class ToDo {
     //TODO Remove getters from Invocation (?)
     //TODO Extract interface from Invocation class (?)
     //TODO for trainer syntax: ((Thingy)mock.will(returnValue(10)).after("prev").id("asdad").train()),doIt(); ??
+    //TODO on failure, show previous invocations for all Mocks within test?
 }
