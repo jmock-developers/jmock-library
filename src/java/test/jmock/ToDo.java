@@ -6,11 +6,11 @@ public class ToDo {
     //TODO Find cool new name for "builder" API
     //TODO Clean up org.jmock.expecation package.
     //TODO Make jmock.expectation package use Constraints instead of calling equals on expected value
-    //TODO DO SOMETHING WITH THE EMPTY TEST CLASSES IN test.jmock.dynamic
+    //TODO Better tests for error messages
     //TODO Implement matchers for call ordering.
     //TODO REMOVE ALL TO-DO COMMENTS
     //Done Extract NoArgs and AnyArgs matcher classes from C
-    //TODO Stop core packages relying on C
+    //Done Stop core packages relying on C
     //TODO Put low-level hook methods into builder interfaces
     //TODO Remove getters from Invocation ? 
         
