@@ -7,10 +7,11 @@ package org.jmock.core;
  * 
  * @see org.jmock.util.Verifier Verifier to check all the Verifiables in an object.
  */
-public interface Verifiable {
+public interface Verifiable
+{
 
-    /**
-     * Throw an AssertionFailedException if any expectations have not been met.
-     */
-    public abstract void verify();
+	/**
+	 * Throw an AssertionFailedException if any expectations have not been met.
+	 */
+	public abstract void verify();
 }

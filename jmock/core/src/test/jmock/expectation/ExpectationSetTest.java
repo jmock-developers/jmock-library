@@ -2,75 +2,76 @@
 package test.jmock.expectation;
 
 import java.util.Vector;
-
 import org.jmock.expectation.ExpectationSet;
 import org.jmock.expectation.MapEntry;
 
-public class ExpectationSetTest extends AbstractTestExpectationCollection {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        myExpectation = new ExpectationSet(getClass().getName());
-    }
+public class ExpectationSetTest extends AbstractTestExpectationCollection
+{
 
-    // look at super-class for more tests.
+	protected void setUp() throws Exception {
+		super.setUp();
+		myExpectation = new ExpectationSet(getClass().getName());
+	}
 
-    public void testMultiUnsorted() {
-        myExpectation.addExpectedMany(new String[]{"A", "B"});
+	// look at super-class for more tests.
 
-        myExpectation.addActualMany(new String[]{"A", "B"});
+	public void testMultiUnsorted() {
+		myExpectation.addExpectedMany(new String[]{"A", "B"});
 
-        myExpectation.verify();
-    }
+		myExpectation.addActualMany(new String[]{"A", "B"});
 
-    public void testChangingHashcode() {
-        final Vector value = new Vector();
+		myExpectation.verify();
+	}
 
-        myExpectation.addExpected(new MapEntry("key", value));
-        myExpectation.addActual(new MapEntry("key", value));
+	public void testChangingHashcode() {
+		final Vector value = new Vector();
 
-        value.add(getName());
+		myExpectation.addExpected(new MapEntry("key", value));
+		myExpectation.addActual(new MapEntry("key", value));
 
-        myExpectation.verify();
-    }
+		value.add(getName());
 
-    public void testChanginHashcodeImediateCheck() {
-        final Vector value = new Vector();
+		myExpectation.verify();
+	}
 
-        myExpectation.addExpected(new MapEntry("key", value));
-        value.add(getName());
-        myExpectation.addActual(new MapEntry("key", value));
+	public void testChanginHashcodeImediateCheck() {
+		final Vector value = new Vector();
 
-        myExpectation.verify();
-    }
+		myExpectation.addExpected(new MapEntry("key", value));
+		value.add(getName());
+		myExpectation.addActual(new MapEntry("key", value));
 
-    public void testMultiUnsortedSet() {
-        myExpectation.addExpectedMany(new String[]{"A", "B"});
+		myExpectation.verify();
+	}
 
-        myExpectation.addActualMany(new String[]{"A", "B", "A", "B"});
+	public void testMultiUnsortedSet() {
+		myExpectation.addExpectedMany(new String[]{"A", "B"});
 
-        myExpectation.verify();
-    }
+		myExpectation.addActualMany(new String[]{"A", "B", "A", "B"});
 
-    public void testUnsorted() {
-        myExpectation.addExpected("A");
-        myExpectation.addExpected("B");
+		myExpectation.verify();
+	}
 
-        myExpectation.addActual("B");
-        myExpectation.addActual("A");
+	public void testUnsorted() {
+		myExpectation.addExpected("A");
+		myExpectation.addExpected("B");
 
-        myExpectation.verify();
-    }
+		myExpectation.addActual("B");
+		myExpectation.addActual("A");
 
-    public void testUnsortedSet() {
-        myExpectation.addExpected("A");
-        myExpectation.addExpected("B");
+		myExpectation.verify();
+	}
 
-        myExpectation.addActual("A");
-        myExpectation.addActual("B");
-        myExpectation.addActual("A");
-        myExpectation.addActual("B");
+	public void testUnsortedSet() {
+		myExpectation.addExpected("A");
+		myExpectation.addExpected("B");
 
-        myExpectation.verify();
-    }
+		myExpectation.addActual("A");
+		myExpectation.addActual("B");
+		myExpectation.addActual("A");
+		myExpectation.addActual("B");
+
+		myExpectation.verify();
+	}
 }

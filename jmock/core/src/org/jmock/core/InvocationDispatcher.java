@@ -2,14 +2,14 @@
 package org.jmock.core;
 
 
-public interface InvocationDispatcher 
-    extends Verifiable, SelfDescribing 
+public interface InvocationDispatcher
+        extends Verifiable, SelfDescribing
 {
-    Object dispatch(Invocation invocation) throws Throwable;
-    
-    void setDefaultStub( Stub newDefaultStub );
-    
-    void add(Invokable invokable);
+	Object dispatch( Invocation invocation ) throws Throwable;
 
-    void clear();
+	void setDefaultStub( Stub newDefaultStub );
+
+	void add( Invokable invokable );
+
+	void clear();
 }

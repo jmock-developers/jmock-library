@@ -4,13 +4,15 @@ package org.jmock.examples.calculator.expression;
 
 import org.jmock.examples.calculator.Expression;
 
-public class Multiplication extends BinaryOperator {
 
-    public Multiplication(Expression left, Expression right) {
-        super(left, right);
-    }
+public class Multiplication extends BinaryOperator
+{
 
-    protected double operator(double left, double right) {
-        return left * right;
-    }
+	public Multiplication( Expression left, Expression right ) {
+		super(left, right);
+	}
+
+	protected double operator( double left, double right ) {
+		return left * right;
+	}
 }

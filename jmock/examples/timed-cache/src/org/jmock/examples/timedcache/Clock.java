@@ -1,6 +1,7 @@
 package org.jmock.examples.timedcache;
 
-public interface Clock {
+public interface Clock
+{
 
-    Timestamp getCurrentTime();
+	Timestamp getCurrentTime();
 }

@@ -7,17 +7,17 @@ import org.jmock.examples.calculator.Environment;
 import org.jmock.examples.calculator.Expression;
 
 
-public class VariableReference implements Expression {
-    
-    private String variableName;
+public class VariableReference implements Expression
+{
 
-    public VariableReference( String variableName ) {
-        this.variableName = variableName;
-    }
+	private String variableName;
 
-    public double evaluate(Environment environment)
-        throws CalculatorException 
-    {
-        return environment.getVariable(variableName).evaluate(environment);
-    }
+	public VariableReference( String variableName ) {
+		this.variableName = variableName;
+	}
+
+	public double evaluate( Environment environment )
+	        throws CalculatorException {
+		return environment.getVariable(variableName).evaluate(environment);
+	}
 }

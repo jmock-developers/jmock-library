@@ -3,6 +3,7 @@
 package org.jmock.examples.calculator;
 
 
-public interface Expression {
-    double evaluate( Environment environment ) throws CalculatorException;
+public interface Expression
+{
+	double evaluate( Environment environment ) throws CalculatorException;
 }

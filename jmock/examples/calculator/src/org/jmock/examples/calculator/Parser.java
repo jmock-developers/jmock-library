@@ -3,8 +3,9 @@
 package org.jmock.examples.calculator;
 
 
-public interface Parser {
+public interface Parser
+{
 
-    Expression parse(String expressionString) throws ParseException;
+	Expression parse( String expressionString ) throws ParseException;
 
 }

@@ -37,73 +37,76 @@ package org.jmock.expectation;
  * @author <a href="mailto:fbos@users.sourceforge.net">Francois Beausoleil (fbos@users.sourceforge.net)</a>
  * @version $Id$
  */
-public class Null {
-    /**
-     * The default description for all {@link org.jmock.expectation.Null Null}
-     * objects.
-     * This String is equal to "<code>Null</code>".
-     */
-    public static final String DEFAULT_DESCRIPTION = "Null";
+public class Null
+{
+	/**
+	 * The default description for all {@link org.jmock.expectation.Null Null}
+	 * objects.
+	 * This String is equal to "<code>Null</code>".
+	 */
+	public static final String DEFAULT_DESCRIPTION = "Null";
 
-    /**
-     * A default {@link org.jmock.expectation.Null Null} object.
-     * Instead of always instantiating new {@link org.jmock.expectation.Null Null}
-     * objects, consider using a reference to this object instead. This way,
-     * the virtual machine will not be taking the time required to instantiate
-     * an object everytime it is required.
-     */
-    public static final Null NULL = new Null();
+	/**
+	 * A default {@link org.jmock.expectation.Null Null} object.
+	 * Instead of always instantiating new {@link org.jmock.expectation.Null Null}
+	 * objects, consider using a reference to this object instead. This way,
+	 * the virtual machine will not be taking the time required to instantiate
+	 * an object everytime it is required.
+	 */
+	public static final Null NULL = new Null();
 
-    /** The description of this {@link org.jmock.expectation.Null Null} object. */
-    final private String myDescription;
+	/**
+	 * The description of this {@link org.jmock.expectation.Null Null} object.
+	 */
+	final private String myDescription;
 
-    /**
-     * Instantiates a new {@link org.jmock.expectation.Null Null} object with
-     * the default description.
-     * 
-     * @see org.jmock.expectation.Null#DEFAULT_DESCRIPTION
-     */
-    public Null() {
-        this(DEFAULT_DESCRIPTION);
-    }
+	/**
+	 * Instantiates a new {@link org.jmock.expectation.Null Null} object with
+	 * the default description.
+	 *
+	 * @see org.jmock.expectation.Null#DEFAULT_DESCRIPTION
+	 */
+	public Null() {
+		this(DEFAULT_DESCRIPTION);
+	}
 
-    /**
-     * Instantiates a new {@link org.jmock.expectation.Null Null} object and
-     * sets it's description.
-     * 
-     * @param description 
-     */
-    public Null(String description) {
-        super();
-        myDescription = description;
-    }
+	/**
+	 * Instantiates a new {@link org.jmock.expectation.Null Null} object and
+	 * sets it's description.
+	 *
+	 * @param description
+	 */
+	public Null( String description ) {
+		super();
+		myDescription = description;
+	}
 
-    /**
-     * Determines equality between two objects.
-     * {@link org.jmock.expectation.Null Null} objects are only equal to
-     * another instance of themselves.
-     * 
-     * @param other 
-     */
-    public boolean equals(Object other) {
-        return other instanceof Null;
-    }
+	/**
+	 * Determines equality between two objects.
+	 * {@link org.jmock.expectation.Null Null} objects are only equal to
+	 * another instance of themselves.
+	 *
+	 * @param other
+	 */
+	public boolean equals( Object other ) {
+		return other instanceof Null;
+	}
 
-    /**
-     * Returns this {@link org.jmock.expectation.Null Null} object's hashCode.
-     * All  {@link org.jmock.expectation.Null Null} return the same
-     * hashCode value.
-     */
-    public int hashCode() {
-        return 0;
-    }
+	/**
+	 * Returns this {@link org.jmock.expectation.Null Null} object's hashCode.
+	 * All  {@link org.jmock.expectation.Null Null} return the same
+	 * hashCode value.
+	 */
+	public int hashCode() {
+		return 0;
+	}
 
-    /**
-     * Returns a string representation of this {@link org.jmock.expectation.Null Null}
-     * object.
-     * This merely returns the string passed to the constructor initially.
-     */
-    public String toString() {
-        return myDescription;
-    }
+	/**
+	 * Returns a string representation of this {@link org.jmock.expectation.Null Null}
+	 * object.
+	 * This merely returns the string passed to the constructor initially.
+	 */
+	public String toString() {
+		return myDescription;
+	}
 }

@@ -4,8 +4,6 @@
   </head>
   
   <body>
-    <h1>DRAFT</h1>
-    
     <h1>Writing Custom Invocation Matchers</h1>
     
     <p>Invocation matchers control how a mock object matches and verifies incoming invocations 
@@ -17,10 +15,17 @@
     In these cases you will need to write your own invocation matcher classes.
     This article will show you how to do just that.
     </p>
-    
-    <p><em>TODO: how invocation matchers are matched against incoming invocations.</em></p>
-    
-	<p>An invocation matcher is an object that implements the 
+
+    <p>A mock object contains a list of expectations (and stubs, but we can consider a stub to be a degerate
+    form of expectation and jMock uses the same type of object to implement both).
+    When a mock object receives an invocation it searches for an expectation to process the invocation,
+    starting with the most recently specified expectation and working backwards until it finds match.
+    Each expectation contains matching rules that control which invocations it matches.
+    An expectation matches an invocation if all of its matching rules match the invocation.
+    The jMock API provides a concise, descriptive syntax for adding expectations to a mock and adding matching
+    rules to expectations.</p>
+
+	<p>An matching rule is an object that implements the
     <code><a href="docs/javadoc/org/jmock/core/InvocationMatcher">InvocationMatcher</a></code>
     interface. It has the following responsiblities:</p>
     

@@ -2,11 +2,12 @@
 package org.jmock.core;
 
 
-public interface InvocationMatcher 
-	extends Verifiable, SelfDescribing
+public interface InvocationMatcher
+        extends Verifiable, SelfDescribing
 {
-    boolean matches(Invocation invocation);
-    void invoked(Invocation invocation);
-    
-    boolean hasDescription();
+	boolean matches( Invocation invocation );
+
+	void invoked( Invocation invocation );
+
+	boolean hasDescription();
 }

@@ -3,41 +3,41 @@ package org.jmock.expectation;
 
 import junit.framework.Assert;
 
-public class ExpectationCounter extends AbstractExpectation {
-    private int myExpectedCalls = 0;
-    private int myActualCalls = 0;
 
-    public ExpectationCounter(String name) {
-        super(name);
-    }
+public class ExpectationCounter extends AbstractExpectation
+{
+	private int myExpectedCalls = 0;
+	private int myActualCalls = 0;
 
-    public void clearActual() {
-        myActualCalls = 0;
-    }
+	public ExpectationCounter( String name ) {
+		super(name);
+	}
 
-    public void inc() {
-        myActualCalls++;
-        if (shouldCheckImmediately()) {
-            Assert.assertTrue(
-                    myName + " should not be called more than " + myExpectedCalls + " times",
-                    myActualCalls <= myExpectedCalls);
-        }
-    }
+	public void clearActual() {
+		myActualCalls = 0;
+	}
 
-    public void setExpected(int expectedCalls) {
-        myExpectedCalls = expectedCalls;
-        setHasExpectations();
-    }
+	public void inc() {
+		myActualCalls++;
+		if (shouldCheckImmediately()) {
+			Assert.assertTrue(myName + " should not be called more than " + myExpectedCalls + " times",
+			                  myActualCalls <= myExpectedCalls);
+		}
+	}
 
-    public void setExpectNothing() {
-        myExpectedCalls = 0;
-        setHasExpectations();
-    }
+	public void setExpected( int expectedCalls ) {
+		myExpectedCalls = expectedCalls;
+		setHasExpectations();
+	}
 
-    public void verify() {
-        assertEquals(
-                "did not receive the expected Count.",
-                myExpectedCalls,
-                myActualCalls);
-    }
+	public void setExpectNothing() {
+		myExpectedCalls = 0;
+		setHasExpectations();
+	}
+
+	public void verify() {
+		assertEquals("did not receive the expected Count.",
+		             myExpectedCalls,
+		             myActualCalls);
+	}
 }

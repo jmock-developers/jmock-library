@@ -3,10 +3,11 @@
 package org.jmock.examples.calculator;
 
 
-public interface Environment {
+public interface Environment
+{
 
-    Expression getVariable( String name ) throws CalculatorException;
+	Expression getVariable( String name ) throws CalculatorException;
 
-    void setVariable( String name, Expression expression );
+	void setVariable( String name, Expression expression );
 
 }

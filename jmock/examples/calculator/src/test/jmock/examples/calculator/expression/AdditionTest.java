@@ -6,17 +6,19 @@ package test.jmock.examples.calculator.expression;
 import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.expression.Addition;
 
-public class AdditionTest extends AbstractBinaryOperatorTest {
 
-    public void testAddsLeftAndRightSubexpressions() throws Exception {
-        runOperatorTest();
-    }
+public class AdditionTest extends AbstractBinaryOperatorTest
+{
 
-    protected double expectedValue(double left, double right) {
-        return left + right;
-    }
+	public void testAddsLeftAndRightSubexpressions() throws Exception {
+		runOperatorTest();
+	}
 
-    protected Expression makeExpression(Expression left, Expression right) {
-        return new Addition(left, right);
-    }
+	protected double expectedValue( double left, double right ) {
+		return left + right;
+	}
+
+	protected Expression makeExpression( Expression left, Expression right ) {
+		return new Addition(left, right);
+	}
 }
