@@ -41,7 +41,7 @@ echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
 if let $DEPLOY; then
     build-step deploy $BUILDDIR/dist/* $DEPLOY_JAR_ROOT
     build-step deploy $WEBDIR/* $DEPLOY_WEB_ROOT/
-    build-step deploy $BUILDDIR/javadoc-$BUILD_TIMESTAMP/* $DEPLOY_WEB_ROOT/docs/javadoc/*
+    build-step deploy $BUILDDIR/javadoc-$BUILD_TIMESTAMP/* $DEPLOY_WEB_ROOT/docs/javadoc/
 fi
 
 echo all done.
