@@ -15,10 +15,10 @@ import org.jmock.core.stub.ThrowStub;
 /**
  * A base class for tests that use <a href="http://www.mockobjects.com">Mock Objects</a>.
  * This class provides methods for creating mock objects and expectations and automatically
- * verifying mock objects after the test has run, but before the test fixture has been torn down.
+ * verifying mock objects after the test has run but before the test fixture has been torn down.
  */
 public abstract class MockObjectTestCase
-        extends MockObjectSupportTestCase
+    extends MockObjectSupportTestCase
 {
     public MockObjectTestCase() {
     }
@@ -27,10 +27,25 @@ public abstract class MockObjectTestCase
         super(name);
     }
 
+    /**
+     * Creates a mock object that mocks the given type.  The mock object is named after the type;  the exact
+     * name is calculated by {@link #defaultMockNameForType}.
+     *
+     * @param mockedType The type to be mocked.
+     * @return A {@link Mock} object that mocks <var>mockedType</var>.
+     */
     public Mock mock( Class mockedType ) {
         return mock(mockedType, defaultMockNameForType(mockedType));
     }
 
+    /**
+     * Creates a mock object that mocks the given type and is explicitly given a name.
+     * The mock object is named after the type;  the exact name is calculated by {@link #defaultMockNameForType}.
+     *
+     * @param mockedType The type to be mocked.
+     * @param roleName The name of the mock object
+     * @return A {@link Mock} object that mocks <var>mockedType</var>.
+     */
     public Mock mock( Class mockedType, String roleName ) {
         Mock newMock = new Mock(newCoreMock(mockedType, roleName));
         registerToVerify(newMock);
@@ -41,6 +56,11 @@ public abstract class MockObjectTestCase
         return new CoreMock(mockedType, roleName);
     }
 
+    /**
+     * Calculates
+     * @param mockedType
+     * @return
+     */
     public String defaultMockNameForType( Class mockedType ) {
         return "mock" + Formatting.classShortName(mockedType);
     }

@@ -6,9 +6,9 @@ import junit.framework.TestCase;
 import org.jmock.core.Constraint;
 import org.jmock.core.Invocation;
 import org.jmock.core.constraint.IsSame;
+import org.jmock.core.constraint.IsAnything;
+import org.jmock.core.constraint.IsNothing;
 import org.jmock.core.matcher.ArgumentsMatcher;
-import test.jmock.core.testsupport.AlwaysFalse;
-import test.jmock.core.testsupport.AlwaysTrue;
 import test.jmock.core.testsupport.MethodFactory;
 
 
@@ -49,21 +49,21 @@ public class ArgumentsMatcherTest extends TestCase
 
     public void testNoMatchWhenTooFewArguments() throws Throwable {
         ArgumentsMatcher matcher =
-                new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE, AlwaysTrue.INSTANCE});
+                new ArgumentsMatcher(new Constraint[]{IsAnything.INSTANCE, IsAnything.INSTANCE, IsAnything.INSTANCE});
 
         assertFalse("Too many arguments", matcher.matches(exampleInvocation));
     }
 
     public void testNoMatchWhenAnyArgumentDoesNotConform() throws Throwable {
         ArgumentsMatcher matcher =
-                new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, same("wrong")});
+                new ArgumentsMatcher(new Constraint[]{IsAnything.INSTANCE, same("wrong")});
 
         assertFalse("Incorrect argument", matcher.matches(exampleInvocation));
     }
 
     public void testArgumentsMatchWhenAllArgumentsMatch() throws Throwable {
         ArgumentsMatcher matcher =
-                new ArgumentsMatcher(new Constraint[]{AlwaysTrue.INSTANCE, same(exampleArg2)});
+                new ArgumentsMatcher(new Constraint[]{IsAnything.INSTANCE, same(exampleArg2)});
 
         assertTrue("Arguments match", matcher.matches(exampleInvocation));
     }
@@ -73,7 +73,7 @@ public class ArgumentsMatcherTest extends TestCase
 
         ArgumentsMatcher matcher = new ArgumentsMatcher(constraintArray);
 
-        constraintArray[0] = AlwaysFalse.INSTANCE;
+        constraintArray[0] = IsNothing.INSTANCE;
         assertTrue("arguments should match", matcher.matches(exampleInvocation));
     }
 

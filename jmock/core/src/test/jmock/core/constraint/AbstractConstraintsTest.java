@@ -5,14 +5,14 @@ package test.jmock.core.constraint;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jmock.core.Constraint;
-import test.jmock.core.testsupport.AlwaysFalse;
-import test.jmock.core.testsupport.AlwaysTrue;
+import org.jmock.core.constraint.IsAnything;
+import org.jmock.core.constraint.IsNothing;
 
 
 public abstract class AbstractConstraintsTest extends TestCase
 {
-    protected static final Constraint TRUE_CONSTRAINT = AlwaysTrue.INSTANCE;
-    protected static final Constraint FALSE_CONSTRAINT = AlwaysFalse.INSTANCE;
+    protected static final Constraint TRUE_CONSTRAINT = new IsAnything("always true");
+    protected static final Constraint FALSE_CONSTRAINT = new IsNothing("always false");
 
     protected static final Constraint NEVER_EVALUATED = new Constraint()
     {

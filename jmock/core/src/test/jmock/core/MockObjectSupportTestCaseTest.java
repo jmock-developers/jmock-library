@@ -5,17 +5,17 @@ package test.jmock.core;
 import junit.framework.TestCase;
 import org.jmock.core.Constraint;
 import org.jmock.core.MockObjectSupportTestCase;
+import org.jmock.core.constraint.IsAnything;
+import org.jmock.core.constraint.IsNothing;
 import org.jmock.util.Dummy;
-import test.jmock.core.testsupport.AlwaysFalse;
-import test.jmock.core.testsupport.AlwaysTrue;
 
 
 public class MockObjectSupportTestCaseTest extends TestCase
 {
     private static final String DUMMY_NAME = "DUMMY NAME";
 
-    Constraint trueConstraint = AlwaysTrue.INSTANCE;
-    Constraint falseConstraint = AlwaysFalse.INSTANCE;
+    Constraint trueConstraint = new IsAnything("always true");
+    Constraint falseConstraint = new IsNothing("always false");
 
 
     interface ExampleInterface
