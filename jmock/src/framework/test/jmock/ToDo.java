@@ -12,7 +12,8 @@ public class ToDo {
     //TODO move default behaviour of default result stub into constructor.
     
     //TODO Implement API for call ordering in dynamock API (or... see below)
-    //TODO remove dynamock API, or at least demote it to an optional extension and find another maintainer
+    //TODO remove dynamock API or find a maintainer
+    
     //TODO REMOVE ALL TO-DO COMMENTS
     
 	//-----------------------------------------------------------------------------------------
@@ -34,6 +35,7 @@ public class ToDo {
     //DONE CoreMock should implement the hashCode method for proxies
     //DONE new hotmock syntax for expects and stubs 
     //DONE new hotmock syntax for expectNotCalled
+    //DONE demote dynamock API to an optional extension
 	
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
