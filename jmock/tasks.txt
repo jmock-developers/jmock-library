@@ -12,29 +12,31 @@
 - Added maven reports to website.
 - Create welcome page.
 - Make it simpler to add custom stubs (for side-effects).
+- Follow coding convention in constraint classes
+- Convert calculator example to use "builder" API.
 
 *** Stuff to do ***
 
-- JavaDoc all classes in root org.jmock package.
-- Get a logo.
-- Setup Jira.
-- Update developers/contributors/cvs/mailing-list maven details.
-- Find cool new name for "builder" API
-- write java.util.MockObjectsTestCase class with convenience methods that delegate 
-  to C class
-- Clean up org.jmock.expecation package.
-- Make jmock.expectation package use Constraints instead of calling equals on expected value
-- DO SOMETHING WITH THE EMPTY TEST CLASSES IN test.jmock.dynamic
-- Implement matchers for call ordering.
-- Remove PMD violations
-- Follow coding convention in constraint classes
-- REMOVE ALL TODO: COMMENTS
+Organisation:
+-Get a logo.
+-Setup Jira.
+-Update developers/contributors/cvs/mailing-list maven details.
+
+Code:
+-JavaDoc all classes in root org.jmock package.
+-Find cool new name for "builder" API
+-write java.util.MockObjectsTestCase class with convenience methods that delegate to C class
+-Clean up org.jmock.expecation package.
+-Make jmock.expectation package use Constraints instead of calling equals on expected value
+-DO SOMETHING WITH THE EMPTY TEST CLASSES IN test.jmock.dynamic
+-Implement matchers for call ordering.
+-Remove PMD violations
+-REMOVE ALL TODO: COMMENTS
 
 (sensible defaults reduce test brittleness)
-- Sensible default: If no expectation/match setup, invocation should produce no-op instead of fail.
-- ExpectNotCalled (or equivalent) makes tests more expressive.
+-TODO: Sensible default: If no expectation/match setup, invocation should produce no-op instead of fail.
+-TODO: ExpectNotCalled (or equivalent) makes tests more expressive.
 
-- Convert calculator example to use "builder" API.
 
 *** Suggested improvements ***
 
