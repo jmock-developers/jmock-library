@@ -2,9 +2,7 @@
 package org.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
-import org.jmock.InvocationMatcher;
-import org.jmock.Stub;
-import org.jmock.matcher.MethodNameMatcher;
+import org.jmock.dynamic.matcher.MethodNameMatcher;
 
 import java.util.ArrayList;
 import java.util.Iterator;

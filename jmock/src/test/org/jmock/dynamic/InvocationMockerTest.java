@@ -5,10 +5,10 @@ import org.jmock.*;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.Verifier;
-import org.jmock.matcher.ArgumentsMatcher;
-import org.jmock.matcher.MethodNameMatcher;
-import org.jmock.matcher.StatelessInvocationMatcher;
-import org.jmock.stub.VoidStub;
+import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.MethodNameMatcher;
+import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
+import org.jmock.dynamic.stub.VoidStub;
 
 public class InvocationMockerTest extends AbstractTestCase {
     private InvocationMatcher matchAll = new StatelessInvocationMatcher() {

@@ -1,11 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
-import org.jmock.InvocationMatcher;
-import org.jmock.matcher.CallOnceMatcher;
-import org.jmock.stub.ReturnStub;
-import org.jmock.stub.ThrowStub;
-import org.jmock.stub.VoidStub;
+import org.jmock.dynamic.matcher.CallOnceMatcher;
+import org.jmock.dynamic.stub.ReturnStub;
+import org.jmock.dynamic.stub.ThrowStub;
+import org.jmock.dynamic.stub.VoidStub;
 
 public class InvokableFactory {
 

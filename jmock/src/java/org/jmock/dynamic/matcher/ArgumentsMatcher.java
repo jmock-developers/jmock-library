@@ -1,5 +1,5 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.matcher;
+package org.jmock.dynamic.matcher;
 
 import org.jmock.Constraint;
 import org.jmock.dynamic.Invocation;
@@ -11,6 +11,7 @@ public class ArgumentsMatcher
 {
     private Constraint[] constraints;
 
+    // TODO: encapsulate the constraints array
     public ArgumentsMatcher(Constraint[] constraints) {
         ArgumentsMatcher.this.constraints = constraints;
     }
@@ -29,6 +30,7 @@ public class ArgumentsMatcher
         return true;
     }
 
+    // TODO: encapsulate the constraints array
     public Constraint[] getConstraints() {
         return constraints;
     }

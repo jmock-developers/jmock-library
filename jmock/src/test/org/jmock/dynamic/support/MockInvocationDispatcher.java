@@ -19,6 +19,7 @@ public class MockInvocationDispatcher
     public ExpectationCounter clearCalls = new ExpectationCounter("clear calls");
     public ExpectationCounter verifyCalls = new ExpectationCounter("verify calls");
     public AssertionFailedError verifyFailure;
+    public String writeToOutput = "MockInvocationDispatcher.writeTo output";
 
     public void add(Invokable invokable) {
         addInvokable.setActual(invokable);
@@ -52,6 +53,6 @@ public class MockInvocationDispatcher
     }
 
     public void writeTo(StringBuffer buffer) {
-        throw new AssertionError("should implement writeTo");
+    	buffer.append( writeToOutput );
     }
 }

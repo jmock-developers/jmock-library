@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock;
+package org.jmock.dynamic;
 
-import org.jmock.dynamic.Invocation;
 import org.jmock.expectation.Verifiable;
 
 public interface InvocationMatcher extends Verifiable {

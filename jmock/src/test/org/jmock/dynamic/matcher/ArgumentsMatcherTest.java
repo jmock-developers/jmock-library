@@ -1,10 +1,11 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.matcher;
+package org.jmock.dynamic.matcher;
 
 import org.jmock.AbstractTestCase;
 import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.matcher.ArgumentsMatcher;
 
 public class ArgumentsMatcherTest extends AbstractTestCase {
     private Invocation emptyInvocation =

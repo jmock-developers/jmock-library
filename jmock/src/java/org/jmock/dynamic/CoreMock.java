@@ -3,7 +3,7 @@ package org.jmock.dynamic;
 
 import junit.framework.AssertionFailedError;
 import org.jmock.C;
-import org.jmock.stub.ReturnStub;
+import org.jmock.dynamic.stub.ReturnStub;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

@@ -1,10 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.stub;
+package org.jmock.dynamic.stub;
 
 import junit.framework.TestCase;
 
 import org.jmock.dynamic.Invocation;
-import org.jmock.stub.ReturnStub;
+import org.jmock.dynamic.stub.ReturnStub;
 
 public class ReturnStubTest 
 	extends TestCase 

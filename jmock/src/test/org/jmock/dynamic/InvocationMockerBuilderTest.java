@@ -2,13 +2,11 @@
 package org.jmock.dynamic;
 
 import junit.framework.TestCase;
-import org.jmock.InvocationMatcher;
-import org.jmock.Stub;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.Verifier;
-import org.jmock.stub.ReturnStub;
-import org.jmock.stub.ThrowStub;
-import org.jmock.stub.VoidStub;
+import org.jmock.dynamic.stub.ReturnStub;
+import org.jmock.dynamic.stub.ThrowStub;
+import org.jmock.dynamic.stub.VoidStub;
 
 public class InvocationMockerBuilderTest extends TestCase {
     public class MockInvocationMocker extends InvocationMocker {
