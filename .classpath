@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/acceptance-tests"/>
-	<classpathentry kind="src" path="src/framework"/>
-	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
-	<classpathentry kind="src" path="examples/calculator/src"/>
 	<classpathentry kind="src" path="examples/publisher/src"/>
+	<classpathentry kind="src" path="examples/calculator/src"/>
+	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
+	<classpathentry kind="src" path="src/framework"/>
+	<classpathentry kind="src" path="src/acceptance-tests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/junit-3.8.1.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="classes"/>
 </classpath>
