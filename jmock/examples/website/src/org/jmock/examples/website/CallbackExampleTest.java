@@ -20,7 +20,7 @@ public class CallbackExampleTest extends MockObjectTestCase
         Mock mockNamed = mock(Named.class);
 
         mockNamed.expects(once()).method("collectName").with(NOT_NULL)
-            .will(addToList(NAME));
+            .will(addListElement(NAME));
         
         List list = new ArrayList();
         ((Named)mockNamed.proxy()).collectName(list);
@@ -28,7 +28,7 @@ public class CallbackExampleTest extends MockObjectTestCase
         assertTrue("list should contain name", list.contains(NAME) );
     }
 
-    private Stub addToList( String name ) {
-        return new AddToListStub(name);
+    private Stub addListElement( Object newElement ) {
+        return new AddToListStub(newElement);
     }
 }

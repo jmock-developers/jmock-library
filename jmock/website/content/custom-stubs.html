@@ -68,8 +68,8 @@
         class.</p>
 
         <div class="Source Java">
-<pre>private Stub addToList( String name ) {
-    return new AddToListStub(name);
+<pre>private Stub addListElement( Object newElement ) {
+    return new AddToListStub(newElement);
 }</pre>
         </div>
       </li>
@@ -83,7 +83,7 @@
 String name = "name";
 
 mockNamed.expects(once()).method("collectName").with(NOT_NULL)
-    .will(addToList(name));</pre>
+    .will(addListElement(name));</pre>
         </div>
       </li>
     </ol>
