@@ -71,9 +71,9 @@ public class DynamicMockExample extends TestCase {
         Agent agent = new Agent((Market) mockMarket.proxy());
         
         mockMarket.method("listStocks").noParams().willReturn(new String[]{"IBM","ORCL"});
-        mockMarket.method("getPrice").passed("IBM").willReturn(new Integer(10))
+        mockMarket.method("getPrice").passed("IBM").willReturn(10)
         	.expectOnce();
-        mockMarket.method("getPrice").passed("ORCL").willReturn(new Integer(25))
+        mockMarket.method("getPrice").passed("ORCL").willReturn(25)
         	.expectOnce();
         mockMarket.method("buyStock").passed("IBM", new Integer(2)).isVoid()
         	.expectOnce();
