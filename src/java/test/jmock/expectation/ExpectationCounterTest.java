@@ -1,12 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
+import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationCounter;
 
-import junit.framework.AssertionFailedError;
-import test.jmock.AbstractTestCase;
-
-public class ExpectationCounterTest extends AbstractTestCase {
+public class ExpectationCounterTest extends TestCase {
 
     public void testExpectNothing() {
         ExpectationCounter e = new ExpectationCounter("");
@@ -50,14 +51,14 @@ public class ExpectationCounterTest extends AbstractTestCase {
         aCounter.inc();
         aCounter.inc();
 
-        assertVerifyFails(aCounter);
+        AssertMo.assertVerifyFails(aCounter);
     }
 
     public void testFailure() {
         ExpectationCounter e = new ExpectationCounter("");
         e.setExpected(1);
 
-        assertVerifyFails(e);
+        AssertMo.assertVerifyFails(e);
     }
 
     public void testFlushActual() {

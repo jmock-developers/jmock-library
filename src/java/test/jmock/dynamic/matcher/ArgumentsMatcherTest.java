@@ -1,15 +1,15 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic.matcher;
 
+import junit.framework.TestCase;
+
 import org.jmock.Constraint;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamock.C;
 
-import test.jmock.AbstractTestCase;
 
-
-public class ArgumentsMatcherTest extends AbstractTestCase {
+public class ArgumentsMatcherTest extends TestCase {
 	private Invocation emptyInvocation =
             new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
 

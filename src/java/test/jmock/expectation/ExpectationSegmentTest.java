@@ -1,12 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
+import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationSegment;
 
-import junit.framework.AssertionFailedError;
-import test.jmock.AbstractTestCase;
-
-public class ExpectationSegmentTest extends AbstractTestCase {
+public class ExpectationSegmentTest extends TestCase {
 
     private ExpectationSegment myExpectation;
 
@@ -38,7 +39,7 @@ public class ExpectationSegmentTest extends AbstractTestCase {
         myExpectation.setFailOnVerify();
 
         myExpectation.setActual("string without stuff");
-        assertVerifyFails(myExpectation);
+        AssertMo.assertVerifyFails(myExpectation);
     }
 
     public void testFailsImmediately() {

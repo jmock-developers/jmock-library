@@ -1,13 +1,13 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.util;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.MockObject;
 
-import test.jmock.AbstractTestCase;
-import junit.framework.AssertionFailedError;
-
-public class VerifierTest extends AbstractTestCase {
+public class VerifierTest extends TestCase {
 
     class OneVerifiable extends MockObject {
         private ExpectationValue myValue = new ExpectationValue("should fail");

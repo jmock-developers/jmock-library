@@ -1,12 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.expectation;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 import org.jmock.expectation.ReturnValue;
 
-import test.jmock.AbstractTestCase;
-import junit.framework.AssertionFailedError;
-
-public class ReturnValueTest extends AbstractTestCase {
+public class ReturnValueTest extends TestCase {
     private ReturnValue value;
 
     protected void setUp() throws Exception {
