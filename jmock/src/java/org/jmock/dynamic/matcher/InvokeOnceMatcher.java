@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMatcher;
 
-public class CallOnceMatcher implements InvocationMatcher {
+public class InvokeOnceMatcher implements InvocationMatcher {
     private boolean wasInvoked = false;
 
     public boolean matches(Invocation invocation) {

@@ -7,7 +7,7 @@ import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.InvocationMocker;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.CallOnceMatcher;
+import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
@@ -30,7 +30,7 @@ public class InvokableFactory
 	}
 	
 	public InvocationMatcher createCallOnceMatcher() {
-		return new CallOnceMatcher();
+		return new InvokeOnceMatcher();
 	}
 
 	public Stub createReturnStub(Object result) {

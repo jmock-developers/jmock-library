@@ -5,7 +5,7 @@ import org.jmock.C;
 import org.jmock.Constraint;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.CallOnceMatcher;
+import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
@@ -52,7 +52,7 @@ public class InvocationMockerBuilder implements MatchBuilder, ExpectationBuilder
     }
     
 	public ExpectationBuilder expectOnce() {
-		mocker.addMatcher( new CallOnceMatcher() );
+		mocker.addMatcher( new InvokeOnceMatcher() );
 		return this;
 	}
 
