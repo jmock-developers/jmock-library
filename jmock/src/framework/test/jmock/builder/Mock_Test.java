@@ -48,13 +48,11 @@ public class Mock_Test extends TestCase {
     private interface MockedType {}
     
     public void testReportsTypesMockedByUnderlyingMock(){
-        Class[] mockedTypes = new Class[] { MockedType.class };
+        mockCoreMock.getMockedTypeCalls.setExpected(1);
+        mockCoreMock.getMockedTypeResult = MockedType.class;
         
-        mockCoreMock.getMockedTypesCalls.setExpected(1);
-        mockCoreMock.getMockedTypesResult = mockedTypes;
-        
-        AssertMo.assertEquals( "mocked types", 
-                               mockedTypes, mock.getMockedTypes() );
+        AssertMo.assertSame( "mocked types", 
+                               MockedType.class, mock.getMockedTypes() );
     }
     
     public void testPassesDefaultStubToCoreMock() {

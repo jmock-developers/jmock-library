@@ -36,8 +36,8 @@ public class Mock
 		return coreMock.proxy();
 	}
 	
-    public Class[] getMockedTypes() {
-        return coreMock.getMockedTypes();
+    public Class getMockedType() {
+        return coreMock.getMockedType();
     }
     
 	public void reset() {

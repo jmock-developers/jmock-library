@@ -18,7 +18,7 @@ public class CoreMock
 	implements DynamicMock 
 {
     private InvocationDispatcher invocationDispatcher;
-    private Class[] mockedTypes;
+    private Class mockedType;
     private Object proxy;
     private String name;
 
@@ -26,9 +26,9 @@ public class CoreMock
                      String name, 
                      InvocationDispatcher invocationDispatcher ) 
     {
-        this.mockedTypes = new Class[]{mockedType};
+        this.mockedType = mockedType;
         this.proxy = Proxy.newProxyInstance( getClass().getClassLoader(), 
-                                             mockedTypes, 
+                                             new Class[]{mockedType}, 
                                              this);
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
@@ -36,8 +36,8 @@ public class CoreMock
         setupDefaultBehaviour();
     }
     
-    public Class[] getMockedTypes() {
-        return (Class[])mockedTypes.clone();
+    public Class getMockedType() {
+        return mockedType;
     }
     
     public Object proxy() {
