@@ -93,7 +93,6 @@ public class Mock_OrderedInvocations_IntegrationTest
 		String otherMockName = "otherMock";
 		String priorCall = "HELLO-CALL-ID";
 		Mock otherMock = new Mock( ExampleInterface.class, otherMockName );
-		ExampleInterface otherProxy = (ExampleInterface)otherMock.proxy();
 		
 		otherMock.method("hello").id(priorCall);
 		mock.method("goodbye").after(otherMock,priorCall);

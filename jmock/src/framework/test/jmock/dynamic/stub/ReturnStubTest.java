@@ -21,8 +21,6 @@ public class ReturnStubTest
     }
     
     public void testReturnsValuePassedToConstructor() throws Throwable {
-        final String RESULT = "result";
-        
         assertSame( "Should be the same result object", 
         		    RESULT, returnStub.invoke(invocation) );
     }

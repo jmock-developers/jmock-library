@@ -26,7 +26,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
     }
 
     public void dummyMethod() {
-    };
+    }
     
     public void testInvokeFailsWhenEmpty() throws Throwable {
         try {
