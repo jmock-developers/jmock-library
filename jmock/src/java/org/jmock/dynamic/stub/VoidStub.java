@@ -2,9 +2,10 @@
 package org.jmock.dynamic.stub;
 
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.Stub;
 
 public class VoidStub 
-	extends CallStub 
+	implements Stub
 {
 	public static final VoidStub INSTANCE = new VoidStub();
 	

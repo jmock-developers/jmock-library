@@ -2,9 +2,11 @@
 package org.jmock.dynamic.stub;
 
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.Stub;
 
 public class ThrowStub
-        extends CallStub {
+    implements Stub
+{
     private Throwable throwable;
 
     public ThrowStub(Throwable throwable) {
