@@ -21,10 +21,9 @@
                 an <a href="http://cvs.jmock.org/changelog/~rss,/jmock/rss.xml">RSS feed of CVS commits</a>,
                 so you can be informed about new features as we check them in.
             </description>
-            <dc:creator>Nat Pryce</dc:creator>
             <pubDate>2004-06-30</pubDate>
         </item>
-        
+
 		<item>
 			<title>See jMock in Action at the ADC</title>
 			<category>Event</category>
@@ -184,7 +183,6 @@
 			<link>http://www.jmock.org/</link>
 			<description>
 			</description>
-			<dc:creator>Nat Pryce</dc:creator>
 			<pubDate>2004-MM-DD</pubDate>
 		</item>
 
