@@ -6,20 +6,23 @@ import junit.framework.AssertionFailedError;
 public class DynamicMockError 
 	extends AssertionFailedError 
 {
+    public final CoreMock coreMock;
     public final Invocation invocation;
     public final InvocationDispatcher dispatcher;
 
-    public DynamicMockError( Invocation invocation, 
-							 InvocationDispatcher dispatcher, 
-							 String message ) 
+    public DynamicMockError( CoreMock coreMock, 
+							 Invocation invocation, 
+							 InvocationDispatcher dispatcher, String message ) 
     {
         super(message);
+        this.coreMock = coreMock;
         this.invocation = invocation;
         this.dispatcher = dispatcher;
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        buffer.append(super.getMessage()).append("\n");
+        buffer.append(coreMock.getMockName()).append(": ")
+        	.append(super.getMessage()).append("\n");
         buffer.append("Invoked: ");
         invocation.writeTo(buffer);
         buffer.append("in:\n");

@@ -44,7 +44,7 @@ public class CoreMock
         }
         catch (AssertionFailedError failure) {
             DynamicMockError mockFailure = 
-            	new DynamicMockError(invocation, invocationDispatcher, failure.getMessage());
+            	new DynamicMockError(this, invocation, invocationDispatcher, failure.getMessage());
             
 			mockFailure.fillInStackTrace();
 			throw mockFailure;
