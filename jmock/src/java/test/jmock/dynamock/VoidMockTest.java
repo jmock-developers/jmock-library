@@ -19,31 +19,31 @@ public class VoidMockTest extends AbstractMockTest {
         private TargetType targetProxy = ((TargetType) mockTarget.proxy());
 
         public void stubNoParams() {
-        	mockTarget.stubVoid("noParams");
+        	mockTarget.stubVoid("noParams", C.NO_ARGS );
         }
 
         public void expectNoParams() {
-            mockTarget.expectVoid("noParams");
+            mockTarget.expectVoid("noParams", C.NO_ARGS );
         }
 
         public void stubOneParam() {
-        	mockTarget.stubVoid("oneParam", "one");
+        	mockTarget.stubVoid("oneParam", C.args(C.eq("one")));
         }
 
         public void expectOneParam() {
-            mockTarget.expectVoid("oneParam", "one");
+            mockTarget.expectVoid("oneParam", C.args(C.eq("one")));
         }
 
         public void stubTwoParams() {
-        	mockTarget.stubVoid("twoParams", C.eq("one", "two"));
+        	mockTarget.stubVoid("twoParams", C.args(C.eq("one"), C.eq("two")));
         }
 
         public void expectTwoParams() {
-            mockTarget.expectVoid("twoParams", C.eq("one", "two"));
+            mockTarget.expectVoid("twoParams", C.args(C.eq("one"), C.eq("two")));
         }
 
         public void expectNotNoParams() {
-            mockTarget.expectVoid("notNoParams");
+            mockTarget.expectVoid("notNoParams", C.NO_ARGS );
         }
 
         public void callNoParams() {

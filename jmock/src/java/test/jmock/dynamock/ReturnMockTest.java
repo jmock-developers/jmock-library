@@ -19,31 +19,31 @@ public class ReturnMockTest extends AbstractMockTest {
         private TargetType targetProxy = ((TargetType) mockTarget.proxy());
 
         public void stubNoParams() {
-        	mockTarget.stubAndReturn( "noParams", "result" );
+        	mockTarget.stubAndReturn( "noParams", C.NO_ARGS, "result" );
         }
         
         public void expectNoParams() {
-            mockTarget.expectAndReturn("noParams", "result");
+            mockTarget.expectAndReturn("noParams", C.NO_ARGS, "result");
         }
 
         public void stubOneParam() {
-        	mockTarget.stubAndReturn( "oneParam", "one", "result" );
+        	mockTarget.stubAndReturn( "oneParam", C.args(C.eq("one")), "result" );
         }
         
         public void expectOneParam() {
-            mockTarget.expectAndReturn("oneParam", "one", "result");
+            mockTarget.expectAndReturn("oneParam", C.args(C.eq("one")), "result");
         }
         
         public void stubTwoParams() {
-        	mockTarget.stubAndReturn( "twoParams", C.eq("one", "two"), "result" );
+        	mockTarget.stubAndReturn( "twoParams", C.args(C.eq("one"), C.eq("two")), "result" );
         }
         
         public void expectTwoParams() {
-            mockTarget.expectAndReturn("twoParams", C.eq("one", "two"), "result" );
+            mockTarget.expectAndReturn("twoParams", C.args(C.eq("one"), C.eq("two")), "result" );
         }
 
         public void expectNotNoParams() {
-            mockTarget.expectAndReturn("notNoParams", "result");
+            mockTarget.expectAndReturn("notNoParams", C.NO_ARGS, "result");
         }
 
         public void callNoParams() {

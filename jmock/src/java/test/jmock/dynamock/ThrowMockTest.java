@@ -21,31 +21,31 @@ public class ThrowMockTest extends AbstractMockTest {
         private TargetType targetProxy = ((TargetType) mockTarget.proxy());
         
         public void stubNoParams() {
-        	mockTarget.stubAndThrow("noParams", new TargetException());
+        	mockTarget.stubAndThrow("noParams", C.NO_ARGS, new TargetException());
         }
         
         public void expectNoParams() {
-            mockTarget.expectAndThrow("noParams", new TargetException());
+            mockTarget.expectAndThrow("noParams", C.NO_ARGS, new TargetException());
         }
 
         public void stubOneParam() {
-        	mockTarget.stubAndReturn("oneParam", "one", new TargetException());
+        	mockTarget.stubAndReturn("oneParam", C.args(C.eq("one")), new TargetException());
         }
 
         public void expectOneParam() {
-            mockTarget.expectAndThrow("oneParam", "one", new TargetException());
+            mockTarget.expectAndThrow("oneParam", C.args(C.eq("one")), new TargetException());
         }
         
         public void stubTwoParams() {
-        	mockTarget.stubAndThrow("twoParams", C.eq("one", "two"), new TargetException());
+        	mockTarget.stubAndThrow("twoParams", C.args(C.eq("one"), C.eq("two")), new TargetException());
         }
 
         public void expectTwoParams() {
-            mockTarget.expectAndThrow("twoParams", C.eq("one", "two"), new TargetException());
+            mockTarget.expectAndThrow("twoParams", C.args(C.eq("one"), C.eq("two")), new TargetException());
         }
 
         public void expectNotNoParams() {
-            mockTarget.expectAndThrow("notNoParams", new TargetException());
+            mockTarget.expectAndThrow("notNoParams", C.NO_ARGS, new TargetException());
         }
 
         public void callNoParams() {
