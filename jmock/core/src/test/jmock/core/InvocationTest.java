@@ -136,12 +136,7 @@ public class InvocationTest extends TestCase
 
 	public void testMethodToStringWithObjectArg() throws Exception {
 		final String argAsString = "TO_STRING_RESULT";
-		Object arg = new Object()
-		{
-			public String toString() {
-				return argAsString;
-			}
-		};
+		Object arg = new Object() { public String toString() { return argAsString; } };
 
 		Invocation invocation = new Invocation(INVOKED, methodFactory.newMethod(METHOD_NAME, new Class[]{String.class}, void.class, EXCEPTION_TYPES),
 		                                       new Object[]{arg});
