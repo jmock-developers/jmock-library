@@ -2,7 +2,7 @@
  */
 package test.jmock.examples.calculator.expression;
 
-import org.jmock.dynamock.Mock;
+import org.jmock.builder.Mock;
 
 import junit.framework.TestCase;
 
@@ -24,15 +24,18 @@ public class VariableReferenceTest extends TestCase {
         mockDefinition = new Mock(Expression.class,"mockDefinition");
         variableReference = new VariableReference(variableName);
     }
+    
 
     public void testEvaluatesDefinitionOfReferencedVariable() throws Exception {
         Mock mockEnvironment = new Mock(Environment.class);
         double result = 1234;
         
-        mockEnvironment.expectAndReturn( "getVariable", variableName, 
-            mockDefinition.proxy() );
-        mockDefinition.expectAndReturn( "evaluate", mockEnvironment.proxy(), 
-            new Double(result) );
+        mockEnvironment.method("getVariable").passed(variableName)
+            .willReturn(mockDefinition.proxy())
+            .expectOnce();
+        mockDefinition.method("evaluate").passed(mockEnvironment.proxy())
+            .willReturn(new Double(result))
+            .expectOnce();
         
         assertEquals( "should be result of evaluating variable definition", 
             result, 
@@ -48,7 +51,8 @@ public class VariableReferenceTest extends TestCase {
         environment.setVariable( variableName, (Expression)mockDefinition.proxy() );
         CalculatorException thrown = new CalculatorException("THROWN EXCEPTION");
         
-        mockDefinition.expectAndThrow( "evaluate", environment, thrown );
+        mockDefinition.method("evaluate").passed(environment).willThrow(thrown)
+            .expectOnce();
         
         try {
             variableReference.evaluate(environment);

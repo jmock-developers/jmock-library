@@ -2,7 +2,7 @@
  */
 package test.jmock.examples.calculator.expression;
 
-import org.jmock.dynamock.Mock;
+import org.jmock.builder.Mock;
 
 import junit.framework.TestCase;
 
@@ -54,7 +54,8 @@ public abstract class AbstractBinaryOperatorTest extends TestCase {
         CalculatorException thrown =
             new CalculatorException("thrown exception");
 
-        mockLeft.expectAndThrow("evaluate", environment, thrown);
+        mockLeft.method("evaluate").passed(environment).willThrow(thrown)
+            .expectOnce();
 
         try {
             expression.evaluate(environment);
@@ -74,9 +75,11 @@ public abstract class AbstractBinaryOperatorTest extends TestCase {
 
         CalculatorException thrown =
             new CalculatorException("thrown exception");
-
-        mockLeft.expectAndReturn("evaluate", environment, new Double(0.0));
-        mockRight.expectAndThrow("evaluate", environment, thrown);
+        
+        mockLeft.method("evaluate").passed(environment).willReturn(new Double(0.0))
+            .expectOnce();
+        mockRight.method("evaluate").passed(environment).willThrow(thrown)
+            .expectOnce();
 
         try {
             expression.evaluate(environment);
