@@ -1,6 +1,7 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -15,7 +16,7 @@ import org.jmock.dynamic.stub.ReturnStub;
 
 
 public class CoreMock 
-	implements DynamicMock 
+	implements DynamicMock, InvocationHandler
 {
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;

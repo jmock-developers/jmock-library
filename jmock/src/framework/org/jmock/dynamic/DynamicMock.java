@@ -3,10 +3,8 @@ package org.jmock.dynamic;
 
 import org.jmock.Verifiable;
 
-import java.lang.reflect.InvocationHandler;
-
 public interface DynamicMock
-    extends Verifiable, InvocationHandler 
+    extends Verifiable
 {
     Class getMockedType();
     
