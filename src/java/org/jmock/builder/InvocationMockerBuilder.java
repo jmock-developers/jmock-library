@@ -19,15 +19,23 @@ public class InvocationMockerBuilder
         this.mocker = mocker;
     }
 
-	public StubBuilder passed(Object arg1) {
-		return passed(new Constraint[]{C.eq(arg1)});
+	public StubBuilder args(Constraint arg1) {
+		return args(new Constraint[]{arg1});
 	}
 
-	public StubBuilder passed(Object arg1, Object arg2) {
-		return passed(new Constraint[] {C.eq(arg1), C.eq(arg2)} );
+	public StubBuilder args(Constraint arg1, Constraint arg2) {
+		return args(new Constraint[] {arg1, arg2} );
 	}
 	
-	public StubBuilder passed(Constraint[] constraints) {
+    public StubBuilder args(Constraint arg1, Constraint arg2, Constraint arg3) {
+        return args(new Constraint[] {arg1, arg2, arg3} );
+    }
+    
+    public StubBuilder args(Constraint arg1, Constraint arg2, Constraint arg3, Constraint arg4) {
+        return args(new Constraint[] {arg1, arg2, arg3, arg4} );
+    }
+    
+    public StubBuilder args(Constraint[] constraints) {
 		mocker.addMatcher(new ArgumentsMatcher(constraints));
 		return this;
 	}

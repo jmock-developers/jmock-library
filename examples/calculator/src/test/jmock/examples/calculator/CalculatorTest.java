@@ -36,10 +36,10 @@ public class CalculatorTest
     public void testParsesAndCalculatesExpression() throws Exception {
         final double expressionValue = 1.0;
         
-        mockParser.method("parse").passed(expressionString)
+        mockParser.method("parse").args(eq(expressionString))
             .willReturn(mockExpression.proxy())
             .expectOnce();
-        mockExpression.method("evaluate").passed(mockEnvironment.proxy())
+        mockExpression.method("evaluate").args(same(mockEnvironment.proxy()))
             .willReturn(expressionValue)
             .expectOnce();
         
@@ -50,7 +50,7 @@ public class CalculatorTest
     public void testReportsParseErrors() throws Exception {
         final Throwable throwable = new ParseException("dummy ParseException");
         
-        mockParser.method("parse").passed(expressionString).willThrow(throwable)
+        mockParser.method("parse").args(eq(expressionString)).willThrow(throwable)
             .expectOnce(); 
         
         try {
@@ -65,9 +65,9 @@ public class CalculatorTest
     public void testReportsEvaluationErrors() throws Exception {
         final Throwable throwable = new CalculatorException("dummy CalculatorException");
         
-        mockParser.method("parse").passed(expressionString).willReturn(mockExpression.proxy())
+        mockParser.method("parse").args(eq(expressionString)).willReturn(mockExpression.proxy())
             .expectOnce();
-        mockExpression.method("evaluate").passed(mockEnvironment.proxy()).willThrow(throwable)
+        mockExpression.method("evaluate").args(same(mockEnvironment.proxy())).willThrow(throwable)
             .expectOnce();
         
         try {
@@ -80,12 +80,12 @@ public class CalculatorTest
     }
     
     public void testSetsVariableExpression() throws Throwable {
-        mockParser.method("parse").passed(variableValueString)
+        mockParser.method("parse").args(eq(variableValueString))
             .willReturn(mockVariableExpression.proxy())
             .expectOnce();
         
         mockEnvironment.method("setVariable")
-            .passed(variableName,mockVariableExpression.proxy())
+            .args( eq(variableName), same(mockVariableExpression.proxy()) )
             .expectOnce();
         
         calculator.setVariable( variableName, variableValueString );

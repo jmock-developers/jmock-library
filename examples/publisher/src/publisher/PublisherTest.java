@@ -1,10 +1,9 @@
 package publisher;
 
-import junit.framework.TestCase;
-
 import org.jmock.builder.Mock;
+import org.jmock.builder.MockObjectTestCase;
 
-public class PublisherTest extends TestCase {
+public class PublisherTest extends MockObjectTestCase {
 
     public void testOneSubscriberReceivesAMessage() {
         // setup
@@ -15,7 +14,7 @@ public class PublisherTest extends TestCase {
         Message message = new Message();
 
         // expectations
-        mockSubscriber.method("receive").passed(message).isVoid()
+        mockSubscriber.method("receive").args(eq(message)).isVoid()
             .expectOnce();
         
         // execute
