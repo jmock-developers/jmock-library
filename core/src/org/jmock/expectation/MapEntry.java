@@ -29,9 +29,8 @@ public class MapEntry implements Map.Entry
 
         if (myValue.getClass().isArray() && other.getValue().getClass().isArray()) {
             return arrayEquals(other.getValue());
-        } else {
-            return myKey.equals(other.getKey()) && myValue.equals(other.getValue());
-        }
+        } 
+        return myKey.equals(other.getKey()) && myValue.equals(other.getValue());
     }
 
     private final boolean arrayEquals( Object anArray ) {

@@ -30,9 +30,8 @@ public class StubSequence
     public Object invoke( Invocation invocation ) throws Throwable {
         if (iterator.hasNext()) {
             return ((Stub)iterator.next()).invoke(invocation);
-        } else {
-            throw new AssertionFailedError("no more stubs available");
-        }
+        } 
+    	throw new AssertionFailedError("no more stubs available");
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {

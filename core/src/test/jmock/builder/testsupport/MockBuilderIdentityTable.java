@@ -21,9 +21,8 @@ public class MockBuilderIdentityTable
         lookupID.setActual(id);
         if (lookupIDError != null) {
             throw lookupIDError;
-        } else {
-            return lookupIDResult;
-        }
+        } 
+        return lookupIDResult;
     }
 
     public ExpectationValue registerUniqueID =

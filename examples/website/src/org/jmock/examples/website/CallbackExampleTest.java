@@ -2,9 +2,9 @@ package org.jmock.examples.website;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
-import org.jmock.core.SelfDescribing;
 import org.jmock.core.Stub;
 
 

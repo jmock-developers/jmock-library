@@ -58,9 +58,8 @@ public class ReturnStub
     private boolean isCompatible( Class returnType, Class valueType ) {
         if (returnType.isPrimitive()) {
             return isBoxedType(returnType, valueType);
-        } else {
-            return returnType.isAssignableFrom(valueType);
-        }
+        } 
+        return returnType.isAssignableFrom(valueType);
     }
 
     private boolean isBoxedType( Class primitiveType, Class referenceType ) {
