@@ -43,7 +43,8 @@ end
 
 def copy_to_output( files )
     files.each do |asset_file|
-        File.copy( asset_file, OUTPUT_DIR, :verbose )
+    	$stdout.puts "#{asset_file} -> #{File.join(OUTPUT_DIR,File.basename(asset_file))}"
+        File.copy( asset_file, OUTPUT_DIR )
     end
 end
 
@@ -75,7 +76,7 @@ def skin_content_to_output
             skinned_content.elements["/html/body/div[@id='content']/*[1]"], 
             "FirstChild" )
         
-        $stderr.puts "#{content_file} ~> #{output_file}"
+        $stdout.puts "#{content_file} ~> #{output_file}"
         write_to_output( skinned_content, output_file )
     end
 end
@@ -119,7 +120,7 @@ end
 begin
     build_site
 rescue REXML::ParseException => ex
-    puts $stderr, "parse error: " + ex.message
+    $stderr.puts "parse error: " + ex.message
     exit 1
 end
 
