@@ -11,14 +11,18 @@ import java.util.List;
  * a Mock object.
  */
 public class Invocation {
+    private Object invoked;
     private Class declaringClass;
     private String methodName;
     private Class[] parameterTypes;
     private Class returnType;
     private Object[] parameterValues;
 
-    public Invocation(Class declaringClass, String name, Class[] parameterTypes, Class returnType,
-                      Object[] parameterValues) {
+    public Invocation( Object invoked, Class declaringClass, 
+                       String name, Class[] parameterTypes, Class returnType,
+                       Object[] parameterValues ) 
+    {
+        this.invoked = invoked;
         this.declaringClass = declaringClass;
         this.methodName = name;
         this.parameterTypes = parameterTypes;
@@ -27,11 +31,16 @@ public class Invocation {
             (parameterValues == null ? new Object[0] : parameterValues);
     }
 
-    public Invocation(Method method, Object[] parameterValues) {
-        this(method.getDeclaringClass(), method.getName(), method.getParameterTypes(), method.getReturnType(),
-                parameterValues);
+    public Invocation( Object invoked, Method method, Object[] parameterValues) {
+        this( invoked, method.getDeclaringClass(), 
+              method.getName(), method.getParameterTypes(), method.getReturnType(),
+              parameterValues );
     }
 
+    public Object getInvokedObject() {
+        return invoked;
+    }
+    
     public Class getDeclaringClass() {
         return declaringClass;
     }
@@ -60,6 +69,15 @@ public class Invocation {
         return (other instanceof Invocation) && this.equals((Invocation) other);
     }
 
+    public boolean equals(Invocation other) {
+        return other != null
+            && invoked == other.invoked
+            && methodName.equals(other.methodName)
+            && Arrays.equals(parameterTypes, other.parameterTypes)
+            && returnType.equals(other.returnType)
+            && Arrays.equals(parameterValues, other.parameterValues);
+    }
+
     public int hashCode() {
         return methodName.hashCode() ^
                 arrayHashCode(parameterTypes) ^
@@ -75,14 +93,6 @@ public class Invocation {
         return hashCode;
     }
     
-    public boolean equals(Invocation call) {
-        return call != null
-            && methodName.equals(call.methodName)
-            && Arrays.equals(parameterTypes, call.parameterTypes)
-            && returnType.equals(call.returnType)
-            && Arrays.equals(parameterValues, call.parameterValues);
-    }
-
     public StringBuffer writeTo(StringBuffer buffer) {
         buffer.append(methodName);
         DynamicUtil.join(parameterValues, buffer, "(", ")");

@@ -8,8 +8,10 @@ import org.jmock.dynamic.matcher.InvokedRecorder;
 import org.jmock.expectation.AssertMo;
 
 public class InvokedRecorderTest extends TestCase {
-    private Invocation emptyInvocation =
-        new Invocation(Void.class, "example", new Class[0], Void.class, new Object[0]);
+    private Invocation emptyInvocation = new Invocation(
+        "INVOKED-OBJECT", 
+        Void.class, "example", new Class[0], Void.class, 
+        new Object[0]);
     InvokedRecorder recorder = new InvokedRecorder();
     
     public void testAlwaysMatches() {
