@@ -28,7 +28,14 @@ public class MockExpectationBuilder
         return this;
 	}
 	
-    ExpectationValue expectAfterPreviousCall = new ExpectationValue("expectAfter previousCall");
+	ExpectationCounter expectAtLeastOnceCalls = new ExpectationCounter("expectAtLeastOnce #calls");
+	
+	public ExpectationBuilder expectAtLeastOnce() {
+		expectAtLeastOnceCalls.inc();
+		return this;
+	}
+	
+	ExpectationValue expectAfterPreviousCall = new ExpectationValue("expectAfter previousCall");
     
 	public ExpectationBuilder expectAfter(ExpectationBuilder previousCall) {
         expectAfterPreviousCall.setExpected(previousCall);

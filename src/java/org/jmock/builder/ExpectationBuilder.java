@@ -9,9 +9,8 @@ public interface ExpectationBuilder {
 	ExpectationBuilder addExpectation( InvocationMatcher expectation );
 	
 	ExpectationBuilder expectOnce();
+	ExpectationBuilder expectAtLeastOnce();
 	
 	ExpectationBuilder after( String previousCallID );
 	ExpectationBuilder after( BuilderIdentityTable otherMock, String previousCallID );
-	
-    //TODO expectAtLeastOnce();
 }

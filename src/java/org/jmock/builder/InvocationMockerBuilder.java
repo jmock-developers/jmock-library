@@ -7,6 +7,7 @@ import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
 import org.jmock.dynamic.matcher.InvokedAfterMatcher;
 import org.jmock.dynamic.matcher.InvokedRecorder;
@@ -106,6 +107,10 @@ public class InvocationMockerBuilder
     
 	public ExpectationBuilder expectOnce() {
 		return addExpectation( new InvokeOnceMatcher() );
+	}
+	
+	public ExpectationBuilder expectAtLeastOnce() {
+		return addExpectation( new InvokeAtLeastOnceMatcher() );
 	}
 	
 	public ExpectationBuilder id( String invocationID ) {
