@@ -86,6 +86,7 @@
                 <pathelement path="${core.build.dir}"/>
             </classpath>
             <formatter type="plain"/>
+            <formatter type="xml"/>
             <batchtest todir="${report.test.unit.dir}">
                 <fileset dir="${core.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*"/>
             </batchtest>
@@ -101,6 +102,7 @@
                 <pathelement path="${core.build.dir}"/>
             </classpath>
             <formatter type="plain"/>
+            <formatter type="xml"/>
             <batchtest fork="no" todir="${report.test.acceptance.dir}">
                 <fileset dir="${core.atest.dir}" includes="atest/**/*Test.java" excludes="test/**/Abstract*"/>
             </batchtest>
@@ -146,6 +148,7 @@
                 <pathelement path="${cglib.build.dir}"/>
             </classpath>
             <formatter type="plain"/>
+            <formatter type="xml"/>
             <batchtest fork="no" todir="${report.test.unit.dir}">
                 <fileset dir="${cglib.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*"/>
             </batchtest>
@@ -162,6 +165,7 @@
                 <pathelement path="${cglib.build.dir}"/>
             </classpath>
             <formatter type="plain"/>
+            <formatter type="xml"/>
             <batchtest fork="no" todir="${report.test.acceptance.dir}">
                 <fileset dir="${cglib.atest.dir}" includes="atest/**/*Test.java" excludes="test/**/Abstract*"/>
             </batchtest>
