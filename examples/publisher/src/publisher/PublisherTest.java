@@ -2,7 +2,7 @@ package publisher;
 
 import junit.framework.TestCase;
 
-import org.jmock.dynamock.Mock;
+import org.jmock.builder.Mock;
 
 public class PublisherTest extends TestCase {
 
@@ -15,7 +15,8 @@ public class PublisherTest extends TestCase {
         Message message = new Message();
 
         // expectations
-        mockSubscriber.expectVoid("receive", message);
+        mockSubscriber.method("receive").passed(message).isVoid()
+            .expectOnce();
         
         // execute
         publisher.publish(message);
@@ -23,6 +24,4 @@ public class PublisherTest extends TestCase {
         // verify
         mockSubscriber.verify();
     }
-
-
 }
