@@ -18,7 +18,7 @@ public class MockObjectTestCase
     }
     
     public Mock mock( Class mockedType, String roleName ) {
-        return mock(mockedType,roleName);
+        return new Mock(mockedType,roleName);
     }
     
     public String defaultMockNameForType( Class mockedType ) {
