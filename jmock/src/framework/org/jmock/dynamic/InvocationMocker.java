@@ -11,11 +11,12 @@ import java.util.List;
 
 
 public class InvocationMocker 
-	implements BuildableInvokable 
+	implements BuildableInvokable
 {
+    private String name;
     private List matchers = new ArrayList();
     private Stub stub;
-
+    
     public InvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
         this(stub);
         addMatcher(new MethodNameMatcher(methodName));
@@ -52,7 +53,7 @@ public class InvocationMocker
         }
         return stub.invoke(invocation);
     }
-
+    
     public void verify() {
         try {
             Iterator i = matchers.iterator();
@@ -67,6 +68,10 @@ public class InvocationMocker
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addMatcher(InvocationMatcher matcher) {
         matchers.add(matcher);
     }
@@ -77,13 +82,21 @@ public class InvocationMocker
 
     public StringBuffer writeTo(StringBuffer buffer) {
         Iterator it = matchers.iterator();
+        boolean needSeparator = false;
         while (it.hasNext()) {
-            ((InvocationMatcher) it.next()).writeTo(buffer).append(", ");
+            int oldLength = buffer.length();
+            ((InvocationMatcher) it.next()).writeTo(buffer);
+            
+            if( buffer.length() != oldLength ) buffer.append(", ");
         }
         stub.writeTo(buffer);
+        
+        if( name != null ) {
+            buffer.append( " [").append(name).append("]");
+        }
         return buffer.append("\n");
     }
-
+    
     public String toString() {
         return writeTo(new StringBuffer()).toString();
     }

@@ -25,6 +25,12 @@ public class MockBuildableInvokable
 		return name;
 	}
 	
+    public ExpectationValue setName = new ExpectationValue("setName name");
+    
+    public void setName( String name ) {
+        setName.setActual(setName);
+    }
+    
 	public ExpectationSet addedMatchers = new ExpectationSet("added matchers");
 	
 	public void addMatcher(InvocationMatcher matcher) {

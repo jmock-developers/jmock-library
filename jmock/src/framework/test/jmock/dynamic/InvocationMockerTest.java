@@ -148,7 +148,7 @@ public class InvocationMockerTest extends TestCase {
 
         Verifier.verifyObject(mockStub);
     }
-
+    
     public void testCanAddExtraMatchers() throws Throwable {
         MockInvocationMatcher mockInvocationMatcher = new MockInvocationMatcher();
 
@@ -162,7 +162,18 @@ public class InvocationMockerTest extends TestCase {
 
         Verifier.verifyObject(mockInvocationMatcher);
     }
-
+    
+    public void testCanBeNamed() {
+        String name = "~{MOCKER-NAME}~";
+        InvocationMocker mocker = new InvocationMocker();
+        
+        mocker.setName( name );
+        
+        String description = mocker.writeTo(new StringBuffer()).toString();
+        assertTrue( "name should be in description",
+                    description.indexOf(name) >= 0 );
+    }
+    
     private Constraint[] makeConstraintArray(Object arg1, Object arg2) {
         return new Constraint[] { new IsEqual(arg1), new IsEqual(arg2) };
     }
