@@ -1,7 +1,7 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO Extract org.jmock.Mock interface and 
+    //TODO Extract org.jmock.Mock interface and move class to org.jmock.builder.MockObjectBuilder 
     //TODO Remove constructors for Mock/CoreMock that generate a default name 
     
     //Source cleanup prior to version 1.0 alpha
