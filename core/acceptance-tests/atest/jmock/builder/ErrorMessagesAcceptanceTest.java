@@ -3,8 +3,6 @@
  */
 package atest.jmock.builder;
 
-import junit.framework.AssertionFailedError;
-
 import org.jmock.builder.Mock;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.DynamicMockError;
@@ -35,7 +33,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
             String expectedMethod1 = 
                 "expected once: twoArgsReturnsInt( "+ANYTHING+", "+ANYTHING+" ), returns <1> ["+callID+"]";
             String expectedMethod2 =  
-                "expected once: twoArgsReturnsInt(eq("+arg1+"), same("+arg2+"), after "+callID+" returns <1>";
+                "expected once: twoArgsReturnsInt( eq(<"+arg1+">), same(<"+arg2+">) ), after "+callID+", returns <1>";
             
             assertStringContains( "should contain mock name", 
                                   errorMessage, MOCK_NAME );
@@ -78,57 +76,6 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
         }
         
         fail("expected DynamicMockError");
-    }
-    
-    //TODO: what should be displayed when verify fails?
-    public void XtestShowPossibleMethodsWhenVerifyFails() {
-        Mock mock = new Mock(Types.WithTwoMethods.class,MOCK_NAME);
-        Object a2 = new Object();
-        Object b2 = new Object();
-        
-        mock.expect(once()).method("twoArgsReturnInt").with(eq("a1"),same(a2))
-            .will(returnValue(1));
-        mock.expect(once()).method("twoArgsReturnInt").with(eq("b1"),same(b2))
-            .will(returnValue(2));
-        mock.expect(atLeastOnce()).method("noArgsReturnsNothing").noParams();
-        
-        ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt("b1",b2);
-        
-        try {
-            mock.verify();
-        }
-        catch( AssertionFailedError error ) {
-            String errorMessage = error.getMessage();
-            String causeOfError = "not all expected methods were invoked";
-            String expectedMethod1 =
-                "twoArgsReturnsInt, (<= a1>, <== <"+a2+">>), expected once, returns <1>";
-            String expectedMethod2 = 
-                "noArgsReturnsNothing, (no arguments), expected at least once, returns(<void>)";
-            String calledMethod =
-                "twoArgsReturnsInt, (<= b1>, <== <"+b2+">>), expected once and has been invoked, returns <2>";
-            
-            assertStringContains( "should contain mock name", 
-                                  errorMessage, MOCK_NAME );
-            
-            assertStringContains( "should report cause of error",
-                                   errorMessage, causeOfError );
-            
-            assertSubstringOrder( "mock name should appear before cause of error",
-                                  errorMessage, MOCK_NAME, causeOfError );
-            
-            assertStringContains( "should report uncalled methods (#1)",
-                errorMessage, expectedMethod1 );
-            
-            assertStringContains( "should report uncalled methods (#2)",
-                errorMessage, expectedMethod2 );
-            
-            assertStringContains( "should list include methods in error message",
-                errorMessage, calledMethod );
-            
-            return;
-        }
-        
-        fail("expected AssertionFailedError");
     }
     
     public static void assertStringContains( String message, String string, String substring ) {

@@ -21,7 +21,8 @@ public class IsEqual implements Constraint {
     }
     
     public String toString() {
-        return "= " + object;
+        String objectString = (object == null) ? "null" : "<" + object + ">";
+        return "eq("+objectString+")";
     }
     
     private static boolean areEqual( Object o1, Object o2 ) {

@@ -1,11 +1,7 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO Extract Describable interface. Priority one!
-    
-    //TODO More tests for error messages
-    //TODO Better format for expected calls in error messages
-    //      - make expected and actual call signatures look similar
+    //TODO Test error message on verify failure
     //TODO List expected/stubbed methods in verify errors
     //TODO Change default mock names from mockClassName to className
     
@@ -43,6 +39,9 @@ public class ToDo {
     //DONE move default behaviour of default result stub into constructor
     //DONE reorganise directories. Change src/{framework,acceptance-tests} to core/{src,acceptance-tests}.
     //DONE open hooks to allow different proxying mechanisms to reuse CoreMock implementation
+    //DONE Extract Describable interface. Priority one!
+    //DONE Better format for expected calls in error messages
+    //      - make expected and actual call signatures look similar
 
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
