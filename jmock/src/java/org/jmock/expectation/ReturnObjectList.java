@@ -3,6 +3,8 @@ package org.jmock.expectation;
 
 import java.util.Vector;
 
+import org.jmock.*;
+
 /**
  * <p>This class allows a list of objects to be setup which can be used whilst.The
  * list is check to make sure that all the object in it are used and that none

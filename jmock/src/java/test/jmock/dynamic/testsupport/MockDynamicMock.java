@@ -6,7 +6,7 @@ import org.jmock.dynamic.Invokable;
 import org.jmock.expectation.AssertMo;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.expectation.Verifier;
+import org.jmock.util.Verifier;
 
 import java.lang.reflect.Method;
 

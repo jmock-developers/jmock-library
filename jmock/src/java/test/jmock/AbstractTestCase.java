@@ -2,8 +2,9 @@
 package test.jmock;
 
 import junit.framework.TestCase;
+
+import org.jmock.Verifiable;
 import org.jmock.expectation.AssertMo;
-import org.jmock.expectation.Verifiable;
 
 /**
  * Provides a level of indirection from TestCase so you can accomodate

@@ -1,6 +1,7 @@
 package test.jmock.dynamock;
 
 import org.jmock.Constraint;
+import org.jmock.Verifiable;
 import org.jmock.dynamic.BuildableInvokable;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Invokable;
@@ -9,9 +10,8 @@ import org.jmock.dynamock.BuildableInvokableFactory;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationList;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.expectation.NotImplementedException;
-import org.jmock.expectation.Verifiable;
-import org.jmock.expectation.Verifier;
+import org.jmock.util.NotImplementedException;
+import org.jmock.util.Verifier;
 
 
 

@@ -5,7 +5,6 @@ package test.jmock.examples.calculator;
 
 import org.jmock.C;
 import org.jmock.dynamock.Mock;
-import org.jmock.expectation.Verifier;
 
 import junit.framework.TestCase;
 
@@ -14,6 +13,7 @@ import org.jmock.examples.calculator.ExpressionFactory;
 import org.jmock.examples.calculator.InfixParser;
 import org.jmock.examples.calculator.ParseException;
 import org.jmock.examples.calculator.SimpleEnvironment;
+import org.jmock.util.Verifier;
 
 
 public class InfixParserTest 

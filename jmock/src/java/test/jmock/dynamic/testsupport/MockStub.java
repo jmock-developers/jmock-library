@@ -1,11 +1,11 @@
 package test.jmock.dynamic.testsupport;
 
+import org.jmock.Verifiable;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Stub;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
-import org.jmock.expectation.Verifiable;
-import org.jmock.expectation.Verifier;
+import org.jmock.util.Verifier;
 
 
 public class MockStub 

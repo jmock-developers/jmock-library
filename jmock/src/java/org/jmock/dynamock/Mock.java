@@ -3,6 +3,7 @@ package org.jmock.dynamock;
 
 import org.jmock.C;
 import org.jmock.Constraint;
+import org.jmock.Verifiable;
 import org.jmock.dynamic.BuildableInvokable;
 import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicMock;
@@ -11,7 +12,6 @@ import org.jmock.dynamic.Invokable;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.expectation.Verifiable;
 
 
 

@@ -4,6 +4,8 @@ package org.jmock.expectation;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import org.jmock.*;
+
 /**
  * The ReturnObjectBag is a map containing instances  of ReturnObjectList.
  * A single instance is held for each mapkey. Every time a call to putObjectToReturn or
