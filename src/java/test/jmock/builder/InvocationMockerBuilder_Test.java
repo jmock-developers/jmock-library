@@ -15,9 +15,17 @@ import org.jmock.dynamic.stub.VoidStub;
 import test.jmock.builder.testsupport.*;
 
 public class InvocationMockerBuilder_Test extends MockObjectTestCase {
-    private MockStubMatchersCollection mocker = new MockStubMatchersCollection();
-    private InvocationMockerBuilder builder = new InvocationMockerBuilder(mocker);
-
+    private MockStubMatchersCollection mocker;
+    private MockBuilderIdentityTable idTable;
+    private InvocationMockerBuilder builder;
+    
+    public void setUp() {
+    	mocker = new MockStubMatchersCollection();
+    	idTable = new MockBuilderIdentityTable();
+    	
+    	builder = new InvocationMockerBuilder( mocker, idTable );
+    }
+    
     public void testWhenPassedAddsArgumentsMatcher() {
     	mocker.addedMatcherType.setExpected(ArgumentsMatcher.class);
     	
@@ -92,5 +100,16 @@ public class InvocationMockerBuilder_Test extends MockObjectTestCase {
     	assertNotNull("Should be ExpectationBuilder", builder.expectOnce() );
     	
     	mocker.verifyExpectations();
+    }
+    
+    static final String INVOCATION_ID = "INVOCATION-ID";
+    
+    public void testRegistersItselfInBuilderIdentityTable() {
+    	idTable.registerID.setExpected(INVOCATION_ID);
+    	idTable.registerIDInvocation.setExpected(builder);
+    	
+    	builder.id(INVOCATION_ID);
+    	
+    	idTable.verify();
     }
 }

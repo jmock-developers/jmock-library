@@ -4,11 +4,13 @@ package org.jmock.builder;
 import org.jmock.dynamic.InvocationMatcher;
 
 public interface ExpectationBuilder {
+	ExpectationBuilder id( String id );
+	
 	ExpectationBuilder addExpectation( InvocationMatcher expectation );
 	
 	ExpectationBuilder expectOnce();
 
-	ExpectationBuilder expectAfter(ExpectationBuilder previousCall );
+	ExpectationBuilder after( String previousCallID );
 	
     //TODO expectAtLeastOnce()
 }
