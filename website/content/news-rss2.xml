@@ -12,6 +12,18 @@
 		<language>en-us</language>
         
         <item>
+            <title>Mock Roles, Not Objects</title>
+            <category>Documentation</category>
+            <link>http://www.jmock.org/oopsla2004.html</link>
+            <description>The paper presented at OOSPA'04 is now available online.</description>
+            <xhtml:div>
+                The paper, <a href="http://www.jmock.org/oopsla2004.html">Mock Roles Not Objects</a> 
+                presented at <a href="http://www.oopsla.org/2004/">OOSPA'04</a> is now available online.
+            </xhtml:div>
+            <pubDate>21 Dec 2004</pubDate>
+        </item>
+        
+        <item>
             <title>Continuous Integration Running Again</title>
             <category>Development</category>
             <link>http://www.jmock.org/</link>
