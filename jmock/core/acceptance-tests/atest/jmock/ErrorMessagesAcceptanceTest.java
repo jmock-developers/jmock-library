@@ -110,6 +110,25 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
         fail("expected AssertionFailedError");
     }
 
+    public void testReportsFailureWhenStubReturnValueIsNotSet() {
+        Mock mock = mock(Types.WithTwoMethods.class);
+        
+        mock.expects(once()).method("twoArgsReturnsInt").with(ANYTHING, ANYTHING); // no return clause
+
+        try {
+            ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnsInt("arg1", "arg2");
+        }
+        catch (DynamicMockError error) {
+            String errorMessage = error.getMessage();
+
+            assertStringContains("should report no return value",
+                                 errorMessage, "tried to return null value");
+            return;
+        }
+
+        fail("expected DynamicMockError");        
+    }
+    
     public static void assertStringContains( String message, String string, String substring ) {
         assertTrue(message + ": expected \"" + string + "\" to contain \"" + substring + "\"",
                    string.indexOf(substring) >= 0);

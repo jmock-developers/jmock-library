@@ -3,13 +3,16 @@
 package org.jmock.core;
 
 import java.lang.reflect.Method;
+import java.util.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import junit.framework.Assert;
 
 /**
- * A "dumb struct" that holds information about an invocation dispatched to a Mock object.
+ * The static details about a method and the run-time details of its invocation.
  */
 public class Invocation implements SelfDescribing
 {
@@ -17,6 +20,9 @@ public class Invocation implements SelfDescribing
     public final Method invokedMethod;
     public final List parameterValues;
 
+    // Yuck, but there doesn't seem to be a better way.
+    private static final Map BOX_TYPES = makeBoxTypesMap();
+    
     public Invocation( Object invoked, Method method, Object[] parameterValues ) {
         this.invokedObject = invoked;
         this.invokedMethod = method;
@@ -50,5 +56,59 @@ public class Invocation implements SelfDescribing
         buffer.append(invokedMethod.getName());
         Formatting.join(parameterValues, buffer, "(", ")");
         return buffer;
+    }
+
+    public void checkReturnTypeCompatibility(final Object result) {
+        Class returnType = invokedMethod.getReturnType();
+        if (returnType == void.class) {
+            failIfReturnTypeIsNotNull(result);
+        } else if (result == null) {
+            failIfReturnTypeIsPrimitive();
+        } else {
+            Class valueType = result.getClass();
+            if (!isCompatible(returnType, valueType)) {
+                reportTypeError(returnType, valueType);
+            }
+        }
+    }
+
+    private boolean isCompatible( Class returnType, Class valueType ) {
+        if (returnType.isPrimitive()) {
+            return isBoxedType(returnType, valueType);
+        } 
+        return returnType.isAssignableFrom(valueType);
+    }
+
+    private boolean isBoxedType( Class primitiveType, Class referenceType ) {
+        return BOX_TYPES.get(primitiveType) == referenceType;
+    }
+
+    private void failIfReturnTypeIsNotNull(final Object result) {
+        Assert.assertNull("tried to return a value from a void method", result);
+    }
+
+    private void failIfReturnTypeIsPrimitive() {
+        Class returnType = invokedMethod.getReturnType();
+        Assert.assertFalse(
+                "tried to return null value from method returning " + returnType.getName(),
+                returnType.isPrimitive());
+    }
+
+    private void reportTypeError( Class returnType, Class valueType ) {
+        Assert.fail("tried to return an incompatible value: " +
+             "expected a " + returnType.getName() + " but returned a " + valueType.getName());
+    }
+
+    private static Map makeBoxTypesMap() {
+        HashMap map = new HashMap();
+        map.put(boolean.class, Boolean.class);
+        map.put(byte.class, Byte.class);
+        map.put(char.class, Character.class);
+        map.put(short.class, Short.class);
+        map.put(int.class, Integer.class);
+        map.put(long.class, Long.class);
+        map.put(float.class, Float.class);
+        map.put(double.class, Double.class);
+        return map;
     }
 }

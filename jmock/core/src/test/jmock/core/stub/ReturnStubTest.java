@@ -2,11 +2,11 @@
  */
 package test.jmock.core.stub;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
 import org.jmock.core.Invocation;
 import org.jmock.core.stub.ReturnStub;
-import org.jmock.expectation.AssertMo;
+
 import test.jmock.core.testsupport.MethodFactory;
 
 
@@ -50,36 +50,6 @@ public class ReturnStubTest
                    description.indexOf("returns") >= 0);
     }
 
-    public void testThrowsAssertionFailedErrorIfTriesToReturnValueOfIncompatibleType()
-            throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(int.class), null);
-
-        try {
-            returnStub.invoke(invocation);
-        }
-        catch (AssertionFailedError ex) {
-            AssertMo.assertIncludes("expected return type", invocation.invokedMethod.getReturnType().toString(), ex.getMessage());
-            AssertMo.assertIncludes("returned value type", RESULT.getClass().getName(), ex.getMessage());
-            return;
-        }
-        fail("should have failed");
-    }
-
-    public void testThrowsAssertionFailedErrorIfTriesToReturnValueFromVoidMethod()
-            throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(void.class), null);
-
-        try {
-            returnStub.invoke(invocation);
-        }
-        catch (AssertionFailedError ex) {
-            AssertMo.assertIncludes("should describe error",
-                                    "tried to return a value from a void method", ex.getMessage());
-            return;
-        }
-        fail("should have failed");
-    }
-
     public void testCanReturnNullReference()
             throws Throwable {
         invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(String.class), null);
@@ -87,22 +57,5 @@ public class ReturnStubTest
         returnStub = new ReturnStub(null);
 
         assertNull("should return null", returnStub.invoke(invocation));
-    }
-
-    public void testThrowsAssertionFailedErrorIfTriesToReturnNullFromMethodWithPrimitiveReturnType()
-            throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(int.class), null);
-
-        returnStub = new ReturnStub(null);
-
-        try {
-            returnStub.invoke(invocation);
-        }
-        catch (AssertionFailedError ex) {
-            AssertMo.assertIncludes("expected return type", invocation.invokedMethod.getReturnType().toString(), ex.getMessage());
-            AssertMo.assertIncludes("null", String.valueOf((Object)null), ex.getMessage());
-            return;
-        }
-        fail("should have failed");
     }
 }
