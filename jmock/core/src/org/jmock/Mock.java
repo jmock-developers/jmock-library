@@ -10,7 +10,7 @@ import org.jmock.core.*;
 
 
 public class Mock
-	implements BuilderIdentityTable, Verifiable 
+	implements BuilderNamespace, Verifiable 
 {
     DynamicMock coreMock;
     HashMap idTable = new HashMap();

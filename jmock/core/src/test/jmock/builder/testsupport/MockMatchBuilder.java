@@ -1,6 +1,6 @@
 package test.jmock.builder.testsupport;
 
-import org.jmock.builder.BuilderIdentityTable;
+import org.jmock.builder.BuilderNamespace;
 import org.jmock.builder.IdentityBuilder;
 import org.jmock.builder.MatchBuilder;
 import org.jmock.core.InvocationMatcher;
@@ -100,7 +100,7 @@ public class MockMatchBuilder
 		return this;
 	}
 	
-	public MatchBuilder after( BuilderIdentityTable otherMock, String previousCallID ) {
+	public MatchBuilder after( BuilderNamespace otherMock, String previousCallID ) {
 		afterMock.setActual(otherMock);
 		return after(previousCallID);
 	}

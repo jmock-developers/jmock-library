@@ -2,7 +2,7 @@ package org.jmock.builder;
 
 
 // TODO: rename to BuilderIdentityMapper
-public interface BuilderIdentityTable 
+public interface BuilderNamespace 
 {
     MatchBuilder lookupID( String id );
     
