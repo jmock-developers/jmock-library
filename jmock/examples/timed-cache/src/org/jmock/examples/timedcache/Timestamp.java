@@ -1,8 +1,4 @@
-/*
- * Created on Mar 8, 2004
- *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+/*  Copyright (c) 2000-2004 jMock.org
  */
 package org.jmock.examples.timedcache;
 

@@ -1,3 +1,5 @@
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package org.jmock.core.stub;
 
 import org.jmock.core.Stub;

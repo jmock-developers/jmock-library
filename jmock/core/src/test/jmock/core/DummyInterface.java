@@ -1,4 +1,5 @@
-/* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package test.jmock.core;
 
 public interface DummyInterface
@@ -10,8 +11,6 @@ public interface DummyInterface
     String oneArgMethod( String arg1 );
 
     String twoArgMethod( String arg1, String arg2 ) throws Throwable;
-
-    String getMockName();
 
     final String METHOD_NOARGVOID_NAME = "noArgVoidMethod";
     final Object[] METHOD_NOARGVOID_ARGS = new Object[0];

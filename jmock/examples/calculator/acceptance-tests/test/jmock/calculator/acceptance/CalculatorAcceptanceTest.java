@@ -1,4 +1,4 @@
-/* Copyright Dec 6, 2003 Nat Pryce, all rights reserved.
+/*  Copyright (c) 2000-2004 jMock.org
  */
 package test.jmock.calculator.acceptance;
 

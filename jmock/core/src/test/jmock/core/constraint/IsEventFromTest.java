@@ -1,3 +1,5 @@
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package test.jmock.core.constraint;
 
 import java.util.EventObject;
