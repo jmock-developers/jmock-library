@@ -71,6 +71,11 @@ public class MockObjectSupportTestCaseTest extends TestCase
         assertConstraintFalse(MockObjectSupportTestCase.NULL, "not null");
     }
 
+    public void testHasConvenienceConstantForNotNull() {
+        assertConstraintTrue(MockObjectSupportTestCase.NOT_NULL, "not null");
+        assertConstraintFalse(MockObjectSupportTestCase.NOT_NULL, null );
+    }
+
     public void testHasConvenienceMethodForCreatingIsEqualConstraints() {
         String stringValue = new String("STRING VALUE");
 

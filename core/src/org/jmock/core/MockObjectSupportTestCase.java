@@ -10,7 +10,8 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
 {
     public static final Constraint ANYTHING = new IsAnything();
     public static final Constraint NULL = new IsNull();
-
+    public static final Constraint NOT_NULL = new IsNot(NULL);
+    
     public MockObjectSupportTestCase() {
     }
 
