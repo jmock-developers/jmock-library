@@ -31,11 +31,11 @@ def jmock_cglib_jar( version )
 end
 
 def jmock_src_jar( version )
-    "#{DIST_ROOT}/distributions/jmock-src-#{version}.jar"
+    "#{DIST_ROOT}/distributions/jmock-#{version}-src.jar"
 end
 
 def jmock_javadoc_jar( version )
-    "#{DIST_ROOT}/distributions/jmock-javadoc-#{version}.jar"
+    "#{DIST_ROOT}/distributions/jmock-#{version}-javadoc.jar"
 end
 
 
