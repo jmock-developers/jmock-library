@@ -1,4 +1,5 @@
-/* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package test.jmock.core.matcher;
 
 import junit.framework.TestCase;

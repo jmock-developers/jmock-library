@@ -1,3 +1,5 @@
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package test.jmock;
 
 public class ToDo
@@ -9,8 +11,6 @@ public class ToDo
     //Source cleanup prior to version 1.0 alpha
     //TODO RESOLVE ALL TO-DO COMMENTS
     //TODO JavaDoc interfaces and those classes that need it.
-    //TODO Add copyright comments to files
-    //TODO Reformat all source
 
     //-----------------------------------------------------------------------------------------
     // Tasks completed
@@ -51,6 +51,9 @@ public class ToDo
     //DONE Good error reporting (i.e. more than just a ClassCastException) when the type of a returned object is wrong.
     //DONE Ditto for thrown exceptions
     //DONE roll returnValues into main branch (see MockObjectTestCase.onConsecutiveCalls).
+    //DONE Add copyright comments to files
+    //DONE Reformat all source
+    //DONE Refactor CoreMock test cases to remove duplication
 
     //-----------------------------------------------------------------------------------------
     // Post 1.0 tasks
@@ -62,5 +65,4 @@ public class ToDo
     //TODO for trainer syntax: ((Thingy)mock.will(returnValue(10)).after("prev").id("asdad").train()),doIt(); ??
     //TODO on failure, show previous invocations for all Mocks within test?
     //TODO Extract construction and verification of mock objects into verifiable MockFactory class.
-    //TODO Refactor CoreMock test cases to remove duplication
 }

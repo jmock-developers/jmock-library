@@ -1,3 +1,5 @@
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package org.jmock.core;
 
 import org.jmock.core.constraint.*;

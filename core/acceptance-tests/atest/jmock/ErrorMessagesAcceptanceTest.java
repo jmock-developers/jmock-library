@@ -1,5 +1,4 @@
-/*
- * Created on Dec 17, 2003
+/*  Copyright (c) 2000-2004 jMock.org
  */
 package atest.jmock;
 

@@ -1,3 +1,5 @@
+/*  Copyright (c) 2000-2004 jMock.org
+ */
 package test.jmock.builder.testsupport;
 
 import org.jmock.builder.BuilderNamespace;
