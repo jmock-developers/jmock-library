@@ -27,7 +27,8 @@
 - DO SOMETHING WITH THE EMPTY TEST CLASSES IN test.jmock.dynamic
 - Implement matchers for call ordering.
 - Remove PMD violations
-
+- Follow coding convention in constraint classes
+- REMOVE ALL TODO: COMMENTS
 (sensible defaults reduce test brittleness)
 - Sensible default: If no expectation/match setup, invocation should produce no-op instead of fail.
 - ExpectNotCalled (or equivalent) makes tests more expressive.
