@@ -1,5 +1,7 @@
 package org.jmock.dynamic;
 
+import java.util.List;
+
 import org.jmock.Constraint;
 import org.jmock.constraint.IsAnything;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
@@ -87,31 +89,40 @@ public abstract class AbstractDynamicMock
     }
     
     private void setupDefaultBehaviour() {
-        add( new SilentInvocationMocker( "toString", 
-            NoArgumentsMatcher.INSTANCE, 
-            new ReturnStub(name)));
-        add( new SilentInvocationMocker("equals", 
-            new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
-            new IsSameAsProxyStub()));
-        add( new SilentInvocationMocker("hashCode",
-            NoArgumentsMatcher.INSTANCE,
-            new HashCodeStub()));
+        add( hiddenInvocationMocker( 
+                "toString", 
+                NoArgumentsMatcher.INSTANCE, 
+                new ReturnStub(name)));
+        add( hiddenInvocationMocker(
+                "equals", 
+                new ArgumentsMatcher(new Constraint[] {new IsAnything()}), 
+                new IsSameAsProxyStub()));
+        add( hiddenInvocationMocker(
+                "hashCode",
+                NoArgumentsMatcher.INSTANCE,
+                new HashCodeStub()));
     }
     
-    private static class SilentInvocationMocker extends InvocationMocker {
-        public SilentInvocationMocker(String methodName, InvocationMatcher arguments, Stub stub) {
-            addMatcher( new MethodNameMatcher(methodName) );
-            addMatcher(arguments);
-            setStub(stub);
-        }
+    private static final InvocationMocker.Describer NO_DESCRIPTION = 
+        new InvocationMocker.Describer() {
+            public boolean hasDescription() {
+                return false;
+            }
+            public void describeTo(StringBuffer buffer, List matchers, Stub stub, String name) {
+            }
+        };
+    
+    private InvocationMocker hiddenInvocationMocker( String methodName,
+                                                        InvocationMatcher arguments,
+                                                        Stub stub )
+    {
+        InvocationMocker invocationMocker = new InvocationMocker(NO_DESCRIPTION);
         
-        public boolean hasDescription() {
-            return false;
-        }
+        invocationMocker.addMatcher(new MethodNameMatcher(methodName));
+        invocationMocker.addMatcher(arguments);
+        invocationMocker.setStub(stub);
         
-        public StringBuffer describeTo(StringBuffer buffer) {
-            return buffer;
-        }
+        return invocationMocker;
     }
     
     private class IsSameAsProxyStub extends CustomStub {
