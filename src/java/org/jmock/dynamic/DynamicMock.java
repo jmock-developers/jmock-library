@@ -6,10 +6,13 @@ import org.jmock.Verifiable;
 import java.lang.reflect.InvocationHandler;
 
 public interface DynamicMock
-        extends Verifiable, InvocationHandler 
+    extends Verifiable, InvocationHandler 
 {
     Object proxy();
-
+    
+    Stub getDefaultStub();
+    void setDefaultStub( Stub newDefaultStub );
+    
     void add(Invokable invokable);
 
     void reset();

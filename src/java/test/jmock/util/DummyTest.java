@@ -15,6 +15,13 @@ public class DummyTest extends TestCase {
     	void method1();
     }
     
+    public void testCanCreateDummyObjectsThatReturnANameFromString() {
+    	Object dummy = Dummy.newDummy(DUMMY_NAME);
+        
+        assertEquals( "should return name from toString",
+                      DUMMY_NAME, dummy.toString() );
+    }
+    
     public void testImplementsAGivenInterface() {
     	Object dummy = Dummy.newDummy(ExampleInterface.class);
         

@@ -1,12 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
-import org.jmock.Verifiable;
-import org.jmock.dynamic.stub.CustomStub;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+
+import org.jmock.Verifiable;
+import org.jmock.dynamic.stub.CustomStub;
 
 public class LIFOInvocationDispatcher 
     implements InvocationDispatcher 
@@ -18,7 +18,7 @@ public class LIFOInvocationDispatcher
     				                    "No match found" );
         }
     };
-    
+
     public Object dispatch(Invocation invocation) throws Throwable {
         ListIterator i = invokables.listIterator(invokables.size());
         while (i.hasPrevious()) {
@@ -29,6 +29,14 @@ public class LIFOInvocationDispatcher
         }
         
         return defaultStub.invoke(invocation);
+    }
+    
+    public Stub getDefaultStub() {
+        return defaultStub;
+    }
+
+    public void setDefaultStub(Stub defaultStub) {
+        this.defaultStub = defaultStub;
     }
     
     public void add(Invokable invokable) {

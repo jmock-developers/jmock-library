@@ -40,6 +40,7 @@ public class MockStub
 		return buffer;
 	}
 	
+    // TODO: stub class is not verifiable so remove this!
 	public ExpectationCounter verifyCalls = new ExpectationCounter("verify #calls");
 	
 	public void verify() {

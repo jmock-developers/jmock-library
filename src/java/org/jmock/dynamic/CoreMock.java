@@ -16,8 +16,10 @@ public class CoreMock
     private Object proxy;
     private String name;
 
-    public CoreMock(Class mockedClass, String name, InvocationDispatcher invocationDispatcher) {
-        this.proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{mockedClass}, this);
+    public CoreMock(Class mockedClass, String name, InvocationDispatcher invocationDispatcher ) {
+        this.proxy = Proxy.newProxyInstance( getClass().getClassLoader(), 
+                                             new Class[]{mockedClass}, 
+                                             this);
         this.name = name;
         this.invocationDispatcher = invocationDispatcher;
         
@@ -50,7 +52,7 @@ public class CoreMock
             throw error;
         }
     }
-
+    
     public void verify() {
         try {
             invocationDispatcher.verify();
@@ -58,15 +60,23 @@ public class CoreMock
             throw new AssertionFailedError(name + ": " + ex.getMessage());
         }
     }
-
+    
     public String toString() {
         return this.name;
     }
-
+    
     public String getMockName() {
         return this.name;
     }
     
+	public Stub getDefaultStub() {
+		return invocationDispatcher.getDefaultStub();
+	}
+	
+	public void setDefaultStub(Stub newDefaultStub) {
+		invocationDispatcher.setDefaultStub(newDefaultStub);
+	}
+	
     public void add(Invokable invokable) {
         invocationDispatcher.add(invokable);
     }
@@ -74,7 +84,7 @@ public class CoreMock
     public void reset() {
         invocationDispatcher.clear();
     }
-
+    
     public static String mockNameFromClass(Class c) {
         return "mock" + className(c);
     }

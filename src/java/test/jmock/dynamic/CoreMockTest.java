@@ -5,6 +5,7 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import test.jmock.dynamic.testsupport.MockInvocationDispatcher;
 import test.jmock.dynamic.testsupport.MockInvokable;
+import test.jmock.dynamic.testsupport.MockStub;
 
 import org.jmock.dynamic.CoreMock;
 import org.jmock.dynamic.DynamicUtil;
@@ -84,7 +85,7 @@ public class CoreMockTest extends TestCase {
         assertTrue( "should be equal", proxy.equals(proxy));
         assertFalse( "should not be equal", proxy.equals(new Object()) );
     }
-
+    
     public void testProxyInequality() throws Exception {
         mockDispatcher.dispatchResult = new Boolean(false);
 
@@ -122,14 +123,27 @@ public class CoreMockTest extends TestCase {
         coreMock.verify();  // should not fail on a proxyToString call
     }
 
-    public void testAddAnInvokable() {
+    public void testAddsInvokablesToDispatcher() {
         mockDispatcher.addInvokable.setExpected(mockInvokable);
 
         coreMock.add(mockInvokable);
 
         mockDispatcher.verifyExpectations();
     }
-
+    
+    public void testExposesDefaultStubOfDispatcher() {
+        MockStub dummyStub = new MockStub("dummyStub");
+        
+    	mockDispatcher.setDefaultStub.setExpected( dummyStub );
+        mockDispatcher.getDefaultStubCalls.setExpected(1);
+        mockDispatcher.getDefaultStubResult = dummyStub;
+        
+        coreMock.setDefaultStub( dummyStub );
+        assertSame( "should be dispatcher's default stub", 
+                    dummyStub, coreMock.getDefaultStub() );
+        
+        mockDispatcher.verifyExpectations();
+    }
 
     public void testReset() {
         mockDispatcher.clearCalls.setExpected(1);

@@ -6,13 +6,15 @@ import junit.framework.AssertionFailedError;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationDispatcher;
 import org.jmock.dynamic.Invokable;
+import org.jmock.dynamic.Stub;
 import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.expectation.MockObject;
 
 public class MockInvocationDispatcher
         extends MockObject
-        implements InvocationDispatcher {
+        implements InvocationDispatcher 
+{
     public ExpectationValue dispatchInvocation = new ExpectationValue("dispatchInvocation");
     public Object dispatchResult;
     public Throwable dispatchThrowable;
@@ -21,7 +23,20 @@ public class MockInvocationDispatcher
     public ExpectationCounter verifyCalls = new ExpectationCounter("verify calls");
     public AssertionFailedError verifyFailure;
     public String writeToOutput = "MockInvocationDispatcher.writeTo output";
-
+    public ExpectationCounter getDefaultStubCalls = new ExpectationCounter("getDefaultStub #calls");
+    public Stub getDefaultStubResult;
+    public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
+    
+    
+    public Stub getDefaultStub() {
+        getDefaultStubCalls.inc();
+        return getDefaultStubResult;
+    }
+    
+    public void setDefaultStub( Stub newDefaultStub ) {
+        setDefaultStub.setActual(newDefaultStub);
+    }
+    
     public void add(Invokable invokable) {
         addInvokable.setActual(invokable);
     }

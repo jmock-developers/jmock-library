@@ -3,12 +3,14 @@ package test.jmock.dynamic;
 
 import junit.framework.TestCase;
 import test.jmock.dynamic.testsupport.MockInvokable;
+import test.jmock.dynamic.testsupport.MockStub;
 
 import java.lang.reflect.Method;
 
 import org.jmock.dynamic.DynamicMockError;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
+import org.jmock.util.Dummy;
 
 public class LIFOInvocationDispatcherTest extends TestCase {
 
@@ -76,7 +78,7 @@ public class LIFOInvocationDispatcherTest extends TestCase {
         }
     }
 
-    public void testInvokeFailsWhenNoInvokablesMatch() throws Throwable {
+    public void testByDefaultInvokeFailsWhenNoInvokablesMatch() throws Throwable {
         invokable1.matchesResult = false;
         invokable2.matchesResult = false;
 
@@ -149,7 +151,29 @@ public class LIFOInvocationDispatcherTest extends TestCase {
         dispatcher.clear();
         testInvokeFailsWhenEmpty();
     }
-
+    
+    public void testInvokesDefaultStubWhenNoInvokablesMatch() throws Throwable {
+        MockStub mockDefaultStub = new MockStub("mockDefaultStub"); 
+        Object defaultStubResult = Dummy.newDummy("DEFAULT STUB RESULT");
+        
+        dispatcher.add(invokable1);
+        dispatcher.add(invokable2);
+        
+        invokable1.matchesResult = false;
+        invokable2.matchesResult = false;
+        
+        mockDefaultStub.invokeInvocation.setExpected(invocation);
+        mockDefaultStub.invokeResult = defaultStubResult;
+        
+        dispatcher.setDefaultStub(mockDefaultStub);
+        assertSame( "dispatcher should have new default stub",
+                    mockDefaultStub, dispatcher.getDefaultStub() );
+        assertSame( "should be result of calling default stub",
+                    defaultStubResult, dispatcher.dispatch(invocation) );
+        
+        mockDefaultStub.verifyExpectations();
+    }
+    
     private Method getDummyMethod() throws NoSuchMethodException {
         return getClass().getDeclaredMethod("dummyMethod", new Class[0]);
     }

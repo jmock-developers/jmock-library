@@ -5,15 +5,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import junit.framework.AssertionFailedError;
+
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Stub;
-import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
-
-import junit.framework.AssertionFailedError;
 
 
 public class DefaultResultStub
-	extends StatelessInvocationMatcher
 	implements Stub
 {
 	private Map resultValuesByType = new HashMap();
@@ -28,10 +26,6 @@ public class DefaultResultStub
 	
 	public void addResult( Class resultType, Object resultValue ) {
 		resultValuesByType.put( resultType, resultValue );
-	}
-	
-	public boolean matches( Invocation invocation ) {
-		return resultValuesByType.containsKey( invocation.getReturnType() );
 	}
 	
 	public Object invoke( Invocation invocation ) 
@@ -71,6 +65,7 @@ public class DefaultResultStub
 	public static DefaultResultStub createStub() {
 		DefaultResultStub stub = new DefaultResultStub();
 		
+        stub.addResult( void.class, null );
 		stub.addResult( byte.class, new Byte((byte)0) );
 		stub.addResult( short.class, new Short((short)0) );
 		stub.addResult( int.class, new Integer(0) );
