@@ -6,10 +6,10 @@ import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
+import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
-import org.jmock.dynamock.C;
 
 public class InvocationMockerBuilderTest extends MockObjectTestCase {
     private MockStubMatchersCollection mocker = new MockStubMatchersCollection();
@@ -41,7 +41,7 @@ public class InvocationMockerBuilderTest extends MockObjectTestCase {
     }
     
     public void testNoParamsAddsNoArgumentMatcher() {
-    	mocker.addedMatcher.setExpected(C.NO_ARGS);
+    	mocker.addedMatcher.setExpected(NoArgumentsMatcher.INSTANCE);
     	
     	assertNotNull("Should be Stub Builder", builder.noParams());
     	

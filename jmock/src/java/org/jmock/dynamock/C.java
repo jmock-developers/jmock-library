@@ -2,21 +2,11 @@
 package org.jmock.dynamock;
 
 import org.jmock.Constraint;
-import org.jmock.constraint.And;
-import org.jmock.constraint.IsAnything;
-import org.jmock.constraint.IsEqual;
-import org.jmock.constraint.IsGreaterThan;
-import org.jmock.constraint.IsInstanceOf;
-import org.jmock.constraint.IsLessThan;
-import org.jmock.constraint.IsNot;
-import org.jmock.constraint.IsNull;
-import org.jmock.constraint.IsSame;
-import org.jmock.constraint.Or;
-import org.jmock.constraint.StringContains;
-import org.jmock.dynamic.Invocation;
+import org.jmock.constraint.*;
 import org.jmock.dynamic.InvocationMatcher;
+import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
+import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 
 
 /**
@@ -31,27 +21,8 @@ public abstract class C {
     public static final Constraint IS_ZERO = eq(new Integer(0));
     public static final Constraint IS_NOT_ZERO = not(IS_ZERO);
 
-    public static final InvocationMatcher NO_ARGS =
-            new StatelessInvocationMatcher() {
-                public boolean matches(Invocation invocation) {
-                    return invocation.getParameterValues().isEmpty();
-                }
-
-                public StringBuffer writeTo(StringBuffer buffer) {
-                    return buffer.append("No arguments");
-                }
-            };
-
-    public static final InvocationMatcher ANY_ARGS =
-            new StatelessInvocationMatcher() {
-                public boolean matches(Invocation invocation) {
-                    return true;
-                }
-
-                public StringBuffer writeTo(StringBuffer buffer) {
-                    return buffer.append("Any arguments");
-                }
-            };
+    public static final InvocationMatcher NO_ARGS = NoArgumentsMatcher.INSTANCE;
+    public static final InvocationMatcher ANY_ARGS = AnyArgumentsMatcher.INSTANCE;
 
     public static Constraint same(Object o) {
         return new IsSame(o);

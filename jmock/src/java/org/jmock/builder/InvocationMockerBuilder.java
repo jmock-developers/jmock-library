@@ -5,10 +5,10 @@ import org.jmock.Constraint;
 import org.jmock.dynamic.StubMatchersCollection;
 import org.jmock.dynamic.matcher.ArgumentsMatcher;
 import org.jmock.dynamic.matcher.InvokeOnceMatcher;
+import org.jmock.dynamic.matcher.NoArgumentsMatcher;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
-import org.jmock.dynamock.C;
 
 public class InvocationMockerBuilder 
     implements MatchBuilder, StubBuilder, ExpectationBuilder 
@@ -41,12 +41,12 @@ public class InvocationMockerBuilder
 	}
 
     public StubBuilder noParams() {
-    	mocker.addMatcher(C.NO_ARGS);
+    	mocker.addMatcher(NoArgumentsMatcher.INSTANCE);
     	return this;
     }
     
     public ExpectationBuilder isVoid() {
-    	mocker.setStub(new VoidStub());
+    	mocker.setStub(VoidStub.INSTANCE);
     	return this;
     }
 

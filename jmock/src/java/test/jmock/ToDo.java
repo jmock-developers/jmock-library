@@ -1,7 +1,7 @@
 package test.jmock;
 
 public class ToDo {
-    
+
     //TODO JavaDoc all classes in root org.jmock package.
     //TODO Find cool new name for "builder" API
     //TODO Clean up org.jmock.expecation package.
@@ -9,7 +9,7 @@ public class ToDo {
     //TODO DO SOMETHING WITH THE EMPTY TEST CLASSES IN test.jmock.dynamic
     //TODO Implement matchers for call ordering.
     //TODO REMOVE ALL TO-DO COMMENTS
-    //TODO Extract NoArgs and AnyArgs matcher classes from C
+    //Done Extract NoArgs and AnyArgs matcher classes from C
     //TODO Stop core packages relying on C
     //TODO Put low-level hook methods into builder interfaces
     //TODO Remove getters from Invocation ? 
