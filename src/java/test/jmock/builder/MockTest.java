@@ -4,6 +4,7 @@ package test.jmock.builder;
 import org.jmock.builder.Mock;
 
 import junit.framework.TestCase;
+import test.jmock.dynamic.DummyInterface;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
 
 public class MockTest extends TestCase {
@@ -15,7 +16,15 @@ public class MockTest extends TestCase {
         mockCoreMock.toStringResult = "some string here";
         assertEquals("Should be same string", "some string here", mock.toString());
     }
-
+    
+    public void testPassesExplicitNameToUnderlyingCoreMock() {
+        String explicitName = "EXPLICIT NAME";
+        
+    	Mock mock = new Mock( DummyInterface.class, explicitName );
+        
+        assertEquals( "should be explicit name", explicitName, mock.toString() );
+    }
+    
     public void testMethodAddsInvocationMockerAndReturnsMethodExpectation() {
         mockCoreMock.addCalls.setExpected(1);
 

@@ -9,13 +9,18 @@ import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 
 public class Mock
-        implements Verifiable {
+        implements Verifiable 
+{
     DynamicMock coreMock;
-
+    
     public Mock(Class mockedType) {
-        this(new CoreMock(mockedType, CoreMock.mockNameFromClass(mockedType), new LIFOInvocationDispatcher()));
+        this( mockedType, CoreMock.mockNameFromClass(mockedType) );
     }
-
+    
+    public Mock( Class mockedType, String name ) {
+        this(new CoreMock(mockedType, name, new LIFOInvocationDispatcher()));
+    }
+    
     public Mock(DynamicMock coreMock) {
         this.coreMock = coreMock;
     }
