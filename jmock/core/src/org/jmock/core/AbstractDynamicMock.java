@@ -99,19 +99,20 @@ public abstract class AbstractDynamicMock
     }
 
     private static final InvocationMocker.Describer NO_DESCRIPTION =
-            new InvocationMocker.Describer()
-            {
-                public boolean hasDescription() {
-                    return false;
-                }
+        new InvocationMocker.Describer()
+        {
+            public boolean hasDescription() {
+                return false;
+            }
 
-                public void describeTo( StringBuffer buffer, List matchers, Stub stub, String name ) {
-                }
-            };
+            public void describeTo( StringBuffer buffer, List matchers, Stub stub, String name ) {
+            }
+        };
 
     private InvocationMocker hiddenInvocationMocker( String methodName,
                                                      InvocationMatcher arguments,
-                                                     Stub stub ) {
+                                                     Stub stub )
+    {
         InvocationMocker invocationMocker = new InvocationMocker(NO_DESCRIPTION);
 
         invocationMocker.addMatcher(new MethodNameMatcher(methodName));

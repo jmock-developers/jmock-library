@@ -8,8 +8,8 @@ import java.lang.reflect.Proxy;
 
 
 public class CoreMock
-        extends AbstractDynamicMock
-        implements InvocationHandler
+    extends AbstractDynamicMock
+    implements InvocationHandler
 {
     private Object proxy;
 
@@ -19,7 +19,8 @@ public class CoreMock
 
     public CoreMock( Class mockedType,
                      String name,
-                     InvocationDispatcher invocationDispatcher ) {
+                     InvocationDispatcher invocationDispatcher )
+    {
         super(mockedType, name, invocationDispatcher);
         this.proxy = Proxy.newProxyInstance(mockedType.getClassLoader(),
                                             new Class[]{mockedType},
@@ -31,7 +32,8 @@ public class CoreMock
     }
 
     public Object invoke( Object invokedProxy, Method method, Object[] args )
-            throws Throwable {
+        throws Throwable
+    {
         Invocation invocation = new Invocation(invokedProxy, method, args);
         return mockInvocation(invocation);
     }
