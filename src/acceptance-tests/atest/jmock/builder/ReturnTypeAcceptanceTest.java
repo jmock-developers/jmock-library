@@ -5,7 +5,7 @@ import org.jmock.builder.Mock;
 import junit.framework.TestCase;
 
 
-public class Mock_ReturnType_IntegrationTest extends TestCase {
+public class ReturnTypeAcceptanceTest extends TestCase {
     public interface ReturnTypes {
     	String returnString();
         boolean returnBoolean();

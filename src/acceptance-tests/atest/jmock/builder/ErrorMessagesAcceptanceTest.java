@@ -7,7 +7,7 @@ import org.jmock.builder.Mock;
 import org.jmock.builder.MockObjectTestCase;
 import org.jmock.dynamic.DynamicMockError;
 
-public class Mock_ErrorMessage_IntegrationTest extends MockObjectTestCase {
+public class ErrorMessagesAcceptanceTest extends MockObjectTestCase {
 
     public void testUnexpectedCallAlsoShowsExpectedCalls() {
         String arg1 = "arg1";
