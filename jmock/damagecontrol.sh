@@ -5,6 +5,7 @@ echo **** ENVIRONMENT VARIABLES ****
 env
 echo *******************************
 
+
 export BUILD_TIMESTAMP=$(date --utc +%Y%m%d-%H%M%S)
 
 source VERSION
