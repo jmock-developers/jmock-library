@@ -21,7 +21,7 @@ public class CoreMock
                      InvocationDispatcher invocationDispatcher ) 
     {
         super( mockedType, name, invocationDispatcher );
-        this.proxy = Proxy.newProxyInstance( getClass().getClassLoader(), 
+        this.proxy = Proxy.newProxyInstance( mockedType.getClassLoader(), 
                                              new Class[]{mockedType}, 
                                              this);
     }
