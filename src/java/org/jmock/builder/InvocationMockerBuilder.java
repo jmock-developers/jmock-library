@@ -62,8 +62,13 @@ public class InvocationMockerBuilder
         return match(AnyArgumentsMatcher.INSTANCE);
     }
     
+    public ExpectationBuilder stub(Stub stub) {
+    	mocker.setStub(stub);
+    	return this;
+    }
+    
     public ExpectationBuilder isVoid() {
-    	return setStub(VoidStub.INSTANCE);
+    	return stub(VoidStub.INSTANCE);
     }
     
     public ExpectationBuilder willReturn(boolean returnValue) {
@@ -99,11 +104,11 @@ public class InvocationMockerBuilder
     }
     
     public ExpectationBuilder willReturn(Object returnValue) {
-        return setStub(new ReturnStub(returnValue));
+        return stub(new ReturnStub(returnValue));
     }
     
     public ExpectationBuilder willThrow(Throwable throwable) {
-        return setStub(new ThrowStub(throwable));
+        return stub(new ThrowStub(throwable));
     }
     
     public ExpectationBuilder addExpectation( InvocationMatcher expectation ) {
@@ -147,11 +152,6 @@ public class InvocationMockerBuilder
     
 	private InvocationMockerBuilder addMatcher(InvocationMatcher matcher) {
         mocker.addMatcher(matcher);
-        return this;
-    }
-    
-    private InvocationMockerBuilder setStub(Stub stub) {
-        mocker.setStub(stub);
         return this;
     }
 }

@@ -10,8 +10,6 @@ import org.jmock.util.Verifier;
 
 
 public class MockStubMatchersCollection implements StubMatchersCollection {
-    public ExpectationValue setStubType = new ExpectationValue("set stub type");
-    public ExpectationValue setStubReturnValue = new ExpectationValue("set stub return value");
     public ExpectationValue addedMatcher = new ExpectationValue("added matcher");
     public ExpectationValue addedMatcherType = new ExpectationValue("added matcher type");
     
@@ -20,7 +18,12 @@ public class MockStubMatchersCollection implements StubMatchersCollection {
 		addedMatcherType.setActual(matcher.getClass());
 	}
 
-    public void setStub(Stub stub) {
+	public ExpectationValue setStubType = new ExpectationValue("set stub type");
+	public ExpectationValue setStub = new ExpectationValue("set stub");
+	public ExpectationValue setStubReturnValue = new ExpectationValue("set stub return value");
+	
+	public void setStub(Stub stub) {
+		setStub.setActual(stub);
         setStubType.setActual(stub.getClass());
         
         if( setStubReturnValue.hasExpectations() )  {
