@@ -1,6 +1,7 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic.stub;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,7 +31,9 @@ public class DefaultResultStub
         
         if( resultValuesByType.containsKey(returnType) ) {
 			return resultValuesByType.get(returnType);
-		} else {
+		} else if( returnType.isArray() ) {
+            return Array.newInstance( returnType.getComponentType(), 0 );
+        } else {
 			throw new AssertionFailedError( createErrorMessage(invocation) );
 		}
 	}

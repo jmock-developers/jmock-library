@@ -12,7 +12,7 @@ import org.jmock.expectation.AssertMo;
 public class DefaultResultStubTest 
 	extends TestCase 
 {
-	static final Object[] NO_ARG_VALUES = new Object[0];
+    static final Object[] NO_ARG_VALUES = new Object[0];
 	static final Class[] NO_ARG_TYPES = new Class[0];
 	
 	private DefaultResultStub stub;
@@ -36,6 +36,22 @@ public class DefaultResultStubTest
         assertHasNotRegisteredReturnType(stub,void.class);
 	}
 	
+    private static class AnyType {}
+
+    public void testReturnsEmptyArrayForAllArrayTypes()
+        throws Throwable
+    {
+        stub = new DefaultResultStub();
+        
+        int[] defaultArrayForPrimitiveType = 
+            (int[])stub.invoke(resultCall(int[].class));
+        assertEquals( "should be empty array", 0, defaultArrayForPrimitiveType.length );
+        
+        AnyType[] defaultArrayForAnyType = 
+            (AnyType[])stub.invoke(resultCall(AnyType[].class));
+        assertEquals( "should be empty array", 0, defaultArrayForAnyType.length );
+    }
+    
 	public void testReturnsRegisteredValuesForAppropriateReturnTypesFromCall()
 		throws Throwable
 	{

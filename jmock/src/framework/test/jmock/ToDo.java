@@ -10,7 +10,6 @@ public class ToDo {
     //TODO Remove getters from Invocation (?)
 	//TODO Extract interface from Invocation class (?)
     //TODO ExpectNotCalled (or equivalent) makes tests more expressive.
-    //TODO Default call stub should return zero-length arrays for array types
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
@@ -25,6 +24,7 @@ public class ToDo {
 	//DONE When no args specified in dynamock.Mock, use ANY-args instead of NO-args.
 	//  - dropped methods without arg specification in dynamock because of this ambiguity
     //DONE Expose setDefaultStub through high-level API
+    //DONE Default result stub should return zero-length arrays for array types
 	
 	
 	//-----------------------------------------------------------------------------------------
