@@ -11,15 +11,35 @@ SKIN_DIR = File.join(BASE_DIR,"templates")
 OUTPUT_DIR = File.join(BASE_DIR,"output")
 
 CVSWEB_ROOT = "http://cvs.jmock.codehaus.org/jmock/website/content/"
+DIST_ROOT = "http://dist.codehaus.org/jmock"
+
+SNAPSHOT_VERSION = ENV["BUILD_TIMESTAMP"]
+PRERELEASE_VERSION = ENV["PRERELEASE_VERSION"]
+RELEASE_VERSION = ENV["RELEASE_VERSION"]
+
+NO_VERSION = "n/a"
 
 TEMPLATE = XEMPLATE::load_template( File.join(SKIN_DIR,"skin.html") )
 
-def env( varname, default_value )
-	ENV[varname] || default_value
+
+def jmock_jar( version )
+    "#{DIST_ROOT}/jars/jmock-#{version}.jar"
 end
 
-$logger = $stdout
+def jmock_cglib_jar( version )
+    "#{DIST_ROOT}/jars/jmock-cglib-#{version}.jar"
+end
 
+def jmock_src_jar( version )
+    "#{DIST_ROOT}/distributions/jmock-src-#{version}.jar"
+end
+
+def jmock_javadoc_jar( version )
+    "#{DIST_ROOT}/distributions/jmock-javadoc-#{version}.jar"
+end
+
+
+$logger = $stdout
 def log( message )
 	$logger.puts( message )
 	$logger.flush
@@ -93,16 +113,26 @@ end
 
 def skin_content_file( content_file, root_content_dir )
     output_file = output_file( content_file, root_content_dir )
-    
+
     config = {
         "content" => content_file,
         "isindex" => (content_file =~ /content\/index\.html$/) != nil,
-        "snapshot" => String.new(env("SNAPSHOT_VERSION","n/a")),
-        "prerelease" => String.new(env("PRERELEASE_VERSION","n/a")),
-        "release" => String.new(env("RELEASE_VERSION","n/a")),
         "history" => CVSWEB_ROOT + content_file[(root_content_dir.size+1)..-1]
     }
-    
+
+    [["snapshot",   SNAPSHOT_VERSION,   "SNAPSHOT"],
+     ["prerelease", PRERELEASE_VERSION, PRERELEASE_VERSION],
+     ["release",    RELEASE_VERSION,    RELEASE_VERSION]].each do |id,version,fileid|
+        config["#{id}_available"] = version != nil
+        config[id] = String.new(version || NO_VERSION)
+        if version != nil
+            config["#{id}_jmock_jar"] = jmock_jar(fileid)
+            config["#{id}_jmock_cglib_jar"] = jmock_cglib_jar(fileid)
+            config["#{id}_jmock_src_jar"] = jmock_src_jar(fileid)
+            config["#{id}_jmock_javadoc_jar"] = jmock_javadoc_jar(fileid)
+        end
+    end
+
     skinned_content = TEMPLATE.expand( config )
     
     # workaround for MSIE

@@ -105,17 +105,21 @@ module XEMPLATE
             end
         end
         
+        def expand_when_not_element( expanded_parent, template_element, bindings )
+            if !is_when_directive_active?(template_element,bindings)
+                expand_children( expanded_parent, template_element, bindings )
+            end
+        end
+
         def is_when_directive_active?( template_element, bindings )
             variable = direct_attribute_value( template_element, VAR )
             guard_value = template_attribute( template_element, VALUE, bindings )
             actual_value = bindings[variable]
-            
-            if actual_value.nil?
-                return false
-            elsif guard_value.nil?
+
+            if guard_value.nil?
                 return actual_value
             else
-                return actual_value.to_s == guard_value
+                return actual_value.to_s == guard_value.to_s
             end
         end
         
