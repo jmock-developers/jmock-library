@@ -83,14 +83,9 @@ public class CoreMock
     }
     
     public static String mockNameFromClass(Class c) {
-        return "mock" + className(c);
+        return "mock" + DynamicUtil.classShortName(c);
     }
     
-    public static String className(Class c) {
-        return c.getName().substring(c.getPackage().getName().length() + 1);
-    }
-    
-
     private void setupDefaultBehaviour() {
         add(new InvocationMocker("toString", NoArgumentsMatcher.INSTANCE, new ReturnStub(this.name)));
         add(new InvocationMocker("equals", 

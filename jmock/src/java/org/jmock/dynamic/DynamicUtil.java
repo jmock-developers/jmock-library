@@ -125,4 +125,8 @@ public class DynamicUtil {
             }
         }
     }
+
+	public static String classShortName(Class c) {
+	    return c.getName().substring(c.getPackage().getName().length() + 1);
+	}
 }

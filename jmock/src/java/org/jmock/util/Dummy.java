@@ -2,6 +2,7 @@
 package org.jmock.util;
 
 import org.jmock.dynamic.CoreMock;
+import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.InvocationMocker;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
@@ -14,7 +15,7 @@ public class Dummy {
 	}
 
 	public static Object newDummy(Class interfaceClass) {
-		return newDummy( interfaceClass, "dummy"+CoreMock.className(interfaceClass) );
+		return newDummy( interfaceClass, "dummy"+ DynamicUtil.classShortName(interfaceClass) );
 	}
 
 	public static Object newDummy( final Class interfaceClass, final String name ) {
