@@ -31,8 +31,10 @@ function deploy {
     scp -r $*
 }
 
+echo version.archive=SNAPSHOT > build.properties
+echo version.extract=$BUILD_TIMESTAMP >> build.properties
 
-build-step ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars website
+build-step ant jars website
 
 echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
 
