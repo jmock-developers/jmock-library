@@ -10,10 +10,11 @@ import org.jmock.core.internal.HiddenInvocationMocker;
 import org.jmock.core.stub.TestFailureStub;
 
 public abstract class OrderedInvocationDispatcher implements InvocationDispatcher {
+	public static final String UNEXPECTED_INVOCATION_MESSAGE = "unexpected invocation";
 	public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
     
 	protected ArrayList invokables = new ArrayList();
-	private Stub defaultStub = new TestFailureStub("no match found");
+	private Stub defaultStub = new TestFailureStub(UNEXPECTED_INVOCATION_MESSAGE);
 
     abstract public InvokablesIterator iterator();
     

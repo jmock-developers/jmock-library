@@ -31,7 +31,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
         catch (DynamicMockError error) {
             String errorMessage = error.getMessage();
 
-            String causeOfError = "no match found";
+            String causeOfError = "unexpected invocation";
             String expectedMethod1 =
                     "expected once: twoArgsReturnsInt( ANYTHING, ANYTHING ), returns <1> [" + callID + "]";
             String expectedMethod2 =

@@ -91,6 +91,7 @@ public class DefaultResultStub
         addResult(Float.class, new Float(0.0F));
         addResult(Double.class, new Double(0.0));
         addResult(String.class, "");
+        addResult(Object.class, new Object());
     }
     
     private Object createNullMockObjectProxy(Class returnType) {

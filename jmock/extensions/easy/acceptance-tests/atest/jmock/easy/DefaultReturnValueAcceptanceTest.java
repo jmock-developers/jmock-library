@@ -19,10 +19,10 @@ public class DefaultReturnValueAcceptanceTest extends TestCase {
 
     public void testDefaultReturnValue() {
         mock.threeArgumentMethod(7, "", "test");
-        control.setReturnValue("test", MockControl.ONE);
+        control.setReturnValue(MockControl.ONE, "test");
 
         mock.threeArgumentMethod(8, null, "test2");
-        control.setReturnValue("test2", MockControl.ONE);
+        control.setReturnValue(MockControl.ONE, "test2");
 
         final Object DEFAULT_VALUE = "Default object";
         control.setDefaultReturnValue(DEFAULT_VALUE);
@@ -42,14 +42,14 @@ public class DefaultReturnValueAcceptanceTest extends TestCase {
         control.verify();
     }
 
-    public void xtestDefaultVoidCallable() {
+    public void testDefaultVoidCallable() {
         final RuntimeException EXPECTED = new RuntimeException("Expected");
         
         mock.twoArgumentMethod(1, 2);
         control.setDefaultVoidCallable();
 
         mock.twoArgumentMethod(1, 1);
-        control.setThrowable(EXPECTED, MockControl.ONE_OR_MORE);
+        control.setThrowable(MockControl.ONE_OR_MORE, EXPECTED);
 
         control.replay();
         mock.twoArgumentMethod(2, 1);
@@ -64,7 +64,6 @@ public class DefaultReturnValueAcceptanceTest extends TestCase {
         }
     }
 
-/*
      public void testDefaultThrowable() {
         mock.twoArgumentMethod(1, 2);
         control.setVoidCallable();
@@ -98,5 +97,5 @@ public class DefaultReturnValueAcceptanceTest extends TestCase {
 		assertFalse(mock.booleanReturningMethod(13));
     
 		control.verify();
-    }*/
+    }
 }

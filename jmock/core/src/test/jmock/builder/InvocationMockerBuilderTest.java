@@ -79,6 +79,12 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase
         fail("should have thrown AssertionFailedError");
     }
 
+    public void testMethodNameDefinedInObjectNotInMockedTypeIsAllowed() {
+        String methodNameNotInMockedInterface = "toString";
+
+        builder.method(methodNameNotInMockedInterface);
+    }
+
     public void testSpecifyingMethodWithConstraintAddsMethodNameMatcherButDoesNotAddSelfToIdentityTable() {
         Constraint nameConstraint = (Constraint)newDummy(Constraint.class, "nameConstraint");
 

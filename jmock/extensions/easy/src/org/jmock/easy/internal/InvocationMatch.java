@@ -31,8 +31,7 @@ public class InvocationMatch {
 	}
 
 	public void addInvocationMockerTo(EasyInvocationDispatcher dispatcher) {
-		if (isUnset())
-			return;
+		if (isUnset()) return;
 		
         if (isExpectation()) {
             dispatcher.add(

@@ -3,6 +3,7 @@
 package org.jmock.easy;
 
 import org.jmock.core.InvocationDispatcher;
+import org.jmock.core.Stub;
 import org.jmock.core.Verifiable;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.ThrowStub;
@@ -44,15 +45,27 @@ public class MockControl
 		dispatcher.verify();
 	}
 
-	public void setVoidCallable(Range range) {
-        invocationMatch.expectCallCount(range, new VoidStub());
+    public void setVoidCallable() {
+        setVoidCallable(ONE);
     }
 
-	public void setReturnValue(Object value, Range range) {
+	public void setVoidCallable(Range range) {
+        expectStub(range, new VoidStub());
+    }
+
+	public void setReturnValue(Range range, Object value) {
         invocationMatch.expectCallCount(range, new ReturnStub(value));
     }
 
-    public void setThrowable(Throwable throwable, Range range) {
+    public void setReturnValue(Object value) {
+    	setReturnValue(ONE, value);
+    }
+
+    public void setReturnValue(boolean value) {
+    	setReturnValue(new Boolean(value));
+    }
+    
+    public void setThrowable(Range range, Throwable throwable) {
         invocationMatch.expectCallCount(range, new ThrowStub(throwable));
     }
 
@@ -60,8 +73,20 @@ public class MockControl
         dispatcher.setDefaultStub(new ReturnStub(value));
     }
 
+    public void setDefaultReturnValue(boolean value) {
+    	setDefaultReturnValue(new Boolean(value));
+    }
+    
     public void setDefaultVoidCallable() {
         dispatcher.setDefaultStub(new VoidStub());
+    }
+
+	public void setDefaultThrowable(Throwable throwable) {
+        dispatcher.setDefaultStub(new ThrowStub(throwable));
+	}
+
+    private void expectStub(Range range, Stub stub) {
+    	invocationMatch.expectCallCount(range, stub);
     }
 
 }
