@@ -14,6 +14,8 @@ public class ThrowStub
     }
 
     public Object invoke(Invocation invocation) throws Throwable {
+	    //TODO check for compatibility with invoked method's checked exceptions
+		
         throw throwable;
     }
 
