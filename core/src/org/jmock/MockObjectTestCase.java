@@ -61,7 +61,7 @@ public abstract class MockObjectTestCase
         return new InvokeAtLeastOnceMatcher();
     }
     
-    public InvocationMatcher notCalled() {
+    public InvocationMatcher never() {
         return new TestFailureMatcher("expect not called");
     }
 }
