@@ -10,16 +10,15 @@ import org.jmock.core.DynamicMockError;
 public class ExpectNeverAcceptanceTest
         extends MockObjectTestCase
 {
-    private static interface MockedInterface
-    {
+    private static interface MockedInterface {
         public void method();
     }
 
     public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
         Mock mock = mock(MockedInterface.class, "mock");
 
-        mock.stubs().method("invokedMethod").withNoArguments();
-        mock.expects(never()).method("invokedMethod").withNoArguments();
+        mock.stubs().method("method").withNoArguments();
+        mock.expects(never()).method("method").withNoArguments();
 
         try {
             ((MockedInterface)mock.proxy()).method();
@@ -33,7 +32,7 @@ public class ExpectNeverAcceptanceTest
     public void testExpectNotCalledVerifiesIfNotCalled() {
         Mock mock = mock(MockedInterface.class, "mock");
 
-        mock.stubs().method("invokedMethod").withNoArguments().isVoid();
-        mock.expects(never()).method("invokedMethod").withNoArguments();
+        mock.stubs().method("method").withNoArguments().isVoid();
+        mock.expects(never()).method("method").withNoArguments();
     }
 }

@@ -28,7 +28,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
                 .will(returnValue(1));
 
         try {
-            ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt(notArg1, notArg2);
+            ((Types.WithTwoMethods)mock.proxy()).noArgsReturnsNothing();
         }
         catch (DynamicMockError error) {
             String errorMessage = error.getMessage();
@@ -50,7 +50,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
 
             assertStringContains("should report invokedMethod that caused error",
                                  errorMessage,
-                                 "twoArgsReturnInt(<" + notArg1 + ">, <" + notArg2 + ">)");
+                                 "noArgsReturnsNothing()");
 
             assertStringContains("should report acceptable methods (#1)",
                                  errorMessage, expectedMethod1);
@@ -70,7 +70,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
     public void testShowsNoExpectationsStringWhenNoExpectationsSet() {
         Mock mock = mock(Types.WithTwoMethods.class);
         try {
-            ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnInt("arg1", "arg2");
+            ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnsInt("arg1", "arg2");
         }
         catch (DynamicMockError error) {
             String errorMessage = error.getMessage();

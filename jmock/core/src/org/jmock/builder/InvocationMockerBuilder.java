@@ -2,6 +2,7 @@
  */
 package org.jmock.builder;
 
+import java.lang.reflect.Method;
 import junit.framework.AssertionFailedError;
 import org.jmock.core.Constraint;
 import org.jmock.core.InvocationMatcher;
@@ -15,12 +16,16 @@ public class InvocationMockerBuilder
         implements NameMatchBuilder
 {
     private StubMatchersCollection mocker;
-    private BuilderNamespace idTable;
+    private BuilderNamespace builderNamespace;
+    private Class mockedType;
 
     public InvocationMockerBuilder( StubMatchersCollection mocker,
-                                    BuilderNamespace idTable ) {
+                                    BuilderNamespace idTable,
+                                    Class mockedType )
+    {
         this.mocker = mocker;
-        this.idTable = idTable;
+        this.builderNamespace = idTable;
+        this.mockedType = mockedType;
     }
 
     public ArgumentsMatchBuilder method( Constraint nameConstraint ) {
@@ -28,9 +33,42 @@ public class InvocationMockerBuilder
     }
 
     public ArgumentsMatchBuilder method( String name ) {
+        checkLegalMethodName(name);
+        checkExistingMethodName(name);
+
         addMatcher(new MethodNameMatcher(name));
-        idTable.registerMethodName(name, this);
+        builderNamespace.registerMethodName(name, this);
+
         return this;
+    }
+
+    private void checkLegalMethodName( String name ) {
+        if( !isLegalMethodName(name) ) {
+            throw new IllegalArgumentException( "illegal method name " + name );
+        }
+    }
+
+    private boolean isLegalMethodName( String name ) {
+        if( !Character.isJavaIdentifierStart(name.charAt(0)) ) return false;
+        for( int i = 1; i < name.length(); i++ ) {
+            if( !Character.isJavaIdentifierPart(name.charAt(i))) return false;
+        }
+        return true;
+    }
+
+    private void checkExistingMethodName( String name ) {
+        if( !typeDefinesMethodNamed(name) ) {
+            throw new AssertionFailedError("no method named "+name+" is defined in type "+mockedType);
+        }
+    }
+
+    private boolean typeDefinesMethodNamed( String name ) {
+        Method[] methods = mockedType.getMethods();
+        
+        for( int i = 0; i < methods.length; i++ ) {
+            if( methods[i].getName().equals(name) ) return true;
+        }
+        return false;
     }
 
     public MatchBuilder match( InvocationMatcher customMatcher ) {
@@ -85,11 +123,11 @@ public class InvocationMockerBuilder
 
     public void id( String invocationID ) {
         mocker.setName(invocationID);
-        idTable.registerUniqueID(invocationID, this);
+        builderNamespace.registerUniqueID(invocationID, this);
     }
 
     public MatchBuilder after( String priorCallID ) {
-        setupOrderingMatchers(idTable, priorCallID, priorCallID);
+        setupOrderingMatchers(builderNamespace, priorCallID, priorCallID);
         return this;
     }
 
