@@ -31,7 +31,7 @@ public class ReturnStubTest
     
     public void testReturnsValuePassedToConstructor() throws Throwable {
 	    invocation = new Invocation(
-	        invokedObject, methodFactory.newMethodReturning(RESULT.getClass()), new Object[0] );
+	        invokedObject, methodFactory.newMethodReturning(RESULT.getClass()), null );
 
         assertSame( "Should be the same result object",
         		    RESULT, returnStub.invoke(invocation) );
@@ -54,7 +54,7 @@ public class ReturnStubTest
 		throws Throwable
 	{
 		invocation = new Invocation(
-		    invokedObject, methodFactory.newMethodReturning(int.class), new Object[0] );
+		    invokedObject, methodFactory.newMethodReturning(int.class), null );
 
 	    try {
 		    returnStub.invoke(invocation);
@@ -67,11 +67,28 @@ public class ReturnStubTest
 		fail("should have failed");
 	}
 
+	public void testThrowsAssertionFailedErrorIfTriesToReturnValueFromVoidMethod()
+		throws Throwable
+	{
+		invocation = new Invocation(
+		    invokedObject, methodFactory.newMethodReturning(void.class), null );
+
+	    try {
+		    returnStub.invoke(invocation);
+	    }
+		catch( AssertionFailedError ex ) {
+		    AssertMo.assertIncludes( "should describe error",
+		                             "tried to return a value from a void method", ex.getMessage() );
+		    return;
+	    }
+		fail("should have failed");
+	}
+
 	public void testCanReturnNullReference()
 		throws Throwable
 	{
 		invocation = new Invocation(
-		    invokedObject, methodFactory.newMethodReturning(String.class), new Object[0] );
+		    invokedObject, methodFactory.newMethodReturning(String.class), null );
 
 		returnStub = new ReturnStub(null);
 
@@ -82,7 +99,7 @@ public class ReturnStubTest
 		throws Throwable
 	{
 		invocation = new Invocation(
-		    invokedObject, methodFactory.newMethodReturning(int.class), new Object[0] );
+		    invokedObject, methodFactory.newMethodReturning(int.class), null );
 
 		returnStub = new ReturnStub(null);
 
