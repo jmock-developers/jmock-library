@@ -11,12 +11,14 @@ module XEMPLATE
     
     WHEN = "when"
     INCLUDE = "include"
-    DYNAMIC = "dynamic"
     TEXT = "text"
+    ATTR = "attr"
+    DYNAMIC = "dynamic"
     
     SRC = "src"
     ELEMENTS = "elements"
     VAR = "var"
+    NAME = "name"
     VALUE = "value"
     
     class TemplateException < Exception
@@ -150,6 +152,13 @@ module XEMPLATE
             variable = direct_attribute_value( template_element, VAR )
             text = bindings[variable].to_s
             expanded_parent.add( Text.new(text) )
+        end
+        
+        def expand_attr_element( expanded_parent, template_element, bindings )
+        	attr_name = template_attribute( template_element, NAME, bindings )
+        	attr_value = template_attribute( template_element, VALUE, bindings )
+        	
+        	expanded_parent.attributes[attr_name] = attr_value
         end
         
         def template_attribute( element, attr, bindings )
