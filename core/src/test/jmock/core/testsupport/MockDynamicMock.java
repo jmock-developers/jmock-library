@@ -23,13 +23,13 @@ public class MockDynamicMock
         return getMockedTypeResult;
     }
     
-    public ExpectationCounter addCalls = new ExpectationCounter("add #calls");
-    public ExpectationValue addInvokable = new ExpectationValue("add invokable");
+    public ExpectationCounter addInvokableCalls = new ExpectationCounter("addInvokable #calls");
+    public ExpectationValue addInvokable = new ExpectationValue("addInvokable invokable");
 
     public void addInvokable(Invokable invokable) {
         AssertMo.assertNotNull("invokable", invokable);
         addInvokable.setActual(invokable);
-        addCalls.inc();
+        addInvokableCalls.inc();
     }
     
     public ExpectationValue setDefaultStub = new ExpectationValue("setDefaultStub");
