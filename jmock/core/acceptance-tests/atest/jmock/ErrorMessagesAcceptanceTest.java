@@ -14,10 +14,8 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
 
     public void testUnexpectedCallAlsoShowsExpectedCalls() {
         String arg1 = "arg1";
-        String notArg1 = "not arg1";
         String callID = "callID";
         Object arg2 = newDummy("arg2");
-        Object notArg2 = newDummy("not arg2");
         Mock mock = mock(Types.WithTwoMethods.class, MOCK_NAME);
         unregisterToVerify(mock); // don't automatically verify
 

@@ -3,6 +3,7 @@
 package test.jmock.builder;
 
 import junit.framework.AssertionFailedError;
+
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.core.Constraint;
 import org.jmock.core.InvocationMatcher;
@@ -13,9 +14,9 @@ import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
 import org.jmock.core.matcher.NoArgumentsMatcher;
 import org.jmock.core.stub.VoidStub;
-import org.jmock.util.Dummy;
-import org.jmock.Mock;
 import org.jmock.expectation.AssertMo;
+import org.jmock.util.Dummy;
+
 import test.jmock.builder.testsupport.MockBuilderIdentityTable;
 import test.jmock.builder.testsupport.MockStubMatchersCollection;
 

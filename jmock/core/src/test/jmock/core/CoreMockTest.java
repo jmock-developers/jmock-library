@@ -2,13 +2,9 @@
  */
 package test.jmock.core;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-import org.jmock.core.*;
-import org.jmock.expectation.AssertMo;
-import test.jmock.core.testsupport.MockInvocationDispatcher;
-import test.jmock.core.testsupport.MockInvokable;
-import test.jmock.core.testsupport.MockStub;
+import org.jmock.core.CoreMock;
+import org.jmock.core.DynamicMock;
+import org.jmock.core.InvocationDispatcher;
 
 
 public class CoreMockTest extends AbstractDynamicMockTest
