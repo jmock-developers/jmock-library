@@ -27,7 +27,7 @@ public class ReturnStub
 		BOX_TYPES.put( double.class, Double.class );
 	}
 
-
+    
     public ReturnStub(Object result) {
         this.result = result;
     }
@@ -42,10 +42,13 @@ public class ReturnStub
     }
 
 	private void checkTypeCompatiblity(Class returnType) {
-		if( !isCompatible( returnType, result.getClass() )  ) {
-			throw new AssertionFailedError( "result value has wrong type: " +
-			                                "expected a " + returnType +
-			                                " but returned a " + result.getClass() );
+		if( result == null ) {
+			if( returnType.isPrimitive() ) reportInvalidNullValue( returnType );
+		} else {
+			Class valueType = result.getClass();
+			if( !isCompatible(returnType,valueType) ) {
+				reportTypeError( returnType, valueType );
+			}
 		}
 	}
 
@@ -59,5 +62,15 @@ public class ReturnStub
 
 	private boolean isBoxedType( Class primitiveType, Class referenceType ) {
 		return BOX_TYPES.get(primitiveType) == referenceType;
+	}
+
+	private void reportTypeError(Class returnType, Class valueType) {
+		throw new AssertionFailedError( "result value has wrong type: " +
+		                                "expected a " + returnType +
+		                                " but returned a " + valueType );
+	}
+
+	private void reportInvalidNullValue( Class returnType ) {
+		throw new AssertionFailedError( "tried to return null value from method returning " + returnType );
 	}
 }
