@@ -24,7 +24,7 @@ public class FIFOInvocationDispatcherTest extends TestCase
 
     public void setUp() throws NoSuchMethodException {
         invocation = new Invocation("INVOKED-OBJECT", getDummyMethod(), null);
-        dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.FIFOInvokablesCollection());
+        dispatcher = new OrderedInvocationDispatcher.FIFO();
     }
 
     public void dummyMethod() { /* just used to create Invocation objects */

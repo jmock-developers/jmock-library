@@ -22,7 +22,7 @@ public class Dummy
     }
 
     public static Object newDummy( final Class interfaceClass, final String name ) {
-        OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
+        OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher.LIFO();
         CoreMock mock = new CoreMock(interfaceClass, name, dispatcher);
         InvocationMocker mocker = new InvocationMocker();
 

@@ -27,7 +27,7 @@ public class MockControl
 	}
 	
 	public static MockControl createControl(Class mockedType) {
-        InvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.FIFOInvokablesCollection());
+        InvocationDispatcher dispatcher = new OrderedInvocationDispatcher.FIFO();
 		return new MockControl(
                 new EasyCoreMock(mockedType, dispatcher), CoreMock.mockNameFromClass(mockedType), dispatcher);
 	}

@@ -14,7 +14,7 @@ public class Mock extends org.jmock.Mock
     }
 
     public Mock( Class mockedType, String name ) {
-        this(mockedType, name, new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()) );
+        this(mockedType, name, new OrderedInvocationDispatcher.LIFO() );
     }
 
     public Mock( Class mockedType, String name, InvocationDispatcher dispatcher ) {

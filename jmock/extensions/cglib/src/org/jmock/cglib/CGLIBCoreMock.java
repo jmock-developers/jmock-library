@@ -20,11 +20,11 @@ public class CGLIBCoreMock
     public CGLIBCoreMock( Class mockedType ) {
         this(mockedType,
              mockNameFromClass(mockedType),
-             new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
+             new OrderedInvocationDispatcher.LIFO());
     }
 
     public CGLIBCoreMock( Class mockedType, String name ) {
-        this(mockedType, name, new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()));
+        this(mockedType, name, new OrderedInvocationDispatcher.LIFO());
     }
 
     public CGLIBCoreMock( Class mockedType,

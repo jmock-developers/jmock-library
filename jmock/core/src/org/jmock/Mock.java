@@ -3,7 +3,9 @@
 package org.jmock;
 
 import java.util.HashMap;
+
 import junit.framework.AssertionFailedError;
+
 import org.jmock.builder.*;
 import org.jmock.core.*;
 
@@ -21,8 +23,7 @@ public class Mock
     }
 
     public Mock( Class mockedType, String name ) {
-        this( mockedType, name, 
-              new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection()) );
+        this( mockedType, name, new OrderedInvocationDispatcher.LIFO() );
     }
     
     public Mock( Class mockedType, String name, InvocationDispatcher dispatcher ) {

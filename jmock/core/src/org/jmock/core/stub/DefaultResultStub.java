@@ -6,12 +6,10 @@ import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import junit.framework.AssertionFailedError;
+
 import org.jmock.core.*;
-import org.jmock.core.CoreMock;
-import org.jmock.core.Formatting;
-import org.jmock.core.Invocation;
-import org.jmock.core.Stub;
 
 
 public class DefaultResultStub
@@ -96,7 +94,7 @@ public class DefaultResultStub
     }
     
     private Object createNullMockObjectProxy(Class returnType) {
-        OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
+        OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher.LIFO();
         String name = "null" + Formatting.classShortName(returnType);
         
         CoreMock nullMock = new CoreMock(returnType, name, dispatcher);

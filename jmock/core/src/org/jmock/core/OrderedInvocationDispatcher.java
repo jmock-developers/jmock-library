@@ -4,29 +4,21 @@
 package org.jmock.core;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ListIterator;
 
-import org.jmock.core.constraint.IsAnything;
-import org.jmock.core.matcher.ArgumentsMatcher;
-import org.jmock.core.matcher.MethodNameMatcher;
-import org.jmock.core.matcher.NoArgumentsMatcher;
-import org.jmock.core.stub.CustomStub;
-import org.jmock.core.stub.ReturnStub;
+import org.jmock.core.internal.HiddenInvocationMocker;
 import org.jmock.core.stub.TestFailureStub;
 
-public class OrderedInvocationDispatcher implements InvocationDispatcher {
+public abstract class OrderedInvocationDispatcher implements InvocationDispatcher {
 	public static final String NO_EXPECTATIONS_MESSAGE = "No expectations set";
     
-	private InvokablesCollection invokables;
+	protected ArrayList invokables = new ArrayList();
 	private Stub defaultStub = new TestFailureStub("no match found");
 
-	public OrderedInvocationDispatcher(InvokablesCollection invokables) {
-		this.invokables = invokables;
-	}
-
+    abstract public InvokablesIterator iterator();
+    
 	public Object dispatch(Invocation invocation) throws Throwable {
-		InvokablesCollection.Iterator i = invokables.iterator();
+		InvokablesIterator i = iterator();
 		while (i.hasMore()) {
 			Invokable invokable = i.next();
 			if (invokable.matches(invocation)) {
@@ -46,7 +38,7 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	}
 
 	public void verify() {
-		InvokablesCollection.Iterator i = invokables.iterator();
+		InvokablesIterator i = iterator();
 		while (i.hasMore()) {
 			i.next().verify();
 		}
@@ -66,8 +58,14 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 		return buffer;
 	}
 
+    public void setupDefaultBehaviour(String name, Object proxy) {
+        add(new HiddenInvocationMocker.ToString(name));
+        add(new HiddenInvocationMocker.Equals(proxy));
+        add(new HiddenInvocationMocker.HashCode());
+    }
+
 	private void writeInvokablesTo(StringBuffer buffer) {
-		InvokablesCollection.Iterator iterator = invokables.iterator();
+		InvokablesIterator iterator = iterator();
 		while (iterator.hasMore()) {
 			Invokable invokable = iterator.next();
 			if (invokable.hasDescription()) {
@@ -77,7 +75,7 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 	}
 
 	private boolean anyInvokableHasDescription() {
-		InvokablesCollection.Iterator iterator = invokables.iterator();
+		InvokablesIterator iterator = iterator();
 		while (iterator.hasMore()) {
 			if (iterator.next().hasDescription()) {
 				return true;
@@ -86,72 +84,12 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 		return false;
 	}
 
+
     // ----------------------------------------------------------
-    public void setupDefaultBehaviour(String name, Object proxy) {
-        add(hiddenInvocationMocker("toString", NoArgumentsMatcher.INSTANCE, new ReturnStub(name)));
-        add(hiddenInvocationMocker("equals",
-                                            new ArgumentsMatcher(new Constraint[]{new IsAnything()}),
-                                            new IsSameAsProxyStub(proxy)));
-        add(hiddenInvocationMocker("hashCode",
-                                            NoArgumentsMatcher.INSTANCE,
-                                            new HashCodeStub()));
-    }
-
-    private static final InvocationMocker.Describer NO_DESCRIPTION =
-        new InvocationMocker.Describer()
-        {
-            public boolean hasDescription() {
-                return false;
-            }
-
-            public void describeTo( StringBuffer buffer, List matchers, Stub stub, String name ) {
-            }
-        };
-
-    private InvocationMocker hiddenInvocationMocker( String methodName,
-                                                     InvocationMatcher arguments,
-                                                     Stub stub )
-    {
-        InvocationMocker invocationMocker = new InvocationMocker(NO_DESCRIPTION);
-
-        invocationMocker.addMatcher(new MethodNameMatcher(methodName));
-        invocationMocker.addMatcher(arguments);
-        invocationMocker.setStub(stub);
-
-        return invocationMocker;
-    }
-
-    private class IsSameAsProxyStub extends CustomStub
-    {
-        private Object proxy;
-        
-        private IsSameAsProxyStub(Object proxy) {
-            super("returns whether equal to proxy");
-            this.proxy = proxy;
-        }
-
-        public Object invoke( Invocation invocation ) throws Throwable {
-            return new Boolean(invocation.parameterValues.get(0) == proxy);
-        }
-    }
-
-    private class HashCodeStub extends CustomStub
-    {
-        private HashCodeStub() {
-            super("returns hashCode for proxy");
-        }
-
-        public Object invoke( Invocation invocation ) throws Throwable {
-            return new Integer(OrderedInvocationDispatcher.this.hashCode());
-        }
-    }
-    // ----------------------------------------------------------
-	static public class FIFOInvokablesCollection implements InvokablesCollection {
-		private List list = new ArrayList();
-
-		public InvokablesCollection.Iterator iterator() {
-			return new InvokablesCollection.Iterator() {
-				private java.util.Iterator iterator = list.iterator();
+	static public class FIFO extends OrderedInvocationDispatcher {
+		public InvokablesIterator iterator() {
+			return new InvokablesIterator() {
+				private java.util.Iterator iterator = invokables.iterator();
 
 				public boolean hasMore() {
 					return iterator.hasNext();
@@ -161,21 +99,12 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 				}
 			};
 		}
-
-		public void add(Invokable invokable) {
-			list.add(invokable);
-		}
-		public void clear() {
-			list.clear();
-		}
 	}
 
-	static public class LIFOInvokablesCollection implements InvokablesCollection {
-		private List list = new ArrayList();
-
-		public InvokablesCollection.Iterator iterator() {
-			return new InvokablesCollection.Iterator() {
-				ListIterator i = list.listIterator(list.size());
+	static public class LIFO extends OrderedInvocationDispatcher {
+		public InvokablesIterator iterator() {
+			return new InvokablesIterator() {
+				ListIterator i = invokables.listIterator(invokables.size());
 
 				public boolean hasMore() {
 					return i.hasPrevious();
@@ -184,13 +113,6 @@ public class OrderedInvocationDispatcher implements InvocationDispatcher {
 					return (Invokable) i.previous();
 				}
 			};
-		}
-
-		public void add(Invokable invokable) {
-			list.add(invokable);
-		}
-		public void clear() {
-			list.clear();
 		}
 	}
 
