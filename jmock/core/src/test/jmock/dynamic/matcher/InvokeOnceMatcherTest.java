@@ -40,6 +40,7 @@ public class InvokeOnceMatcherTest extends TestCase {
     public void testWritesDescriptionOfMatch() {
     	String description = matcher.describeTo(new StringBuffer()).toString();
     	
+        assertTrue( "should have description", matcher.hasDescription() );
     	assertEquals( "should describe match", MATCH_DESCRIPTION, description );
     }
     
@@ -48,6 +49,7 @@ public class InvokeOnceMatcherTest extends TestCase {
         
         String description = matcher.describeTo(new StringBuffer()).toString();
         
+        assertTrue( "should have description", matcher.hasDescription() );
         assertTrue( "should describe match", 
                     description.indexOf(MATCH_DESCRIPTION) >= 0 );
         assertTrue( "should report has been called",
