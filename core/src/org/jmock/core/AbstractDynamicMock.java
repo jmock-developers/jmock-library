@@ -47,12 +47,14 @@ public abstract class AbstractDynamicMock
         if (failure != null) throw failure;
 
         try {
-            return invocationDispatcher.dispatch(invocation);
+            Object result = invocationDispatcher.dispatch(invocation);
+            invocation.checkReturnTypeCompatibility(result);
+            return result;
         }
         catch (AssertionFailedError error) {
-            this.failure = new DynamicMockError(this, invocation, invocationDispatcher, error.getMessage());
-            this.failure.fillInStackTrace();
-            throw this.failure;
+            failure = new DynamicMockError(this, invocation, invocationDispatcher, error.getMessage());
+            failure.fillInStackTrace();
+            throw failure;
         }
     }
 

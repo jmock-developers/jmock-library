@@ -4,9 +4,13 @@ package test.jmock.core;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
 import org.jmock.core.Invocation;
 import org.jmock.expectation.AssertMo;
+
 import test.jmock.core.testsupport.MethodFactory;
 
 
@@ -150,4 +154,71 @@ public class InvocationTest extends TestCase
         AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
         AssertMo.assertIncludes("Should contain firstArg", argAsString, result);
     }
+
+    public void testReturnTypeCheckFailsIfReturningValueFromVoidMethod() {
+    	Invocation invocation = 
+            new Invocation(INVOKED, methodFactory.newMethodReturning(void.class), null);
+        
+        try {
+            invocation.checkReturnTypeCompatibility("string result");
+        }
+        catch (AssertionFailedError ex) {
+            AssertMo.assertIncludes("should describe error",
+                                    "tried to return a value from a void method", ex.getMessage());
+            return;
+        }
+        fail("should have failed");
+    }
+    
+    public void testReturnTypeCheckFailsIfReturnedValueIsIncompatible() {
+    	Invocation invocation = 
+            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class), null);
+
+        try {
+            invocation.checkReturnTypeCompatibility("string result");
+        }
+        catch (AssertionFailedError ex) {
+            AssertMo.assertIncludes("expected return type", int.class.toString(), ex.getMessage());
+            AssertMo.assertIncludes("returned value type", String.class.getName(), ex.getMessage());
+            return;
+        }
+        fail("should have failed");
+    }
+
+    public void testReturnTypeCheckFailsWhenReturningNullFromMethodWithPrimitiveReturnType() {
+    	Invocation invocation = 
+            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class), null);
+    
+        try {
+            invocation.checkReturnTypeCompatibility(null);
+        }
+        catch (AssertionFailedError ex) {
+            AssertMo.assertIncludes("expected return type", int.class.toString(), ex.getMessage());
+            AssertMo.assertIncludes("null", String.valueOf((Object)null), ex.getMessage());
+            return;
+        }
+        fail("should have failed");
+    }
+
+    public void testReturnTypeCheckAllowsReturningBoxedTypeFromMethodWithPrimitiveReturnType() {
+        Invocation invocation = 
+            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class), null);
+    
+        invocation.checkReturnTypeCompatibility(new Integer(0));
+    }
+
+    public void testReturnTypeCheckAllowsReturningNullFromMethodWithNonPrimitiveReturnType() {
+        Invocation invocation = 
+            new Invocation(INVOKED, methodFactory.newMethodReturning(String.class), null);
+        
+        invocation.checkReturnTypeCompatibility(null);
+    }
+    
+    public void testReturnTypeCheckAllowsReturningNullFromVoidMethod() {
+        Invocation invocation = 
+            new Invocation(INVOKED, methodFactory.newMethodReturning(void.class), null);
+        
+        invocation.checkReturnTypeCompatibility(null);
+    }
+ 
 }
