@@ -98,6 +98,6 @@ public class Invocation {
     }
     
     private StringBuffer writeDeclaringClassName(StringBuffer buffer) {
-        return buffer.append(declaringClass.getName().substring(declaringClass.getPackage().getName().length()));
+        return buffer.append(DynamicUtil.classShortName(declaringClass));
     }
 }
