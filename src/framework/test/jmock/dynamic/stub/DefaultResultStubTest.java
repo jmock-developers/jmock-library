@@ -33,6 +33,7 @@ public class DefaultResultStubTest
     public void testReturnsUsefulDefaultResultsForBasicTypes()
         throws Throwable
     {
+        assertHasRegisteredValue( stub, boolean.class, Boolean.FALSE );
         assertHasRegisteredValue( stub, void.class, null );
         assertHasRegisteredValue( stub, byte.class, new Byte((byte)0) );
         assertHasRegisteredValue( stub, short.class, new Short((short)0) );
@@ -41,6 +42,7 @@ public class DefaultResultStubTest
         assertHasRegisteredValue( stub, char.class, new Character('\0') );
         assertHasRegisteredValue( stub, float.class, new Float(0.0F) );
         assertHasRegisteredValue( stub, double.class, new Double(0.0) );
+        assertHasRegisteredValue( stub, Boolean.class, Boolean.FALSE );
         assertHasRegisteredValue( stub, Byte.class, new Byte((byte)0) );
         assertHasRegisteredValue( stub, Short.class, new Short((short)0) );
         assertHasRegisteredValue( stub, Integer.class, new Integer(0) );
@@ -56,8 +58,6 @@ public class DefaultResultStubTest
     public void testReturnsEmptyArrayForAllArrayTypes()
         throws Throwable
     {
-        stub = new DefaultResultStub();
-        
         int[] defaultArrayForPrimitiveType = 
             (int[])stub.invoke(resultCall(int[].class));
         assertEquals( "should be empty array", 0, defaultArrayForPrimitiveType.length );
@@ -65,6 +65,24 @@ public class DefaultResultStubTest
         AnyType[] defaultArrayForAnyType = 
             (AnyType[])stub.invoke(resultCall(AnyType[].class));
         assertEquals( "should be empty array", 0, defaultArrayForAnyType.length );
+    }
+    
+    public interface InterfaceType {
+        int returnInt();
+    }
+    
+    // Inspired by http://www.c2.com/cgi/wiki?JavaNullProxy
+    public void testReturnsProxyOfNewMockObjectWithSameDefaultResultStubForInterfaceTypes()
+        throws Throwable
+    {
+        int intResult = -1;
+        
+        stub.addResult( int.class, new Integer(intResult) );
+        
+        InterfaceType result = (InterfaceType)stub.invoke(resultCall(InterfaceType.class));
+        
+        assertEquals( "int result from 'null' interface implementation", 
+                      intResult, result.returnInt() );
     }
     
 	public void testDefaultResultsCanBeExplicitlyOverriddenByType()
@@ -93,32 +111,37 @@ public class DefaultResultStubTest
 				      "result2", stub.invoke(resultCall(String.class)) );
 	}
 	
+    class UnsupportedReturnType {}
+    
 	public void testInvocationWithAnUnregisteredReturnTypeCausesAnAssertionFailedError()
         throws Throwable
     {
-        Class unsupportedReturnType = Long.class;
-        Class[] supportedReturnTypes = new Class[] {
-             String.class, int.class, Double.class
+        Class unsupportedReturnType = UnsupportedReturnType.class;
+        Class[] supportedReturnTypes = {
+            boolean.class, byte.class, char.class, short.class, int.class, long.class,
+            float.class, double.class,
+            Boolean.class, Byte.class, Character.class, Short.class, Integer.class, Long.class,
+            Float.class, Double.class,
+            String.class
         };
         
 		try {
-            for( int i = 0; i < supportedReturnTypes.length; i++ ) {
-            	stub.addResult( supportedReturnTypes[i], null ); // don't care about return value
-            }
-            
             stub.invoke( resultCall(unsupportedReturnType) );
 		}
 		catch( AssertionFailedError ex ) {
 			String message = ex.getMessage();
 			
-            AssertMo.assertIncludes( "message should include unsupported type",
-                                     unsupportedReturnType.toString(), message );
+            AssertMo.assertIncludes( "message should include name of unsupported type",
+                                     unsupportedReturnType.getName(), message );
             
             for( int i = 0; i < supportedReturnTypes.length; i++ ) {
-            	AssertMo.assertIncludes( "message should include expected types",
-            			supportedReturnTypes[i].toString(), message );
+            	AssertMo.assertIncludes( "message should include names of expected types",
+            			supportedReturnTypes[i].getName(), message );
             }
+            return;
 		}
+        
+        fail("should have failed");
 	}
 	
 	public void assertHasRegisteredValue( DefaultResultStub defaultResultStub,
