@@ -1,12 +1,11 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO Rename "builder" API to "hotmock" (or "syntax", "spec", etc.)
+    //TODO Good names for high-level and low-level API packages
     //TODO More tests for error messages
     //TODO Better format for expected calls in error messages
     //      - make expected and actual call signatures look similar
     //TODO List expected/stubbed methods in verify errors
-    //TODO open hooks to allow different proxying mechanisms to reuse CoreMock implementation
     //TODO Change default mock names from mockClassName to className
     
     //TODO Implement API for call ordering in dynamock API (or... see below)
@@ -40,6 +39,7 @@ public class ToDo {
     //DONE demote dynamock API to an optional extension
     //DONE move default behaviour of default result stub into constructor
     //DONE reorganise directories. Change src/{framework,acceptance-tests} to core/{src,acceptance-tests}.
+    //DONE open hooks to allow different proxying mechanisms to reuse CoreMock implementation
 
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
