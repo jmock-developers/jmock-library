@@ -3,31 +3,29 @@ package org.jmock.builder;
 
 import org.jmock.dynamic.InvocationMatcher;
 
-public interface ExpectationBuilder {
-	ExpectationBuilder id( String id );
+public interface MatchBuilder extends StubBuilder {
+    MatchBuilder match( InvocationMatcher customMatcher );
     
-    ExpectationBuilder after( String previousCallID );
-    ExpectationBuilder after( BuilderIdentityTable otherMock, String previousCallID );
+	MatchBuilder after( String previousCallID );
+    MatchBuilder after( BuilderIdentityTable otherMock, String previousCallID );
 	
-    ExpectationBuilder expect( InvocationMatcher expectation );
-    
     /**
      * @deprecated use expect(expectation). Will be removed in version 1.0.
      */
-	ExpectationBuilder addExpectation( InvocationMatcher expectation );
+	IdentityBuilder addExpectation( InvocationMatcher expectation );
 	
     /**
      * @deprecated use mock.expect(once())... Will be removed in version 1.0.
      */
-	ExpectationBuilder expectOnce();
+	IdentityBuilder expectOnce();
     
     /**
      * @deprecated use mock.expect(atLeastOnce())... Will be removed in version 1.0.
      */
-	ExpectationBuilder expectAtLeastOnce();
+	IdentityBuilder expectAtLeastOnce();
 	
     /**
      * @deprecated use mock.expect(notCalled())... Will be removed in version 1.0.
      */
-    ExpectationBuilder expectNotCalled();
+    IdentityBuilder expectNotCalled();
 }

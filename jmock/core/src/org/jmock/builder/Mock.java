@@ -78,14 +78,14 @@ public class Mock
         coreMock.setDefaultStub(newDefaultStub);
     }
     
-    public ExpectationBuilder lookupID(String id) {
+    public MatchBuilder lookupID(String id) {
 		if( ! idTable.containsKey(id) ) {
             throw new AssertionFailedError("no expected invocation named '"+id+"'");
 		} 
-		return (ExpectationBuilder)idTable.get(id);
+		return (MatchBuilder)idTable.get(id);
 	}
 	
-    public void registerUniqueID( String id, ExpectationBuilder builder ) {
+    public void registerUniqueID( String id, IdentityBuilder builder ) {
         if( idTable.containsKey(id) ) {
             throw new AssertionFailedError(
                 "duplicate invocation named \"" + id + "\"" );
@@ -94,7 +94,7 @@ public class Mock
         registerID( id, builder );
     }
     
-	public void registerID( String id, ExpectationBuilder builder ) {
+	public void registerID( String id, IdentityBuilder builder ) {
         idTable.put( id, builder );
 	}
 }

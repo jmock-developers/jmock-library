@@ -8,7 +8,7 @@ import org.jmock.builder.Mock;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.expectation.AssertMo;
 
-import test.jmock.builder.testsupport.MockExpectationBuilder;
+import test.jmock.builder.testsupport.MockMatchBuilder;
 import test.jmock.dynamic.DummyInterface;
 import test.jmock.dynamic.testsupport.MockDynamicMock;
 import test.jmock.dynamic.testsupport.MockInvocationMatcher;
@@ -79,8 +79,8 @@ public class MockTest extends TestCase {
     static final String BUILDER_ID = "BUILDER-ID";
     
     public void testStoresExpectationBuildersByID() {
-    	MockExpectationBuilder builder1 = new MockExpectationBuilder();
-    	MockExpectationBuilder builder2 = new MockExpectationBuilder();
+    	MockMatchBuilder builder1 = new MockMatchBuilder();
+    	MockMatchBuilder builder2 = new MockMatchBuilder();
     	
     	mock.registerID( BUILDER_ID+1, builder1 );
     	mock.registerID( BUILDER_ID+2, builder2 );
@@ -104,8 +104,8 @@ public class MockTest extends TestCase {
     }
     
     public void testDuplicateIDOverridesExistingID() {
-    	MockExpectationBuilder builder1 = new MockExpectationBuilder();
-    	MockExpectationBuilder builder2 = new MockExpectationBuilder();
+    	MockMatchBuilder builder1 = new MockMatchBuilder();
+    	MockMatchBuilder builder2 = new MockMatchBuilder();
     	
     	mock.registerID( BUILDER_ID, builder1 );
     	mock.registerID( BUILDER_ID, builder2 );
@@ -114,8 +114,8 @@ public class MockTest extends TestCase {
     }
     
     public void testDuplicateUniqueIDCausesTestFailure() {
-        MockExpectationBuilder builder1 = new MockExpectationBuilder();
-        MockExpectationBuilder builder2 = new MockExpectationBuilder();
+        MockMatchBuilder builder1 = new MockMatchBuilder();
+        MockMatchBuilder builder2 = new MockMatchBuilder();
         
         mock.registerID( BUILDER_ID, builder1 );
         try {

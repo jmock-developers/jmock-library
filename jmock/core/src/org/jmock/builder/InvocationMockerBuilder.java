@@ -36,123 +36,122 @@ public class InvocationMockerBuilder
         return this;
     }
     
-    public StubBuilder match( InvocationMatcher customMatcher ) {
+    public MatchBuilder match( InvocationMatcher customMatcher ) {
         return addMatcher(customMatcher);
     }
     
-	public StubBuilder with(Constraint arg1) {
+	public MatchBuilder with(Constraint arg1) {
 		return with(new Constraint[]{arg1});
 	}
 
-	public StubBuilder with(Constraint arg1, Constraint arg2) {
+	public MatchBuilder with(Constraint arg1, Constraint arg2) {
 		return with(new Constraint[] {arg1, arg2} );
 	}
 	
-    public StubBuilder with(Constraint arg1, Constraint arg2, Constraint arg3) {
+    public MatchBuilder with(Constraint arg1, Constraint arg2, Constraint arg3) {
         return with(new Constraint[] {arg1, arg2, arg3} );
     }
     
-    public StubBuilder with(Constraint arg1, Constraint arg2, Constraint arg3, Constraint arg4) {
+    public MatchBuilder with(Constraint arg1, Constraint arg2, Constraint arg3, Constraint arg4) {
         return with(new Constraint[] {arg1, arg2, arg3, arg4} );
     }
     
-    public StubBuilder with(Constraint[] constraints) {
-        return match(new ArgumentsMatcher(constraints));
+    public MatchBuilder with(Constraint[] constraints) {
+        return addMatcher(new ArgumentsMatcher(constraints));
 	}
 
-	public StubBuilder noParams() {
-        return match(NoArgumentsMatcher.INSTANCE);
+	public MatchBuilder noParams() {
+        return addMatcher(NoArgumentsMatcher.INSTANCE);
     }
     
-    public StubBuilder anyParams() {
-        return match(AnyArgumentsMatcher.INSTANCE);
+    public MatchBuilder anyParams() {
+        return addMatcher(AnyArgumentsMatcher.INSTANCE);
     }
     
-    public ExpectationBuilder stub(Stub stub) {
+    public IdentityBuilder stub(Stub stub) {
     	return will(stub);
     }
     
-    public ExpectationBuilder will(Stub stubAction) {
+    public IdentityBuilder will(Stub stubAction) {
         mocker.setStub(stubAction);
         return this;
     }
     
-    public ExpectationBuilder isVoid() {
+    public IdentityBuilder isVoid() {
     	return stub(VoidStub.INSTANCE);
     }
     
-    public ExpectationBuilder willReturn(boolean returnValue) {
+    public IdentityBuilder willReturn(boolean returnValue) {
         return willReturn(new Boolean(returnValue));
     }
 
-    public ExpectationBuilder willReturn(byte returnValue) {
+    public IdentityBuilder willReturn(byte returnValue) {
         return willReturn(new Byte(returnValue));
     }
 
-    public ExpectationBuilder willReturn(char returnValue) {
+    public IdentityBuilder willReturn(char returnValue) {
         return willReturn(new Character(returnValue));
     }
 
-    public ExpectationBuilder willReturn(short returnValue) {
+    public IdentityBuilder willReturn(short returnValue) {
         return willReturn(new Short(returnValue));
     }
 
-    public ExpectationBuilder willReturn(int returnValue) {
+    public IdentityBuilder willReturn(int returnValue) {
         return willReturn(new Integer(returnValue));
     }
 
-    public ExpectationBuilder willReturn(long returnValue) {
+    public IdentityBuilder willReturn(long returnValue) {
         return willReturn(new Long(returnValue));
     }
 
-    public ExpectationBuilder willReturn(float returnValue) {
+    public IdentityBuilder willReturn(float returnValue) {
         return willReturn(new Float(returnValue));
     }
     
-    public ExpectationBuilder willReturn(double returnValue) {
+    public IdentityBuilder willReturn(double returnValue) {
         return willReturn(new Double(returnValue));
     }
     
-    public ExpectationBuilder willReturn(Object returnValue) {
+    public IdentityBuilder willReturn(Object returnValue) {
         return stub(new ReturnStub(returnValue));
     }
     
-    public ExpectationBuilder willThrow(Throwable throwable) {
+    public IdentityBuilder willThrow(Throwable throwable) {
         return stub(new ThrowStub(throwable));
     }
     
-    public ExpectationBuilder expect( InvocationMatcher expectation ) {
+    public IdentityBuilder expect( InvocationMatcher expectation ) {
         return addMatcher( expectation );
     }
     
-    public ExpectationBuilder addExpectation( InvocationMatcher expectation ) {
+    public IdentityBuilder addExpectation( InvocationMatcher expectation ) {
         return expect( expectation );
     }
     
-	public ExpectationBuilder expectOnce() {
+	public IdentityBuilder expectOnce() {
 		return addExpectation( new InvokeOnceMatcher() );
 	}
 	
-	public ExpectationBuilder expectAtLeastOnce() {
+	public IdentityBuilder expectAtLeastOnce() {
 		return addExpectation( new InvokeAtLeastOnceMatcher() );
 	}
 	
-    public ExpectationBuilder expectNotCalled() {
+    public IdentityBuilder expectNotCalled() {
         return stub( new TestFailureStub("must not be called") );
     }
     
-	public ExpectationBuilder id( String invocationID ) {
+	public void id( String invocationID ) {
         mocker.setName(invocationID);
 		idTable.registerUniqueID( invocationID, this );
-		return this;
 	}
 	
-    public ExpectationBuilder after( String priorCallID ) {
+    public MatchBuilder after( String priorCallID ) {
     	setupOrderingMatchers( idTable, priorCallID, priorCallID );
         return this;
     }
     
-    public ExpectationBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
+    public MatchBuilder after( BuilderIdentityTable otherMock, String priorCallID ) {
     	setupOrderingMatchers( otherMock, priorCallID, priorCallID + " on " + otherMock );
     	return this;
     }
@@ -161,10 +160,10 @@ public class InvocationMockerBuilder
 										String priorCallID, 
 										String priorCallDescription ) 
     {
-		ExpectationBuilder priorCallBuilder = priorMockObject.lookupID(priorCallID);
+		MatchBuilder priorCallBuilder = priorMockObject.lookupID(priorCallID);
     	InvokedRecorder priorCallRecorder = new InvokedRecorder();
     	
-    	priorCallBuilder.expect(priorCallRecorder);
+    	priorCallBuilder.match(priorCallRecorder);
     	mocker.addMatcher(new InvokedAfterMatcher( priorCallRecorder,
     	                                           priorCallDescription));
 	}
