@@ -19,5 +19,4 @@ public interface Stub {
     Object invoke(Invocation invocation) throws Throwable;
 
     StringBuffer writeTo(StringBuffer buffer);
-
 }
