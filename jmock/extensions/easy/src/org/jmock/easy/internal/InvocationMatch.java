@@ -6,9 +6,11 @@ package org.jmock.easy.internal;
 import java.lang.reflect.Method;
 
 import org.jmock.builder.InvocationMockerDescriber;
-import org.jmock.core.*;
+import org.jmock.core.Constraint;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.InvocationMocker;
+import org.jmock.core.Stub;
 import org.jmock.core.constraint.IsEqual;
-import org.jmock.core.constraint.IsInstanceOf;
 import org.jmock.core.matcher.ArgumentsMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.MethodNameMatcher;
@@ -22,11 +24,9 @@ public class InvocationMatch {
     private Class[] parameterTypes;
 	private InvocationMatcher callCountMatcher;
 	private Stub         stub;
-    private boolean isDefault = false;
 	
 	public void setFromInvocation(EasyCoreMock mock, Method method, Object[] args) {
         parameterTypes = method.getParameterTypes();
-        isDefault = false;
 		callCountMatcher = new InvokeOnceMatcher();
 		methodNameMatcher = new MethodNameMatcher(method.getName());
 		methodArguments = args;
@@ -37,12 +37,12 @@ public class InvocationMatch {
 		if (isUnset())
 			return;
 		
-        if (isDefault) {
+        if (isDefault()) {
             mock.addDefaultInvokable(
-                    createInvocationMocker(equalArgTypes(parameterTypes)));
+                    createInvocationMocker(new ArgumentTypesMatcher(parameterTypes)));
         } else {
         	mock.addInvokable(
-                    createInvocationMocker(equalArgs(methodArguments)));
+                    createInvocationMocker(new ArgumentsMatcher(equalArgs(methodArguments))));
         }
 	}
 	
@@ -56,12 +56,10 @@ public class InvocationMatch {
 
 	public void expectCallCount(Range range, Stub aStub) {
         setCallMatchAndStub(new InvokeRangeMatcher(range), aStub);
-        isDefault = false;
 	}
 
     public void setDefault(Stub aStub) {
         setCallMatchAndStub(null, aStub);
-        isDefault = true;
     }
 
     private void setCallMatchAndStub(InvocationMatcher callCountMatcher, Stub stub) {
@@ -69,12 +67,12 @@ public class InvocationMatch {
         this.stub = stub;
     }
     
-	private InvocationMocker createInvocationMocker(Constraint[] argumentConstraints) {
+	private InvocationMocker createInvocationMocker(InvocationMatcher argumentMatcher) {
 		InvocationMocker mocker = new InvocationMocker(new InvocationMockerDescriber());
         if (isExpectation())
         		mocker.addMatcher(callCountMatcher);
 		mocker.addMatcher(methodNameMatcher);
-		mocker.addMatcher(new ArgumentsMatcher(argumentConstraints));
+		mocker.addMatcher(argumentMatcher);
 		mocker.setStub(stub);
 		return mocker;
 	}
@@ -83,7 +81,11 @@ public class InvocationMatch {
 		return methodNameMatcher == null;
 	}
 
-	private boolean isExpectation() {
+    private boolean isDefault() {
+        return callCountMatcher == null;
+    }
+
+    private boolean isExpectation() {
 		return callCountMatcher != null;
 	}
 
@@ -95,16 +97,7 @@ public class InvocationMatch {
 		return result;
 	}
 
-    static private Constraint[] equalArgTypes(Class[] argTypes) {
-        Constraint[] result = new Constraint[arrayCount(argTypes)];
-    	for (int i = 0; i < result.length; i++) {
-            result[i] = new IsInstanceOf(argTypes[i]);
-        }
-        return result;
-    }
-    
 	static private int arrayCount(Object[] args) {
 		return args == null ? 0 : args.length;
 	}
-
 }

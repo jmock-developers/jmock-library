@@ -42,7 +42,7 @@ public class DefaultReturnValueAcceptanceTest extends TestCase {
         control.verify();
     }
 
-    public void xtestDefaultVoidCallable() {
+    public void testDefaultVoidCallable() {
         final RuntimeException EXPECTED = new RuntimeException("Expected");
         
         mock.twoArgumentMethod(1, 2);
