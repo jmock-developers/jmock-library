@@ -12,12 +12,11 @@ public class ExpectNotCalledAcceptanceTest
         public void method();
     }
     
-    //TODO: implement notCalled() expectation factory method and matcher.
     public void testExpectNotCalledOverridesStubAndFailsIfCalled() {
         Mock mock = new Mock(MockedInterface.class,"mock");
         
         mock.method("method").noParams().isVoid();
-        mock.method("method").noParams().isVoid().expectNotCalled();
+        mock.method("method").noParams().isVoid().expect(notCalled());
         
         try {
             ((MockedInterface)mock.proxy()).method();
@@ -32,7 +31,7 @@ public class ExpectNotCalledAcceptanceTest
         Mock mock = new Mock(MockedInterface.class,"mock");
         
         mock.method("method").noParams().isVoid();
-        mock.method("method").noParams().isVoid().expectNotCalled();
+        mock.method("method").noParams().isVoid().expect(notCalled());
         
         mock.verify();
     }

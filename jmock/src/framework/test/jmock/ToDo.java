@@ -6,13 +6,14 @@ public class ToDo {
     //TODO More tests for error messages
     //TODO Better format for expected calls in error messages
     //      - make expected and actual call signatures look similar
-	//TODO Implement API for call ordering in dynamock API (or... see below)
-    //TODO REMOVE ALL TO-DO COMMENTS
     //TODO List expected/stubbed methods in verify errors
     //TODO open hooks to allow different proxying mechanisms to reuse CoreMock implementation
-    //TODO new hotmock syntax for expectNotCalled
     //TODO reorganise directories. Change src/{framework,acceptance-tests} to core/{src,acceptance-tests}.
+    //TODO move default behaviour of default result stub into constructor.
+    
+    //TODO Implement API for call ordering in dynamock API (or... see below)
     //TODO remove dynamock API, or at least demote it to an optional extension and find another maintainer
+    //TODO REMOVE ALL TO-DO COMMENTS
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
@@ -32,6 +33,7 @@ public class ToDo {
     //DONE ExpectNotCalled (or equivalent) makes tests more expressive.
     //DONE CoreMock should implement the hashCode method for proxies
     //DONE new hotmock syntax for expects and stubs 
+    //DONE new hotmock syntax for expectNotCalled
 	
 	//-----------------------------------------------------------------------------------------
 	// Post 1.0 tasks
