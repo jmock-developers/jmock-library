@@ -9,7 +9,7 @@ export PACKAGEDIR=packages
 export WEBDIR=website/output
 export JAVADOCDIR=$WEBDIR/docs/javadoc
 
-export WEBSITE=dcontrol@jmock.codehaus.org:/www/jmock.codehaus.org/
+export WEBSITE=dcontrol@jmock.codehaus.org:/www/jmock.codehaus.org
 export DISTSITE=dcontrol@dist.codehaus.org:/www/dist.codehaus.org/jmock
 
 function run_task {
