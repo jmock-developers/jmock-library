@@ -41,18 +41,13 @@ public class DefaultResultStub
         } else if (returnType.isArray()) {
             return Array.newInstance(returnType.getComponentType(), 0);
         } else if (returnType.isInterface()) {
-            OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
-            String name = "null" + Formatting.classShortName(returnType);
-			CoreMock nullMock = new CoreMock(returnType, name, dispatcher);
-            dispatcher.setupDefaultBehaviour(name, nullMock.proxy());
-            dispatcher.setDefaultStub(this);
-            return nullMock.proxy();
+            return createNullMockObjectProxy(returnType);
         } else {
             throw new AssertionFailedError(createErrorMessage(invocation));
         }
     }
 
-    public String createErrorMessage( Invocation call ) {
+	public String createErrorMessage( Invocation call ) {
         StringBuffer buf = new StringBuffer();
 
         buf.append("unexpected result type: ");
@@ -98,5 +93,14 @@ public class DefaultResultStub
         addResult(Float.class, new Float(0.0F));
         addResult(Double.class, new Double(0.0));
         addResult(String.class, "");
+    }
+    
+    private Object createNullMockObjectProxy(Class returnType) {
+        OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
+        String name = "null" + Formatting.classShortName(returnType);
+        
+        CoreMock nullMock = new CoreMock(returnType, name, dispatcher);
+        dispatcher.setDefaultStub(this);
+        return nullMock.proxy();
     }
 }

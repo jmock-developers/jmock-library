@@ -24,7 +24,6 @@ public class MockControl
     public MockControl(EasyCoreMock coreMock, String name, InvocationDispatcher dispatcher) {
 		this.coreMock = coreMock;
         this.dispatcher = dispatcher;
-        dispatcher.setupDefaultBehaviour(name, coreMock.proxy());
 	}
 	
 	public static MockControl createControl(Class mockedType) {

@@ -32,7 +32,6 @@ public class CGLIBCoreMock
                           InvocationDispatcher invocationDispatcher ) {
         super(mockedType, name, invocationDispatcher);
         this.proxy = Enhancer.create(mockedType, this);
-        invocationDispatcher.setupDefaultBehaviour(name, proxy);
     }
 
     public Object proxy() {

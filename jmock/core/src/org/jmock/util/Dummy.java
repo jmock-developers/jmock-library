@@ -24,7 +24,6 @@ public class Dummy
     public static Object newDummy( final Class interfaceClass, final String name ) {
         OrderedInvocationDispatcher dispatcher = new OrderedInvocationDispatcher(new OrderedInvocationDispatcher.LIFOInvokablesCollection());
         CoreMock mock = new CoreMock(interfaceClass, name, dispatcher);
-        dispatcher.setupDefaultBehaviour(name, mock.proxy());
         InvocationMocker mocker = new InvocationMocker();
 
         mocker.addMatcher(new StatelessInvocationMatcher()
