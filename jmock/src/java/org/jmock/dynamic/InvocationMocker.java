@@ -76,7 +76,6 @@ public class InvocationMocker
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        buffer.append("(");
         Iterator it = matchers.iterator();
         while (it.hasNext()) {
             ((InvocationMatcher) it.next()).writeTo(buffer).append(", ");

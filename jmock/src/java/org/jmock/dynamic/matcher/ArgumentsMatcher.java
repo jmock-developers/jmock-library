@@ -2,6 +2,7 @@
 package org.jmock.dynamic.matcher;
 
 import org.jmock.Constraint;
+import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
 
 import java.util.List;
@@ -38,12 +39,7 @@ public class ArgumentsMatcher
     }
 
     public StringBuffer writeTo(StringBuffer buffer) {
-        buffer.append("Arguments [");
-        for (int i = 0; i < constraints.length; ++i) {
-            if( i > 0 ) buffer.append(", ");
-            buffer.append(constraints[i]);
-        }
-        buffer.append("]");
+        DynamicUtil.join(constraints, buffer, "(", ")");
         return buffer;
     }
 }
