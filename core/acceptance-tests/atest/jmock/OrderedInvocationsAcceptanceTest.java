@@ -32,8 +32,6 @@ public class OrderedInvocationsAcceptanceTest
     	
     	proxy.hello();
         proxy.goodbye();
-        
-        mock.verify();
     }
     
 	public void testOrderedCallsMustNotOccurOutOfOrder() {
@@ -50,8 +48,6 @@ public class OrderedInvocationsAcceptanceTest
             assertTrue( "error message should contain id of prior call",
         				ex.getMessage().indexOf(priorCall) >= 0 );
         }
-        
-        mock.verify();
     }
 	
 	public void testOrderingDoesNotAffectUnrelatedCalls() {
@@ -62,15 +58,11 @@ public class OrderedInvocationsAcceptanceTest
 		proxy.hello();
 		proxy.moreTeaVicar();
 		proxy.goodbye();
-		
-		mock.verify();
 	}
 	
 	public void testOrderingConstraintsDoNotImplyExpectedCall() {
 		mock.stubs().method("hello").isVoid().id("hello call");
 		mock.stubs().method("goodbye").after("hello call");
-		
-		mock.verify();
 	}
 	
 	public void testCanUseMethodNameAsDefaultInvocationID() {
@@ -134,8 +126,6 @@ public class OrderedInvocationsAcceptanceTest
         proxy.hello();
         proxy.hello();
         proxy.goodbye();
-        
-        mock.verify();
     }
     
     public void testDetectsDuplicateIDs() {

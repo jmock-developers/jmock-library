@@ -1,6 +1,5 @@
 package atest.jmock;
 
-import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Constants;
@@ -29,8 +28,6 @@ public class ClassLoaderAcceptanceTest extends MockObjectTestCase {
         ClassLoader interfaceClassLoader = new EmptyInterfaceCreator();
         Class interfaceClass = interfaceClassLoader.loadClass("$UniqueTypeName$");
         
-        Mock mock = mock(interfaceClass); // Should not throw an exception
-        
-        mock.verify(); // stop warning about unused variable
+        mock(interfaceClass); // Should not throw an exception
     }
 }

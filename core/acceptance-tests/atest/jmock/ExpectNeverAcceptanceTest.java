@@ -32,7 +32,5 @@ public class ExpectNeverAcceptanceTest
         
         mock.stubs().method("method").withNoArguments().isVoid();
         mock.expects(never()).method("method").withNoArguments();
-        
-        mock.verify();
     }
 }

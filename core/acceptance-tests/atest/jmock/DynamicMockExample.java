@@ -48,8 +48,6 @@ public class DynamicMockExample extends MockObjectTestCase {
         market.expects(once()).method("buyStock").with(eq("IBM"), eq(2));
         
         agent.buyLowestPriceStock(20);
-        
-        market.verify();
     }
     
     public void xtestDynaMockExample() {

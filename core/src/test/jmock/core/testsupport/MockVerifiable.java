@@ -11,6 +11,10 @@ public class MockVerifiable implements Verifiable {
         new ExpectationCounter("verify #calls");
 	public AssertionFailedError verifyFailure;
 	
+    public void setExpectedVerifyCalls(int expectedCalls) {
+        verifyCalls.setExpected(expectedCalls);
+    }
+
     /**
      * @deprecated Use verifyExpectations to verify this object
      */
@@ -24,4 +28,5 @@ public class MockVerifiable implements Verifiable {
 	public void verifyExpectations() {
 		Verifier.verifyObject(this);
 	}
+
 }

@@ -18,7 +18,9 @@ public abstract class MockObjectTestCase
     }
     
     public Mock mock( Class mockedType, String roleName ) {
-        return new Mock(mockedType,roleName);
+        Mock result = new Mock(mockedType,roleName);
+        registerToVerify(result);
+        return result;
     }
     
     public String defaultMockNameForType( Class mockedType ) {
