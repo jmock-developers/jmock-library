@@ -1,71 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+      "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
-  <head>
-    <title>Writing Custom Invocation Matchers</title>
-  </head>
-  
-  <body>
-    <h1>Writing Custom Invocation Matchers</h1>
-    
-    <p>Invocation matchers control how a mock object matches and verifies incoming invocations 
-    against expectations and stubbed behaviour.
-    The jMock API is a convenient syntactic sugar for specifying how matchers are added to
-    a mock object.
-    Sometimes the convenient API does not allow you to specify matching rules precisely or
-    flexibly enough.
-    In these cases you will need to write your own invocation matcher classes.
-    This article will show you how to do just that.
-    </p>
+<head>
+  <meta http-equiv="Content-Type" content="" />
+  <title>Writing Custom Invocation Matchers</title>
+</head>
 
-    <p>A mock object contains a list of expectations (and stubs, but we can consider a stub to be a degerate
-    form of expectation and jMock uses the same type of object to implement both).
-    When a mock object receives an invocation it searches for an expectation to process the invocation,
-    starting with the most recently specified expectation and working backwards until it finds match.
-    Each expectation contains matching rules that control which invocations it matches.
-    An expectation matches an invocation if all of its matching rules match the invocation.
-    The jMock API provides a concise, descriptive syntax for adding expectations to a mock and adding matching
-    rules to expectations.</p>
+<body>
+<h1>Writing Custom Invocation Matchers</h1>
 
-	<p>An matching rule is an object that implements the
-    <code><a href="docs/javadoc/org/jmock/core/InvocationMatcher">InvocationMatcher</a></code>
-    interface. It has the following responsiblities:</p>
-    
-    <ul>
-      <li>report whether it matches against an invocation
-      (the <code>matches</code> method).</li>
-      <li>check and record information about a dispatched invocation, if required
-      (the <code>invoked</code> method).</li>
-      <li>verify that expected invocations have actually been received.
-      (the <code>verify</code> method from the 
-      <a href="docs/javadoc/org/jmock/core/Verifiable.html"><code>Verifiable</code></a>
-      interface).</li>
-      <li>provide a readable description to be included in test failure messages 
-      (the <code>describeTo</code> method from the 
-      <a href="docs/javadoc/org/jmock/core/SelfDescribing.html"><code>SelfDescribing</code></a>
-      interface).</li>
-      <li>report if its description is not an empty string
-      (the <code>hasDescription</code> method).</li>
-    </ul>
-    
-    <p>In most cases, you will want to define a new matching rule that does change state when an invocation occurs.
-    Also, you should always provide
-    a description for your matching rule, so the <code>hasDescription</code> method should
-    always return <code>true</code>.  This common behaviour is already implemented in the
-    abstract
-    <a href="docs/javadoc/org/jmock/core/matcher/StatelessInvocationMatcher.html"><code>StatelessInvocationMatcher</code></a>
-    class.  You can therefore define a new matching rule by extending 
-    <code>StatelessInvocationMatcher</code> and defining the 
-    <code>matches</code> and <code>describeTo</code> methods.</p>
-    
-    <h2>An Example Custom Matcher</h2>
-    
-    <p>Suppose we want to stub all Java Bean property getters to return some default results.
-    Returning default results is performed by a
-    <a href="docs/javadoc/org/jmock/core/stub/DefaultResultStub.html"><code>DefaultResultStub</code></a>.
-    But how do we match property getter methods?  We need to write a custom 
-    <code>InvocationMatcher</code> that only matches invocations of bean property getter methods.
-    Here's what a test will look like that uses such a custom matcher:</p>
-    
-    <div class="Source Java">
+<p>Invocation matchers control how a mock object matches and verifies
+incoming invocations against expectations and stubbed behaviour. The jMock
+API is a convenient syntactic sugar for specifying how matchers are added to
+a mock object. Sometimes the convenient API does not allow you to specify
+matching rules precisely or flexibly enough. In these cases you will need to
+write your own invocation matcher classes. This article will show you how to
+do just that.</p>
+
+<p>A mock object contains a list of expectations (and stubs, but we can
+consider a stub to be a degerate form of expectation and jMock uses the same
+type of object to implement both). When a mock object receives an invocation
+it searches for an expectation to process the invocation, starting with the
+most recently specified expectation and working backwards until it finds
+match. Each expectation contains matching rules that control which
+invocations it matches. An expectation matches an invocation if all of its
+matching rules match the invocation. The jMock API provides a concise,
+descriptive syntax for adding expectations to a mock and adding matching
+rules to expectations.</p>
+
+<p>An matching rule is an object that implements the <code><a
+href="docs/javadoc/org/jmock/core/InvocationMatcher">InvocationMatcher</a></code>
+interface. It has the following responsiblities:</p>
+<ul>
+  <li>report whether it matches against an invocation (the
+    <code>matches</code> method).</li>
+  <li>check and record information about a dispatched invocation, if required
+    (the <code>invoked</code> method).</li>
+  <li>verify that expected invocations have actually been received. (the
+    <code>verify</code> method from the <a
+    href="docs/javadoc/org/jmock/core/Verifiable.html"><code>Verifiable</code></a>
+    interface).</li>
+  <li>provide a readable description to be included in test failure messages
+    (the <code>describeTo</code> method from the <a
+    href="docs/javadoc/org/jmock/core/SelfDescribing.html"><code>SelfDescribing</code></a>
+    interface).</li>
+  <li>report if its description is not an empty string (the
+    <code>hasDescription</code> method).</li>
+</ul>
+
+<p>In most cases, you will want to define a new matching rule that does
+change state when an invocation occurs. Also, you should always provide a
+description for your matching rule, so the <code>hasDescription</code> method
+should always return <code>true</code>. This common behaviour is already
+implemented in the abstract <a
+href="docs/javadoc/org/jmock/core/matcher/StatelessInvocationMatcher.html"><code>StatelessInvocationMatcher</code></a>
+class. You can therefore define a new matching rule by extending
+<code>StatelessInvocationMatcher</code> and defining the <code>matches</code>
+and <code>describeTo</code> methods.</p>
+
+<h2>An Example Custom Matcher</h2>
+
+<p>Suppose we want to stub all Java Bean property getters to return some
+default results. Returning default results is performed by a <a
+href="docs/javadoc/org/jmock/core/stub/DefaultResultStub.html"><code>DefaultResultStub</code></a>.
+But how do we match property getter methods? We need to write a custom
+<code>InvocationMatcher</code> that only matches invocations of bean property
+getter methods. Here's what a test will look like that uses such a custom
+matcher:</p>
+
+<div class="Source Java">
 <pre>InvocationMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
 DefaultResultStub returnDefaultValue = new DefaultResultStub();
 Mock mock = ...
@@ -75,24 +79,25 @@ public void testListChildren() {
     mockPerson.stubs().match(beanPropertyGetters).will(returnDefaultValue);
     ...
 }</pre>
-    </div>
-    
-    <p>We can write the <code>BeanPropertyGetterMatcher</code> class by extending
-    <code>StatelessInvocationMatcher</code>:</p>
-    
-    <div class="Source Java">
+</div>
+
+<p>We can write the <code>BeanPropertyGetterMatcher</code> class by extending
+<code>StatelessInvocationMatcher</code>:</p>
+
+<div class="Source Java">
 <pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
    ...
 }</pre>
-    </div>
-    
-    <p>We now need to write the <code>matches</code> method to return whether the invocation is
-    the getter method of a Java Bean property, using the Java Beans API.  The method will
-    use Bean introspection to list the property descriptors of the class that defines the
-    invoked method.  It then searches the list of property descriptors for a descriptor with
-    a getter method that is the same as the invoked method.</p>
-    
-    <div class="Source Java">
+</div>
+
+<p>We now need to write the <code>matches</code> method to return whether the
+invocation is the getter method of a Java Bean property, using the Java Beans
+API. The method will use Bean introspection to list the property descriptors
+of the class that defines the invoked method. It then searches the list of
+property descriptors for a descriptor with a getter method that is the same
+as the invoked method.</p>
+
+<div class="Source Java">
 <pre>public boolean matches(Invocation invocation) {
     Class beanClass = invocation.invokedMethod.getDeclaringClass();
 
@@ -109,22 +114,23 @@ public void testListChildren() {
         throw new AssertionFailedError("could not introspect bean class" + beanClass + ": " + ex.getMessage() );
     }
 }</pre>
-    </div>
+</div>
 
-    <p>Finally we must write the <code>describeTo</code> method to generate a description of what our new class
-    matches.  The description will be included in the description of any expectation that uses the matcher, which
-    itself will be included in error messages when tests fail.  Our new class matches any bean property getter,
-    so that's what our description will be:</p>
+<p>Finally we must write the <code>describeTo</code> method to generate a
+description of what our new class matches. The description will be included
+in the description of any expectation that uses the matcher, which itself
+will be included in error messages when tests fail. Our new class matches any
+bean property getter, so that's what our description will be:</p>
 
-    <div class="Source Java">
+<div class="Source Java">
 <pre>public StringBuffer describeTo(StringBuffer buffer) {
     return buffer.append("any bean property getter");
 }</pre>
-    </div>
+</div>
 
-    <p>The entire matcher class is shown below:</p>
+<p>The entire matcher class is shown below:</p>
 
-    <div class="Source Java">
+<div class="Source Java">
 <pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
 
     public boolean matches(Invocation invocation) {
@@ -148,7 +154,6 @@ public void testListChildren() {
         return buffer.append("any bean property getter");
     }
 }</pre>
-    </div>
-
-  </body>
+</div>
+</body>
 </html>
