@@ -24,7 +24,7 @@ public class IsEqualTest extends ConstraintsTest {
         assertTrue(nullEquals.eval(null));
         assertTrue(!nullEquals.eval(i1));
     }
-
+    
     public void testComparesTheElementsOfAnObjectArray() {
         String[] s1 = new String[]{"a", "b"};
         String[] s2 = new String[]{"a", "b"};
@@ -86,12 +86,12 @@ public class IsEqualTest extends ConstraintsTest {
     
     public void testReturnsAnObviousDescriptionIfCreatedWithANestedConstraintByMistake() {
         assertEquals("Should get an obvious toString to reflect nesting if viewed in a debugger",
-            "= = NestedConstraint", new IsEqual(new IsEqual("NestedConstraint")).toString());
+            "eq(<eq(<NestedConstraint>)>)", new IsEqual(new IsEqual("NestedConstraint")).toString());
     }
     
     public void testReturnsGoodDescriptionIfCreatedWithNullReference() {
         assertEquals("Should print toString even if argument is null",
-            "= null", new IsEqual(null).toString());
+            "eq(null)", new IsEqual(null).toString());
     }
 }
 
