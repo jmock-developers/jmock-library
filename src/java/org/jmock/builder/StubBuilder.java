@@ -3,7 +3,7 @@ package org.jmock.builder;
 
 
 
-public interface StubBuilder {
+public interface StubBuilder extends ExpectationBuilder {
     ExpectationBuilder isVoid();
     ExpectationBuilder willReturn(Object returnValue);
     ExpectationBuilder willThrow(Throwable throwable);
