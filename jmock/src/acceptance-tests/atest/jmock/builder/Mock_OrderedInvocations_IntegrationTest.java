@@ -1,4 +1,4 @@
-package test.jmock.builder;
+package atest.jmock.builder;
 
 import junit.framework.TestCase;
 
