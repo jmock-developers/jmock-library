@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Damage control build script for jMock.
 
 export BUILD_TIMESTAMP=$(date --utc +%Y%m%d-%H%M%S)
