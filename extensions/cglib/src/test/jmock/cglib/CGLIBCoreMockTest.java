@@ -1,29 +1,31 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package test.jmock.dynamic;
+package test.jmock.cglib;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-import org.jmock.dynamic.CoreMock;
+import org.jmock.cglib.CGLIBCoreMock;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.expectation.AssertMo;
 
+import test.jmock.dynamic.DummyInterface;
+import test.jmock.dynamic.DummyThrowable;
 import test.jmock.dynamic.testsupport.MockInvocationDispatcher;
 import test.jmock.dynamic.testsupport.MockInvokable;
 import test.jmock.dynamic.testsupport.MockStub;
- 
 
-public class CoreMockTest extends TestCase {
+
+public class CGLIBCoreMockTest extends TestCase {
     private static final String MOCK_NAME = "Test coreMock";
 
     private DummyInterface proxy;
-    private CoreMock coreMock;
+    private CGLIBCoreMock coreMock;
     private MockInvocationDispatcher mockDispatcher = new MockInvocationDispatcher();
     private MockInvokable mockInvokable = new MockInvokable();
     
     public void setUp() {
-        coreMock = new CoreMock(DummyInterface.class, MOCK_NAME, mockDispatcher);
+        coreMock = new CGLIBCoreMock(DummyInterface.class, MOCK_NAME, mockDispatcher);
 
         try {
             proxy = (DummyInterface) coreMock.proxy();
@@ -32,19 +34,29 @@ public class CoreMockTest extends TestCase {
         }
     }
     
+    static class ConcreteType {
+        public void method() {}
+    }
+    
+    public void testCanMockConcreteType() {
+        coreMock = new CGLIBCoreMock( ConcreteType.class, MOCK_NAME, mockDispatcher );
+        
+        assertTrue( "proxy should be instance of expected concrete type",
+                    coreMock.proxy() instanceof ConcreteType );
+    }
+    
     public void testReportsMockedType() {
         assertSame( "mocked type", 
                     DummyInterface.class, coreMock.getMockedType() );
     }
     
     public void testMockAnnotatesAssertionFailedError()
-            throws Throwable 
-    {
+            throws Throwable {
         final String originalMessage = "original message";
 
         Object arg = new AssertionFailedError(originalMessage);
         mockDispatcher.dispatchResult = arg;
-        
+
         try {
             proxy.noArgVoidMethod();
         } catch (AssertionFailedError err) {
@@ -52,12 +64,12 @@ public class CoreMockTest extends TestCase {
             AssertMo.assertIncludes("should contain coreMock name", MOCK_NAME, err.getMessage());
         }
     }
-    
+
     public void testProxyReturnsConfiguredResult() throws Throwable {
         final String RESULT = "configured result";
-
+        
         mockDispatcher.dispatchResult = RESULT;
-
+        
         assertSame("result is returned by coreMock", RESULT, proxy.oneArgMethod("arg"));
     }
     
@@ -85,7 +97,7 @@ public class CoreMockTest extends TestCase {
     }
 
     public void testTestsEqualityForProxy() throws Exception {
-        coreMock = new CoreMock( DummyInterface.class, "coreMock",
+        coreMock = new CGLIBCoreMock( DummyInterface.class, "coreMock",
                                  new LIFOInvocationDispatcher());
         proxy = (DummyInterface)coreMock.proxy();
         
@@ -109,7 +121,7 @@ public class CoreMockTest extends TestCase {
     }
     
     public void testCalculatesHashCodeForProxy() throws Exception {
-        coreMock = new CoreMock( DummyInterface.class, "coreMock" );
+        coreMock = new CGLIBCoreMock( DummyInterface.class, "coreMock" );
         
         proxy = (DummyInterface)coreMock.proxy();
         
@@ -131,7 +143,7 @@ public class CoreMockTest extends TestCase {
     }
     
     public void testGeneratesMockNameFromInterfaceNameIfNoNameSpecified() throws Exception {
-        assertEquals("mockString", CoreMock.mockNameFromClass(String.class));
+        assertEquals("mockString", CGLIBCoreMock.mockNameFromClass(String.class));
     }
 
     public void testReturnsNameFromToString() {
@@ -169,7 +181,7 @@ public class CoreMockTest extends TestCase {
         mockDispatcher.verifyFailure = new AssertionFailedError("verify failure");
 
         mockDispatcher.verifyCalls.setExpected(1);
-
+        
         try {
             coreMock.verify();
         } catch (AssertionFailedError expected) {

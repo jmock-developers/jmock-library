@@ -1,7 +1,6 @@
 package test.jmock;
 
 public class ToDo {
-    //TODO JavaDoc interfaces and those classes that need it.
     //TODO Rename "builder" API to "hotmock" (or "syntax", "spec", etc.)
     //TODO More tests for error messages
     //TODO Better format for expected calls in error messages
@@ -13,7 +12,10 @@ public class ToDo {
     //TODO Implement API for call ordering in dynamock API (or... see below)
     //TODO remove dynamock API or find a maintainer
     
+    //Source cleanup prior to version 1.0 alpha
     //TODO REMOVE ALL TO-DO COMMENTS
+    //TODO JavaDoc interfaces and those classes that need it.
+    //TODO Add copyright comments to files
     
 	//-----------------------------------------------------------------------------------------
 	// Tasks completed
