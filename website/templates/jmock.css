@@ -118,7 +118,7 @@ ul, ol {
     border: 0px;
     border-bottom: 1px solid #aaf;
     padding: 0px;
-    background-color: #eef;
+    background-color: #e0e0f0;
     color: #006;
     vertical-align: bottom;
 }
@@ -130,8 +130,8 @@ ul, ol {
 
 #logo {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 5px;
+    left: 8px;
 }
 
 #versions {
