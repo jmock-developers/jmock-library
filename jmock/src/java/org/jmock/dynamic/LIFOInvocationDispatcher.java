@@ -8,6 +8,7 @@ import java.util.ListIterator;
 import org.jmock.Verifiable;
 import org.jmock.dynamic.stub.CustomStub;
 
+
 public class LIFOInvocationDispatcher 
     implements InvocationDispatcher 
 {

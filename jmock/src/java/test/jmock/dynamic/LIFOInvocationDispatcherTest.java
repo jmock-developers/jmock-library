@@ -12,6 +12,7 @@ import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.util.Dummy;
 
+
 public class LIFOInvocationDispatcherTest extends TestCase {
 
     private Invocation invocation;

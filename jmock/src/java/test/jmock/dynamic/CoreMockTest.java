@@ -12,7 +12,7 @@ import org.jmock.dynamic.DynamicUtil;
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.expectation.AssertMo;
-
+ 
 
 public class CoreMockTest extends TestCase {
     private static final String MOCK_NAME = "Test coreMock";
