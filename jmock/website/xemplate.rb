@@ -137,13 +137,13 @@ module XEMPLATE
         
         def expand_dynamic_element( expanded_parent, template_element, bindings )
             variable = direct_attribute_value( template_element, VAR )
-            add_children( expanded_parent, bindings[variable] )
+            add_children( expanded_parent, [bindings[variable]] )
         end
         
         def add_children( parent, children )
             children.each do |child|
                 parent.add( deep_clone_node(child) )
-            end        
+            end
         end
         
         def expand_text_element( expanded_parent, template_element, bindings )

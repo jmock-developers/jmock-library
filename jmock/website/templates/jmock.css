@@ -47,7 +47,7 @@
     right: 16px;
 }
 
-#content {
+#center {
     z-index: 3;
     margin: 0px;
     border: none;
@@ -340,3 +340,20 @@ ul, ol {
 .NewsGroup td {
     font-size: 12px;
 }
+
+/*---------------------------------------------------------------------------
+ *  Document meta-information
+ */
+
+.Meta {
+	margin-top: 64px;
+	font-size: smaller;
+	color: #C0C0C0;
+	text-align: right;
+}
+
+.Meta a { text-decoration: underline; }
+.Meta a:link { color: #C0C0C0; }
+.Meta a:visited { color: #C0C0C0; }
+.Meta a:active { color: red; }
+.Meta a:hover { color: red; }

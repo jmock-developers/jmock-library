@@ -16,14 +16,24 @@
     </div>
     
     <template:when var="isindex" value="true">
-      <div id="content" class="Content3Column">
-        <template:include srcvar="content" elements="/html/body/*"/>
+      <div id="center" class="Content3Column">
+        <div id="content">
+          <template:include srcvar="content" elements="/html/body/*"/>
+    	</div>
+	    <div class="Meta">
+	      <p><template:dynamic var="history"/></p>
+	    </div>
       </div>
     </template:when>
     
     <template:when var="isindex" value="false">
-      <div id="content" class="Content2Column">
-        <template:include srcvar="content" elements="/html/body/*"/>
+      <div id="center" class="Content2Column">
+        <div id="content">
+          <template:include srcvar="content" elements="/html/body/*"/>
+        </div>
+	    <div class="Meta">
+	      <p><template:dynamic var="history"/></p>
+	    </div>
       </div>
     </template:when>
     
