@@ -6,11 +6,7 @@ import java.util.HashMap;
 import junit.framework.AssertionFailedError;
 
 import org.jmock.Verifiable;
-import org.jmock.dynamic.CoreMock;
-import org.jmock.dynamic.DynamicMock;
-import org.jmock.dynamic.InvocationMocker;
-import org.jmock.dynamic.LIFOInvocationDispatcher;
-import org.jmock.dynamic.Stub;
+import org.jmock.dynamic.*;
 import org.jmock.dynamic.matcher.MethodNameMatcher;
 
 public class Mock
@@ -48,7 +44,26 @@ public class Mock
         coreMock.verify();
     }
     
-    public MatchBuilder method(String methodName) {
+    public NameMatchBuilder stub() {
+        InvocationMocker mocker = new InvocationMocker();
+        coreMock.add(mocker);
+        return new InvocationMockerBuilder(mocker,this);
+    }
+    
+    public NameMatchBuilder expect( InvocationMatcher expectation ) {
+        InvocationMocker mocker = new InvocationMocker();
+        
+        mocker.addMatcher(expectation);
+        coreMock.add(mocker);
+        
+        return new InvocationMockerBuilder(mocker,this);
+    }
+    
+    /**
+     * @deprecated use expect(...).method(methodName)... or stub().method(methodName)...
+     * Will be removed in version 1.0.
+     */
+    public ParameterMatchBuilder method(String methodName) {
     	InvocationMocker mocker = new InvocationMocker();
     	mocker.addMatcher( new MethodNameMatcher(methodName));
     	coreMock.add(mocker);
@@ -70,10 +85,16 @@ public class Mock
 		return (ExpectationBuilder)idTable.get(id);
 	}
 	
-	public void registerID( String id, ExpectationBuilder builder ) {
-		if( idTable.containsKey(id) ) {
-			throw new AssertionFailedError("duplicate invocation named '"+id+"'");
+    public void registerUniqueID( String id, ExpectationBuilder builder ) {
+        if( idTable.containsKey(id) ) {
+            throw new AssertionFailedError(
+                "duplicate invocation named \"" + id + "\"" );
         }
+        
+        registerID( id, builder );
+    }
+    
+	public void registerID( String id, ExpectationBuilder builder ) {
         idTable.put( id, builder );
 	}
 }

@@ -5,19 +5,16 @@ import org.jmock.Constraint;
 import org.jmock.builder.InvocationMockerBuilder;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
-import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
-import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
-import org.jmock.dynamic.matcher.InvokeOnceMatcher;
-import org.jmock.dynamic.matcher.NoArgumentsMatcher;
-import org.jmock.dynamic.stub.TestFailureStub;
+import org.jmock.dynamic.matcher.*;
 import org.jmock.dynamic.stub.ReturnStub;
+import org.jmock.dynamic.stub.TestFailureStub;
 import org.jmock.dynamic.stub.ThrowStub;
 import org.jmock.dynamic.stub.VoidStub;
 import org.jmock.util.Dummy;
 import org.jmock.util.MockObjectSupportTestCase;
 
-import test.jmock.builder.testsupport.*;
+import test.jmock.builder.testsupport.MockBuilderIdentityTable;
+import test.jmock.builder.testsupport.MockStubMatchersCollection;
 
 public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     private MockStubMatchersCollection mocker;
@@ -29,6 +26,27 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     	idTable = new MockBuilderIdentityTable();
     	
     	builder = new InvocationMockerBuilder( mocker, idTable );
+    }
+    
+    public void testSpecifyingMethodNameNameAddsMethodNameMatcherAndAddsSelfToIdentityTable() {
+        mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
+        idTable.registerID.setExpected("methodName");
+        idTable.registerIDBuilder.setExpected(builder);
+        
+        assertNotNull("Should be Stub Builder", builder.method("methodName"));
+        
+        mocker.verifyExpectations();
+        idTable.verify();
+    }
+    
+    public void testMethodMethodWithConstraintAddsMethodNameMatcherButDoesNotAddSelfToIdentityTable() {
+        Constraint nameConstraint = (Constraint)newDummy(Constraint.class,"nameConstraint");
+        
+        mocker.addedMatcherType.setExpected(MethodNameMatcher.class);
+        
+        assertNotNull("Should be Stub Builder", builder.method(nameConstraint));
+        
+        mocker.verifyExpectations();
     }
     
     public void testCanAddCustomMatcher() {
@@ -136,10 +154,10 @@ public class InvocationMockerBuilderTest extends MockObjectSupportTestCase {
     
     static final String INVOCATION_ID = "INVOCATION-ID";
     
-    public void testNamesInvocationMockerAndRegistersItselfInBuilderIdentityTable() {
+    public void testUniquelyIdentifyInvocationMockerAndRegisterItselfInBuilderIdentityTable() {
         mocker.setName.setExpected(INVOCATION_ID);
-    	idTable.registerID.setExpected(INVOCATION_ID);
-    	idTable.registerIDInvocation.setExpected(builder);
+    	idTable.registerUniqueID.setExpected(INVOCATION_ID);
+    	idTable.registerUniqueIDBuilder.setExpected(builder);
     	
     	builder.id(INVOCATION_ID);
     	

@@ -2,16 +2,11 @@
 package org.jmock.builder;
 
 import org.jmock.Constraint;
+import org.jmock.constraint.IsEqual;
 import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Stub;
 import org.jmock.dynamic.StubMatchersCollection;
-import org.jmock.dynamic.matcher.AnyArgumentsMatcher;
-import org.jmock.dynamic.matcher.ArgumentsMatcher;
-import org.jmock.dynamic.matcher.InvokeAtLeastOnceMatcher;
-import org.jmock.dynamic.matcher.InvokeOnceMatcher;
-import org.jmock.dynamic.matcher.InvokedAfterMatcher;
-import org.jmock.dynamic.matcher.InvokedRecorder;
-import org.jmock.dynamic.matcher.NoArgumentsMatcher;
+import org.jmock.dynamic.matcher.*;
 import org.jmock.dynamic.stub.ReturnStub;
 import org.jmock.dynamic.stub.TestFailureStub;
 import org.jmock.dynamic.stub.ThrowStub;
@@ -19,7 +14,7 @@ import org.jmock.dynamic.stub.VoidStub;
 
 
 public class InvocationMockerBuilder 
-    implements MatchBuilder, StubBuilder, ExpectationBuilder
+    implements NameMatchBuilder
 {
     private StubMatchersCollection mocker;
     private BuilderIdentityTable idTable;
@@ -31,8 +26,18 @@ public class InvocationMockerBuilder
         this.idTable = idTable;
     }
     
+    public ParameterMatchBuilder method(Constraint nameConstraint) {
+        return addMatcher( new MethodNameMatcher(nameConstraint) );
+    }
+    
+    public ParameterMatchBuilder method(String name) {
+        method(new IsEqual(name));
+        idTable.registerID( name, this );
+        return this;
+    }
+    
     public StubBuilder match( InvocationMatcher customMatcher ) {
-    	return addMatcher(customMatcher);
+        return addMatcher(customMatcher);
     }
     
 	public StubBuilder with(Constraint arg1) {
@@ -138,7 +143,7 @@ public class InvocationMockerBuilder
     
 	public ExpectationBuilder id( String invocationID ) {
         mocker.setName(invocationID);
-		idTable.registerID( invocationID, this );
+		idTable.registerUniqueID( invocationID, this );
 		return this;
 	}
 	

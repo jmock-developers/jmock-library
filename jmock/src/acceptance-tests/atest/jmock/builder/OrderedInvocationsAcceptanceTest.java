@@ -1,9 +1,11 @@
 package atest.jmock.builder;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import org.jmock.builder.Mock;
 import org.jmock.dynamic.DynamicMockError;
+import org.jmock.expectation.AssertMo;
 
 
 public class OrderedInvocationsAcceptanceTest 
@@ -24,8 +26,8 @@ public class OrderedInvocationsAcceptanceTest
     }
     
     public void testOrderedCallsCanOccurInOrder() {
-    	mock.method("hello").id("hello call");
-    	mock.method("goodbye").after("hello call");
+    	mock.stub().method("hello").id("hello call");
+    	mock.stub().method("goodbye").after("hello call");
     	
     	proxy.hello();
         proxy.goodbye();
@@ -36,8 +38,8 @@ public class OrderedInvocationsAcceptanceTest
 	public void testOrderedCallsMustNotOccurOutOfOrder() {
 		String priorCall = "HELLO-CALL-ID";
 		
-		mock.method("hello").id(priorCall);
-		mock.method("goodbye").after(priorCall);
+		mock.stub().method("hello").id(priorCall);
+		mock.stub().method("goodbye").after(priorCall);
 		
 		try {
             proxy.goodbye();
@@ -52,9 +54,9 @@ public class OrderedInvocationsAcceptanceTest
     }
 	
 	public void testOrderingDoesNotAffectUnrelatedCalls() {
-		mock.method("hello").id("hello call");
-		mock.method("goodbye").after("hello call");
-		mock.method("moreTeaVicar");
+		mock.stub().method("hello").id("hello call");
+		mock.stub().method("goodbye").after("hello call");
+		mock.stub().method("moreTeaVicar");
 		
 		proxy.hello();
 		proxy.moreTeaVicar();
@@ -64,15 +66,15 @@ public class OrderedInvocationsAcceptanceTest
 	}
 	
 	public void testOrderingConstraintsDoNotImplyExpectedCall() {
-		mock.method("hello").isVoid().id("hello call");
-		mock.method("goodbye").after("hello call");
+		mock.stub().method("hello").isVoid().id("hello call");
+		mock.stub().method("goodbye").after("hello call");
 		
 		mock.verify();
 	}
 	
 	public void testCanUseMethodNameAsDefaultInvocationID() {
-		mock.method("hello").isVoid();
-		mock.method("goodbye").after("hello");
+		mock.stub().method("hello").isVoid();
+		mock.stub().method("goodbye").after("hello");
 		
 		mock.verify();
 	}
@@ -81,9 +83,9 @@ public class OrderedInvocationsAcceptanceTest
 		Mock otherMock = new Mock( ExampleInterface.class, "otherMock" );
 		ExampleInterface otherProxy = (ExampleInterface)otherMock.proxy();
 		
-		otherMock.method("hello").isVoid();
+		otherMock.stub().method("hello").isVoid();
 		
-		mock.method("goodbye").after(otherMock,"hello");
+		mock.stub().method("goodbye").after(otherMock,"hello");
 		
 		otherProxy.hello();
 		proxy.goodbye();
@@ -94,8 +96,8 @@ public class OrderedInvocationsAcceptanceTest
 		String priorCall = "HELLO-CALL-ID";
 		Mock otherMock = new Mock( ExampleInterface.class, otherMockName );
 		
-		otherMock.method("hello").id(priorCall);
-		mock.method("goodbye").after(otherMock,priorCall);
+		otherMock.stub().method("hello").id(priorCall);
+		mock.stub().method("goodbye").after(otherMock,priorCall);
 		
 		try {
 			proxy.goodbye();
@@ -111,10 +113,10 @@ public class OrderedInvocationsAcceptanceTest
 	}
 	
     public void testAllowsSameInvocationMultipleTimes() {
-        mock.method("hello").id("hello #1");
-        mock.method("hello").after("hello #1").id("hello #2");
-        mock.method("hello").after("hello #2").id("hello #3");
-        mock.method("goodbye").after("hello #3");
+        mock.stub().method("hello").id("hello #1");
+        mock.stub().method("hello").after("hello #1").id("hello #2");
+        mock.stub().method("hello").after("hello #2").id("hello #3");
+        mock.stub().method("goodbye").after("hello #3");
         
         proxy.hello();
         proxy.hello();
@@ -122,5 +124,21 @@ public class OrderedInvocationsAcceptanceTest
         proxy.goodbye();
         
         mock.verify();
+    }
+    
+    public void testDetectsDuplicateIDs() {
+        String duplicateID = "DUPLICATE-ID";
+        
+        mock.stub().method("hello").id(duplicateID);
+        
+        try {
+            mock.stub().method("hello").id(duplicateID);
+        }
+        catch( AssertionFailedError ex ) {
+            AssertMo.assertIncludes( "error message contains duplicate id",
+                                     duplicateID, ex.getMessage() );
+            return;
+        }
+        fail("should have failed");
     }
 }
