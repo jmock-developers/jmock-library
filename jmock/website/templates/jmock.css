@@ -97,7 +97,7 @@ p {
 }
 
 td {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 ul, ol {
@@ -322,4 +322,8 @@ ul, ol {
     font-weight: bold;
     margin: 4px;
     text-align: right
+}
+
+.NewsGroup td {
+    font-size: 10px;
 }
