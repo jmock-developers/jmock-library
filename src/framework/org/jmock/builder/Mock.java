@@ -59,18 +59,16 @@ public class Mock
     
     
 	public ExpectationBuilder lookupID(String id) {
-		if( idTable.containsKey(id) ) {
-			return (ExpectationBuilder)idTable.get(id);
-		} else {
-			throw new AssertionFailedError("no expected invocation named '"+id+"'");
-		}
+		if( ! idTable.containsKey(id) ) {
+            throw new AssertionFailedError("no expected invocation named '"+id+"'");
+		} 
+		return (ExpectationBuilder)idTable.get(id);
 	}
 	
 	public void registerID( String id, ExpectationBuilder builder ) {
 		if( idTable.containsKey(id) ) {
 			throw new AssertionFailedError("duplicate invocation named '"+id+"'");
-		} else {
-			idTable.put( id, builder );
-		}
+        }
+        idTable.put( id, builder );
 	}
 }
