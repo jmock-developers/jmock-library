@@ -14,13 +14,13 @@ public class MockDynamicMock
     extends MockVerifiable
     implements DynamicMock
 {
-    public ExpectationCounter getMockedTypesCalls = 
+    public ExpectationCounter getMockedTypeCalls = 
         new ExpectationCounter("getMockedTypes #calls");
-    public Class[] getMockedTypesResult;
+    public Class getMockedTypeResult;
     
-    public Class[] getMockedTypes() {
-        getMockedTypesCalls.inc();
-        return (Class[])getMockedTypesResult.clone();
+    public Class getMockedType() {
+        getMockedTypeCalls.inc();
+        return getMockedTypeResult;
     }
     
     public ExpectationCounter addCalls = new ExpectationCounter("add #calls");

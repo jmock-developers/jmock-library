@@ -95,13 +95,11 @@ public class MockTest
     private interface MockedType {}
     
     public void testReportsTypesMockedByCoreMock(){
-        Class[] mockedTypes = new Class[] { MockedType.class };
-        
-        mockCoreMock.getMockedTypesCalls.setExpected(1);
-        mockCoreMock.getMockedTypesResult = mockedTypes;
+        mockCoreMock.getMockedTypeCalls.setExpected(1);
+        mockCoreMock.getMockedTypeResult = MockedType.class;
         
         AssertMo.assertEquals( "mocked types", 
-                               mockedTypes, mock.getMockedTypes() );
+                               MockedType.class, mock.getMockedType() );
     }
     
     public void testPassesDefaultStubToCoreMock() {

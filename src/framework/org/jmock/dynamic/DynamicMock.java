@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationHandler;
 public interface DynamicMock
     extends Verifiable, InvocationHandler 
 {
-    Class[] getMockedTypes();
+    Class getMockedType();
     
     Object proxy();
     

@@ -33,8 +33,8 @@ public class Mock
     }
     
 
-    public Class[] getMockedTypes() {
-        return coreMock.getMockedTypes();
+    public Class getMockedTypes() {
+        return coreMock.getMockedType();
     }
 
     public Object proxy() {

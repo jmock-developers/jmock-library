@@ -32,11 +32,9 @@ public class CoreMockTest extends TestCase {
         }
     }
     
-    public void testReportsMockedTypes() {
-        Class[] expectedTypes =  {DummyInterface.class};
-        
-        AssertMo.assertEquals( "mocked types", 
-                               expectedTypes, coreMock.getMockedTypes() );
+    public void testReportsMockedType() {
+        assertSame( "mocked type", 
+                    DummyInterface.class, coreMock.getMockedType() );
     }
     
     public void testMockAnnotatesAssertionFailedError()
