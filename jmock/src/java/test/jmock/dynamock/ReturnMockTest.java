@@ -27,7 +27,7 @@ public class ReturnMockTest extends AbstractMockTest {
         }
 
         public void stubOneParam() {
-        	mockTarget.matchAndReturn( "oneParam", "one", "result" );
+        	mockTarget.stubAndReturn( "oneParam", "one", "result" );
         }
         
         public void expectOneParam() {

@@ -29,7 +29,7 @@ public class ThrowMockTest extends AbstractMockTest {
         }
 
         public void stubOneParam() {
-        	mockTarget.matchAndThrow("oneParam", "one", new TargetException());
+        	mockTarget.stubAndReturn("oneParam", "one", new TargetException());
         }
 
         public void expectOneParam() {

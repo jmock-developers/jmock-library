@@ -15,7 +15,7 @@ public class PublisherTest extends TestCase {
         Message message = new Message();
 
         // expectations
-        mockSubscriber.expect("receive", message);
+        mockSubscriber.expectVoid("receive", message);
         
         // execute
         publisher.publish(message);

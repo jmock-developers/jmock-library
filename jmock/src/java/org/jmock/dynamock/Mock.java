@@ -6,7 +6,6 @@ import org.jmock.Constraint;
 import org.jmock.dynamic.framework.BuildableInvokable;
 import org.jmock.dynamic.framework.CoreMock;
 import org.jmock.dynamic.framework.DynamicMock;
-import org.jmock.dynamic.framework.InvocationDispatcher;
 import org.jmock.dynamic.framework.InvocationMatcher;
 import org.jmock.dynamic.framework.Invokable;
 import org.jmock.dynamic.framework.LIFOInvocationDispatcher;
@@ -28,22 +27,15 @@ public class Mock
     }
 
     public Mock( Class mockedClass, String nonDefaultName ) {
-        this( new InvokableFactory(), new LIFOInvocationDispatcher(), 
-    		  mockedClass, nonDefaultName );
+        this( new CoreMock( mockedClass, 
+        					nonDefaultName, 
+        					new LIFOInvocationDispatcher() ), 
+    		  new InvokableFactory() );
     }
     
 	public Mock( DynamicMock coreMock, BuildableInvokableFactory factory ) {
 		this.factory = factory;
 		this.coreMock = coreMock;
-	}
-	
-	/** @deprecated */
-	public Mock( BuildableInvokableFactory factory, 
-				 InvocationDispatcher invocationDispatcher, 
-				 Class mockedClass, 
-				 String name) 
-	{
-		this( new CoreMock( mockedClass, name, invocationDispatcher ), factory );
 	}
 	
 	public String toString() {
@@ -134,24 +126,29 @@ public class Mock
 		expect( methodName, argumentsMatcher, factory.createThrowStub(throwable) );
 	}
 
+	public void expect( String methodName, Stub stub ) {
+		expect( methodName, C.NO_ARGS, stub );
+	}
+	
+	public void expectVoid( String methodName ) {
+		expectVoid(methodName, C.NO_ARGS);
+	}
+
+	public void expectAndReturn(String methodName, Object result) {
+		expectAndReturn(methodName, C.NO_ARGS, result);
+	}
+
+	public void expectAndThrow(String methodName, Throwable exception) {
+		expectAndThrow(methodName, C.NO_ARGS, exception);
+	}
+	
+	
 	/*------------------------------------------------------------------------------------------
-	 *  THE FOLLOWING METHODS ARE BEING REFACTORED BIT BY BIT.
+	 *  THE FOLLOWING METHODS ARE NOT TESTED
 	 */
 	
-    /*
-     * --- Sugar methods ---- 
-     */
-
-    public void expect(String methodName) {
-        expectVoid(methodName, C.NO_ARGS);
-    }
-
-    public void expect(String methodName, Object singleEqualArg) {
+    public void expectVoid(String methodName, Object singleEqualArg) {
         expectVoid(methodName, createInvocationMatcher(singleEqualArg));
-    }
-
-    public void expectAndReturn(String methodName, Object result) {
-        expectAndReturn(methodName, C.NO_ARGS, result);
     }
 
     public void expectAndReturn(String methodName, boolean result) {
@@ -182,92 +179,70 @@ public class Mock
         expectAndReturn(methodName, args, new Integer(result));
     }
 
-    public void expectAndThrow(String methodName, Throwable exception) {
-        expectAndThrow(methodName, C.NO_ARGS, exception);
-    }
-    
     public void expectAndThrow(String methodName, Object singleEqualArg, Throwable exception) {
         expectAndThrow(methodName, createInvocationMatcher(singleEqualArg), exception);
     }
     
-    public void match(String methodName, Object singleEqualArg) {
+    public void stubVoid(String methodName, Object singleEqualArg) {
         stubVoid(methodName, createInvocationMatcher(singleEqualArg));
     }
 
-    public void match(String methodName, int singleEqualArg) {
-        match(methodName, new Integer(singleEqualArg));
+    public void stubVoid(String methodName, int singleEqualArg) {
+        stubVoid(methodName, new Integer(singleEqualArg));
     }
 
-    public void match(String methodName, boolean singleEqualArg) {
-        match(methodName, new Boolean(singleEqualArg));
+    public void stubVoid(String methodName, boolean singleEqualArg) {
+        stubVoid(methodName, new Boolean(singleEqualArg));
     }
 
-    public void matchAndReturn(String methodName, boolean result) {
+    public void stubAndReturn(String methodName, boolean result) {
         stubAndReturn(methodName, new Boolean(result));
     }
 
-    public void matchAndReturn(String methodName, int result) {
+    public void stubAndReturn(String methodName, int result) {
         stubAndReturn(methodName, new Integer(result));
     }
 
-    public void matchAndReturn(String methodName, Object singleEqualArg, Object result) {
-        matchAndReturn(methodName, createInvocationMatcher(singleEqualArg), result);
+    public void stubAndReturn(String methodName, Object singleEqualArg, Object result) {
+        stubAndReturn(methodName, createInvocationMatcher(singleEqualArg), result);
     }
 
-    public void matchAndReturn(String methodName, boolean singleEqualArg, Object result) {
-        matchAndReturn(methodName, new Boolean(singleEqualArg), result);
+    public void stubAndReturn(String methodName, boolean singleEqualArg, Object result) {
+        stubAndReturn(methodName, new Boolean(singleEqualArg), result);
     }
 
-    public void matchAndReturn(String methodName, int singleEqualArg, Object result) {
-        matchAndReturn(methodName, new Integer(singleEqualArg), result);
+    public void stubAndReturn(String methodName, int singleEqualArg, Object result) {
+        stubAndReturn(methodName, new Integer(singleEqualArg), result);
     }
 
-    public void matchAndReturn(String methodName, Object singleEqualArg, boolean result) {
-        matchAndReturn(methodName, singleEqualArg, new Boolean(result));
+    public void stubAndReturn(String methodName, Object singleEqualArg, boolean result) {
+        stubAndReturn(methodName, singleEqualArg, new Boolean(result));
     }
 
-    public void matchAndReturn(String methodName, Object singleEqualArg, int result) {
-        matchAndReturn(methodName, singleEqualArg, new Integer(result));
+    public void stubAndReturn(String methodName, Object singleEqualArg, int result) {
+        stubAndReturn(methodName, singleEqualArg, new Integer(result));
     }
 
-    public void matchAndReturn(String methodName, InvocationMatcher args, boolean result) {
-        matchAndReturn(methodName, args, new Boolean(result));
+    public void stubAndReturn(String methodName, InvocationMatcher args, boolean result) {
+        stubAndReturn(methodName, args, new Boolean(result));
+    }
+    
+    public void stubAndReturn(String methodName, InvocationMatcher args, int result) {
+        stubAndReturn(methodName, args, new Integer(result));
+    }
+    
+    public void stubAndThrow(String methodName, Object singleEqualArg, Throwable throwable) {
+        stubAndThrow(methodName, createInvocationMatcher(singleEqualArg), throwable);
     }
 
-    public void matchAndReturn(String methodName, InvocationMatcher args, int result) {
-        matchAndReturn(methodName, args, new Integer(result));
+    public void stubAndThrow(String methodName, boolean singleEqualArg, Throwable throwable) {
+        stubAndThrow(methodName, new Boolean(singleEqualArg), throwable);
     }
 
-    public void matchAndThrow(String methodName, Throwable throwable) {
-        matchAndThrow(methodName, C.NO_ARGS, throwable);
+    public void stubAndThrow(String methodName, int singleEqualArg, Throwable throwable) {
+        stubAndThrow(methodName, new Integer(singleEqualArg), throwable);
     }
 
-    public void matchAndThrow(String methodName, Object singleEqualArg, Throwable throwable) {
-        matchAndThrow(methodName, createInvocationMatcher(singleEqualArg), throwable);
-    }
-
-    public void matchAndThrow(String methodName, boolean singleEqualArg, Throwable throwable) {
-        matchAndThrow(methodName, new Boolean(singleEqualArg), throwable);
-    }
-
-    public void matchAndThrow(String methodName, int singleEqualArg, Throwable throwable) {
-        matchAndThrow(methodName, new Integer(singleEqualArg), throwable);
-    }
-
-
-    /**
-     * @deprecated @see expect
-     */
-    public void expectVoid(String methodName, Object equalArg) {
-        this.expect(methodName, equalArg);
-    }
-
-    /**
-     * @deprecated @see expect
-     */
-    public void expectVoid(String methodName) {
-        this.expect(methodName);
-    }
 
     /**
      * @deprecated Not required, as if methodName is called, you will get an exception
