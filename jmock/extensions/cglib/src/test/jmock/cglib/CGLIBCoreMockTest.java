@@ -110,8 +110,7 @@ public class CGLIBCoreMockTest extends TestCase {
         mockDispatcher.dispatchResult = new Boolean(false);
         
         mockDispatcher.dispatchInvocation.setExpected(
-            new Invocation( proxy, DummyInterface.class, 
-                            "equals", new Class[]{Object.class}, boolean.class, 
+            new Invocation( proxy, Object.class.getMethod( "equals", new Class[]{Object.class} ),
                             new Object[]{"not a proxy"} ));
         
         assertFalse( "Passes invocation of equals to dispatcher", 
@@ -133,9 +132,7 @@ public class CGLIBCoreMockTest extends TestCase {
         
         mockDispatcher.dispatchResult = new Integer(expectedHashCode);
         mockDispatcher.dispatchInvocation.setExpected(
-            new Invocation( proxy, DummyInterface.class, 
-                            "hashCode", new Class[0], int.class, 
-                            new Object[0] ));
+            new Invocation( proxy, Object.class.getMethod("hashCode", new Class[0]), new Object[0] ));
         
         assertEquals( "proxy hashCode", expectedHashCode, proxy.hashCode() );
         

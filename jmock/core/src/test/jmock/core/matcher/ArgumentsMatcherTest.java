@@ -10,20 +10,32 @@ import org.jmock.core.matcher.ArgumentsMatcher;
 
 import test.jmock.core.testsupport.AlwaysFalse;
 import test.jmock.core.testsupport.AlwaysTrue;
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class ArgumentsMatcherTest extends TestCase {
-	private Invocation emptyInvocation = new Invocation(
-        "INVOKED-OBJECT", Void.class, 
-        "example", new Class[0], Void.class, 
-        new Object[0]);
+	private static final String INVOKED_OBJECT = "INVOKED-OBJECT";
+	private static final String exampleArg1 = "arg1";
+	private static final String exampleArg2 = "arg2";
 
-    private final String exampleArg1 = "arg1";
-    private final String exampleArg2 = "arg2";
-    private Invocation exampleInvocation = new Invocation(
-        "INVOKED-OBJECT", Void.class, 
-        "example", new Class[]{String.class}, Void.class, 
-        new Object[]{exampleArg1, exampleArg2});
+	private Invocation emptyInvocation;
+    private Invocation exampleInvocation;
+
+	public void setUp() {
+		MethodFactory methodFactory = new MethodFactory();
+
+		emptyInvocation = new Invocation(
+		    INVOKED_OBJECT,
+		    methodFactory.newMethod( "example", MethodFactory.NO_ARGUMENTS, Void.class,
+		                                   MethodFactory.NO_EXCEPTIONS ),
+		    new Object[0] );
+
+		exampleInvocation = new Invocation(
+		    INVOKED_OBJECT,
+		    methodFactory.newMethod( "example", new Class[]{String.class,String.class}, Void.class,
+		                                   MethodFactory.NO_EXCEPTIONS ),
+			new Object[]{exampleArg1,exampleArg2} );
+	}
 
     public void testMatchWhenNoArgumentsOrConstraints() throws Throwable {
         ArgumentsMatcher matcher = new ArgumentsMatcher(new Constraint[0]);

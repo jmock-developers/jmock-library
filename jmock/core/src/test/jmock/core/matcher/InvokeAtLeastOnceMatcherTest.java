@@ -6,13 +6,23 @@ import junit.framework.TestCase;
 import org.jmock.core.Invocation;
 import org.jmock.core.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.expectation.AssertMo;
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class InvokeAtLeastOnceMatcherTest extends TestCase {
-    private Invocation emptyInvocation = new Invocation(
-        "INVOKED-OBJECT", Void.class, "example", new Class[0], Void.class, 
-        new Object[0]);
-	private InvokeAtLeastOnceMatcher matcher = new InvokeAtLeastOnceMatcher();
+    private Invocation emptyInvocation;
+	private InvokeAtLeastOnceMatcher matcher;
+
+	public void setUp() {
+		MethodFactory methodFactory = new MethodFactory();
+
+		emptyInvocation = new Invocation(
+			"INVOKED-OBJECT",
+			methodFactory.newMethod( "example", MethodFactory.NO_ARGUMENTS, Void.class,
+										   MethodFactory.NO_EXCEPTIONS ),
+			new Object[0] );
+		matcher = new InvokeAtLeastOnceMatcher();
+	}
 
 	public void testAlwaysMatches() {
 		assertTrue("should match", matcher.matches(emptyInvocation));

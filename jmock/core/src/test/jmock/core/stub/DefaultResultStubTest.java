@@ -7,14 +7,16 @@ import junit.framework.TestCase;
 import org.jmock.core.Invocation;
 import org.jmock.core.stub.DefaultResultStub;
 import org.jmock.expectation.AssertMo;
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class DefaultResultStubTest 
 	extends TestCase 
 {
     static final Object[] NO_ARG_VALUES = new Object[0];
-	static final Class[] NO_ARG_TYPES = new Class[0];
-	
+
+	private static MethodFactory METHOD_FACTORY = new MethodFactory();
+
 	private DefaultResultStub stub;
     
 	public DefaultResultStubTest(String name) {
@@ -60,11 +62,11 @@ public class DefaultResultStubTest
         throws Throwable
     {
         int[] defaultArrayForPrimitiveType = 
-            (int[])stub.invoke(resultCall(int[].class));
+            (int[])stub.invoke(invocationReturning(int[].class));
         assertEquals( "should be empty array", 0, defaultArrayForPrimitiveType.length );
         
         AnyType[] defaultArrayForAnyType = 
-            (AnyType[])stub.invoke(resultCall(AnyType[].class));
+            (AnyType[])stub.invoke(invocationReturning(AnyType[].class));
         assertEquals( "should be empty array", 0, defaultArrayForAnyType.length );
     }
     
@@ -80,7 +82,7 @@ public class DefaultResultStubTest
         
         stub.addResult( int.class, new Integer(intResult) );
         
-        InterfaceType result = (InterfaceType)stub.invoke(resultCall(InterfaceType.class));
+        InterfaceType result = (InterfaceType)stub.invoke(invocationReturning(InterfaceType.class));
         
         assertEquals( "int result from 'null' interface implementation", 
                       intResult, result.returnInt() );
@@ -96,10 +98,10 @@ public class DefaultResultStubTest
 		stub.addResult( int.class, new Integer(newDefaultIntResult) );
 		
 		assertEquals( "expected registered value for string result type",
-				      newDefaultStringResult, stub.invoke(resultCall(String.class)) );
+				      newDefaultStringResult, stub.invoke(invocationReturning(String.class)) );
 		
 		assertEquals( "expected registered value for int result type",
-					  new Integer(newDefaultIntResult), stub.invoke(resultCall(int.class)) );
+					  new Integer(newDefaultIntResult), stub.invoke(invocationReturning(int.class)) );
 	}
 	
 	public void testAnExplicitlyRegisteredResultOverridesThePreviousResultForTheSameType()
@@ -109,7 +111,7 @@ public class DefaultResultStubTest
 		stub.addResult( String.class, "result2" );
 		
 		assertEquals( "expected second result",
-				      "result2", stub.invoke(resultCall(String.class)) );
+				      "result2", stub.invoke(invocationReturning(String.class)) );
 	}
 	
     class UnsupportedReturnType {}
@@ -127,7 +129,7 @@ public class DefaultResultStubTest
         };
         
 		try {
-            stub.invoke( resultCall(unsupportedReturnType) );
+            stub.invoke( invocationReturning(unsupportedReturnType) );
 		}
 		catch( AssertionFailedError ex ) {
 			String message = ex.getMessage();
@@ -151,7 +153,7 @@ public class DefaultResultStubTest
 		throws Throwable
 	{
 		assertEquals( "expected "+resultValue+" to be returned",
-					  resultValue, defaultResultStub.invoke(resultCall(resultType)) );
+					  resultValue, defaultResultStub.invoke(invocationReturning(resultType)) );
 	}
 	
     public void assertHasNotRegisteredReturnType( DefaultResultStub defaultResultStub,
@@ -159,7 +161,7 @@ public class DefaultResultStubTest
         throws Throwable
     {
     	try {
-            defaultResultStub.invoke(resultCall(resultType));
+            defaultResultStub.invoke(invocationReturning(resultType));
             fail("stub should not support return type " + resultType);
         }
         catch( AssertionFailedError expected ) {
@@ -167,10 +169,10 @@ public class DefaultResultStubTest
         }
     }
     
-	private Invocation resultCall( Class resultType ) {
+	private Invocation invocationReturning( Class resultType ) {
 		return new Invocation(
             "INVOKED-OBJECT",
-			getClass(), "ignoredMethodName", NO_ARG_TYPES, resultType,
+            METHOD_FACTORY.newMethodReturning( resultType ),
             NO_ARG_VALUES );
 	}
 }

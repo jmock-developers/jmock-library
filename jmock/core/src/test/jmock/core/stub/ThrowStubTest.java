@@ -7,6 +7,7 @@ import org.jmock.core.Invocation;
 import org.jmock.core.stub.ThrowStub;
 
 import test.jmock.core.DummyThrowable;
+import test.jmock.core.testsupport.MethodFactory;
 
 public class ThrowStubTest 
 	extends TestCase 
@@ -17,9 +18,9 @@ public class ThrowStubTest
 	ThrowStub throwStub; 
 	
 	public void setUp() {
-		invocation = new Invocation( 
-            "INVOKED-OBJECT", Void.class, "ignoredName",  new Class[0], 
-			void.class, new Object[0]);
+		MethodFactory methodFactory = new MethodFactory();
+		invocation = new Invocation(
+            "INVOKED-OBJECT", methodFactory.newMethodReturning(void.class), new Object[0]);
 		throwStub  = new ThrowStub(THROWABLE);
 	}
 	

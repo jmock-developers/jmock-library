@@ -2,6 +2,7 @@
 package test.jmock.core;
 
 import java.util.List;
+import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
@@ -11,6 +12,7 @@ import org.jmock.expectation.ExpectationCounter;
 import org.jmock.expectation.ExpectationList;
 import org.jmock.expectation.ExpectationValue;
 import org.jmock.util.Verifier;
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class InvocationMockerTest extends TestCase {
@@ -71,19 +73,20 @@ public class InvocationMockerTest extends TestCase {
         public StringBuffer describeTo(StringBuffer buffer) {
             return buffer.append("Mock stub");
         }
-
     }
 
     private static final String ARG2 = "arg2";
     private static final String ARG1 = "arg1";
-    private Invocation exampleInvocation = new Invocation( 
-        new Object(), Void.class, 
-        "example", new Class[]{String.class, String.class}, Void.class, 
-        new Object[]{ARG1, ARG2});
-    
+
+    private Invocation exampleInvocation;
     private InvocationMocker invocationMocker;
 
     public void setUp() {
+	    MethodFactory methodFactory = new MethodFactory();
+	    Method method = methodFactory.newMethod( "example", new Class[]{String.class, String.class}, Void.class,
+	                                                   MethodFactory.NO_EXCEPTIONS );
+
+	    exampleInvocation = new Invocation( new Object(), method, new Object[]{ARG1,ARG2} );
         invocationMocker = new InvocationMocker();
     }
     

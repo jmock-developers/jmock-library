@@ -7,18 +7,22 @@ import junit.framework.AssertionFailedError;
 import org.jmock.core.Invocation;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.expectation.AssertMo;
+import test.jmock.core.testsupport.MethodFactory;
 
 public class ReturnStubTest 
 	extends TestCase 
 {
 	static final String RESULT = "result";
 
+	MethodFactory methodFactory;
 	Object invokedObject;
 	Class invokedObjectClass;
     Invocation invocation;
-    ReturnStub returnStub; 
-    
+    ReturnStub returnStub;
+
     public void setUp() {
+	    methodFactory = new MethodFactory();
+
 	    invokedObject = "INVOKED-OBJECT";
 	    invokedObjectClass = Void.class;
 
@@ -27,9 +31,7 @@ public class ReturnStubTest
     
     public void testReturnsValuePassedToConstructor() throws Throwable {
 	    invocation = new Invocation(
-	        invokedObject,
-            invokedObjectClass, "ignoredMethodNameName", new Class[0], RESULT.getClass(),
-            new Object[0] );
+	        invokedObject, methodFactory.newMethodReturning(RESULT.getClass()), new Object[0] );
 
         assertSame( "Should be the same result object",
         		    RESULT, returnStub.invoke(invocation) );
@@ -52,9 +54,7 @@ public class ReturnStubTest
 		throws Throwable
 	{
 		invocation = new Invocation(
-		    invokedObject,
-	        invokedObjectClass, "ignoredMethodNameName", new Class[0], int.class,
-	        new Object[0] );
+		    invokedObject, methodFactory.newMethodReturning(int.class), new Object[0] );
 
 	    try {
 		    returnStub.invoke(invocation);
@@ -71,9 +71,7 @@ public class ReturnStubTest
 		throws Throwable
 	{
 		invocation = new Invocation(
-		    invokedObject,
-	        invokedObjectClass, "ignoredMethodNameName", new Class[0], String.class,
-	        new Object[0] );
+		    invokedObject, methodFactory.newMethodReturning(String.class), new Object[0] );
 
 		returnStub = new ReturnStub(null);
 
@@ -84,9 +82,7 @@ public class ReturnStubTest
 		throws Throwable
 	{
 		invocation = new Invocation(
-		    invokedObject,
-	        invokedObjectClass, "ignoredMethodNameName", new Class[0], int.class,
-	        new Object[0] );
+		    invokedObject, methodFactory.newMethodReturning(int.class), new Object[0] );
 
 		returnStub = new ReturnStub(null);
 

@@ -7,19 +7,26 @@ import org.jmock.core.Invocation;
 import org.jmock.core.matcher.MethodNameMatcher;
 
 import test.jmock.core.testsupport.MockConstraint;
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class MethodNameMatcherTest 
 	extends TestCase 
 {
-	private String METHOD_NAME = "~method name~";
-	private String OTHER_NAME = "~other name~";
+	private String METHOD_NAME = "methodName";
+	private String OTHER_NAME = "otherName";
 	
-	private Invocation exampleInvocation = new Invocation( 
-        "INVOKED-OBJECT", Void.class, 
-        METHOD_NAME, new Class[]{String.class}, Void.class, 
-        new Object[]{"arg1", "arg2"});
+	private Invocation exampleInvocation;
 
+	public void setUp() {
+		MethodFactory methodFactory = new MethodFactory();
+		exampleInvocation = new Invocation(
+			"INVOKED-OBJECT",
+			methodFactory.newMethod( METHOD_NAME, new Class[]{String.class,String.class}, Void.class,
+			                         MethodFactory.NO_EXCEPTIONS ),
+			new Object[]{"arg1", "arg2"});
+	}
+	
 	public void testDelegatesMethodNameMatchToConstraint() {
 		MockConstraint mockConstraint = new MockConstraint("name constraint", METHOD_NAME, true );
 		MethodNameMatcher matcher = new MethodNameMatcher(mockConstraint);
