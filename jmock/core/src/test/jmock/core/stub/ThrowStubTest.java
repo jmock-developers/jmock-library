@@ -53,10 +53,10 @@ public class ThrowStubTest
 
 	public static class ExpectedExceptionType1 extends Exception
 	{
-	};
+	}
 	public static class ExpectedExceptionType2 extends Exception
 	{
-	};
+	}
 
 	public void testThrowsAssertionFailedErrorIfTriesToThrowIncompatibleCheckedException()
 	        throws Throwable {

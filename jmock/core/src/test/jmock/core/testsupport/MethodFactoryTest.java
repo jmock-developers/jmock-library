@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 
 public class MethodFactoryTest extends TestCase
 {
-	private class ReturnType {};
+	private class ReturnType {}
 
 	static final String METHOD_NAME = "METHOD_NAME";
 	static final Class[] ARG_TYPES = new Class[]{int.class, Object.class, double[].class, String[].class};
