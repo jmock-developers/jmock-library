@@ -1,3 +1,5 @@
+Bug fix: Builder disallowed methods defined in Object class
+DefaultResultStub returns value for Object return type
 Improved error messages
 Can set description of IsAnything and IsNothing constraints
 Added IsNothing constraint
