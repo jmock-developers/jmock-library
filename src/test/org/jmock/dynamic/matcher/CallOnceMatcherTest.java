@@ -1,9 +1,10 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock.matcher;
+package org.jmock.dynamic.matcher;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.matcher.CallOnceMatcher;
 
 public class CallOnceMatcherTest extends TestCase {
     private Invocation emptyInvocation =

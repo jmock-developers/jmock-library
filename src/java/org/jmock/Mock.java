@@ -3,7 +3,7 @@ package org.jmock;
 
 import org.jmock.dynamic.*;
 import org.jmock.expectation.Verifiable;
-import org.jmock.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.ArgumentsMatcher;
 
 public class Mock implements Verifiable {
     private InvokableFactory invokableFactory;

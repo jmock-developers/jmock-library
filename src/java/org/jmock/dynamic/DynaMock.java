@@ -3,7 +3,7 @@ package org.jmock.dynamic;
 
 import org.jmock.C;
 import org.jmock.expectation.Verifiable;
-import org.jmock.stub.VoidStub;
+import org.jmock.dynamic.stub.VoidStub;
 
 public class DynaMock
         implements Verifiable {

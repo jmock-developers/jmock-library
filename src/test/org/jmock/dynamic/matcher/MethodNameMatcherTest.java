@@ -1,8 +1,9 @@
-package org.jmock.matcher;
+package org.jmock.dynamic.matcher;
 
 import junit.framework.TestCase;
 
 import org.jmock.dynamic.Invocation;
+import org.jmock.dynamic.matcher.MethodNameMatcher;
 import org.jmock.dynamic.support.MockConstraint;
 
 

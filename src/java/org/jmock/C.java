@@ -2,9 +2,10 @@
 package org.jmock;
 
 import org.jmock.constraint.*;
+import org.jmock.dynamic.*;
 import org.jmock.dynamic.Invocation;
-import org.jmock.matcher.ArgumentsMatcher;
-import org.jmock.matcher.StatelessInvocationMatcher;
+import org.jmock.dynamic.matcher.ArgumentsMatcher;
+import org.jmock.dynamic.matcher.StatelessInvocationMatcher;
 
 /**
  * Convenient factory functions and constants for building Constraints.

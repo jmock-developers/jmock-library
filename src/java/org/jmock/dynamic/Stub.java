@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
-package org.jmock;
+package org.jmock.dynamic;
 
-import org.jmock.dynamic.Invocation;
 
 /**
  * An object that stubs the behaviour of a method invocation on behalf of an
