@@ -37,7 +37,7 @@ public class Dummy
         mocker.setStub(new CustomStub("dummy invokedMethod")
         {
             public Object invoke( Invocation invocation ) throws Throwable {
-                throw new NotImplementedException(invocation.invokedMethod.getName() + "called on " + name);
+                throw new NotImplementedException(invocation.invokedMethod.getName() + " called on " + name);
             }
         });
 
@@ -47,8 +47,7 @@ public class Dummy
     }
 
     public static Object newDummy( final String name ) {
-        return new Object()
-        {
+        return new Object() {
             public String toString() {
                 return name;
             }
