@@ -13,6 +13,7 @@ import org.jmock.examples.calculator.ExpressionFactory;
 import org.jmock.examples.calculator.InfixParser;
 import org.jmock.examples.calculator.ParseException;
 import org.jmock.examples.calculator.SimpleEnvironment;
+import org.jmock.util.Dummy;
 import org.jmock.util.Verifier;
 
 
@@ -182,6 +183,6 @@ public class InfixParserTest
     }
     
     private Expression dummyExpression( String name ) {
-        return (Expression)new Mock( Expression.class, name ).proxy();
+        return (Expression)Dummy.newDummy( Expression.class, name );
     }
 }
