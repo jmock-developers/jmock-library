@@ -82,7 +82,6 @@ public class InvocationMocker
 
     public StringBuffer writeTo(StringBuffer buffer) {
         Iterator it = matchers.iterator();
-        boolean needSeparator = false;
         while (it.hasNext()) {
             int oldLength = buffer.length();
             ((InvocationMatcher) it.next()).writeTo(buffer);

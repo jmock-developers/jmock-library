@@ -36,9 +36,6 @@ public abstract class AbstractBinaryOperatorTest
     }
 
     public void testReportsErrorsInLeftSubexpression() {
-        Mock mockLeft = new Mock(Expression.class, "mockLeft");
-        Mock mockRight = new Mock(Expression.class, "mockRight");
-
         Expression expression =
             makeExpression(
                 (Expression)mockLeft.proxy(),

@@ -13,7 +13,7 @@ public class LiteralTest extends TestCase {
         SimpleEnvironment environment = new SimpleEnvironment();
                 
         for( int i = 0; i <= 10; i++ ) {
-            assertEquals( (double)i, (new Literal(i)).evaluate(environment), 0.0 );
+            assertEquals( i, (new Literal(i)).evaluate(environment), 0.0 );
         }
     }
 }

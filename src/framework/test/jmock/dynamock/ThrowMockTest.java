@@ -7,7 +7,7 @@ import org.jmock.dynamock.Mock;
 
 public class ThrowMockTest extends AbstractMockTest {
     public class TargetException extends Exception {
-    };
+    }
     public interface TargetType {
         void noParams() throws TargetException;
 

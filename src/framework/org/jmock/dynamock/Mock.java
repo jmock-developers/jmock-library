@@ -1,7 +1,6 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamock;
 
-import org.jmock.Constraint;
 import org.jmock.Verifiable;
 import org.jmock.dynamic.BuildableInvokable;
 import org.jmock.dynamic.CoreMock;
@@ -10,7 +9,6 @@ import org.jmock.dynamic.InvocationMatcher;
 import org.jmock.dynamic.Invokable;
 import org.jmock.dynamic.LIFOInvocationDispatcher;
 import org.jmock.dynamic.Stub;
-import org.jmock.dynamic.matcher.ArgumentsMatcher;
 
 
 
@@ -110,28 +108,6 @@ public class Mock
 		expect( methodName, argumentsMatcher, factory.createThrowStub(throwable) );
 	}
 
-	/*------------------------------------------------------------------------------------------
-	 *  THE FOLLOWING METHODS ARE NOT UNIT TESTED
-	 */
-	
-    /**
-     * @deprecated Not required, as if methodName is called, you will get an exception
-     */
-    public void expectNotCalled(String methodName) {
-    }
-    
-    private InvocationMatcher createInvocationMatcher(Constraint[] constraints) {
-    	return new ArgumentsMatcher(constraints);
-    }
-    
-    private InvocationMatcher createInvocationMatcher(Constraint constraint) {
-    	return createInvocationMatcher(new Constraint[]{constraint});
-    }
-    
-    private InvocationMatcher createInvocationMatcher(Object argumentValue) {
-    	return createInvocationMatcher(C.eq(argumentValue));
-    }
-    
     private BuildableInvokable createStub(String methodName, InvocationMatcher argumentsMatcher, Stub stub) {
     	BuildableInvokable buildableInvokable = factory.createBuildableInvokable();
     	

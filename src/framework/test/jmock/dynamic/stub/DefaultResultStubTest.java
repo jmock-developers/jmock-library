@@ -125,21 +125,21 @@ public class DefaultResultStubTest
 		assertHasRegisteredValue( stub, String.class, "<default string result>" );
 	}
 	
-	public void assertHasRegisteredValue( DefaultResultStub stub,
+	public void assertHasRegisteredValue( DefaultResultStub defaultResultStub,
 										  Class resultType, 
 										  Object resultValue )
 		throws Throwable
 	{
 		assertEquals( "expected "+resultValue+" to be returned",
-					  resultValue, stub.invoke(resultCall(resultType)) );
+					  resultValue, defaultResultStub.invoke(resultCall(resultType)) );
 	}
 	
-    public void assertHasNotRegisteredReturnType( DefaultResultStub stub,
+    public void assertHasNotRegisteredReturnType( DefaultResultStub defaultResultStub,
 												  Class resultType )
         throws Throwable
     {
     	try {
-            stub.invoke(resultCall(resultType));
+            defaultResultStub.invoke(resultCall(resultType));
             fail("stub should not support return type " + resultType);
         }
         catch( AssertionFailedError expected ) {

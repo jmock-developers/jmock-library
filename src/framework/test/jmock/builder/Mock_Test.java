@@ -25,9 +25,8 @@ public class Mock_Test extends TestCase {
     public void testPassesExplicitNameToUnderlyingCoreMock() {
         String explicitName = "EXPLICIT NAME";
         
-    	Mock mock = new Mock( DummyInterface.class, explicitName );
-        
-        assertEquals( "should be explicit name", explicitName, mock.toString() );
+        assertEquals( "should be explicit name", explicitName, 
+                new Mock( DummyInterface.class, explicitName ).toString() );
     }
     
     public void testMethodAddsInvocationMockerAndReturnsMethodExpectation() {
@@ -112,7 +111,7 @@ public class Mock_Test extends TestCase {
     public void testOverridesDefaultBuilderIDForSameMethodName() {
     	String methodName = "METHOD-NAME";
     	
-    	ExpectationBuilder builder1 = mock.method(methodName);
+    	mock.method(methodName);
     	ExpectationBuilder builder2 = mock.method(methodName);
     	
     	assertSame( "should be builder2", builder2, mock.lookupID(methodName) );

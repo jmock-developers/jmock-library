@@ -9,7 +9,6 @@ import org.jmock.examples.calculator.Expression;
 import org.jmock.examples.calculator.ExpressionFactory;
 import org.jmock.examples.calculator.InfixParser;
 import org.jmock.examples.calculator.ParseException;
-import org.jmock.examples.calculator.SimpleEnvironment;
 import org.jmock.util.Dummy;
 
 
@@ -18,7 +17,6 @@ public class InfixParserTest
 {
     private Mock mockExpressionFactory;
     private InfixParser parser;
-    private SimpleEnvironment environment;
     private Expression mockLiteral1 = dummyExpression("mockLiteral1");
     private Expression mockLiteral2 = dummyExpression("mockLiteral2");
     private Expression mockAddition = dummyExpression("mockAddition");
@@ -32,7 +30,6 @@ public class InfixParserTest
     public void setUp() {
         mockExpressionFactory = new Mock(ExpressionFactory.class);
         parser = new InfixParser( (ExpressionFactory)mockExpressionFactory.proxy() );
-        environment = new SimpleEnvironment();
     }
     
     public void testParsesLiteral() throws Exception {

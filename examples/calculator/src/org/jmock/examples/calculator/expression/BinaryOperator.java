@@ -23,6 +23,6 @@ public abstract class BinaryOperator implements Expression {
             right.evaluate(environment));
     }
 
-    protected abstract double operator(double left, double right)
+    protected abstract double operator(double leftArg, double rightArg)
         throws CalculatorException;
 }

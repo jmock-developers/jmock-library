@@ -43,13 +43,13 @@ public class InvocationMockerTest extends TestCase {
         public ExpectationValue match = new ExpectationValue("MockInvocationMatcher.matches");
         public ExpectationCounter verifyCalls = new ExpectationCounter("Verify calls");
 
-        public boolean matches(Invocation invocation) {
-            match.setActual(invocation);
+        public boolean matches(Invocation actualMatch) {
+            match.setActual(actualMatch);
             return true;
         }
 
-        public void invoked(Invocation invocation) {
-            this.invocation.setActual(invocation);
+        public void invoked(Invocation actualInvocation) {
+            this.invocation.setActual(actualInvocation);
         }
 
         public StringBuffer writeTo(StringBuffer buffer) {
@@ -73,7 +73,7 @@ public class InvocationMockerTest extends TestCase {
             return buffer.append("Mock stub");
         }
 
-    };
+    }
 
     private static final String ARG2 = "arg2";
     private static final String ARG1 = "arg1";
