@@ -9,6 +9,10 @@ public class InvokeAtLeastOnceMatcher
     	verifyHasBeenInvoked();
     }
     
+    public boolean hasDescription() {
+        return true;
+    }
+    
     public StringBuffer describeTo(StringBuffer buffer) {
         buffer.append("expected at least once");
         if( hasBeenInvoked() ) {
