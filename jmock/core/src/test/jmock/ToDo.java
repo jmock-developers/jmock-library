@@ -5,6 +5,7 @@ public class ToDo {
     
     //Source cleanup prior to version 1.0 alpha
     //TODO REMOVE ALL TO-DO COMMENTS
+    //TODO Remove deprecated methods
     //TODO JavaDoc interfaces and those classes that need it.
     //TODO Add copyright comments to files
     
