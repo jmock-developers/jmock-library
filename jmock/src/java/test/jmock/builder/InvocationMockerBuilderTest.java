@@ -58,13 +58,28 @@ public class InvocationMockerBuilderTest extends TestCase {
     }
 
     public void testWillReturnSetsReturnStub() {
+        String returnValue = "return value";
+        
         mocker.setStubType.setExpected(ReturnStub.class);
+        mocker.setStubReturnValue.setExpected(returnValue);
 
-        assertNotNull("Should be expectation builder", builder.willReturn("return value"));
+		assertNotNull("Should be expectation builder", builder.willReturn(returnValue));
 
         mocker.verifyExpectations();
     }
+    
+    public void testWillReturnIsOverloadedForIntValues() {
+        int returnValue = 1234567890;
+        
+        mocker.setStubType.setExpected(ReturnStub.class);
+        mocker.setStubReturnValue.setExpected( new Integer(returnValue) );
+        
+        assertNotNull("Should be expectation builder", builder.willReturn(returnValue));
 
+        mocker.verifyExpectations();
+    }
+    
+    
     public void testWillThrowSetsThrowStub() {
         mocker.setStubType.setExpected(ThrowStub.class);
 
