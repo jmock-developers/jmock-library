@@ -5,6 +5,7 @@ package test.jmock.core.stub;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jmock.core.Invocation;
+import org.jmock.core.stub.StubSequence;
 import org.jmock.expectation.AssertMo;
 import test.jmock.core.testsupport.MethodFactory;
 import test.jmock.core.testsupport.MockStub;

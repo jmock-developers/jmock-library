@@ -8,7 +8,8 @@ import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.TestFailureMatcher;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.ThrowStub;
-import test.jmock.core.stub.StubSequence;
+import org.jmock.core.stub.StubSequence;
+import org.jmock.core.stub.StubSequence;
 
 
 /**

@@ -1,6 +1,6 @@
 /*  Copyright (c) 2000-2004 jMock.org
  */
-package test.jmock.core.stub;
+package org.jmock.core.stub;
 
 import java.util.ArrayList;
 import java.util.Arrays;
