@@ -11,6 +11,7 @@ import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.Stub;
 
 
+
 public class DefaultResultStub
 	implements Stub
 {

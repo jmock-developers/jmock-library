@@ -1,13 +1,15 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package org.jmock.dynamic;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import junit.framework.AssertionFailedError;
+
 import org.jmock.C;
 import org.jmock.dynamic.stub.CustomStub;
 import org.jmock.dynamic.stub.ReturnStub;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 public class CoreMock 
 	implements DynamicMock 

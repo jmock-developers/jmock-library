@@ -1,12 +1,12 @@
 /* Copyright (c) 2000-2003, jMock.org. See LICENSE.txt */
 package test.jmock.dynamic.stub;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 import org.jmock.dynamic.Invocation;
 import org.jmock.dynamic.stub.DefaultResultStub;
 import org.jmock.expectation.AssertMo;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
 
 public class DefaultResultStubTest 
