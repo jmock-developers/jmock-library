@@ -2,7 +2,7 @@
 package org.jmock.constraint;
 
 import org.jmock.Constraint;
-import org.jmock.dynamic.framework.DynamicUtil;
+import org.jmock.dynamic.DynamicUtil;
 
 import java.util.Arrays;
 
