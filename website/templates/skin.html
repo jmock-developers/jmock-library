@@ -6,7 +6,9 @@
       xmlns:template="http://www.b13media.com/xemplate/1.0">
   <head>
     <title>jMock - <template:include srcvar="content" elements="/html/head/title/text()"/></title>
-    <link rel="stylesheet" type="text/css" href="/jmock.css"/>
+    <link media="screen" rel="stylesheet" title="Navigation View" type="text/css" href="/jmock.css"/>
+    <link media="screen" rel="alternate stylesheet" type="text/css" href="/print.css" title="Print Preview"/>
+    <link media="print" rel="stylesheet" type="text/css" href="/print.css"/>
     <template:include srcvar="content" elements="/html/head/*[not(name()='title')]"/>
   </head>
   
