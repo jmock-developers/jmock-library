@@ -16,7 +16,7 @@
     <p>The Subscriber interface looks like this:</p>
    
     <div class="Source Java">
-      <pre>interface Subscriber {
+<pre>interface Subscriber {
     void receive(Object message);
 }</pre>
     </div>
@@ -24,14 +24,29 @@
     <p>We will test that a Publisher sends a message to a single registered 
     Subscriber. To test interactions between the Publisher and the Subscriber
     we will use a mock Subscriber object.</p>
-   
-    <p>First we <i>set up</i> the context in which our test will execute.  
+    
+    <p>First we must import the jMock classes, define our test fixture class and
+    define a test case method.</p>
+    
+    <div class="Source Java">
+<pre>import org.jmock.*;
+
+class PublisherTest extends MockObjectTestCase {
+    public void testOneSubscriberReceivesAMessage() {
+    }
+}</pre>
+    </div>
+    
+    <p>We will now write the body of the 
+    <code>testOneSubscriberReceivesAMessage</code> method.</p>
+    
+    <p>We first <i>set up</i> the context in which our test will execute.  
     We create a Publisher to test.  We create a mock Subscriber that should 
     receive the message.  We then register the Subscriber with the Publisher.  
     Finally we create a message object to publish.</p>
      
     <div class="Source Java">
-      <pre>Mock mockSubscriber = new Mock(Subscriber.class);
+<pre>Mock mockSubscriber = new Mock(Subscriber.class);
 Publisher publisher = new Publisher();
 publisher.add( (Subscriber)mockSubscriber.proxy() );
 
@@ -49,7 +64,7 @@ final Object message = new Object();</pre>
     because it has a void return type.</p>
    
     <div class="Source Java">
-	<pre>mockSubscriber.expect(once()).method("receive").with( same(message) );</pre>
+		<pre>mockSubscriber.expect(once()).method("receive").with( same(message) );</pre>
     </div>
   
     <p>We then <i>execute</i> the code that we want to test.</p>
