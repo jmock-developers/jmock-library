@@ -99,11 +99,20 @@ def write_to_output( xhtml, output_file )
     end
 end
 
+def delete_dir_contents dir
+	Dir[File.join(dir,"*")].each do |file|
+		if FileTest.directory? file
+			delete_dir_contents file
+			Dir.delete(file)
+		else
+	    	File.delete(file)
+		end
+    end
+end
+
 def delete_old_output
     if FileTest.exists?(OUTPUT_DIR)
-        Dir[File.join(OUTPUT_DIR,"*")].each do |file|
-            File.delete(file)
-        end
+    	delete_dir_contents OUTPUT_DIR
     end
 end
 
