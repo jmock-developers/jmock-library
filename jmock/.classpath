@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="core/src"/>
+	<classpathentry kind="src" path="extensions/easy/acceptance-tests"/>
+	<classpathentry kind="src" path="extensions/easy/src"/>
 	<classpathentry kind="src" path="examples/website/src"/>
 	<classpathentry kind="src" path="core/acceptance-tests"/>
 	<classpathentry kind="src" path="extensions/cglib/src"/>
