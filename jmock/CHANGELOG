@@ -1,3 +1,4 @@
+Invocation prints name of invoked object by calling its toString method.
 Bug fix: Mock.reset now clears the idTable
 Can give description to "expect never" to describe why invocation is not expected
 Refactored invocation dispatcher classes to remove duplication
