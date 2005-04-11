@@ -54,7 +54,7 @@ public class Invocation implements SelfDescribing
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        buffer.append(invokedMethod.getName());
+        buffer.append(invokedObject.toString()).append(".").append(invokedMethod.getName());
         Formatting.join(parameterValues, buffer, "(", ")");
         return buffer;
     }
