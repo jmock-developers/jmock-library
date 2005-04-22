@@ -71,7 +71,7 @@ We don't need to specify what will be returned from the receive method because i
 a void return type.</p>
 
 <div class="Source Java">
-<pre>mockSubscriber.expects(once()).method("receive").with( same(message) );</pre>
+<pre>mockSubscriber.expects(once()).method("receive").with( eq(message) );</pre>
 </div>
 
 <p>We then <i>execute</i> the code that we want to test.</p>
