@@ -44,8 +44,10 @@ public abstract class AbstractDynamicMock
     protected Object mockInvocation( Invocation invocation )
         throws Throwable
     {
-        if (failure != null) throw failure;
-
+        if (failure != null && (invocation.invokedMethod.getDeclaringClass() != Object.class) ) {
+            throw failure;
+        }
+        
         try {
             Object result = invocationDispatcher.dispatch(invocation);
             invocation.checkReturnTypeCompatibility(result);

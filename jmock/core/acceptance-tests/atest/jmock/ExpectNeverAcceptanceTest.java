@@ -41,8 +41,8 @@ public class ExpectNeverAcceptanceTest
         Mock mock = mock(MockedInterface.class,"mock");
         String errorMessage = "errorMessage";
 
-        mock.expects(never(errorMessage)).withNoArguments();
-        mock.expects(never(errorMessage)).withNoArguments();
+        mock.expects(never(errorMessage)).method("method").withNoArguments();
+        mock.expects(never(errorMessage)).method("method").withNoArguments();
 
         try {
             ((MockedInterface)mock.proxy()).method();

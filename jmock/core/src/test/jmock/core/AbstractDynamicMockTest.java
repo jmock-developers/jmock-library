@@ -44,12 +44,13 @@ public abstract class AbstractDynamicMockTest extends TestCase
     }
 
     public void testAnnotatesAssertionFailedErrorsWithDetailsOfInvocation()
-            throws Throwable {
+        throws Throwable 
+    {
         final String originalMessage = "original message";
-
+        
         Throwable throwable = new AssertionFailedError(originalMessage);
         mockDispatcher.dispatchThrowable = throwable;
-
+        
         try {
             proxy.noArgVoidMethod();
             fail("should throw AssertionFailedError");
@@ -258,5 +259,27 @@ public abstract class AbstractDynamicMockTest extends TestCase
             assertNotSame( "should have not have rethrown first error", firstFailure, err );
             return;
         }
+    }
+    
+    public void testCanCallMethodsDefinedByObjectClassAfterFailure() throws Throwable {
+        mockDispatcher.dispatchThrowable = new AssertionFailedError("first failure");
+        try {
+            proxy.noArgVoidMethod();
+            fail("should have thrown DynamicMockError");
+        }
+        catch(DynamicMockError err) {
+            // expected
+        }
+        
+        mockDispatcher.dispatchThrowable = null;
+        
+        mockDispatcher.dispatchResult = "toString result";
+        proxy.toString();
+        
+        mockDispatcher.dispatchResult = Boolean.FALSE;
+        proxy.equals("some object");
+        
+        mockDispatcher.dispatchResult = new Integer(1);
+        proxy.hashCode();
     }
 }
