@@ -36,6 +36,9 @@ public class MockInvocationDispatcher
     }
 
     public Object dispatch( Invocation invocation ) throws Throwable {
+        if (invocation.invokedMethod.getName().equals("toString")) {
+            return "MockInvocationDispatcher";
+        }
         dispatchInvocation.setActual(invocation);
         if (null != dispatchThrowable) {
             throw dispatchThrowable;
