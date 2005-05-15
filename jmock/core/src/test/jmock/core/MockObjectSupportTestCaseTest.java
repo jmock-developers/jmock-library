@@ -2,7 +2,11 @@
  */
 package test.jmock.core;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestResult;
+
 import org.jmock.core.Constraint;
 import org.jmock.core.MockObjectSupportTestCase;
 import org.jmock.core.constraint.IsAnything;
@@ -150,6 +154,31 @@ public class MockObjectSupportTestCaseTest extends TestCase
         assertConstraintFalse(testCase.or(falseConstraint, falseConstraint), ignored);
     }
 
+    static class OneOffTestResult extends TestResult {
+        public AssertionFailedError failure;
+        public synchronized void addFailure(Test arg0, AssertionFailedError aFailure) {
+            super.addFailure(arg0, aFailure);
+            this.failure = aFailure;
+        }
+        public String message() {
+            return failure.getMessage();
+        }
+    }
+    
+    public void testHasAssertThatMethodToUseConstraints() {
+        OneOffTestResult result = new OneOffTestResult();
+        MockObjectSupportTestCase example = new MockObjectSupportTestCase() {
+            public void testConstraintBased() {
+                assertThat("a string", eq("a different string"));
+            }
+            public void runTest() { testConstraintBased(); }
+        };
+        example.run(result);
+        assertEquals("without message", 
+                "\nExpected: eq(<a different string>)\n    got : a string\n", 
+                result.message());
+    }
+    
     private void assertConstraintTrue( Constraint constraint, Object argument ) {
         assertTrue("expected <" + constraint + "> to return true when passed <" + argument + ">",
                    constraint.eval(argument));
