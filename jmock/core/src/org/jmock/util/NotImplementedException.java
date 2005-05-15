@@ -8,6 +8,7 @@ package org.jmock.util;
  */
 public class NotImplementedException extends RuntimeException
 {
+    private static final long serialVersionUID = 1L;
 
     /**
      * NotImplementedException constructor comment.

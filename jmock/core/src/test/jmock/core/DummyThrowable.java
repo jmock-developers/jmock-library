@@ -4,6 +4,7 @@ package test.jmock.core;
 
 public class DummyThrowable extends Throwable
 {
+    private static final long serialVersionUID = 1L;
 
     public DummyThrowable() {
         super();

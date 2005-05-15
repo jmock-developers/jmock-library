@@ -10,6 +10,7 @@ import junit.framework.AssertionFailedError;
 public class DynamicMockError
         extends AssertionFailedError
 {
+    private static final long serialVersionUID = 1L;
     public final DynamicMock dynamicMock;
     public final Invocation invocation;
     public final InvocationDispatcher dispatcher;

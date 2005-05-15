@@ -24,6 +24,8 @@ public class IsEventFromTest extends AbstractConstraintsTest
 
     private static class DerivedEvent extends EventObject
     {
+        private static final long serialVersionUID = 1L;
+
         public DerivedEvent( Object source ) {
             super(source);
         }
