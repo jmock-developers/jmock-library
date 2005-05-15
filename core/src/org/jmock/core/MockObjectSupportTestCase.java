@@ -73,9 +73,6 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
         return new StringContains(substring);
     }
 
-    /**
-     * @since 1.1.0
-     */
     public StringContains contains( String substring ) {
         return stringContains(substring);
     }
@@ -102,6 +99,44 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
 
     public Object newDummy( String name ) {
         return Dummy.newDummy(name);
+    }
+    
+    
+    /**
+     * @since 1.0.1
+     */
+    public void assertThat(Object actual, Constraint constraint) {
+        if (!constraint.eval(actual)) {
+            StringBuffer message = new StringBuffer("\nExpected: ");
+            constraint.describeTo(message);
+            message.append("\n    got : ").append(actual).append('\n');
+            fail(message.toString());
+          }
+    }
+
+    public void assertThat(boolean actual, Constraint constraint) {
+        assertThat(new Boolean(actual), constraint);
+    }
+    public void assertThat(byte actual, Constraint constraint) {
+        assertThat(new Byte(actual), constraint);
+    }
+    public void assertThat(short actual, Constraint constraint) {
+        assertThat(new Short(actual), constraint);
+    }
+    public void assertThat(char actual, Constraint constraint) {
+        assertThat(new Character(actual), constraint);
+    }
+    public void assertThat(int actual, Constraint constraint) {
+        assertThat(new Integer(actual), constraint);
+    }
+    public void assertThat(long actual, Constraint constraint) {
+        assertThat(new Long(actual), constraint);
+    }
+    public void assertThat(float actual, Constraint constraint) {
+        assertThat(new Float(actual), constraint);
+    }
+    public void assertThat(double actual, Constraint constraint) {
+        assertThat(new Double(actual), constraint);
     }
 }
 
