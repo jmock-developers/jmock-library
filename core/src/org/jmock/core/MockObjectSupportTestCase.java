@@ -138,5 +138,20 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
     public void assertThat(double actual, Constraint constraint) {
         assertThat(new Double(actual), constraint);
     }
+    
+        
+    /**
+      * @since 1.1.0
+      */
+    public HasPropertyWithValue hasProperty(String propertyName, Constraint expectation) {
+        return new HasPropertyWithValue(propertyName, expectation);
+    }
+       
+    /**
+     * @since 1.1.0
+     */
+    public HasProperty hasProperty(String propertyName) {
+       return new HasProperty(propertyName);
+    }
 }
 
