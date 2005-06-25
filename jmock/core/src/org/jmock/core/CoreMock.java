@@ -18,7 +18,7 @@ public class CoreMock
     public CoreMock( Class mockedType, String name ) {
         this(mockedType, name, new LIFOInvocationDispatcher());
     }
-
+    
     public CoreMock( Class mockedType,
                      String name,
                      InvocationDispatcher invocationDispatcher )

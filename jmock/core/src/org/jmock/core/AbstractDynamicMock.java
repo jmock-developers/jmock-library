@@ -15,7 +15,7 @@ import org.jmock.core.stub.ReturnStub;
 
 
 public abstract class AbstractDynamicMock
-        implements DynamicMock
+    implements DynamicMock
 {
     private InvocationDispatcher invocationDispatcher;
     private Class mockedType;
