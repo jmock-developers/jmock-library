@@ -57,18 +57,25 @@ public class MockConcreteClassAcceptanceTest extends MockObjectTestCase
     }
     
     public static class ClassWithComplexConstructor {
+        public String resultOfMockedMethodCalledInConstructor;
+        
         public ClassWithComplexConstructor() {
-            mockedMethod();
+            resultOfMockedMethodCalledInConstructor = mockedMethod();
         }
         
         public String mockedMethod() { return "ORIGINAL_RESULT"; }
     }
     
-    public void testCanGiveExplicitNameToMockOfConcreteClassesComplexConstructors() throws Exception {
+    public void testCanMockClassesWithComplexConstructors() throws Exception {
         String mockName = "MOCK_NAME";
         Mock mock = mock(ClassWithComplexConstructor.class,mockName);
         
-        assertEquals(mockName, mock.toString());
+        mock.expects(once()).method("mockedMethod").withNoArguments().will(returnValue("result"));
+        
+        assertEquals("mocked result",
+                	 "result", ((ClassWithComplexConstructor)mock.proxy()).mockedMethod());
+        assertEquals("original result",
+                	 "ORIGINAL_RESULT", ((ClassWithComplexConstructor)mock.proxy()).resultOfMockedMethodCalledInConstructor);
         
         mock.verify();
     }
