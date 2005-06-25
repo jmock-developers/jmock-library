@@ -2,11 +2,14 @@
  */
 package org.jmock;
 
+import java.util.Collection;
+
 import org.jmock.core.*;
 import org.jmock.core.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.TestFailureMatcher;
 import org.jmock.core.matcher.InvokeCountMatcher;
+import org.jmock.core.stub.ReturnIteratorStub;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.StubSequence;
 import org.jmock.core.stub.ThrowStub;
@@ -53,7 +56,7 @@ public abstract class MockObjectTestCase
         registerToVerify(newMock);
         return newMock;
     }
-
+    
     protected DynamicMock newCoreMock( Class mockedType, String roleName ) {
         return new CoreMock(mockedType, roleName);
     }
@@ -103,6 +106,14 @@ public abstract class MockObjectTestCase
         return returnValue(new Double(result));
     }
 
+    public Stub returnIterator(Collection collection) {
+        return new ReturnIteratorStub(collection);
+    }
+    
+    public Stub returnIterator(Object[] array) {
+        return new ReturnIteratorStub(array);
+    }
+    
     public Stub throwException( Throwable throwable ) {
         return new ThrowStub(throwable);
     }

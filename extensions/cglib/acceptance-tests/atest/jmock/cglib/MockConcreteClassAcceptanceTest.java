@@ -5,6 +5,7 @@ package atest.jmock.cglib;
 import java.util.ArrayList;
 import org.jmock.Mock;
 import org.jmock.cglib.MockObjectTestCase;
+import org.jmock.util.NotImplementedException;
 
 
 public class MockConcreteClassAcceptanceTest extends MockObjectTestCase
@@ -22,4 +23,55 @@ public class MockConcreteClassAcceptanceTest extends MockObjectTestCase
         proxy.add(newElement);
         listMock.verify();
     }
+    
+    public static class ClassWithConstructorArguments {
+        public ClassWithConstructorArguments(int arg1, String arg2) {
+            // do nothing
+        }
+        
+        public String mockedMethod() { throw new NotImplementedException("not implemented"); }
+    }
+    
+    public void testCanMockConcreteClassesWithConstructorArguments() throws Exception {
+        Mock mock = mock(ClassWithConstructorArguments.class, 
+                		 new Class[]{int.class,String.class}, 
+                		 new Object[]{new Integer(1), ""});
+        
+        mock.expects(once()).method("mockedMethod").withNoArguments().will(returnValue("result"));
+        
+        assertEquals("result", ((ClassWithConstructorArguments)mock.proxy()).mockedMethod());
+        
+        mock.verify();
+    }
+    
+    public void testCanGiveExplicitNameToMockOfConcreteClassesWithConstructorArguments() throws Exception {
+        String mockName = "MOCK_NAME";
+        Mock mock = mock(ClassWithConstructorArguments.class,
+                		 mockName,
+                		 new Class[]{int.class,String.class}, 
+                		 new Object[]{new Integer(1), ""});
+        
+        assertEquals(mockName, mock.toString());
+        
+        mock.verify();
+    }
+    
+    public static class ClassWithComplexConstructor {
+        public ClassWithComplexConstructor() {
+            mockedMethod();
+        }
+        
+        public String mockedMethod() { return "ORIGINAL_RESULT"; }
+    }
+    
+    public void testCanGiveExplicitNameToMockOfConcreteClassesComplexConstructors() throws Exception {
+        String mockName = "MOCK_NAME";
+        Mock mock = mock(ClassWithComplexConstructor.class,mockName);
+        
+        assertEquals(mockName, mock.toString());
+        
+        mock.verify();
+    }
 }
+
+

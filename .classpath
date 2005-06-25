@@ -9,7 +9,7 @@
 	<classpathentry kind="src" path="examples/calculator/src"/>
 	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/junit-3.8.1.jar"/>
+	<classpathentry sourcepath="lib/junit-3.8.1-src.jar" kind="lib" path="lib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-full-2.0.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
