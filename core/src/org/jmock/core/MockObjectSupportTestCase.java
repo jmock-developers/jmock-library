@@ -73,10 +73,27 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
         return new StringContains(substring);
     }
 
+    /**
+     * @since 1.1.0
+     */
     public StringContains contains( String substring ) {
         return stringContains(substring);
     }
-
+    
+    /**
+     * @since 1.1.0
+     */
+    public StringStartsWith startsWith( String substring ) {
+        return new StringStartsWith(substring);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public StringEndsWith endsWith( String substring ) {
+        return new StringEndsWith(substring);
+    }
+    
     public IsNot not( Constraint c ) {
         return new IsNot(c);
     }
@@ -139,19 +156,24 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
         assertThat(new Double(actual), constraint);
     }
     
-        
     /**
       * @since 1.1.0
       */
     public HasPropertyWithValue hasProperty(String propertyName, Constraint expectation) {
         return new HasPropertyWithValue(propertyName, expectation);
     }
-       
+    
     /**
      * @since 1.1.0
      */
     public HasProperty hasProperty(String propertyName) {
        return new HasProperty(propertyName);
     }
+    
+    /**
+     * @since 1.1.0
+     */
+    public HasToString asToString(Constraint toStringConstraint) {
+        return new HasToString(toStringConstraint);
+    }
 }
-

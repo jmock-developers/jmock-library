@@ -19,7 +19,7 @@ public class IsSameTest extends AbstractConstraintsTest
 
     public void testReturnsReadableDescriptionFromToString() {
         IsSame isSame = new IsSame("ARG");
-        assertEquals("description", "same(<ARG>)",
+        assertEquals("description", "same(\"ARG\")",
                      isSame.describeTo(new StringBuffer()).toString());
     }
 

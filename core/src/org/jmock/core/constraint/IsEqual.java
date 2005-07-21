@@ -4,6 +4,7 @@ package org.jmock.core.constraint;
 
 import java.lang.reflect.Array;
 import org.jmock.core.Constraint;
+import org.jmock.core.Formatting;
 
 
 /**
@@ -23,17 +24,9 @@ public class IsEqual implements Constraint
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        buffer.append("eq(");
-        if (object == null) {
-            buffer.append("null");
-        } else {
-            buffer.append("<");
-            buffer.append(object);
-            buffer.append(">");
-        }
-        buffer.append(")");
-
-        return buffer;
+        return buffer.append("eq(")
+        	         .append(Formatting.toReadableString(object))
+        	         .append(")");
     }
 
     private static boolean areEqual( Object o1, Object o2 ) {

@@ -1,4 +1,4 @@
-<project default="jars">
+<project name="jMock" default="jars">
     <property file="build.properties"/>
 
     <property name="lib.dir" value="lib"/>
@@ -62,7 +62,7 @@
     </target>
 
     <target name="core.compile" depends="core.build.dir">
-        <javac srcdir="${core.src.dir}" destdir="${core.build.dir}">
+        <javac srcdir="${core.src.dir}" destdir="${core.build.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}"/>
             </classpath>
@@ -70,7 +70,7 @@
     </target>
 
     <target name="core.atest.compile" depends="core.compile">
-        <javac srcdir="${core.atest.dir}" destdir="${core.build.dir}">
+        <javac srcdir="${core.atest.dir}" destdir="${core.build.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}"/>
             </classpath>
@@ -121,7 +121,7 @@
     </target>
 
     <target name="cglib.compile" depends="cglib.build.dir">
-        <javac srcdir="${cglib.src.dir}" destdir="${cglib.build.dir}">
+        <javac srcdir="${cglib.src.dir}" destdir="${cglib.build.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
@@ -130,7 +130,7 @@
     </target>
 
     <target name="cglib.atest.compile" depends="cglib.compile">
-        <javac srcdir="${cglib.atest.dir}" destdir="${cglib.build.dir}">
+        <javac srcdir="${cglib.atest.dir}" destdir="${cglib.build.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>

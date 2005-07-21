@@ -8,6 +8,13 @@ import org.jmock.core.DynamicMock;
 
 public abstract class MockObjectTestCase extends org.jmock.MockObjectTestCase
 {
+    protected MockObjectTestCase(String testName) {
+        super(testName);
+    }
+    
+    protected MockObjectTestCase() {
+    }
+
     public Mock mock(Class mockedClass, String roleName, 
             		 Class[] constructorArgumentTypes, Object[] constructorArguments) 
     {
