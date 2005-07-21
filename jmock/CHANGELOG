@@ -1,3 +1,13 @@
+Added StringStartsWith and StringEndsWith constraints.
+Added a hasToString constraint.
+Improved formatting of values to better distinguish different types.
+Added doAll stub
+Added constructor to CGLIB MockObjectTestCase to specify test name.
+Added onConsecutiveCalls method that takes an array of Stubs
+Added support for constructors that call public, non-final methods to CGLIB extension
+Added support for constructors with arguments to CGLIB extension
+Added returnIterator stub.
+Added constraints to compare property values
 Invocation prints name of invoked object by calling its toString method.
 Bug fix: Mock.reset now clears the idTable
 Can give description to "expect never" to describe why invocation is not expected

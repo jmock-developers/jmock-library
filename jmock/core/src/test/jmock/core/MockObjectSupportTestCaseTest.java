@@ -175,7 +175,7 @@ public class MockObjectSupportTestCaseTest extends TestCase
         };
         example.run(result);
         assertEquals("without message", 
-                "\nExpected: eq(<a different string>)\n    got : a string\n", 
+                "\nExpected: eq(\"a different string\")\n    got : a string\n", 
                 result.message());
     }
     

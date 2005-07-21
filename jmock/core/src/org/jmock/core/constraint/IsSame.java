@@ -3,13 +3,13 @@
 package org.jmock.core.constraint;
 
 import org.jmock.core.Constraint;
+import org.jmock.core.Formatting;
 
 
 /**
  * Is the value the same object as another value?
  */
-public class IsSame implements Constraint
-{
+public class IsSame implements Constraint {
     private Object object;
 
     /**
@@ -27,16 +27,8 @@ public class IsSame implements Constraint
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        buffer.append("same(");
-        if (object == null) {
-            buffer.append("null");
-        } else {
-            buffer.append("<");
-            buffer.append(object);
-            buffer.append(">");
-        }
-        buffer.append(")");
-
-        return buffer;
+        return buffer.append("same(")
+        	         .append(Formatting.toReadableString(object))
+        	         .append(")");
     }
 }

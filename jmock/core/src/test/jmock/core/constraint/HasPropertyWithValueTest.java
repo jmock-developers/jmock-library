@@ -20,13 +20,12 @@ import org.jmock.core.constraint.IsSame;
  * @since 1.1.0
  */
 public class HasPropertyWithValueTest extends TestCase {
-
 	final private BeanWithoutInfo shouldMatch = new BeanWithoutInfo("is expected");
 	final private BeanWithoutInfo shouldNotMatch = new BeanWithoutInfo("not expected");
 	final private BeanWithInfo beanWithInfo = new BeanWithInfo("with info");
 	
 	public void testMatchesInfolessBeanWithMatchedNamedProperty() {
-		HasPropertyWithValue hasProperty = new HasPropertyWithValue("property", new IsEqual("is expected"));
+		HasPropertyWithValue hasProperty = new HasPropertyWithValue("property", new IsSame("is expected"));
         
 		assertTrue(hasProperty.eval(shouldMatch));
 		assertFalse(hasProperty.eval(shouldNotMatch));
@@ -43,7 +42,7 @@ public class HasPropertyWithValueTest extends TestCase {
 	}
 	
 	public void testDoesNotMatchWriteOnlyProperty() {
-		HasPropertyWithValue hasProperty = new HasPropertyWithValue("weight", new IsAnything());
+		HasPropertyWithValue hasProperty = new HasPropertyWithValue("writeOnlyProperty", new IsAnything());
 		assertFalse(hasProperty.eval(shouldNotMatch));
 	}
 	

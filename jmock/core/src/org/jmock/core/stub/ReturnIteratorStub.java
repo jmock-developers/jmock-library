@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.jmock.core.Formatting;
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
 
@@ -29,9 +30,7 @@ public class ReturnIteratorStub implements Stub
         boolean separate = false;
         for (Iterator i = collection.iterator(); i.hasNext();) {
             if (separate) buffer.append(", ");
-            buffer.append("<");
-            buffer.append(i.next());
-            buffer.append(">");
+            buffer.append(Formatting.toReadableString(i.next()));
             separate = true;
         }
         return buffer;

@@ -9,6 +9,7 @@ import org.jmock.core.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.TestFailureMatcher;
 import org.jmock.core.matcher.InvokeCountMatcher;
+import org.jmock.core.stub.DoAllStub;
 import org.jmock.core.stub.ReturnIteratorStub;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.StubSequence;
@@ -20,7 +21,7 @@ import org.jmock.core.stub.ThrowStub;
  * This class provides methods for creating mock objects and expectations and automatically
  * verifying mock objects after the test has run but before the test fixture has been torn down.
  * 
- * @since 1.0
+ * @since 1.0.0
  */
 public abstract class MockObjectTestCase
     extends MockObjectSupportTestCase
@@ -137,16 +138,60 @@ public abstract class MockObjectTestCase
     public InvocationMatcher never( String errorMessage ) {
         return new TestFailureMatcher("not expected ("+errorMessage+")");
     }
-
+    
+    /**
+     * @since 1.0.1
+     */
     public Stub onConsecutiveCalls( Stub stub1, Stub stub2 ) {
-        return new StubSequence(new Stub[]{stub1, stub2});
+        return onConsecutiveCalls(new Stub[]{stub1, stub2});
     }
-
+    
+    /**
+     * @since 1.0.1
+     */
     public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3 ) {
-        return new StubSequence(new Stub[]{stub1, stub2, stub3});
+        return onConsecutiveCalls(new Stub[]{stub1, stub2, stub3});
+    }
+    
+    /**
+     * @since 1.0.1
+     */
+    public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3, Stub stub4 ) {
+        return onConsecutiveCalls(new Stub[]{stub1, stub2, stub3, stub4});
+    }
+    
+    /** 
+     * @since 1.1.0
+     */
+    public Stub onConsecutiveCalls( Stub[] stubs ) {
+        return new StubSequence(stubs);
     }
 
-    public Stub onConsecutiveCalls( Stub stub1, Stub stub2, Stub stub3, Stub stub4 ) {
-        return new StubSequence(new Stub[]{stub1, stub2, stub3, stub4});
+    /** 
+     * @since 1.1.0
+     */
+    public Stub doAll(Stub stub1, Stub stub2) {
+        return doAll(new Stub[]{stub1, stub2});
+    }
+
+    /** 
+     * @since 1.1.0
+     */
+    public Stub doAll(Stub stub1, Stub stub2, Stub stub3) {
+        return doAll(new Stub[]{stub1, stub2, stub3});
+    }
+
+    /** 
+     * @since 1.1.0
+     */
+    public Stub doAll(Stub stub1, Stub stub2, Stub stub3, Stub stub4) {
+        return doAll(new Stub[]{stub1, stub2, stub3, stub4});
+    }
+
+    /** 
+     * @since 1.1.0
+     */
+    public Stub doAll(Stub[] stubs) {
+        return new DoAllStub(stubs);
     }
 }

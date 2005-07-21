@@ -35,7 +35,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
             String expectedMethod1 =
                     "expected once: twoArgsReturnsInt( ANYTHING, ANYTHING ), returns <1> [" + callID + "]";
             String expectedMethod2 =
-                    "expected once: twoArgsReturnsInt( eq(<" + arg1 + ">), same(<" + arg2 + ">) ), after " + callID + " (not invoked), returns <1>";
+                    "expected once: twoArgsReturnsInt( eq(\"" + arg1 + "\"), same(<" + arg2 + ">) ), after " + callID + " (not invoked), returns <1>";
 
             assertStringContains("should contain mock name",
                                  errorMessage, MOCK_NAME);
@@ -85,7 +85,7 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
         String arg1 = "arg1";
         Object arg2 = new Object();
         String expectedMethod =
-                "expected once: twoArgsReturnsInt( eq(<" + arg1 + ">), same(<" + arg2 + ">) ), returns <1>";
+                "expected once: twoArgsReturnsInt( eq(\"" + arg1 + "\"), same(<" + arg2 + ">) ), returns <1>";
 
         Mock mock = mock(Types.WithTwoMethods.class, MOCK_NAME);
         unregisterToVerify(mock); // don't automatically verify

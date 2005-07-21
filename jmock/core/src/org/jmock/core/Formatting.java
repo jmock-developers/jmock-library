@@ -3,7 +3,6 @@
 package org.jmock.core;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Proxy;
 import java.util.Collection;
 
 /**
@@ -14,21 +13,60 @@ public class Formatting
     public static String toReadableString( Object element ) {
         if (element == null) {
             return "null";
-        } else if (Proxy.isProxyClass(element.getClass())) {
-            return unpackProxy(element).toString();
+        } else if (element instanceof String) {
+            return toJavaSyntax( (String)element );
+        } else if (element instanceof Character) {
+            return "'" + toJavaSyntax(((Character)element).charValue()) + "'";
+        } else if (element instanceof Short) {
+            return "<" + element.toString() + "s>";
+        } else if (element instanceof Long) {
+            return "<" + element.toString() + "L>";
+        } else if (element instanceof Float) {
+            return "<" + element.toString() + "F>";
         } else if (element.getClass().isArray()) {
             return join(element, new StringBuffer()).toString();
         } else {
-            return element.toString();
+            return "<" + element.toString() + ">";
         }
     }
-
-    private static Object unpackProxy( Object element ) {
-        Object invocationHandler = Proxy.getInvocationHandler(element);
-        return (invocationHandler instanceof DynamicMock
-                ? invocationHandler
-                : element);
+    
+    private static String toJavaSyntax(String unformatted) {
+        StringBuffer formatted = new StringBuffer();
+        formatted.append('"');
+        for (int i = 0; i < unformatted.length(); i++) {
+            formatted.append(toJavaSyntax(unformatted.charAt(i)));
+        }
+        formatted.append('"');
+        
+        return formatted.toString();
     }
+
+    private static String toJavaSyntax(char ch) {
+        String formattedCh;
+        switch (ch)
+        {
+        case '"':
+            formattedCh = "\\\"";
+            break;
+        
+        case '\n':
+            formattedCh = "\\n";
+            break;
+        
+        case '\r':
+            formattedCh = "\\r";
+            break;
+        
+        case '\t':
+            formattedCh = "\\t";
+            break;
+        
+        default:
+            formattedCh = Character.toString(ch);
+        }
+        return formattedCh;
+    }
+
 
     public static StringBuffer join( Object array, StringBuffer buf ) {
         return join(array, buf, "[", "]");
@@ -50,22 +88,14 @@ public class Formatting
     public static StringBuffer join( Object array, StringBuffer buf,
                                      String prefix, String separator, String postfix ) {
         buf.append(prefix);
+        
         for (int i = 0; i < Array.getLength(array); i++) {
             if (i > 0) buf.append(separator);
-
-            Object element = Array.get(array, i);
-
-            if (null == element) {
-                buf.append("<null>");
-            } else if (element.getClass().isArray()) {
-                join(element, buf);
-            } else {
-                buf.append("<");
-                buf.append(toReadableString(element));
-                buf.append(">");
-            }
+            buf.append(toReadableString(Array.get(array, i)));
         }
+        
         buf.append(postfix);
+        
         return buf;
     }
 

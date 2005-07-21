@@ -4,6 +4,7 @@ package org.jmock.core.stub;
 
 import junit.framework.Assert;
 
+import org.jmock.core.Formatting;
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
 
@@ -23,6 +24,7 @@ public class ReturnStub
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        return buffer.append("returns <").append(result).append(">");
+        return buffer.append("returns ")
+                     .append(Formatting.toReadableString(result));
     }
 }

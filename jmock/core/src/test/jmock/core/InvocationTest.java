@@ -116,7 +116,7 @@ public class InvocationTest extends TestCase
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
-        AssertMo.assertIncludes("Should contain args as an array", "[<arg1>, <arg2>]", result);
+        AssertMo.assertIncludes("Should contain args as an array", "[\"arg1\", \"arg2\"]", result);
     }
 
     public void testToStringWithPrimitiveArray() throws Exception {
@@ -126,7 +126,7 @@ public class InvocationTest extends TestCase
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
-        AssertMo.assertIncludes("Should contain args as an array", "[<1>, <2>]", result);
+        AssertMo.assertIncludes("Should contain args as an array", "[<1L>, <2L>]", result);
     }
 
     public void testMethodToStringWithNullArg() throws Exception {
@@ -135,7 +135,7 @@ public class InvocationTest extends TestCase
         String result = invocation.toString();
 
         AssertMo.assertIncludes("Should contain invokedMethod name", METHOD_NAME, result);
-        AssertMo.assertIncludes("Should contain firstArg", "<null>", result);
+        AssertMo.assertIncludes("Should contain firstArg", "null", result);
     }
 
     public void testMethodToStringWithObjectArg() throws Exception {

@@ -3,6 +3,7 @@
 package org.jmock.core.constraint;
 
 import org.jmock.core.Constraint;
+import org.jmock.core.Formatting;
 
 
 /**
@@ -21,8 +22,7 @@ public class IsGreaterThan implements Constraint
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        return buffer.append("a value greater than <")
-                .append(lowerLimit)
-                .append(">");
+        return buffer.append("a value greater than ")
+                .append(Formatting.toReadableString(lowerLimit));
     }
 }

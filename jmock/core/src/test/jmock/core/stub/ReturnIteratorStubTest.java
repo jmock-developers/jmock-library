@@ -38,7 +38,7 @@ public class ReturnIteratorStubTest extends TestCase {
     public void testHasAReadableDescription() {
         Stub stub = new ReturnIteratorStub(resultElements);
         
-        assertEquals("return iterator over <0>, <1>, <2>, <3>", 
+        assertEquals("return iterator over \"0\", \"1\", \"2\", \"3\"", 
                 	 stub.describeTo(new StringBuffer()).toString());
     }
     
