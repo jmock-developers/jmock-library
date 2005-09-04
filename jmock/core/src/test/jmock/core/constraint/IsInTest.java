@@ -13,19 +13,19 @@ public class IsInTest extends AbstractConstraintsTest {
         Collection collection = Arrays.asList(elements);
         Constraint isIn = new IsIn(collection);
         
-        assertTrue("a", isIn.eval("a"));
-        assertTrue("b", isIn.eval("b"));
-        assertTrue("c", isIn.eval("c"));
-        assertFalse("d", isIn.eval("d"));
+        assertMatches("a", isIn, "a");
+        assertMatches("b", isIn, "b");
+        assertMatches("c", isIn, "c");
+        assertDoesNotMatch("d", isIn, "d");
     }
 
     public void testReturnsTrueIfArgumentIsInArray() {
         Constraint isIn = new IsIn(elements);
         
-        assertTrue("a", isIn.eval("a"));
-        assertTrue("b", isIn.eval("b"));
-        assertTrue("c", isIn.eval("c"));
-        assertFalse("d", isIn.eval("d"));
+        assertMatches("a", isIn, "a");
+        assertMatches("b", isIn, "b");
+        assertMatches("c", isIn, "c");
+        assertDoesNotMatch("d", isIn, "d");
     }
     
     public void testHasReadableDescription() {
