@@ -9,16 +9,17 @@ import org.jmock.core.stub.ReturnStub;
 
 import test.jmock.core.testsupport.MethodFactory;
 
-
-public class ReturnStubTest
-        extends TestCase
-{
+public class ReturnStubTest extends TestCase {
     static final String RESULT = "result";
 
     MethodFactory methodFactory;
+
     Object invokedObject;
+
     Class invokedObjectClass;
+
     Invocation invocation;
+
     ReturnStub returnStub;
 
     public void setUp() {
@@ -31,10 +32,11 @@ public class ReturnStubTest
     }
 
     public void testReturnsValuePassedToConstructor() throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(RESULT.getClass()), null);
+        invocation = new Invocation(invokedObject, methodFactory
+                .newMethodReturning(RESULT.getClass()), null);
 
-        assertSame("Should be the same result object",
-                   RESULT, returnStub.invoke(invocation));
+        assertSame("Should be the same result object", RESULT, returnStub
+                .invoke(invocation));
     }
 
     public void testIncludesValueInDescription() {
@@ -44,15 +46,15 @@ public class ReturnStubTest
 
         String description = buffer.toString();
 
-        assertTrue("contains result in description",
-                   description.indexOf(RESULT.toString()) >= 0);
-        assertTrue("contains 'returns' in description",
-                   description.indexOf("returns") >= 0);
+        assertTrue("contains result in description", description.indexOf(RESULT
+                .toString()) >= 0);
+        assertTrue("contains 'returns' in description", description
+                .indexOf("returns") >= 0);
     }
 
-    public void testCanReturnNullReference()
-            throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(String.class), null);
+    public void testCanReturnNullReference() throws Throwable {
+        invocation = new Invocation(invokedObject, methodFactory
+                .newMethodReturning(String.class), null);
 
         returnStub = new ReturnStub(null);
 

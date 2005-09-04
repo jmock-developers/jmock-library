@@ -34,7 +34,13 @@ public class ReturnTypeAcceptanceTest extends MockObjectTestCase {
 
         assertSame("should be same result", result, proxy.returnString());
     }
-
+    
+    public void testCanReturnNullObjectReferences() {
+        mock.stubs().method("returnString").will(returnValue(null));
+        
+        assertNull("should be null", proxy.returnString());
+    }
+    
     public void testCanReturnBooleanValues() {
         mock.stubs().method("returnBoolean").will(returnValue(true));
         assertTrue("should be true", proxy.returnBoolean());

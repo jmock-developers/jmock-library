@@ -27,4 +27,12 @@ public abstract class AbstractConstraintsTest extends TestCase
 
     protected static final Object ARGUMENT_IGNORED = new Object();
     protected static final Object ANY_NON_NULL_ARGUMENT = new Object();
+    
+    public void assertMatches(String message, Constraint c, Object arg) {
+        assertTrue(message, c.eval(arg));   
+    }
+
+    public void assertDoesNotMatch(String message, Constraint c, Object arg) {
+        assertFalse(message, c.eval(arg));   
+    }
 }
