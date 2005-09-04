@@ -2,29 +2,23 @@
  */
 package org.jmock.core.stub;
 
-import junit.framework.Assert;
-
 import org.jmock.core.Formatting;
 import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
 
-
-public class ReturnStub
-        extends Assert
-        implements Stub
-{
+public class ReturnStub implements Stub {
     private Object result;
 
-    public ReturnStub( Object result ) {
+    public ReturnStub(Object result) {
         this.result = result;
     }
 
-    public Object invoke( Invocation invocation ) throws Throwable {
+    public Object invoke(Invocation invocation) throws Throwable {
         return result;
     }
 
-    public StringBuffer describeTo( StringBuffer buffer ) {
-        return buffer.append("returns ")
-                     .append(Formatting.toReadableString(result));
+    public StringBuffer describeTo(StringBuffer buffer) {
+        return buffer.append("returns ").append(
+                Formatting.toReadableString(result));
     }
 }

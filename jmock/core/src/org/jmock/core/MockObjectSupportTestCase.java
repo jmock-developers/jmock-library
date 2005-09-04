@@ -2,8 +2,24 @@
  */
 package org.jmock.core;
 
-import org.jmock.core.constraint.*;
+import org.jmock.core.constraint.And;
+import org.jmock.core.constraint.HasProperty;
+import org.jmock.core.constraint.HasPropertyWithValue;
+import org.jmock.core.constraint.HasToString;
+import org.jmock.core.constraint.IsAnything;
+import org.jmock.core.constraint.IsCloseTo;
+import org.jmock.core.constraint.IsCompatibleType;
+import org.jmock.core.constraint.IsEqual;
+import org.jmock.core.constraint.IsInstanceOf;
+import org.jmock.core.constraint.IsNot;
+import org.jmock.core.constraint.IsNull;
+import org.jmock.core.constraint.IsSame;
+import org.jmock.core.constraint.Or;
+import org.jmock.core.constraint.StringContains;
+import org.jmock.core.constraint.StringEndsWith;
+import org.jmock.core.constraint.StringStartsWith;
 import org.jmock.util.Dummy;
+
 
 /**
  * @since 1.0
@@ -173,7 +189,14 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
     /**
      * @since 1.1.0
      */
-    public HasToString asToString(Constraint toStringConstraint) {
+    public HasToString toString(Constraint toStringConstraint) {
         return new HasToString(toStringConstraint);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsCompatibleType compatibleType(Class baseType) {
+        return new IsCompatibleType(baseType);
     }
 }
