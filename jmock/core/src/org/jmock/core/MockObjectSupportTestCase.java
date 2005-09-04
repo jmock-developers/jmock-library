@@ -10,6 +10,7 @@ import org.jmock.core.constraint.HasPropertyWithValue;
 import org.jmock.core.constraint.HasToString;
 import org.jmock.core.constraint.IsAnything;
 import org.jmock.core.constraint.IsCloseTo;
+import org.jmock.core.constraint.IsCollectionContaining;
 import org.jmock.core.constraint.IsCompatibleType;
 import org.jmock.core.constraint.IsEqual;
 import org.jmock.core.constraint.IsIn;
@@ -215,5 +216,19 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
      */
     public IsIn isIn(Object[] array) {
         return new IsIn(array);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsCollectionContaining collectionContaining(Object element) {
+        return collectionContaining(eq(element));
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsCollectionContaining collectionContaining(Constraint elementConstraint) {
+        return new IsCollectionContaining(elementConstraint);
     }
 }
