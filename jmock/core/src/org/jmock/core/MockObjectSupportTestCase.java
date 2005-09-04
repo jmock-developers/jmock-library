@@ -2,6 +2,8 @@
  */
 package org.jmock.core;
 
+import java.util.Collection;
+
 import org.jmock.core.constraint.And;
 import org.jmock.core.constraint.HasProperty;
 import org.jmock.core.constraint.HasPropertyWithValue;
@@ -10,6 +12,7 @@ import org.jmock.core.constraint.IsAnything;
 import org.jmock.core.constraint.IsCloseTo;
 import org.jmock.core.constraint.IsCompatibleType;
 import org.jmock.core.constraint.IsEqual;
+import org.jmock.core.constraint.IsIn;
 import org.jmock.core.constraint.IsInstanceOf;
 import org.jmock.core.constraint.IsNot;
 import org.jmock.core.constraint.IsNull;
@@ -198,5 +201,19 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
      */
     public IsCompatibleType compatibleType(Class baseType) {
         return new IsCompatibleType(baseType);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsIn isIn(Collection collection) {
+        return new IsIn(collection);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsIn isIn(Object[] array) {
+        return new IsIn(array);
     }
 }
