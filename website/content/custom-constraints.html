@@ -56,12 +56,16 @@ public class StringStartsWith implements Constraint {
     }
 
     public StringBuffer describeTo( StringBuffer buffer ) {
-        return buffer.append("a string starting with \"")
-                     .append(prefix)
-                     .append("\"");
+        return buffer.append("a string starting with ")
+                     .append(Formatting.toReadableString(prefix));
     }
 }</pre>
     </div>
+    
+    <p>Note that the <code>describeTo</code> method calls <code>Formatting.toReadableString</code> to format 
+    the prefix.  The <code>toReadableString</code> method formats any raw value in a way that subtly indicates
+    the value's type and should be used to format any raw values stored in your constraints so that error
+    messages are easy to read.</p>
   </li>
   <li><p>Write a factory method in your test case that creates an instance of
     your new constraint.</p>
@@ -94,7 +98,7 @@ public class StringStartsWith implements Constraint {
     }
 
     private Constraint aStringStartingWith( String prefix ) {
-        return new StartsWith(prefix);
+        return new StringStartsWith(prefix);
     }
 }</pre>
     </div>
