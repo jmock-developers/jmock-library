@@ -18,7 +18,7 @@ public class IsInTest extends AbstractConstraintsTest {
         assertMatches("c", isIn, "c");
         assertDoesNotMatch("d", isIn, "d");
     }
-
+    
     public void testReturnsTrueIfArgumentIsInArray() {
         Constraint isIn = new IsIn(elements);
         
