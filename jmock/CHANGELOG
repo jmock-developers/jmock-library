@@ -14,7 +14,7 @@ DefaultResultStub returns value for Object return type
 Improved error messages
 Can set description of IsAnything and IsNothing constraints
 Added constraints IsNothing, HasToString, StringStartsWith, StringEndsWith, IsSameFile, IsCompatibleType,
-HasProperty, HasPropertyValue.
+HasProperty, HasPropertyValue, IsElementOf, IsCollectionContaining, IsMapContaining.
 Added exactly(n) expectation to expect an invocation an exact number of times.
 
 * 1.0.1
