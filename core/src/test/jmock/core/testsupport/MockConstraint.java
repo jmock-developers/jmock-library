@@ -7,8 +7,7 @@ import org.jmock.core.Constraint;
 import org.jmock.core.Verifiable;
 
 
-public class MockConstraint extends Assert implements Constraint, Verifiable
-{
+public class MockConstraint extends Assert implements Constraint, Verifiable {
     private String description;
     private Object expectedArg;
     private boolean result;

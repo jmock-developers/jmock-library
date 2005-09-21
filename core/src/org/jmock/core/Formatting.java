@@ -42,32 +42,25 @@ public class Formatting
     }
 
     private static String toJavaSyntax(char ch) {
-        String formattedCh;
         switch (ch)
         {
         case '"':
-            formattedCh = "\\\"";
-            break;
+            return "\\\"";
         
         case '\n':
-            formattedCh = "\\n";
-            break;
+            return "\\n";
         
         case '\r':
-            formattedCh = "\\r";
-            break;
+            return "\\r";
         
         case '\t':
-            formattedCh = "\\t";
-            break;
+            return "\\t";
         
         default:
-            formattedCh = Character.toString(ch);
+            return new String(new char[]{ch});
         }
-        return formattedCh;
     }
-
-
+    
     public static StringBuffer join( Object array, StringBuffer buf ) {
         return join(array, buf, "[", "]");
     }

@@ -9,17 +9,26 @@ import org.jmock.core.constraint.IsCollectionContaining;
 import org.jmock.core.constraint.IsEqual;
 
 public class IsCollectionContainingTest extends IsInTest {
+    Constraint constraint = new IsCollectionContaining(new IsEqual("a"));
+    
     public void testMatchesACollectionThatContainsAnElementMatchingTheGivenConstraint() {
-        Constraint constraint = new IsCollectionContaining(new IsEqual("a"));
-        
         assertMatches("should match list that contains 'a'", 
             constraint, collectionOf(new String[]{"a", "b", "c"}));
+    }
+    
+    public void testDoesNotMatchCollectionThatDoesntContainAnElementMatchingTheGivenConstraint() {
         assertDoesNotMatch("should not match list that doesn't contain 'a'", 
-          	constraint, collectionOf(new String[]{"b", "c"}));
+            constraint, collectionOf(new String[]{"b", "c"}));
         assertDoesNotMatch("should not match empty list", 
             constraint, emptyCollection());
-        assertDoesNotMatch("should not match null", 
-                constraint, null);
+    }
+    
+    public void testDoesNotMatchNull() {
+        assertDoesNotMatch("should not match null", constraint, null);
+    }
+    
+    public void testDoesNotMatchObjectThatIsNotCollections() {
+        assertDoesNotMatch("should not match empty list", constraint, "not a collection");
     }
     
     public void testHasAReadableDescription() {

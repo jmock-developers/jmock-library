@@ -9,12 +9,14 @@ import org.jmock.core.constraint.HasProperty;
 import org.jmock.core.constraint.HasPropertyWithValue;
 import org.jmock.core.constraint.HasToString;
 import org.jmock.core.constraint.IsAnything;
+import org.jmock.core.constraint.IsArrayContaining;
 import org.jmock.core.constraint.IsCloseTo;
 import org.jmock.core.constraint.IsCollectionContaining;
 import org.jmock.core.constraint.IsCompatibleType;
 import org.jmock.core.constraint.IsEqual;
 import org.jmock.core.constraint.IsIn;
 import org.jmock.core.constraint.IsInstanceOf;
+import org.jmock.core.constraint.IsMapContaining;
 import org.jmock.core.constraint.IsNot;
 import org.jmock.core.constraint.IsNull;
 import org.jmock.core.constraint.IsSame;
@@ -221,6 +223,13 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
     /**
      * @since 1.1.0
      */
+    public IsCollectionContaining collectionContaining(Constraint elementConstraint) {
+        return new IsCollectionContaining(elementConstraint);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
     public IsCollectionContaining collectionContaining(Object element) {
         return collectionContaining(eq(element));
     }
@@ -228,7 +237,112 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
     /**
      * @since 1.1.0
      */
-    public IsCollectionContaining collectionContaining(Constraint elementConstraint) {
-        return new IsCollectionContaining(elementConstraint);
+    public IsArrayContaining arrayContaining(Constraint elementConstraint) {
+        return new IsArrayContaining(elementConstraint);
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(Object element) {
+        return arrayContaining(eq(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(boolean element) {
+        return arrayContaining(new Boolean(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(byte element) {
+        return arrayContaining(new Byte(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(short element) {
+        return arrayContaining(new Short(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(char element) {
+        return arrayContaining(new Character(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(int element) {
+        return arrayContaining(new Integer(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(long element) {
+        return arrayContaining(new Long(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(float element) {
+        return arrayContaining(new Float(element));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsArrayContaining arrayContaining(double element) {
+        return arrayContaining(new Double(element));
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsMapContaining mapContaining(Constraint keyConstraint, Constraint valueConstraint) {
+        return new IsMapContaining(keyConstraint, valueConstraint);
+    }
+    
+    /**
+     * @since 1.1.0
+     */
+    public IsMapContaining mapContaining(Object key, Object value) {
+        return mapContaining(eq(key), eq(value));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsMapContaining mapWithKey(Object key) {
+        return mapWithKey(eq(key));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsMapContaining mapWithKey(Constraint keyConstraint) {
+        return new IsMapContaining(keyConstraint, ANYTHING);
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsMapContaining mapWithValue(Object value) {
+        return mapWithValue(eq(value));
+    }
+
+    /**
+     * @since 1.1.0
+     */
+    public IsMapContaining mapWithValue(Constraint valueConstraint) {
+        return new IsMapContaining(ANYTHING, valueConstraint);
     }
 }
