@@ -51,10 +51,10 @@ public class MethodFactory extends ClassLoader
             return interfaceClass.getMethod(methodName, argTypes);
         }
         catch (ClassNotFoundException ex) {
-            throw new Error(ex);
+            throw new Error(ex.getMessage());
         }
         catch (NoSuchMethodException ex) {
-            throw new Error(ex);
+            throw new Error(ex.getMessage());
         }
     }
 

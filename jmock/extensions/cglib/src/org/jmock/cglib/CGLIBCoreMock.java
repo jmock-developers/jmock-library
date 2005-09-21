@@ -3,7 +3,9 @@
 package org.jmock.cglib;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
+import junit.framework.AssertionFailedError;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -40,11 +42,20 @@ public class CGLIBCoreMock
                          InvocationDispatcher invocationDispatcher) 
     {
         super(mockedType, name, invocationDispatcher);
+        
+        checkIsNotNonStaticInnerClass(mockedType);
+        
         Enhancer enhancer = new Enhancer();
         enhancer.setClassLoader(mockedType.getClassLoader());
         enhancer.setSuperclass(mockedType);
         enhancer.setCallback(this);
         this.proxy = enhancer.create(constructorArgumentTypes, constructorArguments);
+    }
+
+    private void checkIsNotNonStaticInnerClass(Class mockedType) {
+        if (mockedType.getDeclaringClass() != null && !Modifier.isStatic(mockedType.getModifiers())) {
+            throw new AssertionFailedError("cannot mock non-static inner class " + mockedType.getName());
+        }
     }
     
     public Object proxy() {
