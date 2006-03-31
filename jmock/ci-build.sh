@@ -12,6 +12,8 @@ export LIBDIR=lib
 export BUILDDIR=build
 export WEBDIR=website/output
 
+export JAVA_HOME=/usr/local/j2sdk1.4.2_10/
+export JDK_HOME=$JAVA_HOME
 export CLASSPATH=$LIBDIR/junit-3.8.1.jar:$LIBDIR/cglib-full-2.0.jar:$BUILDDIR/core:$BUILDDIR/cglib
 case $(uname --operating-system) in
 Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
