@@ -21,7 +21,7 @@ DEPLOY=${DEPLOY:1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
-ANT=$(which ant) || ANT=/usr/local/ant/bin/ant
+ANT=/usr/local/ant/bin/ant
 
 function build-step {
 	  $* || exit 1
