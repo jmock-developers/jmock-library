@@ -21,6 +21,12 @@ DEPLOY=${DEPLOY:1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
+ANT=$(which ant)
+if [ "$ANT" == "" ]
+then
+	ANT=/usr/local/ant/bin/ant
+fi
+
 function build-step {
 	  $* || exit 1
 }
@@ -32,7 +38,7 @@ function deploy {
 echo version.archive=SNAPSHOT > build.properties
 echo version.extract=$BUILD_TIMESTAMP >> build.properties
 
-build-step ant clean test jars website
+build-step $ANT clean test jars website
 
 echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
 
