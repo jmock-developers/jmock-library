@@ -20,17 +20,13 @@ esac
 DEPLOY=${DEPLOY:-1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
-#DEPLOY_JAR_ROOT=${DEPLOY_JAR_ROOT:-dcontrol@dist.codehaus.org:/home/projects/jmock/dist/}
-#DEPLOY_WEB_ROOT=${DEPLOY_WEB_ROOT:-dcontrol@jmock.codehaus.org:/home/projects/jmock/public_html}
-
 
 function build-step {
 	  $* || exit 1
 }
 
 function deploy {
-	echo deploying $*
-    scp -r $*
+	cp --recursive --verbose $*
 }
 
 echo version.archive=SNAPSHOT > build.properties
