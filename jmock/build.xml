@@ -1,5 +1,6 @@
 <project name="jMock" default="jars">
 	<property file="version.properties"/>
+	<property name="version.archive" value="SNAPSHOT"/>
     <tstamp>
     	<format property="version.extract" pattern="ddMMyyyy-HHmmss" locale="en"/>
 	</tstamp>
@@ -271,7 +272,9 @@
         <jar destfile="${javadoc.jar}" basedir="${build.dir}" includes="${build.javadoc.subdir}/**"/>
     </target>
 	
+	
 	<!-- Continuous integration support -->
+	
 	<target name="ci-build" depends="clean,test,jars,website,ci-build.deploy"/>
 	
 	<target name="ci-build.deploy">
