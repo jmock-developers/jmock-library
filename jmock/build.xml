@@ -43,7 +43,6 @@
 
 
     <!-- Shortcut targets -->
-
     <target name="jars" depends="core.jar,cglib.jar,src.jar,javadoc.jar"/>
     <target name="rebuild" depends="clean,jars"/>
     <target name="test" depends="test.unit,test.acceptance"/>
@@ -264,5 +263,19 @@
         <mkdir dir="${build.dist.src.dir}"/>
         <jar destfile="${javadoc.jar}" basedir="${build.dir}" includes="${build.javadoc.subdir}/**"/>
     </target>
+	
+	<!-- Continuous integration support -->
+	<target name="ci-build" depends="clean,test,jars,website,ci-build.deploy"/>
+	
+	<target name="ci-build.deploy">
+		<copy todir="${deploy.dist.dir}">
+			<fileset dir="${build.dist.dir}"/>
+		</copy>
+		<copy todir="${deploy.javadoc.dir}">
+			<fileset dir="${build.javadoc.subdir}"/>
+		</copy>
+		<copy todir="${deploy.website.dir}">
+			<fileset dir="${build.website.dir}"/>
+		</copy>
+	</target>
 </project>
-
