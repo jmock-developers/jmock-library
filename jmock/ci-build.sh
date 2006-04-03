@@ -19,7 +19,7 @@ case $(uname --operating-system) in
 Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
 esac
 
-DEPLOY=${DEPLOY:1} # deploy by default
+DEPLOY=${DEPLOY:-1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
@@ -54,6 +54,8 @@ then
     build-step deploy $BUILDDIR/dist/* $DEPLOY_JAR_ROOT
     build-step deploy $WEBDIR/* $DEPLOY_WEB_ROOT/
     build-step deploy $BUILDDIR/javadoc-$BUILD_TIMESTAMP/* $DEPLOY_WEB_ROOT/docs/javadoc/
+else
+	echo Not deploying.
 fi
 
 echo all done.
