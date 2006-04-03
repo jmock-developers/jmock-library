@@ -132,8 +132,8 @@ def skin_content_file( content_file, root_content_dir )
      ["prerelease", PRERELEASE_VERSION, PRERELEASE_VERSION],
      ["release",    RELEASE_VERSION,    RELEASE_VERSION]].each do |id,version,fileid|
         config["#{id}_available"] = version != nil
-        config[id] = String.new(version || NO_VERSION)
-        if version != nil
+        config[id] = String.new(version)
+        if version != NO_VERSION
             config["#{id}_jmock_jar"] = jmock_jar(fileid)
             config["#{id}_jmock_cglib_jar"] = jmock_cglib_jar(fileid)
             config["#{id}_jmock_src_jar"] = jmock_src_jar(fileid)

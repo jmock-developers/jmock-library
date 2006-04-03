@@ -21,18 +21,6 @@ DEPLOY=${DEPLOY:-1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
-export JAVA_HOME=/usr/local/java-1.4
-export JDK_HOME=$JAVA_HOME
-export ANT_HOME=/usr/local/ant
-ANT=$ANT_HOME/bin/ant
-
-
-# Debug output
-echo ENVIRONMENT----------------------------------------------------------------
-env
-echo ---------------------------------------------------------------------------
-echo
-
 function build-step {
 	  $* || exit 1
 }

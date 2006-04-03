@@ -1,11 +1,14 @@
 <project name="jMock" default="jars">
-    <property file="build.properties"/>
-
+	<property file="version.properties"/>
+    <tstamp>
+    	<format property="version.extract" pattern="ddMMyyyy-HHmmss" locale="en"/>
+	</tstamp>
+	
     <property name="lib.dir" value="lib"/>
     <property name="examples.dir" value="examples"/>
     <property name="extensions.dir" value="extensions"/>
     <property name="website.dir" value="website"/>
-
+	
     <property name="build.dir" value="build"/>
     <property name="build.dist.dir" value="${build.dir}/dist"/>
     <property name="build.dist.bin.dir" value="${build.dist.dir}/jars"/>
@@ -41,8 +44,8 @@
     <property name="deploy.dist.src.dir" value="${deploy.dist.dir}/distributions"/>
 
 
-
-    <!-- Shortcut targets -->
+	<!-- Shortcut targets -->
+	
     <target name="jars" depends="core.jar,cglib.jar,src.jar,javadoc.jar"/>
     <target name="rebuild" depends="clean,jars"/>
     <target name="test" depends="test.unit,test.acceptance"/>
@@ -53,9 +56,10 @@
         <delete dir="${build.dir}"/>
         <delete dir="${build.website.dir}"/>
     </target>
-
+	
+	
     <!-- JMOCK CORE -->
-
+	
     <target name="core.build.dir">
         <mkdir dir="${core.build.dir}"/>
     </target>
@@ -209,9 +213,12 @@
         <mkdir dir="${build.website.dir}"/>
         <exec dir="${website.dir}" executable="ruby" failonerror="true">
             <arg value="skinner.rb"/>
+        	<env key="BUILD_TIMESTAMP" value="${version.extract}"/>
+        	<env key="PRERELEASE_VERSION" value="${version.prerelease}"/>
+        	<env key="RELEASE_VERSION" value="${version.release}"/>
         </exec>
     </target>
-
+	
     <target name="javadoc">
         <mkdir dir="${build.dir}/${build.javadoc.subdir}"/>
         <javadoc destdir="${build.dir}/${build.javadoc.subdir}"
