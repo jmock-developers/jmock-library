@@ -23,7 +23,8 @@ DEPLOY=${DEPLOY:1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
-ANT=/usr/local/ant/bin/ant
+ANT_HOME=/usr/local/ant
+ANT=$ANT_HOME/bin/ant
 
 # Debug output
 echo ENVIRONMENT----------------------------------------------------------------
@@ -48,6 +49,8 @@ echo $BUILD_TIMESTAMP > $BUILDDIR/dist/jars/jmock-snapshot-version
 
 if (($DEPLOY)) 
 then
+	echo Deploying...
+	
     build-step deploy $BUILDDIR/dist/* $DEPLOY_JAR_ROOT
     build-step deploy $WEBDIR/* $DEPLOY_WEB_ROOT/
     build-step deploy $BUILDDIR/javadoc-$BUILD_TIMESTAMP/* $DEPLOY_WEB_ROOT/docs/javadoc/
