@@ -25,6 +25,12 @@ DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
 ANT=/usr/local/ant/bin/ant
 
+# Debug output
+echo ENVIRONMENT----------------------------------------------------------------
+env
+echo ---------------------------------------------------------------------------
+echo
+
 function build-step {
 	  $* || exit 1
 }
