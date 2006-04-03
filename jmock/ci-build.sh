@@ -12,8 +12,6 @@ export LIBDIR=lib
 export BUILDDIR=build
 export WEBDIR=website/output
 
-export JAVA_HOME=/usr/local/jdk1.5.0_03/
-export JDK_HOME=$JAVA_HOME
 export CLASSPATH=$LIBDIR/junit-3.8.1.jar:$LIBDIR/cglib-full-2.0.jar:$BUILDDIR/core:$BUILDDIR/cglib
 case $(uname --operating-system) in
 Cygwin) export CLASSPATH=$(echo $CLASSPATH | tr ':' ';');;
@@ -23,7 +21,6 @@ DEPLOY=${DEPLOY:-1} # deploy by default
 DEPLOY_JAR_ROOT=/home/projects/jmock/dist/
 DEPLOY_WEB_ROOT=/home/projects/jmock/public_html
 
-ANT_HOME=/usr/local/ant
 ANT=$ANT_HOME/bin/ant
 
 # Debug output
