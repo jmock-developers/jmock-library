@@ -286,7 +286,7 @@
 		
 		<mkdir dir="${deploy.javadoc.dir}"/>
 		<copy todir="${deploy.javadoc.dir}">
-			<fileset dir="${build.javadoc.subdir}"/>
+			<fileset dir="${build.javadoc.dir}"/>
 		</copy>
 		
 		<mkdir dir="${deploy.website.dir}"/>
