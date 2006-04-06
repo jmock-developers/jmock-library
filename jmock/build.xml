@@ -16,7 +16,8 @@
     <property name="build.dist.src.dir" value="${build.dist.dir}/distributions"/>
     <property name="timestamped.src.dir" value="jmock-${version.extract}"/>
     <property name="build.src.dir" value="${build.dir}/${timestamped.src.dir}"/>
-    <property name="build.javadoc.subdir" value="${build.dir}/javadoc-${version.extract}"/>
+    <property name="build.javadoc.subdir" value="javadoc-${version.extract}"/>
+	<property name="build.javadoc.dir" value="${build.dir}/${build.javadoc.subdir}"/>
     <property name="build.website.dir" value="website/output"/>
 
     <property name="report.test.unit.dir" value="${build.dir}/reports/unit-tests"/>
@@ -221,7 +222,7 @@
     </target>
 	
     <target name="javadoc">
-        <mkdir dir="${build.dir}/${build.javadoc.subdir}"/>
+        <mkdir dir="${build.javadoc.dir}"/>
         <javadoc destdir="${build.dir}/${build.javadoc.subdir}"
             overview="overview.html"
             windowtitle="jMock API Documentation"
@@ -278,12 +279,17 @@
 	<target name="ci-build" depends="clean,test,jars,website,ci-build.deploy"/>
 	
 	<target name="ci-build.deploy">
+		<mkdir dir="${deploy.dist.dir}"/>
 		<copy todir="${deploy.dist.dir}">
 			<fileset dir="${build.dist.dir}"/>
 		</copy>
+		
+		<mkdir dir="${deploy.javadoc.dir}"/>
 		<copy todir="${deploy.javadoc.dir}">
 			<fileset dir="${build.javadoc.subdir}"/>
 		</copy>
+		
+		<mkdir dir="${deploy.website.dir}"/>
 		<copy todir="${deploy.website.dir}">
 			<fileset dir="${build.website.dir}"/>
 		</copy>
