@@ -223,7 +223,7 @@
 	
     <target name="javadoc">
         <mkdir dir="${build.javadoc.dir}"/>
-        <javadoc destdir="${build.dir}/${build.javadoc.subdir}"
+        <javadoc destdir="${build.javadoc.dir}"
             overview="overview.html"
             windowtitle="jMock API Documentation"
             useexternalfile="true">
