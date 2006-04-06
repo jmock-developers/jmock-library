@@ -1,19 +1,10 @@
-In general, you are advised to compile and test directly from your IDE.
-
-You can use Ant, but you will need to set up your CLASSPATH and pass the build.timestamp property to Ant for the
-build to work correctly.
-
-1) The CLASSPATH must be set up to the include the following entries to allow Ant to run the test targets:
+In general, you are advised to compile and test directly from your IDE.  To use Ant, the 
+CLASSPATH must be set up to the include the following entries to allow Ant to run the 
+test targets:
 
     lib/*.jar
     build/core
     build/cglib
-
-2) The build timestamp must be passed using the build.timestamp property.  E.g. in the bash shell:
-
-    export BUILD_TIMESTAMP=$(date --utc +%Y%m%d-%H%M%S)
-    ant -Dbuild.timestamp=$BUILD_TIMESTAMP jars
-
 
 Useful targets are:
     jars            Builds the binary and source distributions into the build/dist directory
@@ -23,4 +14,3 @@ Useful targets are:
     test.unit       Runs the unit tests
     test.acceptance Runs the acceptance tests
     javadoc         Generates Javadoc documentation into the build/javadoc directory
-
