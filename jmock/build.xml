@@ -16,7 +16,7 @@
     <property name="build.dist.src.dir" value="${build.dist.dir}/distributions"/>
     <property name="timestamped.src.dir" value="jmock-${version.extract}"/>
     <property name="build.src.dir" value="${build.dir}/${timestamped.src.dir}"/>
-    <property name="build.javadoc.subdir" value="javadoc-${version.extract}"/>
+    <property name="build.javadoc.subdir" value="${build.dir}/javadoc-${version.extract}"/>
     <property name="build.website.dir" value="website/output"/>
 
     <property name="report.test.unit.dir" value="${build.dir}/reports/unit-tests"/>
