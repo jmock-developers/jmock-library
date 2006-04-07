@@ -12,6 +12,20 @@
 		<language>en-us</language>
         
         <item>
+            <title>Presentation: The Evolution of jMock at ACCU 2006</title>
+            <category>Event</category>
+            <link>http://accu.org/index.php/conferences/2006/schedule/schedule_060420#t14</link>
+            <description>jMock at ACCU 2006</description>
+            <xhtml:div><a href="http://stevef.truemesh.com">Steve Freeman</a> and 
+            <a href="http://nat.truemesh.com">Nat Pryce</a> will present at 
+            <a href="http://accu.org/index.php/conferences/2006">ACCU 2006</a>
+            on the evolution of jMock's API and techniques for writing embedded domain-specific 
+            languages in Java and C#.
+            </xhtml:div>
+            <pubDate>6 Apr 2006</pubDate>
+        </item>
+
+        <item>
             <title>Constraints</title>
             <category>Documentation</category>
             <link>http://www.jmock.org/constraints.html</link>
