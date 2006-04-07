@@ -243,6 +243,10 @@ ul, ol {
 	content: "EasyMock: ";
 }
 
+.Gmane {
+	width: 100%;
+	bottom: 0px;
+}
 
 /* The following are for images, but can also apply to div's containing images. */
 
