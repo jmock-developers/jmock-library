@@ -280,16 +280,16 @@
 	<target name="ci-build" depends="clean,test,jars,website,ci-build.deploy"/>
 	
 	<target name="ci-build.deploy">
-		<scp remoteTodir="@dist.codehaus.org:${deploy.dist.dir}">
+		<copy todir="${deploy.dist.dir}">
 			<fileset dir="${build.dist.dir}"/>
-		</scp>
+		</copy>
 		
-		<scp remoteTodir="@www.codehaus.org:${deploy.javadoc.dir}">
+		<copy todir="${deploy.javadoc.dir}">
 			<fileset dir="${build.javadoc.dir}"/>
-		</scp>
+		</copy>
 		
-		<scp remoteTodir="@www.codehaus.org:${deploy.website.dir}">
+		<copy todir="${deploy.website.dir}">
 			<fileset dir="${build.website.dir}"/>
-		</scp>
+		</copy>
 	</target>
 </project>
