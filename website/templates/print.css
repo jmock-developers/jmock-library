@@ -190,6 +190,11 @@ ul, ol {
 	font-weight: bold;
 }
 
+.Interactive {
+	display: none;
+}
+
+
 /*---------------------------------------------------------------------------
  *  Document meta-information
  */
