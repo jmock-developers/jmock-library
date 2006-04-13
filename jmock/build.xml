@@ -2,7 +2,7 @@
 	<property file="version.properties"/>
 	<property name="version.archive" value="SNAPSHOT"/>
     <tstamp>
-    	<format property="version.extract" pattern="ddMMyyyy-HHmmss" locale="en"/>
+    	<format property="version.extract" pattern="yyyyddMM-HHmmss" locale="en"/>
 	</tstamp>
 	
     <property name="lib.dir" value="lib"/>
