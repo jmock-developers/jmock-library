@@ -110,6 +110,26 @@ public class ErrorMessagesAcceptanceTest extends MockObjectTestCase
         fail("expected AssertionFailedError");
     }
 
+    public void testReportsFailureWhenStubReturnsWrongTypeOfResult() {
+        // JMOCK-72 Confirming Fix
+        Mock mock = mock(Types.WithTwoMethods.class);
+        
+        mock.expects(once()).method("twoArgsReturnsInt").will(returnValue("wrong"));
+
+        try {
+            ((Types.WithTwoMethods)mock.proxy()).twoArgsReturnsInt("arg1", "arg2");
+        }
+        catch (DynamicMockError error) {
+            String errorMessage = error.getMessage();
+
+            assertStringContains("should report no return value",
+                                 errorMessage, "mockWithTwoMethods: tried to return an incompatible value: expected a int but returned a java.lang.String");
+            return;
+        }
+
+        fail("expected DynamicMockError");        
+    }
+
     public void testReportsFailureWhenStubReturnValueIsNotSet() {
         Mock mock = mock(Types.WithTwoMethods.class);
         
