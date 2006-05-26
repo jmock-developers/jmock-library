@@ -12,6 +12,19 @@
 		<language>en-us</language>
         
         <item>
+            <title>jMock 1.1.0RC1 Released</title>
+            <category>Release</category>
+            <link>http://www.jmock.org/download.html</link>
+			<description>jMock 1.1.0RC1 includes many extensions (and some fixes)
+			accumulated over the last *cough cough* months.</description>
+            <xhtml:div>
+                Released <a href="http://www.jmock.org/download.html">jMock 1.1.0Rc1</a> that 
+                includes many extensions (and some fixes) accumulated over the last *cough cough* months.
+            </xhtml:div>
+			<pubDate>28 Apr 2006</pubDate>
+		</item>
+		
+        <item>
             <title>Presentation: The Evolution of jMock at ACCU 2006</title>
             <category>Event</category>
             <link>http://accu.org/index.php/conferences/2006/schedule/schedule_060420#t14</link>

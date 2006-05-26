@@ -104,5 +104,20 @@ public class StringStartsWith implements Constraint {
     </div>
   </li>
 </ol>
+
+<h2>An Important Rule</h2>
+
+<p><strong>Constraint objects must be stateless.</strong></p>
+
+<p>When <a href="dispatch.html">dispatching</a> each invocation, 
+jMock uses the constraints to find an expectation that matches the invocation's arguments.
+This means that it will call the constraints many times during the test, maybe even after
+the expectation has been matched and invoked.  In fact, jMock gives no guarantees of when
+and how many times it will call the constraints.  This has no effect on stateless constraint
+objects but means that the function of stateful constraint objects cannot be predicted.</p>
+
+<p>If you want to maintain state in response to invocations, use a custom 
+<a href="custom-stubs.html">Stub</a> or <a href="custom-matchers.html">Matcher</a>.</p>
+
 </body>
 </html>

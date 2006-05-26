@@ -32,8 +32,6 @@ public class IsCollectionContainingTest extends IsInTest {
     }
     
     public void testHasAReadableDescription() {
-        Constraint constraint = new IsCollectionContaining(new IsEqual("a"));
-        
         assertEquals("a collection containing eq(\"a\")", 
                 	 constraint.describeTo(new StringBuffer()).toString());
     }

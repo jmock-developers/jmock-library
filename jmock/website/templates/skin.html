@@ -10,6 +10,10 @@
     <link media="screen" rel="alternate stylesheet" type="text/css" href="/print.css" title="Print Preview"/>
     <link media="print" rel="stylesheet" type="text/css" href="/print.css"/>
     <template:include srcvar="content" elements="/html/head/*[not(name()='title')]"/>
+    <template:when var="isindex" value="true">
+    	 <link rel="stylesheet" type="text/css"
+			   href="http://ci.codehaus.org/beetlejuice/beetlejuice-status.css"/>
+    </template:when>
   </head>
 
   <body>
@@ -115,8 +119,12 @@
               <td><a href="/download.html#snapshot"><template:text var="snapshot"/></a></td>
             </tr>
           </table>
-
+		
           <p class="NewsMore"><a href="versioning.html">About jMock version numbers...</a></p>
+          
+          <script type="text/javascript" 
+              src="http://ci.codehaus.org/beetlejuice/project/jMock/status/buildstatus.js">
+		  </script>
         </div>
 
         <div class="NewsGroup">

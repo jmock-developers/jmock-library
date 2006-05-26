@@ -3,9 +3,21 @@
 package org.jmock;
 
 import java.util.HashMap;
+
 import junit.framework.AssertionFailedError;
-import org.jmock.builder.*;
-import org.jmock.core.*;
+
+import org.jmock.builder.BuilderNamespace;
+import org.jmock.builder.IdentityBuilder;
+import org.jmock.builder.InvocationMockerBuilder;
+import org.jmock.builder.InvocationMockerDescriber;
+import org.jmock.builder.MatchBuilder;
+import org.jmock.builder.NameMatchBuilder;
+import org.jmock.core.CoreMock;
+import org.jmock.core.DynamicMock;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.InvocationMocker;
+import org.jmock.core.Invokable;
+import org.jmock.core.Stub;
 
 /**
  * @since 1.0

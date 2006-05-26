@@ -42,14 +42,13 @@ def jmock_cglib_jar( version )
     "#{DIST_ROOT}/jars/jmock-cglib-#{version}.jar"
 end
 
-def jmock_src_jar( version )
-    "#{DIST_ROOT}/distributions/jmock-#{version}-src.jar"
+def jmock_src_zip( version )
+    "#{DIST_ROOT}/distributions/jmock-#{version}-src.zip"
 end
 
-def jmock_javadoc_jar( version )
-    "#{DIST_ROOT}/distributions/jmock-#{version}-javadoc.jar"
+def jmock_javadoc_zip( version )
+    "#{DIST_ROOT}/distributions/jmock-#{version}-javadoc.zip"
 end
-
 
 def is_markup( filename )
     filename =~ /.(html)$/
@@ -136,8 +135,8 @@ def skin_content_file( content_file, root_content_dir )
         if version != NO_VERSION
             config["#{id}_jmock_jar"] = jmock_jar(fileid)
             config["#{id}_jmock_cglib_jar"] = jmock_cglib_jar(fileid)
-            config["#{id}_jmock_src_jar"] = jmock_src_jar(fileid)
-            config["#{id}_jmock_javadoc_jar"] = jmock_javadoc_jar(fileid)
+            config["#{id}_jmock_src_zip"] = jmock_src_zip(fileid)
+            config["#{id}_jmock_javadoc_zip"] = jmock_javadoc_zip(fileid)
         end
     end
 
