@@ -65,10 +65,8 @@ public class CGLIBCoreMock
     public Object intercept(Object thisProxy, Method method, Object[] args, MethodProxy superProxy) 
     	throws Throwable 
     {
-        if (proxy == null) {
-            return superProxy.invokeSuper(thisProxy, args);
-        } else {
-            return mockInvocation(new Invocation(proxy, method, args));
-        }
+        return proxy == null
+            ? superProxy.invokeSuper(thisProxy, args)
+            : mockInvocation(new Invocation(proxy, method, args));
     }
 }

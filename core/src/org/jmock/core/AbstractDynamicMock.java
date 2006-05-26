@@ -37,46 +37,10 @@ public abstract class AbstractDynamicMock
         setupDefaultBehaviour();
     }
 
+    abstract public Object proxy();
+
     public Class getMockedType() {
         return mockedType;
-    }
-
-    protected Object mockInvocation( Invocation invocation )
-        throws Throwable
-    {
-        if (failure != null && (invocation.invokedMethod.getDeclaringClass() != Object.class) ) {
-            throw failure;
-        }
-        
-        try {
-            Object result = invocationDispatcher.dispatch(invocation);
-            invocation.checkReturnTypeCompatibility(result);
-            return result;
-        }
-        catch (AssertionFailedError error) {
-            failure = new DynamicMockError(this, invocation, invocationDispatcher, error.getMessage());
-            failure.fillInStackTrace();
-            throw failure;
-        }
-    }
-
-    public void verify() {
-        forgetFailure();
-
-        try {
-            invocationDispatcher.verify();
-        }
-        catch (AssertionFailedError ex) {
-            throw new AssertionFailedError( "mock object " + name + ": " + ex.getMessage());
-        }
-    }
-
-    public String toString() {
-        return this.name;
-    }
-
-    public String getMockName() {
-        return this.name;
     }
 
     public void setDefaultStub( Stub newDefaultStub ) {
@@ -94,8 +58,43 @@ public abstract class AbstractDynamicMock
         setupDefaultBehaviour();
     }
 
+    public void verify() {
+        forgetFailure();
+
+        try {
+            invocationDispatcher.verify();
+        } catch (AssertionFailedError ex) {
+            throw new AssertionFailedError( "mock object " + name + ": " + ex.getMessage());
+        }
+    }
+
+    public String toString() {
+        return this.name;
+    }
+
+    public String getMockName() {
+        return this.name;
+    }
+
     public static String mockNameFromClass( Class c ) {
         return "mock" + Formatting.classShortName(c);
+    }
+
+    protected Object mockInvocation( Invocation invocation ) throws Throwable {
+        if (failure != null && (invocation.invokedMethod.getDeclaringClass() != Object.class) ) {
+            throw failure;
+        }
+    
+        try {
+            Object result = invocationDispatcher.dispatch(invocation);
+            invocation.checkReturnTypeCompatibility(result);
+            return result;
+        }
+        catch (AssertionFailedError error) {
+            failure = new DynamicMockError(this, invocation, invocationDispatcher, error.getMessage());
+            failure.fillInStackTrace();
+            throw failure;
+        }
     }
 
     private void setupDefaultBehaviour() {
@@ -115,8 +114,7 @@ public abstract class AbstractDynamicMock
     }
 
     private static final InvocationMocker.Describer NO_DESCRIPTION =
-        new InvocationMocker.Describer()
-        {
+        new InvocationMocker.Describer() {
             public boolean hasDescription() {
                 return false;
             }
@@ -140,7 +138,7 @@ public abstract class AbstractDynamicMock
 
     private class IsSameAsProxyStub extends CustomStub
     {
-        private IsSameAsProxyStub() {
+        public IsSameAsProxyStub() {
             super("returns whether equal to proxy");
         }
 
@@ -151,7 +149,7 @@ public abstract class AbstractDynamicMock
 
     private class HashCodeStub extends CustomStub
     {
-        private HashCodeStub() {
+        public HashCodeStub() {
             super("returns hashCode for proxy");
         }
 

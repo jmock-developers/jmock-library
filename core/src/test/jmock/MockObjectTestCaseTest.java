@@ -11,7 +11,7 @@ import org.jmock.expectation.ExpectationList;
 public class MockObjectTestCaseTest extends TestCase
 {
 
-    private class SampleMockObjectTestCase extends MockObjectTestCase
+    class SampleMockObjectTestCase extends MockObjectTestCase
     {
         public void registerToVerify( Verifiable verifiable ) {
             requiresVerification.addActual(verifiable.toString());

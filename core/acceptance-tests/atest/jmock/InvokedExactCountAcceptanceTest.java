@@ -5,36 +5,52 @@ import org.jmock.MockObjectTestCase;
 import org.jmock.Mock;
 
 
-public class InvokedExactCountAcceptanceTest extends MockObjectTestCase
-{
+public class InvokedExactCountAcceptanceTest extends MockObjectTestCase {
+    private final Mock mock = mock(MockedType.class,"mock");
+    private final MockedType proxy = (MockedType)mock.proxy();
+
     interface MockedType {
         void m();
     }
 
-    public void testCalledExactNumberOfTimes() {
-        Mock mock = mock(MockedType.class,"mock");
-        MockedType proxy = (MockedType)mock.proxy();
-
+    protected void setUp() throws Exception {
         mock.expects(exactly(2)).method("m").withNoArguments();
-
+    }
+    
+    /*
+     * Call reset() in the catch blocks for these two methods, 
+     * otherwise the MockObjectTestCase infrastructure picks up
+     * the errors and rethrows the exception.
+     */
+    public void testFailsWhenCalledFewerThanTheExactNumberOfTimes() {
         proxy.m();
-
         try {
             mock.verify();
-            throw new Error("AssertionFailedError expected");
         }
         catch( AssertionFailedError err ) {
-            // expected
+            mock.reset();
+            return;
         }
-
+        fail("Should have failed");
+    }
+    
+    
+    public void testFailsWhenCalledMoreThanTheExactNumberOfTimes() {
         proxy.m();
-
+        proxy.m();
         try {
             proxy.m();
-            throw new Error("AssertionFailedError expected");
         }
         catch( AssertionFailedError err ) {
-            // expected
+            mock.reset();
+            return;
         }
+        fail("Should have failed");
+    }
+
+    public void testPassesWhenCalledTheExactNumberOfTimes() {
+        proxy.m();
+        proxy.m();
+        mock.verify();
     }
 }

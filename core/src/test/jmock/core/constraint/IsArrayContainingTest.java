@@ -54,8 +54,6 @@ public class IsArrayContainingTest extends IsInTest {
     }
     
     public void testHasAReadableDescription() {
-        Constraint constraint = new IsArrayContaining(new IsEqual("a"));
-        
         assertEquals("an array containing eq(\"a\")", 
                 	 constraint.describeTo(new StringBuffer()).toString());
     }
