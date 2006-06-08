@@ -67,7 +67,8 @@
     </target>
 
     <target name="core.compile" depends="core.build.dir">
-        <javac srcdir="${core.src.dir}" destdir="${core.build.dir}" debug="true">
+        <javac srcdir="${core.src.dir}" destdir="${core.build.dir}" debug="true"
+    	       source="1.4" target="1.3">
             <classpath>
                 <fileset dir="${lib.dir}"/>
             </classpath>
@@ -75,7 +76,8 @@
     </target>
 
     <target name="core.atest.compile" depends="core.compile">
-        <javac srcdir="${core.atest.dir}" destdir="${core.build.dir}" debug="true">
+        <javac srcdir="${core.atest.dir}" destdir="${core.build.dir}" debug="true"
+        	   source="1.4" target="1.3">
             <classpath>
                 <fileset dir="${lib.dir}"/>
             </classpath>
@@ -126,7 +128,8 @@
     </target>
 
     <target name="cglib.compile" depends="cglib.build.dir">
-        <javac srcdir="${cglib.src.dir}" destdir="${cglib.build.dir}" debug="true">
+        <javac srcdir="${cglib.src.dir}" destdir="${cglib.build.dir}" debug="true"
+    	       source="1.4" target="1.3">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
@@ -135,14 +138,15 @@
     </target>
 
     <target name="cglib.atest.compile" depends="cglib.compile">
-        <javac srcdir="${cglib.atest.dir}" destdir="${cglib.build.dir}" debug="true">
+        <javac srcdir="${cglib.atest.dir}" destdir="${cglib.build.dir}" debug="true"
+ 	           source="1.4" target="1.3">
             <classpath>
                 <fileset dir="${lib.dir}"/>
                 <pathelement path="${core.build.dir}"/>
             </classpath>
         </javac>
     </target>
-
+	
     <target name="cglib.test.unit" depends="cglib.compile">
         <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
         <mkdir dir="${report.test.unit.dir}"/>
