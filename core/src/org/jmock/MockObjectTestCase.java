@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import org.jmock.core.*;
 import org.jmock.core.matcher.InvokeAtLeastOnceMatcher;
+import org.jmock.core.matcher.InvokeAtMostOnceMatcher;
 import org.jmock.core.matcher.InvokeOnceMatcher;
 import org.jmock.core.matcher.TestFailureMatcher;
 import org.jmock.core.matcher.InvokeCountMatcher;
@@ -126,7 +127,11 @@ public abstract class MockObjectTestCase
     public InvocationMatcher atLeastOnce() {
         return new InvokeAtLeastOnceMatcher();
     }
-
+    
+	public InvocationMatcher atMostOnce() {
+		return new InvokeAtMostOnceMatcher();
+	}
+	
     public InvocationMatcher exactly( int expectedCount ) {
         return new InvokeCountMatcher(expectedCount);
     }
