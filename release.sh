@@ -34,6 +34,10 @@ function build_release() {
 
 function publish_release() {
 	cp -R build/dist/* $DIST_DIR
+	if [ $? -ne 0 ]
+	then
+		exit 1
+	fi	
 }
 
 function checkout_head_properties() {
