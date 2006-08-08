@@ -26,6 +26,10 @@ function export_from_cvs() {
 
 function build_release() {
 	CLASSPATH=lib/junit-3.8.1.jar ant -Dversion.extract=$VERSION -Dversion.archive=$VERSION jars
+	if [ $? -ne 0 ]
+	then
+		exit 1
+	fi
 }
 
 function publish_release() {
@@ -34,6 +38,10 @@ function publish_release() {
 
 function checkout_head_properties() {
 	cvs checkout -l -d $HEAD_SUBDIR jmock
+	if [ $? -ne 0 ]
+	then
+		exit 1
+	fi	
 }
 
 echo "Publishing release of jMock $VERSION (CVS tag $TAG) to $DIST_DIR"
