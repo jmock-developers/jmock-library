@@ -66,7 +66,7 @@ public abstract class MockObjectTestCase
     /**
      * Calculates
      * @param mockedType
-     * @return
+     * @return mock name
      */
     public String defaultMockNameForType( Class mockedType ) {
         return "mock" + Formatting.classShortName(mockedType);
