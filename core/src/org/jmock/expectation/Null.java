@@ -31,7 +31,7 @@ package org.jmock.expectation;
  * most expectations set their expected value to an instance of
  * {@link org.jmock.expectation.Null Null}, and at the same time, set their actual
  * value to another instance of {@link org.jmock.expectation.Null Null}.
- * This way, when {@link org.jmock.expectation.Verifiable#verify() verify()} checks
+ * This way, when {@link org.jmock.expectation.Verifiable#verify()} checks
  * expectations, they will compare two {@link org.jmock.expectation.Null Null}
  * objects together, which is guaranteed to succeed.
  * 
