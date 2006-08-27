@@ -12,6 +12,30 @@
 		<language>en-us</language>
         
         <item>
+            <title>Presentation: The Evolution of jMock at OOPLSA 2006</title>
+            <category>Event</category>
+            <link>http://www.oopsla.org/2006/submission/practitioner_reports/evolving_an_embedded_domain-specific_language_in_java.html</link>
+            <description>jMock at OOPLSA 2006</description>
+            <xhtml:div><a href="http://stevef.truemesh.com">Steve Freeman</a> and 
+            <a href="http://nat.truemesh.com">Nat Pryce</a> will present at 
+            <a href="http://www.ooplsa.org">OOPLSA 2006</a>
+            on the evolution of jMock's API and techniques for writing embedded domain-specific 
+            languages in Java and C#.
+            </xhtml:div>
+            <pubDate>27 Aug 2006</pubDate>
+        </item>
+
+        <item>
+            <title>jMock 1.1.0 Released</title>
+            <category>Release</category>
+            <link>http://www.jmock.org/download.html</link>
+			<description>Finally, we've released jMock 1.1.0</description>
+            <xhtml:div>
+                Finally we've released <a href="http://www.jmock.org/download.html">jMock 1.1.0</a>.
+            </xhtml:div>
+			<pubDate>27 Aug 2006</pubDate>
+		</item>
+        <item>
             <title>jMock 1.1.0RC1 Released</title>
             <category>Release</category>
             <link>http://www.jmock.org/download.html</link>
