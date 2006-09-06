@@ -2,7 +2,7 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.InThisOrder;
 import org.jmock.Mockery;
 import org.jmock.core.ExpectationError;
 
@@ -10,54 +10,36 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
     MockedType mock = context.mock(MockedType.class, "mock");
     
-    private void setUpUnorderedExpectations() {
-        context.expects(new InAnyOrder() {{
+    private void setUpOrderedExpectations() {
+        context.expects(new InThisOrder() {{
             exactly(1).of (mock).method1();
             exactly(1).of (mock).method2();
             exactly(1).of (mock).method3();
         }});
     }
-
-    public void testAllowsExpectedInvocationsInAnyOrder() {
-        setUpUnorderedExpectations();
+    
+    public void testAllowsExpectedInvocationsInGivenOrder() {
+        setUpOrderedExpectations();
         mock.method1();
         mock.method2();
         mock.method3();
-        context.assertIsSatisfied();
-        
-        setUpUnorderedExpectations();
-        mock.method1();
-        mock.method3();
-        mock.method2();
-        context.assertIsSatisfied();
-        
-        setUpUnorderedExpectations();
-        mock.method2();
-        mock.method1();
-        mock.method3();
-        context.assertIsSatisfied();
-        
-        setUpUnorderedExpectations();
-        mock.method2();
-        mock.method3();
-        mock.method1();
-        context.assertIsSatisfied();
-        
-        setUpUnorderedExpectations();
-        mock.method3();
-        mock.method1();
-        mock.method2();
-        context.assertIsSatisfied();
-        
-        setUpUnorderedExpectations();
-        mock.method3();
-        mock.method2();
-        mock.method1();
         context.assertIsSatisfied();
     }
     
+    public void testDoesNotAllowInvocationsInAnotherOrder() {
+        setUpOrderedExpectations();
+        try {
+            mock.method1();
+            mock.method3();
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            // expected
+        }
+    }
+    
     public void testDoesNotAllowTooManyInvocationsOfExpectedMethods() {
-        setUpUnorderedExpectations();
+        setUpOrderedExpectations();
         mock.method1();
         try {
             mock.method1();
@@ -69,7 +51,7 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testDoesNotAllowInvocationsOfUnexpectedMethods() {
-        setUpUnorderedExpectations();
+        setUpOrderedExpectations();
         try {
             mock.method4();
             fail("should have thrown ExpectationError");
@@ -80,7 +62,7 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
     }
 
     public void testAllExpectationsMustBeSatisfied() {
-        setUpUnorderedExpectations();
+        setUpOrderedExpectations();
         try {
             context.assertIsSatisfied();
             fail("should have thrown ExpectationError");
@@ -88,17 +70,5 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
         catch (ExpectationError e) {
             // expected
         }
-    }
-    
-    public void testMatchesMethodsInFirstInFirstOutOrder() {
-        context.expects(new InAnyOrder() {{
-            exactly(1).of (mock).returnString(); will(returnValue("1"));
-            exactly(1).of (mock).returnString(); will(returnValue("2"));
-            exactly(1).of (mock).returnString(); will(returnValue("3"));
-        }});
-        
-        assertEquals("1", mock.returnString());
-        assertEquals("2", mock.returnString());
-        assertEquals("3", mock.returnString());
     }
 }
