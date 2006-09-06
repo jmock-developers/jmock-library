@@ -1,0 +1,83 @@
+package org.jmock.test.acceptance;
+
+import junit.framework.TestCase;
+
+import org.jmock.InAnyOrder;
+import org.jmock.Mockery;
+import org.jmock.core.ExpectationError;
+
+
+/* Acceptance test for issue JMOCK-30 (http://jira.codehaus.org/browse/JMOCK-30).
+ */
+public class CascadedFailuresAcceptanceTest extends TestCase {
+    public interface MockedType {
+        void realExpectationFailure(int i);
+        void invocationCausedByExpectationFailure();
+        void anotherRealExpectationFailure();
+    }
+
+    private Mockery context = new Mockery();
+    private MockedType mock = context.mock(MockedType.class, "mock");
+    private MockedType otherMock = context.mock(MockedType.class, "otherMock");
+    
+    
+    private void maskedExpectationFailure(MockedType mock1, MockedType mock2) {
+        try {
+            mock1.realExpectationFailure(2);
+        }
+        finally {
+            mock2.invocationCausedByExpectationFailure();
+        }
+    }
+    
+    public void setUp() {
+        context.expects(new InAnyOrder() {{
+            allow (mock).realExpectationFailure(1);
+        }});
+    }
+    
+    public void testMockeryReportsFirstFailedMethod() {
+        try {
+            maskedExpectationFailure(mock, mock);
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            assertSame("invoked object",
+                       mock, e.invocation.getInvokedObject());
+            assertEquals("invoked method", 
+                         "realExpectationFailure", e.invocation.getInvokedMethod().getName() );
+        }
+    }
+
+    public void testMockeryReportsFirstFailedObject() {
+        try {
+            maskedExpectationFailure(mock, otherMock);
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            assertSame("invoked object",
+                       mock, e.invocation.getInvokedObject());
+            assertEquals("invoked method", 
+                         "realExpectationFailure", e.invocation.getInvokedMethod().getName() );
+        }
+    }
+
+    public void testSuccessfulVerifyClearsFirstFailure() {
+        try {
+            maskedExpectationFailure(mock, mock);
+            fail("should have thrown DynamicMockError");
+        }
+        catch (ExpectationError e) { /* expected */ }
+        
+        context.assertIsSatisfied();
+        
+        try {
+            mock.anotherRealExpectationFailure();
+            fail("should have thrown DynamicMockError");
+        }
+        catch (ExpectationError e) {
+            assertEquals("invoked method", 
+                         "anotherRealExpectationFailure", e.invocation.getInvokedMethod().getName());
+        }
+    }
+}

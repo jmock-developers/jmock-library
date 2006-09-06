@@ -1,0 +1,70 @@
+Development rules:
+------------------
+
+Above and beyond the usual quality rules...
+
+* Resolve and remove all TODO comments before checking in
+
+* These words are banned in class names:
+   - Helper
+   - Impl
+
+
+Architectural Constraints:
+--------------------------
+
+* No dependency on any specific test framework.
+
+That means, don't use JUnit Assert.assertBlahBlah to check assertions.
+Throw ExpectationError to report a violated expectation.
+Throw some kind of RuntimeException to report programming errors in the
+use of the framework.  E.g. trying to set up an expectation to return a 
+result of the wrong type.
+
+
+Package Structure:
+------------------
+
+org.jmock		
+	DSL-style API (compatability guarantees)
+
+org.jmock.core      
+	Interfaces, value classes and exceptions defining plug-in API 
+	(compatability guarantees)
+
+org.jmock.lib		
+	Convenient classes that implement the APIs in the core, are used 
+	by the DSL-style API, and can be used in user-defined APIs 
+	(compatability guarantees)
+
+org.jmock.lib.nonstd	
+	Lib classes that rely on clever hacks or otherwise cannot be 
+	guaranteed to always work in all JVMs.
+	no guarantees, use at your own risk).
+
+org.jmock.internal
+	Internal implementation details (no guarantees)
+
+org.jmock.integration	
+	Classes integrating jMock with different testing APIs, such 
+	as JUnit 3.x, JUnit 4.x and TestNG. 
+	(compatability guarantees)
+	
+org.jmock.test
+	Tests for jMock itself (no guarantees)
+
+
+
+Plug-in Points:
+---------------
+
+Matcher:        Control matching of invocations to expectations
+Action:         Perform actions when expectations are triggered
+Imposteriser:   Wrap mock objects in a facade of the correct type
+ExpectationErrorTranslator: Translate expectation errors into error
+                            type used by a specific testing framework.
+
+Possible plug-in points (not sure yet):
+
+Expectation:        Match and fake an invocation
+ExpectationGroup:   Dispatch invocations among multiple expectations
