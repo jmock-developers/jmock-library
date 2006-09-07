@@ -40,4 +40,26 @@ public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
         
         context.assertIsSatisfied();
     }
+
+    public void testCanSetExpectationsWithLiteralsForMethodsWithArgumentsOfPrimitiveTypes() {
+        context.expects(new InAnyOrder() {{
+            exactly(1).of (mock).withBoolean(true);
+            exactly(1).of (mock).withByte((byte)10);
+            exactly(1).of (mock).withShort((short)10);
+            exactly(1).of (mock).withInt(10);
+            exactly(1).of (mock).withLong(10L);
+            exactly(1).of (mock).withFloat(10.0f);
+            exactly(1).of (mock).withDouble(10.0);
+        }});
+        
+        mock.withBoolean(true);
+        mock.withByte((byte)10);
+        mock.withShort((short)10);
+        mock.withInt(10);
+        mock.withLong(10L);
+        mock.withFloat(10.0f);
+        mock.withDouble(10.0);
+        
+        context.assertIsSatisfied();
+    }
 }

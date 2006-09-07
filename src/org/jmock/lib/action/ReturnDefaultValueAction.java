@@ -4,10 +4,7 @@ package org.jmock.lib.action;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-
-import junit.framework.AssertionFailedError;
 
 import org.hamcrest.Description;
 import org.jmock.core.Action;
@@ -47,38 +44,10 @@ public class ReturnDefaultValueAction implements Action {
         } else if (returnType.isInterface()) {
             return imposteriser.imposterise(this, returnType);
         } else {
-        	throw new AssertionFailedError(createErrorMessage(invocation));
+            return null;
         }
     }
     
-    public String createErrorMessage(Invocation invocation) {
-        StringBuffer buf = new StringBuffer();
-
-        buf.append("unexpected result type: ");
-        buf.append(invocation.getInvokedMethod().getReturnType().toString());
-        buf.append("\n");
-
-
-        if (resultValuesByType.isEmpty()) {
-            buf.append("no result types are registered!");
-        } 
-        else {
-            buf.append("expected one of: ");
-
-            Iterator i = resultValuesByType.keySet().iterator();
-            boolean separatorRequired = false;
-
-            while (i.hasNext()) {
-                if (separatorRequired) buf.append(", ");
-                buf.append(((Class)i.next()).getName());
-
-                separatorRequired = true;
-            }
-        }
-
-        return buf.toString();
-    }
-
     protected void createDefaultResults() {
         addResult(boolean.class, Boolean.FALSE);
         addResult(void.class, null);

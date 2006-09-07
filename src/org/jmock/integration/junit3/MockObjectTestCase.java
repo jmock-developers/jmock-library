@@ -1,27 +1,16 @@
 package org.jmock.integration.junit3;
 
-import junit.framework.AssertionFailedError;
-
-import org.hamcrest.StringDescription;
 import org.jmock.Mockery;
 import org.jmock.core.Action;
-import org.jmock.core.ExpectationError;
-import org.jmock.core.ExpectationErrorTranslator;
 import org.jmock.core.Imposteriser;
 import org.jmock.core.MockObjectNamingScheme;
 import org.jmock.internal.ExpectationCapture;
 
 public abstract class MockObjectTestCase extends VerifyingTestCase {
-    private static final ExpectationErrorTranslator JUNIT_ERROR_TRANSLATOR = new ExpectationErrorTranslator() {
-        public Error translate(ExpectationError e) {
-            return new AssertionFailedError(StringDescription.toString(e));
-        }
-    };
-    
     private final Mockery context = new Mockery();
     
     {
-        context.setExpectationErrorTranslator(JUNIT_ERROR_TRANSLATOR);
+        context.setExpectationErrorTranslator(JUnit3ErrorTranslator.INSTANCE);
         addVerifier(new Runnable() {
             public void run() { 
                 context.assertIsSatisfied(); 

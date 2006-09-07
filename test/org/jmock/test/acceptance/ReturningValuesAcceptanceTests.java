@@ -139,4 +139,22 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         // This will not throw a NullPointerException
         mock.returnInt();
     }
+    
+    public class Something {}
+    
+    public interface AnInterfaceThatReturnsSomething {
+        Something returnSomething();
+    }
+    
+    public void testReturnsNullAsTheDefaultValueForUnregisteredClasses() {
+        final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
+        
+        context.expects(new InAnyOrder() {{
+            allow (mock).returnSomething();
+        }});
+        
+        Something defaultResult = mock.returnSomething();
+        
+        assertNull("returned null", defaultResult);
+    }
 }

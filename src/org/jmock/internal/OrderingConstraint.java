@@ -1,4 +1,4 @@
-package org.jmock;
+package org.jmock.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,6 @@ import org.hamcrest.core.IsSame;
 import org.jmock.core.Action;
 import org.jmock.core.ExpectationGroup;
 import org.jmock.core.Invocation;
-import org.jmock.internal.ParametersMatcher;
-import org.jmock.internal.ContextControl;
-import org.jmock.internal.ExpectationCapture;
-import org.jmock.internal.MethodMatcher;
-import org.jmock.internal.MockObjectMatcher;
 import org.jmock.lib.InvocationExpectation;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
@@ -157,6 +152,11 @@ public class OrderingConstraint implements ExpectationCapture  {
         invocationExpectation.setCardinalityDescription("allow");
         return result;
     }
+    
+    public <T> void ignore(T mockObject) {
+        atLeast(0).of(mockObject);
+        invocationExpectation.setCardinalityDescription("ignore");
+    }
 
     public <T> T never(T mockObject) {
         T result = exactly(0).of(mockObject);
@@ -213,6 +213,14 @@ public class OrderingConstraint implements ExpectationCapture  {
         invocationExpectation.setAction(action);
     }
     
+    public void to(Action action) {
+        will(action);
+    }
+    
+    public void expects(OrderingConstraint orderingConstraint) {
+        // not implemented
+    }
+    
     /* Common constraints
      */
     
@@ -225,6 +233,10 @@ public class OrderingConstraint implements ExpectationCapture  {
     }
     
     public <T> Matcher<T> any(Class<T> type) {
+        return IsAnything.anything();
+    }
+    
+    public <T> Matcher<T> anything() {
         return IsAnything.anything();
     }
     

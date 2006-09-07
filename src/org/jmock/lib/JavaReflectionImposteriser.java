@@ -8,6 +8,13 @@ import org.jmock.core.Imposteriser;
 import org.jmock.core.Invocation;
 import org.jmock.core.Invokable;
 
+/**
+ * An {@link org.jmock.core.Imposteriser} that uses the
+ * {@link java.lang.reflect.Proxy} class of the Java Reflection API.
+ * 
+ * @author npryce
+ *
+ */
 public class JavaReflectionImposteriser implements Imposteriser {
     public static final JavaReflectionImposteriser INSTANCE = new JavaReflectionImposteriser();
     
