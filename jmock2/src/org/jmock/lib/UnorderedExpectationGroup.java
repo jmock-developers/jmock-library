@@ -9,7 +9,13 @@ import org.jmock.core.ExpectationGroup;
 import org.jmock.core.Invocation;
 import org.jmock.internal.IndentedDescription;
 
-
+/**
+ * An {@link org.jmock.core.ExpectationGroup} in which expectations
+ * can be invoked in any order.
+ * 
+ * @author npryce
+ *
+ */
 public class UnorderedExpectationGroup implements ExpectationGroup {
 	private List<Expectation> expectations = new ArrayList<Expectation>();
 	

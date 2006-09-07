@@ -111,31 +111,10 @@ public class ReturnDefaultValueActionTests extends TestCase {
         throws Throwable
     {
         Class unsupportedReturnType = UnsupportedReturnType.class;
-        Class[] supportedReturnTypes = {
-            boolean.class, byte.class, char.class, short.class, int.class, long.class,
-            float.class, double.class,
-            Boolean.class, Byte.class, Character.class, Short.class, Integer.class, Long.class,
-            Float.class, Double.class,
-            String.class
-        };
 
-        try {
-            action.invoke(invocationReturning(unsupportedReturnType));
-        }
-        catch (AssertionFailedError ex) {
-            String message = ex.getMessage();
-
-            AssertThat.stringIncludes("message should include name of unsupported type",
-            	unsupportedReturnType.getName(), message);
-
-            for (int i = 0; i < supportedReturnTypes.length; i++) {
-                AssertThat.stringIncludes("message should include names of expected types",
-                    supportedReturnTypes[i].getName(), message);
-            }
-            return;
-        }
-
-        fail("should have failed");
+        Object result = action.invoke(invocationReturning(unsupportedReturnType));
+        
+        assertNull("should have returned null", result);
     }
 
     public void assertHasRegisteredValue( ReturnDefaultValueAction action,

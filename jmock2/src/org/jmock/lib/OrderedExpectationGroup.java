@@ -10,7 +10,13 @@ import org.jmock.core.Invocation;
 import org.jmock.internal.IndentedDescription;
 
 
-
+/**
+ * An {@link org.jmock.core.ExpectationGroup} in which expectations
+ * must be invoked in order.
+ * 
+ * @author npryce
+ *
+ */
 public class OrderedExpectationGroup implements ExpectationGroup {
 	private List<Expectation> expectations = new ArrayList<Expectation>();
 	private int current = 0;
