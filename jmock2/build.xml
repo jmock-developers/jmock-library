@@ -1,0 +1,115 @@
+<project name="jmock2" default="build">
+	<property name="version" value="SNAPSHOT"/>
+	
+	<path id="build.classpath">
+		<fileset dir="lib" includes="*.jar"/>
+	</path>
+	
+	<target name="rebuild" depends="clean,build"
+	   description="Removes all build artefacts and builds everything again"/>
+	
+	<target name="clean" 
+			description="Removes all build artefacts">
+		<delete dir="build"/>
+	</target>
+	
+	<target name="build"
+		description="Builds library JAR files"
+		depends="build.compile,build.jars,build.srczips,build.zip.javadoc"/>
+	
+	<target name="build.compile" depends="build.dir">
+		<mkdir dir="build/classes"/>
+		<javac classpathref="build.classpath" 
+			   destdir="build/classes"
+			   srcdir="."
+			   sourcepath="src;test"
+			   debug="yes"
+			   failonerror="yes"
+			   source="1.5" 
+			   target="1.5"/>
+	</target>
+	
+	<target name="build.dir">
+		<mkdir dir="build"/>
+	</target>
+	
+	<target name="build.jars" depends="build.jar.api,build.jar.junit3,build.jar.nonstd"/>
+	
+	<target name="build.srczips" depends="build.srczip.api,build.srczip.junit3,build.srczip.nonstd"/>
+	
+	<target name="build.jar.api" depends="build.compile">
+		<jar destfile="build/jmock2-${version}.jar"
+			 basedir="build/classes" 
+			 compress="false">
+			<exclude name="org/jmock/lib/nonstd/**"/>
+			<exclude name="org/jmock/integration/**"/>
+			<exclude name="org/jmock/test/**"/>
+		</jar>
+	</target>
+
+	<target name="build.srczip.api" depends="build.dir">
+		<zip destfile="build/jmock2-${version}-src.zip"
+			 basedir="src" 
+			 compress="false">
+			<exclude name="org/jmock/lib/nonstd/**"/>
+			<exclude name="org/jmock/integration/**"/>
+		</zip>
+	</target>
+
+	<target name="build.jar.junit3" depends="build.compile">
+		<jar destfile="build/jmock2-junit3-${version}.jar"
+			 basedir="build/classes" 
+	     	 compress="false">
+			<include name="org/jmock/integration/junit3/**"/>
+		</jar>
+	</target>
+	
+	<target name="build.srczip.junit3" depends="build.dir">
+		<zip destfile="build/jmock2-junit3-${version}-src.zip"
+			 basedir="src" 
+	         compress="false">
+			<include name="org/jmock/integration/**"/>
+		</zip>
+	</target>
+
+	<target name="build.jar.nonstd" depends="build.compile">
+		<jar destfile="build/jmock2-nonstd-${version}.jar"
+			 basedir="build/classes" 
+	         compress="false">
+			<include name="org/jmock/lib/nonstd/**"/>
+		</jar>
+	</target>
+
+	<target name="build.srczip.nonstd" depends="build.dir">
+		<zip destfile="build/jmock2-nonstd-${version}-src.zip"
+			 basedir="src" 
+			 compress="false">
+			<include name="org/jmock/lib/nonstd/**"/>
+		</zip>
+	</target>
+	
+	<target name="build.zip.javadoc" depends="build.javadoc">
+		<zip destfile="build/jmock2-${version}-javadoc.zip"
+			 basedir="build"
+		     compress="false">
+			<include name="javadoc/**"/>
+		</zip>
+	</target>
+	
+	<target name="build.javadoc" depends="build.dir">
+		<mkdir dir="build/javadoc"/>
+		<javadoc destdir="build/javadoc" source="1.5" failonerror="yes">
+			<packageset dir="src">
+				<exclude name="org/jmock/internal/**"/>
+			</packageset>
+		</javadoc>
+	</target>
+	
+	<target name="import-hamcrest-jars" 
+		    description="Build JARs of a colocated hamcrest project and copy into jMock-2's lib directory">
+		<ant dir="../hamcrest-java" antfile="build.xml" target="all"/>
+		<copy file="../hamcrest-java/build/hamcrest-api-SNAPSHOT.jar" todir="lib"/>
+		<copy file="../hamcrest-java/build/hamcrest-library-SNAPSHOT.jar" todir="lib"/>
+		<copy file="../hamcrest-java/build/hamcrest-integration-SNAPSHOT.jar" todir="lib"/>
+	</target>
+</project>

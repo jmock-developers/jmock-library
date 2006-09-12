@@ -9,9 +9,8 @@ import junit.framework.TestCase;
 
 
 /**
- * A {@link junit.framework.TestCase} that verifies {@link org.jmock.core.Verifiable}
- * fields and registered Verifiable objects after the test has run and before the fixture
- * has been torn down.
+ * A {@link junit.framework.TestCase} that verifies postconditions after the
+ * test has run and before the fixture has been torn down.
  * 
  * @since 1.0
  */

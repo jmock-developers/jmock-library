@@ -24,6 +24,12 @@ Refactoring/Architecture:
   helpful.
   
 - Introduce syntax interfaces where necessary.  I think only one would
-  be necessary (implemented by the object introduced in the refactoring
-  above).
+  be necessary for captured expectations (implemented by the object 
+  introduced in the refactoring above) but more will be necessary
+  for more flexible expectations.
 
+Build
+
+- Run the unit and acceptance tests from the Ant build
+
+- Publish snapshots somewhere
