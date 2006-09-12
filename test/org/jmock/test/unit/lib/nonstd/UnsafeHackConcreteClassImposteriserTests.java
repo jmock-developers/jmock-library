@@ -8,12 +8,21 @@ import org.jmock.lib.nonstd.UnsafeHackConcreteClassImposteriser;
 
 public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
     public static class ConcreteClassWithNastyConstructor {
+        {
+            nasty("initialisation block should not be run");
+        }
+        
         public ConcreteClassWithNastyConstructor() {
-            throw new IllegalStateException("should not be called");
+            nasty("constructor should not be run");
         }
         
         public String foo() {
-            throw new IllegalStateException("should not be called");
+            nasty("should not be run");
+            return null; // never reached
+        }
+
+        private static void nasty(String nastiness) {
+            throw new IllegalStateException(nastiness);
         }
     }
     
@@ -21,7 +30,7 @@ public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
         String foo();
     }
     
-    public void testCanImposteriseAConcreteClassWithoutCallingItsConstructor() {
+    public void testCanImposteriseAConcreteClassWithoutCallingItsConstructorOrInstanceInitialiserBlocks() {
         Imposteriser imposteriser = new UnsafeHackConcreteClassImposteriser();
         ConcreteClassWithNastyConstructor imposter = 
             imposteriser.imposterise(new ReturnValueAction("result"), 

@@ -5,9 +5,7 @@ package org.jmock.core;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.Description;
@@ -25,7 +23,7 @@ public class Invocation implements SelfDescribing {
 
     private final Object invokedObject;
     private final Method invokedMethod;
-    private final List<Object> parameterValues;
+    private final Object[] parameterValues;
 
     // Yuck, but there doesn't seem to be a better way.
     private static final Map BOX_TYPES = makeBoxTypesMap();
@@ -35,8 +33,8 @@ public class Invocation implements SelfDescribing {
         this.invokedObject = invoked;
         this.invokedMethod = method;
         this.parameterValues = (parameterValues == NO_PARAMETERS) 
-            ? Collections.emptyList()
-            : Collections.unmodifiableList(Arrays.asList(parameterValues));
+            ? new Object[0]
+            : parameterValues.clone();
     }
     
     public String toString() {
@@ -50,12 +48,13 @@ public class Invocation implements SelfDescribing {
     public boolean equals(Invocation other) {
         return other != null && invokedObject == other.invokedObject
             && invokedMethod.equals(other.invokedMethod)
-            && parameterValues.equals(other.parameterValues);
+            && Arrays.equals(parameterValues, other.parameterValues);
     }
 
     public int hashCode() {
-        return invokedObject.hashCode() ^ invokedMethod.hashCode()
-            ^ parameterValues.hashCode();
+        return invokedObject.hashCode() 
+             ^ invokedMethod.hashCode()
+             ^ Arrays.hashCode(parameterValues);
     }
 
     public void describeTo(Description description) {
@@ -74,15 +73,15 @@ public class Invocation implements SelfDescribing {
     }
 
     public int getParameterCount() {
-        return parameterValues.size();
+        return parameterValues.length;
     }
 
     public Object getParameter(int i) {
-        return parameterValues.get(i);
+        return parameterValues[i];
     }
 
     public Object[] getParametersAsArray() {
-        return parameterValues.toArray();
+        return parameterValues.clone();
     }
 
     public Object applyTo(Object target) throws Throwable {

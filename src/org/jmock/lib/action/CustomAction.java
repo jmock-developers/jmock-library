@@ -7,7 +7,7 @@ import org.jmock.core.Action;
 
 
 /**
- * A partial implementation of the {@kink Action} interface that makes it convenient 
+ * A partial implementation of the {@link Action} interface that makes it convenient 
  * to implement application-specific actions with inline anonymous classes:
  * <pre>
  * final String name = "NAME";

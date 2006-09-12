@@ -98,7 +98,7 @@ public class OrderingConstraint implements ExpectationCapture  {
     
     private void checkContraintCount(Invocation invocation) {
         if (capturedParameterMatchers.size() != invocation.getParameterCount()) {
-            throw new IllegalArgumentException("not enough constraints specified");
+            throw new IllegalArgumentException("not all parameters were given explicit constraints: either all parameters must be specified by explicit constraints or all must be specified by literal values to match");
         }
     }
     
@@ -232,8 +232,9 @@ public class OrderingConstraint implements ExpectationCapture  {
         return IsSame.same(value);
     }
     
+    @SuppressWarnings("unused")
     public <T> Matcher<T> any(Class<T> type) {
-        return IsAnything.anything();
+        return IsAnything.<T>anything();
     }
     
     public <T> Matcher<T> anything() {
