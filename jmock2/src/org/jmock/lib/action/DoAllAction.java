@@ -8,7 +8,7 @@ public class DoAllAction implements Action {
     private final Action[] actions;
     
     public DoAllAction(Action... actions) {
-        this.actions = (Action[])actions.clone();
+        this.actions = actions.clone();
     }
     
     public Object invoke(Invocation invocation) throws Throwable {
