@@ -9,20 +9,26 @@ import org.jmock.core.Invocation;
 public class MockExpectation extends Assert implements Expectation {
 	public boolean matches;
 	public boolean isSatisfied;
+    public boolean isActive;
 	
     public MockExpectation() {
-        this(false, false);
+        this(false, false, false);
     }
 	
-    public MockExpectation(boolean matches, boolean isSatisfied) {
+    public MockExpectation(boolean matches, boolean isSatisfied, boolean isActive) {
 		this.matches = matches;
 		this.isSatisfied = isSatisfied;
+        this.isActive = isActive;
 	}
 	
 	public boolean matches(Invocation invocation) {
 		return matches;
 	}
 	
+    public boolean isActive() {
+        return isActive;
+    }
+    
 	public boolean isSatisfied() {
 		return isSatisfied;
 	}

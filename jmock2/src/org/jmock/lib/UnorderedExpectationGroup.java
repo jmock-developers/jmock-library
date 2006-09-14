@@ -27,8 +27,10 @@ public class UnorderedExpectationGroup implements ExpectationGroup {
         description.appendText("in any order:\n");
         IndentedDescription indentedDescription = new IndentedDescription(description);
         for (Expectation expectation : expectations) {
-            expectation.describeTo(indentedDescription);
-            indentedDescription.appendText("\n");
+            if (expectation.isActive()) {
+                expectation.describeTo(indentedDescription);
+                indentedDescription.appendText("\n");
+            }
         }
     }
     
@@ -41,6 +43,15 @@ public class UnorderedExpectationGroup implements ExpectationGroup {
 		return false;
 	}
 	
+    public boolean isActive() {
+        for (Expectation expectation : expectations) {
+            if (expectation.isActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 	public boolean isSatisfied() {
 		for (Expectation expectation : expectations) {
 		    if (!expectation.isSatisfied()) {

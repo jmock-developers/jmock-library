@@ -3,12 +3,29 @@ package org.jmock.core;
 import org.hamcrest.SelfDescribing;
 
 /**
- * An object that matches, checks and fakes an 
- * {@link org.jmock.core.Invocation}
+ * An object that matches, checks and fakes an {@link org.jmock.core.Invocation}
  * 
  * @author npryce
  */
 public interface Expectation extends SelfDescribing {
+    /**
+     * Have enough {@link Invocation}s expected by this Expectation occurred?
+     * 
+     * @return
+     *   <code>true</code> if the expectation has received enough
+     *   of its expected invocations, <code>false</code> otherwise.
+     */
+    boolean isSatisfied();
+    
+    /**
+     * Can more {@link Invocation}s expected by this Expectation still occur?
+     * 
+     * @return
+     *   <code>true</code> if invocations expected by this expectation can still
+     *   occur, <code>false</code> otherwise.
+     */
+    boolean isActive();
+    
 	/**
      * Can the Expectation be invoked with <var>invocation</var>?
      * 
@@ -19,15 +36,6 @@ public interface Expectation extends SelfDescribing {
      *   <var>invocation</var>, <code>false</code> otherwise.
 	 */
     boolean matches(Invocation invocation);
-    
-    /**
-     * Have enough {@link Invocation}s expected by this Expectation occurred?
-     * 
-     * @return
-     *   <code>true</code> if the expectation has received enough
-     *   of its expected invocations, <code>false</code> otherwise.
-     */
-	boolean isSatisfied();
     
     /**
      * Invokes the expectation: records that the invocation has

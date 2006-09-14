@@ -16,10 +16,10 @@ public class OrderedExpectationGroupTests extends TestCase {
     
     static final boolean NOT_RELEVANT = true;
 
-    MockExpectation expectation1 = new MockExpectation(false, false);
-    MockExpectation expectation2 = new MockExpectation(false, false);
-    MockExpectation expectation3 = new MockExpectation(false, false);
-    MockExpectation expectation4 = new MockExpectation(false, false);
+    MockExpectation expectation1 = new MockExpectation();
+    MockExpectation expectation2 = new MockExpectation();
+    MockExpectation expectation3 = new MockExpectation();
+    MockExpectation expectation4 = new MockExpectation();
     
     OrderedExpectationGroup group = new OrderedExpectationGroup();
 
@@ -150,6 +150,15 @@ public class OrderedExpectationGroupTests extends TestCase {
         expectation3.isSatisfied = true;
         expectation4.isSatisfied = true;
         
-        assertTrue("group is satisfied", group.isSatisfied());
+        assertTrue("group should be satisfied", group.isSatisfied());
+    }
+    
+    public void testIsActiveIfAnyUninvokedMatcherIsActive() {
+        expectation1.isActive = false;
+        expectation2.isActive = true;
+        expectation3.isSatisfied = true;
+        expectation4.isSatisfied = true;
+        
+        assertTrue("group should be active", group.isActive());
     }
 }
