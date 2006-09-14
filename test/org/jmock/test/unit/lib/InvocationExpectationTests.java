@@ -133,4 +133,29 @@ public class InvocationExpectationTests extends TestCase {
         
         assertNull("should have returned null", actualResult);
     }
+    
+    public void testRelationshipBetweenIsActiveAndIsSatisfied() throws Throwable {
+        Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
+        
+        expectation.setRequiredInvocationCount(2);
+        expectation.setMaxInvocationCount(3);
+        
+        assertTrue(expectation.isActive());
+        assertFalse(expectation.isSatisfied());
+        
+        expectation.invoke(invocation);
+
+        assertTrue(expectation.isActive());
+        assertFalse(expectation.isSatisfied());
+        
+        expectation.invoke(invocation);
+        
+        assertTrue(expectation.isActive());
+        assertTrue(expectation.isSatisfied());
+        
+        expectation.invoke(invocation);
+        
+        assertFalse(expectation.isActive());
+        assertTrue(expectation.isSatisfied());
+    }
 }

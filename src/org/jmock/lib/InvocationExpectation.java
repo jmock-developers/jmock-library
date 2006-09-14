@@ -75,17 +75,21 @@ public class InvocationExpectation implements Expectation {
         description.appendText("]");
     }
     
-	public boolean matches(Invocation invocation) {
-		return matchingCountMatcher.match(invocationCount)
+    public boolean isSatisfied() {
+        return satisfiedCountMatcher.match(invocationCount);
+    }
+    
+    public boolean isActive() {
+        return matchingCountMatcher.match(invocationCount);
+    }
+    
+    public boolean matches(Invocation invocation) {
+		return isActive()
 			&& objectMatcher.match(invocation.getInvokedObject())
 			&& methodMatcher.match(invocation.getInvokedMethod())
 			&& parametersMatcher.match(invocation.getParametersAsArray());
 	}
-	
-	public boolean isSatisfied() {
-		return satisfiedCountMatcher.match(invocationCount);
-	}
-	
+    
 	public Object invoke(Invocation invocation) throws Throwable {
 		invocationCount++;
 		return action.invoke(invocation);

@@ -53,6 +53,13 @@ public class OrderedExpectationGroup implements ExpectationGroup {
         }
         return -1;
     }
+
+    public boolean isActive() {
+        for (int i = current; i < expectations.size(); i++) {
+            if (expectations.get(i).isActive()) return true;
+        }
+        return false;
+    }
     
 	public boolean isSatisfied() {
         for (int i = current; i < expectations.size(); i++) {
