@@ -12,7 +12,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit3.JUnit3ErrorTranslator;
 
 
-public class TimedCacheTest extends TestCase {
+public class TimedCacheTests extends TestCase {
     final private Object KEY = "key";
     final private Object VALUE = "value";
     final private Object NEW_VALUE = "newValue";
