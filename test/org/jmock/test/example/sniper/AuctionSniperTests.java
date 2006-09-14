@@ -5,7 +5,7 @@ import org.hamcrest.core.IsAnything;
 import org.jmock.InAnyOrder;
 import org.jmock.integration.junit3.MockObjectTestCase;
 
-public class AuctionSniperJMock2Test extends MockObjectTestCase {
+public class AuctionSniperTests extends MockObjectTestCase {
     Bid increment = new Bid(2);
     Bid maximumBid = new Bid(20);
     Bid beatableBid = new Bid(10);
