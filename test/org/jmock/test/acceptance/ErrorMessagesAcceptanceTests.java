@@ -6,6 +6,7 @@ import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
 import org.jmock.core.ExpectationError;
 import org.jmock.test.unit.support.AssertThat;
+import org.jmock.test.unit.support.GetDescription;
 
 public class ErrorMessagesAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
@@ -28,7 +29,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
             context.assertIsSatisfied();
         }
         catch (ExpectationError e) {
-            String message = e.toString();
+            String message = GetDescription.of(e);
             
             AssertThat.stringIncludes("should include expectation that has not been invoked at all",
                                       "method1", message);
