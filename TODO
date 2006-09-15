@@ -1,34 +1,13 @@
-Functionality:
-
-- Indicate satisfied expectations in error messages.
-  How?  Not showing them will not work.  Could add another query,
-  matchable, to test if expectations could possibly be matched.
-  E.g. after 1 invocation an exactly(1) will be satisfied and not 
-  matchable while an atLeast(1) will be satisfied and still matchable.
-  Then only need to show expectations that are matchable, but still 
-  need to indicate that they have been satisfied.
-
-- Nested ordering constraints.
+Functionality
+=============
 
 - More syntactic sugar (matchers, actions) in OrderingConstraint
 
 - APIs for flexible expectations.  E.g. of/allow/never(Matcher).method(Matcher).with(Matcher...).
   So can write "allow (anyObject).method(anyBeanGetter);
 
-
-Refactoring/Architecture:
-
-- Pull out an object for capturing individual InvocationExpectations
-  from actual invocations.  This will remove many of the the internal
-  methods from OrderingConstraint and so make IDE autocomplete much more
-  helpful.
-  
-- Introduce syntax interfaces where necessary.  I think only one would
-  be necessary for captured expectations (implemented by the object 
-  introduced in the refactoring above) but more will be necessary
-  for more flexible expectations.
-
 Build
+=====
 
 - Run the unit and acceptance tests from the Ant build
 

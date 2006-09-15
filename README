@@ -1,5 +1,5 @@
 Advantages of jMock 2 over jMock 1
-----------------------------------
+==================================
 
 * Uses real method calls, not strings: can refactor more easily and
   autocomplete in the IDE.
@@ -11,4 +11,16 @@ Advantages of jMock 2 over jMock 1
   you really want to).
 * Uses Hamcrest matchers, so can use a large and ever-growing library
   of matchers in expectations.
+* Expectations match in FIFO order, so tests are easier to understand
+
+
+How to get up and running
+=========================
+
+You will need to add the jmock-2.0.0.jar to your classpath.  Also
+add the appropriate integration JAR to your classpath to integrate
+jMock 2 with the test framework you use.  For example, if you use
+TestNG, add jmock-testng-2.0.0.jar to your classpath.  If you want
+to mock concrete classes, add CGLIB, ASM and jmock-nonstd-2.0.0.jar
+to your classpath.
 
