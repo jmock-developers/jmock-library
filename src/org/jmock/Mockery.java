@@ -8,10 +8,11 @@ import org.jmock.core.Imposteriser;
 import org.jmock.core.Invocation;
 import org.jmock.core.Invokable;
 import org.jmock.core.MockObjectNamingScheme;
-import org.jmock.internal.ContextControl;
+import org.jmock.internal.DispatcherControl;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.IdentityExpectationErrorTranslator;
 import org.jmock.internal.InvocationDiverter;
+import org.jmock.internal.ExpectationGroupBuilder;
 import org.jmock.internal.UnspecifiedExpectation;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.NatsNamingScheme;
@@ -57,6 +58,9 @@ public class Mockery {
         this.expectationErrorTranslator = expectationErrorTranslator;
     }
     
+    /*
+     * API
+     */
     
     public <T> T mock(Class<T> typeToMock) {
 		return mock(typeToMock, namingScheme.defaultNameFor(typeToMock));
@@ -65,18 +69,17 @@ public class Mockery {
     public <T> T mock(Class<T> typeToMock, String name) {
         MockObject mock = new MockObject(name);
         return imposteriser.imposterise(
-            divert(Object.class, mock, 
-            divert(ContextControl.class, mock, 
-                   mock)), 
-            typeToMock, ContextControl.class);
+            divert(Object.class, mock, divert(DispatcherControl.class, mock, mock)), 
+            typeToMock, DispatcherControl.class);
     }
     
     private <T> Invokable divert(Class<T> type, T receiver, Invokable next) {
         return new InvocationDiverter<T>(type, receiver, next);
     }
     
-	public void expects(ExpectationCapture capture) {
-        capture.stopCapturingExpectations();
+	public void expects(ExpectationGroupBuilder builder) {
+        expectation = builder.toExpectation();
+        capture = null;
 	}
 	
 	public void assertIsSatisfied() {
@@ -117,7 +120,7 @@ public class Mockery {
         }
     }
     
-    private class MockObject implements Invokable, ContextControl {
+    private class MockObject implements Invokable, DispatcherControl {
         private String name;
         
         public MockObject(String name) {
@@ -128,18 +131,17 @@ public class Mockery {
             return name;
         }
         
+        public Object invoke(Invocation invocation) throws Throwable {
+            return dispatch(invocation);
+        }
+        
         public void startCapturingExpectations(ExpectationCapture newCapture) {
             capture = newCapture;
             newCapture.setDefaultAction(defaultAction);
         }
-        
-        public void setExpectation(Expectation newExpectation) {
-            expectation = newExpectation;
+
+        public void stopCapturingExpectations() {
             capture = null;
-        }
-        
-        public Object invoke(Invocation invocation) throws Throwable {
-            return dispatch(invocation);
         }
     }
 }
