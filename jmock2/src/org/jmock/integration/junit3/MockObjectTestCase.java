@@ -4,7 +4,7 @@ import org.jmock.Mockery;
 import org.jmock.core.Action;
 import org.jmock.core.Imposteriser;
 import org.jmock.core.MockObjectNamingScheme;
-import org.jmock.internal.ExpectationCapture;
+import org.jmock.internal.ExpectationGroupBuilder;
 
 /**
  * A {@link junit.framework.TestCase} that supports testing with mock objects.
@@ -50,12 +50,12 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
     /**
      * Specify expectations upon the mock objects in the test.
      * 
-     * @param capture
+     * @param groupBuilder
      */
-    public void expects(ExpectationCapture capture) {
-        context.expects(capture);
+    public void expects(ExpectationGroupBuilder groupBuilder) {
+        context.expects(groupBuilder);
     }
-
+    
     /**
      * Create a mock object of type T with an explicit name.
      * 

@@ -21,8 +21,8 @@ public class InvocationExpectation implements Expectation {
 	private Matcher<Integer> matchingCountMatcher = IsAnything.anything();
     private String cardinalityDescription = "";
 	private Matcher<Object> objectMatcher = IsAnything.anything();
-	private Matcher<Method> methodMatcher = IsAnything.anything();
-	private Matcher<Object[]> parametersMatcher = IsAnything.anything();
+	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
+	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
     
 	private int invocationCount = 0;

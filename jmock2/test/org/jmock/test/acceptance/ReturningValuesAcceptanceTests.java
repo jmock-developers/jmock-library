@@ -38,8 +38,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
 
     public void testCanReturnNullObjectReferences() {
         context.expects(new InAnyOrder() {{
-            allow(mock).returnString();
-            will(returnValue(null));
+            allow(mock).returnString(); will(returnValue(null));
         }});
 
         assertNull("should be null", mock.returnString());
@@ -59,8 +58,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final byte result = 123;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnByte();
-            will(returnValue(result));
+            allow(mock).returnByte(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnByte());
@@ -70,8 +68,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final char result = '\u1234';
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnChar();
-            will(returnValue(result));
+            allow(mock).returnChar(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnChar());
@@ -81,8 +78,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final short result = 12345;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnShort();
-            will(returnValue(result));
+            allow(mock).returnShort(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnShort());
@@ -92,8 +88,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final int result = 1234567890;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnInt();
-            will(returnValue(result));
+            allow(mock).returnInt(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnInt());
@@ -103,8 +98,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final long result = 1234567890124356789L;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnLong();
-            will(returnValue(result));
+            allow(mock).returnLong(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnLong());
@@ -114,8 +108,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final float result = 12345.67890f;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnFloat();
-            will(returnValue(result));
+            allow(mock).returnFloat(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnFloat(), 0.0);

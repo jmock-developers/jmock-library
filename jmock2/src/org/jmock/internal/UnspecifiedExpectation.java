@@ -5,7 +5,7 @@ import org.jmock.core.Expectation;
 import org.jmock.core.Invocation;
 
 public class UnspecifiedExpectation implements Expectation {
-    private static final String ERROR = "no expectations have been specified";
+    public static final String ERROR = "no expectations have been specified";
 
     public boolean matches(Invocation invocation) {
         throw new IllegalStateException(ERROR);
