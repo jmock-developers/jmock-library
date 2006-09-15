@@ -151,8 +151,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
     }
     
     public void expects(ExpectationGroupBuilder subgroupBuilder) {
-        throw new UnsupportedOperationException("not tested yet");
-        //expectationGroup.add(subgroupBuilder.toExpectation());
+        group.add(subgroupBuilder.toExpectation());
     }
     
     /* Common constraints
