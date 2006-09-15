@@ -102,6 +102,8 @@
 			<packageset dir="src">
 				<exclude name="org/jmock/internal/**"/>
 			</packageset>
+			<packageset dir="../hamcrest-java/src/api"/>
+			<packageset dir="../hamcrest-java/src/library"/>
 		</javadoc>
 	</target>
 	
