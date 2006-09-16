@@ -9,10 +9,10 @@ import org.jmock.core.Invocation;
 import org.jmock.core.Invokable;
 import org.jmock.core.MockObjectNamingScheme;
 import org.jmock.internal.DispatcherControl;
+import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.IdentityExpectationErrorTranslator;
 import org.jmock.internal.InvocationDiverter;
-import org.jmock.internal.ExpectationGroupBuilder;
 import org.jmock.internal.UnspecifiedExpectation;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.NatsNamingScheme;
@@ -77,7 +77,7 @@ public class Mockery {
         return new InvocationDiverter<T>(type, receiver, next);
     }
     
-	public void expects(ExpectationGroupBuilder builder) {
+	public void expects(ExpectationBuilder builder) {
         expectation = builder.toExpectation();
         capture = null;
 	}
