@@ -46,7 +46,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
      * Syntactic sugar
      */
     
-    protected ReceiverClause exactly(int count) {
+    public ReceiverClause exactly(int count) {
         initialiseExpectationCapture();
         expectation.setMaxInvocationCount(count);
         expectation.setRequiredInvocationCount(count);
@@ -54,14 +54,14 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
         return expectationBuilder;
     }
     
-    protected ReceiverClause atLeast(int count) {
+    public ReceiverClause atLeast(int count) {
         initialiseExpectationCapture();
         expectation.setRequiredInvocationCount(count);
         expectation.setCardinalityDescription("at least "+count);
         return expectationBuilder;
     }
     
-    protected ReceiverClause between(int minCount, int maxCount) {
+    public ReceiverClause between(int minCount, int maxCount) {
         initialiseExpectationCapture();
         expectation.setMaxInvocationCount(maxCount);
         expectation.setRequiredInvocationCount(minCount);
@@ -69,26 +69,25 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
         return expectationBuilder;
     }
     
-    protected ReceiverClause atMost(int count) {
+    public ReceiverClause atMost(int count) {
         initialiseExpectationCapture();
         expectation.setMaxInvocationCount(count);
-        expectation.setRequiredInvocationCount(0);
         expectation.setCardinalityDescription("at most "+count);
         return expectationBuilder;
     }
     
-    protected <T> T allow(T mockObject) {
+    public <T> T allow(T mockObject) {
         T result = atLeast(0).of(mockObject);
         expectation.setCardinalityDescription("allow");
         return result;
     }
     
-    protected <T> void ignore(T mockObject) {
+    public <T> void ignore(T mockObject) {
         atLeast(0).of(mockObject);
         expectation.setCardinalityDescription("ignore");
     }
 
-    protected <T> T never(T mockObject) {
+    public <T> T never(T mockObject) {
         T result = exactly(0).of(mockObject);
         expectation.setCardinalityDescription("never");
         return result;

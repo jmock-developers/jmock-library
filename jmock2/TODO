@@ -6,13 +6,17 @@ Functionality
 - APIs for flexible expectations.  E.g. of/allow/never(Matcher).method(Matcher).with(Matcher...).
   So can write "allow (anyObject).method(anyBeanGetter);
 
-- never() should be reject() ?
-
-- why is exactly() protected, but allow() public? 
+- wording of never/allow/ignore
 
 - Comparable seems too complicated. Shouldn't it be a couple of subclasses?
 
 - min/max invocation count seems too flexible. Hook them together with a message in a single call?
+
+- restrict allow() to InAnyOrder()
+
+- write a test for a()/an()
+
+- pull out a cardinality constraint
 
 Build
 =====
