@@ -77,18 +77,18 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
         return expectationBuilder;
     }
     
-    public <T> T allow(T mockObject) {
+    protected <T> T allow(T mockObject) {
         T result = atLeast(0).of(mockObject);
         expectation.setCardinalityDescription("allow");
         return result;
     }
     
-    public <T> void ignore(T mockObject) {
+    protected <T> void ignore(T mockObject) {
         atLeast(0).of(mockObject);
         expectation.setCardinalityDescription("ignore");
     }
 
-    public <T> T never(T mockObject) {
+    protected <T> T never(T mockObject) {
         T result = exactly(0).of(mockObject);
         expectation.setCardinalityDescription("never");
         return result;
