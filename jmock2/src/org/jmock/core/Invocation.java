@@ -25,8 +25,17 @@ public class Invocation implements SelfDescribing {
     private final Method invokedMethod;
     private final Object[] parameterValues;
 
-    // Yuck, but there doesn't seem to be a better way.
-    private static final Map BOX_TYPES = makeBoxTypesMap();
+    // A kludge but there doesn't seem to be a way to find this out through the reflection API.
+    private static final Map BOX_TYPES = new HashMap<Class<?>, Class<?>>() {{
+        put(boolean.class, Boolean.class);
+        put(byte.class, Byte.class);
+        put(char.class, Character.class);
+        put(short.class, Short.class);
+        put(int.class, Integer.class);
+        put(long.class, Long.class);
+        put(float.class, Float.class);
+        put(double.class, Double.class);
+    }};
 
     
     public Invocation(Object invoked, Method method, Object[] parameterValues) {
@@ -140,18 +149,5 @@ public class Invocation implements SelfDescribing {
             "tried to return an incompatible value: " +
             "expected a " + returnType.getName() +
             " but returned a " + valueType.getName());
-    }
-
-    private static Map<Class<?>, Class<?>> makeBoxTypesMap() {
-        HashMap<Class<?>, Class<?>> map = new HashMap<Class<?>, Class<?>>();
-        map.put(boolean.class, Boolean.class);
-        map.put(byte.class, Byte.class);
-        map.put(char.class, Character.class);
-        map.put(short.class, Short.class);
-        map.put(int.class, Integer.class);
-        map.put(long.class, Long.class);
-        map.put(float.class, Float.class);
-        map.put(double.class, Double.class);
-        return map;
     }
 }
