@@ -28,7 +28,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
 
     public void testWillNotBidPriceGreaterThanMaximum() throws Exception {
         expects(new InAnyOrder() {{
-            allow (listener);
+            ignore (listener);
             never (lot).bid(with(any(Bid.class)));
         }});
         sniper.bidAccepted(lot, unbeatableBid);
