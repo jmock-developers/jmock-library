@@ -4,7 +4,7 @@ import org.jmock.Mockery;
 import org.jmock.core.Action;
 import org.jmock.core.Imposteriser;
 import org.jmock.core.MockObjectNamingScheme;
-import org.jmock.internal.ExpectationGroupBuilder;
+import org.jmock.internal.ExpectationBuilder;
 
 /**
  * A {@link junit.framework.TestCase} that supports testing with mock objects.
@@ -52,7 +52,7 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
      * 
      * @param groupBuilder
      */
-    public void expects(ExpectationGroupBuilder groupBuilder) {
+    public void expects(ExpectationBuilder groupBuilder) {
         context.expects(groupBuilder);
     }
     

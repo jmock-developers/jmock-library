@@ -11,8 +11,8 @@ import org.jmock.core.MockObjectNamingScheme;
  * @author npryce
  *
  */
-public class StevesNamingScheme implements MockObjectNamingScheme {
-    public static final StevesNamingScheme INSTANCE = new StevesNamingScheme();
+public class TimsNamingScheme implements MockObjectNamingScheme {
+    public static final TimsNamingScheme INSTANCE = new TimsNamingScheme();
     
     public String defaultNameFor(Class<?> typeToMock) {
         return "mock" + typeToMock.getSimpleName();
