@@ -17,7 +17,7 @@ public class AnyMethodAcceptanceTests extends TestCase {
     
     public void testElidingTheMethodMeansAnyMethodWithAnyArguments() {
         context.expects(new InAnyOrder() {{
-            allow (mock);
+            allowing (mock);
         }});
         
         mock.method1();
@@ -28,8 +28,8 @@ public class AnyMethodAcceptanceTests extends TestCase {
     
     public void testCanElideMethodsOfMoreThanOneMockObject() {
         context.expects(new InAnyOrder() {{
-            allow (mock);
-            allow (anotherMock);
+            allowing (mock);
+            allowing (anotherMock);
         }});
         
         mock.method1();

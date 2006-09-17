@@ -20,7 +20,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     
     public void testCanThrowCheckedExceptions() throws Exception {
         context.expects(new InAnyOrder() {{
-            allow (mock).doSomething(); will(throwException(new CheckedException()));
+            allowing (mock).doSomething(); will(throwException(new CheckedException()));
         }});
         
         try {
@@ -34,7 +34,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     
     public void testCanThrowUncheckedExceptions() throws Exception {
         context.expects(new InAnyOrder() {{
-            allow (mock).doSomething(); will(throwException(new UncheckedException()));
+            allowing (mock).doSomething(); will(throwException(new UncheckedException()));
         }});
         
         try {
@@ -48,7 +48,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     
     public void testCanThrowErrors() throws Exception {
         context.expects(new InAnyOrder() {{
-            allow (mock).doSomething(); will(throwException(new AnError()));
+            allowing (mock).doSomething(); will(throwException(new AnError()));
         }});
         
         try {
@@ -62,7 +62,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     
     public void testCannotThrowUndeclaredCheckedExceptions() throws Exception {
         context.expects(new InAnyOrder() {{
-            allow (mock).doSomething(); will(throwException(new IncompatibleCheckedException()));
+            allowing (mock).doSomething(); will(throwException(new IncompatibleCheckedException()));
         }});
         
         try {

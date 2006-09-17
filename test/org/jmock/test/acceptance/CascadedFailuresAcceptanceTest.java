@@ -32,7 +32,7 @@ public class CascadedFailuresAcceptanceTest extends TestCase {
     
     public void setUp() {
         context.expects(new InAnyOrder() {{
-            allow (mock).realExpectationFailure(1);
+            allowing (mock).realExpectationFailure(1);
         }});
     }
     

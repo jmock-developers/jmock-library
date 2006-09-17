@@ -42,7 +42,7 @@ public class TimedCacheTests extends TestCase {
         final Object VALUE2 = "value2";
 
         context.expects(new InAnyOrder() {{
-            allow (mockClock).getCurrentTime(); will(returnValue(loadTime));
+            allowing (mockClock).getCurrentTime(); will(returnValue(loadTime));
 
             exactly(1).of (mockLoader).load("key1"); will(returnValue(VALUE1));
             exactly(1).of (mockLoader).load("key2"); will(returnValue(VALUE2));
@@ -61,7 +61,7 @@ public class TimedCacheTests extends TestCase {
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(loadTime));
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(fetchTime));
             
-            allow (mockReloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(false));
+            allowing (mockReloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(false));
 
             exactly(1).of (mockLoader).load(KEY); will(returnValue(VALUE));
         }});
@@ -79,7 +79,7 @@ public class TimedCacheTests extends TestCase {
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(loadTime));
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(fetchTime));
             
-            allow (mockReloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(true));
+            allowing (mockReloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(true));
 
             exactly(1).of (mockLoader).load(KEY); will(returnValue(VALUE));
             exactly(1).of (mockLoader).load(KEY); will(returnValue(NEW_VALUE));
