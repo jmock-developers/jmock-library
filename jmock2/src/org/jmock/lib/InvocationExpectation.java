@@ -29,16 +29,6 @@ public class InvocationExpectation implements Expectation {
         this.requiredInvocationCount = requiredInvocationCount;
         this.maximumInvocationCount = maximumInvocationCount;
     }
-    
-    @Deprecated
-    public void setRequiredInvocationCount(int n) {
-        requiredInvocationCount = n;
-    }
-    
-    @Deprecated
-	public void setMaximumInvocationCount(int n) {
-		maximumInvocationCount = n;
-	}
 	
 	public void setObjectMatcher(Matcher<Object> objectMatcher) {
 		this.objectMatcher = objectMatcher;
