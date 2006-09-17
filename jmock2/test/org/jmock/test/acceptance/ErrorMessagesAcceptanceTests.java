@@ -18,7 +18,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
             exactly(1).of (mock).method1();
             exactly(1).of (mock).method2();
             atLeast(1).of (mock).method3();
-            allow (mock).method4();
+            allowing (mock).method4();
         }});
         
         mock.method2();

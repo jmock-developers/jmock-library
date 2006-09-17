@@ -67,14 +67,14 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
         return expectationBuilder;
     }
     
-    public <T> T allow(T mockObject) {
+    public <T> T allowing(T mockObject) {
         return atLeast(0).of(mockObject);
     }
     
-    public <T> void ignore(T mockObject) {
+    public <T> void ignoring(T mockObject) {
         atLeast(0).of(mockObject);
     }
-
+    
     public <T> T never(T mockObject) {
         return exactly(0).of(mockObject);
     }
@@ -129,10 +129,6 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
 
     public void will(Action action) {
         expectation.setAction(action);
-    }
-    
-    public void to(Action action) {
-        will(action);
     }
     
     public void expects(ExpectationGroupBuilder subgroupBuilder) {

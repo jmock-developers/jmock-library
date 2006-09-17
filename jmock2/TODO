@@ -6,11 +6,13 @@ Functionality
 - APIs for flexible expectations.  E.g. of/allow/never(Matcher).method(Matcher).with(Matcher...).
   So can write "allow (anyObject).method(anyBeanGetter);
 
-- wording of never/allow/ignore
+- wording of never/allowing/ignoring
+   - ignoring in particular is misleading: it doesn't make the mockery
+     or expectation group ignore the mock object, it makes it allow any
+     method call to the mock object.
 
-- Comparable seems too complicated. Shouldn't it be a couple of subclasses?
-
-- restrict allow() to InAnyOrder()
+- restrict allow(), ignore() and never() to InAnyOrder()
+   - but what about atLeast(0), exactly(0), atMost(0)?
 
 - write a test for a()/an()
 
@@ -22,3 +24,9 @@ Build
 - Run the unit and acceptance tests from the Ant build
 
 - Publish snapshots somewhere
+
+Hamcrest
+========
+
+- Comparable seems too complicated. Shouldn't it be a couple of subclasses?
+

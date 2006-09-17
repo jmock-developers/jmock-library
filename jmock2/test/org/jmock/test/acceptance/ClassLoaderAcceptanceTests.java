@@ -35,7 +35,7 @@ public class ClassLoaderAcceptanceTests extends TestCase {
         final Object o = context.mock(interfaceClass, "o");
         
         context.expects(new InAnyOrder() {{
-            allow (o);
+            allowing (o);
         }});
         
         o.toString();

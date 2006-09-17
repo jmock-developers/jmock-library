@@ -72,7 +72,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     
     public void testAllows() {
         context.expects(new InAnyOrder() {{
-            allow (mock).doSomething();
+            allowing (mock).doSomething();
         }});
         
         for (any_number of : times) {

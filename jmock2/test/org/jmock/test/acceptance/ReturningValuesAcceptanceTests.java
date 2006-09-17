@@ -29,7 +29,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final String result = new String("RESULT");
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnString();
+            allowing(mock).returnString();
             will(returnValue(result));
         }});
 
@@ -38,7 +38,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
 
     public void testCanReturnNullObjectReferences() {
         context.expects(new InAnyOrder() {{
-            allow(mock).returnString(); will(returnValue(null));
+            allowing(mock).returnString(); will(returnValue(null));
         }});
 
         assertNull("should be null", mock.returnString());
@@ -58,7 +58,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final byte result = 123;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnByte(); will(returnValue(result));
+            allowing(mock).returnByte(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnByte());
@@ -68,7 +68,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final char result = '\u1234';
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnChar(); will(returnValue(result));
+            allowing(mock).returnChar(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnChar());
@@ -78,7 +78,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final short result = 12345;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnShort(); will(returnValue(result));
+            allowing(mock).returnShort(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnShort());
@@ -88,7 +88,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final int result = 1234567890;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnInt(); will(returnValue(result));
+            allowing(mock).returnInt(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnInt());
@@ -98,7 +98,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final long result = 1234567890124356789L;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnLong(); will(returnValue(result));
+            allowing(mock).returnLong(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnLong());
@@ -108,7 +108,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final float result = 12345.67890f;
 
         context.expects(new InAnyOrder() {{
-            allow(mock).returnFloat(); will(returnValue(result));
+            allowing(mock).returnFloat(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnFloat(), 0.0);
@@ -118,7 +118,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final double result = 1234567890.1234567890;
 
         context.expects(new InAnyOrder() {{
-            allow (mock).returnDouble(); will(returnValue(result));
+            allowing (mock).returnDouble(); will(returnValue(result));
         }});
 
         assertEquals("should be same result", result, mock.returnDouble(), 0.0);
@@ -126,7 +126,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     
     public void testWillReturnADefaultValueIfNoResultExplicitlySpecified() {
         context.expects(new InAnyOrder() {{
-            allow (mock).returnInt();
+            allowing (mock).returnInt();
         }});
         
         // This will not throw a NullPointerException
@@ -143,7 +143,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
         
         context.expects(new InAnyOrder() {{
-            allow (mock).returnSomething();
+            allowing (mock).returnSomething();
         }});
         
         Something defaultResult = mock.returnSomething();
