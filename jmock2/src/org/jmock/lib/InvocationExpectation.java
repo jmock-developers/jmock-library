@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
-import org.hamcrest.number.IsComparableTo;
 import org.jmock.core.Action;
 import org.jmock.core.Expectation;
 import org.jmock.core.Invocation;
@@ -17,26 +16,28 @@ import org.jmock.lib.action.VoidAction;
  * @author npryce
  */
 public class InvocationExpectation implements Expectation {
-	private Matcher<Integer> satisfiedCountMatcher = IsAnything.anything();
-	private Matcher<Integer> matchingCountMatcher = IsAnything.anything();
-    private String cardinalityDescription = "";
+    private int requiredInvocationCount = 0;
+    private int maximumInvocationCount = Integer.MAX_VALUE;
 	private Matcher<Object> objectMatcher = IsAnything.anything();
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
 	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
     
 	private int invocationCount = 0;
-	
-    public void setCardinalityDescription(String description) {
-        this.cardinalityDescription = description;
+
+    public void setCardinality(int requiredInvocationCount, int maximumInvocationCount) {
+        this.requiredInvocationCount = requiredInvocationCount;
+        this.maximumInvocationCount = maximumInvocationCount;
     }
     
-	public void setMaxInvocationCount(int n) {
-		matchingCountMatcher = IsComparableTo.lessThan(n);
-	}
-	
-	public void setRequiredInvocationCount(int n) {
-		satisfiedCountMatcher = IsComparableTo.greaterThanOrEqualTo(n);
+    @Deprecated
+    public void setRequiredInvocationCount(int n) {
+        requiredInvocationCount = n;
+    }
+    
+    @Deprecated
+	public void setMaximumInvocationCount(int n) {
+		maximumInvocationCount = n;
 	}
 	
 	public void setObjectMatcher(Matcher<Object> objectMatcher) {
@@ -56,15 +57,7 @@ public class InvocationExpectation implements Expectation {
     }
     
     public void describeTo(Description description) {
-        if (cardinalityDescription != null) {
-            description.appendText(cardinalityDescription);
-        }
-        else {
-            description.appendText("between ");
-            satisfiedCountMatcher.describeTo(description);
-            description.appendText(" and ");
-            matchingCountMatcher.describeTo(description);
-        }
+        describeCardinality(description);
         description.appendText(": ");
         objectMatcher.describeTo(description);
         description.appendText(".");
@@ -74,17 +67,46 @@ public class InvocationExpectation implements Expectation {
         action.describeTo(description);
         description.appendText("]");
     }
-    
-    public boolean isSatisfied() {
-        return satisfiedCountMatcher.match(invocationCount);
+
+    private void describeCardinality(Description description) {
+        int min = requiredInvocationCount;
+        int max = maximumInvocationCount;
+        
+        if (min == 0 && max == 0) {
+            description.appendText("never");
+        }
+        else if (min == 0 && max == Integer.MAX_VALUE) {
+            description.appendText("allowed");
+        }
+        if (min == max) {
+            description.appendText("exactly ");
+            description.appendText(Integer.toString(min));
+        }
+        else if (max == Integer.MAX_VALUE) {
+            description.appendText("at least ");
+            description.appendText(Integer.toString(min));
+        }
+        else if (min == 0) {
+            description.appendText("at most ");
+            description.appendText(Integer.toString(max));
+        }
+        else {
+            description.appendText(Integer.toString(min));
+            description.appendText(" to ");
+            description.appendText(Integer.toString(max));
+        }
     }
     
-    public boolean isActive() {
-        return matchingCountMatcher.match(invocationCount);
+    public boolean needsMoreInvocations() {
+        return invocationCount < requiredInvocationCount;
+    }
+    
+    public boolean allowsMoreInvocations() {
+        return invocationCount < maximumInvocationCount;
     }
     
     public boolean matches(Invocation invocation) {
-		return isActive()
+		return allowsMoreInvocations()
 			&& objectMatcher.match(invocation.getInvokedObject())
 			&& methodMatcher.match(invocation.getInvokedMethod())
 			&& parametersMatcher.match(invocation.getParametersAsArray());

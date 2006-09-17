@@ -10,6 +10,8 @@ import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.jmock.core.Invocation;
 import org.jmock.lib.InvocationExpectation;
+import org.jmock.test.unit.support.AssertThat;
+import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockAction;
 
@@ -78,7 +80,8 @@ public class InvocationExpectationTests extends TestCase {
 		Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"), Invocation.NO_PARAMETERS);
 		
 		int maxInvocationCount = 3;
-		expectation.setMaxInvocationCount(maxInvocationCount);
+        
+        expectation.setCardinality(0, maxInvocationCount);
 		
 		int i;
 		for (i = 0; i < maxInvocationCount; i++) {
@@ -92,14 +95,14 @@ public class InvocationExpectationTests extends TestCase {
 		Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"), null);
 		
 		int requiredInvocationCount = 3;
-		expectation.setRequiredInvocationCount(requiredInvocationCount);
+		expectation.setCardinality(requiredInvocationCount, Integer.MAX_VALUE);
 		
 		int i;
 		for (i = 0; i < requiredInvocationCount; i++) {
 			assertTrue("should match after " + i +" invocations", 
 					expectation.matches(invocation));
 			assertTrue("should not be satisfied after " + i +" invocations",
-					!expectation.isSatisfied());
+					expectation.needsMoreInvocations());
 			
 			expectation.invoke(invocation);
 		}
@@ -107,7 +110,7 @@ public class InvocationExpectationTests extends TestCase {
 		assertTrue("should match after " + i +" invocations", 
 				expectation.matches(invocation));
 		assertTrue("should be satisfied after " + i +" invocations",
-				expectation.isSatisfied());
+				!expectation.needsMoreInvocations());
 	}
     
     public void testPerformsActionWhenInvoked() throws Throwable {
@@ -134,28 +137,69 @@ public class InvocationExpectationTests extends TestCase {
         assertNull("should have returned null", actualResult);
     }
     
-    public void testRelationshipBetweenIsActiveAndIsSatisfied() throws Throwable {
+    public void testHasARequiredAndMaximumNumberOfExpectedInvocations() throws Throwable {
         Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
         
-        expectation.setRequiredInvocationCount(2);
-        expectation.setMaxInvocationCount(3);
+        expectation.setCardinality(2, 3);
         
-        assertTrue(expectation.isActive());
-        assertFalse(expectation.isSatisfied());
+        assertTrue(expectation.allowsMoreInvocations());
+        assertTrue(expectation.needsMoreInvocations());
         
         expectation.invoke(invocation);
 
-        assertTrue(expectation.isActive());
-        assertFalse(expectation.isSatisfied());
+        assertTrue(expectation.allowsMoreInvocations());
+        assertTrue(expectation.needsMoreInvocations());
         
         expectation.invoke(invocation);
         
-        assertTrue(expectation.isActive());
-        assertTrue(expectation.isSatisfied());
+        assertTrue(expectation.allowsMoreInvocations());
+        assertFalse(expectation.needsMoreInvocations());
         
         expectation.invoke(invocation);
         
-        assertFalse(expectation.isActive());
-        assertTrue(expectation.isSatisfied());
+        assertFalse(expectation.allowsMoreInvocations());
+        assertFalse(expectation.needsMoreInvocations());
+    }
+    
+    public void testDescribesExactInvocationCount() {
+        expectation.setCardinality(2, 2);
+        
+        AssertThat.stringIncludes("should describe exact invocation count",
+                                  "exactly 2", GetDescription.of(expectation));
+    }
+    
+    public void testDescribesAtLeastCount() {
+        expectation.setCardinality(2, Integer.MAX_VALUE);
+        
+        AssertThat.stringIncludes("should describe at-least invocation count",
+                                  "at least 2", GetDescription.of(expectation));
+    }
+
+    public void testDescribesAtMostCount() {
+        expectation.setCardinality(0, 2);
+        
+        AssertThat.stringIncludes("should describe at-most invocation count",
+                                  "at most 2", GetDescription.of(expectation));
+    }
+    
+    public void testDescribesBetweenCount() {
+        expectation.setCardinality(2, 4);
+        
+        AssertThat.stringIncludes("should describe between invocation count",
+                                  "2 to 4", GetDescription.of(expectation));
+    }
+
+    public void testDescribesNeverCount() {
+        expectation.setCardinality(0,0);
+        
+        AssertThat.stringIncludes("should describe never invocation count",
+                                  "never", GetDescription.of(expectation));
+    }
+
+    public void testDescribesAnyNumberCount() {
+        expectation.setCardinality(0, Integer.MAX_VALUE);
+        
+        AssertThat.stringIncludes("should describe never invocation count",
+                                  "allowed", GetDescription.of(expectation));
     }
 }

@@ -27,7 +27,7 @@ public class UnorderedExpectationGroup implements ExpectationGroup {
         description.appendText("in any order:\n");
         IndentedDescription indentedDescription = new IndentedDescription(description);
         for (Expectation expectation : expectations) {
-            if (expectation.isActive()) {
+            if (expectation.allowsMoreInvocations()) {
                 expectation.describeTo(indentedDescription);
                 indentedDescription.appendText("\n");
             }
@@ -43,22 +43,22 @@ public class UnorderedExpectationGroup implements ExpectationGroup {
 		return false;
 	}
 	
-    public boolean isActive() {
+    public boolean allowsMoreInvocations() {
         for (Expectation expectation : expectations) {
-            if (expectation.isActive()) {
+            if (expectation.allowsMoreInvocations()) {
                 return true;
             }
         }
         return false;
     }
     
-	public boolean isSatisfied() {
+	public boolean needsMoreInvocations() {
 		for (Expectation expectation : expectations) {
-		    if (!expectation.isSatisfied()) {
-                return false;
+		    if (expectation.needsMoreInvocations()) {
+                return true;
             }
         }
-        return true;
+        return false;
 	}
 	
 	public Object invoke(Invocation invocation) throws Throwable {

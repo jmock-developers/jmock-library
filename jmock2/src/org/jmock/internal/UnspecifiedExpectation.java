@@ -15,11 +15,11 @@ public class UnspecifiedExpectation implements Expectation {
         description.appendText(ERROR);
     }
     
-    public boolean isActive() {
+    public boolean allowsMoreInvocations() {
         throw new IllegalStateException(ERROR);    
     }
     
-    public boolean isSatisfied() {
+    public boolean needsMoreInvocations() {
         throw new IllegalStateException(ERROR);    
     }
     

@@ -84,7 +84,7 @@ public class Mockery {
 	
 	public void assertIsSatisfied() {
         firstError = null;
-        if (!expectation.isSatisfied()) {
+        if (expectation.needsMoreInvocations()) {
             throw expectationErrorTranslator.translate(new ExpectationError("not all expectations were satisfied", expectation));
         }
 	}

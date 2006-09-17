@@ -15,7 +15,7 @@ public interface Expectation extends SelfDescribing {
      *   <code>true</code> if the expectation has received enough
      *   of its expected invocations, <code>false</code> otherwise.
      */
-    boolean isSatisfied();
+    boolean needsMoreInvocations();
     
     /**
      * Can more {@link Invocation}s expected by this Expectation still occur?
@@ -24,7 +24,7 @@ public interface Expectation extends SelfDescribing {
      *   <code>true</code> if invocations expected by this expectation can still
      *   occur, <code>false</code> otherwise.
      */
-    boolean isActive();
+    boolean allowsMoreInvocations();
     
 	/**
      * Can the Expectation be invoked with <var>invocation</var>?

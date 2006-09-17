@@ -24,10 +24,11 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
         this.group = expectationGroup;
     }
     
-    private void initialiseExpectationCapture() {
+    private void initialiseExpectationCapture(int requiredInvocationCount, int maximumInvocationCount) {
         checkLastExpectationWasFullySpecified();
         
         expectation = new InvocationExpectation();
+        expectation.setCardinality(requiredInvocationCount, maximumInvocationCount);
         expectationBuilder = new InvocationExpectationBuilder(expectation, group);
     }
 
@@ -47,52 +48,37 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
      */
     
     public ReceiverClause exactly(int count) {
-        initialiseExpectationCapture();
-        expectation.setMaxInvocationCount(count);
-        expectation.setRequiredInvocationCount(count);
-        expectation.setCardinalityDescription("exactly "+count);
+        initialiseExpectationCapture(count, count);
         return expectationBuilder;
     }
     
     public ReceiverClause atLeast(int count) {
-        initialiseExpectationCapture();
-        expectation.setRequiredInvocationCount(count);
-        expectation.setCardinalityDescription("at least "+count);
+        initialiseExpectationCapture(count, Integer.MAX_VALUE);
         return expectationBuilder;
     }
     
     public ReceiverClause between(int minCount, int maxCount) {
-        initialiseExpectationCapture();
-        expectation.setMaxInvocationCount(maxCount);
-        expectation.setRequiredInvocationCount(minCount);
-        expectation.setCardinalityDescription("between "+minCount + " and " + maxCount);
+        initialiseExpectationCapture(minCount, maxCount);
         return expectationBuilder;
     }
     
     public ReceiverClause atMost(int count) {
-        initialiseExpectationCapture();
-        expectation.setMaxInvocationCount(count);
-        expectation.setCardinalityDescription("at most "+count);
+        initialiseExpectationCapture(0, count);
         return expectationBuilder;
     }
     
     public <T> T allow(T mockObject) {
-        T result = atLeast(0).of(mockObject);
-        expectation.setCardinalityDescription("allow");
-        return result;
+        return atLeast(0).of(mockObject);
     }
     
     public <T> void ignore(T mockObject) {
         atLeast(0).of(mockObject);
-        expectation.setCardinalityDescription("ignore");
     }
 
     public <T> T never(T mockObject) {
-        T result = exactly(0).of(mockObject);
-        expectation.setCardinalityDescription("never");
-        return result;
+        return exactly(0).of(mockObject);
     }
-
+    
     private void addParameterMatcher(Matcher<?> matcher) {
         if (expectationBuilder == null) {
             throw new IllegalStateException(UnspecifiedExpectation.ERROR);

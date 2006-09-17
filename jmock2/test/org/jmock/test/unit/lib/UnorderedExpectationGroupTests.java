@@ -42,56 +42,56 @@ public class UnorderedExpectationGroupTests extends TestCase {
                    !groupNone.matches(invocation));
 	}
     
-    public void testIsSatisfiedIfAllInGroupAreSatisfied() {
+    public void testNeedsMoreInvocationsIfAnyInGroupNeedMoreInvocations() {
         UnorderedExpectationGroup groupAll = new UnorderedExpectationGroup();
-        groupAll.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
-        groupAll.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
+        groupAll.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
+        groupAll.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         assertTrue("should be satisfied if all expectations in group are satisfied",
-                   groupAll.isSatisfied());
+                   !groupAll.needsMoreInvocations());
         
         UnorderedExpectationGroup group1 = new UnorderedExpectationGroup();
         group1.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         group1.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         assertTrue("should not be satisfied if one in group is not satisfied (first)",
-                   !group1.isSatisfied());
+                   group1.needsMoreInvocations());
         
         UnorderedExpectationGroup group2 = new UnorderedExpectationGroup();
         group2.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         group2.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         assertTrue("should not be satisfied if one in group is not satisfied (second)",
-                   !group2.isSatisfied());
+                   group2.needsMoreInvocations());
         
         UnorderedExpectationGroup groupNone = new UnorderedExpectationGroup();
-        groupNone.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
-        groupNone.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
+        groupNone.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
+        groupNone.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         assertTrue("should not be satisfied if none in group are satisfied",
-                   !groupNone.isSatisfied());
+                   groupNone.needsMoreInvocations());
     }
     
-    public void testIsActiveIfAnyInGroupAreActive() {
+    public void testAllowsInvocationsIfAnyInGroupAllowInvocations() {
         UnorderedExpectationGroup groupAll = new UnorderedExpectationGroup();
         groupAll.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, true));
         groupAll.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, true));
         assertTrue("should be active if all expectations in group are active",
-                   groupAll.isActive());
+                   groupAll.allowsMoreInvocations());
         
         UnorderedExpectationGroup group1 = new UnorderedExpectationGroup();
         group1.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, false));
         group1.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, true));
         assertTrue("should be active if one in group is not active (first)",
-                   group1.isActive());
+                   group1.allowsMoreInvocations());
         
         UnorderedExpectationGroup group2 = new UnorderedExpectationGroup();
         group2.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, true));
         group2.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, false));
         assertTrue("should be active if one in group is not active (second)",
-                   group2.isActive());
+                   group2.allowsMoreInvocations());
         
         UnorderedExpectationGroup groupNone = new UnorderedExpectationGroup();
         groupNone.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, false));
         groupNone.add(new MockExpectation(NOT_RELEVANT, NOT_RELEVANT, false));
         assertTrue("should not be active if none in group are active",
-                   !groupNone.isActive());
+                   !groupNone.allowsMoreInvocations());
     }
     
     public void testInvokesFirstMatchingExpectationInGroup() throws Throwable {

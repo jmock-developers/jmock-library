@@ -46,7 +46,7 @@ public class OrderedExpectationGroup implements ExpectationGroup {
             if (e.matches(invocation)) {
                 return i;
             }
-            else if (!e.isSatisfied()) {
+            else if (e.needsMoreInvocations()) {
                 return -1;
             }
             i++;
@@ -54,16 +54,16 @@ public class OrderedExpectationGroup implements ExpectationGroup {
         return -1;
     }
 
-    public boolean isActive() {
+    public boolean allowsMoreInvocations() {
         for (int i = current; i < expectations.size(); i++) {
-            if (expectations.get(i).isActive()) return true;
+            if (expectations.get(i).allowsMoreInvocations()) return true;
         }
         return false;
     }
     
-	public boolean isSatisfied() {
+	public boolean needsMoreInvocations() {
         for (int i = current; i < expectations.size(); i++) {
-            if (!expectations.get(i).isSatisfied()) return false;
+            if (!expectations.get(i).needsMoreInvocations()) return false;
         }
         return true;
 	}
