@@ -68,7 +68,7 @@ public class InvocationExpectation implements Expectation {
         else if (min == 0 && max == Integer.MAX_VALUE) {
             description.appendText("allowed");
         }
-        if (min == max) {
+        else if (min == max) {
             description.appendText("exactly ");
             description.appendText(Integer.toString(min));
         }

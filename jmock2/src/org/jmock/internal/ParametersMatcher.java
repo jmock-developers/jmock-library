@@ -21,8 +21,8 @@ public class ParametersMatcher extends IsArray<Object> {
     }
     
     @SuppressWarnings("unchecked")
-    public ParametersMatcher(List<Matcher<?>> elementMatchers) {
-        super(elementMatchers.toArray(new Matcher[0]));
+    public ParametersMatcher(List<Matcher<?>> parameterMatchers) {
+        super(parameterMatchers.toArray(new Matcher[0]));
     }
 
     @Override
