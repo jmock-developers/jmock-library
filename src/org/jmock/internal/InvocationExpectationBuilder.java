@@ -1,25 +1,29 @@
 package org.jmock.internal;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.jmock.core.Action;
-import org.jmock.core.ExpectationCollection;
 import org.jmock.core.Invocation;
 import org.jmock.lib.InvocationExpectation;
+import org.jmock.syntax.MethodClause;
+import org.jmock.syntax.ParametersClause;
 import org.jmock.syntax.ReceiverClause;
 
-public class InvocationExpectationBuilder implements ExpectationCapture, ReceiverClause {
-    private final ExpectationCollection collection;
+public class InvocationExpectationBuilder implements ExpectationCapture, 
+    ReceiverClause, MethodClause, ParametersClause
+{
     private final InvocationExpectation expectation;
     
+    private boolean isFullySpecified = false;
     private DispatcherControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
     
-    protected InvocationExpectationBuilder(InvocationExpectation expectation, ExpectationCollection collection) {
+    protected InvocationExpectationBuilder(InvocationExpectation expectation) {
         this.expectation = expectation;
-        this.collection = collection;
     }
     
     public void setDefaultAction(Action defaultAction) {
@@ -32,10 +36,11 @@ public class InvocationExpectationBuilder implements ExpectationCapture, Receive
         }
         
         dispatcher = (DispatcherControl)mockObject;
-        collection.add(expectation);
         
         expectation.setObjectMatcher(new MockObjectMatcher(mockObject));
-
+        
+        isFullySpecified = true;
+        
         dispatcher.startCapturingExpectations(this);
     }
     
@@ -64,7 +69,7 @@ public class InvocationExpectationBuilder implements ExpectationCapture, Receive
     }
     
     public void checkWasFullySpecified() {
-        if (dispatcher == null) {
+        if (!isFullySpecified) {
             throw new IllegalStateException("expectation was not fully specified");
         }
     }
@@ -78,4 +83,18 @@ public class InvocationExpectationBuilder implements ExpectationCapture, Receive
         return mockObject;
     }
 
+    public MethodClause of(Matcher<Object> objectMatcher) {
+        expectation.setObjectMatcher(objectMatcher);
+        isFullySpecified = true;
+        return this;
+    }
+
+    public ParametersClause method(Matcher<Method> methodMatcher) {
+        expectation.setMethodMatcher(methodMatcher);
+        return this;
+    }
+    
+    public void with(Matcher<?>... parameterMatchers) {
+        expectation.setParametersMatcher(new ParametersMatcher(Arrays.asList(parameterMatchers)));
+    }
 }

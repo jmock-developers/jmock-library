@@ -8,6 +8,7 @@ Above and beyond the usual quality rules...
 * These words are banned in class names:
    - Helper
    - Impl (or any derivative thereof)
+   - Manager
 
 
 Architectural Constraints:

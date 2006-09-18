@@ -13,6 +13,7 @@ import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.ThrowAction;
+import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
 
 public class ExpectationGroupBuilder implements ExpectationBuilder {
@@ -29,7 +30,8 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
         
         expectation = new InvocationExpectation();
         expectation.setCardinality(requiredInvocationCount, maximumInvocationCount);
-        expectationBuilder = new InvocationExpectationBuilder(expectation, group);
+        expectationBuilder = new InvocationExpectationBuilder(expectation);
+        group.add(expectation);
     }
 
     public Expectation toExpectation() {
@@ -65,6 +67,10 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
     public ReceiverClause atMost(int count) {
         initialiseExpectationCapture(0, count);
         return expectationBuilder;
+    }
+    
+    public MethodClause allowing(Matcher<Object> mockObjectMatcher) {
+        return atLeast(0).of(mockObjectMatcher);
     }
     
     public <T> T allowing(T mockObject) {

@@ -1,22 +1,20 @@
 Functionality
 =============
 
-- More syntactic sugar (matchers, actions) in OrderingConstraint
-
 - APIs for flexible expectations.  E.g. of/allow/never(Matcher).method(Matcher).with(Matcher...).
   So can write "allow (anyObject).method(anyBeanGetter);
+
+- More syntactic sugar (matchers, actions) in OrderingConstraint
 
 - wording of never/allowing/ignoring
    - ignoring in particular is misleading: it doesn't make the mockery
      or expectation group ignore the mock object, it makes it allow any
      method call to the mock object.
 
-- restrict allow(), ignore() and never() to InAnyOrder()
-   - but what about atLeast(0), exactly(0), atMost(0)?
-
 - write a test for a()/an()
 
-- pull out a cardinality constraint
+- pull out a cardinality constraint?
+
 
 Build
 =====
@@ -24,6 +22,7 @@ Build
 - Run the unit and acceptance tests from the Ant build
 
 - Publish snapshots somewhere
+
 
 Hamcrest
 ========
