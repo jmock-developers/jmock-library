@@ -16,11 +16,11 @@ public class UnspecifiedExpectation implements Expectation {
     }
     
     public boolean allowsMoreInvocations() {
-        throw new IllegalStateException(ERROR);    
+        return false;
     }
     
     public boolean needsMoreInvocations() {
-        throw new IllegalStateException(ERROR);    
+        return false;
     }
     
     public Object invoke(Invocation invocation) throws Throwable {
