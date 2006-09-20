@@ -134,4 +134,8 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
             // expected
         }
     }
+    
+    public void testCanSpecifyNoExpectationsAtAll() {
+        context.assertIsSatisfied();
+    }
 }
