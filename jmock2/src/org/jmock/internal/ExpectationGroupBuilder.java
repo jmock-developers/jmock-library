@@ -1,5 +1,8 @@
 package org.jmock.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 import org.hamcrest.core.IsEqual;
@@ -8,7 +11,6 @@ import org.hamcrest.core.IsSame;
 import org.jmock.core.Action;
 import org.jmock.core.Expectation;
 import org.jmock.core.ExpectationGroup;
-import org.jmock.lib.InvocationExpectation;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
@@ -18,8 +20,8 @@ import org.jmock.syntax.ReceiverClause;
 
 public class ExpectationGroupBuilder implements ExpectationBuilder {
     private final ExpectationGroup group;
-    private InvocationExpectation expectation;
     private InvocationExpectationBuilder expectationBuilder;
+    private List<ExpectationBuilder> elementBuilders = new ArrayList<ExpectationBuilder>();
     
     protected ExpectationGroupBuilder(ExpectationGroup expectationGroup) {
         this.group = expectationGroup;
@@ -28,14 +30,24 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
     private void initialiseExpectationCapture(int requiredInvocationCount, int maximumInvocationCount) {
         checkLastExpectationWasFullySpecified();
         
-        expectation = new InvocationExpectation();
-        expectation.setCardinality(requiredInvocationCount, maximumInvocationCount);
-        expectationBuilder = new InvocationExpectationBuilder(expectation);
-        group.add(expectation);
+        expectationBuilder = new InvocationExpectationBuilder();
+        expectationBuilder.setCardinality(requiredInvocationCount, maximumInvocationCount);
+        elementBuilders.add(expectationBuilder);
     }
-
+    
+    public void setDefaultAction(Action defaultAction) {
+        for (ExpectationBuilder builder : elementBuilders) {
+            builder.setDefaultAction(defaultAction);
+        }
+    }
+    
     public Expectation toExpectation() {
         checkLastExpectationWasFullySpecified();
+        
+        for (ExpectationBuilder builder : elementBuilders) {
+            group.add(builder.toExpectation());
+        }
+        
         return group;
     }
     
@@ -134,11 +146,16 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
     }
 
     public void will(Action action) {
-        expectation.setAction(action);
+        if (expectationBuilder == null) {
+            throw new IllegalStateException(UnspecifiedExpectation.ERROR);
+        }
+        
+        expectationBuilder.setAction(action);
     }
     
     public void expects(ExpectationGroupBuilder subgroupBuilder) {
-        group.add(subgroupBuilder.toExpectation());
+        elementBuilders.add(subgroupBuilder);
+        expectationBuilder = null;
     }
     
     /* Common constraints
@@ -158,7 +175,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder {
     }
     
     public <T> Matcher<T> anything() {
-        return IsAnything.anything();
+        return IsAnything.<T>anything();
     }
     
     public Matcher<?> a(Class<?> type) {

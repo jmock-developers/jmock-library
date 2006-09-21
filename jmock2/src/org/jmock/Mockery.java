@@ -78,6 +78,7 @@ public class Mockery {
     }
     
 	public void expects(ExpectationBuilder builder) {
+        builder.setDefaultAction(defaultAction);
         expectation = builder.toExpectation();
         capture = null;
 	}
@@ -137,9 +138,8 @@ public class Mockery {
         
         public void startCapturingExpectations(ExpectationCapture newCapture) {
             capture = newCapture;
-            newCapture.setDefaultAction(defaultAction);
         }
-
+        
         public void stopCapturingExpectations() {
             capture = null;
         }

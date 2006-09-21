@@ -55,6 +55,16 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
         }
     }
     
+    public void testCanReturnDefaultValueFromFlexibleExpectation() {
+        context.expects(new InAnyOrder() {{
+            expects(new InAnyOrder() {{
+                allowing (anything()).method(named(".*"));
+            }});
+        }});
+        
+        mock1.returnInt(); // should not fail
+    }
+    
     Matcher<Method> named(String nameRegex) {
         return new MethodNameMatcher(nameRegex);
     }
