@@ -20,11 +20,13 @@ import org.jmock.lib.action.ReturnDefaultValueAction;
 
 
 /**
- * Where all the mocks live.
- * 
- * Named by Ivan Moore.
+ * Where all the mocks live.  A Mockery represents the context, or neighbourhood, of the 
+ * object(s) under test.  The neighbouring objects in that context are mocked out.
+ * The test specifies the expected interactions between the object(s) under test and its 
+ * neighbours and the Mockery checks those expectations while the test is running.
  * 
  * @author npryce
+ * @author named by Ivan Moore.
  *
  */
 public class Mockery {
@@ -62,10 +64,16 @@ public class Mockery {
      * API
      */
     
+    /**
+     * Creates a mock object of type <var>typeToMock</var> and generates a name for it.
+     */
     public <T> T mock(Class<T> typeToMock) {
 		return mock(typeToMock, namingScheme.defaultNameFor(typeToMock));
 	}
     
+    /**
+     * Creates a mock object of type <var>typeToMock</var> with the given name.
+     */
     public <T> T mock(Class<T> typeToMock, String name) {
         MockObject mock = new MockObject(name);
         return imposteriser.imposterise(
@@ -77,12 +85,18 @@ public class Mockery {
         return new InvocationDiverter<T>(type, receiver, next);
     }
     
+    /**
+     * Specifies expectations on the context during the test.
+     */
 	public void expects(ExpectationBuilder builder) {
         builder.setDefaultAction(defaultAction);
         expectation = builder.toExpectation();
         capture = null;
 	}
 	
+    /**
+     * Fails if the test if there are any expectations that have not been met.
+     */
 	public void assertIsSatisfied() {
         firstError = null;
         if (expectation.needsMoreInvocations()) {
