@@ -7,27 +7,44 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.jmock.core.Action;
+import org.jmock.core.Expectation;
 import org.jmock.core.Invocation;
 import org.jmock.lib.InvocationExpectation;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ParametersClause;
 import org.jmock.syntax.ReceiverClause;
 
-public class InvocationExpectationBuilder implements ExpectationCapture, 
+public class InvocationExpectationBuilder implements ExpectationBuilder, ExpectationCapture, 
     ReceiverClause, MethodClause, ParametersClause
 {
-    private final InvocationExpectation expectation;
+    private final InvocationExpectation expectation = new InvocationExpectation();
     
     private boolean isFullySpecified = false;
+    private boolean needsDefaultAction = true;
     private DispatcherControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
     
-    protected InvocationExpectationBuilder(InvocationExpectation expectation) {
-        this.expectation = expectation;
+    public Expectation toExpectation() {
+        return expectation;
+    }
+    
+    public void setCardinality(int requiredInvocationCount, int maximumInvocationCount) {
+        expectation.setCardinality(requiredInvocationCount, maximumInvocationCount);
+    }
+    
+    public void addParameterMatcher(Matcher<?> matcher) {
+        capturedParameterMatchers.add(matcher);
+    }
+    
+    public void setAction(Action action) {
+        expectation.setAction(action);
+        needsDefaultAction = false;
     }
     
     public void setDefaultAction(Action defaultAction) {
-        expectation.setAction(defaultAction);
+        if (needsDefaultAction) {
+            expectation.setAction(defaultAction);
+        }
     }
     
     private <T> void captureExpectedObject(T mockObject) {
@@ -42,10 +59,6 @@ public class InvocationExpectationBuilder implements ExpectationCapture,
         isFullySpecified = true;
         
         dispatcher.startCapturingExpectations(this);
-    }
-    
-    public void addParameterMatcher(Matcher<?> matcher) {
-        capturedParameterMatchers.add(matcher);
     }
     
     public void createExpectationFrom(Invocation invocation) {
