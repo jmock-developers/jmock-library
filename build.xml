@@ -104,6 +104,9 @@
 			</packageset>
 			<packageset dir="../hamcrest-java/src/api"/>
 			<packageset dir="../hamcrest-java/src/library"/>
+			
+			<group title="jMock" packages="org.jmock*"/>
+			<group title="Hamcrest" packages="org.hamcrest*"/>
 		</javadoc>
 	</target>
 	
