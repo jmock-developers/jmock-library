@@ -1,8 +1,7 @@
 Functionality
 =============
 
-- APIs for flexible expectations.  E.g. of/allow/never(Matcher).method(Matcher).with(Matcher...).
-  So can write "allow (anyObject).method(anyBeanGetter);
+- How to pass default action to flexible expectations?
 
 - More syntactic sugar (matchers, actions) in OrderingConstraint
 

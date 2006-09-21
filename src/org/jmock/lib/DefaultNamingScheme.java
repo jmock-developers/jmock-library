@@ -3,15 +3,17 @@ package org.jmock.lib;
 import org.jmock.core.MockObjectNamingScheme;
 
 /**
- * A naming scheme in which the default name for a mock object is
+ * A naming scheme in which the implicit name for a mock object is
  * the mocked type's name with the first character in lower case.
  * E.g. A mock object of type HelloWorld would be called "helloWorld".
+ * 
+ * This is the naming scheme used by default.
  * 
  * @author npryce
  *
  */
-public class NatsNamingScheme implements MockObjectNamingScheme {
-    public static final NatsNamingScheme INSTANCE = new NatsNamingScheme();
+public class DefaultNamingScheme implements MockObjectNamingScheme {
+    public static final DefaultNamingScheme INSTANCE = new DefaultNamingScheme();
     
     public String defaultNameFor(Class<?> typeToMock) {
         String simpleName = typeToMock.getSimpleName();
