@@ -98,7 +98,9 @@
 	
 	<target name="build.javadoc" depends="build.dir">
 		<mkdir dir="build/javadoc"/>
-		<javadoc destdir="build/javadoc" source="1.5" failonerror="yes">
+		<javadoc destdir="build/javadoc" source="1.5" failonerror="yes" 
+			overview="src/overview.html">
+			
 			<packageset dir="src">
 				<exclude name="org/jmock/internal/**"/>
 			</packageset>
