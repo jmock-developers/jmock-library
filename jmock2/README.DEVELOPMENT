@@ -62,11 +62,11 @@ Plug-in Points:
 Matcher:
 	Controls the matching of invocations to expectations
 Action:
-	Performs actions when expectations are triggered
+	Performs an action in response to an invocation
 Imposteriser:
-	Wraps mock objects in a facade of the correct type
+	Wraps mock objects in an adapter of the correct type
 Expectation:
-	Matches and fakes an invocation
+	Matches an invocation and fakes its behaviour
 ExpectationGroup:
 	Dispatches invocations among multiple expectations
 ExpectationErrorTranslator: 
@@ -74,4 +74,3 @@ ExpectationErrorTranslator:
 	testing framework.
 MockObjectNamingScheme:
     Creates names for mock objects based on the mocked type.
-
