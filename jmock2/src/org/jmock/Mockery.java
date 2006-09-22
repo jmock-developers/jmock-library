@@ -86,13 +86,22 @@ public class Mockery {
     }
     
     /**
-     * Specifies expectations on the context during the test.
+     * Specifies the expected invocations that the object under test will perform upon
+     * objects in its context during the test.
      */
 	public void expects(ExpectationBuilder builder) {
         builder.setDefaultAction(defaultAction);
-        expectation = builder.toExpectation();
-        capture = null;
+        expects(builder.toExpectation());
 	}
+
+    /**
+     * Specifies the expected invocations that the object under test will perform upon
+     * objects in its context during the test.
+     */
+    public void expects(Expectation newExpectation) {
+        expectation = newExpectation;
+        capture = null;
+    }
 	
     /**
      * Fails if the test if there are any expectations that have not been met.
