@@ -88,15 +88,21 @@ public class Mockery {
     /**
      * Specifies the expected invocations that the object under test will perform upon
      * objects in its context during the test.
+     * 
+     * The builder is responsible for interpreting high-level, readable API calls to 
+     * construct an expectation.
      */
 	public void expects(ExpectationBuilder builder) {
         builder.setDefaultAction(defaultAction);
         expects(builder.toExpectation());
 	}
-
+	
     /**
      * Specifies the expected invocations that the object under test will perform upon
      * objects in its context during the test.
+     * 
+     * This method allows a test to define an expectation explicitly, bypassing the
+     * high-level API, if desired.
      */
     public void expects(Expectation newExpectation) {
         expectation = newExpectation;
