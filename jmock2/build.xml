@@ -5,17 +5,14 @@
 		<fileset dir="lib" includes="*.jar"/>
 	</path>
 	
-	<target name="rebuild" depends="clean,build"
-	   description="Removes all build artefacts and builds everything again"/>
+	<target name="build"
+		description="Builds everything from scratch"
+		depends="clean,build.compile, build.jars, build.srczips, build.zip.javadoc"/>
 	
 	<target name="clean" 
 			description="Removes all build artefacts">
 		<delete dir="build"/>
 	</target>
-	
-	<target name="build"
-		description="Builds library JAR files"
-		depends="build.compile,build.jars,build.srczips,build.zip.javadoc"/>
 	
 	<target name="build.compile" depends="build.dir">
 		<mkdir dir="build/classes"/>
@@ -33,11 +30,11 @@
 		<mkdir dir="build"/>
 	</target>
 	
-	<target name="build.jars" depends="build.jar.api,build.jar.junit3,build.jar.nonstd"/>
+	<target name="build.jars" depends="build.jar.api, build.jar.junit3, build.jar.nonstd"/>
 	
-	<target name="build.srczips" depends="build.srczip.api,build.srczip.junit3,build.srczip.nonstd"/>
+	<target name="build.srczips" depends="build.srczip.api, build.srczip.junit3, build.srczip.nonstd"/>
 	
-	<target name="build.jar.api" depends="build.compile">
+	<target name="build.jar.api" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-${version}.jar"
 			 basedir="build/classes" 
 			 compress="false">
@@ -56,7 +53,7 @@
 		</zip>
 	</target>
 
-	<target name="build.jar.junit3" depends="build.compile">
+	<target name="build.jar.junit3" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-junit3-${version}.jar"
 			 basedir="build/classes" 
 	     	 compress="false">
@@ -72,7 +69,7 @@
 		</zip>
 	</target>
 
-	<target name="build.jar.nonstd" depends="build.compile">
+	<target name="build.jar.nonstd" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-nonstd-${version}.jar"
 			 basedir="build/classes" 
 	         compress="false">
@@ -110,6 +107,28 @@
 			<group title="jMock" packages="org.jmock*"/>
 			<group title="Hamcrest" packages="org.hamcrest*"/>
 		</javadoc>
+	</target>
+	
+	<target name="run.tests" depends="build.compile" description="Runs the test suite">
+		<property name="outdir" value="build/reports/tests"/>
+		<mkdir dir="${outdir}"/>
+		<junit fork="yes" printsummary="no" haltonfailure="yes" showoutput="yes">
+			<classpath>
+				<path refid="build.classpath"/>
+				<pathelement location="build/classes"/>
+			</classpath>
+			
+			<formatter type="plain"/>
+			<formatter type="xml"/>
+			
+			<batchtest todir="${outdir}"> 
+				<fileset dir="test">
+					<include name="**/*Tests.java"/>
+					<exclude name="**/Abstract*"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<echo>All tests passed</echo>
 	</target>
 	
 	<target name="import-hamcrest-jars" 
