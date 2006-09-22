@@ -20,10 +20,11 @@ import org.jmock.lib.action.ReturnDefaultValueAction;
 
 
 /**
- * Where all the mocks live.  A Mockery represents the context, or neighbourhood, of the 
- * object(s) under test.  The neighbouring objects in that context are mocked out.
- * The test specifies the expected interactions between the object(s) under test and its 
- * neighbours and the Mockery checks those expectations while the test is running.
+ * A Mockery represents the context, or neighbourhood, of the object(s) under test.  
+ * 
+ * The neighbouring objects in that context are mocked out. The test specifies the 
+ * expected interactions between the object(s) under test and its  neighbours and 
+ * the Mockery checks those expectations while the test is running.
  * 
  * @author npryce
  * @author named by Ivan Moore.
@@ -44,18 +45,49 @@ public class Mockery {
      * Policies
      */
     
+    /**
+     * Changes the action used be expectations for which no action has been explicity
+     * defined.  
+     * 
+     * The default default action returns a value that is compatible with the method's
+     * return type but may be null.
+     */
     public void setDefaultAction(Action defaultAction) {
         this.defaultAction = defaultAction;
     }
     
+    /**
+     * Changes the imposteriser used to adapt mock objects to the mocked type.
+     * 
+     * The default imposteriser allows a test to mock interfaces but not
+     * classes, so you'll have to plug a different imposteriser into the
+     * Mockery if you want to mock classes.
+     */
     public void setImposteriser(Imposteriser imposteriser) {
         this.imposteriser = imposteriser;
     }
     
+    /**
+     * Changes the naming scheme used to generate names for mock objects that 
+     * have not been explicitly named in the test.
+     * 
+     * The default naming scheme names mock objects by lower-casing the first
+     * letter of the class name, so a mock object of type BananaSplit will be
+     * called "bananaSplit" if it is not explicitly named in the test.
+     */
     public void setNamingScheme(MockObjectNamingScheme namingScheme) {
         this.namingScheme = namingScheme;
     }
     
+    /**
+     * Changes the expectation error translator used to translate expectation
+     * errors into errors that report test failures.
+     * 
+     * By default, expectation errors are not translated and are thrown as
+     * errors of type {@link ExpectationError}.  Plug in a new expectation error
+     * translator if you want your favourite test framework to report expectation 
+     * failures using its own error type.
+     */
     public void setExpectationErrorTranslator(ExpectationErrorTranslator expectationErrorTranslator) {
         this.expectationErrorTranslator = expectationErrorTranslator;
     }
