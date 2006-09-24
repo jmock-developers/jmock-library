@@ -48,6 +48,9 @@ public class InvocationExpectation implements Expectation {
     
     public void describeTo(Description description) {
         describeCardinality(description);
+        description.appendText(", invoked ");
+        description.appendText(Integer.toString(invocationCount));
+        description.appendText(times(invocationCount));
         description.appendText(": ");
         objectMatcher.describeTo(description);
         description.appendText(".");
@@ -62,29 +65,41 @@ public class InvocationExpectation implements Expectation {
         int min = requiredInvocationCount;
         int max = maximumInvocationCount;
         
-        if (min == 0 && max == 0) {
-            description.appendText("never");
-        }
-        else if (min == 0 && max == Integer.MAX_VALUE) {
+        if (min == 0 && max == Integer.MAX_VALUE) {
             description.appendText("allowed");
         }
-        else if (min == max) {
-            description.appendText("exactly ");
-            description.appendText(Integer.toString(min));
-        }
-        else if (max == Integer.MAX_VALUE) {
-            description.appendText("at least ");
-            description.appendText(Integer.toString(min));
-        }
-        else if (min == 0) {
-            description.appendText("at most ");
-            description.appendText(Integer.toString(max));
-        }
         else {
-            description.appendText(Integer.toString(min));
-            description.appendText(" to ");
-            description.appendText(Integer.toString(max));
+            description.appendText("expected ");
+            
+            if (min == 0 && max == 0) {
+                description.appendText("never");
+            }
+            else if (min == max) {
+                description.appendText("exactly ");
+                description.appendText(Integer.toString(min));
+                description.appendText(times(min));
+            }
+            else if (max == Integer.MAX_VALUE) {
+                description.appendText("at least ");
+                description.appendText(Integer.toString(min));
+                description.appendText(times(min));
+            }
+            else if (min == 0) {
+                description.appendText("at most ");
+                description.appendText(Integer.toString(max));
+                description.appendText(times(max));
+            }
+            else {
+                description.appendText(Integer.toString(min));
+                description.appendText(" to ");
+                description.appendText(Integer.toString(max));
+                description.appendText(times(max));
+            }
         }
+    }
+    
+    private static String times(int n) {
+        return (n == 1) ? " time" : " times";
     }
     
     public boolean needsMoreInvocations() {
