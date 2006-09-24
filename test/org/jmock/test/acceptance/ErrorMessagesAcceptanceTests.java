@@ -13,7 +13,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
     
     MockedType mock = context.mock(MockedType.class, "mock");
     
-    public void testDoesNotShowCompletedExpectationsInExpectationFailures() {
+    public void testShowsExpectedAndCurrentNumberOfCallsInErrorMessage() {
         context.expects(new InAnyOrder() {{
             exactly(1).of (mock).method1();
             exactly(1).of (mock).method2();
@@ -33,7 +33,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
             
             AssertThat.stringIncludes("should include expectation that has not been invoked at all",
                                       "method1", message);
-            AssertThat.stringExcludes("should not include expectation that has been fully satisfied",
+            AssertThat.stringIncludes("should include expectation that has been fully satisfied",
                                       "method2", message);
             AssertThat.stringIncludes("should include expectation that has been satisfied but can still be invoked",
                                       "method3", message);

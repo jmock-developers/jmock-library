@@ -27,10 +27,8 @@ public class UnorderedExpectationGroup implements ExpectationGroup {
         description.appendText("in any order:\n");
         IndentedDescription indentedDescription = new IndentedDescription(description);
         for (Expectation expectation : expectations) {
-            if (expectation.allowsMoreInvocations()) {
-                expectation.describeTo(indentedDescription);
-                indentedDescription.appendText("\n");
-            }
+            expectation.describeTo(indentedDescription);
+            indentedDescription.appendText("\n");
         }
     }
     
