@@ -18,8 +18,6 @@ Functionality
 Build
 =====
 
-- Run the unit and acceptance tests from the Ant build
-
 - Publish snapshots somewhere
 
 
@@ -27,4 +25,4 @@ Hamcrest
 ========
 
 - Comparable seems too complicated. Shouldn't it be a couple of subclasses?
-
+   - see refactoring

@@ -3,18 +3,19 @@
 package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
+import net.sf.cglib.asm.ClassWriter;
+import net.sf.cglib.core.Constants;
 
 import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Constants;
 
 
 public class ClassLoaderAcceptanceTests extends TestCase {
     static class EmptyInterfaceCreator extends ClassLoader {
         protected Class<?> findClass( String name ) {
             ClassWriter writer = new ClassWriter(true);
-            writer.visit(Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
+            writer.visit(45,
+                         Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
                          name.replace('.', '/'),
                          "java/lang/Object",
                          null, /* interfaces */
