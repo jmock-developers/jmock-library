@@ -109,7 +109,7 @@
 		</javadoc>
 	</target>
 	
-	<target name="run.tests" depends="build.compile" description="Runs the test suite">
+	<target name="run.tests" depends="build.compile">
 		<property name="outdir" value="build/reports/tests"/>
 		<mkdir dir="${outdir}"/>
 		<junit fork="yes" printsummary="no" haltonfailure="yes" showoutput="yes">
@@ -136,6 +136,5 @@
 		<ant dir="../hamcrest-java" antfile="build.xml" target="all"/>
 		<copy file="../hamcrest-java/build/hamcrest-api-SNAPSHOT.jar" todir="lib"/>
 		<copy file="../hamcrest-java/build/hamcrest-library-SNAPSHOT.jar" todir="lib"/>
-		<copy file="../hamcrest-java/build/hamcrest-integration-SNAPSHOT.jar" todir="lib"/>
 	</target>
 </project>

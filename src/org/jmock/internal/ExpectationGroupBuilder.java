@@ -15,10 +15,11 @@ import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.ThrowAction;
+import org.jmock.syntax.CardinalitySyntax;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
 
-public class ExpectationGroupBuilder implements ExpectationBuilder {
+public class ExpectationGroupBuilder implements ExpectationBuilder, CardinalitySyntax {
     private final ExpectationGroup group;
     private InvocationExpectationBuilder expectationBuilder;
     private List<ExpectationBuilder> elementBuilders = new ArrayList<ExpectationBuilder>();
