@@ -110,4 +110,8 @@ public class InvocationExpectationBuilder implements ExpectationBuilder, Expecta
     public void with(Matcher<?>... parameterMatchers) {
         expectation.setParametersMatcher(new ParametersMatcher(Arrays.asList(parameterMatchers)));
     }
+    
+    public void withNoArguments() {
+        with();
+    }
 }

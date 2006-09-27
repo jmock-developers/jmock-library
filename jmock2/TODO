@@ -24,5 +24,12 @@ Build
 Hamcrest
 ========
 
-- Comparable seems too complicated. Shouldn't it be a couple of subclasses?
-   - see refactoring
+- Doesn't work with flexible expectations: throws ClassCastExceptions
+   - need to make all matchers take an Object argument
+   - wrap Matcher<Object> objects in statically typed decorators
+
+	  @Suppress("unchecked")
+	  Matcher<T> restrict(Matcher<U super T> matcher) {
+	  	return (Matcher<T>)matcher;
+	  }
+	  

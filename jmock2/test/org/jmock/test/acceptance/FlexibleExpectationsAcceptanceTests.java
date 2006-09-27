@@ -55,6 +55,24 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
         }
     }
     
+    public void testCanSpecifyNoArguments() {
+        context.expects(new InAnyOrder() {{
+            allowing (anything()).method(named("do.*")).withNoArguments();
+            allowing (anything()).method(named("do.*")).with(equal("X"), equal("Y"));
+        }});
+        
+        mock1.doSomething();
+        mock1.doSomethingWith("X", "Y");
+        
+        try {
+            mock1.doSomethingWith("x", "y");
+            fail("doSomething should not have been expected");
+        }
+        catch (ExpectationError e) {
+            // expected
+        }
+    }
+    
     public void testCanReturnDefaultValueFromFlexibleExpectation() {
         context.expects(new InAnyOrder() {{
             expects(new InAnyOrder() {{
