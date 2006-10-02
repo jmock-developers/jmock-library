@@ -51,7 +51,7 @@ public class InvocationTests extends TestCase {
     }
 
     public void testConstructorInterpretsNullParameterValueArrayAsZeroArguments() {
-        Invocation invocation = new Invocation(INVOKED, method, null);
+        Invocation invocation = new Invocation(INVOKED, method);
 
         assertEquals("expected no parameters values",
                      0, invocation.getParameterCount());
@@ -152,7 +152,7 @@ public class InvocationTests extends TestCase {
 
     public void testReturnTypeCheckFailsIfReturningValueFromVoidMethod() {
     	Invocation invocation = 
-            new Invocation(INVOKED, methodFactory.newMethodReturning(void.class), null);
+            new Invocation(INVOKED, methodFactory.newMethodReturning(void.class));
         
         try {
             invocation.checkReturnTypeCompatibility("string result");
@@ -167,7 +167,7 @@ public class InvocationTests extends TestCase {
     
     public void testReturnTypeCheckFailsIfReturnedValueIsIncompatible() {
     	Invocation invocation = 
-            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class), null);
+            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class));
 
         try {
             invocation.checkReturnTypeCompatibility("string result");
@@ -182,7 +182,7 @@ public class InvocationTests extends TestCase {
 
     public void testReturnTypeCheckFailsWhenReturningNullFromMethodWithPrimitiveReturnType() {
     	Invocation invocation = 
-            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class), null);
+            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class));
     
         try {
             invocation.checkReturnTypeCompatibility(null);
@@ -197,21 +197,21 @@ public class InvocationTests extends TestCase {
 
     public void testReturnTypeCheckAllowsReturningBoxedTypeFromMethodWithPrimitiveReturnType() {
         Invocation invocation = 
-            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class), null);
+            new Invocation(INVOKED, methodFactory.newMethodReturning(int.class));
     
         invocation.checkReturnTypeCompatibility(new Integer(0));
     }
 
     public void testReturnTypeCheckAllowsReturningNullFromMethodWithNonPrimitiveReturnType() {
         Invocation invocation = 
-            new Invocation(INVOKED, methodFactory.newMethodReturning(String.class), null);
+            new Invocation(INVOKED, methodFactory.newMethodReturning(String.class));
         
         invocation.checkReturnTypeCompatibility(null);
     }
     
     public void testReturnTypeCheckAllowsReturningNullFromVoidMethod() {
         Invocation invocation = 
-            new Invocation(INVOKED, methodFactory.newMethodReturning(void.class), null);
+            new Invocation(INVOKED, methodFactory.newMethodReturning(void.class));
         
         invocation.checkReturnTypeCompatibility(null);
     }

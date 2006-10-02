@@ -13,9 +13,10 @@ import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.IdentityExpectationErrorTranslator;
 import org.jmock.internal.InvocationDiverter;
+import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.internal.UnspecifiedExpectation;
-import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.DefaultNamingScheme;
+import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.action.ReturnDefaultValueAction;
 
 
@@ -108,13 +109,13 @@ public class Mockery {
      */
     public <T> T mock(Class<T> typeToMock, String name) {
         MockObject mock = new MockObject(name);
+        ProxiedObjectIdentity invokable = 
+            new ProxiedObjectIdentity(
+                new InvocationDiverter<DispatcherControl>(
+                    DispatcherControl.class, mock, mock));
         return imposteriser.imposterise(
-            divert(Object.class, mock, divert(DispatcherControl.class, mock, mock)), 
+            invokable, 
             typeToMock, DispatcherControl.class);
-    }
-    
-    private <T> Invokable divert(Class<T> type, T receiver, Invokable next) {
-        return new InvocationDiverter<T>(type, receiver, next);
     }
     
     /**

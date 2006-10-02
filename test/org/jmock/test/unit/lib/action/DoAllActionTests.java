@@ -16,11 +16,12 @@ public class DoAllActionTests extends TestCase {
     private Object invokedObject = "INVOKED_OBJECT";
     private MethodFactory methodFactory = new MethodFactory();
     private Method invokedMethod = methodFactory.newMethodReturning(String.class);
-    private Invocation invocation = new Invocation(invokedObject, invokedMethod, null);
+    private Invocation invocation = new Invocation(invokedObject, invokedMethod);
 
     private MockAction[] actions = new MockAction[4];
 	private DoAllAction doAllAction;
     
+    @SuppressWarnings("cast") // Eclipse gives warning if there is a cast and if there is not!
     public void setUp() {
         for (int i = 0; i < actions.length; i++) {
             actions[i] = new MockAction();

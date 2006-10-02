@@ -3,10 +3,10 @@ package org.jmock.test.unit.internal;
 import junit.framework.TestCase;
 
 import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
 import org.jmock.internal.InvocationDiverter;
+import org.jmock.test.unit.support.StubInvokable;
 
-public class InvokerTests extends TestCase {
+public class InvocationDiverterTests extends TestCase {
     public interface TargetInterface {
         void doSomething();
     }
@@ -23,19 +23,10 @@ public class InvokerTests extends TestCase {
         void doSomethingElse();
     }
     
-    public class StubInvokable implements Invokable {
-        public boolean wasInvoked = false;
-        
-        public Object invoke(Invocation invocation) throws Throwable {
-            wasInvoked = true;
-            return null;
-        }
-    }
-
     Target target = new Target();
     StubInvokable next = new StubInvokable();
     
-    InvocationDiverter<TargetInterface> invoker = 
+    InvocationDiverter<TargetInterface> diverter = 
         new InvocationDiverter<TargetInterface>(TargetInterface.class, target, next);
 
     
@@ -45,7 +36,7 @@ public class InvokerTests extends TestCase {
                            TargetInterface.class.getMethod("doSomething"), 
                            Invocation.NO_PARAMETERS);
         
-        invoker.invoke(invocation);
+        diverter.invoke(invocation);
         
         assertTrue("target should have been invoked", 
                    target.wasInvoked);
@@ -59,11 +50,17 @@ public class InvokerTests extends TestCase {
                            OtherInterface.class.getMethod("doSomethingElse"), 
                            Invocation.NO_PARAMETERS);
         
-        invoker.invoke(invocation);
+        diverter.invoke(invocation);
         
         assertTrue("target should not have been invoked", 
                    !target.wasInvoked);
         assertTrue("next should have been invoked",
                    next.wasInvoked);
+    }
+    
+    public void testDelegatesToStringToNext() {
+        next.toStringResult = "next.toStringResult";
+        
+        assertEquals(next.toStringResult, diverter.toString());
     }
 }

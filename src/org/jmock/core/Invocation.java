@@ -38,7 +38,7 @@ public class Invocation implements SelfDescribing {
     }};
 
     
-    public Invocation(Object invoked, Method method, Object[] parameterValues) {
+    public Invocation(Object invoked, Method method, Object... parameterValues) {
         this.invokedObject = invoked;
         this.invokedMethod = method;
         this.parameterValues = (parameterValues == NO_PARAMETERS) 
