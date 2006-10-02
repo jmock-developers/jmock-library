@@ -24,8 +24,7 @@ public class ThrowActionTests extends TestCase {
     public void setUp() {
         methodFactory = new MethodFactory();
         invocation = new Invocation("INVOKED-OBJECT",
-                                    methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, EXCEPTION_TYPES),
-                                    null);
+                                    methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, EXCEPTION_TYPES));
         throwAction = new ThrowAction(THROWABLE);
     }
 
@@ -57,9 +56,8 @@ public class ThrowActionTests extends TestCase {
 
     public void testDoesNotAllowThrowingIncompatibleCheckedException() throws Throwable {
         Class[] expectedExceptionTypes = {ExpectedExceptionType1.class, ExpectedExceptionType2.class};
-        Invocation incompatibleInvocation = new Invocation("INVOKED-OBJECT",
-                                                           methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, expectedExceptionTypes),
-                                                           null);
+        Invocation incompatibleInvocation = 
+            new Invocation("INVOKED-OBJECT", methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, expectedExceptionTypes));
 
         try {
             throwAction.invoke(incompatibleInvocation);
@@ -79,9 +77,8 @@ public class ThrowActionTests extends TestCase {
     }
 
     public void testGivesInformativeErrorMessageIfAttemptToThrowCheckedExceptionFromMethodWithNoExceptions() throws Throwable {
-        Invocation incompatibleInvocation = new Invocation("INVOKED-OBJECT",
-                                                           methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, MethodFactory.NO_EXCEPTIONS),
-                                                           null);
+        Invocation incompatibleInvocation = 
+            new Invocation("INVOKED-OBJECT", methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, MethodFactory.NO_EXCEPTIONS));
         
         try {
             throwAction.invoke(incompatibleInvocation);

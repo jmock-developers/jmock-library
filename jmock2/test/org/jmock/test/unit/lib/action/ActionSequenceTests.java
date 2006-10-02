@@ -20,9 +20,10 @@ public class ActionSequenceTests extends TestCase {
     private Object invokedObject = "INVOKED_OBJECT";
     private MethodFactory methodFactory = new MethodFactory();
     private Method invokedMethod = methodFactory.newMethodReturning(String.class);
-    private Invocation invocation = new Invocation(invokedObject, invokedMethod, null);
+    private Invocation invocation = new Invocation(invokedObject, invokedMethod);
     
     
+    @SuppressWarnings("cast") // Eclipse gives warning if there is a cast and if there is not!
     public void testInvokesActionsInOrder() throws Throwable {
     	final int sequenceLength = 4;
     	
@@ -35,11 +36,10 @@ public class ActionSequenceTests extends TestCase {
         
         Invocation[] invocations = new Invocation[actions.length];
         for (int i = 0; i < sequenceLength; i++) {
-        	invocations[i] = new Invocation(invokedObject, invokedMethod, null);
+        	invocations[i] = new Invocation(invokedObject, invokedMethod);
         }
         
         ActionSequence sequence = new ActionSequence((Action[])actions);
-        
         
         for (int current = 0; current < actions.length; current++) {
             reset(actions);
@@ -53,6 +53,7 @@ public class ActionSequenceTests extends TestCase {
         }
     }
     
+    @SuppressWarnings("cast") // Eclipse gives warning if there is a cast and if there is not!
     public void testThrowsAssertionFailedErrorIfInvokedMoreTimesThanThereAreActionsInTheSequence() throws Throwable {
         MockAction[] actions = new MockAction[]{new MockAction(), new MockAction()};
         ActionSequence sequence = new ActionSequence((Action[])actions);
@@ -68,6 +69,7 @@ public class ActionSequenceTests extends TestCase {
         }
     }
     
+    @SuppressWarnings("cast") // Eclipse gives warning if there is a cast and if there is not!
     public void testDescribesItselfAsSequenceOfActions() throws Throwable {
         MockAction[] actions = new MockAction[]{new MockAction(), new MockAction()};
         ActionSequence sequence = new ActionSequence((Action[])actions);

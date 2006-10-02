@@ -14,6 +14,11 @@ public class InvocationDiverter<T> implements Invokable {
         this.next = next;
     }
     
+    @Override
+    public String toString() {
+        return next.toString();
+    }
+    
     public Object invoke(Invocation invocation) throws Throwable {
         if (invocation.getInvokedMethod().getDeclaringClass() == declaringType) {
             return invocation.applyTo(target);

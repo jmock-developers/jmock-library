@@ -92,7 +92,7 @@ public class InvocationExpectationTests extends TestCase {
 	}
 	
 	public void testMustMeetTheRequiredInvocationCountButContinuesToMatch() throws Throwable {
-		Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"), null);
+		Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"));
 		
 		int requiredInvocationCount = 3;
 		expectation.setCardinality(requiredInvocationCount, Integer.MAX_VALUE);

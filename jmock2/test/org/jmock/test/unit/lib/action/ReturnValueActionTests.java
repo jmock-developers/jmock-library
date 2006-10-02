@@ -29,8 +29,7 @@ public class ReturnValueActionTests extends TestCase {
     }
 
     public void testReturnsValuePassedToConstructor() throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory
-                .newMethodReturning(RESULT.getClass()), null);
+        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(RESULT.getClass()));
 
         assertSame("Should be the same result object", RESULT, returnValueAction
                 .invoke(invocation));
@@ -46,8 +45,7 @@ public class ReturnValueActionTests extends TestCase {
     }
 
     public void testCanReturnNullReference() throws Throwable {
-        invocation = new Invocation(invokedObject, methodFactory
-                .newMethodReturning(String.class), null);
+        invocation = new Invocation(invokedObject, methodFactory.newMethodReturning(String.class));
 
         returnValueAction = new ReturnValueAction(null);
 
