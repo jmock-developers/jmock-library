@@ -1,13 +1,6 @@
 Functionality
 =============
 
-- More syntactic sugar (matchers, actions) in OrderingConstraint
-
-- wording of never/allowing/ignoring
-   - ignoring in particular is misleading: it doesn't make the mockery
-     or expectation group ignore the mock object, it makes it allow any
-     method call to the mock object.
-
 - wording of nested expectation groups
 
 - write a test for a()/an()

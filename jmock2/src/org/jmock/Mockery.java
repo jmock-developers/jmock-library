@@ -113,9 +113,8 @@ public class Mockery {
             new ProxiedObjectIdentity(
                 new InvocationDiverter<DispatcherControl>(
                     DispatcherControl.class, mock, mock));
-        return imposteriser.imposterise(
-            invokable, 
-            typeToMock, DispatcherControl.class);
+        
+        return imposteriser.imposterise(invokable, typeToMock, DispatcherControl.class);
     }
     
     /**

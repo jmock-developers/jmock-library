@@ -1,9 +1,10 @@
 package org.jmock.syntax;
 
 import org.hamcrest.Matcher;
+import org.jmock.internal.ExpectationGroupBuilder;
 
 
-public interface CardinalitySyntax {
+public interface CardinalityClause {
     ReceiverClause exactly(int count);
     ReceiverClause atLeast(int count);
     ReceiverClause between(int minCount, int maxCount);
@@ -15,4 +16,6 @@ public interface CardinalitySyntax {
     <T> void ignoring(T mockObject);
     
     <T> T never(T mockObject);
+    
+    void expects(ExpectationGroupBuilder subgroupBuilder);
 }
