@@ -15,11 +15,14 @@ import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.ThrowAction;
-import org.jmock.syntax.CardinalitySyntax;
+import org.jmock.syntax.ArgumentConstraintPhrases;
+import org.jmock.syntax.CardinalityClause;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
 
-public class ExpectationGroupBuilder implements ExpectationBuilder, CardinalitySyntax {
+public class ExpectationGroupBuilder implements ExpectationBuilder, 
+    CardinalityClause, ArgumentConstraintPhrases, ActionClause 
+{
     private final ExpectationGroup group;
     private InvocationExpectationBuilder expectationBuilder;
     private List<ExpectationBuilder> elementBuilders = new ArrayList<ExpectationBuilder>();
@@ -145,7 +148,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder, CardinalityS
         addParameterMatcher(matcher);
         return 0.0;
     }
-
+    
     public void will(Action action) {
         if (expectationBuilder == null) {
             throw new IllegalStateException(UnspecifiedExpectation.ERROR);
@@ -179,11 +182,11 @@ public class ExpectationGroupBuilder implements ExpectationBuilder, CardinalityS
         return IsAnything.<T>anything();
     }
     
-    public Matcher<?> a(Class<?> type) {
+    public <T> Matcher<T> a(Class<T> type) {
         return IsInstanceOf.isA(type);
     }
     
-    public Matcher<?> an(Class<?> type) {
+    public <T> Matcher<T> an(Class<T> type) {
         return IsInstanceOf.isA(type);
     }
     
