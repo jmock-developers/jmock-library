@@ -11,6 +11,17 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
     MockedType mock = context.mock(MockedType.class, "mock");
     
+    public void testOne() {
+        context.expects(new InAnyOrder() {{
+            one (mock).doSomething();
+        }});
+        
+        assertContextIsNotSatisfied();
+        mock.doSomething();
+        context.assertIsSatisfied();
+        assertAnotherInvocationFailsTheTest();
+    }
+    
     public void testExpectsExactly() {
         context.expects(new InAnyOrder() {{
             exactly(2).of (mock).doSomething();
