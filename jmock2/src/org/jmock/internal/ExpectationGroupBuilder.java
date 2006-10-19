@@ -70,6 +70,10 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
         return expectationBuilder;
     }
     
+    public <T> T one (T mockObject) {
+        return exactly(1).of(mockObject);
+    }
+    
     public ReceiverClause atLeast(int count) {
         initialiseExpectationCapture(count, Integer.MAX_VALUE);
         return expectationBuilder;
