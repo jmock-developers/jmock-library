@@ -20,7 +20,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
         final Bid expectedBid = beatableBid.add(increment);
 
         expects(new InAnyOrder() {{
-            exactly(1).of (lot).bid(expectedBid);
+            one (lot).bid(expectedBid);
         }});
 
         sniper.bidAccepted(lot, beatableBid);
