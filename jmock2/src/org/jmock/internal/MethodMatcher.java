@@ -3,16 +3,18 @@ package org.jmock.internal;
 import java.lang.reflect.Method;
 
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
-public class MethodMatcher implements Matcher<Method> {
+public class MethodMatcher extends TypeSafeMatcher<Method> {
     private Method expectedMethod;
     
     public MethodMatcher(Method expectedMethod) {
+        super(Method.class);
         this.expectedMethod = expectedMethod;
     }
     
-    public boolean match(Method m) {
+    @Override
+    protected boolean matchesSafely(Method m) {
         return m == expectedMethod;
     }
     

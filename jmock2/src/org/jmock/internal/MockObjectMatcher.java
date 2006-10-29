@@ -10,7 +10,7 @@ public class MockObjectMatcher implements Matcher<Object> {
         this.mockObject = mockObject;
     }
     
-    public boolean match(Object o) {
+    public boolean matches(Object o) {
         return o == mockObject;
     }
 
