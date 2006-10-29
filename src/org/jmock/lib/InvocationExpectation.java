@@ -112,9 +112,9 @@ public class InvocationExpectation implements Expectation {
     
     public boolean matches(Invocation invocation) {
 		return allowsMoreInvocations()
-			&& objectMatcher.match(invocation.getInvokedObject())
-			&& methodMatcher.match(invocation.getInvokedMethod())
-			&& parametersMatcher.match(invocation.getParametersAsArray());
+			&& objectMatcher.matches(invocation.getInvokedObject())
+			&& methodMatcher.matches(invocation.getInvokedMethod())
+			&& parametersMatcher.matches(invocation.getParametersAsArray());
 	}
     
 	public Object invoke(Invocation invocation) throws Throwable {

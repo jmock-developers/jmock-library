@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
 
@@ -35,14 +36,14 @@ public class HamcrestTypeSafetyAcceptanceTest extends TestCase {
         return new MethodNameMatcher(nameRegex);
     }
     
-    private class MethodNameMatcher implements Matcher<Method> {
+    private class MethodNameMatcher extends TypeSafeMatcher<Method> {
         Pattern namePattern;
         
         public MethodNameMatcher(String nameRegex) {
             namePattern = Pattern.compile(nameRegex);
         }
         
-        public boolean match(Method method) {
+        public boolean matchesSafely(Method method) {
             return namePattern.matcher(method.getName()).matches();
         }
 

@@ -24,10 +24,10 @@ public class InvocationExpectationTests extends TestCase {
 	
 	public <T> Matcher<T> mockMatcher(final T expected, final boolean result) {
 		return new Matcher<T>() {
-			public boolean match(T actual) {
+			public boolean matches(Object actual) {
 				assertTrue(
 					"expected " + expected + ", was " + actual,
-					IsEqual.eq(expected).match(actual));
+					IsEqual.eq(expected).matches(actual));
 				return result;
 			}
 			public void describeTo(Description description) {
