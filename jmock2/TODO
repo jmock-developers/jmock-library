@@ -1,28 +1,23 @@
 Functionality
 =============
 
+- buy org.jmock2 domain and rename packages
+
 - wording of nested expectation groups
 
 - write a test for a()/an()
 
 - pull out a cardinality constraint?
 
+Integration
+===========
+
+- JUnit 4
+- TestNG
+- Objenesis
+
 
 Build
 =====
 
 - Publish snapshots somewhere
-
-
-Hamcrest
-========
-
-- Doesn't work with flexible expectations: throws ClassCastExceptions
-   - need to make all matchers take an Object argument
-   - wrap Matcher<Object> objects in statically typed decorators
-
-	  @Suppress("unchecked")
-	  Matcher<T> restrict(Matcher<U super T> matcher) {
-	  	return (Matcher<T>)matcher;
-	  }
-	  
