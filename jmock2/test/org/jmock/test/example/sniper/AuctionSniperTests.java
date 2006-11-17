@@ -3,6 +3,7 @@ package org.jmock.test.example.sniper;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 import org.jmock.InAnyOrder;
+import org.jmock.InThisOrder;
 import org.jmock.integration.junit3.MockObjectTestCase;
 
 public class AuctionSniperTests extends MockObjectTestCase {
@@ -63,7 +64,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testCatchesExceptionsAndReportsThemToErrorListener() throws Exception {
         final AuctionException exception = new AuctionException("test");
 
-        expects(new InAnyOrder() {{
+        expects(new InThisOrder() {{
             allowing (lot).bid(with(anyBid)); will(throwException(exception));
             exactly(1).of (listener).sniperBidFailed(sniper, exception);
         }});
