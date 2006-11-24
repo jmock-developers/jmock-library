@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
-import org.jmock.core.ExpectationError;
+import org.jmock.api.ExpectationError;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;
 

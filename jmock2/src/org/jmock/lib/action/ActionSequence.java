@@ -10,8 +10,8 @@ import java.util.List;
 import junit.framework.AssertionFailedError;
 
 import org.hamcrest.Description;
-import org.jmock.core.Action;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Invocation;
 
 
 public class ActionSequence implements Action {

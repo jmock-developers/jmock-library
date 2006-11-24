@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.test.acceptance.MockedType;
 import org.jmock.test.unit.support.StubInvokable;

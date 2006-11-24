@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hamcrest.Description;
-import org.jmock.core.Action;
-import org.jmock.core.Imposteriser;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
 

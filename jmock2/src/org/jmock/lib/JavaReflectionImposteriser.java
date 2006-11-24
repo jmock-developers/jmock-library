@@ -4,12 +4,12 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import org.jmock.core.Imposteriser;
-import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
 
 /**
- * An {@link org.jmock.core.Imposteriser} that uses the
+ * An {@link org.jmock.api.Imposteriser} that uses the
  * {@link java.lang.reflect.Proxy} class of the Java Reflection API.
  * 
  * @author npryce

@@ -1,4 +1,4 @@
-package org.jmock.core;
+package org.jmock.api;
 
 /**
  * Creates names for mock objects that have not explicitly been

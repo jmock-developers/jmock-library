@@ -1,7 +1,7 @@
 package org.jmock.internal;
 
-import org.jmock.core.ExpectationError;
-import org.jmock.core.ExpectationErrorTranslator;
+import org.jmock.api.ExpectationError;
+import org.jmock.api.ExpectationErrorTranslator;
 
 public class IdentityExpectationErrorTranslator implements
     ExpectationErrorTranslator

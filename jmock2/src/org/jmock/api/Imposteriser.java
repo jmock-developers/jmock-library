@@ -1,9 +1,9 @@
-package org.jmock.core;
+package org.jmock.api;
 
 /**
  * An object that can creates a proxy of the given type to capture
- * {@link org.jmock.core.Invocation}s and pass them to an 
- * {@link org.jmock.core.Invokable} object for mocking or stubbing.
+ * {@link org.jmock.api.Invocation}s and pass them to an 
+ * {@link org.jmock.api.Invokable} object for mocking or stubbing.
  * 
  * @author npryce
  */

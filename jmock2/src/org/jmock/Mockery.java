@@ -1,13 +1,13 @@
 package org.jmock;
 
-import org.jmock.core.Action;
-import org.jmock.core.Expectation;
-import org.jmock.core.ExpectationError;
-import org.jmock.core.ExpectationErrorTranslator;
-import org.jmock.core.Imposteriser;
-import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
-import org.jmock.core.MockObjectNamingScheme;
+import org.jmock.api.Action;
+import org.jmock.api.Expectation;
+import org.jmock.api.ExpectationError;
+import org.jmock.api.ExpectationErrorTranslator;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
+import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.internal.DispatcherControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;

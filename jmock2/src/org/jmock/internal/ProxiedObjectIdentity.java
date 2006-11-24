@@ -3,8 +3,8 @@ package org.jmock.internal;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
 
 public class ProxiedObjectIdentity implements Invokable {
     private Invokable next;

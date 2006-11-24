@@ -2,7 +2,7 @@ package org.jmock.test.unit.lib.nonstd;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Imposteriser;
+import org.jmock.api.Imposteriser;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.nonstd.UnsafeHackConcreteClassImposteriser;
 

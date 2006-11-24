@@ -1,4 +1,4 @@
-package org.jmock.core;
+package org.jmock.api;
 
 /**
  * Translates expectation errors into error type used by a specific 

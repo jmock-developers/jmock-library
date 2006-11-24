@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
-import org.jmock.core.Action;
-import org.jmock.core.Expectation;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Expectation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.action.VoidAction;
 
 /** 

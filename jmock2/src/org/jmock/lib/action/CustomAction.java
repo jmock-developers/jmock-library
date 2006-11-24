@@ -3,7 +3,7 @@
 package org.jmock.lib.action;
 
 import org.hamcrest.Description;
-import org.jmock.core.Action;
+import org.jmock.api.Action;
 
 
 /**

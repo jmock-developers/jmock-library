@@ -7,9 +7,9 @@ import java.lang.reflect.Method;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
 
-import org.jmock.core.Imposteriser;
-import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
 
 import sun.misc.Unsafe;
 

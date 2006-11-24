@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hamcrest.Matcher;
-import org.jmock.core.Action;
-import org.jmock.core.Expectation;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Expectation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.InvocationExpectation;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ParametersClause;
