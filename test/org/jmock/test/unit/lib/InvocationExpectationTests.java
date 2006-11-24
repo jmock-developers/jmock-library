@@ -8,7 +8,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.InvocationExpectation;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;

@@ -1,9 +1,9 @@
 package org.jmock.integration.junit3;
 
 import org.jmock.Mockery;
-import org.jmock.core.Action;
-import org.jmock.core.Imposteriser;
-import org.jmock.core.MockObjectNamingScheme;
+import org.jmock.api.Action;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.internal.ExpectationBuilder;
 
 /**

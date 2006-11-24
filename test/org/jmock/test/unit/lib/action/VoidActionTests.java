@@ -4,7 +4,7 @@ package org.jmock.test.unit.lib.action;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.action.VoidAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;

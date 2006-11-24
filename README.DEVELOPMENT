@@ -16,7 +16,7 @@ Architectural Constraints:
 
 * No dependency on any specific test framework.
 
-That means, don't use JUnit Assert.assertBlahBlah to check assertions.
+That means, don't use JUnit Assert.assertBlahBlah to check expectations.
 Throw ExpectationError to report a violated expectation.
 Throw some kind of RuntimeException to report programming errors in the
 use of the framework.  E.g. trying to set up an expectation to return a 
@@ -29,7 +29,7 @@ Package Structure:
 org.jmock		
 	DSL-style API (compatability guarantees)
 
-org.jmock.core      
+org.jmock.api      
 	Interfaces, value classes and exceptions defining plug-in API 
 	(compatability guarantees)
 
@@ -41,7 +41,7 @@ org.jmock.lib
 org.jmock.lib.nonstd	
 	Lib classes that rely on clever hacks or otherwise cannot be 
 	guaranteed to always work in all JVMs.
-	no guarantees, use at your own risk).
+	(no guarantees, use at your own risk).
 
 org.jmock.internal
 	Internal implementation details (no guarantees)

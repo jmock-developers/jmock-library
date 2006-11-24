@@ -1,6 +1,6 @@
 package org.jmock.internal;
 
-import org.jmock.core.Action;
+import org.jmock.api.Action;
 
 
 public interface ActionClause {

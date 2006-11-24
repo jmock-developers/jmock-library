@@ -1,13 +1,13 @@
 /*  Copyright (c) 2000-2004 jMock.org
  */
-package org.jmock.test.unit.core;
+package org.jmock.test.unit.api;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.MethodFactory;
 

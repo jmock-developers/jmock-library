@@ -1,6 +1,6 @@
 /*  Copyright (c) 2000-2004 jMock.org
  */
-package org.jmock.core;
+package org.jmock.api;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

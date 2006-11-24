@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
-import org.jmock.core.ExpectationError;
+import org.jmock.api.ExpectationError;
 
 public class UnorderedExpectationsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();

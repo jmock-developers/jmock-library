@@ -1,9 +1,9 @@
-package org.jmock.core;
+package org.jmock.api;
 
 import org.hamcrest.SelfDescribing;
 
 /**
- * An object that matches, checks and fakes an {@link org.jmock.core.Invocation}
+ * An object that matches, checks and fakes an {@link org.jmock.api.Invocation}
  * 
  * @author npryce
  */

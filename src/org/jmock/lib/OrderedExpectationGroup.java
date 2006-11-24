@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Description;
-import org.jmock.core.Expectation;
-import org.jmock.core.ExpectationGroup;
-import org.jmock.core.Invocation;
+import org.jmock.api.Expectation;
+import org.jmock.api.ExpectationGroup;
+import org.jmock.api.Invocation;
 import org.jmock.internal.IndentedDescription;
 
 
 /**
- * An {@link org.jmock.core.ExpectationGroup} in which expectations
+ * An {@link org.jmock.api.ExpectationGroup} in which expectations
  * must be invoked in order.
  * 
  * @author npryce

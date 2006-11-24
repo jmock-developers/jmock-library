@@ -3,8 +3,8 @@
  */
 package org.jmock.test.unit.support;
 
-import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
 
 public class StubInvokable implements Invokable {
     public boolean wasInvoked = false;

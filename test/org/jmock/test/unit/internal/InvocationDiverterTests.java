@@ -2,7 +2,7 @@ package org.jmock.test.unit.internal;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.test.unit.support.StubInvokable;
 

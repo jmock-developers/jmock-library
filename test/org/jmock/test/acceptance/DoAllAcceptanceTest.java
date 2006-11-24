@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 import org.hamcrest.Description;
 import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
-import org.jmock.core.Action;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Invocation;
 
 public class DoAllAcceptanceTest extends TestCase {
     public interface Collector {

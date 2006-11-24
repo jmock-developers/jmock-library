@@ -3,8 +3,8 @@ package org.jmock.test.unit.support;
 import junit.framework.Assert;
 
 import org.hamcrest.Description;
-import org.jmock.core.Expectation;
-import org.jmock.core.Invocation;
+import org.jmock.api.Expectation;
+import org.jmock.api.Invocation;
 
 public class MockExpectation extends Assert implements Expectation {
 	public boolean matches;

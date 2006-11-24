@@ -3,8 +3,8 @@
 package org.jmock.lib.action;
 
 import org.hamcrest.Description;
-import org.jmock.core.Action;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Invocation;
 
 public class ThrowAction implements Action {
     private Throwable throwable;

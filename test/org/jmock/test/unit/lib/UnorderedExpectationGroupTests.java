@@ -2,7 +2,7 @@ package org.jmock.test.unit.lib;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.UnorderedExpectationGroup;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockExpectation;

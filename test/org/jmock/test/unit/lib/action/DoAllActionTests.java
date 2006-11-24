@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Action;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Invocation;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;

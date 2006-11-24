@@ -1,4 +1,4 @@
-package org.jmock.core;
+package org.jmock.api;
 
 /**
  * Dispatches invocations to multiple expectations and defines ordering constraints

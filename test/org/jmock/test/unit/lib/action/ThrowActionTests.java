@@ -5,7 +5,7 @@ package org.jmock.test.unit.lib.action;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.action.ThrowAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.DummyThrowable;

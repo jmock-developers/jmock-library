@@ -5,7 +5,7 @@ package org.jmock.test.unit.lib.action;
 import junit.framework.TestCase;
 
 import org.hamcrest.StringDescription;
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 import org.jmock.lib.action.CustomAction;
 
 

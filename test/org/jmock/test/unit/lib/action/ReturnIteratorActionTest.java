@@ -6,8 +6,8 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.jmock.core.Action;
-import org.jmock.core.Invocation;
+import org.jmock.api.Action;
+import org.jmock.api.Invocation;
 import org.jmock.lib.action.ReturnIteratorAction;
 import org.jmock.test.unit.support.GetDescription;
 

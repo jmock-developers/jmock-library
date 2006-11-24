@@ -1,7 +1,7 @@
 package org.jmock.internal;
 
 import org.hamcrest.Matcher;
-import org.jmock.core.Invocation;
+import org.jmock.api.Invocation;
 
 
 public interface ExpectationCapture {

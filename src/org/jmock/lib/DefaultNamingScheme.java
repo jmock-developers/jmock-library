@@ -1,6 +1,6 @@
 package org.jmock.lib;
 
-import org.jmock.core.MockObjectNamingScheme;
+import org.jmock.api.MockObjectNamingScheme;
 
 /**
  * A naming scheme in which the implicit name for a mock object is

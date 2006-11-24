@@ -1,7 +1,7 @@
 package org.jmock.internal;
 
-import org.jmock.core.Invocation;
-import org.jmock.core.Invokable;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
 
 public class InvocationDiverter<T> implements Invokable {
     private final Class<T> declaringType;

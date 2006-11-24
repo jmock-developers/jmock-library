@@ -1,7 +1,7 @@
-package org.jmock.core;
+package org.jmock.api;
 
 /**
- * An object that can receive an {@link org.jmock.core.Invocation}.
+ * An object that can receive an {@link org.jmock.api.Invocation}.
  * 
  * @author npryce
  */

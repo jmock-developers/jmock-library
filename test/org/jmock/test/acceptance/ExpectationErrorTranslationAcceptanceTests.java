@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 
 import org.jmock.InAnyOrder;
 import org.jmock.Mockery;
-import org.jmock.core.ExpectationError;
-import org.jmock.core.ExpectationErrorTranslator;
+import org.jmock.api.ExpectationError;
+import org.jmock.api.ExpectationErrorTranslator;
 
 public class ExpectationErrorTranslationAcceptanceTests extends TestCase {
     public class TranslatedError extends Error {}

@@ -1,8 +1,8 @@
 package org.jmock.internal;
 
 import org.hamcrest.Description;
-import org.jmock.core.Expectation;
-import org.jmock.core.Invocation;
+import org.jmock.api.Expectation;
+import org.jmock.api.Invocation;
 
 public class UnspecifiedExpectation implements Expectation {
     public static final String ERROR = "no expectations have been specified";
