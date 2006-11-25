@@ -18,7 +18,7 @@ public class TimedCacheTests extends TestCase {
     final private Object NEW_VALUE = "newValue";
 
     private Mockery context = new Mockery() {{
-        setExpectationErrorTranslator(new JUnit3ErrorTranslator());
+        setExpectationErrorTranslator(JUnit3ErrorTranslator.INSTANCE);
     }};
     
     private Clock mockClock = context.mock(Clock.class);
