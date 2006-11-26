@@ -11,7 +11,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     public class AnError extends Error {}
     public class IncompatibleCheckedException extends Exception {}
     
-    interface Throwing {
+    public interface Throwing {
         void doSomething() throws CheckedException;
     }
 

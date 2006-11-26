@@ -2,7 +2,7 @@
 	<property name="version" value="SNAPSHOT"/>
 	
 	<path id="build.classpath">
-		<fileset dir="lib" includes="*.jar"/>
+		<fileset dir="lib" includes="*.jar" excludes="*-src.jar"/>
 	</path>
 	
 	<target name="build"
@@ -30,9 +30,11 @@
 		<mkdir dir="build"/>
 	</target>
 	
-	<target name="build.jars" depends="build.jar.api, build.jar.junit3, build.jar.nonstd"/>
+	<target name="build.jars" 
+		depends="build.jar.api, build.jar.junit3, build.jar.junit4, build.jar.nonstd"/>
 	
-	<target name="build.srczips" depends="build.srczip.api, build.srczip.junit3, build.srczip.nonstd"/>
+	<target name="build.srczips" 
+		depends="build.srczip.api, build.srczip.junit3, build.srczip.junit4, build.srczip.nonstd"/>
 	
 	<target name="build.jar.api" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-${version}.jar"
@@ -65,7 +67,23 @@
 		<zip destfile="build/jmock2-junit3-${version}-src.zip"
 			 basedir="src" 
 	         compress="false">
-			<include name="org/jmock/integration/**"/>
+			<include name="org/jmock/integration/junit3/**"/>
+		</zip>
+	</target>
+
+	<target name="build.jar.junit4" depends="build.compile, run.tests">
+		<jar destfile="build/jmock2-junit4-${version}.jar"
+			 basedir="build/classes" 
+	     	 compress="false">
+			<include name="org/jmock/integration/junit4/**"/>
+		</jar>
+	</target>
+	
+	<target name="build.srczip.junit4" depends="build.dir">
+		<zip destfile="build/jmock2-junit4-${version}-src.zip"
+			 basedir="src" 
+	         compress="false">
+			<include name="org/jmock/integration/junit4/**"/>
 		</zip>
 	</target>
 
@@ -128,7 +146,6 @@
 				</fileset>
 			</batchtest>
 		</junit>
-		<echo>All tests passed</echo>
 	</target>
 	
 	<target name="import-hamcrest-jars" 
