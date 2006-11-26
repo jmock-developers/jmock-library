@@ -54,15 +54,15 @@ public class AssertThat extends junit.framework.Assert
                    targetString.startsWith(startString));
     }
 
-    static protected void failNotEquals( String message,
-                                         Object expected,
-                                         Object actual ) {
-        String formatted = "";
-        if (message != null) {
-            formatted = message + " ";
-        }
-        fail(formatted + "\nExpected:<" + expected + ">\nReceived:<" + actual + ">");
-    }
+//    static protected void failNotEquals( String message,
+//                                         Object expected,
+//                                         Object actual ) {
+//        String formatted = "";
+//        if (message != null) {
+//            formatted = message + " ";
+//        }
+//        fail(formatted + "\nExpected:<" + expected + ">\nReceived:<" + actual + ">");
+//    }
 
     public static void fails( String message, Runnable runnable ) {
         try {
