@@ -132,7 +132,7 @@ public class Invocation implements SelfDescribing {
 
     private void failIfReturnTypeIsNotNull(final Object result) {
         if (result != null) {
-            throw new IllegalStateException("tried to return a value from a void method");
+            throw new IllegalStateException("tried to return a value from a void method: " + result);
         }
     }
 

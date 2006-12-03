@@ -10,6 +10,7 @@ import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.jmock.api.Invocation;
 import org.jmock.lib.InvocationExpectation;
+import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
@@ -114,7 +115,8 @@ public class InvocationExpectationTests extends TestCase {
 	}
     
     public void testPerformsActionWhenInvoked() throws Throwable {
-        Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
+        final Method stringReturningMethod = methodFactory.newMethod("tester", new Class[0], String.class, new Class[0]);
+        Invocation invocation = new Invocation(targetObject, stringReturningMethod, Invocation.NO_PARAMETERS);
         MockAction action = new MockAction();
         
         action.expectInvoke = true;
@@ -135,6 +137,22 @@ public class InvocationExpectationTests extends TestCase {
         Object actualResult = expectation.invoke(invocation);
         
         assertNull("should have returned null", actualResult);
+    }
+    
+
+    public void testFailsIfActionReturnsAnIncompatibleValue() throws Throwable {
+        final Method stringReturningMethod = methodFactory.newMethod("tester", new Class[0], String.class, new Class[0]);
+        Invocation invocation = new Invocation(targetObject, stringReturningMethod, Invocation.NO_PARAMETERS);
+        ReturnValueAction action = new ReturnValueAction(new Integer(666));
+        expectation.setAction(action);
+        
+        try {
+            expectation.invoke(invocation);
+            fail("Should have thrown an IllegalStateException");
+        } catch (IllegalStateException expected) {
+            AssertThat.stringIncludes("Shows returned type", "java.lang.Integer", expected.getMessage());
+            AssertThat.stringIncludes("Shows expected return type", "java.lang.String", expected.getMessage());
+        }
     }
     
     public void testHasARequiredAndMaximumNumberOfExpectedInvocations() throws Throwable {
