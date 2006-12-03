@@ -2,10 +2,11 @@
  */
 package org.jmock.test.acceptance;
 
-import org.jmock.InAnyOrder;
-import org.jmock.Mockery;
-
 import junit.framework.TestCase;
+
+import org.jmock.InAnyOrder;
+import org.jmock.InThisOrder;
+import org.jmock.Mockery;
 
 
 public class ReturningValuesAcceptanceTests extends TestCase {
@@ -19,6 +20,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         long returnLong();
         float returnFloat();
         double returnDouble();
+        void returnVoid();
     }
 
     private Mockery context = new Mockery();
@@ -133,6 +135,19 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         mock.returnInt();
     }
     
+    public void testThrowsExceptionWhenTryingToReturnAValueFromAVoidMethod() {
+        context.expects(new InThisOrder() {{
+            allowing (mock).returnVoid(); will(returnValue("wrong result"));
+        }});
+        
+       try {
+           mock.returnVoid();
+           fail("Should have thrown IllegalStateException");
+       } catch (IllegalStateException expected) {
+           
+       }
+    }
+
     public class Something {}
     
     public interface AnInterfaceThatReturnsSomething {

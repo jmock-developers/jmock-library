@@ -119,6 +119,8 @@ public class InvocationExpectation implements Expectation {
     
 	public Object invoke(Invocation invocation) throws Throwable {
 		invocationCount++;
-		return action.invoke(invocation);
+		final Object result = action.invoke(invocation);
+        invocation.checkReturnTypeCompatibility(result);
+        return result;
 	}
 }
