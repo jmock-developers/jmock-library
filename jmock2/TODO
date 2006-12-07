@@ -6,6 +6,7 @@ Functionality
 - write a test for a()/an()
 
 - pull out a cardinality constraint?
+-- pulled out a Cardinality object as work in progress
 
 
 Integration

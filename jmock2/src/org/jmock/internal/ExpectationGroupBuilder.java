@@ -11,6 +11,7 @@ import org.hamcrest.core.IsSame;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationGroup;
+import org.jmock.lib.Cardinality;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
@@ -31,11 +32,11 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
         this.group = expectationGroup;
     }
     
-    private void initialiseExpectationCapture(int requiredInvocationCount, int maximumInvocationCount) {
+    private void initialiseExpectationCapture(Cardinality cardinality) {
         checkLastExpectationWasFullySpecified();
         
         expectationBuilder = new InvocationExpectationBuilder();
-        expectationBuilder.setCardinality(requiredInvocationCount, maximumInvocationCount);
+        expectationBuilder.setCardinality(cardinality);
         elementBuilders.add(expectationBuilder);
     }
     
@@ -66,7 +67,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
      */
     
     public ReceiverClause exactly(int count) {
-        initialiseExpectationCapture(count, count);
+        initialiseExpectationCapture(Cardinality.exactly(count));
         return expectationBuilder;
     }
     
@@ -75,17 +76,17 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     }
     
     public ReceiverClause atLeast(int count) {
-        initialiseExpectationCapture(count, Integer.MAX_VALUE);
+        initialiseExpectationCapture(Cardinality.atLeast(count));
         return expectationBuilder;
     }
     
     public ReceiverClause between(int minCount, int maxCount) {
-        initialiseExpectationCapture(minCount, maxCount);
+        initialiseExpectationCapture(Cardinality.between(minCount, maxCount));
         return expectationBuilder;
     }
     
     public ReceiverClause atMost(int count) {
-        initialiseExpectationCapture(0, count);
+        initialiseExpectationCapture(Cardinality.atMost(count));
         return expectationBuilder;
     }
     

@@ -9,6 +9,7 @@ import org.hamcrest.Matcher;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
+import org.jmock.lib.Cardinality;
 import org.jmock.lib.InvocationExpectation;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ParametersClause;
@@ -28,8 +29,8 @@ public class InvocationExpectationBuilder implements ExpectationBuilder, Expecta
         return expectation;
     }
     
-    public void setCardinality(int requiredInvocationCount, int maximumInvocationCount) {
-        expectation.setCardinality(requiredInvocationCount, maximumInvocationCount);
+    public void setCardinality(Cardinality cardinality) {
+        expectation.setCardinality(cardinality);
     }
     
     public void addParameterMatcher(Matcher<?> matcher) {

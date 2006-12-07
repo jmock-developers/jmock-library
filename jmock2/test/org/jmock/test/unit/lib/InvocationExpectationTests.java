@@ -9,6 +9,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.jmock.api.Invocation;
+import org.jmock.lib.Cardinality;
 import org.jmock.lib.InvocationExpectation;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.test.unit.support.AssertThat;
@@ -82,7 +83,7 @@ public class InvocationExpectationTests extends TestCase {
 		
 		int maxInvocationCount = 3;
         
-        expectation.setCardinality(0, maxInvocationCount);
+        expectation.setCardinality(new Cardinality(0, maxInvocationCount));
 		
 		int i;
 		for (i = 0; i < maxInvocationCount; i++) {
@@ -96,7 +97,7 @@ public class InvocationExpectationTests extends TestCase {
 		Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"));
 		
 		int requiredInvocationCount = 3;
-		expectation.setCardinality(requiredInvocationCount, Integer.MAX_VALUE);
+		expectation.setCardinality(new Cardinality(requiredInvocationCount, Integer.MAX_VALUE));
 		
 		int i;
 		for (i = 0; i < requiredInvocationCount; i++) {
@@ -155,78 +156,38 @@ public class InvocationExpectationTests extends TestCase {
         }
     }
     
+    /**
+     * @see CardinalityTests.testHasARequiredAndMaximumNumberOfExpectedInvocations
+     */
     public void testHasARequiredAndMaximumNumberOfExpectedInvocations() throws Throwable {
         Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
         
-        expectation.setCardinality(2, 3);
+        expectation.setCardinality(new Cardinality(1, 1));
         
         assertTrue(expectation.allowsMoreInvocations());
         assertTrue(expectation.needsMoreInvocations());
         
         expectation.invoke(invocation);
-
-        assertTrue(expectation.allowsMoreInvocations());
-        assertTrue(expectation.needsMoreInvocations());
-        
-        expectation.invoke(invocation);
-        
-        assertTrue(expectation.allowsMoreInvocations());
-        assertFalse(expectation.needsMoreInvocations());
-        
         expectation.invoke(invocation);
         
         assertFalse(expectation.allowsMoreInvocations());
         assertFalse(expectation.needsMoreInvocations());
     }
     
-    public void testDescribesExactInvocationCount() {
-        expectation.setCardinality(2, 2);
+    public void testDescriptionIncludesCardinality() {
+        final Cardinality cardinality = new Cardinality(2, 2);
+        expectation.setCardinality(cardinality);
         
-        AssertThat.stringIncludes("should describe exact invocation count",
-                                  "exactly 2", GetDescription.of(expectation));
-    }
-    
-    public void testDescribesAtLeastCount() {
-        expectation.setCardinality(2, Integer.MAX_VALUE);
-        
-        AssertThat.stringIncludes("should describe at-least invocation count",
-                                  "at least 2", GetDescription.of(expectation));
+        AssertThat.stringIncludes("should include cardinality description",
+                                  GetDescription.of(cardinality), 
+                                  GetDescription.of(expectation));
     }
 
-    public void testDescribesAtMostCount() {
-        expectation.setCardinality(0, 2);
-        
-        AssertThat.stringIncludes("should describe at-most invocation count",
-                                  "at most 2", GetDescription.of(expectation));
-    }
-    
-    public void testDescribesBetweenCount() {
-        expectation.setCardinality(2, 4);
-        
-        AssertThat.stringIncludes("should describe between invocation count",
-                                  "2 to 4", GetDescription.of(expectation));
-    }
-
-    public void testDescribesNeverCount() {
-        expectation.setCardinality(0,0);
-        
-        AssertThat.stringIncludes("should describe 'never' invocation count",
-                                  "never", GetDescription.of(expectation));
-    }
-
-    public void testDescribesAnyNumberCount() {
-        expectation.setCardinality(0, Integer.MAX_VALUE);
-        
-        AssertThat.stringIncludes("should describe 'allowed' invocation count",
-                                  "allowed", GetDescription.of(expectation));
-        AssertThat.stringExcludes("should not include 'expected' in description",
-                                  "expected", GetDescription.of(expectation));
-    }
     
     public void testDescribesNumberOfInvocationsReceived() throws Throwable {
         Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
         
-        expectation.setCardinality(2,3);
+        expectation.setCardinality(new Cardinality(2,3));
         
         AssertThat.stringIncludes("should describe as not invoked",
                                   "invoked 0 times", GetDescription.of(expectation));
