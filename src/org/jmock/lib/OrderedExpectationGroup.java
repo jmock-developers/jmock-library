@@ -12,9 +12,10 @@ import org.jmock.internal.IndentedDescription;
 
 /**
  * An {@link org.jmock.api.ExpectationGroup} in which expectations
- * must be invoked in order.
+ * must be invoked in order. 
  * 
  * @author npryce
+ * @author smgf
  *
  */
 public class OrderedExpectationGroup implements ExpectationGroup {
@@ -46,7 +47,7 @@ public class OrderedExpectationGroup implements ExpectationGroup {
             if (e.matches(invocation)) {
                 return i;
             }
-            else if (e.needsMoreInvocations()) {
+            else if (! e.isSatisfied()) {
                 return -1;
             }
             i++;
@@ -61,9 +62,9 @@ public class OrderedExpectationGroup implements ExpectationGroup {
         return false;
     }
     
-	public boolean needsMoreInvocations() {
+    public boolean isSatisfied() {
         for (int i = current; i < expectations.size(); i++) {
-            if (!expectations.get(i).needsMoreInvocations()) return false;
+            if (! expectations.get(i).isSatisfied()) return false;
         }
         return true;
 	}

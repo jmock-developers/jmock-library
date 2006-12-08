@@ -19,8 +19,8 @@ public class UnspecifiedExpectation implements Expectation {
         return false;
     }
     
-    public boolean needsMoreInvocations() {
-        return false;
+    public boolean isSatisfied() {
+        return true;
     }
     
     public Object invoke(Invocation invocation) throws Throwable {

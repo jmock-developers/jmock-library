@@ -29,7 +29,7 @@ import org.jmock.lib.action.ReturnDefaultValueAction;
  * 
  * @author npryce
  * @author named by Ivan Moore.
- *
+ * @author smgf
  */
 public class Mockery {
     private Imposteriser imposteriser = new JavaReflectionImposteriser();
@@ -146,7 +146,7 @@ public class Mockery {
      */
 	public void assertIsSatisfied() {
         firstError = null;
-        if (expectation.needsMoreInvocations()) {
+        if (! expectation.isSatisfied()) {
             throw expectationErrorTranslator.translate(new ExpectationError("not all expectations were satisfied", expectation));
         }
 	}
@@ -189,6 +189,7 @@ public class Mockery {
             this.name = name;
         }
         
+        @Override
         public String toString() {
             return name;
         }

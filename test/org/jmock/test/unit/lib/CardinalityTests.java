@@ -47,16 +47,16 @@ public class CardinalityTests extends TestCase {
         Cardinality cardinality = new Cardinality(2, 3);
         
         assertTrue(cardinality.allowsMoreInvocations(0));
-        assertTrue(cardinality.needsMoreInvocations(0));
+        assertFalse(cardinality.isSatisfied(0));
         
         assertTrue(cardinality.allowsMoreInvocations(1));
-        assertTrue(cardinality.needsMoreInvocations(1));
+        assertFalse(cardinality.isSatisfied(1));
         
         assertTrue(cardinality.allowsMoreInvocations(2));
-        assertFalse(cardinality.needsMoreInvocations(2));
+        assertTrue(cardinality.isSatisfied(2));
         
         assertFalse(cardinality.allowsMoreInvocations(3));
-        assertFalse(cardinality.needsMoreInvocations(3));
+        assertTrue(cardinality.isSatisfied(3));
     }
 
 }

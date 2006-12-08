@@ -6,10 +6,10 @@ import org.jmock.Mockery;
 import junit.framework.TestCase;
 
 public class ThrowingExceptionsAcceptanceTests extends TestCase {
-    public class CheckedException extends Exception {}
-    public class UncheckedException extends RuntimeException {}
-    public class AnError extends Error {}
-    public class IncompatibleCheckedException extends Exception {}
+    public static class CheckedException extends Exception {}
+    public static class UncheckedException extends RuntimeException {}
+    public static class AnError extends Error {}
+    public static class IncompatibleCheckedException extends Exception {}
     
     public interface Throwing {
         void doSomething() throws CheckedException;

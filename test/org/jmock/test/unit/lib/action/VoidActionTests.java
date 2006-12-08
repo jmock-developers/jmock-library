@@ -15,6 +15,7 @@ public class VoidActionTests extends TestCase {
     Invocation invocation;
     VoidAction voidAction;
 
+    @Override
     public void setUp() {
         MethodFactory methodFactory = new MethodFactory();
         invocation = new Invocation("INVOKED-OBJECT", methodFactory.newMethodReturning(void.class), new Object[0]);

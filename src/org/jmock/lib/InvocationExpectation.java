@@ -14,6 +14,7 @@ import org.jmock.lib.action.VoidAction;
  * An expectation of zero or more matching invocations.
  * 
  * @author npryce
+ * @author smgf
  */
 public class InvocationExpectation implements Expectation {
     private Cardinality cardinality = Cardinality.ALLOWING;
@@ -63,8 +64,8 @@ public class InvocationExpectation implements Expectation {
         return (n == 1) ? " time" : " times";
     }
     
-    public boolean needsMoreInvocations() {
-        return cardinality.needsMoreInvocations(invocationCount);
+    public boolean isSatisfied() {
+        return cardinality.isSatisfied(invocationCount);
     }
     
     public boolean allowsMoreInvocations() {

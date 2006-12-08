@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
 package org.jmock.test.unit.integration.junit3;
 
@@ -44,6 +44,7 @@ public class VerifyingTestCaseTest extends TestCase {
 
     public void testOverridingRunTestDoesNotAffectVerification() throws Throwable {
         ExampleTestCase testCase = new ExampleTestCase() {
+            @Override
             public void runTest() {
             }
         };
@@ -61,11 +62,9 @@ public class VerifyingTestCaseTest extends TestCase {
     
     public void testOverridingSetUpAndTearDownDoesNotAffectVerification() throws Throwable {
         ExampleTestCase testCase = new ExampleTestCase() {
-            public void setUp() {
-            }
+            @Override public void setUp() { }
 
-            public void tearDown() {
-            }
+            @Override public void tearDown() { }
         };
 
         testCase.addVerifier(new Runnable() {

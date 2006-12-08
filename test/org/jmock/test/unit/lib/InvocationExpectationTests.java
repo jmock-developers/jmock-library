@@ -103,16 +103,16 @@ public class InvocationExpectationTests extends TestCase {
 		for (i = 0; i < requiredInvocationCount; i++) {
 			assertTrue("should match after " + i +" invocations", 
 					expectation.matches(invocation));
-			assertTrue("should not be satisfied after " + i +" invocations",
-					expectation.needsMoreInvocations());
+			assertFalse("should not be satisfied after " + i +" invocations",
+					expectation.isSatisfied());
 			
 			expectation.invoke(invocation);
 		}
 
 		assertTrue("should match after " + i +" invocations", 
-				expectation.matches(invocation));
+		           expectation.matches(invocation));
 		assertTrue("should be satisfied after " + i +" invocations",
-				!expectation.needsMoreInvocations());
+		           expectation.isSatisfied());
 	}
     
     public void testPerformsActionWhenInvoked() throws Throwable {
@@ -165,13 +165,13 @@ public class InvocationExpectationTests extends TestCase {
         expectation.setCardinality(new Cardinality(1, 1));
         
         assertTrue(expectation.allowsMoreInvocations());
-        assertTrue(expectation.needsMoreInvocations());
+        assertFalse(expectation.isSatisfied());
         
         expectation.invoke(invocation);
         expectation.invoke(invocation);
         
         assertFalse(expectation.allowsMoreInvocations());
-        assertFalse(expectation.needsMoreInvocations());
+        assertTrue(expectation.isSatisfied());
     }
     
     public void testDescriptionIncludesCardinality() {

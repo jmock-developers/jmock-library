@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
 package org.jmock.test.unit.support;
 
@@ -30,6 +30,7 @@ public class MethodFactory extends ClassLoader
     {
         ClassLoader classLoader = new ClassLoader()
         {
+            @Override
             protected Class<?> findClass( String interfaceName ) {
                 ClassWriter writer = new ClassWriter(true);
 

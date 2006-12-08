@@ -95,6 +95,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
             namePattern = Pattern.compile(nameRegex);
         }
         
+        @Override
         public boolean matchesSafely(Method method) {
             return namePattern.matcher(method.getName()).matches();
         }

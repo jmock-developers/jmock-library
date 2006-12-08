@@ -25,16 +25,19 @@ public class Bid implements Comparable<Bid> {
         return new Bid(amount.subtract(other.amount));
     }
 
+    @Override
     public String toString() {
         return "£" + amount;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return amount.equals(((Bid) o).amount);
     }
 
+    @Override
     public int hashCode() {
         return amount.hashCode();
     }

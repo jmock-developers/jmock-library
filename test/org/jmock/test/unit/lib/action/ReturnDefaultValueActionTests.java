@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
 package org.jmock.test.unit.lib.action;
 
@@ -18,7 +18,7 @@ public class ReturnDefaultValueActionTests extends TestCase {
 
     private ReturnDefaultValueAction action;
 
-    public void setUp() {
+    @Override public void setUp() {
         action = new ReturnDefaultValueAction();
     }
 

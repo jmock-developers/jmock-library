@@ -44,28 +44,28 @@ public class UnorderedExpectationGroupTests extends TestCase {
     
     public void testNeedsMoreInvocationsIfAnyInGroupNeedMoreInvocations() {
         UnorderedExpectationGroup groupAll = new UnorderedExpectationGroup();
-        groupAll.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
-        groupAll.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
+        groupAll.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
+        groupAll.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         assertTrue("should be satisfied if all expectations in group are satisfied",
-                   !groupAll.needsMoreInvocations());
+                   groupAll.isSatisfied());
         
         UnorderedExpectationGroup group1 = new UnorderedExpectationGroup();
-        group1.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         group1.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
-        assertTrue("should not be satisfied if one in group is not satisfied (first)",
-                   group1.needsMoreInvocations());
+        group1.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
+        assertFalse("should not be satisfied if one in group is not satisfied (first)",
+                   group1.isSatisfied());
         
         UnorderedExpectationGroup group2 = new UnorderedExpectationGroup();
-        group2.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         group2.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
-        assertTrue("should not be satisfied if one in group is not satisfied (second)",
-                   group2.needsMoreInvocations());
+        group2.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
+        assertFalse("should not be satisfied if one in group is not satisfied (second)",
+                   group2.isSatisfied());
         
         UnorderedExpectationGroup groupNone = new UnorderedExpectationGroup();
+        groupNone.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         groupNone.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
-        groupNone.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
-        assertTrue("should not be satisfied if none in group are satisfied",
-                   groupNone.needsMoreInvocations());
+        assertFalse("should not be satisfied if none in group are satisfied",
+                   groupNone.isSatisfied());
     }
     
     public void testAllowsInvocationsIfAnyInGroupAllowInvocations() {
