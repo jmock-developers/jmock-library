@@ -30,6 +30,7 @@ public class CascadedFailuresAcceptanceTest extends TestCase {
         }
     }
     
+    @Override
     public void setUp() {
         context.expects(new InAnyOrder() {{
             allowing (mock).realExpectationFailure(1);

@@ -19,6 +19,7 @@ public class SyntheticEmptyInterfaceClassLoader extends ClassLoader {
         namePattern = Pattern.compile(namePatternRegex);
     }
     
+    @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         if (namePattern.matcher(name).matches()) {
             return synthesiseInterface(name);

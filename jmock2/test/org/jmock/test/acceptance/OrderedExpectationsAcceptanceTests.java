@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.jmock.InThisOrder;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
+import org.jmock.test.acceptance.ThrowingExceptionsAcceptanceTests.UncheckedException;
 
 public class OrderedExpectationsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
@@ -68,6 +69,27 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
             fail("should have thrown ExpectationError");
         }
         catch (ExpectationError e) {
+            // expected
+        }
+    }
+    
+    public void testReportsUnsatisfiedExpectationsAfterAnExceptionIsThrown() {
+        Mockery mockery = new Mockery();
+        final MockedType thrower = mockery.mock(MockedType.class);
+
+        mockery.expects(new InThisOrder() {{
+            one (thrower).method1(); will(throwException(new UncheckedException()));
+            one (thrower).method2(); 
+        }});
+
+        try {
+            thrower.method1();
+        } catch (UncheckedException expected) {};
+        
+        try {
+            mockery.assertIsSatisfied();
+            fail("should have thrown ExpectationError");
+        } catch (ExpectationError e) {
             // expected
         }
     }

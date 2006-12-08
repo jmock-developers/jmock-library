@@ -8,16 +8,16 @@ import org.jmock.api.Invocation;
 
 public class MockExpectation extends Assert implements Expectation {
 	public boolean matches;
-    public boolean needsMoreInvocations;
+    public boolean isSatisfied;
     public boolean allowsMoreInvocations;
 	
     public MockExpectation() {
-        this(false, true, false);
+        this(false, false, false);
     }
 	
-    public MockExpectation(boolean matches, boolean needsMoreInvocations, boolean allowsMoreInvocations) {
+    public MockExpectation(boolean matches, boolean isSatisfied, boolean allowsMoreInvocations) {
 		this.matches = matches;
-		this.needsMoreInvocations = needsMoreInvocations;
+		this.isSatisfied = isSatisfied;
         this.allowsMoreInvocations = allowsMoreInvocations;
 	}
 	
@@ -29,11 +29,11 @@ public class MockExpectation extends Assert implements Expectation {
         return allowsMoreInvocations;
     }
     
-	public boolean needsMoreInvocations() {
-		return needsMoreInvocations;
-	}
-	
-    private boolean shouldBeInvoked = true;
+    public boolean isSatisfied() {
+        return isSatisfied;
+    }
+    
+	private boolean shouldBeInvoked = true;
     private Invocation expectedInvocation = null;
     public Object invokeResult = null;
     public boolean wasInvoked = false;

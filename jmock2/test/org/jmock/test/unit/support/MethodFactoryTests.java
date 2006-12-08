@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
 package org.jmock.test.unit.support;
 
@@ -22,6 +22,7 @@ public class MethodFactoryTests extends TestCase
     MethodFactory factory;
 
 
+    @Override
     public void setUp() {
         factory = new MethodFactory();
     }

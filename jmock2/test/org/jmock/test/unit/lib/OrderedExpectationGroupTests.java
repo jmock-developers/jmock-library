@@ -23,6 +23,7 @@ public class OrderedExpectationGroupTests extends TestCase {
     
     OrderedExpectationGroup group = new OrderedExpectationGroup();
 
+    @Override
     public void setUp() {
         group.add(expectation1);
         group.add(expectation2);
@@ -44,29 +45,29 @@ public class OrderedExpectationGroupTests extends TestCase {
     
     public void testDoesNotMatchIfFirstMemberDoesNotMatchAndIsNotSatisfied() {
         expectation1.matches = false;
-        expectation1.needsMoreInvocations = true;
+        expectation1.isSatisfied = false;
         
         assertTrue("group should not match", !group.matches(invocation));
     }
     
     public void testMatchesIfFirstMemberDoesNotMatchButFirstMemberIsSatisfiedAndNextMemberMatches() {
         expectation1.matches = false;
-        expectation1.needsMoreInvocations = false;
+        expectation1.isSatisfied = true;
         expectation2.matches = true;
-        expectation2.needsMoreInvocations = true;
+        expectation2.isSatisfied = false;
         
         assertTrue("group should match", group.matches(invocation));
     }
 
     public void testIfFirstMemberDoesNotMatchSearchesForMatchingMemberUntilNonMatchingUnsatisfiedMemberFound() {
         expectation1.matches = false;
-        expectation1.needsMoreInvocations = false;
+        expectation1.isSatisfied = true;
         expectation2.matches = false;
-        expectation2.needsMoreInvocations = false;
+        expectation2.isSatisfied = true;
         expectation3.matches = true;
-        expectation3.needsMoreInvocations = true;
+        expectation3.isSatisfied = false;
         expectation4.matches = true;
-        expectation4.needsMoreInvocations = true;
+        expectation4.isSatisfied = false;
         
         assertTrue("group should match if expectation3 matches", 
                    group.matches(invocation));
@@ -79,18 +80,18 @@ public class OrderedExpectationGroupTests extends TestCase {
     
     public void testInvokesNextMatchingMember() throws Throwable {
         expectation1.matches = true;
-        expectation1.needsMoreInvocations = true;
+        expectation1.isSatisfied = false;
         
         assertEquals(1, group.invoke(invocation));
         assertTrue("expectation1 was invoked", expectation1.wasInvoked);
         
         expectation1.wasInvoked = false;
         expectation1.matches = false;
-        expectation1.needsMoreInvocations = false;
+        expectation1.isSatisfied = true;
         expectation2.matches = false;
-        expectation2.needsMoreInvocations = false;
+        expectation2.isSatisfied = true;
         expectation3.matches = true;
-        expectation3.needsMoreInvocations = true;
+        expectation3.isSatisfied = false;
         
         assertEquals(3, group.invoke(invocation));
         assertTrue("expectation1 was not invoked", !expectation1.wasInvoked);
@@ -105,7 +106,7 @@ public class OrderedExpectationGroupTests extends TestCase {
         
         expectation3.wasInvoked = false;
         expectation3.matches = false;
-        expectation3.needsMoreInvocations = false;
+        expectation3.isSatisfied = true;
         expectation4.matches = true;
         
         assertEquals(4, group.invoke(invocation));
@@ -117,47 +118,47 @@ public class OrderedExpectationGroupTests extends TestCase {
         expectation1.matches = true;
         
         group.invoke(invocation);
-        assertTrue("group is not satisfied", group.needsMoreInvocations());
+        assertFalse(group.isSatisfied());
         
         expectation1.matches = false;
-        expectation1.needsMoreInvocations = false;
+        expectation1.isSatisfied = true;
         expectation2.matches = true;
         
         group.invoke(invocation);
-        assertTrue("group is not satisfied", group.needsMoreInvocations());
+        assertFalse(group.isSatisfied());
         
         expectation2.matches = false;
-        expectation2.needsMoreInvocations = false;
+        expectation2.isSatisfied = true;
         expectation3.matches = true;
         
         group.invoke(invocation);
-        assertTrue("group is not satisfied", group.needsMoreInvocations());
+        assertFalse(group.isSatisfied());
 
         expectation3.matches = false;
-        expectation3.needsMoreInvocations = false;
+        expectation3.isSatisfied = true;
         expectation4.matches = true;
         
         group.invoke(invocation);
-        assertTrue("group is not satisfied", group.needsMoreInvocations());
+        assertFalse(group.isSatisfied());
         
-        expectation4.needsMoreInvocations = false;
-        assertTrue("group is satisfied", !group.needsMoreInvocations());
+        expectation4.isSatisfied = true;
+        assertTrue(group.isSatisfied());
     }
     
     public void testIsSatisfiedIfAllUninvokedMatchersAreSatisfied() {
-        expectation1.needsMoreInvocations = false;
-        expectation2.needsMoreInvocations = false;
-        expectation3.needsMoreInvocations = false;
-        expectation4.needsMoreInvocations = false;
+        expectation1.isSatisfied = true;
+        expectation2.isSatisfied = true;
+        expectation3.isSatisfied = true;
+        expectation4.isSatisfied = true;
         
-        assertTrue("group should be satisfied", !group.needsMoreInvocations());
+        assertTrue(group.isSatisfied()); 
     }
     
     public void testIsActiveIfAnyUninvokedMatcherIsActive() {
         expectation1.allowsMoreInvocations = false;
         expectation2.allowsMoreInvocations = true;
-        expectation3.needsMoreInvocations = false;
-        expectation4.needsMoreInvocations = false;
+        expectation3.isSatisfied = true;
+        expectation4.isSatisfied = true;
         
         assertTrue("group should be allow more invocations", group.allowsMoreInvocations());
     }

@@ -14,7 +14,7 @@ import org.jmock.internal.IndentedDescription;
  * can be invoked in any order.
  * 
  * @author npryce
- *
+ * @author smgf
  */
 public class UnorderedExpectationGroup implements ExpectationGroup {
 	private List<Expectation> expectations = new ArrayList<Expectation>();
@@ -50,13 +50,13 @@ public class UnorderedExpectationGroup implements ExpectationGroup {
         return false;
     }
     
-	public boolean needsMoreInvocations() {
+    public boolean isSatisfied() {
 		for (Expectation expectation : expectations) {
-		    if (expectation.needsMoreInvocations()) {
-                return true;
+		    if (! expectation.isSatisfied()) {
+                return false;
             }
         }
-        return false;
+        return true;
 	}
 	
 	public Object invoke(Invocation invocation) throws Throwable {

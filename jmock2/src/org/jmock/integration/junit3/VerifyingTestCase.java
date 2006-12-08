@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
 package org.jmock.integration.junit3;
 
@@ -30,6 +30,7 @@ public abstract class VerifyingTestCase extends TestCase {
      *
      * @see junit.framework.TestCase#runBare()
      */
+    @Override
     public void runBare() throws Throwable {
         setUp();
         try {

@@ -6,6 +6,7 @@ import org.hamcrest.SelfDescribing;
  * An object that matches, checks and fakes an {@link org.jmock.api.Invocation}
  * 
  * @author npryce
+ * @author smgf
  */
 public interface Expectation extends SelfDescribing {
     /**
@@ -15,8 +16,8 @@ public interface Expectation extends SelfDescribing {
      *   <code>true</code> if the expectation has received enough
      *   of its expected invocations, <code>false</code> otherwise.
      */
-    boolean needsMoreInvocations();
-    
+    boolean isSatisfied();
+
     /**
      * Can more {@link Invocation}s expected by this Expectation still occur?
      * 

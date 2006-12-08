@@ -46,10 +46,12 @@ public class Invocation implements SelfDescribing {
             : parameterValues.clone();
     }
     
+    @Override
     public String toString() {
         return super.toString() + "[" + StringDescription.toString(this) + "]";
     }
     
+    @Override
     public boolean equals(Object other) {
         return (other instanceof Invocation) && this.equals((Invocation)other);
     }
@@ -60,6 +62,7 @@ public class Invocation implements SelfDescribing {
             && Arrays.equals(parameterValues, other.parameterValues);
     }
 
+    @Override
     public int hashCode() {
         return invokedObject.hashCode() 
              ^ invokedMethod.hashCode()

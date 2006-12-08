@@ -21,6 +21,7 @@ public class ThrowActionTests extends TestCase {
     Invocation invocation;
     ThrowAction throwAction;
 
+    @Override
     public void setUp() {
         methodFactory = new MethodFactory();
         invocation = new Invocation("INVOKED-OBJECT",

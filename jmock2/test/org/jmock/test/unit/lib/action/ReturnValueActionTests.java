@@ -19,6 +19,7 @@ public class ReturnValueActionTests extends TestCase {
     Invocation invocation;
     ReturnValueAction returnValueAction;
 
+    @Override
     public void setUp() {
         methodFactory = new MethodFactory();
 

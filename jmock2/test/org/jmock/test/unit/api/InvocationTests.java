@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
 package org.jmock.test.unit.api;
 
@@ -14,7 +14,7 @@ import org.jmock.test.unit.support.MethodFactory;
 
 public class InvocationTests extends TestCase {
     final Object INVOKED = new Object() {
-        public String toString() { return "INVOKED"; }
+        @Override public String toString() { return "INVOKED"; }
     };
     final String METHOD_NAME = "methodName";
     final Class[] ARG_TYPES = new Class[]{int.class, boolean.class};
@@ -29,6 +29,7 @@ public class InvocationTests extends TestCase {
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception {
         methodFactory = new MethodFactory();
         method = methodFactory.newMethod(METHOD_NAME, ARG_TYPES, RETURN_TYPE, EXCEPTION_TYPES);
@@ -137,7 +138,7 @@ public class InvocationTests extends TestCase {
         final String argAsString = "TO_STRING_RESULT";
         Object arg = new Object()
         {
-            public String toString() {
+            @Override public String toString() {
                 return argAsString;
             }
         };

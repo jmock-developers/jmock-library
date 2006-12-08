@@ -21,6 +21,7 @@ public class DoAllActionTests extends TestCase {
     private MockAction[] actions = new MockAction[4];
 	private DoAllAction doAllAction;
     
+    @Override
     @SuppressWarnings("cast") // Eclipse gives warning if there is a cast and if there is not!
     public void setUp() {
         for (int i = 0; i < actions.length; i++) {

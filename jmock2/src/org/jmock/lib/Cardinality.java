@@ -3,6 +3,12 @@ package org.jmock.lib;
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
 
+/**
+ * The acceptable range of times an expectation may be invoked.
+ * 
+ * @author smgf
+ *
+ */
 public class Cardinality implements SelfDescribing {
     public static final Cardinality ALLOWING = atLeast(0);
     
@@ -30,8 +36,8 @@ public class Cardinality implements SelfDescribing {
         return between(0, maximum);
     }
 
-    public boolean needsMoreInvocations(int invocationsSoFar) {
-        return invocationsSoFar < required;
+    public boolean isSatisfied(int invocationsSoFar) {
+        return required <= invocationsSoFar;
     }
 
     public boolean allowsMoreInvocations(int invocationCount) {

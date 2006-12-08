@@ -20,6 +20,7 @@ public class ExpectationErrorTranslationAcceptanceTests extends TestCase {
     
     MockedType mock = context.mock(MockedType.class, "mock");
     
+    @Override
     public void setUp() {
         context.setExpectationErrorTranslator(translator);
     }
