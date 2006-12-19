@@ -171,28 +171,28 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
      */
     
     public <T> Matcher<T> equal(T value) {
-        return IsEqual.eq(value);
+        return new IsEqual<T>(value);
     }
     
     public <T> Matcher<T> same(T value) {
-        return IsSame.same(value);
+        return new IsSame<T>(value);
     }
     
     @SuppressWarnings("unused")
     public <T> Matcher<T> any(Class<T> type) {
-        return IsAnything.<T>anything();
+        return new IsAnything<T>();
     }
     
     public <T> Matcher<T> anything() {
-        return IsAnything.<T>anything();
+        return new IsAnything<T>();
     }
     
     public <T> Matcher<T> a(Class<T> type) {
-        return IsInstanceOf.isA(type);
+        return new IsInstanceOf<T>(type);
     }
     
     public <T> Matcher<T> an(Class<T> type) {
-        return IsInstanceOf.isA(type);
+        return new IsInstanceOf<T>(type);
     }
     
     /* Common actions

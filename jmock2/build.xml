@@ -147,11 +147,4 @@
 			</batchtest>
 		</junit>
 	</target>
-	
-	<target name="import-hamcrest-jars" 
-		    description="Build JARs of a colocated hamcrest project and copy into jMock-2's lib directory">
-		<ant dir="../hamcrest-java" antfile="build.xml" target="all"/>
-		<copy file="../hamcrest-java/build/hamcrest-api-SNAPSHOT.jar" todir="lib"/>
-		<copy file="../hamcrest-java/build/hamcrest-library-SNAPSHOT.jar" todir="lib"/>
-	</target>
 </project>

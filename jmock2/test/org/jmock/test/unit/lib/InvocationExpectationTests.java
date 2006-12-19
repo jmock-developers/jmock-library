@@ -4,10 +4,9 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsSame;
 import org.jmock.api.Invocation;
 import org.jmock.lib.Cardinality;
 import org.jmock.lib.InvocationExpectation;
@@ -16,7 +15,7 @@ import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockAction;
-
+import static org.hamcrest.Matchers.*;
 
 public class InvocationExpectationTests extends TestCase {
 	MethodFactory methodFactory = new MethodFactory();
@@ -25,11 +24,10 @@ public class InvocationExpectationTests extends TestCase {
 	Method method = methodFactory.newMethod("method");
 	
 	public <T> Matcher<T> mockMatcher(final T expected, final boolean result) {
-		return new Matcher<T>() {
+		return new BaseMatcher<T>() {
 			public boolean matches(Object actual) {
-				assertTrue(
-					"expected " + expected + ", was " + actual,
-					IsEqual.eq(expected).matches(actual));
+				assertTrue("expected " + expected + ", was " + actual,
+				           equalTo(expected).matches(actual));
 				return result;
 			}
 			public void describeTo(Description description) {
@@ -49,7 +47,7 @@ public class InvocationExpectationTests extends TestCase {
 	public void testCanConstrainTargetObject() {
 		Object anotherObject = "anotherObject";
 		
-		expectation.setObjectMatcher(IsSame.same(targetObject));
+		expectation.setObjectMatcher(sameInstance(targetObject));
 		
 		assertTrue("should match", expectation.matches(new Invocation(targetObject, method, Invocation.NO_PARAMETERS)));
 		assertTrue("should not match", !expectation.matches(new Invocation(anotherObject, method, Invocation.NO_PARAMETERS)));
@@ -58,7 +56,7 @@ public class InvocationExpectationTests extends TestCase {
 	public void testCanConstrainMethod() {
 		Method anotherMethod = methodFactory.newMethod("anotherMethod");
 		
-		expectation.setMethodMatcher(IsEqual.eq(method));
+		expectation.setMethodMatcher(equalTo(method));
 		
 		assertTrue("should match", expectation.matches(new Invocation(targetObject, method, Invocation.NO_PARAMETERS)));
 		assertTrue("should not match", !expectation.matches(new Invocation(targetObject, anotherMethod, Invocation.NO_PARAMETERS)));
@@ -70,7 +68,7 @@ public class InvocationExpectationTests extends TestCase {
 		Object[] differentArgCount = {1,2,3};
 		Object[] noArgs = null;
 		
-		expectation.setParametersMatcher(IsEqual.eq(args));
+		expectation.setParametersMatcher(equalTo(args));
 		
 		assertTrue("should match", expectation.matches(new Invocation(targetObject, method, args)));
 		assertTrue("should not match", !expectation.matches(new Invocation(targetObject, method, differentArgs)));
