@@ -1,9 +1,9 @@
 package org.jmock.internal;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 
-public class MockObjectMatcher implements Matcher<Object> {
+public class MockObjectMatcher extends BaseMatcher<Object> {
     private Object mockObject;
     
     public MockObjectMatcher(Object mockObject) {
