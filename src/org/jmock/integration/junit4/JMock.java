@@ -14,8 +14,7 @@ import org.junit.runner.notification.RunNotifier;
  * has run.  
  * 
  * Use by passing JMock.class to the @RunWith annotation like this:
- * <pre>
- * @RunWith(JMock.class)
+ * <pre>@RunWith(JMock.class)
  * public class SomeMockObjectTests {
  *     Mockery context = new JUnit4Mockery();
  *     ...

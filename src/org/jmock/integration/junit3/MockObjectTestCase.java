@@ -50,7 +50,6 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
     /**
      * Specify expectations upon the mock objects in the test.
      * 
-     * @param groupBuilder
      */
     public void expects(ExpectationBuilder groupBuilder) {
         context.expects(groupBuilder);
@@ -59,22 +58,25 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
     /**
      * Create a mock object of type T with an explicit name.
      * 
-     * @param <T>
      * @param typeToMock
+     *  The type to be mocked
      * @param name
+     *  The name of the new mock object that is used to identify the mock object
+     *  in error messages
      * @return
+     *  A new mock object of type
      */
     public <T> T mock(Class<T> typeToMock, String name) {
         return context.mock(typeToMock, name);
     }
 
     /**
-     * Create a mock object of type T with a name derived from
-     * its type.
+     * Create a mock object of type T with a name derived from its type.
      * 
-     * @param <T>
      * @param typeToMock
+     *  The type to be mocked
      * @return
+     *  A new mock object of type
      */
     public <T> T mock(Class<T> typeToMock) {
         return context.mock(typeToMock);
