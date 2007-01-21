@@ -108,6 +108,10 @@ public class InvocationExpectationBuilder implements ExpectationBuilder, Expecta
         return this;
     }
     
+    public ParametersClause method(String nameRegex) {
+        return method(new MethodNameMatcher(nameRegex));
+    }
+    
     public void with(Matcher<?>... parameterMatchers) {
         expectation.setParametersMatcher(new ParametersMatcher(Arrays.asList(parameterMatchers)));
     }
