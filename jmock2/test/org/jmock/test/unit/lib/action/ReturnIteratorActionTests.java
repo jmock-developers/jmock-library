@@ -11,7 +11,7 @@ import org.jmock.api.Invocation;
 import org.jmock.lib.action.ReturnIteratorAction;
 import org.jmock.test.unit.support.GetDescription;
 
-public class ReturnIteratorActionTest extends TestCase {
+public class ReturnIteratorActionTests extends TestCase {
     private static final Object[] resultElements = {"0", "1", "2", "3"};
     
     public void testReturnsIteratorOverContentsOfCollection() throws Throwable {

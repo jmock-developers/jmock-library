@@ -17,6 +17,10 @@ import org.jmock.internal.DelegatingClassLoader;
  *
  */
 public class JavaReflectionImposteriser implements Imposteriser {
+    public boolean canImposterise(Class<?> type) {
+        return type.isInterface();
+    }
+    
     @SuppressWarnings("unchecked")
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         Class[] proxiedClasses = new Class[ancilliaryTypes.length+1];

@@ -28,6 +28,10 @@ import sun.misc.Unsafe;
  */
 public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
     private static final Unsafe unsafe = obtainAnUnsafeObjectByADodgyReflectionHack();
+
+    public boolean canImposterise(Class<?> type) {
+        return !type.isPrimitive(); 
+    }
     
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         Class<?> proxyClass = createProxyClass(mockedType, ancilliaryTypes);
@@ -88,10 +92,10 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
         try {
             Class<?> fieldReflectorClass = 
                 Class.forName(ObjectStreamClass.class.getName() + "$FieldReflector");
-            Field unsafeField = fieldReflectorClass.getDeclaredField("unsafe");
-            unsafeField.setAccessible(true);
+            Field unsafeField = fieldReflectorClass.getDeclaredField("unsafe");
+            unsafeField.setAccessible(true);
             
-            return (Unsafe)unsafeField.get(null);
+            return (Unsafe)unsafeField.get(null);
         }
         catch (ClassNotFoundException e) {
             throw new IllegalStateException("cannot load FieldReflector class", e);

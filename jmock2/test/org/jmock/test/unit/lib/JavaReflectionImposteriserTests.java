@@ -1,5 +1,7 @@
 package org.jmock.test.unit.lib;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import org.jmock.api.Invocation;
@@ -15,6 +17,17 @@ public class JavaReflectionImposteriserTests extends TestCase {
             return null;
         }
     };
+    
+    public void testCanOnlyImposteriseInterfaces() {
+        assertTrue("should report that it can imposterise interfaces",
+                   imposteriser.canImposterise(Runnable.class));
+        assertTrue("should report that it cannot imposterise classes",
+                   !imposteriser.canImposterise(Date.class));
+        assertTrue("should report that it cannot imposterise primitive types",
+                   !imposteriser.canImposterise(int.class));
+        assertTrue("should report that it cannot imposterise void",
+                   !imposteriser.canImposterise(void.class));
+    }
     
     public void testCanMockTypesFromADynamicClassLoader() throws ClassNotFoundException {
         ClassLoader interfaceClassLoader = new SyntheticEmptyInterfaceClassLoader();

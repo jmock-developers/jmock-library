@@ -5,7 +5,9 @@ package org.jmock.test.unit.lib.action;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
+import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.action.ReturnDefaultValueAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;
@@ -70,17 +72,29 @@ public class ReturnDefaultValueActionTests extends TestCase {
     }
 
     // Inspired by http://www.c2.com/cgi/wiki?JavaNullProxy
-    public void testReturnsProxyOfNewMockObjectWithSameReturnDefaultValueActionForInterfaceTypes() throws Throwable {
+    public void testIfImposteriserCanImposteriseReturnTypeReturnsNewMockObjectWithSameReturnDefaultValueAction() throws Throwable {
+        Imposteriser imposteriser = new JavaReflectionImposteriser() {
+            @Override
+            public boolean canImposterise(Class<?> c) {
+                return c == InterfaceType.class;
+            }
+        };
+        
+        action = new ReturnDefaultValueAction(imposteriser);
+        
         int intResult = -1;
         
         action.addResult(int.class, new Integer(intResult));
-
+        
         InterfaceType result = (InterfaceType)action.invoke(invocationReturning(InterfaceType.class));
-
+        
         assertEquals("int result from 'null' interface implementation",
                      intResult, result.returnInt());
+        
+        assertEquals("should not have returned a mock Runnable because the imposteriser cannot imposterise it",
+                     null, action.invoke(invocationReturning(Runnable.class)));
     }
-
+    
     public void testDefaultResultsCanBeExplicitlyOverriddenByType() throws Throwable {
         int newDefaultIntResult = 20;
         String newDefaultStringResult = "hello";
@@ -107,7 +121,7 @@ public class ReturnDefaultValueActionTests extends TestCase {
     {
     }
 
-    public void testInvocationWithAnUnregisteredReturnTypeReturnsNull()
+    public void testInvocationWithAnUnsupportedReturnTypeReturnsNull()
         throws Throwable
     {
         Class unsupportedReturnType = UnsupportedReturnType.class;
@@ -116,7 +130,7 @@ public class ReturnDefaultValueActionTests extends TestCase {
         
         assertNull("should have returned null", result);
     }
-
+    
     public void assertHasRegisteredValue( ReturnDefaultValueAction action,
                                           Class resultType,
                                           Object resultValue )
