@@ -41,7 +41,7 @@ public class ReturnDefaultValueAction implements Action {
             return resultValuesByType.get(returnType);
         } else if (returnType.isArray()) {
             return Array.newInstance(returnType.getComponentType(), 0);
-        } else if (returnType.isInterface()) {
+        } else if (imposteriser.canImposterise(returnType)) {
             return imposteriser.imposterise(this, returnType);
         } else {
             return null;
