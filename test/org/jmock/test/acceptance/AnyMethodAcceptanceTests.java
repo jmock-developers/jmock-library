@@ -2,7 +2,7 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 public class AnyMethodAcceptanceTests extends TestCase {
@@ -16,7 +16,7 @@ public class AnyMethodAcceptanceTests extends TestCase {
     AnotherType anotherMock = context.mock(AnotherType.class, "anotherMock");
     
     public void testElidingTheMethodMeansAnyMethodWithAnyArguments() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (mock);
         }});
         
@@ -27,9 +27,9 @@ public class AnyMethodAcceptanceTests extends TestCase {
     }
     
     public void testCanElideMethodsOfMoreThanOneMockObject() {
-        context.expects(new InAnyOrder() {{
-            allowing (mock);
-            allowing (anotherMock);
+        context.checking(new Expectations() {{
+            ignoring (mock);
+            ignoring (anotherMock);
         }});
         
         mock.method1();

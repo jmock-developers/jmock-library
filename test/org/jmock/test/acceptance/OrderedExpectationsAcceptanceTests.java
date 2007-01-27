@@ -2,20 +2,25 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
-import org.jmock.InThisOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
-import org.jmock.test.acceptance.ThrowingExceptionsAcceptanceTests.UncheckedException;
 
 public class OrderedExpectationsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
     MockedType mock = context.mock(MockedType.class, "mock");
     
     private void setUpOrderedExpectations() {
-        context.expects(new InThisOrder() {{
-            exactly(1).of (mock).method1();
-            exactly(1).of (mock).method2();
-            exactly(1).of (mock).method3();
+        context.checking(new Expectations() {{
+            allowing (mock).method1();
+                named("first");
+            allowing (mock).method2();
+                after("first");
+                
+            allowing (mock).method3();
+                before("last");
+            allowing (mock).method4();
+                named("last");
         }});
     }
     
@@ -23,73 +28,31 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
         setUpOrderedExpectations();
         mock.method1();
         mock.method2();
+        
         mock.method3();
+        mock.method4();
         context.assertIsSatisfied();
     }
     
-    public void testDoesNotAllowInvocationsInAnotherOrder() {
+    public void testDoesNotAllowInvocationOfAfterExpectationInWrongOrder() {
         setUpOrderedExpectations();
         try {
-            mock.method1();
+            mock.method2();
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            // expected
+        }
+    }
+    
+    public void testDoesNotAllowInvocationOfBeforeExpectationInWrongOrder() {
+        setUpOrderedExpectations();
+        try {
+            mock.method4();
             mock.method3();
             fail("should have thrown ExpectationError");
         }
         catch (ExpectationError e) {
-            // expected
-        }
-    }
-    
-    public void testDoesNotAllowTooManyInvocationsOfExpectedMethods() {
-        setUpOrderedExpectations();
-        mock.method1();
-        try {
-            mock.method1();
-            fail("should have thrown ExpectationError");
-        }
-        catch (ExpectationError e) {
-            // expected
-        }
-    }
-    
-    public void testDoesNotAllowInvocationsOfUnexpectedMethods() {
-        setUpOrderedExpectations();
-        try {
-            mock.method4();
-            fail("should have thrown ExpectationError");
-        }
-        catch (ExpectationError e) {
-            // expected
-        }
-    }
-
-    public void testAllExpectationsMustBeSatisfied() {
-        setUpOrderedExpectations();
-        try {
-            context.assertIsSatisfied();
-            fail("should have thrown ExpectationError");
-        }
-        catch (ExpectationError e) {
-            // expected
-        }
-    }
-    
-    public void testReportsUnsatisfiedExpectationsAfterAnExceptionIsThrown() {
-        Mockery mockery = new Mockery();
-        final MockedType thrower = mockery.mock(MockedType.class);
-
-        mockery.expects(new InThisOrder() {{
-            one (thrower).method1(); will(throwException(new UncheckedException()));
-            one (thrower).method2(); 
-        }});
-
-        try {
-            thrower.method1();
-        } catch (UncheckedException expected) {};
-        
-        try {
-            mockery.assertIsSatisfied();
-            fail("should have thrown ExpectationError");
-        } catch (ExpectationError e) {
             // expected
         }
     }

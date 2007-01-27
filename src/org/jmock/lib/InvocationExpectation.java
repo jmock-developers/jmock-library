@@ -64,6 +64,10 @@ public class InvocationExpectation implements Expectation {
         return (n == 1) ? " time" : " times";
     }
     
+    public boolean hasBeenInvoked() {
+        return invocationCount > 0;
+    }
+    
     public boolean isSatisfied() {
         return cardinality.isSatisfied(invocationCount);
     }

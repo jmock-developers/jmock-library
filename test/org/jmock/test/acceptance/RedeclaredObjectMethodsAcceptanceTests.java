@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 import org.jmock.lib.nonstd.UnsafeHackConcreteClassImposteriser;
@@ -46,7 +46,7 @@ public class RedeclaredObjectMethodsAcceptanceTests extends TestCase {
         context.setImposteriser(new UnsafeHackConcreteClassImposteriser());
         final Vector<Object> mock = (Vector<Object>)context.mock(Vector.class);
         
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (mock).size(); will(returnValue(2));
         }});
         

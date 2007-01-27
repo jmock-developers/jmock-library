@@ -1,6 +1,6 @@
 package org.jmock.test.acceptance;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 import junit.framework.TestCase;
@@ -14,7 +14,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     AnInterface mock = context.mock(AnInterface.class, "mock");
     
     public void testMatchesParameterValues() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of (mock).doSomethingWith(with(equal("hello")));
             exactly(1).of (mock).doSomethingWith(with(equal("goodbye")));
         }});
@@ -26,7 +26,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     }
     
     public void testDoesNotAllowUnexpectedParameterValues() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of (mock).doSomethingWith(with(equal("hello")));
             exactly(1).of (mock).doSomethingWith(with(equal("goodbye")));
         }});

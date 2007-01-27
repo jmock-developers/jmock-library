@@ -7,7 +7,7 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit3.JUnit3ErrorTranslator;
 
@@ -41,7 +41,7 @@ public class TimedCacheTests extends TestCase {
         final Object VALUE1 = "value1";
         final Object VALUE2 = "value2";
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (mockClock).getCurrentTime(); will(returnValue(loadTime));
 
             exactly(1).of (mockLoader).load("key1"); will(returnValue(VALUE1));
@@ -57,7 +57,7 @@ public class TimedCacheTests extends TestCase {
     }
 
     public void testReturnsCachedObjectWithinTimeout() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(loadTime));
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(fetchTime));
             
@@ -75,7 +75,7 @@ public class TimedCacheTests extends TestCase {
     }
 
     public void testReloadsCachedObjectAfterTimeout() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(loadTime));
             exactly(1).of (mockClock).getCurrentTime(); will(returnValue(fetchTime));
             

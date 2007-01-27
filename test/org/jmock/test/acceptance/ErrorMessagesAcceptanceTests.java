@@ -2,7 +2,7 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 import org.jmock.test.unit.support.AssertThat;
@@ -14,7 +14,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
     MockedType mock = context.mock(MockedType.class, "mock");
     
     public void testShowsExpectedAndCurrentNumberOfCallsInErrorMessage() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of (mock).method1();
             exactly(1).of (mock).method2();
             atLeast(1).of (mock).method3();

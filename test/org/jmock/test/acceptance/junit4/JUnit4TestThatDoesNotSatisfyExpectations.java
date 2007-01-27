@@ -1,6 +1,6 @@
 package org.jmock.test.acceptance.junit4;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -14,7 +14,7 @@ public class JUnit4TestThatDoesNotSatisfyExpectations {
     
     @Test
     public void doesNotSatisfyExpectations() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             one (runnable).run();
         }});
         
