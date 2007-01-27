@@ -23,7 +23,7 @@ public class InvocationExpectationBuilder
     
     private boolean isFullySpecified = false;
     private boolean needsDefaultAction = true;
-    private DispatcherControl dispatcher = null;
+    private CaptureControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
     private String name = null;
     private List<String> precedingExpectationNames = new ArrayList<String>();
@@ -69,11 +69,11 @@ public class InvocationExpectationBuilder
     }
     
     private <T> void captureExpectedObject(T mockObject) {
-        if (!(mockObject instanceof DispatcherControl)) {
+        if (!(mockObject instanceof CaptureControl)) {
             throw new IllegalArgumentException("can only set expectations on mock objects");
         }
         
-        dispatcher = (DispatcherControl)mockObject;
+        dispatcher = (CaptureControl)mockObject;
         
         expectation.setObjectMatcher(new MockObjectMatcher(mockObject));
         
