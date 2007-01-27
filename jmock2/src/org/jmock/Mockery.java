@@ -8,7 +8,7 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.api.MockObjectNamingScheme;
-import org.jmock.internal.DispatcherControl;
+import org.jmock.internal.CaptureControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.IdentityExpectationErrorTranslator;
@@ -111,10 +111,10 @@ public class Mockery {
         MockObject mock = new MockObject(name);
         ProxiedObjectIdentity invokable = 
             new ProxiedObjectIdentity(
-                new InvocationDiverter<DispatcherControl>(
-                    DispatcherControl.class, mock, mock));
+                new InvocationDiverter<CaptureControl>(
+                    CaptureControl.class, mock, mock));
         
-        return imposteriser.imposterise(invokable, typeToMock, DispatcherControl.class);
+        return imposteriser.imposterise(invokable, typeToMock, CaptureControl.class);
     }
     
     /**
@@ -174,7 +174,7 @@ public class Mockery {
         return capture != null;
     }
     
-    private class MockObject implements Invokable, DispatcherControl {
+    private class MockObject implements Invokable, CaptureControl {
         private String name;
         
         public MockObject(String name) {

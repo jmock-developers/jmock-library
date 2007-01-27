@@ -14,6 +14,7 @@ import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.ThrowAction;
+import org.jmock.syntax.ActionClause;
 import org.jmock.syntax.ArgumentConstraintPhrases;
 import org.jmock.syntax.CardinalityClause;
 import org.jmock.syntax.MethodClause;
@@ -40,6 +41,13 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
             builder.setDefaultAction(defaultAction);
             
             collector.add(builder.toExpectation());
+        }
+    }
+    
+    private void checkExpectationIsBeingBuilt() {
+        if (currentBuilder == null) {
+            throw new IllegalStateException("no expectations have been specified " +
+                "(did you forget to to specify the cardinality of an expectation?)");
         }
     }
     
@@ -94,13 +102,11 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     }
     
     private void addParameterMatcher(Matcher<?> matcher) {
-        if (currentBuilder == null) {
-            throw new IllegalStateException(UnspecifiedExpectation.ERROR);
-        }
+        checkExpectationIsBeingBuilt();
         
         currentBuilder.addParameterMatcher(matcher);
     }
-    
+
     public <T> T with(Matcher<T> matcher) {
         addParameterMatcher(matcher);
         return null;
@@ -142,9 +148,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     }
     
     public void will(Action action) {
-        if (currentBuilder == null) {
-            throw new IllegalStateException(UnspecifiedExpectation.ERROR);
-        }
+        checkExpectationIsBeingBuilt();
         
         currentBuilder.setAction(action);
     }

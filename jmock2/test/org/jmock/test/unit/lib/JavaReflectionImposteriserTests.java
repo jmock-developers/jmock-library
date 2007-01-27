@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
-import org.jmock.internal.DispatcherControl;
+import org.jmock.internal.CaptureControl;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.test.unit.support.SyntheticEmptyInterfaceClassLoader;
 
@@ -40,7 +40,7 @@ public class JavaReflectionImposteriserTests extends TestCase {
     
     public void testCanSimultaneouslyMockTypesFromMultipleClassLoaders() throws ClassNotFoundException {
         Class<?> interfaceClass1 = (new SyntheticEmptyInterfaceClassLoader()).loadClass("$UniqueTypeName1$");
-        Class<?> interfaceClass2 = DispatcherControl.class;
+        Class<?> interfaceClass2 = CaptureControl.class;
         
         Object o = imposteriser.imposterise(mockObject, interfaceClass1, interfaceClass2);
         
