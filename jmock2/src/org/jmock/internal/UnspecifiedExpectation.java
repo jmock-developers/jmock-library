@@ -5,7 +5,8 @@ import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
 
 public class UnspecifiedExpectation implements Expectation {
-    public static final String ERROR = "no expectations have been specified";
+    public static final String ERROR = "no expectations have been specified " +
+            "(did you forget to to specify the cardinality of an expectation?)";
 
     public boolean matches(Invocation invocation) {
         throw new IllegalStateException(ERROR);
@@ -13,6 +14,10 @@ public class UnspecifiedExpectation implements Expectation {
 
     public void describeTo(Description description) {
         description.appendText(ERROR);
+    }
+    
+    public boolean hasBeenInvoked() {
+        return false;
     }
     
     public boolean allowsMoreInvocations() {

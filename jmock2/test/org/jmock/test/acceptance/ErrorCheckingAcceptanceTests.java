@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.api.ExpectationError;
 
 public class ErrorCheckingAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
@@ -15,7 +16,7 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
         final ArrayList<String> list = new ArrayList<String>();
         
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1).of (list).add("a new element");
             }});
             
@@ -28,45 +29,45 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingCardinality() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 mock.doSomething();
             }});
-            fail("should have thrown IllegalStateException");
+            fail("should have thrown ExpectationError");
         }
-        catch (IllegalStateException ex) {
+        catch (ExpectationError ex) {
             // expected
         }
     }
-
+    
     public void testCannotSetAnExpectationWithoutSpecifyingCardinalityAfterPreviousExpectationsWithCardinality() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1).of (mock).doSomething();
                 mock.doSomething();
             }});
-            fail("should have thrown IllegalStateException");
+            fail("should have thrown ExpectationError");
         }
-        catch (IllegalStateException ex) {
+        catch (ExpectationError ex) {
             // expected
         }
     }
-
+    
     public void testCannotSetAnExpectationWithoutSpecifyingCardinalityAfterAnIncompleteExpectation() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1);
                 mock.doSomething();
             }});
-            fail("should have thrown IllegalStateException");
+            fail("should have thrown ExpectationError");
         }
-        catch (IllegalStateException ex) {
+        catch (ExpectationError ex) {
             // expected
         }
     }
     
     public void testCannotSetAnExpectationWithoutSpecifyingTheMockObject() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1);
             }});
             fail("should have thrown IllegalStateException");
@@ -78,7 +79,7 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingTheMockObjectBeforeOtherExpectations() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1);
                 exactly(1).of (mock).doSomething();
             }});
@@ -91,7 +92,7 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingTheMockObjectAfterOtherExpectations() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1).of (mock).doSomething();
                 exactly(1);
             }});
@@ -104,7 +105,7 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetExpectationWithoutSpecifyingTheMockObjectWhenSettingParameterConstraints() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 mock.doSomethingWith(with(equal("1")), with(equal("2")));
             }});
         }
@@ -116,16 +117,16 @@ public class ErrorCheckingAcceptanceTests extends TestCase {
     public void testCannotInvokeAMethodOnAMockObjectIfNoExpectationsWereSet() {
         try {
             mock.doSomething();
-            fail("should have thrown IllegalStateException");
+            fail("should have thrown ExpectationError");
         }
-        catch (IllegalStateException e) {
+        catch (ExpectationError e) {
             // expected
         }
     }
     
     public void testMustSpecifyConstraintsForAllArguments() {
         try {
-            context.expects(new InAnyOrder() {{
+            context.checking(new Expectations() {{
                 exactly(1).of (mock).doSomethingWith("x", with(equal("y")));
             }});
             fail("should have thrown IllegalArgumentException");

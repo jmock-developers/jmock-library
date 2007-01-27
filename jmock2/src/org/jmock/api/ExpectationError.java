@@ -10,17 +10,17 @@ import org.hamcrest.StringDescription;
  * @author npryce
  */
 public class ExpectationError extends Error implements SelfDescribing {
-	public final Invocation invocation;
-    public final Expectation expectation;
+    public final SelfDescribing expectations;
+    public final Invocation invocation;
 	
-    public ExpectationError(String message, Expectation expectation, Invocation invocation) {
+    public ExpectationError(String message, SelfDescribing expectations, Invocation invocation) {
         super(message);
         this.invocation = invocation;
-        this.expectation = expectation;
+        this.expectations = expectations;
     }
-
-    public ExpectationError(String message, Expectation expectation) {
-        this(message, expectation, null);
+    
+    public ExpectationError(String message, SelfDescribing expectations) {
+        this(message, expectations, null);
     }
 
     @Override 
@@ -34,7 +34,7 @@ public class ExpectationError extends Error implements SelfDescribing {
             description.appendText(": ");
             invocation.describeTo(description);
         }
-        description.appendText("\nexpected ");
-        expectation.describeTo(description);
+        description.appendText("\n");
+        expectations.describeTo(description);
 	}
 }

@@ -12,9 +12,9 @@ import org.jmock.internal.DispatcherControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.IdentityExpectationErrorTranslator;
+import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.internal.ProxiedObjectIdentity;
-import org.jmock.internal.UnspecifiedExpectation;
 import org.jmock.lib.DefaultNamingScheme;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.action.ReturnDefaultValueAction;
@@ -37,7 +37,7 @@ public class Mockery {
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = DefaultNamingScheme.INSTANCE;
     
-    private Expectation expectation = new UnspecifiedExpectation();
+    private InvocationDispatcher dispatcher = new InvocationDispatcher();
     private ExpectationCapture capture = null;
     private Throwable firstError = null;
     
@@ -124,30 +124,29 @@ public class Mockery {
      * The builder is responsible for interpreting high-level, readable API calls to 
      * construct an expectation.
      */
-	public void expects(ExpectationBuilder builder) {
-        builder.setDefaultAction(defaultAction);
-        expects(builder.toExpectation());
-	}
+	public void checking(ExpectationBuilder builder) {
+	    builder.buildExpectations(defaultAction, dispatcher);
+        capture = null;
+    }
 	
     /**
-     * Specifies the expected invocations that the object under test will perform upon
+     * Adds an expected invocation that the object under test will perform upon
      * objects in its context during the test.
      * 
      * This method allows a test to define an expectation explicitly, bypassing the
      * high-level API, if desired.
      */
-    public void expects(Expectation newExpectation) {
-        expectation = newExpectation;
-        capture = null;
+    public void addExpectation(Expectation expectation) {
+        dispatcher.add(expectation);
     }
 	
     /**
-     * Fails if the test if there are any expectations that have not been met.
+     * Fails the test if there are any expectations that have not been met.
      */
 	public void assertIsSatisfied() {
         firstError = null;
-        if (! expectation.isSatisfied()) {
-            throw expectationErrorTranslator.translate(new ExpectationError("not all expectations were satisfied", expectation));
+        if (!dispatcher.isSatisfied()) {
+            throw expectationErrorTranslator.translate(new ExpectationError("not all expectations were satisfied", dispatcher));
         }
 	}
     
@@ -161,8 +160,7 @@ public class Mockery {
         }
         else {
             try {
-                check(invocation);
-                return expectation.invoke(invocation);
+                return dispatcher.dispatch(invocation);
             }
             catch (ExpectationError e) {
                 firstError = expectationErrorTranslator.translate(e);
@@ -174,12 +172,6 @@ public class Mockery {
     
     private boolean isCapturingExpectations() {
         return capture != null;
-    }
-    
-    private void check(Invocation invocation) {
-        if (!expectation.matches(invocation)) {
-            throw new ExpectationError("unexpected invocation", expectation, invocation);
-        }
     }
     
     private class MockObject implements Invokable, DispatcherControl {

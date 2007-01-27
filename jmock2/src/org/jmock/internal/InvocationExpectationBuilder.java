@@ -15,8 +15,9 @@ import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ParametersClause;
 import org.jmock.syntax.ReceiverClause;
 
-public class InvocationExpectationBuilder implements ExpectationBuilder, ExpectationCapture, 
-    ReceiverClause, MethodClause, ParametersClause
+public class InvocationExpectationBuilder 
+    implements ExpectationCapture, 
+               ReceiverClause, MethodClause, ParametersClause
 {
     private final InvocationExpectation expectation = new InvocationExpectation();
     
@@ -24,6 +25,9 @@ public class InvocationExpectationBuilder implements ExpectationBuilder, Expecta
     private boolean needsDefaultAction = true;
     private DispatcherControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
+    private String name = null;
+    private List<String> precedingExpectationNames = new ArrayList<String>();
+    private List<String> subsequentExpectationNames = new ArrayList<String>();
     
     public Expectation toExpectation() {
         return expectation;
@@ -46,6 +50,22 @@ public class InvocationExpectationBuilder implements ExpectationBuilder, Expecta
         if (needsDefaultAction) {
             expectation.setAction(defaultAction);
         }
+    }
+    
+    public void setName(String name) {
+        if (this.name != null) {
+            throw new IllegalStateException("name already set to " + this.name);
+        }
+        
+        this.name = name;
+    }
+    
+    public void addPrecedingExpectationName(String name) {
+        precedingExpectationNames.add(name);
+    }
+    
+    public void addSubsequentExpectationName(String name) {
+        subsequentExpectationNames.add(name);
     }
     
     private <T> void captureExpectedObject(T mockObject) {

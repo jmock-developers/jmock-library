@@ -4,7 +4,7 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 
@@ -14,7 +14,7 @@ public class ConsecutiveCallsAcceptanceTest extends TestCase {
     
     
     public void testCanEasilySpecifySequenceOfStubsForSameMethod() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (mock).returnString();
                 will(onConsecutiveCalls(returnValue("hello"),
                                         returnValue("bonjour"),

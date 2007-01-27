@@ -4,8 +4,7 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
-import org.jmock.InAnyOrder;
-import org.jmock.InThisOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 
@@ -30,7 +29,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         // ensure string is not interned
         final String result = new String("RESULT");
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnString();
             will(returnValue(result));
         }});
@@ -39,7 +38,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
 
     public void testCanReturnNullObjectReferences() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnString(); will(returnValue(null));
         }});
 
@@ -47,7 +46,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
 
     public void testCanReturnBooleanValues() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of(mock).returnBoolean(); will(returnValue(true));
             exactly(1).of(mock).returnBoolean(); will(returnValue(false));
         }});
@@ -59,7 +58,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnByteValues() {
         final byte result = 123;
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnByte(); will(returnValue(result));
         }});
 
@@ -69,7 +68,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnCharValues() {
         final char result = '\u1234';
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnChar(); will(returnValue(result));
         }});
 
@@ -79,7 +78,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnShortValues() {
         final short result = 12345;
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnShort(); will(returnValue(result));
         }});
 
@@ -89,7 +88,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnIntValues() {
         final int result = 1234567890;
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnInt(); will(returnValue(result));
         }});
 
@@ -99,7 +98,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnLongValues() {
         final long result = 1234567890124356789L;
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnLong(); will(returnValue(result));
         }});
 
@@ -109,7 +108,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnFloatValues() {
         final float result = 12345.67890f;
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing(mock).returnFloat(); will(returnValue(result));
         }});
 
@@ -119,7 +118,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnDoubleValues() {
         final double result = 1234567890.1234567890;
 
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (mock).returnDouble(); will(returnValue(result));
         }});
 
@@ -127,7 +126,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
     
     public void testWillReturnADefaultValueIfNoResultExplicitlySpecified() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (mock).returnInt();
         }});
         
@@ -136,7 +135,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
     
     public void testThrowsExceptionWhenTryingToReturnAValueFromAVoidMethod() {
-        context.expects(new InThisOrder() {{
+        context.checking(new Expectations() {{
             allowing (mock).returnVoid(); will(returnValue("wrong result"));
         }});
         
@@ -157,7 +156,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testReturnsNullAsTheDefaultValueForUnregisteredClasses() {
         final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
         
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (mock).returnSomething();
         }});
         

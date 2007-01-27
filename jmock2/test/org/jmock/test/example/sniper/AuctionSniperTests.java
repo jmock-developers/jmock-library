@@ -2,8 +2,7 @@ package org.jmock.test.example.sniper;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
-import org.jmock.InAnyOrder;
-import org.jmock.InThisOrder;
+import org.jmock.Expectations;
 import org.jmock.integration.junit3.MockObjectTestCase;
 
 public class AuctionSniperTests extends MockObjectTestCase {
@@ -20,7 +19,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testTriesToBeatTheLatestHighestBid() throws Exception {
         final Bid expectedBid = beatableBid.add(increment);
 
-        expects(new InAnyOrder() {{
+        checking(new Expectations() {{
             one (lot).bid(expectedBid);
         }});
 
@@ -28,7 +27,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     }
 
     public void testWillNotBidPriceGreaterThanMaximum() throws Exception {
-        expects(new InAnyOrder() {{
+        checking(new Expectations() {{
             ignoring (listener);
             never (lot).bid(with(any(Bid.class)));
         }});
@@ -36,7 +35,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     }
 
     public void testWillLimitBidToMaximum() throws Throwable {
-        expects(new InAnyOrder() {{
+        checking(new Expectations() {{
             exactly(1).of (lot).bid(maximumBid);
         }});
 
@@ -46,7 +45,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testWillNotBidWhenToldAboutBidsOnOtherItems() throws Throwable {
         final Lot otherLot = mock(Lot.class, "otherLot");
 
-        expects(new InAnyOrder() {{
+        checking(new Expectations() {{
            never (otherLot).bid(new Bid(10));
         }});
 
@@ -54,7 +53,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     }
 
     public void testWillAnnounceItHasFinishedIfPriceGoesAboveMaximum() {
-        expects(new InAnyOrder() {{
+        checking(new Expectations() {{
             exactly(1).of (listener).sniperFinished(sniper);
         }});
 
@@ -64,8 +63,9 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testCatchesExceptionsAndReportsThemToErrorListener() throws Exception {
         final AuctionException exception = new AuctionException("test");
 
-        expects(new InThisOrder() {{
-            allowing (lot).bid(with(anyBid)); will(throwException(exception));
+        checking(new Expectations() {{
+            allowing (lot).bid(with(anyBid)); 
+                will(throwException(exception));
             exactly(1).of (listener).sniperBidFailed(sniper, exception);
         }});
 

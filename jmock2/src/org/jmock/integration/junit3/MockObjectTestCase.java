@@ -51,8 +51,8 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
      * Specify expectations upon the mock objects in the test.
      * 
      */
-    public void expects(ExpectationBuilder groupBuilder) {
-        context.expects(groupBuilder);
+    public void checking(ExpectationBuilder groupBuilder) {
+        context.checking(groupBuilder);
     }
     
     /**

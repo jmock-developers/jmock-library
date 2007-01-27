@@ -1,6 +1,6 @@
 package org.jmock.test.acceptance;
 
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 
@@ -12,7 +12,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     MockedType mock = context.mock(MockedType.class, "mock");
     
     public void testOne() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             one (mock).doSomething();
         }});
         
@@ -23,7 +23,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     }
     
     public void testExpectsExactly() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(2).of (mock).doSomething();
         }});
         
@@ -36,7 +36,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     }
     
     public void testExpectsAtLeast() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             atLeast(2).of (mock).doSomething();
         }});
         
@@ -53,7 +53,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     }
     
     public void testExpectsAtMost() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             atMost(2).of (mock).doSomething();
         }});
         
@@ -66,7 +66,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     }
     
     public void testExpectsBetween() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             between(2,3).of (mock).doSomething();
         }});
         
@@ -82,7 +82,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     }
     
     public void testAllows() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (mock).doSomething();
         }});
         
@@ -93,7 +93,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     }
     
     public void testNever() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             never (mock).doSomething();
         }});
         

@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import junit.framework.TestCase;
 
 import org.hamcrest.Matcher;
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 import org.jmock.internal.MethodNameMatcher;
@@ -17,8 +17,8 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     MockedType mock2 = context.mock(MockedType.class, "mock2");
     
     public void testCanSpecifyFlexibleMethodMatchers() {
-        context.expects(new InAnyOrder() {{
-            allowing (anything()).method(named("doSomething.*"));
+        context.checking(new Expectations() {{
+            allowing (anything()).method(withName("doSomething.*"));
         }});
         
         mock1.doSomething();
@@ -35,7 +35,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testCanSpecifyMethodNameRegexDirectly() {
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             allowing (anything()).method("doSomething.*");
         }});
         
@@ -53,9 +53,9 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
 
     public void testCanSpecifyFlexibleArgumentMatchers() {
-        context.expects(new InAnyOrder() {{
-            allowing (anything()).method(named("doSomethingWith")).with(equal("x"), equal("y"));
-            allowing (anything()).method(named("doSomethingWith")).with(equal("X"), equal("Y"));
+        context.checking(new Expectations() {{
+            allowing (anything()).method(withName("doSomethingWith")).with(equal("x"), equal("y"));
+            allowing (anything()).method(withName("doSomethingWith")).with(equal("X"), equal("Y"));
         }});
         
         mock1.doSomethingWith("x", "y");
@@ -73,9 +73,9 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testCanSpecifyNoArguments() {
-        context.expects(new InAnyOrder() {{
-            allowing (anything()).method(named("do.*")).withNoArguments();
-            allowing (anything()).method(named("do.*")).with(equal("X"), equal("Y"));
+        context.checking(new Expectations() {{
+            allowing (anything()).method(withName("do.*")).withNoArguments();
+            allowing (anything()).method(withName("do.*")).with(equal("X"), equal("Y"));
         }});
         
         mock1.doSomething();
@@ -91,16 +91,14 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testCanReturnDefaultValueFromFlexibleExpectation() {
-        context.expects(new InAnyOrder() {{
-            expects(new InAnyOrder() {{
-                allowing (anything()).method(named(".*"));
-            }});
+        context.checking(new Expectations() {{
+            allowing (anything()).method(withName(".*"));
         }});
         
         mock1.returnInt(); // should not fail
     }
     
-    Matcher<Method> named(String nameRegex) {
+    Matcher<Method> withName(String nameRegex) {
         return new MethodNameMatcher(nameRegex);
     }
 }

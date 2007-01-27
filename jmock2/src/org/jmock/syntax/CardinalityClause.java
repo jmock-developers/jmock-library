@@ -1,7 +1,6 @@
 package org.jmock.syntax;
 
 import org.hamcrest.Matcher;
-import org.jmock.internal.ExpectationGroupBuilder;
 
 
 public interface CardinalityClause {
@@ -18,6 +17,4 @@ public interface CardinalityClause {
     <T> void ignoring(T mockObject);
     
     <T> T never(T mockObject);
-    
-    void expects(ExpectationGroupBuilder subgroupBuilder);
 }

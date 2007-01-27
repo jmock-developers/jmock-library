@@ -8,6 +8,7 @@ import org.jmock.api.Invocation;
 
 public class MockExpectation extends Assert implements Expectation {
 	public boolean matches;
+    public boolean hasBeenInvoked;
     public boolean isSatisfied;
     public boolean allowsMoreInvocations;
 	
@@ -25,6 +26,10 @@ public class MockExpectation extends Assert implements Expectation {
 		return matches;
 	}
 	
+    public boolean hasBeenInvoked() {
+        return hasBeenInvoked;
+    }
+    
     public boolean allowsMoreInvocations() {
         return allowsMoreInvocations;
     }

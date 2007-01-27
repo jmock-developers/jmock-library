@@ -6,7 +6,7 @@ import java.util.Collection;
 import junit.framework.TestCase;
 
 import org.hamcrest.Description;
-import org.jmock.InAnyOrder;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
@@ -23,7 +23,7 @@ public class DoAllAcceptanceTest extends TestCase {
     public void testCanSpecifyMultipleStubsForOneInvocation() {
         final ArrayList list = new ArrayList();
         
-        context.expects(new InAnyOrder() {{
+        context.checking(new Expectations() {{
             exactly(1).of (collector).addThingsTo(with(same(list)));
             	will(doAll(addElement("1"), 
                            addElement("2"), 

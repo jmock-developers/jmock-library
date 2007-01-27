@@ -9,8 +9,6 @@ import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsSame;
 import org.jmock.api.Action;
-import org.jmock.api.Expectation;
-import org.jmock.api.ExpectationGroup;
 import org.jmock.lib.Cardinality;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
@@ -21,44 +19,33 @@ import org.jmock.syntax.CardinalityClause;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
 
-public class ExpectationGroupBuilder implements ExpectationBuilder, 
+public class ExpectationGroupBuilder implements ExpectationBuilder,
     CardinalityClause, ArgumentConstraintPhrases, ActionClause 
 {
-    private final ExpectationGroup group;
-    private InvocationExpectationBuilder expectationBuilder;
-    private List<ExpectationBuilder> elementBuilders = new ArrayList<ExpectationBuilder>();
-    
-    protected ExpectationGroupBuilder(ExpectationGroup expectationGroup) {
-        this.group = expectationGroup;
-    }
+    private List<InvocationExpectationBuilder> builders = new ArrayList<InvocationExpectationBuilder>();
+    private InvocationExpectationBuilder currentBuilder = null;
     
     private void initialiseExpectationCapture(Cardinality cardinality) {
         checkLastExpectationWasFullySpecified();
         
-        expectationBuilder = new InvocationExpectationBuilder();
-        expectationBuilder.setCardinality(cardinality);
-        elementBuilders.add(expectationBuilder);
+        currentBuilder = new InvocationExpectationBuilder();
+        currentBuilder.setCardinality(cardinality);
+        builders.add(currentBuilder);
     }
     
-    public void setDefaultAction(Action defaultAction) {
-        for (ExpectationBuilder builder : elementBuilders) {
-            builder.setDefaultAction(defaultAction);
-        }
-    }
-    
-    public Expectation toExpectation() {
+    public void buildExpectations(Action defaultAction, ExpectationCollector collector) {
         checkLastExpectationWasFullySpecified();
         
-        for (ExpectationBuilder builder : elementBuilders) {
-            group.add(builder.toExpectation());
+        for (InvocationExpectationBuilder builder : builders) {
+            builder.setDefaultAction(defaultAction);
+            
+            collector.add(builder.toExpectation());
         }
-        
-        return group;
     }
     
     private void checkLastExpectationWasFullySpecified() {
-        if (expectationBuilder != null) {
-            expectationBuilder.checkWasFullySpecified();
+        if (currentBuilder != null) {
+            currentBuilder.checkWasFullySpecified();
         }
     }
     
@@ -68,7 +55,7 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     
     public ReceiverClause exactly(int count) {
         initialiseExpectationCapture(Cardinality.exactly(count));
-        return expectationBuilder;
+        return currentBuilder;
     }
     
     public <T> T one (T mockObject) {
@@ -77,17 +64,17 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     
     public ReceiverClause atLeast(int count) {
         initialiseExpectationCapture(Cardinality.atLeast(count));
-        return expectationBuilder;
+        return currentBuilder;
     }
     
     public ReceiverClause between(int minCount, int maxCount) {
         initialiseExpectationCapture(Cardinality.between(minCount, maxCount));
-        return expectationBuilder;
+        return currentBuilder;
     }
     
     public ReceiverClause atMost(int count) {
         initialiseExpectationCapture(Cardinality.atMost(count));
-        return expectationBuilder;
+        return currentBuilder;
     }
     
     public MethodClause allowing(Matcher<Object> mockObjectMatcher) {
@@ -107,11 +94,11 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     }
     
     private void addParameterMatcher(Matcher<?> matcher) {
-        if (expectationBuilder == null) {
+        if (currentBuilder == null) {
             throw new IllegalStateException(UnspecifiedExpectation.ERROR);
         }
         
-        expectationBuilder.addParameterMatcher(matcher);
+        currentBuilder.addParameterMatcher(matcher);
     }
     
     public <T> T with(Matcher<T> matcher) {
@@ -155,16 +142,11 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     }
     
     public void will(Action action) {
-        if (expectationBuilder == null) {
+        if (currentBuilder == null) {
             throw new IllegalStateException(UnspecifiedExpectation.ERROR);
         }
         
-        expectationBuilder.setAction(action);
-    }
-    
-    public void expects(ExpectationGroupBuilder subgroupBuilder) {
-        elementBuilders.add(subgroupBuilder);
-        expectationBuilder = null;
+        currentBuilder.setAction(action);
     }
     
     /* Common constraints
@@ -212,5 +194,19 @@ public class ExpectationGroupBuilder implements ExpectationBuilder,
     
     public Action onConsecutiveCalls(Action...actions) {
         return new ActionSequence(actions);
+    }
+    
+    /* Naming and ordering
+     */
+    public void named(String name) {
+        //throw new UnsupportedOperationException("not yet implemented");
+    }
+    
+    public void before(String... precedingExpectations) {
+        //throw new UnsupportedOperationException("not yet implemented");
+    }
+    
+    public void after(String... subsequentExpectations) {
+        //throw new UnsupportedOperationException("not yet implemented");
     }
 }
