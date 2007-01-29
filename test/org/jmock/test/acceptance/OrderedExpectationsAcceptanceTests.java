@@ -60,4 +60,47 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
             // expected
         }
     }
+    
+    public void testCannotCreateMultipleExpectationsWithTheSameName() {
+        try {
+            context.checking(new Expectations() {{
+                one (mock).method1(); named("duplicated-name");
+                one (mock).method1(); named("duplicated-name");
+            }});
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+
+    public void testCannotReferToAnUnboundNameInAfterClause() {
+        try {
+            context.checking(new Expectations() {{
+                one (mock).method1(); after("unbound-name");
+            }});
+            
+            mock.method1();
+            
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+    
+    public void testCannotReferToAnUnboundNameInBeforeClause() {
+        try {
+            context.checking(new Expectations() {{
+                one (mock).method1(); before("unbound-name");
+            }});
+            
+            mock.method1();
+            
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
 }
