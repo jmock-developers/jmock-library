@@ -9,10 +9,11 @@ import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsSame;
 import org.jmock.api.Action;
+import org.jmock.internal.Cardinality;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCollector;
+import org.jmock.internal.ExpectationNamespace;
 import org.jmock.internal.InvocationExpectationBuilder;
-import org.jmock.lib.Cardinality;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnValueAction;
@@ -37,21 +38,20 @@ public class Expectations implements ExpectationBuilder,
         builders.add(currentBuilder);
     }
     
-    public void buildExpectations(Action defaultAction, ExpectationCollector collector) {
+    public void buildExpectations(Action defaultAction, ExpectationCollector collector, ExpectationNamespace namespace) {
         checkLastExpectationWasFullySpecified();
         
         for (InvocationExpectationBuilder builder : builders) {
-            builder.setDefaultAction(defaultAction);
-            
-            collector.add(builder.toExpectation());
+            collector.add(builder.toExpectation(defaultAction, namespace));
         }
     }
     
-    private void checkExpectationIsBeingBuilt() {
+    private InvocationExpectationBuilder currentBuilder() {
         if (currentBuilder == null) {
             throw new IllegalStateException("no expectations have been specified " +
                 "(did you forget to to specify the cardinality of an expectation?)");
         }
+        return currentBuilder;
     }
     
     private void checkLastExpectationWasFullySpecified() {
@@ -105,9 +105,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     private void addParameterMatcher(Matcher<?> matcher) {
-        checkExpectationIsBeingBuilt();
-        
-        currentBuilder.addParameterMatcher(matcher);
+        currentBuilder().addParameterMatcher(matcher);
     }
 
     public <T> T with(Matcher<T> matcher) {
@@ -151,9 +149,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     public void will(Action action) {
-        checkExpectationIsBeingBuilt();
-        
-        currentBuilder.setAction(action);
+        currentBuilder().setAction(action);
     }
     
     /* Common constraints
@@ -206,14 +202,18 @@ public class Expectations implements ExpectationBuilder,
     /* Naming and ordering
      */
     public void named(String name) {
-        //throw new UnsupportedOperationException("not yet implemented");
+        currentBuilder().setName(name);
     }
     
-    public void before(String... precedingExpectations) {
-        //throw new UnsupportedOperationException("not yet implemented");
+    public void before(String... subsequentExpectationNames) {
+        for (String name : subsequentExpectationNames) {
+            currentBuilder().addSubsequentExpectationName(name);
+        }
     }
     
-    public void after(String... subsequentExpectations) {
-        //throw new UnsupportedOperationException("not yet implemented");
+    public void after(String... precedingExpectationsNames) {
+        for (String name : precedingExpectationsNames) {
+            currentBuilder().addPrecedingExpectationName(name);
+        }
     }
 }

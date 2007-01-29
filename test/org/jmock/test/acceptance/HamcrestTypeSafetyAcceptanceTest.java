@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.internal.MethodNameMatcher;
+import org.jmock.internal.matcher.MethodNameMatcher;
 
 public class HamcrestTypeSafetyAcceptanceTest extends TestCase {
     public interface MockedType {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.jmock.internal;
+package org.jmock.internal.matcher;
 
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;

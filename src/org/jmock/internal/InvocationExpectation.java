@@ -1,6 +1,8 @@
-package org.jmock.lib;
+package org.jmock.internal;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -22,6 +24,8 @@ public class InvocationExpectation implements Expectation {
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
 	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
+    private String name = null;
+    private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
     
 	private int invocationCount = 0;
 
@@ -40,12 +44,25 @@ public class InvocationExpectation implements Expectation {
 	public void setParametersMatcher(Matcher<Object[]> parametersMatcher) {
 		this.parametersMatcher = parametersMatcher;
 	}
-	
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void addOrderingConstraint(OrderingConstraint orderingConstraint) {
+        orderingConstraints.add(orderingConstraint);
+    }
+
     public void setAction(Action action) {
         this.action = action;
     }
     
     public void describeTo(Description description) {
+        if (name != null) {
+            description.appendText(name);
+            description.appendText(" = ");
+        }
+        
         cardinality.describeTo(description);
         description.appendText(", invoked ");
         description.appendText(Integer.toString(invocationCount));
@@ -55,9 +72,12 @@ public class InvocationExpectation implements Expectation {
         description.appendText(".");
         methodMatcher.describeTo(description);
         parametersMatcher.describeTo(description);
-        description.appendText(" [");
+        for (OrderingConstraint orderingConstraint : orderingConstraints) {
+            description.appendText("; ");
+            orderingConstraint.describeTo(description);
+        }
+        description.appendText("; ");
         action.describeTo(description);
-        description.appendText("]");
     }
 
     private static String times(int n) {
@@ -80,10 +100,19 @@ public class InvocationExpectation implements Expectation {
 		return allowsMoreInvocations()
 			&& objectMatcher.matches(invocation.getInvokedObject())
 			&& methodMatcher.matches(invocation.getInvokedMethod())
-			&& parametersMatcher.matches(invocation.getParametersAsArray());
+			&& parametersMatcher.matches(invocation.getParametersAsArray())
+            && isInCorrectOrder();
+        
 	}
     
-	public Object invoke(Invocation invocation) throws Throwable {
+	private boolean isInCorrectOrder() {
+        for (OrderingConstraint constraint : orderingConstraints) {
+            if (!constraint.allowsInvocationNow()) return false;
+        }
+        return true;
+    }
+	
+    public Object invoke(Invocation invocation) throws Throwable {
 		invocationCount++;
 		final Object result = action.invoke(invocation);
         invocation.checkReturnTypeCompatibility(result);

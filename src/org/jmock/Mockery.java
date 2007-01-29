@@ -11,11 +11,12 @@ import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.internal.CaptureControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
-import org.jmock.internal.IdentityExpectationErrorTranslator;
+import org.jmock.internal.ExpectationNamespace;
 import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.lib.DefaultNamingScheme;
+import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.action.ReturnDefaultValueAction;
 
@@ -38,6 +39,7 @@ public class Mockery {
     private MockObjectNamingScheme namingScheme = DefaultNamingScheme.INSTANCE;
     
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
+    private ExpectationNamespace namespace = new ExpectationNamespace();
     private ExpectationCapture capture = null;
     private Throwable firstError = null;
     
@@ -125,7 +127,7 @@ public class Mockery {
      * construct an expectation.
      */
 	public void checking(ExpectationBuilder builder) {
-	    builder.buildExpectations(defaultAction, dispatcher);
+	    builder.buildExpectations(defaultAction, dispatcher, namespace);
         capture = null;
     }
 	

@@ -1,4 +1,7 @@
-package org.jmock.test.unit.lib;
+package org.jmock.test.unit.internal;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
 
 import java.lang.reflect.Method;
 
@@ -8,14 +11,14 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.jmock.api.Invocation;
-import org.jmock.lib.Cardinality;
-import org.jmock.lib.InvocationExpectation;
+import org.jmock.internal.Cardinality;
+import org.jmock.internal.InvocationExpectation;
+import org.jmock.internal.OrderingConstraint;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockAction;
-import static org.hamcrest.Matchers.*;
 
 public class InvocationExpectationTests extends TestCase {
 	MethodFactory methodFactory = new MethodFactory();
@@ -112,7 +115,21 @@ public class InvocationExpectationTests extends TestCase {
 		assertTrue("should be satisfied after " + i +" invocations",
 		           expectation.isSatisfied());
 	}
-    
+
+    public void testReportsIfItHasEverBeenInvoked() throws Throwable {
+        Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"));
+        
+        assertTrue("has not been invoked", !expectation.hasBeenInvoked());
+        
+        expectation.invoke(invocation);
+        
+        assertTrue("has been invoked", expectation.hasBeenInvoked());
+        
+        expectation.invoke(invocation);
+        
+        assertTrue("has still been invoked", expectation.hasBeenInvoked());
+    }
+
     public void testPerformsActionWhenInvoked() throws Throwable {
         final Method stringReturningMethod = methodFactory.newMethod("tester", new Class[0], String.class, new Class[0]);
         Invocation invocation = new Invocation(targetObject, stringReturningMethod, Invocation.NO_PARAMETERS);
@@ -170,6 +187,46 @@ public class InvocationExpectationTests extends TestCase {
         
         assertFalse(expectation.allowsMoreInvocations());
         assertTrue(expectation.isSatisfied());
+    }
+    
+    public static class FakeOrderingConstraint implements OrderingConstraint {
+        public boolean allowsInvocationNow;
+        
+        public boolean allowsInvocationNow() {
+            return allowsInvocationNow;
+        }
+
+        public String description;
+        
+        public void describeTo(Description description) {
+            description.appendText(this.description);
+        }
+    }
+    
+    public void testMatchesIfAllOrderingConstraintsMatch() {
+        FakeOrderingConstraint orderingConstraint1 = new FakeOrderingConstraint();
+        FakeOrderingConstraint orderingConstraint2 = new FakeOrderingConstraint();
+        
+        expectation.addOrderingConstraint(orderingConstraint1);
+        expectation.addOrderingConstraint(orderingConstraint2);
+        
+        Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
+        
+        orderingConstraint1.allowsInvocationNow = true;
+        orderingConstraint2.allowsInvocationNow = true;
+        assertTrue(expectation.matches(invocation));
+        
+        orderingConstraint1.allowsInvocationNow = true;
+        orderingConstraint2.allowsInvocationNow = false;
+        assertFalse(expectation.matches(invocation));
+        
+        orderingConstraint1.allowsInvocationNow = false;
+        orderingConstraint2.allowsInvocationNow = true;
+        assertFalse(expectation.matches(invocation));
+        
+        orderingConstraint1.allowsInvocationNow = false;
+        orderingConstraint2.allowsInvocationNow = false;
+        assertFalse(expectation.matches(invocation));
     }
     
     public void testDescriptionIncludesCardinality() {

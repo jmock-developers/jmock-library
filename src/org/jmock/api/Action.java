@@ -7,7 +7,7 @@ import org.hamcrest.SelfDescribing;
 
 
 /**
- * An object that fakes the behaviour of an {@link org.jmock.lib.InvocationExpectation}.
+ * An object that fakes the behaviour of an {@link org.jmock.internal.InvocationExpectation}.
  */
 public interface Action extends SelfDescribing, Invokable {
 }

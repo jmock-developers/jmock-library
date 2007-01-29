@@ -23,6 +23,7 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
         else {
             description.appendText("expectations:\n");
             for (Expectation expectation : expectations) {
+                description.appendText("  ");
                 expectation.describeTo(description);
                 description.appendText("\n");
             }

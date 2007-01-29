@@ -1,4 +1,4 @@
-package org.jmock.lib;
+package org.jmock.internal;
 
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
