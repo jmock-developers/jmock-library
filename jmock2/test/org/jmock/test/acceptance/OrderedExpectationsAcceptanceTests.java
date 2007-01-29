@@ -38,4 +38,26 @@ public class OrderedExpectationsAcceptanceTests extends TestCase {
         mock.method1();
         mock.method2();
     }
+
+    public void testCanConstrainAnInvocationToOccurBeforeSubsequentInvocation() {
+        context.checking(new Expectations() {{
+            allowing (mock).method1();
+                before("last");
+            allowing (mock).method2();
+                named("last");
+        }});
+        
+        mock.method1();
+        mock.method1();
+        
+        mock.method2();
+        
+        try {
+            mock.method1();
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            // expected
+        }
+    }
 }
