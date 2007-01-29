@@ -1,4 +1,4 @@
-package org.jmock.internal;
+package org.jmock.lib;
 
 import org.jmock.api.ExpectationError;
 import org.jmock.api.ExpectationErrorTranslator;

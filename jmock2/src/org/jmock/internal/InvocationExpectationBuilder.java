@@ -3,14 +3,18 @@ package org.jmock.internal;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hamcrest.Matcher;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
-import org.jmock.lib.Cardinality;
-import org.jmock.lib.InvocationExpectation;
+import org.jmock.internal.matcher.MethodMatcher;
+import org.jmock.internal.matcher.MethodNameMatcher;
+import org.jmock.internal.matcher.MockObjectMatcher;
+import org.jmock.internal.matcher.ParametersMatcher;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ParametersClause;
 import org.jmock.syntax.ReceiverClause;
@@ -26,10 +30,27 @@ public class InvocationExpectationBuilder
     private CaptureControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
     private String name = null;
-    private List<String> precedingExpectationNames = new ArrayList<String>();
-    private List<String> subsequentExpectationNames = new ArrayList<String>();
+    private Set<String> precedingExpectationNames = new HashSet<String>();
+    private Set<String> subsequentExpectationNames = new HashSet<String>();
     
-    public Expectation toExpectation() {
+    public Expectation toExpectation(Action defaultAction, ExpectationNamespace namespace) {
+        if (needsDefaultAction) {
+            expectation.setAction(defaultAction);
+        }
+        
+        if (name != null) {
+            namespace.bind(name, expectation);
+            expectation.setName(name);
+        }
+        
+        if (!precedingExpectationNames.isEmpty()) {
+            expectation.addOrderingConstraint(new AfterOrderingConstraint(namespace, precedingExpectationNames));
+        }
+        
+        if (!subsequentExpectationNames.isEmpty()) {
+            expectation.addOrderingConstraint(new BeforeOrderingConstraint(namespace, subsequentExpectationNames));
+        }
+        
         return expectation;
     }
     
@@ -44,12 +65,6 @@ public class InvocationExpectationBuilder
     public void setAction(Action action) {
         expectation.setAction(action);
         needsDefaultAction = false;
-    }
-    
-    public void setDefaultAction(Action defaultAction) {
-        if (needsDefaultAction) {
-            expectation.setAction(defaultAction);
-        }
     }
     
     public void setName(String name) {

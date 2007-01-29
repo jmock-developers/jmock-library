@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
-import org.jmock.internal.MethodNameMatcher;
+import org.jmock.internal.matcher.MethodNameMatcher;
 
 public class FlexibleExpectationsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();

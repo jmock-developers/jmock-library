@@ -1,8 +1,8 @@
-package org.jmock.test.unit.lib;
+package org.jmock.test.unit.internal;
 
 import junit.framework.TestCase;
 
-import org.jmock.lib.Cardinality;
+import org.jmock.internal.Cardinality;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.GetDescription;
 

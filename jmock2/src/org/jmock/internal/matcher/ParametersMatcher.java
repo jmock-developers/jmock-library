@@ -1,4 +1,4 @@
-package org.jmock.internal;
+package org.jmock.internal.matcher;
 
 import java.util.List;
 
