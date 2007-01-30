@@ -14,6 +14,8 @@ public interface Verifiable
 
     /**
      * Throw an AssertionFailedException if any expectations have not been met.
+     * Implementations of this method must be idempotent: jMock can call this method
+     * more than once when verifying expectations at the end of a test.
      */
     public abstract void verify();
 }
