@@ -1,19 +1,11 @@
 Functionality
 =============
 
-- wording of nested expectation groups
-
-- write a test for a()/an()
-
-- pull out a cardinality constraint?
--- pulled out a Cardinality object as work in progress
-
+- Reintroduce a way to specify a sequence of ordered calls as a block
 
 Integration
 ===========
 
-- JUnit 4
-    Need to hook into default Runner but this class is not exposed
 - TestNG
     Can't work out how to verify mocks before running tear-down methods
 - Objenesis
