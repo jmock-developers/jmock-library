@@ -17,11 +17,11 @@ Advantages of jMock 2 over jMock 1
 How to get up and running
 =========================
 
-You will need to add the jmock-2.0.0.jar to your classpath.  Also
+You will need to add the jmock-2.0.0.jar and to your classpath.  Also
 add the appropriate integration JAR to your classpath to integrate
 jMock 2 with the test framework you use.  For example, if you use
-TestNG, add jmock-testng-2.0.0.jar to your classpath.  If you want
+JUnit 4, add jmock-junit4-2.0.0.jar to your classpath.  If you want
 to mock concrete classes with the UnsafeHackConcreteClassImposteriser
 add CGLIB, ASM and jmock-nonstd-2.0.0.jar to your classpath.
 
-You will also need to add Hamcrest to your classpath.  
+You will also need to add Hamcrest 1.0 to your classpath.  

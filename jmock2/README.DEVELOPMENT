@@ -67,8 +67,6 @@ Imposteriser:
 	Wraps mock objects in an adapter of the correct type
 Expectation:
 	Matches an invocation and fakes its behaviour
-ExpectationGroup:
-	Dispatches invocations among multiple expectations
 ExpectationErrorTranslator: 
 	Translates expectation errors into error type used by a specific 
 	testing framework.
