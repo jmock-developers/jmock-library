@@ -7,7 +7,7 @@
 	
 	<target name="build"
 		description="Builds everything from scratch"
-		depends="clean,build.compile, build.jars, build.srczips, build.zip.javadoc"/>
+		depends="clean, build.jars, build.zip.javadoc"/>
 	
 	<target name="clean" 
 			description="Removes all build artefacts">
@@ -33,76 +33,69 @@
 	<target name="build.jars" 
 		depends="build.jar.api, build.jar.junit3, build.jar.junit4, build.jar.nonstd"/>
 	
-	<target name="build.srczips" 
-		depends="build.srczip.api, build.srczip.junit3, build.srczip.junit4, build.srczip.nonstd"/>
-	
 	<target name="build.jar.api" depends="build.compile, run.tests">
-		<jar destfile="build/jmock2-${version}.jar"
-			 basedir="build/classes" 
-			 compress="false">
-			<exclude name="org/jmock/lib/nonstd/**"/>
-			<exclude name="org/jmock/integration/**"/>
-			<exclude name="org/jmock/test/**"/>
+		<jar destfile="build/jmock2-${version}.jar" 
+			compress="false">
+			
+			<fileset dir="build/classes">
+				<exclude name="org/jmock/lib/nonstd/**"/>
+				<exclude name="org/jmock/integration/**"/>
+				<exclude name="org/jmock/test/**"/>
+			</fileset>
+			<fileset dir="src">
+				<exclude name="org/jmock/lib/nonstd/**"/>
+				<exclude name="org/jmock/integration/**"/>
+				<exclude name="org/jmock/test/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
 		</jar>
-	</target>
-
-	<target name="build.srczip.api" depends="build.dir">
-		<zip destfile="build/jmock2-${version}-src.zip"
-			 basedir="src" 
-			 compress="false">
-			<exclude name="org/jmock/lib/nonstd/**"/>
-			<exclude name="org/jmock/integration/**"/>
-		</zip>
 	</target>
 
 	<target name="build.jar.junit3" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-junit3-${version}.jar"
-			 basedir="build/classes" 
 	     	 compress="false">
-			<include name="org/jmock/integration/junit3/**"/>
+			
+			<fileset dir="build/classes">
+				<include name="org/jmock/integration/junit3/**"/>
+			</fileset>
+			
+			<fileset dir="src">
+				<include name="org/jmock/integration/junit3/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
 		</jar>
 	</target>
 	
-	<target name="build.srczip.junit3" depends="build.dir">
-		<zip destfile="build/jmock2-junit3-${version}-src.zip"
-			 basedir="src" 
-	         compress="false">
-			<include name="org/jmock/integration/junit3/**"/>
-		</zip>
-	</target>
-
 	<target name="build.jar.junit4" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-junit4-${version}.jar"
-			 basedir="build/classes" 
 	     	 compress="false">
-			<include name="org/jmock/integration/junit4/**"/>
+			
+			<fileset dir="build/classes">
+				<include name="org/jmock/integration/junit4/**"/>
+			</fileset>
+			
+			<fileset dir="src">
+				<include name="org/jmock/integration/junit4/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
 		</jar>
 	</target>
 	
-	<target name="build.srczip.junit4" depends="build.dir">
-		<zip destfile="build/jmock2-junit4-${version}-src.zip"
-			 basedir="src" 
-	         compress="false">
-			<include name="org/jmock/integration/junit4/**"/>
-		</zip>
-	</target>
-
 	<target name="build.jar.nonstd" depends="build.compile, run.tests">
 		<jar destfile="build/jmock2-nonstd-${version}.jar"
-			 basedir="build/classes" 
 	         compress="false">
-			<include name="org/jmock/lib/nonstd/**"/>
+			
+			<fileset dir="build/classes">
+				<include name="org/jmock/lib/nonstd/**"/>
+			</fileset>
+			
+			<fileset dir="src">
+				<include name="org/jmock/lib/nonstd/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
 		</jar>
 	</target>
 
-	<target name="build.srczip.nonstd" depends="build.dir">
-		<zip destfile="build/jmock2-nonstd-${version}-src.zip"
-			 basedir="src" 
-			 compress="false">
-			<include name="org/jmock/lib/nonstd/**"/>
-		</zip>
-	</target>
-	
 	<target name="build.zip.javadoc" depends="build.javadoc">
 		<zip destfile="build/jmock2-${version}-javadoc.zip"
 			 basedir="build"
@@ -140,7 +133,7 @@
 	<target name="run.tests" depends="build.compile">
 		<property name="outdir" value="build/reports/tests"/>
 		<mkdir dir="${outdir}"/>
-		<junit fork="yes" printsummary="no" haltonfailure="yes" showoutput="yes">
+		<junit fork="yes"  printsummary="no" haltonfailure="yes" showoutput="yes">
 			<classpath>
 				<path refid="build.classpath"/>
 				<pathelement location="build/classes"/>

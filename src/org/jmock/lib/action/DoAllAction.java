@@ -1,9 +1,17 @@
 package org.jmock.lib.action;
 
+import java.util.Arrays;
+
 import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
+/**
+ * Performs multiple actions every time it is invoked.
+ * 
+ * @author nat
+ *
+ */
 public class DoAllAction implements Action {
     private final Action[] actions;
     
@@ -22,10 +30,6 @@ public class DoAllAction implements Action {
     }
     
     public void describeTo(Description description) {
-        description.appendText("do all of ");
-        for (int i = 0; i < actions.length; i++) {
-            if (i > 0) description.appendText(", ");
-            actions[i].describeTo(description);
-        }
+        description.appendList("do all of ", ", ", "", Arrays.asList(actions));
     }
 }

@@ -6,6 +6,9 @@ import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
+/**
+ * Returns nothing from a void method.
+ */
 public class VoidAction implements Action {
     public static final VoidAction INSTANCE = new VoidAction();
 

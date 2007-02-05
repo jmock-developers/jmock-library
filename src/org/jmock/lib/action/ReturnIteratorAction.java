@@ -2,13 +2,16 @@ package org.jmock.lib.action;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
-
+/**
+ * Returns an iterator over a collection.
+ * 
+ * @author nat
+ */
 public class ReturnIteratorAction implements Action {
     private Collection<?> collection;
     
@@ -25,12 +28,6 @@ public class ReturnIteratorAction implements Action {
     }
     
     public void describeTo(Description description) {
-        description.appendText("return iterator over ");
-        boolean separate = false;
-        for (Iterator i = collection.iterator(); i.hasNext();) {
-            if (separate) description.appendText(", ");
-            description.appendValue(i.next());
-            separate = true;
-        }
+        description.appendValueList("return iterator over ", ", ", "", collection);
     }
 }
