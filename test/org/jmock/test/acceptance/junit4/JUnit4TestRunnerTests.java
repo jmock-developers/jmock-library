@@ -3,6 +3,7 @@ package org.jmock.test.acceptance.junit4;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.jmock.test.unit.support.AssertThat;
 import org.junit.runner.Description;
 import org.junit.runner.Request;
 import org.junit.runner.Runner;
@@ -17,6 +18,27 @@ public class JUnit4TestRunnerTests extends TestCase {
         notifier.addListener(new FailureExpectingRunListener());
         
         runner.run(notifier);
+    }
+    
+    public void testDetectsNonPublicBeforeMethodsCorrectly() {
+        Runner runner = Request.aClass(JUnit4TestWithNonPublicBeforeMethod.class).getRunner();
+        RunNotifier notifier = new RunNotifier();
+        FailingRunListener listener = new FailingRunListener();
+        notifier.addListener(listener);
+        
+        runner.run(notifier);
+        
+        AssertThat.stringIncludes("should have detected non-public before method", 
+                                  "Method before should be public", listener.failure.getMessage());
+    }
+    
+    static class FailingRunListener extends RunListener {
+        public Failure failure;
+        
+        @Override
+        public void testFailure(Failure failure) throws Exception {
+            this.failure = failure;
+        }
     }
     
     static class FailureExpectingRunListener extends RunListener {
