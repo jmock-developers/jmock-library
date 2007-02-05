@@ -6,6 +6,12 @@ import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
+/**
+ * Returns a value.
+ * 
+ * @author nat
+ *
+ */
 public class ReturnValueAction implements Action {
     private Object result;
 

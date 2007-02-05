@@ -6,6 +6,12 @@ import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
+/**
+ * Throws an exception.
+ * 
+ * @author nat
+ *
+ */
 public class ThrowAction implements Action {
     private Throwable throwable;
     

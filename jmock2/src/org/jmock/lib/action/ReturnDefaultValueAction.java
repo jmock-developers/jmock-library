@@ -12,7 +12,19 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
-
+/**
+ * Returns a value of the invoked method's result type.
+ * Returns nothing from void methods.
+ * Zero or false results are returned for primitive types.
+ * Arrays and strings are returned with a length of zero.
+ * Types that can be imposterised by the action's {@link Imposteriser}
+ * are returned as <a href="http://www.c2.com/cgi/wiki?NullObject">Null Objects</a>.
+ * Otherwise <code>null</code> is returned.
+ * The default value can be overridden for specific types.
+ * 
+ * @author nat
+ *
+ */
 public class ReturnDefaultValueAction implements Action {
     private final Map<Class<?>,Object> resultValuesByType = new HashMap<Class<?>,Object>();
     private final Imposteriser imposteriser;

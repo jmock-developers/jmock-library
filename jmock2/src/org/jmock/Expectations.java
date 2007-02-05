@@ -24,6 +24,15 @@ import org.jmock.syntax.CardinalityClause;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
 
+/**
+ * Provides most of the syntax of jMock's "domain-specific language" API.
+ * The methods of this class don't make any sense on their own, so the
+ * Javadoc is rather sparse.  Consult the documentation on the jMock 
+ * website for information on how to use this API.
+ * 
+ * @author nat
+ *
+ */
 public class Expectations implements ExpectationBuilder,
     CardinalityClause, ArgumentConstraintPhrases, ActionClause 
 {

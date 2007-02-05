@@ -8,17 +8,7 @@ import org.jmock.api.Action;
 
 /**
  * A partial implementation of the {@link Action} interface that makes it convenient 
- * to implement application-specific actions with inline anonymous classes:
- * <pre>
- * final String name = "NAME";
- * final StringBuffer buffer = new StringBuffer();
- * <p/>
- * exactly(1).of (mock).describeTo(same(buffer)); willDo(new CustomAction("appends name to buffer") {
- *     public Object invoke( Invocation invocation ) throws Throwable {
- *         return buffer.append(name);
- *     }
- * });
- * </pre>
+ * to implement application-specific actions with inline anonymous classes.
  */
 public abstract class CustomAction implements Action {
     private String description;

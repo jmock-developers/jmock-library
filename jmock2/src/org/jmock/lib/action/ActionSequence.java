@@ -13,7 +13,12 @@ import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
-
+/**
+ * Returns the next of a sequence of elements each time it is invoked.
+ * 
+ * @author nat
+ *
+ */
 public class ActionSequence implements Action {
     List<Action> actions;
     Iterator<Action> iterator;
@@ -31,9 +36,6 @@ public class ActionSequence implements Action {
     }
     
     public void describeTo(Description description) {
-        for (int i = 0; i < actions.size(); i++) {
-            if (i > 0) description.appendText(", and then ");
-            actions.get(i).describeTo(description);
-        }
+        description.appendList("", ", and then ", "", actions);
     }
 }
