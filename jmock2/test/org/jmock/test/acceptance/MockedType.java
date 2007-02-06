@@ -1,7 +1,8 @@
 package org.jmock.test.acceptance;
 
 public interface MockedType {
-	public void doSomething();
+	void doSomething();
+	void doSomethingWith(String x, String y);
     
     void method1();
     void method2();
@@ -10,6 +11,4 @@ public interface MockedType {
     
     String returnString();
     int returnInt();
-
-    public void doSomethingWith(String x, String y);
 }

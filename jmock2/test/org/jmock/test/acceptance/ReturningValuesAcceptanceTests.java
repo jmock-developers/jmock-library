@@ -2,6 +2,8 @@
  */
 package org.jmock.test.acceptance;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import org.jmock.Expectations;
@@ -19,7 +21,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         long returnLong();
         float returnFloat();
         double returnDouble();
-        void returnVoid();
+        void voidMethod();
     }
 
     private Mockery context = new Mockery();
@@ -133,19 +135,6 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         // This will not throw a NullPointerException
         mock.returnInt();
     }
-    
-    public void testThrowsExceptionWhenTryingToReturnAValueFromAVoidMethod() {
-        context.checking(new Expectations() {{
-            allowing (mock).returnVoid(); will(returnValue("wrong result"));
-        }});
-        
-       try {
-           mock.returnVoid();
-           fail("Should have thrown IllegalStateException");
-       } catch (IllegalStateException expected) {
-           
-       }
-    }
 
     public class Something {}
     
@@ -163,5 +152,32 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         Something defaultResult = mock.returnSomething();
         
         assertNull("returned null", defaultResult);
+    }
+
+
+    public void testReportsTypeMismatchOfResults() {
+        try {
+            context.checking(new Expectations() {{
+                allowing (mock).returnString(); will(returnValue(new Date()));
+            }});
+            
+            mock.returnString();
+            fail("Should have thrown IllegalStateException");
+
+        } catch (IllegalStateException expected) {
+        }
+    }
+    
+    public void testReportsTypeMismatchWhenValuesReturnedFromVoidMethods() {
+        context.checking(new Expectations() {{
+            allowing (mock).voidMethod(); will(returnValue("wrong result"));
+        }});
+        
+       try {
+           mock.voidMethod();
+           fail("Should have thrown IllegalStateException");
+
+       } catch (IllegalStateException expected) {
+       }
     }
 }

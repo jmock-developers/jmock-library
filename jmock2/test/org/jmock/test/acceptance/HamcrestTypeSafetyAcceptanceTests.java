@@ -12,7 +12,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.internal.matcher.MethodNameMatcher;
 
-public class HamcrestTypeSafetyAcceptanceTest extends TestCase {
+public class HamcrestTypeSafetyAcceptanceTests extends TestCase {
     public interface MockedType {
         void m(String s);
         void m(int i);

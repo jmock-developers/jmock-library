@@ -1,8 +1,6 @@
 Functionality
 =============
 
-- Check for type mismatch of returned values, void returns and thrown
-  exceptions.
 - Reintroduce a way to specify a sequence of ordered calls as a block
 
 Integration

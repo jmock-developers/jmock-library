@@ -11,7 +11,7 @@ import org.jmock.Mockery;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
-public class DoAllAcceptanceTest extends TestCase {
+public class DoAllAcceptanceTests extends TestCase {
     public interface Collector {
         void addThingsTo(Collection collection);
     }
