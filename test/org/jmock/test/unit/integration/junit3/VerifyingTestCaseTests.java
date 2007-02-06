@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.jmock.integration.junit3.VerifyingTestCase;
 
 
-public class VerifyingTestCaseTest extends TestCase {
+public class VerifyingTestCaseTests extends TestCase {
     public static class ExampleTestCase extends VerifyingTestCase {
         public ExampleTestCase() {
             setName("testMethod");

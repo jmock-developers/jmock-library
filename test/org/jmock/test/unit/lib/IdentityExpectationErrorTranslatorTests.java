@@ -6,7 +6,7 @@ import org.jmock.api.ExpectationError;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 
 
-public class IdentityExpectationErrorTranslatorTest extends TestCase{
+public class IdentityExpectationErrorTranslatorTests extends TestCase{
     public void testReturnsTheErrorAsItsOwnTranslation() {
         ExpectationError e = new ExpectationError(null, null);
         

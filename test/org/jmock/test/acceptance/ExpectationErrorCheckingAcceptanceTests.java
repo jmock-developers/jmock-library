@@ -8,9 +8,9 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 
-public class ErrorCheckingAcceptanceTests extends TestCase {
+public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
-    final MockedType mock = context.mock(MockedType.class, "mock");
+    MockedType mock = context.mock(MockedType.class, "mock");
     
     public void testCannotSetAnExpectationOnAnObjectThatIsNotAMock() {
         final ArrayList<String> list = new ArrayList<String>();
