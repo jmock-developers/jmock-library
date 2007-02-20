@@ -17,7 +17,27 @@ public class DefaultNamingScheme implements MockObjectNamingScheme {
     
     public String defaultNameFor(Class<?> typeToMock) {
         String simpleName = typeToMock.getSimpleName();
+        int lci = indexOfFirstLowerCaseLetter(simpleName);
         
-        return Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
+        if (lci == 0) {
+            return simpleName;
+        }
+        
+        int capsEnd = (lci == 1 || lci == simpleName.length()) ? lci : lci - 1;
+        
+        String caps = simpleName.substring(0, capsEnd);
+        String rest = simpleName.substring(capsEnd);
+        
+        return caps.toLowerCase() + rest;
+    }
+
+    private int indexOfFirstLowerCaseLetter(String simpleName) {
+        int i = 0;
+        
+        while (i < simpleName.length() && !Character.isLowerCase(simpleName.charAt(i))) {
+            i++;
+        }
+        
+        return i;
     }
 }

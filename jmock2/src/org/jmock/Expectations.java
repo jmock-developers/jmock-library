@@ -1,6 +1,7 @@
 package org.jmock;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.hamcrest.Matcher;
@@ -16,6 +17,7 @@ import org.jmock.internal.ExpectationNamespace;
 import org.jmock.internal.InvocationExpectationBuilder;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
+import org.jmock.lib.action.ReturnIteratorAction;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.ThrowAction;
 import org.jmock.syntax.ActionClause;
@@ -55,7 +57,7 @@ public class Expectations implements ExpectationBuilder,
         }
     }
     
-    private InvocationExpectationBuilder currentBuilder() {
+    protected InvocationExpectationBuilder currentBuilder() {
         if (currentBuilder == null) {
             throw new IllegalStateException("no expectations have been specified " +
                 "(did you forget to to specify the cardinality of an expectation?)");
@@ -198,6 +200,14 @@ public class Expectations implements ExpectationBuilder,
     
     public Action throwException(Throwable throwable) {
         return new ThrowAction(throwable);
+    }
+    
+    public Action returnIterator(Collection<?> collection) {
+        return new ReturnIteratorAction(collection);
+    }
+    
+    public <T> Action returnIterator(T ... items) {
+        return new ReturnIteratorAction(items);
     }
     
     public Action doAll(Action...actions) {
