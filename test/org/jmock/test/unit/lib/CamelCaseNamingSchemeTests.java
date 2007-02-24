@@ -3,13 +3,13 @@ package org.jmock.test.unit.lib;
 import java.net.URL;
 
 import org.jmock.api.MockObjectNamingScheme;
-import org.jmock.lib.DefaultNamingScheme;
+import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.test.unit.support.DummyInterface;
 
 import junit.framework.TestCase;
 
-public class DefaultNamingSchemeTests extends TestCase {
-    MockObjectNamingScheme namingScheme = DefaultNamingScheme.INSTANCE;
+public class CamelCaseNamingSchemeTests extends TestCase {
+    MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
     
     public void testNamesMocksByLowerCasingFirstCharacterOfTypeName() {
         assertEquals("runnable", namingScheme.defaultNameFor(Runnable.class));

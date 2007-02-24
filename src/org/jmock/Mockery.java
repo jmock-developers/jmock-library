@@ -15,7 +15,7 @@ import org.jmock.internal.ExpectationNamespace;
 import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.internal.ProxiedObjectIdentity;
-import org.jmock.lib.DefaultNamingScheme;
+import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.action.ReturnDefaultValueAction;
@@ -36,7 +36,7 @@ public class Mockery {
     private Imposteriser imposteriser = new JavaReflectionImposteriser();
     private Action defaultAction = new ReturnDefaultValueAction(imposteriser);
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
-    private MockObjectNamingScheme namingScheme = DefaultNamingScheme.INSTANCE;
+    private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
     
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
     private ExpectationNamespace namespace = new ExpectationNamespace();
