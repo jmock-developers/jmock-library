@@ -30,9 +30,9 @@ public class LastWordNamingSchemeTests extends TestCase {
         assertEquals("x", namingScheme.defaultNameFor(X.class));
     }
     
-    public interface x {}
+    public interface y {}
     public void testLowercasesNameContainingSingleLowerCaseLetter() {
-        assertEquals("x", namingScheme.defaultNameFor(x.class));
+        assertEquals("y", namingScheme.defaultNameFor(y.class));
     }
     
     public void testLowercasesEntireNameIfItContainsOnlyCapitals() {
