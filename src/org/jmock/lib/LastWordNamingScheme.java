@@ -1,7 +1,9 @@
 package org.jmock.lib;
 
-import static java.lang.Character.*;
+import static java.lang.Character.isLowerCase;
+import static java.lang.Character.isUpperCase;
 import static java.lang.Math.max;
+
 import org.jmock.api.MockObjectNamingScheme;
 
 /**

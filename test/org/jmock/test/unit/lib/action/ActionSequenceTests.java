@@ -7,11 +7,11 @@ import java.lang.reflect.Method;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockAction;
 
@@ -74,7 +74,7 @@ public class ActionSequenceTests extends TestCase {
         MockAction[] actions = new MockAction[]{new MockAction(), new MockAction()};
         ActionSequence sequence = new ActionSequence((Action[])actions);
         
-        String sequenceDescription = GetDescription.of(sequence);
+        String sequenceDescription = StringDescription.toString(sequence);
 
         for (int i = 0; i < actions.length; i++) {
             AssertThat.stringIncludes("should include action " + i,

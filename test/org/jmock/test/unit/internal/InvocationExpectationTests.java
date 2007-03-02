@@ -10,13 +10,14 @@ import junit.framework.TestCase;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.StringDescription;
 import org.jmock.api.Invocation;
 import org.jmock.internal.Cardinality;
 import org.jmock.internal.InvocationExpectation;
 import org.jmock.internal.OrderingConstraint;
+import org.jmock.internal.SideEffect;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockAction;
 
@@ -147,6 +148,39 @@ public class InvocationExpectationTests extends TestCase {
         assertTrue("action1 was invoked", action.wasInvoked);
     }
     
+    public void testPerformsSideEffectsWhenInvoked() throws Throwable {
+        FakeSideEffect sideEffect1 = new FakeSideEffect();
+        FakeSideEffect sideEffect2 = new FakeSideEffect();
+        
+        expectation.addSideEffect(sideEffect1);
+        expectation.addSideEffect(sideEffect2);
+        
+        Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"));
+        expectation.invoke(invocation);
+        
+        assertTrue("side effect 1 should have been performed", sideEffect1.wasPerformed);
+        assertTrue("side effect 2 should have been performed", sideEffect2.wasPerformed);
+    }
+    
+    public void testDescriptionIncludesSideEffects() {
+        FakeSideEffect sideEffect1 = new FakeSideEffect();
+        FakeSideEffect sideEffect2 = new FakeSideEffect();
+        
+        sideEffect1.descriptionText = "side-effect-1";
+        sideEffect2.descriptionText = "side-effect-2";
+        
+        expectation.addSideEffect(sideEffect1);
+        expectation.addSideEffect(sideEffect2);
+        
+        String description = StringDescription.toString(expectation);
+        
+        AssertThat.stringIncludes("should include description of sideEffect1",
+                                  sideEffect1.descriptionText, description);
+        AssertThat.stringIncludes("should include description of sideEffect2",
+                                  sideEffect2.descriptionText, description);
+        
+    }
+    
     public void testReturnsNullIfHasNoActionsWhenInvoked() throws Throwable {
         Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
         
@@ -189,20 +223,6 @@ public class InvocationExpectationTests extends TestCase {
         assertTrue(expectation.isSatisfied());
     }
     
-    public static class FakeOrderingConstraint implements OrderingConstraint {
-        public boolean allowsInvocationNow;
-        
-        public boolean allowsInvocationNow() {
-            return allowsInvocationNow;
-        }
-
-        public String description;
-        
-        public void describeTo(Description description) {
-            description.appendText(this.description);
-        }
-    }
-    
     public void testMatchesIfAllOrderingConstraintsMatch() {
         FakeOrderingConstraint orderingConstraint1 = new FakeOrderingConstraint();
         FakeOrderingConstraint orderingConstraint2 = new FakeOrderingConstraint();
@@ -234,10 +254,9 @@ public class InvocationExpectationTests extends TestCase {
         expectation.setCardinality(cardinality);
         
         AssertThat.stringIncludes("should include cardinality description",
-                                  GetDescription.of(cardinality), 
-                                  GetDescription.of(expectation));
+                                  StringDescription.toString(cardinality), 
+                                  StringDescription.toString(expectation));
     }
-
     
     public void testDescribesNumberOfInvocationsReceived() throws Throwable {
         Invocation invocation = new Invocation(targetObject, method, Invocation.NO_PARAMETERS);
@@ -245,15 +264,43 @@ public class InvocationExpectationTests extends TestCase {
         expectation.setCardinality(new Cardinality(2,3));
         
         AssertThat.stringIncludes("should describe as not invoked",
-                                  "invoked 0 times", GetDescription.of(expectation));
+                                  "invoked 0 times", StringDescription.toString(expectation));
         
         expectation.invoke(invocation);
         AssertThat.stringIncludes("should describe as not invoked",
-                                  "invoked 1 time", GetDescription.of(expectation));
+                                  "invoked 1 time", StringDescription.toString(expectation));
         
         expectation.invoke(invocation);
         expectation.invoke(invocation);
         AssertThat.stringIncludes("should describe as not invoked",
-                                  "invoked 3 times", GetDescription.of(expectation));
+                                  "invoked 3 times", StringDescription.toString(expectation));
+    }
+
+    public static class FakeOrderingConstraint implements OrderingConstraint {
+        public boolean allowsInvocationNow;
+        
+        public boolean allowsInvocationNow() {
+            return allowsInvocationNow;
+        }
+
+        public String descriptionText;
+        
+        public void describeTo(Description description) {
+            description.appendText(descriptionText);
+        }
+    }
+    
+    class FakeSideEffect implements SideEffect {
+        public boolean wasPerformed = false;
+        
+        public void perform() {
+            wasPerformed = true;
+        }
+
+        public String descriptionText;
+        
+        public void describeTo(Description description) {
+            description.appendText(descriptionText);
+        }
     }
 }

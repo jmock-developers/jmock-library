@@ -11,7 +11,6 @@ import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.internal.CaptureControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
-import org.jmock.internal.ExpectationNamespace;
 import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.internal.ProxiedObjectIdentity;
@@ -39,7 +38,6 @@ public class Mockery {
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
     
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
-    private ExpectationNamespace namespace = new ExpectationNamespace();
     private ExpectationCapture capture = null;
     private Throwable firstError = null;
     
@@ -119,6 +117,19 @@ public class Mockery {
         return imposteriser.imposterise(invokable, typeToMock, CaptureControl.class);
     }
     
+    /** 
+     * Returns a new state machine that is used to constrain the order in which 
+     * expectations can occur.
+     * 
+     * @param name
+     *     The name of the state machine.
+     * @return
+     *     A new state machine with the given name.
+     */
+    public States states(String name) {
+        return dispatcher.newStateMachine(name);
+    }
+    
     /**
      * Specifies the expected invocations that the object under test will perform upon
      * objects in its context during the test.
@@ -127,7 +138,7 @@ public class Mockery {
      * construct an expectation.
      */
 	public void checking(ExpectationBuilder builder) {
-	    builder.buildExpectations(defaultAction, dispatcher, namespace);
+	    builder.buildExpectations(defaultAction, dispatcher);
         capture = null;
     }
 	

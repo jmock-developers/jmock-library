@@ -4,10 +4,10 @@ package org.jmock.test.unit.lib.action;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.VoidAction;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 
 
@@ -29,6 +29,6 @@ public class VoidActionTests extends TestCase {
 
     public void testIncludesVoidInDescription() {
         AssertThat.stringIncludes("contains 'void' in description",
-            "void", GetDescription.of(voidAction));
+            "void", StringDescription.toString(voidAction));
     }
 }

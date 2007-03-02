@@ -3,9 +3,7 @@ package org.jmock.internal;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hamcrest.Matcher;
 import org.jmock.api.Action;
@@ -29,26 +27,11 @@ public class InvocationExpectationBuilder
     private boolean needsDefaultAction = true;
     private CaptureControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
-    private String name = null;
-    private Set<String> precedingExpectationNames = new HashSet<String>();
-    private Set<String> subsequentExpectationNames = new HashSet<String>();
     
-    public Expectation toExpectation(Action defaultAction, ExpectationNamespace namespace) {
+    
+    public Expectation toExpectation(Action defaultAction) {
         if (needsDefaultAction) {
             expectation.setAction(defaultAction);
-        }
-        
-        if (name != null) {
-            namespace.bind(name, expectation);
-            expectation.setName(name);
-        }
-        
-        if (!precedingExpectationNames.isEmpty()) {
-            expectation.addOrderingConstraint(new AfterOrderingConstraint(namespace, precedingExpectationNames));
-        }
-        
-        if (!subsequentExpectationNames.isEmpty()) {
-            expectation.addOrderingConstraint(new BeforeOrderingConstraint(namespace, subsequentExpectationNames));
         }
         
         return expectation;
@@ -62,25 +45,17 @@ public class InvocationExpectationBuilder
         capturedParameterMatchers.add(matcher);
     }
     
+    public void addOrderingConstraint(OrderingConstraint constraint) {
+        expectation.addOrderingConstraint(constraint);
+    }
+    
     public void setAction(Action action) {
         expectation.setAction(action);
         needsDefaultAction = false;
     }
     
-    public void setName(String name) {
-        if (this.name != null) {
-            throw new IllegalStateException("name already set to " + this.name);
-        }
-        
-        this.name = name;
-    }
-    
-    public void addPrecedingExpectationName(String name) {
-        precedingExpectationNames.add(name);
-    }
-    
-    public void addSubsequentExpectationName(String name) {
-        subsequentExpectationNames.add(name);
+    public void addSideEffect(SideEffect sideEffect) {
+        expectation.addSideEffect(sideEffect);
     }
     
     private <T> void captureExpectedObject(T mockObject) {

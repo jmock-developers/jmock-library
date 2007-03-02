@@ -1,10 +1,10 @@
 package org.jmock.test.acceptance;
 
+import junit.framework.TestCase;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
-
-import junit.framework.TestCase;
 
 @SuppressWarnings("unused")
 public class ExpectationCountsAcceptanceTests extends TestCase {

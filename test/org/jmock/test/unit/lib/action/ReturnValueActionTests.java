@@ -4,10 +4,10 @@ package org.jmock.test.unit.lib.action;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 
 public class ReturnValueActionTests extends TestCase {
@@ -37,7 +37,7 @@ public class ReturnValueActionTests extends TestCase {
     }
 
     public void testIncludesValueInDescription() {
-        String description = GetDescription.of(returnValueAction);
+        String description = StringDescription.toString(returnValueAction);
 
         AssertThat.stringIncludes("contains result in description", 
         	RESULT.toString(), description);

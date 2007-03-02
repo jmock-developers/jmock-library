@@ -2,11 +2,11 @@ package org.jmock.test.unit.lib;
 
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.test.unit.support.DummyInterface;
-
-import junit.framework.TestCase;
 
 public class CamelCaseNamingSchemeTests extends TestCase {
     MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;

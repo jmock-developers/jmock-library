@@ -26,6 +26,7 @@ public class InvocationExpectation implements Expectation {
     private Action action = new VoidAction();
     private String name = null;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
+    private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
     
 	private int invocationCount = 0;
 
@@ -53,6 +54,10 @@ public class InvocationExpectation implements Expectation {
         orderingConstraints.add(orderingConstraint);
     }
 
+    public void addSideEffect(SideEffect sideEffect) {
+        sideEffects.add(sideEffect);
+    }
+    
     public void setAction(Action action) {
         this.action = action;
     }
@@ -78,6 +83,10 @@ public class InvocationExpectation implements Expectation {
         }
         description.appendText("; ");
         action.describeTo(description);
+        for (SideEffect sideEffect : sideEffects) {
+            description.appendText("; ");
+            sideEffect.describeTo(description);
+        }
     }
 
     private static String times(int n) {
@@ -116,6 +125,13 @@ public class InvocationExpectation implements Expectation {
 		invocationCount++;
 		final Object result = action.invoke(invocation);
         invocation.checkReturnTypeCompatibility(result);
+        performSideEffects();
         return result;
 	}
+
+    private void performSideEffects() {
+        for (SideEffect sideEffect : sideEffects) {
+            sideEffect.perform();
+        }
+    }
 }
