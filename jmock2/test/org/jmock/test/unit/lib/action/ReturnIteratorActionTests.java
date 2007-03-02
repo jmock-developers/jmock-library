@@ -6,10 +6,10 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.ReturnIteratorAction;
-import org.jmock.test.unit.support.GetDescription;
 
 public class ReturnIteratorActionTests extends TestCase {
     private static final Object[] resultElements = {"0", "1", "2", "3"};
@@ -40,7 +40,7 @@ public class ReturnIteratorActionTests extends TestCase {
         Action action = new ReturnIteratorAction(resultElements);
         
         assertEquals("return iterator over \"0\", \"1\", \"2\", \"3\"", 
-                	 GetDescription.of(action));
+                	 StringDescription.toString(action));
     }
     
     private <T> Collection<T> collectionOf(T... values) {

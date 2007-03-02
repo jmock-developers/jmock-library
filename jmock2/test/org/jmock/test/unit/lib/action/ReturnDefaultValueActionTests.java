@@ -5,12 +5,12 @@ package org.jmock.test.unit.lib.action;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.action.ReturnDefaultValueAction;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 
 
@@ -27,7 +27,7 @@ public class ReturnDefaultValueActionTests extends TestCase {
     public void testWritesDescritionToStringBuffer() {
         AssertThat.stringIncludes("contains expected description",
             "returns a default value",
-            GetDescription.of(action));
+            StringDescription.toString(action));
     }
 
     public void testReturnsUsefulDefaultResultsForBasicTypes()

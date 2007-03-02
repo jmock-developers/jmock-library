@@ -11,7 +11,14 @@ import org.jmock.api.Invocation;
 
 public class InvocationDispatcher implements ExpectationCollector, SelfDescribing {
 	private List<Expectation> expectations = new ArrayList<Expectation>();
-	
+	private List<StateMachine> stateMachines = new ArrayList<StateMachine>();
+    
+    public StateMachine newStateMachine(String name) {
+        StateMachine stateMachine = new StateMachine(name);
+        stateMachines.add(stateMachine);
+        return stateMachine;
+    }
+    
 	public void add(Expectation expectation) {
 		expectations.add(expectation);
 	}
@@ -21,11 +28,9 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
             description.appendText("no expectations specified: did you forget to start an expectation with a cardinality clause?");
         }
         else {
-            description.appendText("expectations:\n");
-            for (Expectation expectation : expectations) {
-                description.appendText("  ");
-                expectation.describeTo(description);
-                description.appendText("\n");
+            description.appendList("expectations:\n  ", "\n  ", "", expectations);
+            if (!stateMachines.isEmpty()) {
+                description.appendList("\nstates:\n  ", "\n  ", "", stateMachines);
             }
         }
     }

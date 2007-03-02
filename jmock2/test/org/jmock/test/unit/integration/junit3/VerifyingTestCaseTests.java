@@ -3,6 +3,7 @@
 package org.jmock.test.unit.integration.junit3;
 
 import junit.framework.TestCase;
+
 import org.jmock.integration.junit3.VerifyingTestCase;
 
 

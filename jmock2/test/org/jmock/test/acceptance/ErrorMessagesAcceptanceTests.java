@@ -2,11 +2,11 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 
 public class ErrorMessagesAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
@@ -29,7 +29,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
             context.assertIsSatisfied();
         }
         catch (ExpectationError e) {
-            String message = GetDescription.of(e);
+            String message = StringDescription.toString(e);
             
             AssertThat.stringIncludes("should include expectation that has not been invoked at all",
                                       "method1", message);

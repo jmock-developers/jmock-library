@@ -5,11 +5,11 @@ package org.jmock.test.unit.lib.action;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.ThrowAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.DummyThrowable;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 
 
@@ -39,7 +39,7 @@ public class ThrowActionTests extends TestCase {
     }
 
     public void testIncludesDetailsOfThrowableInDescription() {
-    	String description = GetDescription.of(throwAction);
+    	String description = StringDescription.toString(throwAction);
 
         assertTrue("contains class of thrown object in description",
                    description.indexOf(THROWABLE.toString()) >= 0);

@@ -1,9 +1,9 @@
 package org.jmock.test.acceptance;
 
+import junit.framework.TestCase;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-
-import junit.framework.TestCase;
 
 public class ParameterMatchingAcceptanceTests extends TestCase {
     public interface AnInterface {

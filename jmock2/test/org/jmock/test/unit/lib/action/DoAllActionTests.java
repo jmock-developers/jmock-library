@@ -4,11 +4,11 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.test.unit.support.AssertThat;
-import org.jmock.test.unit.support.GetDescription;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockAction;
 
@@ -52,7 +52,7 @@ public class DoAllActionTests extends TestCase {
     }
     
     public void testDescribesAllActionsInDescription() {
-        String description = GetDescription.of(doAllAction);
+        String description = StringDescription.toString(doAllAction);
         
         AssertThat.stringIncludes("description should contain list of actions",
         	"actions[0], actions[1], actions[2], actions[3]", description);

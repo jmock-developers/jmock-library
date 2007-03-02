@@ -8,13 +8,18 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsInstanceOf;
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.IsNull;
 import org.hamcrest.core.IsSame;
 import org.jmock.api.Action;
 import org.jmock.internal.Cardinality;
+import org.jmock.internal.ChangeStateSideEffect;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCollector;
-import org.jmock.internal.ExpectationNamespace;
 import org.jmock.internal.InvocationExpectationBuilder;
+import org.jmock.internal.State;
+import org.jmock.internal.StatePredicate;
+import org.jmock.internal.StatePredicateOrderingConstraint;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnIteratorAction;
@@ -49,18 +54,18 @@ public class Expectations implements ExpectationBuilder,
         builders.add(currentBuilder);
     }
     
-    public void buildExpectations(Action defaultAction, ExpectationCollector collector, ExpectationNamespace namespace) {
+    public void buildExpectations(Action defaultAction, ExpectationCollector collector) {
         checkLastExpectationWasFullySpecified();
         
         for (InvocationExpectationBuilder builder : builders) {
-            collector.add(builder.toExpectation(defaultAction, namespace));
+            collector.add(builder.toExpectation(defaultAction));
         }
     }
     
     protected InvocationExpectationBuilder currentBuilder() {
         if (currentBuilder == null) {
             throw new IllegalStateException("no expectations have been specified " +
-                "(did you forget to to specify the cardinality of an expectation?)");
+                "(did you forget to to specify the cardinality of the first expectation?)");
         }
         return currentBuilder;
     }
@@ -174,8 +179,7 @@ public class Expectations implements ExpectationBuilder,
         return new IsSame<T>(value);
     }
     
-    @SuppressWarnings("unused")
-    public <T> Matcher<T> any(Class<T> type) {
+    public <T> Matcher<T> any(@SuppressWarnings("unused") Class<T> type) {
         return new IsAnything<T>();
     }
     
@@ -189,6 +193,14 @@ public class Expectations implements ExpectationBuilder,
     
     public <T> Matcher<T> an(Class<T> type) {
         return new IsInstanceOf<T>(type);
+    }
+    
+    public <T> Matcher<T> aNull(@SuppressWarnings("unused") Class<T> type) {
+        return new IsNull<T>();
+    }
+    
+    public <T> Matcher<T> aNonNull(@SuppressWarnings("unused") Class<T> type) {
+        return new IsNot<T>(new IsNull<T>());
     }
     
     /* Common actions
@@ -220,19 +232,12 @@ public class Expectations implements ExpectationBuilder,
     
     /* Naming and ordering
      */
-    public void named(String name) {
-        currentBuilder().setName(name);
+    
+    public void when(StatePredicate predicate) {
+        currentBuilder().addOrderingConstraint(new StatePredicateOrderingConstraint(predicate));
     }
     
-    public void before(String... subsequentExpectationNames) {
-        for (String name : subsequentExpectationNames) {
-            currentBuilder().addSubsequentExpectationName(name);
-        }
-    }
-    
-    public void after(String... precedingExpectationsNames) {
-        for (String name : precedingExpectationsNames) {
-            currentBuilder().addPrecedingExpectationName(name);
-        }
+    public void then(State state) {
+        currentBuilder().addSideEffect(new ChangeStateSideEffect(state));
     }
 }
