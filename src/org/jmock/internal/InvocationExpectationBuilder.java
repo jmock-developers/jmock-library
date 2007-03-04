@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hamcrest.Matcher;
+import org.jmock.Sequence;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
@@ -28,7 +29,6 @@ public class InvocationExpectationBuilder
     private CaptureControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
     
-    
     public Expectation toExpectation(Action defaultAction) {
         if (needsDefaultAction) {
             expectation.setAction(defaultAction);
@@ -49,6 +49,10 @@ public class InvocationExpectationBuilder
         expectation.addOrderingConstraint(constraint);
     }
     
+    public void addInSequenceOrderingConstraint(Sequence sequence) {
+        sequence.constrainAsNextInSequence(expectation);
+    }
+    
     public void setAction(Action action) {
         expectation.setAction(action);
         needsDefaultAction = false;
@@ -64,11 +68,8 @@ public class InvocationExpectationBuilder
         }
         
         dispatcher = (CaptureControl)mockObject;
-        
         expectation.setObjectMatcher(new MockObjectMatcher(mockObject));
-        
         isFullySpecified = true;
-        
         dispatcher.startCapturingExpectations(this);
     }
     

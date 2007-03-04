@@ -2,20 +2,23 @@ package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.StringDescription;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.Sequence;
 import org.jmock.api.ExpectationError;
+import org.jmock.test.unit.support.AssertThat;
 
 public class SequenceAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
     MockedType mock = context.mock(MockedType.class, "mock");
     
     public void testCanConstrainInvocationsToOccurInOrder() {
+        final Sequence s = context.sequence("s");
+        
         context.checking(new Expectations() {{
-            allowing (mock).method1();
-                inSequence("s");
-            allowing (mock).method2();
-                inSequence("s");
+            one (mock).method1(); inSequence(s);
+            one (mock).method2(); inSequence(s);
         }});
         
         try {
@@ -27,28 +30,62 @@ public class SequenceAcceptanceTests extends TestCase {
         }
     }
     
-    public void testAllowsInvocationsToSequence() {
+    public void testAllowsInvocationsInSequence() {
+        final Sequence s = context.sequence("s");
+        
         context.checking(new Expectations() {{
-            allowing (mock).method1(); inSequence("s");
-            allowing (mock).method2(); inSequence("s");
+            one (mock).method1(); inSequence(s);
+            one (mock).method2(); inSequence(s);
         }});
         
         mock.method1();
         mock.method2();
     }
     
-    public void testSequencesAreIndependentOfOneAnother() {
+    public void testCanSkipAllowedInvocationsInSequence() {
+        final Sequence s = context.sequence("s");
+        
         context.checking(new Expectations() {{
-            allowing (mock).method1(); inSequence("s");
-            allowing (mock).method2(); inSequence("s");
+            one (mock).method1(); inSequence(s);
+            allowing (mock).method2(); inSequence(s);
+            one (mock).method3(); inSequence(s);
+        }});
+        
+        mock.method1();
+        mock.method3();
+    }
+    
+    public void testSequencesAreIndependentOfOneAnother() {
+        final Sequence s = context.sequence("s");
+        final Sequence t = context.sequence("t");
+        
+        context.checking(new Expectations() {{
+            one (mock).method1(); inSequence(s);
+            one (mock).method2(); inSequence(s);
             
-            allowing (mock).method3(); inSequence("t");
-            allowing (mock).method4(); inSequence("t");
+            one (mock).method3(); inSequence(t);
+            one (mock).method4(); inSequence(t);
         }});
         
         mock.method1();
         mock.method3();
         mock.method2();
         mock.method4();
+    }
+    
+    public void testExpectationIncludesSequenceInDescription() {
+        final Sequence s = context.sequence("s");
+        
+        context.checking(new Expectations() {{
+            one (mock).method1(); inSequence(s);
+        }});
+        
+        try {
+            mock.method2();
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            AssertThat.stringIncludes("error message", "in sequence s", StringDescription.toString(e));
+        }
     }
 }
