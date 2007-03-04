@@ -211,4 +211,8 @@ public class Mockery {
             capture = null;
         }
     }
+    
+    public Sequence sequence(String name) {
+        return new Sequence(name);
+    }
 }

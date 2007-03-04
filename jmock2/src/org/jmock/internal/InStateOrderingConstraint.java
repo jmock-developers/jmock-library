@@ -2,10 +2,10 @@ package org.jmock.internal;
 
 import org.hamcrest.Description;
 
-public class StatePredicateOrderingConstraint implements OrderingConstraint {
+public class InStateOrderingConstraint implements OrderingConstraint {
     private final StatePredicate statePredicate;
 
-    public StatePredicateOrderingConstraint(StatePredicate statePredicate) {
+    public InStateOrderingConstraint(StatePredicate statePredicate) {
         this.statePredicate = statePredicate;
     }
 

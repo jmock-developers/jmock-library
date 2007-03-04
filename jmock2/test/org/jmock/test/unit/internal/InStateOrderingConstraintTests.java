@@ -5,11 +5,11 @@ import junit.framework.TestCase;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.jmock.internal.StatePredicate;
-import org.jmock.internal.StatePredicateOrderingConstraint;
+import org.jmock.internal.InStateOrderingConstraint;
 
-public class StatePredicateOrderingConstraintTests extends TestCase {
+public class InStateOrderingConstraintTests extends TestCase {
     FakeStatePredicate statePredicate = new FakeStatePredicate();
-    StatePredicateOrderingConstraint orderingConstraint = new StatePredicateOrderingConstraint(statePredicate);
+    InStateOrderingConstraint orderingConstraint = new InStateOrderingConstraint(statePredicate);
 
     public void testAllowsInvocationWhenStateIsActive() {
         

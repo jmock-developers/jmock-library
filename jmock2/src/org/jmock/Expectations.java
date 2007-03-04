@@ -19,7 +19,7 @@ import org.jmock.internal.ExpectationCollector;
 import org.jmock.internal.InvocationExpectationBuilder;
 import org.jmock.internal.State;
 import org.jmock.internal.StatePredicate;
-import org.jmock.internal.StatePredicateOrderingConstraint;
+import org.jmock.internal.InStateOrderingConstraint;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
 import org.jmock.lib.action.ReturnIteratorAction;
@@ -234,10 +234,14 @@ public class Expectations implements ExpectationBuilder,
      */
     
     public void when(StatePredicate predicate) {
-        currentBuilder().addOrderingConstraint(new StatePredicateOrderingConstraint(predicate));
+        currentBuilder().addOrderingConstraint(new InStateOrderingConstraint(predicate));
     }
     
     public void then(State state) {
         currentBuilder().addSideEffect(new ChangeStateSideEffect(state));
+    }
+    
+    public void inSequence(Sequence sequence) {
+        currentBuilder().addInSequenceOrderingConstraint(sequence);
     }
 }
