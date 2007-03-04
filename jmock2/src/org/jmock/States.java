@@ -16,6 +16,8 @@ public interface States extends SelfDescribing, StatesClause {
      *  
      * @param initialState
      *     The initial state of the state machine.
+     * @return
+     *     Itself.
      */
-    void startsAs(String initialState);
+    States startsAs(String initialState);
 }

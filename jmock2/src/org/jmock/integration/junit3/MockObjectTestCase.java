@@ -1,6 +1,8 @@
 package org.jmock.integration.junit3;
 
 import org.jmock.Mockery;
+import org.jmock.Sequence;
+import org.jmock.States;
 import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.MockObjectNamingScheme;
@@ -46,7 +48,7 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
     public void setNamingScheme(MockObjectNamingScheme namingScheme) {
         context.setNamingScheme(namingScheme);
     }
-
+    
     /**
      * Specify expectations upon the mock objects in the test.
      * 
@@ -80,5 +82,31 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
      */
     public <T> T mock(Class<T> typeToMock) {
         return context.mock(typeToMock);
+    }
+
+    /** 
+     * Returns a new sequence that is used to constrain the order in which 
+     * expectations can occur.
+     * 
+     * @param name
+     *     The name of the sequence.
+     * @return
+     *     A new sequence with the given name.
+     */
+    public Sequence sequence(String name) {
+        return context.sequence(name);
+    }
+    
+    /** 
+     * Returns a new state machine that is used to constrain the order in which 
+     * expectations can occur.
+     * 
+     * @param name
+     *     The name of the state machine.
+     * @return
+     *     A new state machine with the given name.
+     */
+    public States states(String name) {
+        return context.states(name);
     }
 }

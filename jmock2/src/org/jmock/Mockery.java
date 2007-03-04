@@ -118,6 +118,19 @@ public class Mockery {
     }
     
     /** 
+     * Returns a new sequence that is used to constrain the order in which 
+     * expectations can occur.
+     * 
+     * @param name
+     *     The name of the sequence.
+     * @return
+     *     A new sequence with the given name.
+     */
+    public Sequence sequence(String name) {
+        return new Sequence(name);
+    }
+    
+    /** 
      * Returns a new state machine that is used to constrain the order in which 
      * expectations can occur.
      * 
@@ -210,9 +223,5 @@ public class Mockery {
         public void stopCapturingExpectations() {
             capture = null;
         }
-    }
-    
-    public Sequence sequence(String name) {
-        return new Sequence(name);
     }
 }

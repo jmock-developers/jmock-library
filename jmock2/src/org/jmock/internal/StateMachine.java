@@ -11,8 +11,9 @@ public class StateMachine implements States {
         this.name = name;
     }
     
-    public void startsAs(String initialState) {
+    public States startsAs(String initialState) {
         currentState = initialState;
+        return this;
     }
     
     public State is(final String state) {
