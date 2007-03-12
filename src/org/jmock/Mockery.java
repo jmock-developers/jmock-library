@@ -150,8 +150,8 @@ public class Mockery {
      * The builder is responsible for interpreting high-level, readable API calls to 
      * construct an expectation.
      */
-	public void checking(ExpectationBuilder builder) {
-	    builder.buildExpectations(defaultAction, dispatcher);
+	public void checking(ExpectationBuilder expectations) {
+	    expectations.buildExpectations(defaultAction, dispatcher);
         capture = null;
     }
 	
