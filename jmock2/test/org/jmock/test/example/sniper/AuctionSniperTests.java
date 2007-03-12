@@ -64,13 +64,11 @@ public class AuctionSniperTests extends MockObjectTestCase {
         final AuctionException exception = new AuctionException("test");
 
         checking(new Expectations() {{
-            allowing (lot).bid(with(anyBid)); 
+            allowing (lot).bid(with(any(Bid.class))); 
                 will(throwException(exception));
             exactly(1).of (listener).sniperBidFailed(sniper, exception);
         }});
 
         sniper.bidAccepted(lot, beatableBid);
     }
-
-    private final Matcher<Bid> anyBid = IsAnything.anything();
 }
