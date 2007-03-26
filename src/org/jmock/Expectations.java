@@ -112,8 +112,12 @@ public class Expectations implements ExpectationBuilder,
         return atLeast(0).of(mockObject);
     }
     
-    public <T> void ignoring(T mockObject) {
-        atLeast(0).of(mockObject);
+    public <T> T ignoring(T mockObject) {
+        return allowing(mockObject);
+    }
+    
+    public MethodClause ignoring(Matcher<Object> mockObjectMatcher) {
+        return allowing(mockObjectMatcher);
     }
     
     public <T> T never(T mockObject) {

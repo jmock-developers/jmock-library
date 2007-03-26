@@ -3,12 +3,11 @@ Integration
 
 - TestNG
     Can't work out how to verify mocks before running tear-down methods
+
 - Objenesis
     Write an Imposteriser that uses Objenesis and CGLIB instead of the
     UnsafeHackConcreteClassImposteriser
 
+- Paranamer and OGNL
+    An action that can call back to to parameters identified by name
 
-Build
-=====
-
-- Publish snapshots somewhere

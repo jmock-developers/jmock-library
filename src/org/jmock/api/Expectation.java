@@ -10,15 +10,6 @@ import org.hamcrest.SelfDescribing;
  */
 public interface Expectation extends SelfDescribing {
     /**
-     * Have this expectation been invoked at least once?
-     * 
-     * @return
-     *   <code>true</code> if the expectation has been invoked,
-     *   <code>false</code> otherwise.
-     */
-    boolean hasBeenInvoked();
-    
-    /**
      * Have enough {@link Invocation}s expected by this Expectation occurred?
      * 
      * @return

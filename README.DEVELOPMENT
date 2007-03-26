@@ -1,6 +1,5 @@
-Development rules:
-------------------
-
+Development rules
+=================
 
 Here are some rules that we follow when developing jMock:
 
@@ -22,13 +21,15 @@ Here are some rules that we follow when developing jMock:
  * Avoid the following words in class names and other identifiers:
    Helper, Impl (or a derivative), Manager.
 
+ * And the reverse: don't start interfaces with an I.
+
  * Follow the Sun: use Sun's coding conventions for Java1.
 
- * Use the TestDox2 naming conventions for unit tests.
+ * Use the TestDox naming conventions for unit tests.
 
 
-Architectural Constraints:
---------------------------
+Architectural Constraints
+=========================
 
 * No dependency on any specific test framework.
 
@@ -38,53 +39,3 @@ Throw some kind of RuntimeException to report programming errors in the
 use of the framework.  E.g. trying to set up an expectation to return a 
 result of the wrong type.
 
-
-Package Structure:
-------------------
-
-org.jmock		
-	DSL-style API (compatability guarantees)
-
-org.jmock.api      
-	Interfaces, value classes and exceptions defining plug-in API 
-	(compatability guarantees)
-
-org.jmock.lib		
-	Convenient classes that implement the APIs in the core, are used 
-	by the DSL-style API, and can be used in user-defined APIs 
-	(compatability guarantees)
-
-org.jmock.lib.nonstd	
-	Lib classes that rely on clever hacks or otherwise cannot be 
-	guaranteed to always work in all JVMs.
-	(no guarantees, use at your own risk).
-
-org.jmock.internal
-	Internal implementation details (no guarantees)
-
-org.jmock.integration	
-	Classes integrating jMock with different testing APIs, such 
-	as JUnit 3.x, JUnit 4.x and TestNG. 
-	(compatability guarantees)
-	
-org.jmock.test
-	Tests for jMock itself (no guarantees)
-
-
-
-Plug-in Points:
----------------
-
-Matcher:
-	Controls the matching of invocations to expectations
-Action:
-	Performs an action in response to an invocation
-Imposteriser:
-	Wraps mock objects in an adapter of the correct type
-Expectation:
-	Matches an invocation and fakes its behaviour
-ExpectationErrorTranslator: 
-	Translates expectation errors into error type used by a specific 
-	testing framework.
-MockObjectNamingScheme:
-    Creates names for mock objects based on the mocked type.

@@ -1,21 +1,51 @@
 <project name="jmock2" default="build">
-	<property name="version" value="SNAPSHOT"/>
-	
+	<property name="version" value="2-SNAPSHOT"/>
+	<property name="distdir" value="build/jmock-${version}"/>
+
 	<path id="build.classpath">
 		<fileset dir="lib" includes="*.jar" excludes="*-src.jar"/>
 	</path>
-	
+
 	<target name="build"
 		description="Builds everything from scratch"
-		depends="clean, build.jars, build.zip.javadoc"/>
-	
+		depends="clean, zip.jars, zip.javadoc"/>
+
 	<target name="clean" 
 			description="Removes all build artefacts">
 		<delete dir="build"/>
 	</target>
+
+	<target name="zip.javadoc" depends="javadoc">
+		<zip destfile="build/jmock-${version}-javadoc.zip"
+			 basedir="build"
+		     compress="false">
+			<include name="jmock-${version}/doc/**"/>
+		</zip>
+	</target>
 	
-	<target name="build.compile" depends="build.dir">
-		<mkdir dir="build/classes"/>
+	<target name="zip.jars" depends="build.jars, zip.gather">
+		<zip destfile="build/jmock-${version}-jars.zip" compress="true">
+			<fileset dir="build">
+				<include name="jmock-${version}/*"/>
+				<exclude name="jmock-${version}/doc"/>
+			</fileset>
+		</zip>
+	</target>
+	
+	<target name="zip.gather" depends="dir.dist">
+		<copy todir="${distdir}">
+			<fileset dir="lib">
+				<include name="hamcrest-*.jar"/>
+			</fileset>
+			<fileset dir=".">
+				<include name="LICENSE.txt"/>
+				<include name="README"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile" depends="dir.build">
+		<mkdir dir="build/classes" />
 		<javac classpathref="build.classpath" 
 			   destdir="build/classes"
 			   srcdir="."
@@ -25,18 +55,20 @@
 			   source="1.5" 
 			   target="1.5"/>
 	</target>
-	
-	<target name="build.dir">
+
+	<target name="dir.build">
 		<mkdir dir="build"/>
 	</target>
-	
+
+	<target name="dir.dist" depends="dir.build">
+		<mkdir dir="${distdir}"/>
+	</target>
+
 	<target name="build.jars" 
-		depends="build.jar.api, build.jar.junit3, build.jar.junit4, build.jar.nonstd"/>
-	
-	<target name="build.jar.api" depends="build.compile, run.tests">
-		<jar destfile="build/jmock2-${version}.jar" 
-			compress="false">
-			
+		    depends="jar.api, jar.junit3, jar.junit4"/>
+
+	<target name="jar.api" depends="compile, run.tests, dir.dist">
+		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<exclude name="org/jmock/lib/nonstd/**"/>
 				<exclude name="org/jmock/integration/**"/>
@@ -51,86 +83,63 @@
 		</jar>
 	</target>
 
-	<target name="build.jar.junit3" depends="build.compile, run.tests">
-		<jar destfile="build/jmock2-junit3-${version}.jar"
+	<target name="jar.junit3" depends="compile, run.tests, dir.dist">
+		<jar destfile="${distdir}/jmock-junit3-${version}.jar"
 	     	 compress="false">
-			
+
 			<fileset dir="build/classes">
 				<include name="org/jmock/integration/junit3/**"/>
 			</fileset>
-			
+
 			<fileset dir="src">
 				<include name="org/jmock/integration/junit3/**"/>
-				<exclude name="**/*.html"/>
-			</fileset>
-		</jar>
-	</target>
-	
-	<target name="build.jar.junit4" depends="build.compile, run.tests">
-		<jar destfile="build/jmock2-junit4-${version}.jar"
-	     	 compress="false">
-			
-			<fileset dir="build/classes">
-				<include name="org/jmock/integration/junit4/**"/>
-			</fileset>
-			
-			<fileset dir="src">
-				<include name="org/jmock/integration/junit4/**"/>
-				<exclude name="**/*.html"/>
-			</fileset>
-		</jar>
-	</target>
-	
-	<target name="build.jar.nonstd" depends="build.compile, run.tests">
-		<jar destfile="build/jmock2-nonstd-${version}.jar"
-	         compress="false">
-			
-			<fileset dir="build/classes">
-				<include name="org/jmock/lib/nonstd/**"/>
-			</fileset>
-			
-			<fileset dir="src">
-				<include name="org/jmock/lib/nonstd/**"/>
 				<exclude name="**/*.html"/>
 			</fileset>
 		</jar>
 	</target>
 
-	<target name="build.zip.javadoc" depends="build.javadoc">
-		<zip destfile="build/jmock2-${version}-javadoc.zip"
-			 basedir="build"
-		     compress="false">
-			<include name="javadoc/**"/>
-		</zip>
+	<target name="jar.junit4" depends="compile, run.tests, dir.dist">
+		<jar destfile="${distdir}/jmock-junit4-${version}.jar"
+	     	 compress="false">
+
+			<fileset dir="build/classes">
+				<include name="org/jmock/integration/junit4/**"/>
+			</fileset>
+
+			<fileset dir="src">
+				<include name="org/jmock/integration/junit4/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
+		</jar>
 	</target>
-	
-	<target name="build.javadoc" depends="build.dir">
+
+	<target name="javadoc" depends="dir.dist">
 		<mkdir dir="build/extract/hamcrest-api"/>
 		<unzip src="lib/hamcrest-api-1.0.jar" dest="build/extract/hamcrest-api"/>
 		<unzip src="lib/hamcrest-library-1.0.jar" dest="build/extract/hamcrest-api"/>
-		
-		<mkdir dir="build/javadoc"/>
-		<javadoc destdir="build/javadoc" source="1.5" failonerror="yes"
+
+		<mkdir dir="${distdir}/doc"/>
+		<javadoc destdir="${distdir}/doc" source="1.5" failonerror="yes"
 			classpathref="build.classpath"
 			overview="src/overview.html">
-			
+
 			<packageset dir="src">
 				<exclude name="org/jmock/internal/**"/>
 			</packageset>
 			<packageset dir="build/extract/hamcrest-api"/>
-			
+
 			<group title="jMock 2" packages="org.jmock, org.jmock.*"/>
 			<group title="Hamcrest API" packages="org.hamcrest"/>
 			<group title="Hamcrest Matcher Library" packages="org.hamcrest.*"/>
-			
+
 			<link offline="false" href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
 			<link offline="false" href="http://www.junit.org/junit/javadoc/3.8.1/"/>
 			<link offline="false" href="http://junit.sourceforge.net/javadoc_40/"/>
 			<link offline="false" href="http://cglib.sourceforge.net/apidocs/"/>
 		</javadoc>
 	</target>
-	
-	<target name="run.tests" depends="build.compile">
+
+	<target name="run.tests" depends="compile">
 		<property name="outdir" value="build/reports/tests"/>
 		<mkdir dir="${outdir}"/>
 		<junit fork="yes"  printsummary="no" haltonfailure="yes" showoutput="yes">
@@ -138,11 +147,11 @@
 				<path refid="build.classpath"/>
 				<pathelement location="build/classes"/>
 			</classpath>
-			
+
 			<formatter type="plain"/>
 			<formatter type="xml"/>
-			
-			<batchtest todir="${outdir}"> 
+
+			<batchtest todir="${outdir}">
 				<fileset dir="test">
 					<include name="**/*Tests.java"/>
 					<exclude name="**/Abstract*"/>

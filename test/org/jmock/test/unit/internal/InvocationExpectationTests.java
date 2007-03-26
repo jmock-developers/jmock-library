@@ -117,20 +117,6 @@ public class InvocationExpectationTests extends TestCase {
 		           expectation.isSatisfied());
 	}
 
-    public void testReportsIfItHasEverBeenInvoked() throws Throwable {
-        Invocation invocation = new Invocation("targetObject", methodFactory.newMethod("method"));
-        
-        assertTrue("has not been invoked", !expectation.hasBeenInvoked());
-        
-        expectation.invoke(invocation);
-        
-        assertTrue("has been invoked", expectation.hasBeenInvoked());
-        
-        expectation.invoke(invocation);
-        
-        assertTrue("has still been invoked", expectation.hasBeenInvoked());
-    }
-
     public void testPerformsActionWhenInvoked() throws Throwable {
         final Method stringReturningMethod = methodFactory.newMethod("tester", new Class[0], String.class, new Class[0]);
         Invocation invocation = new Invocation(targetObject, stringReturningMethod, Invocation.NO_PARAMETERS);
