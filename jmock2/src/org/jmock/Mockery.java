@@ -13,6 +13,7 @@ import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
+import org.jmock.internal.NamedSequence;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
@@ -127,7 +128,7 @@ public class Mockery {
      *     A new sequence with the given name.
      */
     public Sequence sequence(String name) {
-        return new Sequence(name);
+        return new NamedSequence(name);
     }
     
     /** 

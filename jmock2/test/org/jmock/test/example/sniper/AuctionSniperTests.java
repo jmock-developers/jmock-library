@@ -1,7 +1,5 @@
 package org.jmock.test.example.sniper;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.core.IsAnything;
 import org.jmock.Expectations;
 import org.jmock.integration.junit3.MockObjectTestCase;
 

@@ -14,7 +14,8 @@ public interface CardinalityClause {
     <T> T allowing(T mockObject);
     MethodClause allowing(Matcher<Object> mockObjectMatcher);
     
-    <T> void ignoring(T mockObject);
+    <T> T ignoring(T mockObject);
+    MethodClause ignoring(Matcher<Object> mockObjectMatcher);
     
     <T> T never(T mockObject);
 }
