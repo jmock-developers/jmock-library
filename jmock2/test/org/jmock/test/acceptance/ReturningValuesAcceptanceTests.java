@@ -142,7 +142,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         Something returnSomething();
     }
     
-    public void testReturnsNullAsTheDefaultValueForUnregisteredClasses() {
+    public void testReturnsNullAsTheDefaultValueForUnregisteredType() {
         final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
         
         context.checking(new Expectations() {{
@@ -153,7 +153,33 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         
         assertNull("returned null", defaultResult);
     }
-
+    
+    public void testCanDefineDefaultReturnValuesForUnregisteredTypes() {
+        final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
+        
+        Something expectedDefaultResult = new Something();
+        
+        context.setDefaultResultForType(Something.class, expectedDefaultResult);
+        
+        context.checking(new Expectations() {{
+            allowing (mock).returnSomething();
+        }});
+        
+        Something defaultResult = mock.returnSomething();
+        
+        assertSame("returned the default result", expectedDefaultResult, defaultResult);
+    }
+    
+    public void testCanChangeDefaultReturnValueForRegisteredType() {
+        String newDefaultString = "hoo-hee-haa-haa";
+        context.setDefaultResultForType(String.class, newDefaultString);
+        
+        context.checking(new Expectations() {{
+            allowing (mock).returnString();
+        }});
+        
+        assertSame("returned the default result", newDefaultString, mock.returnString());
+    }
 
     public void testReportsTypeMismatchOfResults() {
         try {
@@ -180,4 +206,5 @@ public class ReturningValuesAcceptanceTests extends TestCase {
        } catch (IllegalStateException expected) {
        }
     }
+    
 }

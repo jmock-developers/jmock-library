@@ -1,4 +1,4 @@
-package org.jmock.test.example.timedcache;
+package org.jmock.example.timedcache;
 
 import java.util.Date;
 import java.util.HashMap;

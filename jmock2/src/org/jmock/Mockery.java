@@ -1,6 +1,5 @@
 package org.jmock;
 
-import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.ExpectationErrorTranslator;
@@ -15,10 +14,10 @@ import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.internal.NamedSequence;
 import org.jmock.internal.ProxiedObjectIdentity;
+import org.jmock.internal.ReturnDefaultValueAction;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
-import org.jmock.lib.action.ReturnDefaultValueAction;
 
 
 /**
@@ -29,14 +28,15 @@ import org.jmock.lib.action.ReturnDefaultValueAction;
  * the Mockery checks those expectations while the test is running.
  * 
  * @author npryce
- * @author named by Ivan Moore.
  * @author smgf
+ * @author named by Ivan Moore.
  */
 public class Mockery {
     private Imposteriser imposteriser = new JavaReflectionImposteriser();
-    private Action defaultAction = new ReturnDefaultValueAction(imposteriser);
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
+    
+    private ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
     private ExpectationCapture capture = null;
@@ -48,14 +48,17 @@ public class Mockery {
      */
     
     /**
-     * Changes the action used be expectations for which no action has been explicity
-     * defined.  
+     * Sets the result returned for the given type when no return value has been explicitly
+     * specified in the expectation.
      * 
-     * The default default action returns a value that is compatible with the method's
-     * return type but may be null.
+     * @param type
+     *    The type for which to return <var>result</var>.
+     * @param result
+     *    The value to return when a method of return type <var>type</var>
+     *    is invoked for which an explicit return value has has not been specified.
      */
-    public void setDefaultAction(Action defaultAction) {
-        this.defaultAction = defaultAction;
+    public void setDefaultResultForType(Class<?> type, Object result) {
+        defaultAction.addResult(type, result);
     }
     
     /**
@@ -67,6 +70,7 @@ public class Mockery {
      */
     public void setImposteriser(Imposteriser imposteriser) {
         this.imposteriser = imposteriser;
+        this.defaultAction.setImposteriser(imposteriser);
     }
     
     /**

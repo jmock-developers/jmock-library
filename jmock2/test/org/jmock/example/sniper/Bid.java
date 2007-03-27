@@ -1,4 +1,4 @@
-package org.jmock.test.example.sniper;
+package org.jmock.example.sniper;
 
 import java.math.BigDecimal;
 

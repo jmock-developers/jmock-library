@@ -1,6 +1,6 @@
 /*  Copyright (c) 2000-2006 jMock.org
  */
-package org.jmock.test.unit.lib.action;
+package org.jmock.test.unit.internal;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 import org.hamcrest.StringDescription;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
+import org.jmock.internal.ReturnDefaultValueAction;
 import org.jmock.lib.JavaReflectionImposteriser;
-import org.jmock.lib.action.ReturnDefaultValueAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.MethodFactory;
 

@@ -3,7 +3,6 @@ package org.jmock.integration.junit3;
 import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.jmock.States;
-import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.internal.ExpectationBuilder;
@@ -15,7 +14,6 @@ import org.jmock.internal.ExpectationBuilder;
  * {@link junit.framework.TestCase#tearDown()} is called.
  * 
  * @author npryce
- *
  */
 public abstract class MockObjectTestCase extends VerifyingTestCase {
     private final Mockery context = new Mockery();
@@ -36,15 +34,40 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
     public MockObjectTestCase(String name) {
         super(name);
     }
-
-    public void setDefaultAction(Action defaultAction) {
-        context.setDefaultAction(defaultAction);
+    
+    /**
+     * Sets the result returned for the given type when no return value has been explicitly
+     * specified in the expectation.
+     * 
+     * @param type
+     *    The type for which to return <var>result</var>.
+     * @param result
+     *    The value to return when a method of return type <var>type</var>
+     *    is invoked for which an explicit return value has has not been specified.
+     */
+    public void setDefaultResultForType(Class<?> type, Object result) {
+        context.setDefaultResultForType(type, result);
     }
-
+    
+    /**
+     * Changes the imposteriser used to adapt mock objects to the mocked type.
+     * 
+     * The default imposteriser allows a test to mock interfaces but not
+     * classes, so you'll have to plug a different imposteriser into the
+     * Mockery if you want to mock classes.
+     */
     public void setImposteriser(Imposteriser imposteriser) {
         context.setImposteriser(imposteriser);
     }
-
+    
+    /**
+     * Changes the naming scheme used to generate names for mock objects that 
+     * have not been explicitly named in the test.
+     * 
+     * The default naming scheme names mock objects by lower-casing the first
+     * letter of the class name, so a mock object of type BananaSplit will be
+     * called "bananaSplit" if it is not explicitly named in the test.
+     */
     public void setNamingScheme(MockObjectNamingScheme namingScheme) {
         context.setNamingScheme(namingScheme);
     }
@@ -53,8 +76,8 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
      * Specify expectations upon the mock objects in the test.
      * 
      */
-    public void checking(ExpectationBuilder groupBuilder) {
-        context.checking(groupBuilder);
+    public void checking(ExpectationBuilder expectations) {
+        context.checking(expectations);
     }
     
     /**

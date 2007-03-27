@@ -1,6 +1,6 @@
 /*  Copyright (c) 2000-2004 jMock.org
  */
-package org.jmock.test.example.timedcache;
+package org.jmock.example.timedcache;
 
 import java.util.Calendar;
 import java.util.Date;
