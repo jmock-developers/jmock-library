@@ -1,4 +1,4 @@
-package org.jmock.test.example.sniper;
+package org.jmock.example.sniper;
 
 public class AuctionException extends Exception {
 	public AuctionException(String message) {

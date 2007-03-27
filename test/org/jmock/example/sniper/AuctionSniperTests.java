@@ -1,4 +1,4 @@
-package org.jmock.test.example.sniper;
+package org.jmock.example.sniper;
 
 import org.jmock.Expectations;
 import org.jmock.integration.junit3.MockObjectTestCase;
