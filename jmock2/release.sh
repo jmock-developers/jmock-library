@@ -9,7 +9,7 @@ WORKING_DIR=build/release
 EXPORT_SUBDIR=jmock-$VERSION
 WEBSITE_SUBDIR=jmock-website
 
-DIST=${DIST:-jmock@www.jmock.org:/home/jmock/test_dist}
+DIST=${DIST:-jmock@www.jmock.org:/home/jmock/public_dist}
 
 
 function export_from_cvs() {
