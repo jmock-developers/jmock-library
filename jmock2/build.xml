@@ -112,7 +112,21 @@
 			</fileset>
 		</jar>
 	</target>
-
+	
+	<target name="jar.nonstd" depends="compile, run.tests"
+		    description="Builds a JAR containing the non-standard library classes that are not distributed in a jMock release">
+		<jar destfile="build/jmock-nonstd-${version}.jar" compress="false">
+			<fileset dir="build/classes">
+				<include name="org/jmock/lib/nonstd/**"/>
+			</fileset>
+			
+			<fileset dir="src">
+				<include name="org/jmock/lib/nonstd/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
+		</jar>
+	</target>
+	
 	<target name="javadoc" depends="dir.dist">
 		<mkdir dir="build/extract/hamcrest-api"/>
 		<unzip src="lib/hamcrest-api-1.0.jar" dest="build/extract/hamcrest-api"/>
