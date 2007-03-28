@@ -69,7 +69,7 @@ public class InvocationExpectation implements Expectation {
         }
         
         cardinality.describeTo(description);
-        description.appendText(", invoked ");
+        description.appendText(", already invoked ");
         description.appendText(Integer.toString(invocationCount));
         description.appendText(times(invocationCount));
         description.appendText(": ");
