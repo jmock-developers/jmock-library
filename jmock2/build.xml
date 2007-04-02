@@ -140,8 +140,10 @@
 			<packageset dir="src">
 				<exclude name="org/jmock/internal/**"/>
 			</packageset>
-			<packageset dir="build/extract/hamcrest-api"/>
-
+			<packageset dir="build/extract/hamcrest-api">
+				<exclude name="org/hamcrest/internal/**"/>
+			</packageset>
+			
 			<group title="jMock 2" packages="org.jmock, org.jmock.*"/>
 			<group title="Hamcrest API" packages="org.hamcrest"/>
 			<group title="Hamcrest Matcher Library" packages="org.hamcrest.*"/>
