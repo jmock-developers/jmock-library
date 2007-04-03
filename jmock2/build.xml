@@ -70,6 +70,7 @@
 	<target name="jar.api" depends="compile, run.tests, dir.dist">
 		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
 			<fileset dir="build/classes">
+				<exclude name="testdata/**"/>
 				<exclude name="org/jmock/lib/nonstd/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
@@ -127,6 +128,23 @@
 		</jar>
 	</target>
 	
+	<target name="testdata" depends="testdata.signed-jar"/>
+	
+	<target name="testdata.signed-jar" depends="compile">
+		<mkdir dir="build/testdata"/>
+		
+		<jar destfile="build/testdata/signed.jar" compress="false">
+			<fileset dir="build/classes/" includes="test/data"/>
+		</jar>
+		
+		<genkey alias="testdata" 
+				keystore="build/testdata/keystore" storepass="testdata"
+				dname="CN=Test Data, OU=Test Data, O=Test Data, C=UL"/>
+		
+		<signjar jar="build/testdata/signed.jar" alias="testdata" 
+			     keystore="build/testdata/keystore" storepass="testdata"/>
+	</target>
+	
 	<target name="javadoc" depends="dir.dist">
 		<mkdir dir="build/extract/hamcrest-api"/>
 		<unzip src="lib/hamcrest-api-1.0.jar" dest="build/extract/hamcrest-api"/>
@@ -155,7 +173,7 @@
 		</javadoc>
 	</target>
 
-	<target name="run.tests" depends="compile">
+	<target name="run.tests" depends="compile, testdata">
 		<property name="outdir" value="build/reports/tests"/>
 		<mkdir dir="${outdir}"/>
 		<junit fork="yes"  printsummary="no" haltonfailure="yes" showoutput="yes">

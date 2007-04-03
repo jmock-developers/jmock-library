@@ -1,5 +1,8 @@
 package org.jmock.test.unit.lib;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -8,6 +11,7 @@ import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.CaptureControl;
 import org.jmock.lib.JavaReflectionImposteriser;
+import org.jmock.lib.action.VoidAction;
 import org.jmock.test.unit.support.SyntheticEmptyInterfaceClassLoader;
 
 public class JavaReflectionImposteriserTests extends TestCase {
@@ -46,5 +50,19 @@ public class JavaReflectionImposteriserTests extends TestCase {
         
         assertTrue(interfaceClass1.isInstance(o));
         assertTrue(interfaceClass2.isInstance(o));
+    }
+    
+    public void testCanImposteriseAClassInASignedJarFile() throws Exception {
+        File jarFile = new File("build/testdata/signed.jar");
+        
+        assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
+        
+        URL jarURL = jarFile.toURL();
+        ClassLoader loader = new URLClassLoader(new URL[]{jarURL});
+        Class<?> typeInSignedJar = loader.loadClass("testdata.TypeInSignedJar");
+        
+        Object o = imposteriser.imposterise(new VoidAction(), typeInSignedJar);
+        
+        assertTrue(typeInSignedJar.isInstance(o));
     }
 }

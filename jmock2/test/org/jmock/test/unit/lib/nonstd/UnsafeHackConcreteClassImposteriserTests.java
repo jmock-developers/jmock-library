@@ -1,11 +1,15 @@
 package org.jmock.test.unit.lib.nonstd;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Date;
 
 import junit.framework.TestCase;
 
 import org.jmock.api.Imposteriser;
 import org.jmock.lib.action.ReturnValueAction;
+import org.jmock.lib.action.VoidAction;
 import org.jmock.lib.nonstd.UnsafeHackConcreteClassImposteriser;
 
 public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
@@ -72,5 +76,19 @@ public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
                                      AnInterface.class);
         
         assertEquals("result", imposter.foo());
+    }
+    
+    public void testCanImposteriseAClassInASignedJarFile() throws Exception {
+        File jarFile = new File("build/testdata/signed.jar");
+        
+        assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
+        
+        URL jarURL = jarFile.toURL();
+        ClassLoader loader = new URLClassLoader(new URL[]{jarURL});
+        Class<?> typeInSignedJar = loader.loadClass("testdata.TypeInSignedJar");
+        
+        Object o = imposteriser.imposterise(new VoidAction(), typeInSignedJar);
+        
+        assertTrue(typeInSignedJar.isInstance(o));
     }
 }
