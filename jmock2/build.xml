@@ -53,7 +53,8 @@
 			   debug="yes"
 			   failonerror="yes"
 			   source="1.5" 
-			   target="1.5"/>
+			   target="1.5"
+			   excludes="testdata/**"/>
 	</target>
 
 	<target name="dir.build">
@@ -130,12 +131,22 @@
 	
 	<target name="testdata" depends="testdata.signed-jar"/>
 	
-	<target name="testdata.signed-jar" depends="compile">
+	<target name="testdata.signed-jar">
 		<mkdir dir="build/testdata"/>
+		<mkdir dir="build/testdata/classes"/>
+		
+		<javac destdir="build/testdata/classes"
+		       srcdir="testdata"
+			   debug="yes"
+			   failonerror="yes"
+		       source="1.5" 
+		       target="1.5"/>
 		
 		<jar destfile="build/testdata/signed.jar" compress="false">
-			<fileset dir="build/classes/" includes="test/data"/>
+			<fileset dir="build/testdata/classes/" includes="*"/>
 		</jar>
+		
+		<delete dir="build/testdata/classes"/>
 		
 		<genkey alias="testdata" 
 				keystore="build/testdata/keystore" storepass="testdata"

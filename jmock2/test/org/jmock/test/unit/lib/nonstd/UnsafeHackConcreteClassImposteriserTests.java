@@ -85,7 +85,7 @@ public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
         
         URL jarURL = jarFile.toURL();
         ClassLoader loader = new URLClassLoader(new URL[]{jarURL});
-        Class<?> typeInSignedJar = loader.loadClass("testdata.TypeInSignedJar");
+        Class<?> typeInSignedJar = loader.loadClass("TypeInSignedJar");
         
         Object o = imposteriser.imposterise(new VoidAction(), typeInSignedJar);
         

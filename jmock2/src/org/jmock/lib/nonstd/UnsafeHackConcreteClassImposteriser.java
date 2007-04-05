@@ -4,6 +4,8 @@ import java.io.ObjectStreamClass;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import net.sf.cglib.core.DefaultNamingPolicy;
+import net.sf.cglib.core.Predicate;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
 
@@ -27,6 +29,13 @@ import sun.misc.Unsafe;
  * @author npryce
  */
 public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
+    private final class NamingPolicyThatAllowsImposterisationOfClassesInSignedPackages extends DefaultNamingPolicy {
+        @Override
+        public String getClassName(String prefix, String source, Object key, Predicate names) {
+            return "org.jmock.codegen." + super.getClassName(prefix, source, key, names);
+        }
+    }
+    
     private static final Unsafe unsafe = obtainAnUnsafeObjectByADodgyReflectionHack();
 
     public boolean canImposterise(Class<?> type) {
@@ -50,6 +59,7 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
             enhancer.setInterfaces(ancilliaryTypes);
         }
         enhancer.setCallbackType(InvocationHandler.class);
+        enhancer.setNamingPolicy(new NamingPolicyThatAllowsImposterisationOfClassesInSignedPackages());
         
         Class<?> proxyClass = enhancer.createClass();
         return proxyClass;
