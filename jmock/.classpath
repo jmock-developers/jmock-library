@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="core/src"/>
-	<classpathentry kind="src" path="examples/website/src"/>
-	<classpathentry kind="src" path="core/acceptance-tests"/>
-	<classpathentry kind="src" path="extensions/cglib/src"/>
-	<classpathentry kind="src" path="extensions/cglib/acceptance-tests"/>
 	<classpathentry kind="src" path="examples/timed-cache/src"/>
-	<classpathentry kind="src" path="examples/calculator/src"/>
-	<classpathentry kind="src" path="examples/calculator/acceptance-tests"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/cglib-full-2.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/junit-3.8.1.jar"/>
