@@ -1,4 +1,4 @@
-<project name="jmock2" default="build">
+<project name="jMock 2" default="build">
 	<property name="version" value="2-SNAPSHOT"/>
 	<property name="distdir" value="build/jmock-${version}"/>
 
@@ -187,16 +187,15 @@
 	<target name="run.tests" depends="compile, testdata">
 		<property name="outdir" value="build/reports/tests"/>
 		<mkdir dir="${outdir}"/>
-		<junit fork="yes"  printsummary="no" haltonfailure="yes" showoutput="yes">
+		<junit fork="yes" forkmode="once" printsummary="no" haltonfailure="yes" showoutput="yes">
 			<classpath>
 				<path refid="build.classpath"/>
 				<pathelement location="build/classes"/>
 			</classpath>
-
-			<formatter type="plain"/>
-			<formatter type="xml"/>
-
-			<batchtest todir="${outdir}">
+			
+			<formatter type="brief" usefile="no"/>
+			
+			<batchtest>
 				<fileset dir="test">
 					<include name="**/*Tests.java"/>
 					<exclude name="**/Abstract*"/>
