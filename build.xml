@@ -1,253 +1,133 @@
-<project name="jMock" default="jars">
+<project name="jMock 1" default="build">
 	<property file="released-versions.properties"/>
 	<property name="version.archive" value="SNAPSHOT"/>
     <tstamp>
     	<format property="version.extract" pattern="yyyyddMM-HHmmss" timezone="UTC" locale="en"/>
     </tstamp>
 	
-    <property name="lib.dir" value="lib"/>
-    <property name="examples.dir" value="examples"/>
-    <property name="extensions.dir" value="extensions"/>
-    <property name="website.dir" value="website"/>
+	<target name="build" depends="clean, package"/>
 	
-    <property name="build.dir" value="build"/>
-    <property name="build.dist.dir" value="${build.dir}/dist"/>
-    <property name="build.dist.bin.dir" value="${build.dist.dir}/jars"/>
-    <property name="build.dist.src.dir" value="${build.dist.dir}/distributions"/>
-    <property name="timestamped.src.dir" value="jmock-${version.extract}"/>
-    <property name="build.src.dir" value="${build.dir}/${timestamped.src.dir}"/>
-    <property name="build.javadoc.subdir" value="javadoc-${version.extract}"/>
-	<property name="build.javadoc.dir" value="${build.dir}/${build.javadoc.subdir}"/>
-    <property name="build.website.dir" value="website/output"/>
-
-    <property name="report.test.unit.dir" value="${build.dir}/reports/unit-tests"/>
-    <property name="report.test.acceptance.dir" value="${build.dir}/reports/acceptance-tests"/>
-
-    <property name="core.dir" value="core"/>
-    <property name="core.src.dir" value="${core.dir}/src"/>
-    <property name="core.atest.dir" value="${core.dir}/acceptance-tests"/>
-    <property name="core.build.dir" value="build/core"/>
-    <property name="core.jar" value="${build.dist.bin.dir}/jmock-${version.archive}.jar"/>
-
-    <property name="cglib.dir" value="${extensions.dir}/cglib"/>
-    <property name="cglib.src.dir" value="${cglib.dir}/src"/>
-    <property name="cglib.atest.dir" value="${cglib.dir}/acceptance-tests"/>
-    <property name="cglib.build.dir" value="build/cglib"/>
-    <property name="cglib.jar" value="${build.dist.bin.dir}/jmock-cglib-${version.archive}.jar"/>
-
-    <property name="src.zip" value="${build.dist.src.dir}/jmock-${version.archive}-src.zip"/>
-    <property name="javadoc.zip" value="${build.dist.src.dir}/jmock-${version.archive}-javadoc.zip"/>
-
-    <property name="deploy.root.dir" value="/home/projects/jmock"/>
-    <property name="deploy.website.dir" value="${deploy.root.dir}/public_html"/>
-    <property name="deploy.javadoc.dir" value="${deploy.website.dir}/docs/javadoc"/>
-    <property name="deploy.dist.dir" value="${deploy.root.dir}/dist"/>
-    <property name="deploy.dist.bin.dir" value="${deploy.dist.dir}/jars"/>
-    <property name="deploy.dist.src.dir" value="${deploy.dist.dir}/distributions"/>
-
-
-	<!-- Shortcut targets -->
-	
-    <target name="jars" depends="core.jar,cglib.jar,src.zip,javadoc.zip"/>
-    <target name="rebuild" depends="clean,jars"/>
-    <target name="test" depends="test.unit,test.acceptance"/>
-    <target name="test.unit" depends="core.test.unit,cglib.test.unit"/>
-    <target name="test.acceptance" depends="core.test.acceptance,cglib.test.acceptance"/>
-
     <target name="clean">
-        <delete dir="${build.dir}"/>
-        <delete dir="${build.website.dir}"/>
+        <delete dir="build"/>
     </target>
 	
+	<target name="compile">
+		<mkdir dir="build/classes"/>
+		 <javac srcdir="src"
+		 	    destdir="build/classes" 
+		 		debug="true"
+		    	source="1.3" target="1.3">
+            <classpath>
+                <fileset dir="lib" includes="*.jar"/>
+            </classpath>
+        </javac>
+	</target>
 	
-    <!-- JMOCK CORE -->
-	
-    <target name="core.build.dir">
-        <mkdir dir="${core.build.dir}"/>
-    </target>
-
-    <target name="core.compile" depends="core.build.dir">
-        <javac srcdir="${core.src.dir}" destdir="${core.build.dir}" debug="true"
-    	       source="1.4" target="1.4">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="core.atest.compile" depends="core.compile">
-        <javac srcdir="${core.atest.dir}" destdir="${core.build.dir}" debug="true"
-        	   source="1.4" target="1.4">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="core.test.unit" depends="core.compile">
-        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
-        <mkdir dir="${report.test.unit.dir}"/>
-        <junit printsummary="no" haltonfailure="true" haltonerror="true" fork="true">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-                <pathelement path="${core.build.dir}"/>
-            </classpath>
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest todir="${report.test.unit.dir}">
-                <fileset dir="${core.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*"/>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="core.test.acceptance" depends="core.atest.compile">
-        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
-        <mkdir dir="${report.test.acceptance.dir}"/>
-        <junit printsummary="no">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-                <pathelement path="${core.build.dir}"/>
-            </classpath>
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest fork="no" todir="${report.test.acceptance.dir}">
-                <fileset dir="${core.atest.dir}" includes="atest/**/*Test.java" excludes="test/**/Abstract*"/>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="core.jar" depends="core.test.unit">
-        <mkdir dir="${build.dist.bin.dir}"/>
-        <jar basedir="${core.build.dir}" destfile="${core.jar}" excludes="test/**" index="true"/>
-    </target>
-
-    <!-- CGLIB EXTENSION -->
-
-    <target name="cglib.build.dir">
-        <mkdir dir="${cglib.build.dir}"/>
-    </target>
-
-    <target name="cglib.compile" depends="cglib.build.dir">
-        <javac srcdir="${cglib.src.dir}" destdir="${cglib.build.dir}" debug="true"
-    	       source="1.4" target="1.4">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-                <pathelement path="${core.build.dir}"/>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="cglib.atest.compile" depends="cglib.compile">
-        <javac srcdir="${cglib.atest.dir}" destdir="${cglib.build.dir}" debug="true"
- 	           source="1.4" target="1.4">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-                <pathelement path="${core.build.dir}"/>
-            </classpath>
-        </javac>
-    </target>
-	
-    <target name="cglib.test.unit" depends="cglib.compile">
-        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
-        <mkdir dir="${report.test.unit.dir}"/>
-        <junit printsummary="no" haltonfailure="true" haltonerror="true">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-                <pathelement path="${core.build.dir}"/>
-                <pathelement path="${cglib.build.dir}"/>
-            </classpath>
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest fork="no" todir="${report.test.unit.dir}">
-                <fileset dir="${cglib.src.dir}" includes="test/**/*Test.java" excludes="test/**/Abstract*"/>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="cglib.test.acceptance" depends="cglib.atest.compile">
-        <!-- Must add lib/junit.jar to the CLASSPATH to run this task -->
-        <mkdir dir="${report.test.acceptance.dir}"/>
-        <junit printsummary="no">
-            <classpath>
-                <fileset dir="${lib.dir}"/>
-                <pathelement path="${core.build.dir}"/>
-                <pathelement path="${cglib.build.dir}"/>
-            </classpath>
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest fork="no" todir="${report.test.acceptance.dir}">
-                <fileset dir="${cglib.atest.dir}" includes="atest/**/*Test.java" excludes="test/**/Abstract*"/>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="cglib.jar" depends="cglib.test.unit">
-        <mkdir dir="${build.dist.bin.dir}"/>
-        <jar basedir="${cglib.build.dir}" destfile="${cglib.jar}" excludes="test/**" index="true"/>
-    </target>
-
-    <!-- SOURCE DISTRIBUTION -->
-
-    <target name="src.zip">
-        <mkdir dir="${build.dist.src.dir}"/>
-        <mkdir dir="${build.src.dir}"/>
-
-        <copy todir="${build.src.dir}">
-            <fileset dir=".">
-                <include name="${core.dir}/**"/>
-                <include name="${extensions.dir}/**"/>
-                <include name="${examples.dir}/**"/>
-                <include name="${lib.dir}/**"/>
-                <include name="build.xml"/>
-                <include name="README.txt"/>
-                <include name="LICENSE.txt"/>
-                <include name="VERSION"/>
-                <include name="CHANGELOG"/>
-                <include name="build.properties"/>
-                <include name="overview.html"/>
-            </fileset>
-        </copy>
+	<target name="jars" depends="compile">
+		<jar destfile="build/jmock-core-${version.archive}.jar">
+			<fileset dir="." includes="LICENSE.txt"/>
+			<fileset dir="build/classes">
+				<exclude name="atest/**"/>
+				<exclude name="test/**"/>
+				<exclude name="org/jmock/cglib/**"/>
+			</fileset>
+		</jar>
 		
-        <zip destfile="${src.zip}" basedir="${build.dir}" includes="${timestamped.src.dir}/**"/>
+		<jar destfile="build/jmock-cglib-${version.archive}.jar">
+			<fileset dir="." includes="LICENSE.txt"/>
+			<fileset dir="build/classes">
+				<include name="org/jmock/cglib/**"/>
+			</fileset>
+		</jar>
 		
-        <delete dir="${build.src.dir}"/>
-    </target>
-
-    <!-- DOCUMENTATION -->
-
-    <target name="website">
-        <mkdir dir="${build.website.dir}"/>
-        <exec dir="${website.dir}" executable="ruby" failonerror="true">
-            <arg value="skinner.rb"/>
-        	<env key="BUILD_TIMESTAMP" value="${version.extract}"/>
-        	<env key="PRERELEASE_VERSION" value="${version.prerelease}"/>
-        	<env key="RELEASE_VERSION" value="${version.release}"/>
-        </exec>
-    </target>
+		<jar destfile="build/jmock-tests-${version.archive}.jar">
+			<fileset dir="." includes="LICENSE.txt"/>
+			<fileset dir="build/classes">
+				<include name="test/**"/>
+				<include name="atest/**"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="run.tests" depends="run.unit-tests, run.acceptance-tests"/>
+	
+	<target name="run.unit-tests" depends="jars, testdata">
+        <junit printsummary="no" haltonfailure="yes" fork="yes" forkmode="once">
+            <formatter type="brief" usefile="no"/>
+            <classpath>
+                <fileset dir="lib" includes="*.jar"/>
+                <fileset dir="build" includes="*.jar"/>
+            </classpath>
+            <batchtest>
+                <fileset dir="src">
+                	<include name="test/**/*Test.java"/>
+                    <exclude name="**/Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+	</target>
+	
+	<target name="run.acceptance-tests" depends="jars, testdata">
+        <junit printsummary="no" fork="no" haltonfailure="yes">
+            <formatter type="brief" usefile="no"/>
+            <classpath>
+                <fileset dir="lib" includes="*.jar"/>
+            	<fileset dir="build" includes="*.jar"/>
+            </classpath>
+            <batchtest>
+                <fileset dir="src">
+                	<include name="atest/**/*Test.java"/>
+                    <exclude name="**/Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+	</target>
+	
+	<target name="testdata" depends="testdata.signed-jar"/>
+	
+	<target name="testdata.signed-jar">
+		<mkdir dir="build/testdata"/>
+		<mkdir dir="build/testdata/classes"/>
+		
+		<javac destdir="build/testdata/classes"
+		       srcdir="testdata"
+			   debug="yes"
+			   failonerror="yes"
+		       source="1.5" 
+		       target="1.5"/>
+		
+		<jar destfile="build/testdata/signed.jar" compress="false">
+			<fileset dir="build/testdata/classes/" includes="*"/>
+		</jar>
+		
+		<delete dir="build/testdata/classes"/>
+		
+		<property name="alias" value="testdata-${version.extract}"/>
+		
+		<genkey alias="${alias}" 
+				keystore="build/testdata/keystore" storepass="testdata"
+				dname="CN=Test Data, OU=Test Data, O=Test Data, C=UL"
+				validity="1"/>
+		
+		<signjar jar="build/testdata/signed.jar" alias="${alias}" 
+			     keystore="build/testdata/keystore" storepass="testdata"/>
+	</target>
 	
     <target name="javadoc">
-        <mkdir dir="${build.javadoc.dir}"/>
-        <javadoc destdir="${build.javadoc.dir}"
+        <mkdir dir="build/javadoc"/>
+        <javadoc destdir="build/javadoc"
             overview="overview.html"
             windowtitle="jMock API Documentation"
             useexternalfile="true">
-
-            <packageset dir="${core.src.dir}">
+			
+            <packageset dir="src">
                 <exclude name="test/**"/>
             </packageset>
-            <packageset dir="${cglib.src.dir}">
-                <exclude name="test/**"/>
-            </packageset>
-
-            <sourcepath>
-                <path path="${core.src.dir}"/>
-                <path path="${cglib.src.dir}"/>
-            </sourcepath>
-
+			
             <classpath>
-                <fileset dir="${lib.dir}"/>
+                <fileset dir="lib" includes="*.jar"/>
             </classpath>
-
+			
             <group title="User API">
                 <package name="org.jmock"/>
                 <package name="org.jmock.builder"/>
@@ -265,39 +145,25 @@
             <group title="Legacy API">
                 <package name="org.jmock.expectation"/>
             </group>
-
+			
             <link href="http://java.sun.com/j2se/1.4.2/docs/api"/>
             <link href="http://www.junit.org/junit/javadoc/3.8.1"/>
             <link href="http://cglib.sourceforge.net/apidocs"/>
         </javadoc>
     </target>
-
-    <target name="javadoc.zip" depends="javadoc">
-        <mkdir dir="${build.dist.src.dir}"/>
-        <jar destfile="${javadoc.zip}" basedir="${build.dir}" includes="${build.javadoc.subdir}/**"/>
+	
+	<target name="package" depends="package.jars, package.javadoc"/>
+	
+    <target name="package.javadoc" depends="javadoc">
+        <zip destfile="build/jmock-${version.archive}-javadoc.zip" basedir="build" includes="javadoc/**"/>
     </target>
 	
-	
-	
-	<!-- Continuous integration support -->
-	
-	<target name="ci-build" depends="clean,test,jars,website,ci-build.deploy,ci.sync"/>
-	
-	<target name="ci-build.deploy">
-		<copy todir="${deploy.dist.dir}">
-			<fileset dir="${build.dist.dir}"/>
-		</copy>
-		
-		<copy todir="${deploy.javadoc.dir}">
-			<fileset dir="${build.javadoc.dir}"/>
-		</copy>
-		
-		<copy todir="${deploy.website.dir}">
-			<fileset dir="${build.website.dir}"/>
-		</copy>
-	</target>
-	
-	<target name="ci.sync">
-		<get src="http://distci.codehaus.org/syncnow" dest="build/sync-response.txt"/>
+	<target name="package.jars" depends="jars, run.tests">
+		<zip destfile="build/jmock-${version.archive}-jars.zip">
+			<fileset dir="build">
+				<include name="jmock-core-${version.archive}.jar"/>
+				<include name="jmock-cglib-${version.archive}.jar"/>
+			</fileset>
+		</zip>
 	</target>
 </project>
