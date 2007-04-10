@@ -1,8 +1,5 @@
 <project name="jMock 1" default="build">
-    <tstamp>
-    	<format property="timestamp" pattern="yyyyddMM-HHmmss" timezone="UTC" locale="en"/>
-    </tstamp>
-	<property name="version" value="SNAPSHOT-${timestamp}"/>
+	<property name="version" value="DEVELOPER-BUILD"/>
 	
 	<target name="build" depends="clean, package"/>
 	
@@ -30,11 +27,19 @@
 				<exclude name="test/**"/>
 				<exclude name="org/jmock/cglib/**"/>
 			</fileset>
+			<fileset dir="src">
+				<exclude name="atest/**"/>
+				<exclude name="test/**"/>
+				<exclude name="org/jmock/cglib/**"/>
+			</fileset>
 		</jar>
 		
 		<jar destfile="build/jmock-cglib-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
+				<include name="org/jmock/cglib/**"/>
+			</fileset>
+			<fileset dir="src">
 				<include name="org/jmock/cglib/**"/>
 			</fileset>
 		</jar>
