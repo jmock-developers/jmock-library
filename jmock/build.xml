@@ -1,9 +1,8 @@
 <project name="jMock 1" default="build">
-	<property file="released-versions.properties"/>
-	<property name="version.archive" value="SNAPSHOT"/>
     <tstamp>
-    	<format property="version.extract" pattern="yyyyddMM-HHmmss" timezone="UTC" locale="en"/>
+    	<format property="timestamp" pattern="yyyyddMM-HHmmss" timezone="UTC" locale="en"/>
     </tstamp>
+	<property name="version" value="SNAPSHOT-${timestamp}"/>
 	
 	<target name="build" depends="clean, package"/>
 	
@@ -24,7 +23,7 @@
 	</target>
 	
 	<target name="jars" depends="compile">
-		<jar destfile="build/jmock-core-${version.archive}.jar">
+		<jar destfile="build/jmock-core-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<exclude name="atest/**"/>
@@ -33,14 +32,14 @@
 			</fileset>
 		</jar>
 		
-		<jar destfile="build/jmock-cglib-${version.archive}.jar">
+		<jar destfile="build/jmock-cglib-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<include name="org/jmock/cglib/**"/>
 			</fileset>
 		</jar>
 		
-		<jar destfile="build/jmock-tests-${version.archive}.jar">
+		<jar destfile="build/jmock-tests-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<include name="test/**"/>
@@ -86,6 +85,7 @@
 	<target name="testdata" depends="testdata.signed-jar"/>
 	
 	<target name="testdata.signed-jar">
+		<delete dir="build/testdata"/>
 		<mkdir dir="build/testdata"/>
 		<mkdir dir="build/testdata/classes"/>
 		
@@ -100,22 +100,18 @@
 			<fileset dir="build/testdata/classes/" includes="*"/>
 		</jar>
 		
-		<delete dir="build/testdata/classes"/>
-		
-		<property name="alias" value="testdata-${version.extract}"/>
-		
-		<genkey alias="${alias}" 
+		<genkey alias="testdata"
 				keystore="build/testdata/keystore" storepass="testdata"
-				dname="CN=Test Data, OU=Test Data, O=Test Data, C=UL"
+				dname="CN=Test Data, OU=Test Data, O=Test Data, C=Unknown"
 				validity="1"/>
 		
-		<signjar jar="build/testdata/signed.jar" alias="${alias}" 
+		<signjar jar="build/testdata/signed.jar" alias="testdata" 
 			     keystore="build/testdata/keystore" storepass="testdata"/>
 	</target>
 	
     <target name="javadoc">
-        <mkdir dir="build/javadoc"/>
-        <javadoc destdir="build/javadoc"
+        <mkdir dir="build/javadoc-${version}"/>
+        <javadoc destdir="build/javadoc-${version}"
             overview="overview.html"
             windowtitle="jMock API Documentation"
             useexternalfile="true">
@@ -155,14 +151,15 @@
 	<target name="package" depends="package.jars, package.javadoc"/>
 	
     <target name="package.javadoc" depends="javadoc">
-        <zip destfile="build/jmock-${version.archive}-javadoc.zip" basedir="build" includes="javadoc/**"/>
+        <zip destfile="build/jmock-${version}-javadoc.zip" 
+        	 basedir="build" includes="javadoc-${version}/**"/>
     </target>
 	
 	<target name="package.jars" depends="jars, run.tests">
-		<zip destfile="build/jmock-${version.archive}-jars.zip">
+		<zip destfile="build/jmock-${version}-jars.zip">
 			<fileset dir="build">
-				<include name="jmock-core-${version.archive}.jar"/>
-				<include name="jmock-cglib-${version.archive}.jar"/>
+				<include name="jmock-core-${version}.jar"/>
+				<include name="jmock-cglib-${version}.jar"/>
 			</fileset>
 		</zip>
 	</target>
