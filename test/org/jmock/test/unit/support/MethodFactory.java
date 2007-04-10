@@ -9,8 +9,9 @@ import net.sf.cglib.asm.Type;
 import net.sf.cglib.core.Constants;
 
 
-public class MethodFactory extends ClassLoader
-{
+public class MethodFactory extends ClassLoader {
+    public static final int CLASS_FORMAT_VERSION = 45;
+    
     public static Class[] NO_ARGUMENTS = {};
     public static Class[] NO_EXCEPTIONS = {};
 
@@ -34,8 +35,8 @@ public class MethodFactory extends ClassLoader
             protected Class<?> findClass( String interfaceName ) {
                 ClassWriter writer = new ClassWriter(true);
 
-                writer.visit(45,
-                             Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
+                writer.visit(CLASS_FORMAT_VERSION,
+                             Constants.ACC_PUBLIC|Constants.ACC_INTERFACE,
                              nameToClassFormat(interfaceName),
                              "java/lang/Object",
                              null, /* interfaces */

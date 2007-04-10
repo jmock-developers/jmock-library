@@ -31,7 +31,7 @@ public class SyntheticEmptyInterfaceClassLoader extends ClassLoader {
 
     private Class<?> synthesiseInterface(String name) throws ClassFormatError {
         ClassWriter writer = new ClassWriter(true);
-        writer.visit(45,
+        writer.visit(MethodFactory.CLASS_FORMAT_VERSION,
                      Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
                      name.replace('.', '/'),
                      "java/lang/Object",
