@@ -8,6 +8,7 @@ import org.jmock.core.Constraint;
 import org.jmock.core.InvocationMatcher;
 import org.jmock.core.Stub;
 import org.jmock.core.StubMatchersCollection;
+import org.jmock.core.constraint.IsNull;
 import org.jmock.core.matcher.*;
 import org.jmock.core.stub.VoidStub;
 
@@ -94,9 +95,14 @@ public class InvocationMockerBuilder
     }
 
     public MatchBuilder with( Constraint[] constraints ) {
+        for (int i = 0; i < constraints.length; i++) {
+            if (constraints[i] == null) {
+                constraints[i] = new IsNull();
+            }
+        }
         return addMatcher(new ArgumentsMatcher(constraints));
     }
-
+    
     public MatchBuilder withNoArguments() {
         return addMatcher(NoArgumentsMatcher.INSTANCE);
     }
