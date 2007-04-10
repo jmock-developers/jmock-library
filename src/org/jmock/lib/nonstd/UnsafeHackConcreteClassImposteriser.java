@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import net.sf.cglib.core.DefaultNamingPolicy;
+import net.sf.cglib.core.NamingPolicy;
 import net.sf.cglib.core.Predicate;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
@@ -33,12 +34,12 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
     
     private UnsafeHackConcreteClassImposteriser() {}
     
-    private final class NamingPolicyThatAllowsImposterisationOfClassesInSignedPackages extends DefaultNamingPolicy {
+    private static final NamingPolicy NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
         public String getClassName(String prefix, String source, Object key, Predicate names) {
             return "org.jmock.codegen." + super.getClassName(prefix, source, key, names);
         }
-    }
+    };
     
     private static final Unsafe unsafe = obtainAnUnsafeObjectByADodgyReflectionHack();
 
@@ -63,7 +64,8 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
             enhancer.setInterfaces(ancilliaryTypes);
         }
         enhancer.setCallbackType(InvocationHandler.class);
-        enhancer.setNamingPolicy(new NamingPolicyThatAllowsImposterisationOfClassesInSignedPackages());
+        enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
+        enhancer.setUseFactory(true);
         
         Class<?> proxyClass = enhancer.createClass();
         return proxyClass;
