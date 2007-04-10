@@ -6,6 +6,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 import junit.framework.AssertionFailedError;
+import net.sf.cglib.core.DefaultNamingPolicy;
+import net.sf.cglib.core.NamingPolicy;
+import net.sf.cglib.core.Predicate;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -20,8 +23,14 @@ public class CGLIBCoreMock
 	extends AbstractDynamicMock 
 	implements MethodInterceptor 
 {
+    private static NamingPolicy NAMING_POLICY = new DefaultNamingPolicy() {
+        public String getClassName(String prefix, String source, Object key, Predicate names) {
+            return "org.jmock.codegen." + super.getClassName(prefix, source, key, names);
+        }
+    };
+    
     private Object proxy = null;
-
+    
     public CGLIBCoreMock(Class mockedType, String name) {
         this(mockedType, name, new LIFOInvocationDispatcher());
     }
@@ -49,6 +58,8 @@ public class CGLIBCoreMock
         enhancer.setClassLoader(mockedType.getClassLoader());
         enhancer.setSuperclass(mockedType);
         enhancer.setCallback(this);
+        enhancer.setNamingPolicy(NAMING_POLICY);
+        
         this.proxy = enhancer.create(constructorArgumentTypes, constructorArguments);
     }
 

@@ -1,23 +1,31 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2006 jMock.org
  */
+
 package test.jmock.core.testsupport;
 
 import java.lang.reflect.Method;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Constants;
-import org.objectweb.asm.Type;
+
+import net.sf.cglib.asm.ClassWriter;
+import net.sf.cglib.asm.Type;
+import net.sf.cglib.core.Constants;
 
 
 public class MethodFactory extends ClassLoader
 {
-    public static Class[] NO_ARGUMENTS = {};
-    public static Class[] NO_EXCEPTIONS = {};
+    public static final int CLASS_FORMAT_VERSION = 45;
+    
+    public static final Class[] NO_ARGUMENTS = {};
+    public static final Class[] NO_EXCEPTIONS = {};
 
-
-    public Method newMethodReturning( Class returnType ) {
+    
+    public Method newMethodReturning(Class returnType) {
         return newMethod("ignoredMethodName", NO_ARGUMENTS, returnType, NO_EXCEPTIONS);
     }
 
+    public Method newMethod(String name) {
+        return newMethod(name, NO_ARGUMENTS, void.class, NO_EXCEPTIONS);
+    }
+    
     public Method newMethod( final String methodName,
                              final Class[] argTypes,
                              final Class returnType,
@@ -28,7 +36,8 @@ public class MethodFactory extends ClassLoader
             protected Class findClass( String interfaceName ) {
                 ClassWriter writer = new ClassWriter(true);
 
-                writer.visit(Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
+                writer.visit(CLASS_FORMAT_VERSION,
+                             Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
                              nameToClassFormat(interfaceName),
                              "java/lang/Object",
                              null, /* interfaces */
