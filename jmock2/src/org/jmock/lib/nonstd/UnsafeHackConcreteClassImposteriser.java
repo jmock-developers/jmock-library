@@ -7,7 +7,9 @@ import java.lang.reflect.Method;
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
 import net.sf.cglib.core.Predicate;
+import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.InvocationHandler;
 
 import org.jmock.api.Imposteriser;
@@ -73,12 +75,12 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
 	
     private Object createProxy(Class<?> proxyClass, final Invokable mockObject) {
         try {
-            Object proxy = unsafe.allocateInstance(proxyClass);
-            Field callbackField = proxyClass.getDeclaredField("CGLIB$CALLBACK_0");
-            callbackField.setAccessible(true);
-            callbackField.set(proxy, new InvocationHandler() {
-                public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
-                    return mockObject.invoke(new Invocation(receiver, method, args));
+            Factory proxy = (Factory)unsafe.allocateInstance(proxyClass);
+            proxy.setCallbacks(new Callback[] {
+                new InvocationHandler() {
+                    public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
+                        return mockObject.invoke(new Invocation(receiver, method, args));
+                    }
                 }
             });
             return proxy;
@@ -88,12 +90,6 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
         }
         catch (SecurityException e) {
             throw new IllegalStateException("cannot access private callback field", e);
-        }
-        catch (IllegalAccessException e) {
-            throw new IllegalStateException("cannot access private callback field", e);
-        }
-        catch (NoSuchFieldException e) {
-            throw new IllegalStateException("callback field does not exist", e);
         }
     }
 
