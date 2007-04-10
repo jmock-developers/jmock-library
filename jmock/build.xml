@@ -68,7 +68,7 @@
 	</target>
 	
 	<target name="run.acceptance-tests" depends="jars, testdata">
-        <junit printsummary="no" fork="no" haltonfailure="yes">
+        <junit printsummary="no" fork="yes" forkmode="once" haltonfailure="yes">
             <formatter type="brief" usefile="no"/>
             <classpath>
                 <fileset dir="lib" includes="*.jar"/>
