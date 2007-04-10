@@ -12,7 +12,7 @@ import test.jmock.core.DummyInterface;
 
 public class CGLIBCoreMockTest extends AbstractDynamicMockTest
 {
-    static class ConcreteType implements DummyInterface {
+    public static class ConcreteType implements DummyInterface {
         public void noArgVoidMethod() throws Throwable {
             //To change body of implemented methods use File | Settings | File Templates.
         }

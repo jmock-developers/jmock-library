@@ -2,19 +2,23 @@
  */
 package atest.jmock;
 
+import net.sf.cglib.asm.ClassWriter;
+import net.sf.cglib.asm.Constants;
+
 import org.jmock.MockObjectTestCase;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Constants;
+
+import test.jmock.core.testsupport.MethodFactory;
 
 
 public class ClassLoaderAcceptanceTest extends MockObjectTestCase
 {
 
-    static class EmptyInterfaceCreator extends ClassLoader
-    {
+    static class EmptyInterfaceCreator extends ClassLoader {
         protected Class findClass( String name ) {
             ClassWriter writer = new ClassWriter(true);
-            writer.visit(Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
+            
+            writer.visit(MethodFactory.CLASS_FORMAT_VERSION, 
+                         Constants.ACC_PUBLIC | Constants.ACC_INTERFACE,
                          name.replace('.', '/'),
                          "java/lang/Object",
                          null, /* interfaces */
