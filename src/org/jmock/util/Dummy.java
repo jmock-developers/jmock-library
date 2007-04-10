@@ -11,6 +11,8 @@ import org.jmock.core.stub.CustomStub;
 
 /**
  * @since 1.0
+ * 
+ * @deprecated Use MockObjectTestCase.newDummy instead
  */
 public class Dummy
 {
