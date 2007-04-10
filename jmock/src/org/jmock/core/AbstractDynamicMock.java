@@ -2,6 +2,7 @@
  */
 package org.jmock.core;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import junit.framework.AssertionFailedError;
@@ -80,8 +81,8 @@ public abstract class AbstractDynamicMock
         return "mock" + Formatting.classShortName(c);
     }
 
-    protected Object mockInvocation( Invocation invocation ) throws Throwable {
-        if (failure != null && (invocation.invokedMethod.getDeclaringClass() != Object.class) ) {
+    protected Object mockInvocation(Invocation invocation) throws Throwable {
+        if (failure != null && !isObjectMethod(invocation.invokedMethod)) {
             throw failure;
         }
     
@@ -97,6 +98,26 @@ public abstract class AbstractDynamicMock
         }
     }
 
+    private boolean isObjectMethod(Method method) {
+        return isToString(method) || isEquals(method) || isHashCode(method);
+    }
+    
+    private boolean isEquals(Method method) {
+        Class[] parameterTypes = method.getParameterTypes();
+        
+        return method.getName().equals("equals") 
+            && parameterTypes.length == 1 
+            && parameterTypes[0] == Object.class;
+    }
+    
+    private boolean isToString(Method method) {
+        return method.getName().equals("toString") && method.getParameterTypes().length == 0;
+    }
+    
+    private boolean isHashCode(Method method) {
+        return method.getName().equals("hashCode") && method.getParameterTypes().length == 0;
+    }
+    
     private void setupDefaultBehaviour() {
         addInvokable(hiddenInvocationMocker("toString",
                                             NoArgumentsMatcher.INSTANCE,
