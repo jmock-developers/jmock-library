@@ -29,6 +29,10 @@ import sun.misc.Unsafe;
  * @author npryce
  */
 public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
+    public static final Imposteriser INSTANCE = new UnsafeHackConcreteClassImposteriser();
+    
+    private UnsafeHackConcreteClassImposteriser() {}
+    
     private final class NamingPolicyThatAllowsImposterisationOfClassesInSignedPackages extends DefaultNamingPolicy {
         @Override
         public String getClassName(String prefix, String source, Object key, Predicate names) {

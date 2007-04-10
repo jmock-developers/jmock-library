@@ -13,7 +13,7 @@ import org.jmock.lib.action.VoidAction;
 import org.jmock.lib.nonstd.UnsafeHackConcreteClassImposteriser;
 
 public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
-    Imposteriser imposteriser = new UnsafeHackConcreteClassImposteriser();
+    Imposteriser imposteriser = UnsafeHackConcreteClassImposteriser.INSTANCE;
     
     public static class ConcreteClassWithNastyConstructor {
         {
@@ -70,7 +70,6 @@ public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
     }
     
     public void testCanImposteriseAnInterface() {
-        Imposteriser imposteriser = new UnsafeHackConcreteClassImposteriser();
         AnInterface imposter = 
             imposteriser.imposterise(new ReturnValueAction("result"), 
                                      AnInterface.class);

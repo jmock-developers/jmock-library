@@ -31,7 +31,7 @@ public class RedeclaredObjectMethodsAcceptanceTests extends TestCase {
     
     public void testCanRedeclareObjectMethodsInMockedClasses() {
         Mockery context = new Mockery();
-        context.setImposteriser(new UnsafeHackConcreteClassImposteriser());
+        context.setImposteriser(UnsafeHackConcreteClassImposteriser.INSTANCE);
         MockedClass mock = context.mock(MockedClass.class, "X");
         
         assertEquals("X", mock.toString());
@@ -43,7 +43,7 @@ public class RedeclaredObjectMethodsAcceptanceTests extends TestCase {
     @SuppressWarnings({"cast", "unchecked"})
     public void testUseMockObjectHangs1() {
         Mockery context = new Mockery();
-        context.setImposteriser(new UnsafeHackConcreteClassImposteriser());
+        context.setImposteriser(UnsafeHackConcreteClassImposteriser.INSTANCE);
         final Vector<Object> mock = (Vector<Object>)context.mock(Vector.class);
         
         context.checking(new Expectations() {{
