@@ -127,17 +127,30 @@ public abstract class MockObjectSupportTestCase extends VerifyingTestCase
     public Or or( Constraint left, Constraint right ) {
         return new Or(left, right);
     }
-
+    
+    /**
+     * @deprecated Use MockObjectTestCase.newDummy instead
+     */
     public Object newDummy( Class dummyType ) {
         return Dummy.newDummy(dummyType);
     }
 
+    /**
+     * @deprecated Use MockObjectTestCase.newDummy instead
+     */
     public Object newDummy( Class dummyType, String name ) {
         return Dummy.newDummy(dummyType, name);
     }
 
-    public Object newDummy( String name ) {
-        return Dummy.newDummy(name);
+    /**
+     * @deprecated Use MockObjectTestCase.newDummy instead
+     */
+    public Object newDummy(final String name) {
+        return new Object() {
+            public String toString() {
+                return name;
+            }
+        };
     }
     
     

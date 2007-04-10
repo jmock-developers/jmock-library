@@ -4,17 +4,27 @@ package org.jmock;
 
 import java.util.Collection;
 
-import org.jmock.core.*;
+import org.jmock.core.CoreMock;
+import org.jmock.core.DynamicMock;
+import org.jmock.core.Formatting;
+import org.jmock.core.Invocation;
+import org.jmock.core.InvocationMatcher;
+import org.jmock.core.InvocationMocker;
+import org.jmock.core.MockObjectSupportTestCase;
+import org.jmock.core.Stub;
 import org.jmock.core.matcher.InvokeAtLeastOnceMatcher;
 import org.jmock.core.matcher.InvokeAtMostOnceMatcher;
-import org.jmock.core.matcher.InvokeOnceMatcher;
-import org.jmock.core.matcher.TestFailureMatcher;
 import org.jmock.core.matcher.InvokeCountMatcher;
+import org.jmock.core.matcher.InvokeOnceMatcher;
+import org.jmock.core.matcher.StatelessInvocationMatcher;
+import org.jmock.core.matcher.TestFailureMatcher;
+import org.jmock.core.stub.CustomStub;
 import org.jmock.core.stub.DoAllStub;
 import org.jmock.core.stub.ReturnIteratorStub;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.StubSequence;
 import org.jmock.core.stub.ThrowStub;
+import org.jmock.util.NotImplementedException;
 
 
 /**
@@ -63,6 +73,42 @@ public abstract class MockObjectTestCase
         return new CoreMock(mockedType, roleName);
     }
 
+    public Object newDummy(Class dummyType) {
+        return newDummy(dummyType, "dummy" + Formatting.classShortName(dummyType));
+    }
+    
+    public Object newDummy( final Class type, final String name ) {
+        DynamicMock mock = newCoreMock(type, name);
+        InvocationMocker mocker = new InvocationMocker();
+        
+        mocker.addMatcher(new StatelessInvocationMatcher() {
+            public boolean matches( Invocation invocation ) {
+                return invocation.invokedMethod.getDeclaringClass() == type;
+            }
+
+            public StringBuffer describeTo( StringBuffer buf ) {
+                return buf.append("any invokedMethod declared in " + type);
+            }
+        });
+        mocker.setStub(new CustomStub("dummy invokedMethod") {
+            public Object invoke( Invocation invocation ) throws Throwable {
+                throw new NotImplementedException(invocation.invokedMethod.getName() + " called on " + name);
+            }
+        });
+        
+        mock.addInvokable(mocker);
+
+        return mock.proxy();
+    }
+    
+    public Object newDummy(final String name) {
+        return new Object() {
+            public String toString() {
+                return name;
+            }
+        };
+    }
+    
     /**
      * Calculates
      * @param mockedType
