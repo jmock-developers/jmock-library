@@ -36,6 +36,8 @@
 		<copy todir="${distdir}">
 			<fileset dir="lib">
 				<include name="hamcrest-*.jar"/>
+				<include name="objenesis-1.0.jar"/>
+				<include name="cglib-*.jar"/>
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE.txt"/>
@@ -66,18 +68,18 @@
 	</target>
 
 	<target name="build.jars" 
-		    depends="jar.api, jar.junit3, jar.junit4"/>
+		    depends="jar.api, jar.junit3, jar.junit4, jar.concrete"/>
 
 	<target name="jar.api" depends="compile, run.tests, dir.dist">
 		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<exclude name="testdata/**"/>
-				<exclude name="org/jmock/lib/nonstd/**"/>
+				<exclude name="org/jmock/lib/concrete/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
 			</fileset>
 			<fileset dir="src">
-				<exclude name="org/jmock/lib/nonstd/**"/>
+				<exclude name="org/jmock/lib/concrete/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
 				<exclude name="**/*.html"/>
@@ -115,15 +117,15 @@
 		</jar>
 	</target>
 	
-	<target name="jar.nonstd" depends="compile, run.tests"
-		    description="Builds a JAR containing the non-standard library classes that are not distributed in a jMock release">
-		<jar destfile="build/jmock-nonstd-${version}.jar" compress="false">
+	<target name="jar.concrete" depends="compile, run.tests"
+		    description="Builds a JAR containing the classes for mocking abstract and concrete classes">
+		<jar destfile="${distdir}/jmock-concrete-${version}.jar" compress="false">
 			<fileset dir="build/classes">
-				<include name="org/jmock/lib/nonstd/**"/>
+				<include name="org/jmock/lib/concrete/**"/>
 			</fileset>
 			
 			<fileset dir="src">
-				<include name="org/jmock/lib/nonstd/**"/>
+				<include name="org/jmock/lib/concrete/**"/>
 				<exclude name="**/*.html"/>
 			</fileset>
 		</jar>

@@ -1,7 +1,5 @@
-package org.jmock.lib.nonstd;
+package org.jmock.lib.concrete;
 
-import java.io.ObjectStreamClass;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import net.sf.cglib.core.DefaultNamingPolicy;
@@ -15,26 +13,19 @@ import net.sf.cglib.proxy.InvocationHandler;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
-
-import sun.misc.Unsafe;
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
 
 /**
  * This class lets you imposterise concrete classes with CGLIB 
  * <em>without</em> calling the constructors of the mocked class.
  *   
- * However, it uses undocumented, internal features of Sun's JVM.
- * It will not work on JVMs from other vendors. Sun may remove
- * the undocumented feature this class relies upon in any future
- * versions.
- * 
- * <strong>You have been warned!</strong>
- * 
  * @author npryce
  */
-public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
-    public static final Imposteriser INSTANCE = new UnsafeHackConcreteClassImposteriser();
+public class ObjenesisImposteriser implements Imposteriser {
+    public static final Imposteriser INSTANCE = new ObjenesisImposteriser();
     
-    private UnsafeHackConcreteClassImposteriser() {}
+    private ObjenesisImposteriser() {}
     
     private static final NamingPolicy NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
@@ -43,8 +34,8 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
         }
     };
     
-    private static final Unsafe unsafe = obtainAnUnsafeObjectByADodgyReflectionHack();
-
+    private final Objenesis objenesis = new ObjenesisStd();
+    
     public boolean canImposterise(Class<?> type) {
         return !type.isPrimitive(); 
     }
@@ -75,7 +66,7 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
 	
     private Object createProxy(Class<?> proxyClass, final Invokable mockObject) {
         try {
-            Factory proxy = (Factory)unsafe.allocateInstance(proxyClass);
+            Factory proxy = (Factory)objenesis.newInstance(proxyClass);
             proxy.setCallbacks(new Callback[] {
                 new InvocationHandler() {
                     public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
@@ -85,41 +76,15 @@ public class UnsafeHackConcreteClassImposteriser implements Imposteriser {
             });
             return proxy;
         }
-        catch (InstantiationException e) {
-            throw new IllegalStateException("proxy class not instantiable", e);
-        }
         catch (SecurityException e) {
             throw new IllegalStateException("cannot access private callback field", e);
         }
     }
-
+    
     private Class<?>[] prepend(Class<?> first, Class<?>... rest) {
         Class<?>[] all = new Class<?>[rest.length+1];
         all[0] = first;
         System.arraycopy(rest, 0, all, 1, rest.length);
         return all;
-    }
-    
-    static Unsafe obtainAnUnsafeObjectByADodgyReflectionHack() {
-        try {
-            Class<?> fieldReflectorClass = 
-                Class.forName(ObjectStreamClass.class.getName() + "$FieldReflector");
-            Field unsafeField = fieldReflectorClass.getDeclaredField("unsafe");
-            unsafeField.setAccessible(true);
-            
-            return (Unsafe)unsafeField.get(null);
-        }
-        catch (ClassNotFoundException e) {
-            throw new IllegalStateException("cannot load FieldReflector class", e);
-        }
-        catch (SecurityException e) {
-            throw new IllegalStateException("cannot reflect on private field of FieldReflector", e);
-        }
-        catch (NoSuchFieldException e) {
-            throw new IllegalStateException("cannot find 'unsafe' field of FieldReflector", e);
-        }
-        catch (IllegalAccessException e) {
-            throw new IllegalStateException("field not accessible despite being made accessible", e);
-        }
     }
 }

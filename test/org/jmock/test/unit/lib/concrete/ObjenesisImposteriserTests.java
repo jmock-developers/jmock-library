@@ -1,4 +1,4 @@
-package org.jmock.test.unit.lib.nonstd;
+package org.jmock.test.unit.lib.concrete;
 
 import java.io.File;
 import java.net.URL;
@@ -10,10 +10,10 @@ import junit.framework.TestCase;
 import org.jmock.api.Imposteriser;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.VoidAction;
-import org.jmock.lib.nonstd.UnsafeHackConcreteClassImposteriser;
+import org.jmock.lib.concrete.ObjenesisImposteriser;
 
-public class UnsafeHackConcreteClassImposteriserTests extends TestCase {
-    Imposteriser imposteriser = UnsafeHackConcreteClassImposteriser.INSTANCE;
+public class ObjenesisImposteriserTests extends TestCase {
+    Imposteriser imposteriser = ObjenesisImposteriser.INSTANCE;
     
     public static class ConcreteClassWithNastyConstructor {
         {
