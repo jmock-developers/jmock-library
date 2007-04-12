@@ -10,5 +10,5 @@ Features planned for post 2.0.0:
     Is this possible at all in TestNG?
 
 - Paranamer and OGNL
-    An action that can call back to to parameters identified by name
+    An action that can call back to parameters identified by name
 
