@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
-import org.jmock.lib.concrete.ObjenesisImposteriser;
+import org.jmock.lib.objenesis.ObjenesisImposteriser;
 
 // Fixes issue JMOCK-96
 public class RedeclaredObjectMethodsAcceptanceTests extends TestCase {

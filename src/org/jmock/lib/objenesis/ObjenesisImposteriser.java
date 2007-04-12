@@ -1,4 +1,4 @@
-package org.jmock.lib.concrete;
+package org.jmock.lib.objenesis;
 
 import java.lang.reflect.Method;
 
