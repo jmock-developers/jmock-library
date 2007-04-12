@@ -68,18 +68,18 @@
 	</target>
 
 	<target name="build.jars" 
-		    depends="jar.api, jar.junit3, jar.junit4, jar.concrete"/>
+		    depends="jar.api, jar.junit3, jar.junit4, jar.objenesis"/>
 
 	<target name="jar.api" depends="compile, run.tests, dir.dist">
 		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<exclude name="testdata/**"/>
-				<exclude name="org/jmock/lib/concrete/**"/>
+				<exclude name="org/jmock/lib/objenesis/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
 			</fileset>
 			<fileset dir="src">
-				<exclude name="org/jmock/lib/concrete/**"/>
+				<exclude name="org/jmock/lib/objenesis/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
 				<exclude name="**/*.html"/>
@@ -117,15 +117,15 @@
 		</jar>
 	</target>
 	
-	<target name="jar.concrete" depends="compile, run.tests"
+	<target name="jar.objenesis" depends="compile, run.tests"
 		    description="Builds a JAR containing the classes for mocking abstract and concrete classes">
-		<jar destfile="${distdir}/jmock-concrete-${version}.jar" compress="false">
+		<jar destfile="${distdir}/jmock-objenesis-${version}.jar" compress="false">
 			<fileset dir="build/classes">
-				<include name="org/jmock/lib/concrete/**"/>
+				<include name="org/jmock/lib/objenesis/**"/>
 			</fileset>
 			
 			<fileset dir="src">
-				<include name="org/jmock/lib/concrete/**"/>
+				<include name="org/jmock/lib/objenesis/**"/>
 				<exclude name="**/*.html"/>
 			</fileset>
 		</jar>
