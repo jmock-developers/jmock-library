@@ -117,8 +117,7 @@
 		</jar>
 	</target>
 	
-	<target name="jar.objenesis" depends="compile, run.tests"
-		    description="Builds a JAR containing the classes for mocking abstract and concrete classes">
+	<target name="jar.objenesis" depends="compile, run.tests">
 		<jar destfile="${distdir}/jmock-objenesis-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<include name="org/jmock/lib/objenesis/**"/>
