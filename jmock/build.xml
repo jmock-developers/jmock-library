@@ -1,9 +1,10 @@
 <project name="jMock 1" default="build">
 	<property name="version" value="DEVELOPER-BUILD"/>
 	
-	<target name="build" depends="clean, package"/>
+	<target name="build" depends="clean, package"
+	        description="Does a complete rebuild from scratch"/>
 	
-    <target name="clean">
+    <target name="clean" description="Removes build artefacts">
         <delete dir="build"/>
     </target>
 	
