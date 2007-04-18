@@ -77,11 +77,13 @@
 				<exclude name="org/jmock/lib/objenesis/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
+				<exclude name="org/jmock/example/**"/>
 			</fileset>
 			<fileset dir="src">
 				<exclude name="org/jmock/lib/objenesis/**"/>
 				<exclude name="org/jmock/integration/**"/>
 				<exclude name="org/jmock/test/**"/>
+				<exclude name="org/jmock/example/**"/>
 				<exclude name="**/*.html"/>
 			</fileset>
 		</jar>
