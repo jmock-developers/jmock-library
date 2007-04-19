@@ -9,7 +9,9 @@ WORKING_DIR=build/release
 EXPORT_SUBDIR=jmock-$VERSION
 WEBSITE_SUBDIR=jmock-website
 
-DIST=${DIST:-jmock@www.jmock.org:/home/jmock/public_dist}
+REMOTE=${REMOTE:-jmock@www.jmock.org:/home/jmock}
+DIST=${DIST:-$REMOTE/public_dist}
+JAVADOC=${JAVADOC:-$REMOTE/public_javadoc}
 
 
 function export_from_cvs() {
@@ -33,6 +35,10 @@ function publish_release() {
     fi	
 }
 
+function publish_javadoc() {
+    scp -r build/jmock-$VERSION/doc/ $JAVADOC/$VERSION
+}
+
 function checkout_website() {
     cvs checkout -l -d $WEBSITE_SUBDIR jmock-website
     if [ $? -ne 0 ]; then
@@ -50,6 +56,7 @@ export_from_cvs
 cd $EXPORT_SUBDIR
 build_release
 publish_release
+publish_javadoc
 
 exit 0
 
