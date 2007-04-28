@@ -2,9 +2,8 @@
 <settings>
   <servers>
     <server>
-      <id>codehaus.og</id>
-      <username>[your codehaus username]</username>
-      <password>[your codehaus webdav password]</password>
+      <id>[repository id]</id>
+      <username>[your username]</username>
     </server>
   </servers>
 </settings>
