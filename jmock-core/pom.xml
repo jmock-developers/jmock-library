@@ -7,7 +7,7 @@
     <version>1</version>
   </parent>
   <artifactId>jmock-core</artifactId>
-  <version>${release.version}</version>
+  <version>1.2.0</version>
   <packaging>jar</packaging>
   <name>jMock Core</name>
 
