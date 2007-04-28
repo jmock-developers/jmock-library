@@ -7,7 +7,7 @@
     <version>1</version>
   </parent>
   <artifactId>jmock-cglib</artifactId>
-  <version>${release.version}</version>
+  <version>1.2.0</version>
   <packaging>jar</packaging>
   <name>jMock CGLIB</name>
 
