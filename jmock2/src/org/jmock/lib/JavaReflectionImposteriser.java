@@ -7,7 +7,6 @@ import java.lang.reflect.Proxy;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
-import org.jmock.internal.DelegatingClassLoader;
 
 /**
  * An {@link org.jmock.api.Imposteriser} that uses the
@@ -27,9 +26,7 @@ public class JavaReflectionImposteriser implements Imposteriser {
         proxiedClasses[0] = mockedType;
         System.arraycopy(ancilliaryTypes, 0, proxiedClasses, 1, ancilliaryTypes.length);
         
-        ClassLoader proxyClassLoader = DelegatingClassLoader.combineLoadersOf(proxiedClasses);
-        
-        return (T)Proxy.newProxyInstance(proxyClassLoader, proxiedClasses, new InvocationHandler() {
+        return (T)Proxy.newProxyInstance(mockedType.getClassLoader(), proxiedClasses, new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 return mockObject.invoke(new Invocation(proxy, method, args));
             }

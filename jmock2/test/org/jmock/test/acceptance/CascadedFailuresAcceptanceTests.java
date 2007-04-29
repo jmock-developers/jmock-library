@@ -9,7 +9,7 @@ import org.jmock.api.ExpectationError;
 
 /* Acceptance test for issue JMOCK-30 (http://jira.codehaus.org/browse/JMOCK-30).
  */
-public class CascadedFailuresAcceptanceTest extends TestCase {
+public class CascadedFailuresAcceptanceTests extends TestCase {
     public interface MockedType {
         void realExpectationFailure(int i);
         void invocationCausedByExpectationFailure();

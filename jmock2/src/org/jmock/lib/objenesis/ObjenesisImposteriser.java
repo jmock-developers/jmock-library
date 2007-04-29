@@ -57,7 +57,9 @@ public class ObjenesisImposteriser implements Imposteriser {
             enhancer.setInterfaces(ancilliaryTypes);
         }
         enhancer.setCallbackType(InvocationHandler.class);
-        enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
+        if (mockedType.getSigners() != null) {
+            enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
+        }
         enhancer.setUseFactory(true);
         
         Class<?> proxyClass = enhancer.createClass();

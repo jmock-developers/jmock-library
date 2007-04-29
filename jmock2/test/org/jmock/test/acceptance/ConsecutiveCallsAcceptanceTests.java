@@ -8,7 +8,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 
-public class ConsecutiveCallsAcceptanceTest extends TestCase {
+public class ConsecutiveCallsAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
     MockedType mock = context.mock(MockedType.class, "mock");
     
