@@ -9,6 +9,6 @@
   <artifactId>jmock</artifactId>
   <version>2.1.0-RC1</version>
   <packaging>jar</packaging>
-  <name>jMock Core</name>
+  <name>jMock 2 Core</name>
 
 </project>
