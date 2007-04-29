@@ -9,6 +9,14 @@
   <artifactId>jmock-cglib</artifactId>
   <version>1.2.0</version>
   <packaging>jar</packaging>
-  <name>jMock CGLIB</name>
+  <name>jMock CGLIB Extension</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>jmock-core</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+  </dependencies>
 
 </project>
