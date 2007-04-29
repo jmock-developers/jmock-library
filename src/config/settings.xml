@@ -4,6 +4,7 @@
     <server>
       <id>[repository id]</id>
       <username>[your username]</username>
+      <password>[your password - only when needed]</password>
     </server>
   </servers>
 </settings>
