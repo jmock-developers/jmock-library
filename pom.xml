@@ -4,7 +4,7 @@
   <groupId>org.jmock</groupId>
   <artifactId>jmock-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1-SNAPSHOT</version>
+  <version>x-SNAPSHOT</version>
   <name>jMock Parent</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -13,8 +13,6 @@
     <url>http://jmock.codehaus.org</url>
   </organization>
 
-  <modules></modules>
-
   <licenses>
     <license>
       <name>BSD style</name>
@@ -22,7 +20,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
 
   <scm>
     <url>http://fisheye.codehaus.org/browse/jmock</url>

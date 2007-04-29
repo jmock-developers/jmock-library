@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jmock</groupId>
     <artifactId>jmock-parent</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>x-SNAPSHOT</version>
   </parent>
   <artifactId>jmock</artifactId>
   <version>2.1.0-RC1-SNAPSHOT</version>
