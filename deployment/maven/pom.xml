@@ -4,7 +4,7 @@
   <groupId>org.jmock</groupId>
   <artifactId>jmock-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1</version>
+  <version>1-SNAPSHOT</version>
   <name>jMock Parent</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -38,6 +38,11 @@
       <name>Codehaus jMock Repository</name>
       <url>dav:https://dav.codehaus.org/repository/jmock/</url>
     </repository>
+    <snapshotRepository>
+      <id>codehaus.org</id>
+      <name>Codehaus jMock Snapshot Repository</name>
+      <url>dav:https://dav.codehaus.org/snapshots.repository/jmock/</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <build>
@@ -113,7 +118,7 @@
         <module>jmock-core</module>
         <module>jmock-cglib</module>
       </modules>
-      <properties>      
+      <properties>
         <release.version>1.2.0</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}</download.artifact.dir>
       </properties>
@@ -125,7 +130,7 @@
         <module>jmock-junit3</module>
         <module>jmock-junit4</module>
       </modules>
-      <properties>      
+      <properties>
         <release.version>2.1.0-RC1</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
       </properties>
