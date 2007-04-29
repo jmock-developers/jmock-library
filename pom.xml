@@ -22,6 +22,7 @@
   </licenses>
 
   <scm>
+    <developerConnection>:ext:cvs.jmock.codehaus.org:/scm/jmock:deployment/maven</developerConnection>
     <url>http://fisheye.codehaus.org/browse/jmock</url>
   </scm>
 
