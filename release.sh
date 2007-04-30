@@ -1,5 +1,5 @@
 #!/bin/bash
-# Release tool for jMock
+# Release tool for jMock 2
 
 export VERSION=${1:?No version number given}
 export TAG=V$(echo $VERSION | tr ".-" _)
@@ -57,13 +57,3 @@ cd $EXPORT_SUBDIR
 build_release
 publish_release
 publish_javadoc
-
-exit 0
-
-cd ..
-checkout_website()
-cd $WEBSITE_SUBDIR
-bash update-released-versions.sh $VERSION
-cvs commit -m "Releasing version $VERSION" released-versions.properties
-
-#send updates to Freshmeat, Codehaus news blogs, etc.
