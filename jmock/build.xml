@@ -1,6 +1,5 @@
 <project name="jMock 1" default="build">
 	<property name="version" value="1-DEVELOPER_BUILD"/>
-	<property name="release" value="no"/>
 	<property name="distdir" value="build/jmock-${version}"/>
 	
 	<target name="build" depends="clean, package"
@@ -59,9 +58,7 @@
 		</jar>
 	</target>
 	
-	<target name="run.tests" depends="run.unit-tests, run.acceptance-tests"/>
-	
-	<target name="run.unit-tests" depends="jars, testdata">
+	<target name="run.tests" depends="jars, testdata">
         <junit printsummary="no" haltonfailure="yes" fork="yes" forkmode="once">
             <formatter type="brief" usefile="no"/>
             <classpath>
@@ -71,21 +68,6 @@
             <batchtest>
                 <fileset dir="src">
                 	<include name="test/**/*Test.java"/>
-                    <exclude name="**/Abstract*"/>
-                </fileset>
-            </batchtest>
-        </junit>
-	</target>
-	
-	<target name="run.acceptance-tests" depends="jars, testdata">
-        <junit printsummary="no" fork="yes" forkmode="once" haltonfailure="${release}">
-            <formatter type="brief" usefile="no"/>
-            <classpath>
-                <fileset dir="lib" includes="*.jar"/>
-            	<fileset dir="${distdir}" includes="*.jar"/>
-            </classpath>
-            <batchtest>
-                <fileset dir="src">
                 	<include name="atest/**/*Test.java"/>
                     <exclude name="**/Abstract*"/>
                 </fileset>

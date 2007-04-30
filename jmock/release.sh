@@ -1,5 +1,5 @@
 #!/bin/bash
-# Release tool for jMock
+# Release tool for jMock 1
 
 export VERSION=${1:?No version number given}
 export TAG=V$(echo $VERSION | tr ".-" _)
@@ -20,7 +20,7 @@ function export_from_cvs() {
 }
 
 function build_release() {
-    CLASSPATH=lib/junit-3.8.1.jar ant -Dversion=$VERSION -Drelease=yes
+    CLASSPATH=lib/junit-3.8.1.jar ant -Dversion=$VERSION
     if [ $? -ne 0 ]; then
 	exit 1
     fi
@@ -31,6 +31,10 @@ function publish_release() {
     if [ $? -ne 0 ]; then
 	exit 1
     fi	
+}
+
+function publish_javadoc() {
+    scp -r build/jmock-$VERSION/doc/ $JAVADOC/$VERSION
 }
 
 function checkout_website() {
@@ -50,13 +54,4 @@ export_from_cvs
 cd $EXPORT_SUBDIR
 build_release
 publish_release
-
-exit 0
-
-cd ..
-checkout_website()
-cd $WEBSITE_SUBDIR
-bash update-released-versions.sh $VERSION
-cvs commit -m "Releasing version $VERSION" released-versions.properties
-
-#send updates to Freshmeat, Codehaus news blogs, etc.
+publish_javadoc
