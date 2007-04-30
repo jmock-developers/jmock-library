@@ -20,7 +20,7 @@ function export_from_cvs() {
 }
 
 function build_release() {
-    CLASSPATH=lib/junit-3.8.1.jar ant -Dversion=$VERSION
+    CLASSPATH=lib/junit-3.8.1.jar ant -Dversion=$VERSION -Drelease=yes
     if [ $? -ne 0 ]; then
 	exit 1
     fi

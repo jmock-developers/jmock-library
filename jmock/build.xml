@@ -1,5 +1,7 @@
 <project name="jMock 1" default="build">
-	<property name="version" value="DEVELOPER-BUILD"/>
+	<property name="version" value="1-DEVELOPER_BUILD"/>
+	<property name="pkgdir" value="build/jmock-${version}"/>
+	<property name="release" value="no"/>
 	
 	<target name="build" depends="clean, package"
 	        description="Does a complete rebuild from scratch"/>
@@ -21,7 +23,10 @@
 	</target>
 	
 	<target name="jars" depends="compile">
-		<jar destfile="build/jmock-core-${version}.jar">
+		<property name="dir" value="build/jmock-${version}"/>
+		<mkdir dir="${pkgdir}"/>
+		
+		<jar destfile="${pkgdir}/jmock-core-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<exclude name="atest/**"/>
@@ -35,7 +40,7 @@
 			</fileset>
 		</jar>
 		
-		<jar destfile="build/jmock-cglib-${version}.jar">
+		<jar destfile="${pkgdir}/jmock-cglib-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<include name="org/jmock/cglib/**"/>
@@ -45,7 +50,7 @@
 			</fileset>
 		</jar>
 		
-		<jar destfile="build/jmock-tests-${version}.jar">
+		<jar destfile="${pkgdir}/jmock-tests-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<include name="test/**"/>
@@ -61,7 +66,7 @@
             <formatter type="brief" usefile="no"/>
             <classpath>
                 <fileset dir="lib" includes="*.jar"/>
-                <fileset dir="build" includes="*.jar"/>
+                <fileset dir="${pkgdir}" includes="*.jar"/>
             </classpath>
             <batchtest>
                 <fileset dir="src">
@@ -73,11 +78,11 @@
 	</target>
 	
 	<target name="run.acceptance-tests" depends="jars, testdata">
-        <junit printsummary="no" fork="yes" forkmode="once" haltonfailure="yes">
+        <junit printsummary="no" fork="yes" forkmode="once" haltonfailure="${release}">
             <formatter type="brief" usefile="no"/>
             <classpath>
                 <fileset dir="lib" includes="*.jar"/>
-            	<fileset dir="build" includes="*.jar"/>
+            	<fileset dir="${pkgdir}" includes="*.jar"/>
             </classpath>
             <batchtest>
                 <fileset dir="src">
@@ -116,8 +121,8 @@
 	</target>
 	
     <target name="javadoc">
-        <mkdir dir="build/javadoc-${version}"/>
-        <javadoc destdir="build/javadoc-${version}"
+        <mkdir dir="${pkgdir}/doc"/>
+        <javadoc destdir="${pkgdir}/doc"
             overview="overview.html"
             windowtitle="jMock API Documentation"
             useexternalfile="true">
@@ -158,14 +163,14 @@
 	
     <target name="package.javadoc" depends="javadoc">
         <zip destfile="build/jmock-${version}-javadoc.zip" 
-        	 basedir="build" includes="javadoc-${version}/**"/>
+        	 basedir="build" includes="jmock-${version}/doc/**"/>
     </target>
 	
 	<target name="package.jars" depends="jars, run.tests">
 		<zip destfile="build/jmock-${version}-jars.zip">
-			<fileset dir="build">
-				<include name="jmock-core-${version}.jar"/>
-				<include name="jmock-cglib-${version}.jar"/>
+			<fileset dir="build/">
+				<include name="jmock-${version}/*.jar"/>
+				<exclude name="jmock-${version}/*-tests-*.jar"/>
 			</fileset>
 		</zip>
 	</target>
