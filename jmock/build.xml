@@ -1,7 +1,7 @@
 <project name="jMock 1" default="build">
 	<property name="version" value="1-DEVELOPER_BUILD"/>
-	<property name="pkgdir" value="build/jmock-${version}"/>
 	<property name="release" value="no"/>
+	<property name="distdir" value="build/jmock-${version}"/>
 	
 	<target name="build" depends="clean, package"
 	        description="Does a complete rebuild from scratch"/>
@@ -24,9 +24,9 @@
 	
 	<target name="jars" depends="compile">
 		<property name="dir" value="build/jmock-${version}"/>
-		<mkdir dir="${pkgdir}"/>
+		<mkdir dir="${distdir}"/>
 		
-		<jar destfile="${pkgdir}/jmock-core-${version}.jar">
+		<jar destfile="${distdir}/jmock-core-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<exclude name="atest/**"/>
@@ -40,7 +40,7 @@
 			</fileset>
 		</jar>
 		
-		<jar destfile="${pkgdir}/jmock-cglib-${version}.jar">
+		<jar destfile="${distdir}/jmock-cglib-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<include name="org/jmock/cglib/**"/>
@@ -50,7 +50,7 @@
 			</fileset>
 		</jar>
 		
-		<jar destfile="${pkgdir}/jmock-tests-${version}.jar">
+		<jar destfile="${distdir}/jmock-tests-${version}.jar">
 			<fileset dir="." includes="LICENSE.txt"/>
 			<fileset dir="build/classes">
 				<include name="test/**"/>
@@ -66,7 +66,7 @@
             <formatter type="brief" usefile="no"/>
             <classpath>
                 <fileset dir="lib" includes="*.jar"/>
-                <fileset dir="${pkgdir}" includes="*.jar"/>
+                <fileset dir="${distdir}" includes="*.jar"/>
             </classpath>
             <batchtest>
                 <fileset dir="src">
@@ -82,7 +82,7 @@
             <formatter type="brief" usefile="no"/>
             <classpath>
                 <fileset dir="lib" includes="*.jar"/>
-            	<fileset dir="${pkgdir}" includes="*.jar"/>
+            	<fileset dir="${distdir}" includes="*.jar"/>
             </classpath>
             <batchtest>
                 <fileset dir="src">
@@ -121,8 +121,8 @@
 	</target>
 	
     <target name="javadoc">
-        <mkdir dir="${pkgdir}/doc"/>
-        <javadoc destdir="${pkgdir}/doc"
+        <mkdir dir="${distdir}/doc"/>
+        <javadoc destdir="${distdir}/doc"
             overview="overview.html"
             windowtitle="jMock API Documentation"
             useexternalfile="true">
