@@ -23,11 +23,11 @@
 		</zip>
 	</target>
 	
-	<target name="zip.jars" depends="build.jars, zip.gather">
+	<target name="zip.jars" depends="run.tests, zip.gather">
 		<zip destfile="build/jmock-${version}-jars.zip" compress="true">
 			<fileset dir="build">
-				<include name="jmock-${version}/*"/>
-				<exclude name="jmock-${version}/doc"/>
+				<include name="jmock-${version}/*.jar"/>
+				<exclude name="jmock-${version}/*-tests-*.jar"/>
 			</fileset>
 		</zip>
 	</target>
@@ -67,10 +67,10 @@
 		<mkdir dir="${distdir}"/>
 	</target>
 
-	<target name="build.jars" 
-		    depends="jar.api, jar.junit3, jar.junit4, jar.legacy"/>
+	<target name="jars" 
+		    depends="jar.api, jar.junit3, jar.junit4, jar.legacy, jar.tests"/>
 
-	<target name="jar.api" depends="compile, run.tests, dir.dist">
+	<target name="jar.api" depends="compile, dir.dist">
 		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<exclude name="testdata/**"/>
@@ -89,7 +89,7 @@
 		</jar>
 	</target>
 
-	<target name="jar.junit3" depends="compile, run.tests, dir.dist">
+	<target name="jar.junit3" depends="compile, dir.dist">
 		<jar destfile="${distdir}/jmock-junit3-${version}.jar"
 	     	 compress="false">
 
@@ -104,7 +104,7 @@
 		</jar>
 	</target>
 
-	<target name="jar.junit4" depends="compile, run.tests, dir.dist">
+	<target name="jar.junit4" depends="compile, dir.dist">
 		<jar destfile="${distdir}/jmock-junit4-${version}.jar"
 	     	 compress="false">
 
@@ -119,7 +119,7 @@
 		</jar>
 	</target>
 	
-	<target name="jar.legacy" depends="compile, run.tests">
+	<target name="jar.legacy" depends="compile, dir.dist">
 		<jar destfile="${distdir}/jmock-legacy-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<include name="org/jmock/lib/legacy/**"/>
@@ -128,6 +128,15 @@
 			<fileset dir="src">
 				<include name="org/jmock/lib/legacy/**"/>
 				<exclude name="**/*.html"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="jar.tests" depends="compile, dir.dist">
+		<jar destfile="${distdir}/jmock-tests-${version}.jar" compress="false">
+			<fileset dir="build/classes">
+				<include name="org/jmock/test/**"/>
+				<include name="org/jmock/example/**"/>
 			</fileset>
 		</jar>
 	</target>
@@ -187,18 +196,18 @@
 		</javadoc>
 	</target>
 
-	<target name="run.tests" depends="compile, testdata">
+	<target name="run.tests" depends="jars, testdata">
 		<property name="outdir" value="build/reports/tests"/>
 		<mkdir dir="${outdir}"/>
-		<junit fork="yes" forkmode="once" printsummary="no" haltonfailure="yes" showoutput="yes">
+		<junit fork="yes" forkmode="once" printsummary="no" showoutput="yes">
 			<classpath>
 				<path refid="build.classpath"/>
-				<pathelement location="build/classes"/>
+				<fileset dir="${distdir}" includes="*.jar"/>
 			</classpath>
 			
 			<formatter type="brief" usefile="no"/>
 			
-			<batchtest>
+			<batchtest haltonfailure="yes">
 				<fileset dir="test">
 					<include name="**/*Tests.java"/>
 					<exclude name="**/Abstract*"/>
