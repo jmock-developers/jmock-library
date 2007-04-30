@@ -56,29 +56,39 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.1</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>groovy-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
             <goals>
-              <goal>run</goal>
+              <goal>execute</goal>
             </goals>
             <configuration>
-              <tasks>
-                <property name="download.url" value="http://jmock.org/dist" />
-                <property name="download.zip" value="jmock-${release.version}-jars.zip" />
-                <property name="download.dir" value="target" />
-                <property name="download.name" value="jmock-${release.version}" />
-                <exec executable="${basedir}/src/script/download-jars.sh" newenvironment="false" dir="${basedir}"
-                  spawn="false" failifexecutionfails="false" failonerror="false">
-                  <arg value="${download.url}" />
-                  <arg value="${download.zip}" />
-                  <arg value="${download.dir}" />
-                  <arg value="${download.name}" />
-                </exec>
-              </tasks>
+              <source>
+                <body>
+                  def ant = new AntBuilder()
+                  def script = "${basedir}/src/script/download-jars.sh";
+                  if ( new File(script).exists() ){
+                    // we are top-level module
+                    println("Found script "+script)
+                    ant.exec(executable: script, dir: "${basedir}", 
+                            spawn: false, failifexecutionfails: true, failonerror: true){
+                      arg(value: "http://jmock.org/dist")
+                      arg(value: "jmock-${release.version}-jars.zip" )
+                      arg(value: "target")
+                      arg(value: "jmock-${release.version}")
+                    }
+                  } else {
+                    // we are in child module
+                    ant.copy(file: "${download.artifact.dir}/${artifact.name}.jar", 
+                            tofile: "${project.build.directory}/downloaded.jar", verbose: true)
+                    ant.unjar(src: "${project.build.directory}/downloaded.jar",
+                            dest: "${project.build.outputDirectory}")
+                  }
+                </body>
+              </source>
             </configuration>
           </execution>
         </executions>

@@ -17,31 +17,6 @@
       <artifactId>jmock-core</artifactId>
       <version>${pom.version}</version>
     </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <copy file="${download.artifact.dir}/${artifact.name}.jar"
-                  tofile="${project.build.directory}/downloaded.jar" verbose="true" />
-                <unjar src="${project.build.directory}/downloaded.jar" dest="${project.build.outputDirectory}" />
-              </tasks>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+  </dependencies>  
 
 </project>
