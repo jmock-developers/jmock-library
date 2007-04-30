@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 import org.jmock.Mockery;
 import org.jmock.internal.CaptureControl;
-import org.jmock.lib.objenesis.ObjenesisImposteriser;
+import org.jmock.lib.legacy.ClassImposteriser;
 
 
 public class MockingPackageProtectedTypeAcceptanceTests extends TestCase {
@@ -32,7 +32,7 @@ public class MockingPackageProtectedTypeAcceptanceTests extends TestCase {
     }
     
     public void testCanMockPackageProtectedTypeWithObjenesisImposteriser() {
-        mockery.setImposteriser(ObjenesisImposteriser.INSTANCE);
+        mockery.setImposteriser(ClassImposteriser.INSTANCE);
         mockery.mock(PackageProtectedType.class, "mock");
     }
 }

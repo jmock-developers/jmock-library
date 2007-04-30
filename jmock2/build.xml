@@ -68,7 +68,7 @@
 	</target>
 
 	<target name="build.jars" 
-		    depends="jar.api, jar.junit3, jar.junit4, jar.objenesis"/>
+		    depends="jar.api, jar.junit3, jar.junit4, jar.legacy"/>
 
 	<target name="jar.api" depends="compile, run.tests, dir.dist">
 		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
@@ -119,14 +119,14 @@
 		</jar>
 	</target>
 	
-	<target name="jar.objenesis" depends="compile, run.tests">
-		<jar destfile="${distdir}/jmock-objenesis-${version}.jar" compress="false">
+	<target name="jar.legacy" depends="compile, run.tests">
+		<jar destfile="${distdir}/jmock-legacy-${version}.jar" compress="false">
 			<fileset dir="build/classes">
-				<include name="org/jmock/lib/objenesis/**"/>
+				<include name="org/jmock/lib/legacy/**"/>
 			</fileset>
 			
 			<fileset dir="src">
-				<include name="org/jmock/lib/objenesis/**"/>
+				<include name="org/jmock/lib/legacy/**"/>
 				<exclude name="**/*.html"/>
 			</fileset>
 		</jar>
