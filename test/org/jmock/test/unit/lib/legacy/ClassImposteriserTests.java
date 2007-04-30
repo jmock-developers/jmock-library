@@ -1,4 +1,4 @@
-package org.jmock.test.unit.lib.objenesis;
+package org.jmock.test.unit.lib.legacy;
 
 import java.io.File;
 import java.net.URL;
@@ -10,10 +10,10 @@ import junit.framework.TestCase;
 import org.jmock.api.Imposteriser;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.VoidAction;
-import org.jmock.lib.objenesis.ObjenesisImposteriser;
+import org.jmock.lib.legacy.ClassImposteriser;
 
-public class ObjenesisImposteriserTests extends TestCase {
-    Imposteriser imposteriser = ObjenesisImposteriser.INSTANCE;
+public class ClassImposteriserTests extends TestCase {
+    Imposteriser imposteriser = ClassImposteriser.INSTANCE;
     
     public static class ConcreteClassWithNastyConstructor {
         {

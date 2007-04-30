@@ -1,4 +1,4 @@
-package org.jmock.lib.objenesis;
+package org.jmock.lib.legacy;
 
 import java.lang.reflect.Method;
 
@@ -17,15 +17,15 @@ import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
 /**
- * This class lets you imposterise concrete classes with CGLIB 
+ * This class lets you imposterise abstract and concrete classes 
  * <em>without</em> calling the constructors of the mocked class.
  *   
  * @author npryce
  */
-public class ObjenesisImposteriser implements Imposteriser {
-    public static final Imposteriser INSTANCE = new ObjenesisImposteriser();
+public class ClassImposteriser implements Imposteriser {
+    public static final Imposteriser INSTANCE = new ClassImposteriser();
     
-    private ObjenesisImposteriser() {}
+    private ClassImposteriser() {}
     
     private static final NamingPolicy NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
