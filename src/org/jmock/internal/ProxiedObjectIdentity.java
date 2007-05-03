@@ -29,6 +29,9 @@ public class ProxiedObjectIdentity implements Invokable {
         else if (isMethod(method, boolean.class, "equals", Object.class)) {
             return invocation.getParameter(0) == invocation.getInvokedObject();
         }
+        else if (isMethod(method, void.class, "finalize")) {
+            return null;
+        }
         else {
             return next.invoke(invocation);
         }
