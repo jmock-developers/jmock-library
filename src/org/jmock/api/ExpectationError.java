@@ -19,10 +19,14 @@ public class ExpectationError extends Error implements SelfDescribing {
         this.expectations = expectations;
     }
     
+    public ExpectationError(String message, Invocation invocation) {
+        this(message, null, invocation);
+    }
+    
     public ExpectationError(String message, SelfDescribing expectations) {
         this(message, expectations, null);
     }
-
+    
     @Override 
     public String toString() {
         return StringDescription.toString(this);
@@ -34,7 +38,9 @@ public class ExpectationError extends Error implements SelfDescribing {
             description.appendText(": ");
             invocation.describeTo(description);
         }
-        description.appendText("\n");
-        expectations.describeTo(description);
+        if (expectations != null) {
+            description.appendText("\n");
+            expectations.describeTo(description);
+        }
 	}
 }

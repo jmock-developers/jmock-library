@@ -194,13 +194,28 @@ public class Mockery {
                 return dispatcher.dispatch(invocation);
             }
             catch (ExpectationError e) {
-                firstError = expectationErrorTranslator.translate(e);
+                firstError = expectationErrorTranslator.translate(fillInDetails(e));
                 firstError.setStackTrace(e.getStackTrace());
                 throw firstError;
             }
         }
     }
-    
+
+    // The ExpectationError might not have the expectations field set (because of a design
+    // flaw that cannot be fixed without breaking backward compatability of client code).
+    // So if it is null we create a new ExpectationError with the field set to the mockery's
+    // expectations.
+    private ExpectationError fillInDetails(ExpectationError e) {
+        if (e.expectations != null) {
+            return e;
+        }
+        else {
+            ExpectationError filledIn = new ExpectationError(e.getMessage(), dispatcher, e.invocation);
+            filledIn.setStackTrace(e.getStackTrace());
+            return filledIn;
+        }
+    }
+
     private boolean isCapturingExpectations() {
         return capture != null;
     }
