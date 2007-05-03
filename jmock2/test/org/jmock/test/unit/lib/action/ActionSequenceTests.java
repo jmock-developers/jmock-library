@@ -1,14 +1,14 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-20047 jMock.org
  */
 package org.jmock.test.unit.lib.action;
 
 import java.lang.reflect.Method;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import org.hamcrest.StringDescription;
 import org.jmock.api.Action;
+import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.test.unit.support.AssertThat;
@@ -54,18 +54,20 @@ public class ActionSequenceTests extends TestCase {
     }
     
     @SuppressWarnings("cast") // Eclipse gives warning if there is a cast and if there is not!
-    public void testThrowsAssertionFailedErrorIfInvokedMoreTimesThanThereAreActionsInTheSequence() throws Throwable {
+    public void testFailsIfInvokedMoreTimesThanThereAreActionsInTheSequence() throws Throwable {
         MockAction[] actions = new MockAction[]{new MockAction(), new MockAction()};
         ActionSequence sequence = new ActionSequence((Action[])actions);
-
+        
         for (int i = 0; i < actions.length; i++) sequence.invoke(invocation);
-
+        
         try {
             sequence.invoke(invocation);
+            fail("should have thrown IllegalStateException");
         }
-        catch (AssertionFailedError ex) {
+        catch (ExpectationError ex) {
             AssertThat.stringIncludes("should describe error",
                 "no more actions", ex.getMessage());
+            return;
         }
     }
     

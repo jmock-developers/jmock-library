@@ -1,4 +1,4 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*  Copyright (c) 2000-2007 jMock.org
  */
 package org.jmock.lib.action;
 
@@ -7,10 +7,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.AssertionFailedError;
-
 import org.hamcrest.Description;
 import org.jmock.api.Action;
+import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
 
 /**
@@ -28,11 +27,11 @@ public class ActionSequence implements Action {
         this.iterator = this.actions.iterator();
     }
     
-    public Object invoke( Invocation invocation ) throws Throwable {
+    public Object invoke(Invocation invocation) throws Throwable {
         if (iterator.hasNext()) {
             return iterator.next().invoke(invocation);
         } 
-    	throw new AssertionFailedError("no more actions available");
+    	throw new ExpectationError("no more actions available", invocation);
     }
     
     public void describeTo(Description description) {
