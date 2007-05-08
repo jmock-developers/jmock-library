@@ -1,6 +1,7 @@
 package org.jmock.lib.legacy;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
@@ -37,7 +38,7 @@ public class ClassImposteriser implements Imposteriser {
     private final Objenesis objenesis = new ObjenesisStd();
     
     public boolean canImposterise(Class<?> type) {
-        return !type.isPrimitive(); 
+        return !type.isPrimitive() && !Modifier.isFinal(type.getModifiers());
     }
     
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
