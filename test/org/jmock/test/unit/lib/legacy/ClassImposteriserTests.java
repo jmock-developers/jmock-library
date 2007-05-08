@@ -39,18 +39,24 @@ public class ClassImposteriserTests extends TestCase {
     }
     
     public static abstract class AnAbstractNestedClass {
-        abstract String foo();
+        public abstract String foo();
     }
     
     public static class AnInnerClass {
-        void foo() {}
+        public void foo() {}
     }
     
-    public void testCanImposteriseInterfacesAndInstantiableClasses() {
+    public static final class AFinalClass {
+        public void foo() {}
+    }
+    
+    public void testCanImposteriseInterfacesAndNonFinalInstantiableClasses() {
         assertTrue("should report that it can imposterise interfaces",
                    imposteriser.canImposterise(Runnable.class));
         assertTrue("should report that it can imposterise classes",
                    imposteriser.canImposterise(Date.class));
+        assertTrue("should report that it cannot imposterise final classes",
+                   !imposteriser.canImposterise(AFinalClass.class));
         assertTrue("should report that it can imposterise nested classes",
                    imposteriser.canImposterise(AnAbstractNestedClass.class));
         assertTrue("should report that it can imposterise inner classes",
