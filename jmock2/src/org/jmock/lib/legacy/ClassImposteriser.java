@@ -7,9 +7,11 @@ import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
 import net.sf.cglib.core.Predicate;
 import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.InvocationHandler;
+import net.sf.cglib.proxy.NoOp;
 
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
@@ -35,6 +37,12 @@ public class ClassImposteriser implements Imposteriser {
         }
     };
     
+    private static final CallbackFilter IGNORE_BRIDGE_METHODS = new CallbackFilter() {
+        public int accept(Method method) {
+            return method.isBridge() ? 1 : 0;
+        }
+    };
+    
     private final Objenesis objenesis = new ObjenesisStd();
     
     public boolean canImposterise(Class<?> type) {
@@ -49,6 +57,7 @@ public class ClassImposteriser implements Imposteriser {
     private <T> Class<?> createProxyClass(Class<T> mockedType, Class<?>... ancilliaryTypes) {
         Enhancer enhancer = new Enhancer();
         enhancer.setClassLoader(mockedType.getClassLoader());
+        enhancer.setUseFactory(true);
         if (mockedType.isInterface()) {
             enhancer.setSuperclass(Object.class);
             enhancer.setInterfaces(prepend(mockedType, ancilliaryTypes));
@@ -57,31 +66,27 @@ public class ClassImposteriser implements Imposteriser {
             enhancer.setSuperclass(mockedType);
             enhancer.setInterfaces(ancilliaryTypes);
         }
-        enhancer.setCallbackType(InvocationHandler.class);
+        enhancer.setCallbackTypes(new Class[]{InvocationHandler.class, NoOp.class});
+        enhancer.setCallbackFilter(IGNORE_BRIDGE_METHODS);
         if (mockedType.getSigners() != null) {
             enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
         }
-        enhancer.setUseFactory(true);
         
         Class<?> proxyClass = enhancer.createClass();
         return proxyClass;
     }
-	
+    
     private Object createProxy(Class<?> proxyClass, final Invokable mockObject) {
-        try {
-            Factory proxy = (Factory)objenesis.newInstance(proxyClass);
-            proxy.setCallbacks(new Callback[] {
-                new InvocationHandler() {
-                    public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
-                        return mockObject.invoke(new Invocation(receiver, method, args));
-                    }
+        Factory proxy = (Factory)objenesis.newInstance(proxyClass);
+        proxy.setCallbacks(new Callback[] {
+            new InvocationHandler() {
+                public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
+                    return mockObject.invoke(new Invocation(receiver, method, args));
                 }
-            });
-            return proxy;
-        }
-        catch (SecurityException e) {
-            throw new IllegalStateException("cannot access private callback field", e);
-        }
+            },
+            NoOp.INSTANCE
+        });
+        return proxy;
     }
     
     private Class<?>[] prepend(Class<?> first, Class<?>... rest) {
