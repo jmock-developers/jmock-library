@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
+import org.jmock.internal.SearchingClassLoader;
 
 /**
  * An {@link org.jmock.api.Imposteriser} that uses the
@@ -22,14 +23,22 @@ public class JavaReflectionImposteriser implements Imposteriser {
     
     @SuppressWarnings("unchecked")
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
-        Class[] proxiedClasses = new Class[ancilliaryTypes.length+1];
-        proxiedClasses[0] = mockedType;
-        System.arraycopy(ancilliaryTypes, 0, proxiedClasses, 1, ancilliaryTypes.length);
+        final Class<?>[] proxiedClasses = prepend(mockedType, ancilliaryTypes);
+        final ClassLoader classLoader = SearchingClassLoader.combineLoadersOf(proxiedClasses);
         
-        return (T)Proxy.newProxyInstance(mockedType.getClassLoader(), proxiedClasses, new InvocationHandler() {
+        return (T)Proxy.newProxyInstance(classLoader, proxiedClasses, new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 return mockObject.invoke(new Invocation(proxy, method, args));
             }
         });
+    }
+    
+    private Class<?>[] prepend(Class<?> first, Class<?>... rest) {
+        Class<?>[] proxiedClasses = new Class<?>[rest.length+1];
+        
+        proxiedClasses[0] = first;
+        System.arraycopy(rest, 0, proxiedClasses, 1, rest.length);
+        
+        return proxiedClasses;
     }
 }
