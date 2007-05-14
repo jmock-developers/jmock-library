@@ -28,16 +28,25 @@ public class SearchingClassLoader extends ClassLoader {
     }
     
     public static ClassLoader combineLoadersOf(Class... classes) {
+        return combineLoadersOf(classes[0], classes);
+    }
+    
+    public static ClassLoader combineLoadersOf(Class<?> first, Class<?>... others) {
         List<ClassLoader> loaders = new ArrayList<ClassLoader>();
-        loaders.add(ClassLoader.getSystemClassLoader());
         
-        for (Class c : classes) {
-            if (!loaders.contains(c.getClassLoader())) {
-                loaders.add(c.getClassLoader());
-            }
+        loaders.add(ClassLoader.getSystemClassLoader());
+        addIfNotIn(loaders, first);
+        for (Class c : others) {
+            addIfNotIn(loaders, c);
         }
         
         return combine(loaders);
+    }
+    
+    private static void addIfNotIn(List<ClassLoader> loaders, Class<?> c) {
+        if (!loaders.contains(c.getClassLoader())) {
+            loaders.add(c.getClassLoader());
+        }
     }
     
     @Override
