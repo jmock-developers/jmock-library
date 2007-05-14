@@ -14,6 +14,10 @@ public class ClassLoaderAcceptanceTest extends MockObjectTestCase
 {
 
     static class EmptyInterfaceCreator extends ClassLoader {
+        public EmptyInterfaceCreator() {
+            super(null);
+        }
+        
         protected Class findClass( String name ) {
             ClassWriter writer = new ClassWriter(true);
             
