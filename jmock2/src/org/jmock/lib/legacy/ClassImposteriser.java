@@ -16,6 +16,7 @@ import net.sf.cglib.proxy.NoOp;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
+import org.jmock.internal.SearchingClassLoader;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
@@ -56,7 +57,7 @@ public class ClassImposteriser implements Imposteriser {
     
     private <T> Class<?> createProxyClass(Class<T> mockedType, Class<?>... ancilliaryTypes) {
         Enhancer enhancer = new Enhancer();
-        enhancer.setClassLoader(mockedType.getClassLoader());
+        enhancer.setClassLoader(SearchingClassLoader.combineLoadersOf(mockedType, ancilliaryTypes));
         enhancer.setUseFactory(true);
         if (mockedType.isInterface()) {
             enhancer.setSuperclass(Object.class);

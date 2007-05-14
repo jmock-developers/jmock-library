@@ -32,7 +32,7 @@ public class ClassLoaderAcceptanceTests extends TestCase
 
     static class OrphanedFakeClassLoader extends ClassLoader {
         public OrphanedFakeClassLoader() {
-            super(getSystemClassLoader());
+            super(null);
         }
         
         @Override
