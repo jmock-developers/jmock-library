@@ -129,7 +129,7 @@
         <module>jmock-junit4</module>
       </modules>
       <properties>
-        <release.version>2.0.0</release.version>
+        <release.version>2.1.0</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
       </properties>
     </profile>
