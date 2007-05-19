@@ -141,9 +141,11 @@
 		</jar>
 	</target>
 	
-	<target name="testdata" depends="testdata.signed-jar"/>
+	<target name="testdata" depends="testdata.unsigned-jar, testdata.signed-jar">
+		<delete dir="build/testdata/classes"/>
+	</target>
 	
-	<target name="testdata.signed-jar">
+	<target name="testdata.classes">
 		<mkdir dir="build/testdata"/>
 		<mkdir dir="build/testdata/classes"/>
 		
@@ -153,12 +155,16 @@
 			   failonerror="yes"
 		       source="1.5" 
 		       target="1.5"/>
-		
-		<jar destfile="build/testdata/signed.jar" compress="false">
+	</target>
+	
+	<target name="testdata.unsigned-jar" depends="testdata.classes">
+		<jar destfile="build/testdata/unsigned.jar" compress="false">
 			<fileset dir="build/testdata/classes/" includes="*"/>
 		</jar>
-		
-		<delete dir="build/testdata/classes"/>
+	</target>
+	
+	<target name="testdata.signed-jar" depends="testdata.unsigned-jar">
+		<copy file="build/testdata/unsigned.jar" tofile="build/testdata/signed.jar"/>
 		
 		<genkey alias="testdata" 
 				keystore="build/testdata/keystore" storepass="testdata"
