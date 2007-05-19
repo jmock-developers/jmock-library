@@ -34,7 +34,9 @@ public class SearchingClassLoader extends ClassLoader {
     public static ClassLoader combineLoadersOf(Class<?> first, Class<?>... others) {
         List<ClassLoader> loaders = new ArrayList<ClassLoader>();
         
-        loaders.add(ClassLoader.getSystemClassLoader());
+        if (ClassLoader.getSystemClassLoader() != null) {
+            loaders.add(ClassLoader.getSystemClassLoader());
+        }
         addIfNotIn(loaders, first);
         for (Class c : others) {
             addIfNotIn(loaders, c);
@@ -44,13 +46,18 @@ public class SearchingClassLoader extends ClassLoader {
     }
     
     private static void addIfNotIn(List<ClassLoader> loaders, Class<?> c) {
-        if (!loaders.contains(c.getClassLoader())) {
+        if (c.getClassLoader() != null && !loaders.contains(c.getClassLoader())) {
             loaders.add(c.getClassLoader());
         }
     }
     
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        return nextToSearch.loadClass(name);
+        if (nextToSearch == null) {
+            return super.findClass(name); // will throw ClassNotFoundException
+        }
+        else {
+            return nextToSearch.loadClass(name);
+        }
     }
 }
