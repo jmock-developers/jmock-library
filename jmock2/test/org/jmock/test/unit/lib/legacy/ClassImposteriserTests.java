@@ -7,12 +7,15 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.VoidAction;
 import org.jmock.lib.legacy.ClassImposteriser;
 
 public class ClassImposteriserTests extends TestCase {
+    Action action = new ReturnValueAction("result");
+    
     Imposteriser imposteriser = ClassImposteriser.INSTANCE;
     
     public static class ConcreteClassWithNastyConstructor {
@@ -43,11 +46,18 @@ public class ClassImposteriserTests extends TestCase {
     }
     
     public static class AnInnerClass {
-        public void foo() {}
+        public String foo() {return "original result";}
     }
     
     public static final class AFinalClass {
-        public void foo() {}
+        public String foo() {return "original result";}
+    }
+    
+    public static class AClassWithAPrivateConstructor {
+        @SuppressWarnings("unused")
+        private AClassWithAPrivateConstructor(String someArgument) {}
+        
+        public String foo() {return "original result";}
     }
     
     public void testCanImposteriseInterfacesAndNonFinalInstantiableClasses() {
@@ -61,6 +71,8 @@ public class ClassImposteriserTests extends TestCase {
                    imposteriser.canImposterise(AnAbstractNestedClass.class));
         assertTrue("should report that it can imposterise inner classes",
                    imposteriser.canImposterise(AnInnerClass.class));
+        assertTrue("should report that it can imposterise classes with non-public constructors",
+                   imposteriser.canImposterise(AClassWithAPrivateConstructor.class));
         assertTrue("should report that it cannot imposterise primitive types",
                    !imposteriser.canImposterise(int.class));
         assertTrue("should report that it cannot imposterise void",
@@ -69,16 +81,21 @@ public class ClassImposteriserTests extends TestCase {
 
     public void testCanImposteriseAConcreteClassWithoutCallingItsConstructorOrInstanceInitialiserBlocks() {
         ConcreteClassWithNastyConstructor imposter = 
-            imposteriser.imposterise(new ReturnValueAction("result"), 
-                                     ConcreteClassWithNastyConstructor.class);
+            imposteriser.imposterise(action, ConcreteClassWithNastyConstructor.class);
         
         assertEquals("result", imposter.foo());
     }
     
     public void testCanImposteriseAnInterface() {
         AnInterface imposter = 
-            imposteriser.imposterise(new ReturnValueAction("result"), 
-                                     AnInterface.class);
+            imposteriser.imposterise(action, AnInterface.class);
+        
+        assertEquals("result", imposter.foo());
+    }
+    
+    public void testCanImposteriseAClassWithAPrivateConstructor() {
+        AClassWithAPrivateConstructor imposter = 
+            imposteriser.imposterise(action, AClassWithAPrivateConstructor.class);
         
         assertEquals("result", imposter.foo());
     }

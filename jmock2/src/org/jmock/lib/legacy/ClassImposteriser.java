@@ -1,7 +1,9 @@
 package org.jmock.lib.legacy;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
@@ -51,12 +53,29 @@ public class ClassImposteriser implements Imposteriser {
     }
     
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
-        Class<?> proxyClass = createProxyClass(mockedType, ancilliaryTypes);
-        return mockedType.cast(createProxy(proxyClass, mockObject));
+        try {
+            makeConstructorsAccessible(mockedType, true);
+            Class<?> proxyClass = createProxyClass(mockedType, ancilliaryTypes);
+            return mockedType.cast(createProxy(proxyClass, mockObject));
+        }
+        finally {
+            makeConstructorsAccessible(mockedType, false);
+        }
 	}
     
+    private void makeConstructorsAccessible(Class<?> mockedType, boolean accessible) {
+        for (Constructor<?> constructor : mockedType.getDeclaredConstructors()) {
+            constructor.setAccessible(accessible);
+        }
+    }
+    
     private <T> Class<?> createProxyClass(Class<T> mockedType, Class<?>... ancilliaryTypes) {
-        Enhancer enhancer = new Enhancer();
+        Enhancer enhancer = new Enhancer() {
+            @Override
+            protected void filterConstructors(Class sc, List constructors) {
+                // Don't filter
+            }
+        };
         enhancer.setClassLoader(SearchingClassLoader.combineLoadersOf(mockedType, ancilliaryTypes));
         enhancer.setUseFactory(true);
         if (mockedType.isInterface()) {
