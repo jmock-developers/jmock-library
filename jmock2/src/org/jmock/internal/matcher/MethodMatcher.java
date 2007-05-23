@@ -15,7 +15,7 @@ public class MethodMatcher extends TypeSafeMatcher<Method> {
     
     @Override
     protected boolean matchesSafely(Method m) {
-        return m == expectedMethod;
+        return expectedMethod.equals(m);
     }
     
     public void describeTo(Description description) {
