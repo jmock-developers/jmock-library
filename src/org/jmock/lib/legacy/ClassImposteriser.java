@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+import net.sf.cglib.core.CodeGenerationException;
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
 import net.sf.cglib.core.Predicate;
@@ -54,16 +55,16 @@ public class ClassImposteriser implements Imposteriser {
     
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         try {
-            makeConstructorsAccessible(mockedType, true);
+            setConstructorsAccessible(mockedType, true);
             Class<?> proxyClass = createProxyClass(mockedType, ancilliaryTypes);
             return mockedType.cast(createProxy(proxyClass, mockObject));
         }
         finally {
-            makeConstructorsAccessible(mockedType, false);
+            setConstructorsAccessible(mockedType, false);
         }
 	}
     
-    private void makeConstructorsAccessible(Class<?> mockedType, boolean accessible) {
+    private void setConstructorsAccessible(Class<?> mockedType, boolean accessible) {
         for (Constructor<?> constructor : mockedType.getDeclaredConstructors()) {
             constructor.setAccessible(accessible);
         }
@@ -92,8 +93,15 @@ public class ClassImposteriser implements Imposteriser {
             enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
         }
         
-        Class<?> proxyClass = enhancer.createClass();
-        return proxyClass;
+        try {
+            return enhancer.createClass();
+        }
+        catch (CodeGenerationException e) {
+            // Note: I've only been able to manually test this.  It exists to help people writing
+            //       Eclipse plugins or using other environments that have sophisticated class loader
+            //       structures.
+            throw new IllegalArgumentException("could not imposterise " + mockedType, e);
+        }
     }
     
     private Object createProxy(Class<?> proxyClass, final Invokable mockObject) {
