@@ -6,6 +6,8 @@ import org.jmock.Mock;
 
 
 public class InvokedExactCountAcceptanceTest extends MockObjectTestCase {
+    private static final int EXPECTATION_COUNT = 4;
+	
     private final Mock mock = mock(MockedType.class,"mock");
     private final MockedType proxy = (MockedType)mock.proxy();
 
@@ -14,7 +16,7 @@ public class InvokedExactCountAcceptanceTest extends MockObjectTestCase {
     }
 
     protected void setUp() throws Exception {
-        mock.expects(exactly(2)).method("m").withNoArguments();
+        mock.expects(exactly(EXPECTATION_COUNT)).method("m").withNoArguments();
     }
     
     /*
@@ -23,7 +25,8 @@ public class InvokedExactCountAcceptanceTest extends MockObjectTestCase {
      * the errors and rethrows the exception.
      */
     public void testFailsWhenCalledFewerThanTheExactNumberOfTimes() {
-        proxy.m();
+		invokeRepeatedly(EXPECTATION_COUNT-1);
+    	
         try {
             mock.verify();
         }
@@ -33,11 +36,10 @@ public class InvokedExactCountAcceptanceTest extends MockObjectTestCase {
         }
         fail("Should have failed");
     }
-    
-    
+
     public void testFailsWhenCalledMoreThanTheExactNumberOfTimes() {
-        proxy.m();
-        proxy.m();
+    	invokeRepeatedly(EXPECTATION_COUNT);
+    	
         try {
             proxy.m();
         }
@@ -45,12 +47,18 @@ public class InvokedExactCountAcceptanceTest extends MockObjectTestCase {
             mock.reset();
             return;
         }
+        
         fail("Should have failed");
     }
 
     public void testPassesWhenCalledTheExactNumberOfTimes() {
-        proxy.m();
-        proxy.m();
+        invokeRepeatedly(EXPECTATION_COUNT);
         mock.verify();
     }
+
+	private void invokeRepeatedly(int invocationCount) {
+		for (int i = 0; i < invocationCount; i++) {
+    		proxy.m();
+    	}
+	}
 }
