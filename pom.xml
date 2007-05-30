@@ -71,7 +71,7 @@
                   def ant = new AntBuilder()
                   def script = "${basedir}/src/script/download-jars.sh";
                   if ( new File(script).exists() ){
-                    // we are top-level module
+                    // we are in top-level module
                     println("Found script "+script)
                     ant.exec(executable: script, dir: "${basedir}", 
                             spawn: false, failifexecutionfails: true, failonerror: true){
@@ -125,12 +125,12 @@
       <id>jmock2</id>
       <modules>
         <module>jmock</module>
-        <module>jmock-legacy</module>
         <module>jmock-junit3</module>
         <module>jmock-junit4</module>
+        <module>jmock-legacy</module>
       </modules>
       <properties>
-        <release.version>2.1.0-RC4</release.version>
+        <release.version>2.1.0</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
       </properties>
     </profile>
