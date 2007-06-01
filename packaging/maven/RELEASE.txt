@@ -3,22 +3,15 @@ Instructions to release jMock artifacts for Maven 2.
 The parent pom supports two profiles:  jmock1 and jmock2
 The profile determines which artifacts are part of the release.
 
-The pom have two types of versions: 
-- the parent pom version, whose snapshot is 'x-SNAPSHOT'.  This is valid for both jmock1 and jmock2
-- the child pom version, which depends on the jMock release version, eg '2.0.0-SNAPSHOT'
-- the jMock release version which pulls down the released jars, eg '2.0.0'
+To build snapshot
 
-The easiest way to release is to use the maven release plugin which will interactively ask to replace the 
-snapshots with the appropriate version, eg:  
-- x-SNAPSOT -> 2.0.0
-- 2.0.0-SNAPSHOT -> 2.0.0
+mvn -Pprofile install where profile=jmock1 or jmock2
+
+To release version
+
+mvn -Pprofile release:prepare
+
+maven release plugin which will interactively ask to replace the snapshot version with the appropriate version
 and create an scm tag with the snapshots resolved.
 
-Unfortunately, the scm tagging required by the release plugin seems to fail with cvs.  
-Until scm migrated to svn, a manual find & replace is required for the snapshot versions.
-
-Then, to deploy 
-
-mvn -Pprofile deploy  where profile=jmock1 or jmock2
-
- 
+mvn -Pprofile release:perform
