@@ -22,10 +22,8 @@
   </licenses>
 
   <scm>
-    <developerConnection>
-      scm:cvs:ext:${user.name}@cvs.jmock.codehaus.org:/scm/jmock:deployment/maven
-    </developerConnection>
-    <url>http://fisheye.codehaus.org/browse/jmock</url>
+    <developerConnection>scm:svn:https://svn.codehaus.org/jmock/trunk/packaging/maven</developerConnection>
+    <url>http://svn.codehaus.org/jmock/trunk/packaging/maven</url>
   </scm>
 
   <distributionManagement>
@@ -70,6 +68,12 @@
                 <body>
                   def ant = new AntBuilder()
                   def script = "${basedir}/src/script/download-jars.sh";
+                  def version = "${release.version}"
+                  if ( version == "null" ){
+                    println("ERROR: 'release.version' property not set.  Please use profile 'jmock1' or 'jmock2'")
+                  } else {
+                    println("Using release version ${release.version}")
+                  }                                      
                   if ( new File(script).exists() ){
                     // we are in top-level module
                     println("Found script "+script)
@@ -92,6 +96,13 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://svn.codehaus.org/jmock/tags</tagBase>
+        </configuration>
       </plugin>
     </plugins>
     <extensions>
