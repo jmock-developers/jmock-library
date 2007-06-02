@@ -1,35 +1,41 @@
 #!/bin/bash
-# Release tool for jMock 1
+# Release tool for jMock 2
 
 export VERSION=${1:?No version number given}
-export TAG=V$(echo $VERSION | tr ".-" _)
+export TAG=$VERSION
+
 export CVSROOT=:ext:cvs.jmock.codehaus.org:/home/projects/jmock/scm 
-export CVS_RSH=ssh
+
+# Configure ssh to use the appropriate user when logging into Codehaus
+REPOSITORY=svn+ssh://svn.jmock.codehaus.org/jmock/
+
 WORKING_DIR=build/release
 EXPORT_SUBDIR=jmock-$VERSION
 WEBSITE_SUBDIR=jmock-website
 
-DIST=${DIST:-jmock@www.jmock.org:/home/jmock/public_dist}
+REMOTE=${REMOTE:-jmock@www.jmock.org:/home/jmock}
+DIST=${DIST:-$REMOTE/public_dist}
+JAVADOC=${JAVADOC:-$REMOTE/public_javadoc}
 
 
-function export_from_cvs() {
-    cvs export -R -r $TAG -d $EXPORT_SUBDIR jmock
+function export_release() {
+    svn export $REPOSITORY/tags/$VERSION $EXPORT_SUBDIR
     if [ $? -ne 0 ]; then
-	exit 1
+        exit 1
     fi
 }
 
 function build_release() {
     CLASSPATH=lib/junit-3.8.1.jar ant -Dversion=$VERSION
     if [ $? -ne 0 ]; then
-	exit 1
+        exit 1
     fi
 }
 
 function publish_release() {
     scp build/jmock-$VERSION-*.zip $DIST
     if [ $? -ne 0 ]; then
-	exit 1
+        exit 1
     fi	
 }
 
@@ -38,20 +44,20 @@ function publish_javadoc() {
 }
 
 function checkout_website() {
-    cvs checkout -l -d $WEBSITE_SUBDIR jmock-website
+    svn co $REPOSITORY/website $WEBSITE_SUBDIR
     if [ $? -ne 0 ]; then
-	exit 1
+        exit 1
     fi
 }
 
-
-
-echo "Publishing release of jMock $VERSION (CVS tag $TAG) to $DIST"
+echo "Publishing release of jMock $VERSION to $DIST"
 rm -rf $WORKING_DIR
 mkdir -p $WORKING_DIR
 cd $WORKING_DIR
-export_from_cvs
+export_release
 cd $EXPORT_SUBDIR
 build_release
-publish_release
-publish_javadoc
+#publish_release
+#publish_javadoc
+
+
