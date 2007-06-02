@@ -1,5 +1,0 @@
-
-Moved StubSequence into org.jmock.stub package
-Added NOT_NULL constraint constant to MockObjectSupportTestCase
-
-* 1.0.0RC1 - first semistable release
