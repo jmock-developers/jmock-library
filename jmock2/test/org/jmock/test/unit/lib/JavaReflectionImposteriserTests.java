@@ -55,7 +55,7 @@ public class JavaReflectionImposteriserTests extends TestCase {
     public void testCanImposteriseAClassInASignedJarFile() throws Exception {
         File jarFile = new File("build/testdata/signed.jar");
         
-        assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
+        assertTrue("Signed JAR file does not exist (use Ant to build it)", jarFile.exists());
         
         URL jarURL = jarFile.toURL();
         ClassLoader loader = new URLClassLoader(new URL[]{jarURL});
