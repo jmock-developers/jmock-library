@@ -135,7 +135,7 @@ public class Expectations implements ExpectationBuilder,
 
     public boolean with(Matcher<Boolean> matcher) {
         addParameterMatcher(matcher);
-        return Boolean.FALSE;
+        return false;
     }
     
     public byte with(Matcher<Byte> matcher) {
