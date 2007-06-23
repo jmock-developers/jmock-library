@@ -25,7 +25,9 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
 	
     public void describeTo(Description description) {
         if (expectations.isEmpty()) {
-            description.appendText("no expectations specified: did you forget to start an expectation with a cardinality clause?");
+            description.appendText("no expectations specified: did you...\n"+
+                                   " - forget to start an expectation with a cardinality clause?\n" +
+                                   " - call a mocked method to specify the parameter of an expectation?");
         }
         else {
             description.appendList("expectations:\n  ", "\n  ", "", expectations);

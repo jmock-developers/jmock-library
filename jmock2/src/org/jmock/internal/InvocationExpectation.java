@@ -69,9 +69,16 @@ public class InvocationExpectation implements Expectation {
         }
         
         cardinality.describeTo(description);
-        description.appendText(", already invoked ");
-        description.appendText(Integer.toString(invocationCount));
-        description.appendText(times(invocationCount));
+        description.appendText(", ");
+        if (invocationCount == 0) {
+            description.appendText("never invoked");
+        }
+        else {
+            description.appendText("already invoked ");
+            description.appendText(Integer.toString(invocationCount));
+            description.appendText(" time");
+            if (invocationCount != 1) description.appendText("s");
+        }
         description.appendText(": ");
         objectMatcher.describeTo(description);
         description.appendText(".");
@@ -89,10 +96,6 @@ public class InvocationExpectation implements Expectation {
         }
     }
 
-    private static String times(int n) {
-        return (n == 1) ? " time" : " times";
-    }
-    
     public boolean isSatisfied() {
         return cardinality.isSatisfied(invocationCount);
     }

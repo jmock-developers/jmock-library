@@ -250,7 +250,7 @@ public class InvocationExpectationTests extends TestCase {
         expectation.setCardinality(new Cardinality(2,3));
         
         AssertThat.stringIncludes("should describe as not invoked",
-                                  "invoked 0 times", StringDescription.toString(expectation));
+                                  "never invoked", StringDescription.toString(expectation));
         
         expectation.invoke(invocation);
         AssertThat.stringIncludes("should describe as not invoked",
