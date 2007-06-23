@@ -41,4 +41,21 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
                                       "method4", message);     
         }
     }
+
+    // See issue JMOCK-132
+    public void testErrorMessageIncludesNotInvokedInsteadOfInvokedExactly0Times() {
+        context.checking(new Expectations() {{
+            exactly(1).of (mock).method1();
+        }});
+        
+        try {
+            context.assertIsSatisfied();
+        }
+        catch (ExpectationError e) {
+            String message = StringDescription.toString(e);
+            
+            AssertThat.stringIncludes("should include 'never invoked'", 
+                                      "never invoked", message);
+        }
+    }
 }
