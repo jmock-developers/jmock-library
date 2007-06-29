@@ -11,39 +11,45 @@ import org.junit.runner.RunWith;
 @RunWith(JMock.class)
 public class DJTest {
     Mockery context = new JUnit4Mockery();
+    Playlist playlist = context.mock(Playlist.class);
     MediaControl mediaControl = context.mock(MediaControl.class);
-
-    DJ dj = new DJ(mediaControl);
     
-    private static final String HAMMERSMITH = "hammersmith";
-    private static final String HAMMERSMITH_TRACK = "the-clash/white-man-in-the-hammersmith-palais.mp3";
+    DJ dj = new DJ(playlist, mediaControl);
     
-    private static final String WATERLOO = "waterloo";
-    private static final String WATERLOO_TRACK = "the-kinks/waterloo-sunset.mp3";
+    private static final String LOCATION_A = "location-a";
+    private static final String TRACK_A = "track-a";
+    
+    private static final String LOCATION_B = "location-b";
+    private static final String TRACK_B = "track-b";
     
     @Before
     public void initialiseTracksForLocations() {
-        dj.addTrackForLocation(WATERLOO, WATERLOO_TRACK);
-        dj.addTrackForLocation(HAMMERSMITH, HAMMERSMITH_TRACK);
+        context.checking(new Expectations() {{
+            allowing (playlist).hasTrackFor(LOCATION_A); will(returnValue(true));
+            allowing (playlist).trackFor(LOCATION_A); will(returnValue(TRACK_A));
+            allowing (playlist).hasTrackFor(LOCATION_B); will(returnValue(true));
+            allowing (playlist).trackFor(LOCATION_B); will(returnValue(TRACK_B));
+            allowing (playlist).hasTrackFor(with(any(String.class))); will(returnValue(false));
+        }});
     }
     
     @Test public void
     startsPlayingTrackForCurrentLocationWhenLocationFirstDetected() {
         context.checking(new Expectations() {{
-            one (mediaControl).play(WATERLOO_TRACK);
+            one (mediaControl).play(TRACK_A);
         }});
         
-        dj.locationChangedTo(WATERLOO);
+        dj.locationChangedTo(LOCATION_A);
     }
     
     @Test public void
-    playsTrackForCurrentLocationWhenPreviousTrackFinishes() {
-        startingIn(WATERLOO);
+    playsTrackForCurrentLocationWhenPreviousTrackFinishesIfLocationChangedWhileTrackWasPlaying() {
+        startingIn(LOCATION_A);
         
-        dj.locationChangedTo(HAMMERSMITH);
+        dj.locationChangedTo(LOCATION_B);
         
         context.checking(new Expectations() {{
-            one (mediaControl).play(HAMMERSMITH_TRACK);
+            one (mediaControl).play(TRACK_B);
         }});
         
         dj.mediaFinished();
@@ -51,7 +57,7 @@ public class DJTest {
     
     @Test public void
     doesNotPlayTrackAgainIfStillInTheSameLocation() {
-        startingIn(HAMMERSMITH);
+        startingIn(LOCATION_A);
         
         context.checking(new Expectations() {{
             never (mediaControl).play(with(any(String.class)));
@@ -61,15 +67,15 @@ public class DJTest {
     }
     
     @Test public void
-    playsNewTrackAsSoonAsLocationChangedIfPreviousTrackFinishedWhileInSameLocation() {
-        startingIn(HAMMERSMITH);
+    playsNewTrackAsSoonAsLocationChangesIfPreviousTrackFinishedWhileInSameLocation() {
+        startingIn(LOCATION_A);
         dj.mediaFinished();
         
         context.checking(new Expectations() {{
-            one (mediaControl).play(WATERLOO_TRACK);
+            one (mediaControl).play(TRACK_B);
         }});
         
-        dj.locationChangedTo(WATERLOO);
+        dj.locationChangedTo(LOCATION_B);
     }
     
     private void startingIn(String initialLocation) {

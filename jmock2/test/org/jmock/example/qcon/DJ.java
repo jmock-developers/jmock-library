@@ -1,22 +1,18 @@
 package org.jmock.example.qcon;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class DJ implements LocationAware, MediaTracker {
     private final MediaControl mediaControl;
-    private final Map<String,String> tracksByLocation = new HashMap<String,String>();
+    private final Playlist playlist;
     
     private String currentLocationName = null;
     private boolean trackFinished = true;
     private boolean locationChanged = false;
+
     
-    public DJ(MediaControl mediaControl) {
+    public DJ(Playlist playlist, MediaControl mediaControl) {
+        this.playlist = playlist;
         this.mediaControl = mediaControl;
-    }
-    
-    public void addTrackForLocation(String locationName, String trackFileName) {
-        tracksByLocation.put(locationName, trackFileName);
     }
     
     public void locationChangedTo(String newLocationName) {
@@ -42,6 +38,6 @@ public class DJ implements LocationAware, MediaTracker {
     }
     
     private void startPlaying() {
-        mediaControl.play(tracksByLocation.get(currentLocationName));
+        mediaControl.play(playlist.trackFor(currentLocationName));
     }
 }
