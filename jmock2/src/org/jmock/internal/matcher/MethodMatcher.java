@@ -14,7 +14,7 @@ public class MethodMatcher extends TypeSafeMatcher<Method> {
     }
     
     @Override
-    protected boolean matchesSafely(Method m) {
+    public boolean matchesSafely(Method m) {
         return expectedMethod.equals(m);
     }
     

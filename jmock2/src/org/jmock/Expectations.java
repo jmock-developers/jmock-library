@@ -191,12 +191,12 @@ public class Expectations implements ExpectationBuilder,
         return new IsAnything<T>();
     }
     
-    public <T> Matcher<T> a(Class<T> type) {
-        return new IsInstanceOf<T>(type);
+    public Matcher<Object> a(Class<?> type) {
+        return new IsInstanceOf(type);
     }
     
-    public <T> Matcher<T> an(Class<T> type) {
-        return new IsInstanceOf<T>(type);
+    public Matcher<Object> an(Class<?> type) {
+        return new IsInstanceOf(type);
     }
     
     public <T> Matcher<T> aNull(@SuppressWarnings("unused") Class<T> type) {
