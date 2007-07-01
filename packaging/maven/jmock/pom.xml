@@ -12,13 +12,13 @@
   <dependencies>
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-api</artifactId>
-      <version>1.0</version>
+      <artifactId>hamcrest-core</artifactId>
+      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
     </dependency>   
   </dependencies>
   
