@@ -1,0 +1,264 @@
+<project name="hamcrest" default="all">
+
+    <property name="version"
+              value="SNAPSHOT"
+              description="Version number to use in build files"/>
+
+    <property name="haltonfailure"
+              value="true"
+              description="Whether to halt the build if the tests fail"/>
+
+    <property name="debug"
+              value="true"
+              description="Whether to build with debug information"/>
+
+    <target name="all"
+            depends="clean, package"
+            description="Performs clean build, runs tests and packages for distribution"/>
+
+    <target name="clean"
+            description="Clean up all built files">
+        <delete dir="build"/>
+    </target>
+
+    <target name="generator"
+            description="Build code generator tool">
+        <java-to-jar srcdir="hamcrest-generator/src/main/java"
+                     destjar="build/temp/hamcrest-generator-${version}-nodeps.jar"
+                     classpath="
+                       lib/generator/qdox-1.6.1.jar;
+                     "/>
+        <taskdef name="jarjar"
+                 classname="com.tonicsystems.jarjar.JarJarTask"
+                 classpath="lib/generator/jarjar-1.0rc3.jar"/>
+        <!-- Bundle QDox classes in hamcrest-generator.jar so user doesn't need to care
+             about it's existence. Uses JarJar to place classes under a different package
+             to prevent conflict. -->
+        <jarjar jarfile="build/hamcrest-generator-${version}.jar">
+            <zipfileset src="build/temp/hamcrest-generator-${version}-nodeps.jar"/>
+            <zipfileset src="lib/generator/qdox-1.6.1.jar"/>
+            <rule pattern="com.thoughtworks.qdox.**"
+                  result="org.hamcrest.generator.qdox.@1"/>
+        </jarjar>
+    </target>
+
+    <target name="core"
+            depends="generator"
+            description="Build core Hamcrest library">
+        <java-to-jar srcdir="hamcrest-core/src/main/java"
+                     destjar="build/hamcrest-core-${version}.jar"/>
+        <!-- Generate one class with all static imports -->
+        <mkdir dir="build/temp/hamcrest-core/generated-code"/>
+        <java classname="org.hamcrest.generator.config.XmlConfigurator"
+              fork="yes"
+              failonerror="yes"
+              classpath="
+                build/hamcrest-core-${version}.jar;
+                build/hamcrest-generator-${version}.jar;
+              ">
+            <arg value="core-matchers.xml"/>
+            <arg value="hamcrest-core/src/main/java"/>
+            <arg value="org.hamcrest.CoreMatchers"/>
+            <arg value="build/temp/hamcrest-core/generated-code"/>
+        </java>
+        <!-- Append to core jar -->
+        <java-to-jar srcdir="build/temp/hamcrest-core/generated-code"
+                     destjar="build/hamcrest-core-${version}.jar"
+                     classpath="build/hamcrest-core-${version}.jar"/>
+    </target>
+
+    <target name="library"
+            depends="core,generator"
+            description="Build library of matchers">
+        <java-to-jar srcdir="hamcrest-library/src/main/java"
+                     destjar="build/hamcrest-library-${version}.jar"
+                     classpath="build/hamcrest-core-${version}.jar"/>
+        <!-- Generate one class with all static imports -->
+        <mkdir dir="build/temp/hamcrest-library/generated-code"/>
+        <java classname="org.hamcrest.generator.config.XmlConfigurator"
+              fork="yes"
+              failonerror="yes"
+              classpath="
+                build/hamcrest-core-${version}.jar;
+                build/hamcrest-generator-${version}.jar;
+                build/hamcrest-library-${version}.jar;
+              ">
+            <arg value="matchers.xml"/>
+            <arg value="hamcrest-core/src/main/java,hamcrest-library/src/main/java"/>
+            <arg value="org.hamcrest.Matchers"/>
+            <arg value="build/temp/hamcrest-library/generated-code"/>
+        </java>
+        <!-- Append to library jar -->
+        <java-to-jar srcdir="build/temp/hamcrest-library/generated-code"
+                     destjar="build/hamcrest-library-${version}.jar"
+                     classpath="build/hamcrest-core-${version}.jar"/>
+    </target>
+
+    <target name="text"
+            depends="core, library"
+            description="Build text pattern matcher">
+        <java-to-jar srcdir="hamcrest-text/src/main/java"
+                     destjar="build/hamcrest-text-${version}.jar"
+                     classpath="
+                        build/hamcrest-core-${version}.jar;
+                        build/hamcrest-library-${version}.jar"/>
+    </target>
+	
+    <target name="integration"
+            depends="core, library"
+            description="Build integration with external tools">
+        <java-to-jar srcdir="hamcrest-integration/src/main/java"
+                     destjar="build/hamcrest-integration-${version}.jar"
+                     classpath="
+                        build/hamcrest-core-${version}.jar;
+                        build/hamcrest-library-${version}.jar"/>
+    </target>
+	
+    <target name="unit-test"
+            depends="core, library, text, integration, generator"
+            description="Build and run unit tests.">
+        <java-to-jar srcdir="hamcrest-unit-test/src/main/java"
+                     destjar="build/hamcrest-unit-test-${version}.jar"
+                     classpath="
+                        build/hamcrest-core-${version}.jar;
+                        build/hamcrest-library-${version}.jar;
+        				build/hamcrest-text-${version}.jar;
+                        build/hamcrest-integration-${version}.jar;
+                        build/hamcrest-generator-${version}.jar"/>
+        <junit printsummary="no" fork="no" haltonfailure="${haltonfailure}">
+            <formatter type="brief" usefile="no"/>
+            <classpath>
+                <fileset dir="lib/integration">
+                    <include name="*.jar"/>
+                </fileset>
+                <pathelement path="build/hamcrest-core-${version}.jar"/>
+                <pathelement path="build/hamcrest-library-${version}.jar"/>
+                <pathelement path="build/hamcrest-text-${version}.jar"/>
+                <pathelement path="build/hamcrest-integration-${version}.jar"/>
+                <pathelement path="build/hamcrest-generator-${version}.jar"/>
+                <pathelement path="build/hamcrest-unit-test-${version}.jar"/>
+            </classpath>
+            <batchtest>
+                <fileset dir="hamcrest-unit-test/src/main/java">
+                    <include name="**/*Test*"/>
+                    <exclude name="**/Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="examples"
+            depends="core, library, integration"
+            description="Build and run unit tests.">
+        <java-to-jar srcdir="hamcrest-examples/src/main/java"
+                     destjar="build/hamcrest-examples-${version}.jar"
+                     classpath="
+                        build/hamcrest-core-${version}.jar;
+                        build/hamcrest-library-${version}.jar;
+                        build/hamcrest-integration-${version}.jar"/>
+    </target>
+
+    <target name="bigjar"
+            depends="core, library, text, integration, generator"
+            description="Build a single Jar (hamcrest-all.jar) that contains core, library, generator and integration.">
+        <jar jarfile="build/hamcrest-all-${version}.jar" duplicate="preserve">
+            <zipfileset src="build/hamcrest-core-${version}.jar"/>
+            <zipfileset src="build/hamcrest-library-${version}.jar"/>
+            <zipfileset src="build/hamcrest-text-${version}.jar"/>
+            <zipfileset src="build/hamcrest-generator-${version}.jar"/>
+            <zipfileset src="build/hamcrest-integration-${version}.jar"/>
+        </jar>
+    </target>
+
+    <target name="package"
+            depends="core, generator, library, text, integration, bigjar, unit-test, examples"
+            description="Package for distribution">
+        <zip zipfile="build/hamcrest-${version}.zip">
+            <zipfileset dir="." prefix="hamcrest-${version}">
+                <include name="src/**"/>
+                <include name="lib/**"/>
+                <include name="*.txt"/>
+                <include name="build.xml"/>
+                <include name="*matchers.xml"/>
+            </zipfileset>
+            <zipfileset dir="build" prefix="hamcrest-${version}">
+                <include name="hamcrest-core-${version}.jar"/>
+                <include name="hamcrest-generator-${version}.jar"/>
+                <include name="hamcrest-library-${version}.jar"/>
+                <include name="hamcrest-integration-${version}.jar"/>
+                <include name="hamcrest-all-${version}.jar"/>
+            </zipfileset>
+        </zip>
+        <tar tarfile="build/hamcrest-${version}.tgz" compression="gzip" longfile="gnu">
+            <tarfileset  dir="." prefix="hamcrest-${version}">
+                <include name="hamcrest-*/**"/>
+                <include name="lib/**"/>
+                <include name="*.txt"/>
+                <include name="build.xml"/>
+                <include name="matchers.xml"/>
+                <include name="*matchers.xml"/>
+            </tarfileset>
+            <tarfileset dir="build" prefix="hamcrest-${version}">
+                <include name="hamcrest-core-${version}.jar"/>
+                <include name="hamcrest-generator-${version}.jar"/>
+                <include name="hamcrest-library-${version}.jar"/>
+                <include name="hamcrest-integration-${version}.jar"/>
+                <include name="hamcrest-all-${version}.jar"/>
+            </tarfileset>
+        </tar>
+    </target>
+
+	<target name="javadoc" depends="library">
+		<mkdir dir="build/javadoc"/>
+		<javadoc destdir="build/javadoc" source="1.5" failonerror="yes"
+			overview="overview.html">
+			
+            <classpath>
+                <fileset dir="lib/integration">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+
+			<packageset dir="hamcrest-core/src/main/java"/>
+			<packageset dir="hamcrest-library/src/main/java" excludes="org/hamcrest/internal"/>
+			<packageset dir="hamcrest-text/src/main/java" excludes="**/internal/**"/>
+			<packageset dir="hamcrest-integration/src/main/java"/>
+			<packageset dir="build/generated-code"/>
+			
+			<group title="Hamcrest API and Utility Classes" packages="org.hamcrest"/>
+			<group title="Matcher Library" packages="org.hamcrest.*"/>
+			<group title="Integration" packages="org.hamcrest.integration, org.hamcrest.integration.*"/>
+			
+			<link offline="false" href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+			<link offline="false" href="http://www.junit.org/junit/javadoc/3.8.1/"/>
+			<link offline="false" href="http://junit.sourceforge.net/javadoc_40/"/>
+		</javadoc>
+	</target>
+
+    <macrodef name="java-to-jar"
+              description="Compile Java source and build a Jar">
+        <attribute name="srcdir" description="Directory containg Java source"/>
+        <attribute name="destjar" description="Path to Jar"/>
+        <attribute name="classpath" description="Anything additional to add on the classpath" default=""/>
+        <sequential>
+            <mkdir dir="build/temp/@{destjar}.contents"/>
+            <javac srcdir="@{srcdir}" destdir="build/temp/@{destjar}.contents" debug="${debug}">
+                <classpath>
+                    <fileset dir="lib/integration">
+                        <include name="*.jar"/>
+                    </fileset>
+                    <pathelement path="@{classpath}"/>
+                </classpath>
+            </javac>
+            <copy file="LICENSE.txt" todir="build/temp/@{destjar}.contents"/>
+            <!-- Put Java source in Jars for user's convenience. -->
+            <copy todir="build/temp/@{destjar}.contents">
+                <fileset dir="@{srcdir}"/>
+            </copy>
+            <jar jarfile="@{destjar}">
+                <fileset dir="build/temp/@{destjar}.contents"/>
+            </jar>
+        </sequential>
+    </macrodef>
+
+</project>

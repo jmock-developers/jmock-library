@@ -1,5 +1,5 @@
 #!/bin/sh
-# Script to JMock artifacts to remote Maven repository which supports scp
+# Script to deploy JMock artifacts to remote Maven repository which supports scp
 # System requirements:
 # 	- maven 2.0.x 
 #  	- wget 

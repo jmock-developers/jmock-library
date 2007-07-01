@@ -1,0 +1,35 @@
+== Version 1.1: In Development ==
+
+* Hamcrest Generator now includes JavaDoc and parameter names in generated code
+  by using QDox to parse the source code.
+
+* Created hamcrest-core.jar (and removed hamcrest-api.jar).
+  Moved core set of matchers (and, eq, not, etc)
+  to this package to make it more practical for external libraries
+  to embed Hamcrest.
+
+* Created CoreMatchers (static import sugar) in hamcrest-core.jar.
+
+* StringBuilder can use any Appendable (not just StringBuffer).
+
+* Added sensible toString() method to BaseMatcher.
+
+* Created StringDescription.asString() alias (because toString() caused issues
+  with static imports).
+
+* Relaxed isInstanceOf() matcher generic type so it can be used on any kind of
+  object. e.g. assertThat(someUnknownObject, isInstanceOf(String.class));
+
+* Added any(Class<T>), null(Class<T>) and notNull(Class<T>) matchers, which returns
+  Matcher<T>. Helpful when the compiler struggles with type inference.
+
+* Modified anyOf() and allOf() to accept mixed-types.
+
+* TypeSafeMatcher.matchesSafely() is now public.
+
+* Generator recognizes @Factory methods that return subclass of Matcher.
+  (Fix by David Saff)
+
+== Version 1.0: Released Dec 15 2006 ==
+
+Initial release.
