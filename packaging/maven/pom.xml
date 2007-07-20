@@ -64,7 +64,6 @@
             </goals>
             <configuration>
               <source>
-                <body>
                   def ant = new AntBuilder();
                   def script = "${basedir}/src/script/download-jars.sh";
                   def version = "${release.version}";
@@ -90,7 +89,6 @@
                     ant.unjar(src: "${project.build.directory}/downloaded.jar",
                             dest: "${project.build.outputDirectory}");
                   }
-                </body>
               </source>
             </configuration>
           </execution>
