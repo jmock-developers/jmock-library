@@ -108,7 +108,7 @@ public class InvocationExpectationBuilder
         return mockObject;
     }
 
-    public MethodClause of(Matcher<Object> objectMatcher) {
+    public MethodClause of(Matcher<?> objectMatcher) {
         expectation.setObjectMatcher(objectMatcher);
         isFullySpecified = true;
         return this;
