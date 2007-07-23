@@ -12,11 +12,11 @@ import net.sf.cglib.core.Constants;
 public class MethodFactory extends ClassLoader {
     public static final int CLASS_FORMAT_VERSION = 45;
     
-    public static Class[] NO_ARGUMENTS = {};
-    public static Class[] NO_EXCEPTIONS = {};
+    public static Class<?>[] NO_ARGUMENTS = {};
+    public static Class<?>[] NO_EXCEPTIONS = {};
 
     
-    public Method newMethodReturning(Class returnType) {
+    public Method newMethodReturning(Class<?> returnType) {
         return newMethod("ignoredMethodName", NO_ARGUMENTS, returnType, NO_EXCEPTIONS);
     }
 
@@ -25,9 +25,9 @@ public class MethodFactory extends ClassLoader {
     }
     
     public Method newMethod( final String methodName,
-                             final Class[] argTypes,
-                             final Class returnType,
-                             final Class[] exceptionTypes )
+                             final Class<?>[] argTypes,
+                             final Class<?> returnType,
+                             final Class<?>[] exceptionTypes )
     {
         ClassLoader classLoader = new ClassLoader()
         {
@@ -55,7 +55,7 @@ public class MethodFactory extends ClassLoader {
         };
 
         try {
-            Class interfaceClass = classLoader.loadClass("InterfaceDefining_" + methodName);
+            Class<?> interfaceClass = classLoader.loadClass("InterfaceDefining_" + methodName);
             return interfaceClass.getMethod(methodName, argTypes);
         }
         catch (ClassNotFoundException ex) {
@@ -70,7 +70,7 @@ public class MethodFactory extends ClassLoader {
         return name.replace('.', '/');
     }
 
-    static String[] classNamesInClassFormat( Class[] classes ) {
+    static String[] classNamesInClassFormat( Class<?>[] classes ) {
         String[] namesInClassFormat = new String[classes.length];
 
         for (int i = 0; i < classes.length; i++) {
@@ -80,11 +80,11 @@ public class MethodFactory extends ClassLoader {
         return namesInClassFormat;
     }
 
-    static String methodDescriptor( Class returnClass, Class[] argClasses ) {
+    static String methodDescriptor( Class<?> returnClass, Class<?>[] argClasses ) {
         return Type.getMethodDescriptor(Type.getType(returnClass), classesToTypes(argClasses));
     }
 
-    private static Type[] classesToTypes( Class[] classes ) {
+    private static Type[] classesToTypes( Class<?>[] classes ) {
         Type[] types = new Type[classes.length];
 
         for (int i = 0; i < classes.length; i++) {

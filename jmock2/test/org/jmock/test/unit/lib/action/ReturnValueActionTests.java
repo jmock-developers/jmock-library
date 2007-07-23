@@ -15,7 +15,7 @@ public class ReturnValueActionTests extends TestCase {
 
     MethodFactory methodFactory;
     Object invokedObject;
-    Class invokedObjectClass;
+    Class<?> invokedObjectClass;
     Invocation invocation;
     ReturnValueAction returnValueAction;
 

@@ -45,7 +45,7 @@ public class ReturnDefaultValueAction implements Action {
         description.appendText("returns a default value");
     }
 
-    public void addResult(Class resultType, Object resultValue) {
+    public void addResult(Class<?> resultType, Object resultValue) {
         resultValuesByType.put(resultType, resultValue);
     }
 

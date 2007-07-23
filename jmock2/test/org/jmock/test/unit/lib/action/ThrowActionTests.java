@@ -15,7 +15,7 @@ import org.jmock.test.unit.support.MethodFactory;
 
 public class ThrowActionTests extends TestCase {
     static final Throwable THROWABLE = new DummyThrowable();
-    static final Class[] EXCEPTION_TYPES = {DummyThrowable.class};
+    static final Class<?>[] EXCEPTION_TYPES = {DummyThrowable.class};
 
     MethodFactory methodFactory;
     Invocation invocation;
@@ -56,7 +56,7 @@ public class ThrowActionTests extends TestCase {
     }
 
     public void testDoesNotAllowThrowingIncompatibleCheckedException() throws Throwable {
-        Class[] expectedExceptionTypes = {ExpectedExceptionType1.class, ExpectedExceptionType2.class};
+        Class<?>[] expectedExceptionTypes = {ExpectedExceptionType1.class, ExpectedExceptionType2.class};
         Invocation incompatibleInvocation = 
             new Invocation("INVOKED-OBJECT", methodFactory.newMethod("methodName", MethodFactory.NO_ARGUMENTS, void.class, expectedExceptionTypes));
 

@@ -73,6 +73,7 @@ public class ClassImposteriser implements Imposteriser {
     private <T> Class<?> createProxyClass(Class<T> mockedType, Class<?>... ancilliaryTypes) {
         Enhancer enhancer = new Enhancer() {
             @Override
+            @SuppressWarnings("unchecked")
             protected void filterConstructors(Class sc, List constructors) {
                 // Don't filter
             }

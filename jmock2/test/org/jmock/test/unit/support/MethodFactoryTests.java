@@ -15,9 +15,9 @@ public class MethodFactoryTests extends TestCase
     }
 
     static final String METHOD_NAME = "METHOD_NAME";
-    static final Class[] ARG_TYPES = new Class[]{int.class, Object.class, double[].class, String[].class};
-    static final Class RETURN_TYPE = ReturnType.class;
-    static final Class[] EXCEPTION_TYPES = new Class[]{InterruptedException.class};
+    static final Class<?>[] ARG_TYPES = new Class[]{int.class, Object.class, double[].class, String[].class};
+    static final Class<?> RETURN_TYPE = ReturnType.class;
+    static final Class<?>[] EXCEPTION_TYPES = new Class[]{InterruptedException.class};
 
     MethodFactory factory;
 
@@ -43,7 +43,7 @@ public class MethodFactoryTests extends TestCase
         assertSame("return type", RETURN_TYPE, method.getReturnType());
     }
 
-    private void assertAllSame( String message, Class[] expected, Class[] actual ) {
+    private void assertAllSame( String message, Class<?>[] expected, Class<?>[] actual ) {
         assertEquals(message + ": number of elements ", expected.length, actual.length);
 
         for (int i = 0; i < expected.length; i++) {

@@ -54,7 +54,7 @@ public class JMockTestClassMethodsRunner extends TestClassMethodsRunner {
         }
     }
     
-    protected Field findMockeryField(Class testClass) throws InitializationError {
+    protected Field findMockeryField(Class<?> testClass) throws InitializationError {
         Field[] fields = testClass.getDeclaredFields();
         
         for (Field field : fields) {

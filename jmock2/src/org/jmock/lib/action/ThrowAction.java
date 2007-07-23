@@ -33,7 +33,7 @@ public class ThrowAction implements Action {
         description.appendValue(throwable);
     }
 
-    private void checkTypeCompatiblity(Class[] allowedExceptionTypes) {
+    private void checkTypeCompatiblity(Class<?>[] allowedExceptionTypes) {
         for (int i = 0; i < allowedExceptionTypes.length; i++) {
             if (allowedExceptionTypes[i].isInstance(throwable))
                 return;
@@ -42,7 +42,7 @@ public class ThrowAction implements Action {
         reportIncompatibleCheckedException(allowedExceptionTypes);
     }
 
-    private void reportIncompatibleCheckedException(Class[] allowedTypes) {
+    private void reportIncompatibleCheckedException(Class<?>[] allowedTypes) {
         StringBuffer message = new StringBuffer();
 
         message.append("tried to throw a ");
