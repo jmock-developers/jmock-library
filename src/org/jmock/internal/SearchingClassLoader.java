@@ -3,6 +3,7 @@ package org.jmock.internal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static java.lang.Thread.currentThread;
 
 
 public class SearchingClassLoader extends ClassLoader {
@@ -34,16 +35,21 @@ public class SearchingClassLoader extends ClassLoader {
     public static ClassLoader combineLoadersOf(Class<?> first, Class<?>... others) {
         List<ClassLoader> loaders = new ArrayList<ClassLoader>();
         
-        addIfNotIn(loaders, first.getClassLoader());
+        addIfNewElement(loaders, first.getClassLoader());
         for (Class c : others) {
-            addIfNotIn(loaders, c.getClassLoader());
+            addIfNewElement(loaders, c.getClassLoader());
         }
-        addIfNotIn(loaders, ClassLoader.getSystemClassLoader());
+        
+        // To support the Maven Surefire plugin.  
+        // However, I've been unable to reproduce the error in jMock's test suite.
+        addIfNewElement(loaders, currentThread().getContextClassLoader());
+        
+        addIfNewElement(loaders, ClassLoader.getSystemClassLoader());
         
         return combine(loaders);
     }
     
-    private static void addIfNotIn(List<ClassLoader> loaders, ClassLoader c) {
+    private static void addIfNewElement(List<ClassLoader> loaders, ClassLoader c) {
         if (c != null && !loaders.contains(c)) {
             loaders.add(c);
         }
