@@ -12,5 +12,5 @@ if [ ! -z "$CHANGES" ]; then
 	exit 1
 fi
 
-svn copy $TRUNK $ROOT/tags/$VERSION
+svn copy $TRUNK $ROOT/tags/$VERSION -m "Tagging version $VERSION"
 
