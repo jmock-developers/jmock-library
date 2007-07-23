@@ -20,7 +20,7 @@ import org.jmock.lib.action.VoidAction;
  */
 public class InvocationExpectation implements Expectation {
     private Cardinality cardinality = Cardinality.ALLOWING;
-	private Matcher<Object> objectMatcher = IsAnything.anything();
+	private Matcher<?> objectMatcher = IsAnything.anything();
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
 	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
@@ -34,7 +34,7 @@ public class InvocationExpectation implements Expectation {
         this.cardinality = cardinality;
     }
 	
-	public void setObjectMatcher(Matcher<Object> objectMatcher) {
+	public void setObjectMatcher(Matcher<?> objectMatcher) {
 		this.objectMatcher = objectMatcher;
 	}
 	
