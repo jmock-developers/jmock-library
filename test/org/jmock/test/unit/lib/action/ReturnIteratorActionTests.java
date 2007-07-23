@@ -15,19 +15,19 @@ public class ReturnIteratorActionTests extends TestCase {
     private static final Object[] resultElements = {"0", "1", "2", "3"};
     
     public void testReturnsIteratorOverContentsOfCollection() throws Throwable {
-        Collection collection = collectionOf(resultElements);
-        Action action = new ReturnIteratorAction(collection);
+        Collection<Object> collection = collectionOf(resultElements);
+        ReturnIteratorAction action = new ReturnIteratorAction(collection);
         
-        assertIteratorOverSequence((Iterator)action.invoke(ANY_INVOCATION), resultElements);
+        assertIteratorOverSequence(action.invoke(ANY_INVOCATION), resultElements);
     }
     
     public void testReturnsNewIteratorOnEachInvocation() throws Throwable {
-        Collection collection = collectionOf(resultElements);
-        Action action = new ReturnIteratorAction(collection);
+        Collection<?> collection = collectionOf(resultElements);
+        ReturnIteratorAction action = new ReturnIteratorAction(collection);
         
-        assertIteratorOverSequence((Iterator)action.invoke(ANY_INVOCATION), resultElements);
-        assertIteratorOverSequence((Iterator)action.invoke(ANY_INVOCATION), resultElements);
-        assertIteratorOverSequence((Iterator)action.invoke(ANY_INVOCATION), resultElements);
+        assertIteratorOverSequence(action.invoke(ANY_INVOCATION), resultElements);
+        assertIteratorOverSequence(action.invoke(ANY_INVOCATION), resultElements);
+        assertIteratorOverSequence(action.invoke(ANY_INVOCATION), resultElements);
     }
     
     public void testCanReturnIteratorOverArray() throws Throwable {

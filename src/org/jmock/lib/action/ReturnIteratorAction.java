@@ -2,6 +2,7 @@ package org.jmock.lib.action;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.hamcrest.Description;
 import org.jmock.api.Action;
@@ -23,7 +24,7 @@ public class ReturnIteratorAction implements Action {
         this.collection = Arrays.asList(array);
     }
     
-    public Object invoke(Invocation invocation) throws Throwable {
+    public Iterator<?> invoke(Invocation invocation) throws Throwable {
         return collection.iterator();
     }
     

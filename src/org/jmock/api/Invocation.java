@@ -26,7 +26,7 @@ public class Invocation implements SelfDescribing {
     private final Object[] parameterValues;
 
     // A kludge but there doesn't seem to be a way to find this out through the reflection API.
-    private static final Map BOX_TYPES = new HashMap<Class<?>, Class<?>>() {{
+    private static final Map<Class<?>, Class<?>> BOX_TYPES = new HashMap<Class<?>, Class<?>>() {{
         put(boolean.class, Boolean.class);
         put(byte.class, Byte.class);
         put(char.class, Character.class);
@@ -106,7 +106,7 @@ public class Invocation implements SelfDescribing {
     }
 
     public void checkReturnTypeCompatibility(final Object value) {
-        Class returnType = invokedMethod.getReturnType();
+        Class<?> returnType = invokedMethod.getReturnType();
         if (returnType == void.class) {
             failIfReturnTypeIsNotNull(value);
         }
@@ -114,7 +114,7 @@ public class Invocation implements SelfDescribing {
             failIfReturnTypeIsPrimitive();
         }
         else {
-            Class valueType = value.getClass();
+            Class<?> valueType = value.getClass();
             if (!isCompatible(returnType, valueType)) {
                 reportTypeError(returnType, valueType);
             }
@@ -123,13 +123,13 @@ public class Invocation implements SelfDescribing {
 
     private boolean isCompatible(Class<?> returnType, Class<?> valueType) {
         if (returnType.isPrimitive()) {
-            // The reflection API doesn't reflect Java's autoboxing.
+            // The reflection API doesn't reflect Java's auto-boxing.
             return isBoxedType(returnType, valueType);
         }
         return returnType.isAssignableFrom(valueType);
     }
 
-    private boolean isBoxedType(Class primitiveType, Class referenceType) {
+    private boolean isBoxedType(Class<?> primitiveType, Class<?> referenceType) {
         return BOX_TYPES.get(primitiveType) == referenceType;
     }
 
@@ -140,14 +140,14 @@ public class Invocation implements SelfDescribing {
     }
 
     private void failIfReturnTypeIsPrimitive() {
-        Class returnType = invokedMethod.getReturnType();
+        Class<?> returnType = invokedMethod.getReturnType();
         if (returnType.isPrimitive()) {
             throw new IllegalStateException(
                 "tried to return null value from method returning " + returnType.getName());
         }
     }
 
-    private void reportTypeError(Class returnType, Class valueType) {
+    private void reportTypeError(Class<?> returnType, Class<?> valueType) {
         throw new IllegalStateException(
             "tried to return an incompatible value: " +
             "expected a " + returnType.getName() +

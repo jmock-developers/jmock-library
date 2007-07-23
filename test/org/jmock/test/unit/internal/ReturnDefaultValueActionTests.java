@@ -124,16 +124,16 @@ public class ReturnDefaultValueActionTests extends TestCase {
     public void testInvocationWithAnUnsupportedReturnTypeReturnsNull()
         throws Throwable
     {
-        Class unsupportedReturnType = UnsupportedReturnType.class;
+        Class<?> unsupportedReturnType = UnsupportedReturnType.class;
 
         Object result = action.invoke(invocationReturning(unsupportedReturnType));
         
         assertNull("should have returned null", result);
     }
     
-    public void assertHasRegisteredValue( ReturnDefaultValueAction action,
-                                          Class resultType,
-                                          Object resultValue )
+    public void assertHasRegisteredValue(ReturnDefaultValueAction action,
+                                         Class<?> resultType,
+                                         Object resultValue )
             throws Throwable
     {
         assertEquals("expected " + resultValue + " to be returned",
@@ -141,7 +141,7 @@ public class ReturnDefaultValueActionTests extends TestCase {
     }
 
     public void assertHasNotRegisteredReturnType( ReturnDefaultValueAction action,
-                                                  Class resultType )
+                                                  Class<?> resultType )
             throws Throwable
     {
         try {
@@ -153,7 +153,7 @@ public class ReturnDefaultValueActionTests extends TestCase {
         }
     }
 
-    private Invocation invocationReturning( Class resultType ) {
+    private Invocation invocationReturning(Class<?> resultType) {
         return new Invocation("INVOKED-OBJECT",
                               METHOD_FACTORY.newMethodReturning(resultType),
                               NO_ARG_VALUES);

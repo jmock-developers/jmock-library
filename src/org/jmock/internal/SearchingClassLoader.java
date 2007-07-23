@@ -28,7 +28,7 @@ public class SearchingClassLoader extends ClassLoader {
         return loader;
     }
     
-    public static ClassLoader combineLoadersOf(Class... classes) {
+    public static ClassLoader combineLoadersOf(Class<?>... classes) {
         return combineLoadersOf(classes[0], classes);
     }
     
@@ -36,7 +36,7 @@ public class SearchingClassLoader extends ClassLoader {
         List<ClassLoader> loaders = new ArrayList<ClassLoader>();
         
         addIfNewElement(loaders, first.getClassLoader());
-        for (Class c : others) {
+        for (Class<?> c : others) {
             addIfNewElement(loaders, c.getClassLoader());
         }
         

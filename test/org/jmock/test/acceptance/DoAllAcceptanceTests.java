@@ -13,7 +13,7 @@ import org.jmock.api.Invocation;
 
 public class DoAllAcceptanceTests extends TestCase {
     public interface Collector {
-        void addThingsTo(Collection collection);
+        void addThingsTo(Collection<String> collection);
     }
     
     Mockery context = new Mockery();
@@ -21,7 +21,7 @@ public class DoAllAcceptanceTests extends TestCase {
     
     
     public void testCanSpecifyMultipleStubsForOneInvocation() {
-        final ArrayList list = new ArrayList();
+        final ArrayList<String> list = new ArrayList<String>();
         
         context.checking(new Expectations() {{
             exactly(1).of (collector).addThingsTo(with(same(list)));
