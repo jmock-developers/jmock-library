@@ -8,8 +8,16 @@ import org.jmock.Mockery;
 import org.junit.internal.runners.InitializationError;
 import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.internal.runners.TestMethod;
+import org.junit.runner.Runner;
 
 
+/**
+ * A test {@link Runner} that asserts that all expectations have been met after the test has
+ * finished and before the fixture is torn down.
+ * 
+ * @author nat
+ *
+ */
 public class JMock extends JUnit4ClassRunner {
     private Field mockeryField;
     
