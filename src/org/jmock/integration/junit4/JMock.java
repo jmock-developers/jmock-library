@@ -16,6 +16,7 @@ public class JMock extends JUnit4ClassRunner {
     public JMock(Class<?> testClass) throws InitializationError {
         super(testClass);
         mockeryField = findMockeryField(testClass);
+        mockeryField.setAccessible(true);
     }
     
     @Override
