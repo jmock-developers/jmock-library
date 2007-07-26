@@ -1,4 +1,4 @@
-package org.jmock.test.acceptance.junit4;
+package org.jmock.test.acceptance.junit4.testdata;
 
 import junit.framework.Assert;
 
@@ -10,8 +10,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
 public class JUnit4TestWithNonPublicBeforeMethod {
-    Mockery context = new Mockery();
-    boolean beforeWasCalled = false;
+    @SuppressWarnings("unused")
+    private Mockery context = new Mockery();
+    
+    public boolean beforeWasCalled = false;
     
     @Before void before() {
         beforeWasCalled = true;
