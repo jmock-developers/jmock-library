@@ -1,5 +1,39 @@
 <html>
 <body>
 <p>Integrates jMock with <a href="http://www.junit.org">JUnit 4</a>.</p>
+<p>To write a mock object test in JUnit 4, declare a field of type Mockery
+that holds a JUnit4Mockery and annotate your test class with 
+<code>@RunWith(JMock.class)</code>, as shown below.  The Mockery will
+be verified after the test has run and before the fixture is torn down.
+</p>
+
+<pre>
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+...
+
+<span>@</span>RunWith(JMock.class)
+public class ExampleJUnit4MockObjectTest {
+	Mockery context = new JUnit4Mockery();
+	
+	...	
+	
+	<span>@</span>Test public void
+	dispatchesEventToSessionsOtherThanThenSender() {
+		...
+		
+		context.checking(new Expectations() {{
+			...
+		}});
+		
+		...
+	}
+}
+</pre>
 </body>
 </html>
