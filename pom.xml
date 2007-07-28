@@ -3,7 +3,7 @@
   <groupId>org.jmock</groupId>
   <artifactId>jmock-parent</artifactId>
   <packaging>pom</packaging>
-  <version>x-SNAPSHOT</version>
+  <version>2.2.0</version>
   <name>jMock Parent</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -21,8 +21,8 @@
   </licenses>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.codehaus.org/jmock/trunk/packaging/maven</developerConnection>
-    <url>http://svn.codehaus.org/jmock/trunk/packaging/maven</url>
+    <developerConnection>scm:svn:https://svn.codehaus.org/jmock/tags/packaging-maven-2.2.0</developerConnection>
+    <url>https://svn.codehaus.org/jmock/tags/packaging-maven-2.2.0</url>
   </scm>
 
   <distributionManagement>
