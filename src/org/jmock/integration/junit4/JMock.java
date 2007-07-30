@@ -12,54 +12,59 @@ import org.junit.runner.Runner;
 
 
 /**
- * A test {@link Runner} that asserts that all expectations have been met after the test has
- * finished and before the fixture is torn down.
+ * A test {@link Runner} that asserts that all expectations have been met after
+ * the test has finished and before the fixture is torn down.
  * 
  * @author nat
- *
+ * 
  */
 public class JMock extends JUnit4ClassRunner {
     private Field mockeryField;
-    
+
     public JMock(Class<?> testClass) throws InitializationError {
         super(testClass);
         mockeryField = findMockeryField(testClass);
         mockeryField.setAccessible(true);
     }
-    
+
     @Override
     protected TestMethod wrapMethod(Method method) {
         return new TestMethod(method, getTestClass()) {
             @Override
-            public void invoke(Object testFixture) throws IllegalAccessException, InvocationTargetException {
+            public void invoke(Object testFixture)
+                throws IllegalAccessException, InvocationTargetException {
                 super.invoke(testFixture);
                 mockeryOf(testFixture).assertIsSatisfied();
             }
         };
     }
-    
+
     protected Mockery mockeryOf(Object test) {
         try {
             Mockery mockery = (Mockery)mockeryField.get(test);
             if (mockery == null) {
-                throw new IllegalStateException("Mockery named '" + mockeryField.getName() + "' is null");
+                throw new IllegalStateException("Mockery named '"
+                    + mockeryField.getName() + "' is null");
             }
             return mockery;
         }
         catch (IllegalAccessException e) {
-            throw new IllegalStateException("cannot get value of field " + mockeryField.getName(), e);
+            throw new IllegalStateException("cannot get value of field "
+                + mockeryField.getName(), e);
         }
     }
-    
-    static Field findMockeryField(Class<?> testClass) throws InitializationError {
-        Field[] fields = testClass.getDeclaredFields();
-        
-        for (Field field : fields) {
-            if(Mockery.class.isAssignableFrom(field.getType())) {
-                return field;
+
+    static Field findMockeryField(Class<?> testClass)
+        throws InitializationError {
+        for (Class<?> c = testClass; c != Object.class; c = c.getSuperclass()) {
+            for (Field field: c.getDeclaredFields()) {
+                if (Mockery.class.isAssignableFrom(field.getType())) {
+                    return field;
+                }
             }
         }
         
-        throw new InitializationError("no Mockery found in test class " + testClass);
+        throw new InitializationError("no Mockery found in test class "
+            + testClass);
     }
 }

@@ -2,6 +2,7 @@ package org.jmock.test.acceptance.junit4;
 
 import junit.framework.TestCase;
 
+import org.jmock.test.acceptance.junit4.testdata.DerivedJUnit4TestThatDoesNotSatisfyExpectations;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotSatisfyExpectations;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesSatisfyExpectations;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestWithNonPublicBeforeMethod;
@@ -13,7 +14,7 @@ import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
 public class JUnit4TestRunnerTests extends TestCase {
-    public void testTheJUnit4IntegrationReportsPassingTestsAsSuccessful() {
+    public void testTheJUnit4TestRunnerReportsPassingTestsAsSuccessful() {
         Runner runner = Request.aClass(JUnit4TestThatDoesSatisfyExpectations.class).getRunner();
         RunNotifier notifier = new RunNotifier();
         FailureRecordingRunListener listener = new FailureRecordingRunListener();
@@ -27,8 +28,22 @@ public class JUnit4TestRunnerTests extends TestCase {
         }
     }
     
-    public void testTheJUnit4IntegrationTestRunnerAutomaticallyAssertsThatAllExpectationsHaveBeenSatisfied() {
+    public void testTheJUnit4TestRunnerAutomaticallyAssertsThatAllExpectationsHaveBeenSatisfied() {
         Runner runner = Request.aClass(JUnit4TestThatDoesNotSatisfyExpectations.class).getRunner();
+        RunNotifier notifier = new RunNotifier();
+        
+        FailureRecordingRunListener listener = new FailureRecordingRunListener();
+        notifier.addListener(listener);
+        
+        runner.run(notifier);
+        
+        assertNotNull("test should have failed", listener.failure);
+        assertTrue("should have failed with AssertionError but threw " + listener.failure.getException(), 
+                   listener.failure.getException() instanceof AssertionError);
+    }
+    
+    public void testTheJUnit4TestRunnerLooksForTheMockeryInBaseClasses() {
+        Runner runner = Request.aClass(DerivedJUnit4TestThatDoesNotSatisfyExpectations.class).getRunner();
         RunNotifier notifier = new RunNotifier();
         
         FailureRecordingRunListener listener = new FailureRecordingRunListener();
