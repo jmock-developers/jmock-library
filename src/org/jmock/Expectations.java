@@ -175,62 +175,62 @@ public class Expectations implements ExpectationBuilder,
     /* Common constraints
      */
     
-    public <T> Matcher<T> equal(T value) {
+    public static <T> Matcher<T> equal(T value) {
         return new IsEqual<T>(value);
     }
     
-    public <T> Matcher<T> same(T value) {
+    public static <T> Matcher<T> same(T value) {
         return new IsSame<T>(value);
     }
     
-    public <T> Matcher<T> any(@SuppressWarnings("unused") Class<T> type) {
+    public static <T> Matcher<T> any(@SuppressWarnings("unused") Class<T> type) {
         return new IsAnything<T>();
     }
     
-    public <T> Matcher<T> anything() {
+    public static <T> Matcher<T> anything() {
         return new IsAnything<T>();
     }
     
-    public Matcher<Object> a(Class<?> type) {
+    public static Matcher<Object> a(Class<?> type) {
         return new IsInstanceOf(type);
     }
     
-    public Matcher<Object> an(Class<?> type) {
+    public static Matcher<Object> an(Class<?> type) {
         return new IsInstanceOf(type);
     }
     
-    public <T> Matcher<T> aNull(@SuppressWarnings("unused") Class<T> type) {
+    public static <T> Matcher<T> aNull(@SuppressWarnings("unused") Class<T> type) {
         return new IsNull<T>();
     }
     
-    public <T> Matcher<T> aNonNull(@SuppressWarnings("unused") Class<T> type) {
+    public static <T> Matcher<T> aNonNull(@SuppressWarnings("unused") Class<T> type) {
         return new IsNot<T>(new IsNull<T>());
     }
     
     /* Common actions
      */
     
-    public Action returnValue(Object result) {
+    public static Action returnValue(Object result) {
         return new ReturnValueAction(result);
     }
     
-    public Action throwException(Throwable throwable) {
+    public static Action throwException(Throwable throwable) {
         return new ThrowAction(throwable);
     }
     
-    public Action returnIterator(Collection<?> collection) {
+    public static Action returnIterator(Collection<?> collection) {
         return new ReturnIteratorAction(collection);
     }
     
-    public <T> Action returnIterator(T ... items) {
+    public static <T> Action returnIterator(T ... items) {
         return new ReturnIteratorAction(items);
     }
     
-    public Action doAll(Action...actions) {
+    public static Action doAll(Action...actions) {
         return new DoAllAction(actions);
     }
     
-    public Action onConsecutiveCalls(Action...actions) {
+    public static Action onConsecutiveCalls(Action...actions) {
         return new ActionSequence(actions);
     }
     
