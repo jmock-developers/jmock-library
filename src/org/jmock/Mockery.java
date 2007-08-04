@@ -32,7 +32,7 @@ import org.jmock.lib.JavaReflectionImposteriser;
  * @author named by Ivan Moore.
  */
 public class Mockery {
-    private Imposteriser imposteriser = new JavaReflectionImposteriser();
+    private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
     

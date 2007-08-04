@@ -17,6 +17,8 @@ import org.jmock.internal.SearchingClassLoader;
  *
  */
 public class JavaReflectionImposteriser implements Imposteriser {
+    public static final Imposteriser INSTANCE = new JavaReflectionImposteriser();
+    
     public boolean canImposterise(Class<?> type) {
         return type.isInterface();
     }
