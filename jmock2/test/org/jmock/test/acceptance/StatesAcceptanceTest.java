@@ -70,4 +70,22 @@ public class StatesAcceptanceTest extends TestCase {
         }
     }
     
+        private static class TestException extends RuntimeException {}
+    
+    public void testSwitchesStateWhenMethodThrowsAnException() {
+        context.checking(new Expectations() {{
+            one (mock).method1(); will(throwException(new TestException())); 
+                then(readiness.is("ready"));
+            one (mock).method2(); when(readiness.is("ready"));
+        }});
+        
+        try {
+            mock.method1();
+        }
+        catch (TestException e) {
+            
+        }
+        mock.method2();
+    }
+
 }
