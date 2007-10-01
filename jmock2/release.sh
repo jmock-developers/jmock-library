@@ -4,10 +4,8 @@
 export VERSION=${1:?No version number given}
 export TAG=$VERSION
 
-export CVSROOT=:ext:cvs.jmock.codehaus.org:/home/projects/jmock/scm 
-
 # Configure ssh to use the appropriate user when logging into Codehaus
-REPOSITORY=svn+ssh://svn.jmock.codehaus.org/jmock/
+REPOSITORY=https://svn.codehaus.org/jmock
 
 WORKING_DIR=build/release
 EXPORT_SUBDIR=jmock-$VERSION
