@@ -113,4 +113,24 @@ public class ClassImposteriserTests extends TestCase {
         
         assertTrue(typeInSignedJar.isInstance(o));
     }
+    
+    public static class ClassWithFinalToStringMethod {
+        @Override
+        public final String toString() {
+            return "you can't override me!";
+        }
+    }
+    
+    // See issue JMOCK-150
+    public void testCannotImposteriseAClassWithAFinalToStringMethod() {
+        assertTrue("should not be able to imposterise it", !imposteriser.canImposterise(ClassWithFinalToStringMethod.class));
+        
+        try {
+            imposteriser.imposterise(new VoidAction(), ClassWithFinalToStringMethod.class);
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException expected) {
+            
+        }
+    }
 }
