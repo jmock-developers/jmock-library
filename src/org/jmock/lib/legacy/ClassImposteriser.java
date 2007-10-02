@@ -20,6 +20,7 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
+import org.jmock.test.acceptance.CascadedFailuresAcceptanceTests.MockedType;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
@@ -50,10 +51,16 @@ public class ClassImposteriser implements Imposteriser {
     private final Objenesis objenesis = new ObjenesisStd();
     
     public boolean canImposterise(Class<?> type) {
-        return !type.isPrimitive() && !Modifier.isFinal(type.getModifiers());
+        return !type.isPrimitive() && 
+               !Modifier.isFinal(type.getModifiers()) && 
+               (type.isInterface() || !toStringMethodIsFinal(type));
     }
     
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
+        if (!mockedType.isInterface() && toStringMethodIsFinal(mockedType)) {
+            throw new IllegalArgumentException(mockedType.getName() + " has a final toString method");
+        }
+        
         try {
             setConstructorsAccessible(mockedType, true);
             Class<?> proxyClass = createProxyClass(mockedType, ancilliaryTypes);
@@ -64,6 +71,20 @@ public class ClassImposteriser implements Imposteriser {
         }
 	}
     
+    private boolean toStringMethodIsFinal(Class<?> type) {
+        try {
+            Method toString = type.getMethod("toString");
+            return Modifier.isFinal(toString.getModifiers());
+            
+        }
+        catch (SecurityException e) {
+            throw new IllegalStateException("not allowed to reflect on toString method", e);
+        }
+        catch (NoSuchMethodException e) {
+            throw new Error("no public toString method found", e);
+        }
+    }
+
     private void setConstructorsAccessible(Class<?> mockedType, boolean accessible) {
         for (Constructor<?> constructor : mockedType.getDeclaredConstructors()) {
             constructor.setAccessible(accessible);
