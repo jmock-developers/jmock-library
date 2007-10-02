@@ -104,7 +104,7 @@ public class Expectations implements ExpectationBuilder,
         return currentBuilder;
     }
     
-    public MethodClause allowing(Matcher<Object> mockObjectMatcher) {
+    public MethodClause allowing(Matcher<?> mockObjectMatcher) {
         return atLeast(0).of(mockObjectMatcher);
     }
     
@@ -116,7 +116,7 @@ public class Expectations implements ExpectationBuilder,
         return allowing(mockObject);
     }
     
-    public MethodClause ignoring(Matcher<Object> mockObjectMatcher) {
+    public MethodClause ignoring(Matcher<?> mockObjectMatcher) {
         return allowing(mockObjectMatcher);
     }
     
