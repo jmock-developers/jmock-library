@@ -248,4 +248,10 @@ public class Expectations implements ExpectationBuilder,
     public void inSequence(Sequence sequence) {
         currentBuilder().addInSequenceOrderingConstraint(sequence);
     }
+
+    public void inSequences(Sequence... sequences) {
+        for (Sequence sequence : sequences) {
+            inSequence(sequence);
+        }
+    }
 }

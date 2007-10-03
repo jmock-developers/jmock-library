@@ -88,4 +88,49 @@ public class SequenceAcceptanceTests extends TestCase {
             AssertThat.stringIncludes("error message", "in sequence s", StringDescription.toString(e));
         }
     }
+    
+    public void testAnExpectationCanBeInMoreThanOneSequence() {
+        final Sequence s = context.sequence("s");
+        final Sequence t = context.sequence("t");
+        
+        context.checking(new Expectations() {{
+            one (mock).method1(); inSequence(s);
+            one (mock).method2(); inSequence(t);
+            one (mock).method3(); inSequence(s); inSequence(t);
+        }});
+        
+        mock.method1();
+    
+        try {
+            mock.method3();
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            AssertThat.stringIncludes("error message", "in sequence s", StringDescription.toString(e));
+            AssertThat.stringIncludes("error message", "in sequence t", StringDescription.toString(e));
+        }
+    }
+
+    // See issue JMOCK-142
+    public void testHasShortcutForIncludingExpectationInMultipleSequences() {
+        final Sequence s = context.sequence("s");
+        final Sequence t = context.sequence("t");
+        
+        context.checking(new Expectations() {{
+            one (mock).method1(); inSequence(s);
+            one (mock).method2(); inSequence(t);
+            one (mock).method3(); inSequences(s, t);
+        }});
+        
+        mock.method1();
+    
+        try {
+            mock.method3();
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError e) {
+            AssertThat.stringIncludes("error message", "in sequence s", StringDescription.toString(e));
+            AssertThat.stringIncludes("error message", "in sequence t", StringDescription.toString(e));
+        }
+    }
 }
