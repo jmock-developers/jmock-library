@@ -20,7 +20,6 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
-import org.jmock.test.acceptance.CascadedFailuresAcceptanceTests.MockedType;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
@@ -91,7 +90,11 @@ public class ClassImposteriser implements Imposteriser {
         }
     }
     
-    private <T> Class<?> createProxyClass(Class<T> mockedType, Class<?>... ancilliaryTypes) {
+    private <T> Class<?> createProxyClass(Class<?> mockedType, Class<?>... ancilliaryTypes) {
+        if (mockedType == Object.class) {
+            mockedType = ClassWithSuperclassToWorkAroundCglibBug.class;
+        }
+        
         Enhancer enhancer = new Enhancer() {
             @Override
             @SuppressWarnings("unchecked")
@@ -145,4 +148,6 @@ public class ClassImposteriser implements Imposteriser {
         System.arraycopy(rest, 0, all, 1, rest.length);
         return all;
     }
+    
+    public static class ClassWithSuperclassToWorkAroundCglibBug {}
 }

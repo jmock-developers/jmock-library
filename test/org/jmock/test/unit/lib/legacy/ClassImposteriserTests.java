@@ -133,4 +133,15 @@ public class ClassImposteriserTests extends TestCase {
             
         }
     }
+    
+    public interface EmptyInterface {}
+    
+    // See issue JMOCK-145
+    public void testWorksAroundBugInCglibWhenAskedToImposteriseObject() {
+        imposteriser.imposterise(new VoidAction(), Object.class);
+        
+        imposteriser.imposterise(new VoidAction(), Object.class, EmptyInterface.class);
+        
+        imposteriser.imposterise(new VoidAction(), Object.class, AnInterface.class);
+    }
 }
