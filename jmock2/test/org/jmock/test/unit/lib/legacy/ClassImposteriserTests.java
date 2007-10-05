@@ -105,7 +105,7 @@ public class ClassImposteriserTests extends TestCase {
         
         assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
         
-        URL jarURL = jarFile.toURL();
+        URL jarURL = jarFile.toURI().toURL();
         ClassLoader loader = new URLClassLoader(new URL[]{jarURL});
         Class<?> typeInSignedJar = loader.loadClass("TypeInSignedJar");
         
