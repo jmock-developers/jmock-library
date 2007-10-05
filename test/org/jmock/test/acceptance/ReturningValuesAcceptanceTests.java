@@ -143,29 +143,29 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
     
     public void testReturnsNullAsTheDefaultValueForUnregisteredType() {
-        final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
+        final AnInterfaceThatReturnsSomething returningMock = context.mock(AnInterfaceThatReturnsSomething.class, "returningMock");
         
         context.checking(new Expectations() {{
-            allowing (mock).returnSomething();
+            allowing (returningMock).returnSomething();
         }});
         
-        Something defaultResult = mock.returnSomething();
+        Something defaultResult = returningMock.returnSomething();
         
         assertNull("returned null", defaultResult);
     }
     
     public void testCanDefineDefaultReturnValuesForUnregisteredTypes() {
-        final AnInterfaceThatReturnsSomething mock = context.mock(AnInterfaceThatReturnsSomething.class, "mock");
+        final AnInterfaceThatReturnsSomething returningMock = context.mock(AnInterfaceThatReturnsSomething.class, "returningMock");
         
         Something expectedDefaultResult = new Something();
         
         context.setDefaultResultForType(Something.class, expectedDefaultResult);
         
         context.checking(new Expectations() {{
-            allowing (mock).returnSomething();
+            allowing (returningMock).returnSomething();
         }});
         
-        Something defaultResult = mock.returnSomething();
+        Something defaultResult = returningMock.returnSomething();
         
         assertSame("returned the default result", expectedDefaultResult, defaultResult);
     }
