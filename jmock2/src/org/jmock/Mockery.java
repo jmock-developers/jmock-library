@@ -1,5 +1,8 @@
 package org.jmock;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.ExpectationErrorTranslator;
@@ -32,6 +35,7 @@ import org.jmock.lib.JavaReflectionImposteriser;
  * @author named by Ivan Moore.
  */
 public class Mockery {
+    private Set<String> mockNames = new HashSet<String>();
     private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
@@ -113,7 +117,13 @@ public class Mockery {
      * Creates a mock object of type <var>typeToMock</var> with the given name.
      */
     public <T> T mock(Class<T> typeToMock, String name) {
+        if (mockNames.contains(name)) {
+            throw new IllegalArgumentException("a mock with name " + name + " already exists");
+        }
+        
         MockObject mock = new MockObject(name);
+        mockNames.add(name);
+        
         ProxiedObjectIdentity invokable = 
             new ProxiedObjectIdentity(
                 new InvocationDiverter<CaptureControl>(
