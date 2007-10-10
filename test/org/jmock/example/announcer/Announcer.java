@@ -15,7 +15,7 @@ public class Announcer<T extends EventListener> {
 	
 	public Announcer(Class<? extends T> listenerType) {
 		proxy = listenerType.cast(Proxy.newProxyInstance(
-			getClass().getClassLoader(), 
+			listenerType.getClassLoader(), 
 			new Class<?>[]{listenerType}, 
 			new InvocationHandler() {
 				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
