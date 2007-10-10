@@ -59,6 +59,7 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
         }
     }
     
+    // See JIRA-153
     public void testErrorMessageIncludesOnceInsteadOfExactly1Time() {
         context.checking(new Expectations() {{
             exactly(1).of (mock).method1();
