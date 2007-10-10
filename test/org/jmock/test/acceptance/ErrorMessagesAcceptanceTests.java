@@ -58,4 +58,20 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
                                       "never invoked", message);
         }
     }
+    
+    public void testErrorMessageIncludesOnceInsteadOfExactly1Time() {
+        context.checking(new Expectations() {{
+            exactly(1).of (mock).method1();
+        }});
+        
+        try {
+            context.assertIsSatisfied();
+        }
+        catch (ExpectationError e) {
+            String message = StringDescription.toString(e);
+            
+            AssertThat.stringIncludes("should include 'once'", 
+                                      "once", message);
+        }
+    }
 }

@@ -54,6 +54,9 @@ public class Cardinality implements SelfDescribing {
             if (required == 0 && maximum == 0) {
                 description.appendText("never");
             }
+            else if (required == 1 && maximum == 1) {
+                description.appendText("once");
+            }
             else if (required == maximum) {
                 description.appendText("exactly ");
                 description.appendText(Integer.toString(required));
