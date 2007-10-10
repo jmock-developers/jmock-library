@@ -7,6 +7,11 @@ import org.jmock.internal.Cardinality;
 import org.jmock.test.unit.support.AssertThat;
 
 public class CardinalityTests extends TestCase {
+    public void testDescribesOnceCardinality() {
+        AssertThat.stringIncludes("should describe exact invocation count",
+                                  "once", StringDescription.toString(new Cardinality(1, 1)));
+    }
+
     public void testDescribesExactCardinality() {
         AssertThat.stringIncludes("should describe exact invocation count",
                                   "exactly 2", StringDescription.toString(new Cardinality(2, 2)));
