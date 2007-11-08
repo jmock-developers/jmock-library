@@ -116,7 +116,7 @@
   <properties>
     <download.dir>target</download.dir>
     <download.name>jmock-${release.version}</download.name>
-    <artifact.name>${artifactId}-${release.version}</artifact.name>
+    <artifact.name>${pom.artifactId}-${release.version}</artifact.name>
   </properties>
 
   <profiles>
