@@ -17,8 +17,8 @@
     </dependency>
     <dependency>
       <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.3.1</version>
+      <artifactId>junit-dep</artifactId>
+      <version>4.4</version>
     </dependency>
   </dependencies>
 
