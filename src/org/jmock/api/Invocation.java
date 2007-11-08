@@ -146,11 +146,10 @@ public class Invocation implements SelfDescribing {
                 "tried to return null value from method returning " + returnType.getName());
         }
     }
-
+    
     private void reportTypeError(Class<?> returnType, Class<?> valueType) {
         throw new IllegalStateException(
-            "tried to return an incompatible value: " +
-            "expected a " + returnType.getName() +
-            " but returned a " + valueType.getName());
+            "tried to return a " + valueType.getName() +
+            " from a method that can only return a " + returnType.getName());
     }
 }
