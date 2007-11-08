@@ -212,7 +212,7 @@ public class Mockery {
     }
 
     // The ExpectationError might not have the expectations field set (because of a design
-    // flaw that cannot be fixed without breaking backward compatability of client code).
+    // flaw that cannot be fixed without breaking backward compatibility of client code).
     // So if it is null we create a new ExpectationError with the field set to the mockery's
     // expectations.
     private ExpectationError fillInDetails(ExpectationError e) {
