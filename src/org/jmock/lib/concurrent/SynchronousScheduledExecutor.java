@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class SynchronousScheduledExecutor implements ScheduledExecutorService {
     private List<Runnable> commands = new ArrayList<Runnable>();
-    private final DeltaQueue<Runnable> deltaQueue = new DeltaQueue<Runnable>();
+    private final DeltaQueue<ScheduledTask> deltaQueue = new DeltaQueue<ScheduledTask>();
 
     /**
      * Runs all commands that are currently pending. If those commands also
@@ -56,7 +56,11 @@ public class SynchronousScheduledExecutor implements ScheduledExecutorService {
             remaining = deltaQueue.tick(remaining);
             
             while (deltaQueue.isNotEmpty() && deltaQueue.delay() == 0) {
-                commands.add(deltaQueue.pop());
+                final ScheduledTask scheduledTask = deltaQueue.pop();
+                commands.add(scheduledTask.command);
+                if (scheduledTask.repeats()) {
+                    deltaQueue.add(scheduledTask.repeatDelay, scheduledTask);
+                }
             }
             
             runUntilIdle();
@@ -73,20 +77,21 @@ public class SynchronousScheduledExecutor implements ScheduledExecutorService {
     }
 
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-        deltaQueue.add(toTicks(delay, unit), command);
+        deltaQueue.add(toTicks(delay, unit), new ScheduledTask(command));
         return new SynchronousScheduledFuture<Object>();
     }
 
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
         throw new UnsupportedOperationException("not supported");
     }
-
+    
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-        throw new UnsupportedOperationException("not supported");
+        return scheduleWithFixedDelay(command, initialDelay, period, unit);
     }
     
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        throw new UnsupportedOperationException("not supported");
+        deltaQueue.add(toTicks(initialDelay, unit), new ScheduledTask(toTicks(delay, unit), command));
+        return new SynchronousScheduledFuture<Object>();
     }
 
     public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
@@ -138,6 +143,24 @@ public class SynchronousScheduledExecutor implements ScheduledExecutorService {
 
     public <T> Future<T> submit(Runnable task, T result) {
         throw new UnsupportedOperationException("not supported");
+    }
+    
+    private final class ScheduledTask {
+        public final long repeatDelay;
+        public final Runnable command;
+        
+        public ScheduledTask(Runnable command) {
+            this(-1, command);
+        }
+
+        public ScheduledTask(long repeatDelay, Runnable command) {
+            this.repeatDelay = repeatDelay;
+            this.command = command; 
+        }
+        
+        public boolean repeats() {
+            return repeatDelay >= 0;
+        }
     }
 
     private final class SynchronousScheduledFuture<T> implements
