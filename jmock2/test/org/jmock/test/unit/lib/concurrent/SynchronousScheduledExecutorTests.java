@@ -105,6 +105,26 @@ public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
         executor.tick(3, TimeUnit.MILLISECONDS);
     }
     
+    public void testCanExecuteCommandsThatRepeatWithFixedDelay() {
+        executor.scheduleWithFixedDelay(commandA, 2L, 3L, TimeUnit.SECONDS);
+        
+        checking(new Expectations() {{
+            exactly(3).of(commandA).run();
+        }});
+        
+        executor.tick(8L, TimeUnit.SECONDS);
+    }
+
+    public void testCanExecuteCommandsThatRepeatAtFixedRateButAssumesThatCommandsTakeNoTimeToExecute() {
+        executor.scheduleAtFixedRate(commandA, 2L, 3L, TimeUnit.SECONDS);
+        
+        checking(new Expectations() {{
+            exactly(3).of(commandA).run();
+        }});
+        
+        executor.tick(8L, TimeUnit.SECONDS);
+    }
+
     private Action schedule(final Runnable command) {
         return ScheduleOnExecutorAction.schedule(executor, command);
     }
