@@ -1,19 +1,19 @@
 package org.jmock.example.sniper;
 
 public class AuctionSniper implements AuctionListener {
-    private Lot lotToBidFor;
-    private Bid bidIncrement;
-    private Bid maximumBid;
+    private Auction lotToBidFor;
+    private Money bidIncrement;
+    private Money maximumBid;
     private AuctionSniperListener listener;
 
-    public AuctionSniper(Lot lotToBidFor, Bid bidIncrement, Bid maximumBid, AuctionSniperListener listener) {
+    public AuctionSniper(Auction lotToBidFor, Money bidIncrement, Money maximumBid, AuctionSniperListener listener) {
         this.lotToBidFor = lotToBidFor;
         this.bidIncrement = bidIncrement;
         this.maximumBid = maximumBid;
         this.listener = listener;
     }
 
-    public void bidAccepted(Lot lot, Bid amount) {
+    public void bidAccepted(Auction lot, Money amount) {
         if (lot != lotToBidFor) return;
 
         if (amount.compareTo(maximumBid) <= 0) {
@@ -24,9 +24,9 @@ public class AuctionSniper implements AuctionListener {
         }
     }
 
-    private void placeBid(Lot item, Bid amount) {
+    private void placeBid(Auction item, Money amount) {
         try {
-            item.bid(Bid.min(maximumBid, amount.add(bidIncrement)));
+            item.bid(Money.min(maximumBid, amount.add(bidIncrement)));
         }
         catch (AuctionException ex) {
             listener.sniperBidFailed(this, ex);
