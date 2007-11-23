@@ -9,7 +9,7 @@ import org.jmock.api.Action;
 import org.jmock.api.Invocation;
 
 /**
- * Returns an iterator over a collection.
+ * Returns an {@link Iterator} over a collection.
  * 
  * @author nat
  */
