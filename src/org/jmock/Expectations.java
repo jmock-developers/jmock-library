@@ -16,12 +16,13 @@ import org.jmock.internal.Cardinality;
 import org.jmock.internal.ChangeStateSideEffect;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCollector;
+import org.jmock.internal.InStateOrderingConstraint;
 import org.jmock.internal.InvocationExpectationBuilder;
 import org.jmock.internal.State;
 import org.jmock.internal.StatePredicate;
-import org.jmock.internal.InStateOrderingConstraint;
 import org.jmock.lib.action.ActionSequence;
 import org.jmock.lib.action.DoAllAction;
+import org.jmock.lib.action.ReturnEnumerationAction;
 import org.jmock.lib.action.ReturnIteratorAction;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.ThrowAction;
@@ -224,6 +225,14 @@ public class Expectations implements ExpectationBuilder,
     
     public static <T> Action returnIterator(T ... items) {
         return new ReturnIteratorAction(items);
+    }
+    
+    public static Action returnEnumeration(Collection<?> collection) {
+        return new ReturnEnumerationAction(collection);
+    }
+    
+    public static <T> Action returnEnumeration(T ... items) {
+        return new ReturnEnumerationAction(items);
     }
     
     public static Action doAll(Action...actions) {
