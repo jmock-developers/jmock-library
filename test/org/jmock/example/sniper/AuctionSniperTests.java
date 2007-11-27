@@ -9,35 +9,35 @@ public class AuctionSniperTests extends MockObjectTestCase {
     Money beatableBid = new Money(10);
     Money unbeatableBid = maximumBid.add(new Money(1));
 
-    Auction lot = mock(Auction.class);
+    Auction auction = mock(Auction.class);
     AuctionSniperListener listener = mock(AuctionSniperListener.class, "listener");
 
-    AuctionSniper sniper = new AuctionSniper(lot, increment, maximumBid, listener);
+    AuctionSniper sniper = new AuctionSniper(auction, increment, maximumBid, listener);
 
     public void testTriesToBeatTheLatestHighestBid() throws Exception {
         final Money expectedBid = beatableBid.add(increment);
 
         checking(new Expectations() {{
-            one (lot).bid(expectedBid);
+            one (auction).bid(expectedBid);
         }});
 
-        sniper.bidAccepted(lot, beatableBid);
+        sniper.bidAccepted(auction, beatableBid);
     }
 
     public void testWillNotBidPriceGreaterThanMaximum() throws Exception {
         checking(new Expectations() {{
             ignoring (listener);
-            never (lot).bid(with(any(Money.class)));
+            never (auction).bid(with(any(Money.class)));
         }});
-        sniper.bidAccepted(lot, unbeatableBid);
+        sniper.bidAccepted(auction, unbeatableBid);
     }
 
     public void testWillLimitBidToMaximum() throws Throwable {
         checking(new Expectations() {{
-            exactly(1).of (lot).bid(maximumBid);
+            exactly(1).of (auction).bid(maximumBid);
         }});
 
-        sniper.bidAccepted(lot, maximumBid.subtract(new Money(1)));
+        sniper.bidAccepted(auction, maximumBid.subtract(new Money(1)));
     }
 
     public void testWillNotBidWhenToldAboutBidsOnOtherItems() throws Throwable {
@@ -55,18 +55,18 @@ public class AuctionSniperTests extends MockObjectTestCase {
             exactly(1).of (listener).sniperFinished(sniper);
         }});
 
-        sniper.bidAccepted(lot, unbeatableBid);
+        sniper.bidAccepted(auction, unbeatableBid);
     }
 
     public void testCatchesExceptionsAndReportsThemToErrorListener() throws Exception {
         final AuctionException exception = new AuctionException("test");
 
         checking(new Expectations() {{
-            allowing (lot).bid(with(any(Money.class))); 
+            allowing (auction).bid(with(any(Money.class))); 
                 will(throwException(exception));
             exactly(1).of (listener).sniperBidFailed(sniper, exception);
         }});
 
-        sniper.bidAccepted(lot, beatableBid);
+        sniper.bidAccepted(auction, beatableBid);
     }
 }
