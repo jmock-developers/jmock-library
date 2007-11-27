@@ -3,5 +3,5 @@ package org.jmock.example.timedcache;
 import java.util.Date;
 
 public interface Clock {
-    Date getCurrentTime();
+    Date time();
 }
