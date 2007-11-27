@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
-public class DJTest {
+public class DJTests {
     Mockery context = new JUnit4Mockery();
     Playlist playlist = context.mock(Playlist.class);
     MediaControl mediaControl = context.mock(MediaControl.class);
