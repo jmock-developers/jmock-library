@@ -17,7 +17,7 @@ public class TimedCache {
     }
 
     public Object lookup(Object key) {
-        Date fetchTime = clock.getCurrentTime();
+        Date fetchTime = clock.time();
         TimestampedValue cached = cache.get(key);
         
         if (cached == null || reloadPolicy.shouldReload(cached.loadTime, fetchTime)) {

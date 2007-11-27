@@ -21,31 +21,24 @@ public class TimedCacheTests extends TestCase {
         setExpectationErrorTranslator(JUnit3ErrorTranslator.INSTANCE);
     }};
     
-    private Clock mockClock = context.mock(Clock.class);
-    private ObjectLoader mockLoader = context.mock(ObjectLoader.class);
-    private ReloadPolicy mockReloadPolicy = context.mock(ReloadPolicy.class);
+    private Clock clock = context.mock(Clock.class);
+    private ObjectLoader loader = context.mock(ObjectLoader.class, "loader");
+    private ReloadPolicy reloadPolicy = context.mock(ReloadPolicy.class);
 
-    private TimedCache cache = new TimedCache(mockLoader, mockClock, mockReloadPolicy);
+    private TimedCache cache = new TimedCache(loader, clock, reloadPolicy);
 
     private Date loadTime = time(1);
     private Date fetchTime = time(2);
 
-    private Date time(int i) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.DAY_OF_YEAR, i);
-        return calendar.getTime();
-    }
-    
     public void testLoadsObjectThatIsNotCached() {
         final Object VALUE1 = "value1";
         final Object VALUE2 = "value2";
 
         context.checking(new Expectations() {{
-            allowing (mockClock).getCurrentTime(); will(returnValue(loadTime));
+            allowing (clock).time(); will(returnValue(loadTime));
 
-            exactly(1).of (mockLoader).load("key1"); will(returnValue(VALUE1));
-            exactly(1).of (mockLoader).load("key2"); will(returnValue(VALUE2));
+            one (loader).load("key1"); will(returnValue(VALUE1));
+            one (loader).load("key2"); will(returnValue(VALUE2));
         }});
 
         Object actualValue1 = cache.lookup("key1");
@@ -58,14 +51,14 @@ public class TimedCacheTests extends TestCase {
 
     public void testReturnsCachedObjectWithinTimeout() {
         context.checking(new Expectations() {{
-            exactly(1).of (mockClock).getCurrentTime(); will(returnValue(loadTime));
-            exactly(1).of (mockClock).getCurrentTime(); will(returnValue(fetchTime));
+            one (clock).time(); will(returnValue(loadTime));
+            one (clock).time(); will(returnValue(fetchTime));
             
-            allowing (mockReloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(false));
-
-            exactly(1).of (mockLoader).load(KEY); will(returnValue(VALUE));
+            allowing (reloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(false));
+            
+            one (loader).load(KEY); will(returnValue(VALUE));
         }});
-
+        
         Object actualValueFromFirstLookup = cache.lookup(KEY);
         Object actualValueFromSecondLookup = cache.lookup(KEY);
         
@@ -76,15 +69,15 @@ public class TimedCacheTests extends TestCase {
 
     public void testReloadsCachedObjectAfterTimeout() {
         context.checking(new Expectations() {{
-            exactly(1).of (mockClock).getCurrentTime(); will(returnValue(loadTime));
-            exactly(1).of (mockClock).getCurrentTime(); will(returnValue(fetchTime));
+            allowing (reloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(true));
             
-            allowing (mockReloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(true));
-
-            exactly(1).of (mockLoader).load(KEY); will(returnValue(VALUE));
-            exactly(1).of (mockLoader).load(KEY); will(returnValue(NEW_VALUE));
+            one (clock).time(); will(returnValue(loadTime));
+            one (loader).load(KEY); will(returnValue(VALUE));
+            
+            one (clock).time(); will(returnValue(fetchTime));
+            one (loader).load(KEY); will(returnValue(NEW_VALUE));
         }});
-
+        
         Object actualValueFromFirstLookup = cache.lookup(KEY);
         Object actualValueFromSecondLookup = cache.lookup(KEY);
 
@@ -92,5 +85,12 @@ public class TimedCacheTests extends TestCase {
         
         assertSame("should be loaded object", VALUE, actualValueFromFirstLookup);
         assertSame("should be reloaded object", NEW_VALUE, actualValueFromSecondLookup);
+    }
+
+    private Date time(int i) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.DAY_OF_YEAR, i);
+        return calendar.getTime();
     }
 }
