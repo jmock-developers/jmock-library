@@ -4,11 +4,21 @@ import junit.framework.TestCase;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.api.ExpectationError;
 
 public class ParameterMatchingAcceptanceTests extends TestCase {
     public interface AnInterface {
         void doSomethingWith(String s);
         void doSomethingWithBoth(String s1, String s2);
+        
+        void doSomethingWithBoth(boolean i1, boolean i2);
+        void doSomethingWithBoth(byte i1, byte i2);
+        void doSomethingWithBoth(short i1, short i2);
+        void doSomethingWithBoth(char c1, char c2);
+        void doSomethingWithBoth(int i1, int i2);
+        void doSomethingWithBoth(long i1, long i2);
+        void doSomethingWithBoth(float i1, float i2);
+        void doSomethingWithBoth(double i1, double i2);
     }
     
     Mockery context = new Mockery();
@@ -32,10 +42,12 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
             exactly(1).of (mock).doSomethingWith(with(equal("goodbye")));
         }});
         
-        mock.doSomethingWith("hello");
-        mock.doSomethingWith("goodbye");
-        
-        context.assertIsSatisfied();
+        try {
+            mock.doSomethingWith("hello");
+            mock.doSomethingWith("Goodbye");
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError expected) {}
     }
     
     public void testAllOrNoneOfTheParametersMustBeSpecifiedByMatchers() {
@@ -57,6 +69,58 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
         
         mock.doSomethingWithBoth("x", "y");
         mock.doSomethingWith("z");
+        
+        context.assertIsSatisfied();
+    }
+    
+    // See issue JMOCK-161
+    public void testCanPassLiteralValuesToWithMethodToMeanEqualTo() {
+        context.checking(new Expectations() {{
+            exactly(2).of (mock).doSomethingWithBoth(with(any(String.class)), with("y"));
+        }});
+        
+        mock.doSomethingWithBoth("x", "y");
+        mock.doSomethingWithBoth("z", "y");
+        
+        context.assertIsSatisfied();
+    }
+    
+    // See issue JMOCK-161
+    public void testCanPassLiteralPrimitiveValuesToWithMethodToMeanEqualTo() {
+        context.checking(new Expectations() {{
+            exactly(2).of (mock).doSomethingWithBoth(with(any(boolean.class)), with(true));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(byte.class)), with((byte)1));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(short.class)), with((short)2));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(char.class)), with('x'));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(int.class)), with(3));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(long.class)), with(4L));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(float.class)), with(5.0f));
+            exactly(2).of (mock).doSomethingWithBoth(with(any(double.class)), with(6.0));
+        }});
+        
+        mock.doSomethingWithBoth(true, true);
+        mock.doSomethingWithBoth(false, true);
+        
+        mock.doSomethingWithBoth((byte)1, (byte)1);
+        mock.doSomethingWithBoth((byte)2, (byte)1);
+        
+        mock.doSomethingWithBoth((short)1, (short)2);
+        mock.doSomethingWithBoth((short)2, (short)2);
+        
+        mock.doSomethingWithBoth('1', 'x');
+        mock.doSomethingWithBoth('2', 'x');
+        
+        mock.doSomethingWithBoth(1, 3);
+        mock.doSomethingWithBoth(2, 3);
+        
+        mock.doSomethingWithBoth(1L, 4L);
+        mock.doSomethingWithBoth(2L, 4L);
+        
+        mock.doSomethingWithBoth(1.0f, 5.0f);
+        mock.doSomethingWithBoth(2.0f, 5.0f);
+        
+        mock.doSomethingWithBoth(1.0, 6.0);
+        mock.doSomethingWithBoth(2.0, 6.0);
         
         context.assertIsSatisfied();
     }
