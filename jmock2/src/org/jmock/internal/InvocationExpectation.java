@@ -24,12 +24,11 @@ public class InvocationExpectation implements Expectation {
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
 	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
-    private String name = null;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
     private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
     
 	private int invocationCount = 0;
-
+	
     public void setCardinality(Cardinality cardinality) {
         this.cardinality = cardinality;
     }
@@ -46,10 +45,6 @@ public class InvocationExpectation implements Expectation {
 		this.parametersMatcher = parametersMatcher;
 	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    
     public void addOrderingConstraint(OrderingConstraint orderingConstraint) {
         orderingConstraints.add(orderingConstraint);
     }
@@ -63,11 +58,6 @@ public class InvocationExpectation implements Expectation {
     }
     
     public void describeTo(Description description) {
-        if (name != null) {
-            description.appendText(name);
-            description.appendText(" = ");
-        }
-        
         cardinality.describeTo(description);
         description.appendText(", ");
         if (invocationCount == 0) {
@@ -75,9 +65,7 @@ public class InvocationExpectation implements Expectation {
         }
         else {
             description.appendText("already invoked ");
-            description.appendText(Integer.toString(invocationCount));
-            description.appendText(" time");
-            if (invocationCount != 1) description.appendText("s");
+            description.appendText(Formatting.times(invocationCount));
         }
         description.appendText(": ");
         objectMatcher.describeTo(description);

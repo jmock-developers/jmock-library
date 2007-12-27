@@ -15,14 +15,28 @@ import java.util.concurrent.TimeoutException;
 
 
 /**
- * An {@link Executor} that executes commands on the thread that calls any of
- * its run methods.
+ * An {@link ScheduledExecutorService} that executes commands on the thread that calls any of
+ * the {@link #runPendingCommands()}, {@link #runUntilIdle()} or 
+ * {@link #tick(long, TimeUnit) tick} methods.  Objects of this class can also be used
+ * as synchronous {@link Executor}s if you just want to control background execution and 
+ * don't need to schedule commands.
  * 
  * @author nat
  */
 public class SynchronousScheduledExecutor implements ScheduledExecutorService {
     private List<Runnable> commands = new ArrayList<Runnable>();
     private final DeltaQueue<ScheduledTask> deltaQueue = new DeltaQueue<ScheduledTask>();
+    
+    /**
+     * Returns whether this executor is idle -- has no pending background tasks waiting to be run.
+     * 
+     * @return true if there are no background tasks to be run, false otherwise.
+     * @see {@link #runPendingCommands()}
+     * @see {@link #runUntilIdle()}
+     */
+    public boolean isIdle() {
+        return commands.isEmpty();
+    }
 
     /**
      * Runs all commands that are currently pending. If those commands also
@@ -44,11 +58,20 @@ public class SynchronousScheduledExecutor implements ScheduledExecutorService {
      * does not tick time forward.
      */
     public void runUntilIdle() {
-        while (!commands.isEmpty()) {
+        while (!isIdle()) {
             runPendingCommands();
         }
     }
 
+    /**
+     * Runs time forwards by a given duration, executing any commands scheduled for
+     * execution during that time period, and any background tasks spawned by the 
+     * scheduled tasks.  Therefore, when a call to tick returns, the executor 
+     * will be idle.
+     * 
+     * @param duration
+     * @param timeUnit
+     */
     public void tick(long duration, TimeUnit timeUnit) {
         long remaining = toTicks(duration, timeUnit);
         

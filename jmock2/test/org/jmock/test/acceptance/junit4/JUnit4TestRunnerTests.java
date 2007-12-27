@@ -3,6 +3,7 @@ package org.jmock.test.acceptance.junit4;
 import junit.framework.TestCase;
 
 import org.jmock.test.acceptance.junit4.testdata.DerivedJUnit4TestThatDoesNotSatisfyExpectations;
+import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotCreateAMockery;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotSatisfyExpectations;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesSatisfyExpectations;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestWithNonPublicBeforeMethod;
@@ -14,14 +15,10 @@ import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
 public class JUnit4TestRunnerTests extends TestCase {
+    FailureRecordingRunListener listener = new FailureRecordingRunListener();
+    
     public void testTheJUnit4TestRunnerReportsPassingTestsAsSuccessful() {
-        Runner runner = Request.aClass(JUnit4TestThatDoesSatisfyExpectations.class).getRunner();
-        RunNotifier notifier = new RunNotifier();
-        FailureRecordingRunListener listener = new FailureRecordingRunListener();
-        
-        notifier.addListener(listener);
-        
-        runner.run(notifier);
+        runTest(JUnit4TestThatDoesSatisfyExpectations.class);
         
         if (listener.failure != null) {
             fail("test should have passed but reported failure: " + listener.failure.getMessage());
@@ -29,52 +26,39 @@ public class JUnit4TestRunnerTests extends TestCase {
     }
     
     public void testTheJUnit4TestRunnerAutomaticallyAssertsThatAllExpectationsHaveBeenSatisfied() {
-        Runner runner = Request.aClass(JUnit4TestThatDoesNotSatisfyExpectations.class).getRunner();
-        RunNotifier notifier = new RunNotifier();
-        
-        FailureRecordingRunListener listener = new FailureRecordingRunListener();
-        notifier.addListener(listener);
-        
-        runner.run(notifier);
-        
-        assertNotNull("test should have failed", listener.failure);
-        assertTrue("should have failed with AssertionError but threw " + listener.failure.getException(), 
-                   listener.failure.getException() instanceof AssertionError);
+        runTest(JUnit4TestThatDoesNotSatisfyExpectations.class);
+        assertTestFailedWith(AssertionError.class);
     }
     
     public void testTheJUnit4TestRunnerLooksForTheMockeryInBaseClasses() {
-        Runner runner = Request.aClass(DerivedJUnit4TestThatDoesNotSatisfyExpectations.class).getRunner();
-        RunNotifier notifier = new RunNotifier();
-        
-        FailureRecordingRunListener listener = new FailureRecordingRunListener();
-        notifier.addListener(listener);
-        
-        runner.run(notifier);
-        
-        assertNotNull("test should have failed", listener.failure);
-        assertTrue("should have failed with AssertionError but threw " + listener.failure.getException(), 
-                   listener.failure.getException() instanceof AssertionError);
+        runTest(DerivedJUnit4TestThatDoesNotSatisfyExpectations.class);
+        assertTestFailedWith(AssertionError.class);
+    }
+    
+    public void testTheJUnit4TestRunnerReportsAHelpfulErrorIfTheMockeryIsNull() {
+        runTest(JUnit4TestThatDoesNotCreateAMockery.class);
+        assertTestFailedWith(IllegalStateException.class);
     }
     
     public void testDetectsNonPublicBeforeMethodsCorrectly() {
-        Runner runner = Request.aClass(JUnit4TestWithNonPublicBeforeMethod.class).getRunner();
-        RunNotifier notifier = new RunNotifier();
-        FailingRunListener listener = new FailingRunListener();
-        notifier.addListener(listener);
-        
-        runner.run(notifier);
+        runTest(JUnit4TestWithNonPublicBeforeMethod.class);
         
         AssertThat.stringIncludes("should have detected non-public before method", 
                                   "Method before should be public", listener.failure.getMessage());
     }
     
-    static class FailingRunListener extends RunListener {
-        public Failure failure;
+    private void assertTestFailedWith(Class<? extends Throwable> exceptionType) {
+        assertNotNull("test should have failed", listener.failure);
+        assertTrue("should have failed with " + exceptionType.getName() + " but threw " + listener.failure.getException(), 
+                   exceptionType.isInstance(listener.failure.getException()));
+    }
+    
+    private void runTest(Class<?> testClass) {
+        Runner runner = Request.aClass(testClass).getRunner();
+        RunNotifier notifier = new RunNotifier();
         
-        @Override
-        public void testFailure(Failure failure) throws Exception {
-            this.failure = failure;
-        }
+        notifier.addListener(listener);       
+        runner.run(notifier);
     }
     
     static class FailureRecordingRunListener extends RunListener {
