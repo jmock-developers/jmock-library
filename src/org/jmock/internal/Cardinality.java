@@ -7,7 +7,7 @@ import org.hamcrest.SelfDescribing;
  * The acceptable range of times an expectation may be invoked.
  * 
  * @author smgf
- *
+ * @author nat
  */
 public class Cardinality implements SelfDescribing {
     public static final Cardinality ALLOWING = atLeast(0);
@@ -59,30 +59,21 @@ public class Cardinality implements SelfDescribing {
             }
             else if (required == maximum) {
                 description.appendText("exactly ");
-                description.appendText(Integer.toString(required));
-                description.appendText(times(required));
+                description.appendText(Formatting.times(required));
             }
             else if (maximum == Integer.MAX_VALUE) {
                 description.appendText("at least ");
-                description.appendText(Integer.toString(required));
-                description.appendText(times(required));
+                description.appendText(Formatting.times(required));
             }
             else if (required == 0) {
                 description.appendText("at most ");
-                description.appendText(Integer.toString(maximum));
-                description.appendText(times(maximum));
+                description.appendText(Formatting.times(maximum));
             }
             else {
                 description.appendText(Integer.toString(required));
                 description.appendText(" to ");
-                description.appendText(Integer.toString(maximum));
-                description.appendText(times(maximum));
+                description.appendText(Formatting.times(maximum));
             }
         }
     }
-    
-    private static String times(int n) {
-        return (n == 1) ? " time" : " times";
-    }
-
 }

@@ -54,8 +54,7 @@ public class JMock extends JUnit4ClassRunner {
         }
     }
 
-    static Field findMockeryField(Class<?> testClass)
-        throws InitializationError {
+    static Field findMockeryField(Class<?> testClass) throws InitializationError {
         for (Class<?> c = testClass; c != Object.class; c = c.getSuperclass()) {
             for (Field field: c.getDeclaredFields()) {
                 if (Mockery.class.isAssignableFrom(field.getType())) {
