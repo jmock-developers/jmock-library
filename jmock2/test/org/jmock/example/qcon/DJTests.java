@@ -1,18 +1,11 @@
 package org.jmock.example.qcon;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-@RunWith(JMock.class)
-public class DJTests {
-    Mockery context = new JUnit4Mockery();
-    Playlist playlist = context.mock(Playlist.class);
-    MediaControl mediaControl = context.mock(MediaControl.class);
+public class DJTests extends MockObjectTestCase {
+    Playlist playlist = mock(Playlist.class);
+    MediaControl mediaControl = mock(MediaControl.class);
     
     DJ dj = new DJ(playlist, mediaControl);
     
@@ -22,9 +15,9 @@ public class DJTests {
     private static final String LOCATION_B = "location-b";
     private static final String TRACK_B = "track-b";
     
-    @Before
-    public void initialiseTracksForLocations() {
-        context.checking(new Expectations() {{
+    @Override
+    public void setUp() {
+        checking(new Expectations() {{
             allowing (playlist).hasTrackFor(LOCATION_A); will(returnValue(true));
             allowing (playlist).trackFor(LOCATION_A); will(returnValue(TRACK_A));
             allowing (playlist).hasTrackFor(LOCATION_B); will(returnValue(true));
@@ -33,45 +26,41 @@ public class DJTests {
         }});
     }
     
-    @Test public void
-    startsPlayingTrackForCurrentLocationWhenLocationFirstDetected() {
-        context.checking(new Expectations() {{
+    public void testStartsPlayingTrackForCurrentLocationWhenLocationFirstDetected() {
+        checking(new Expectations() {{
             one (mediaControl).play(TRACK_A);
         }});
         
         dj.locationChangedTo(LOCATION_A);
     }
     
-    @Test public void
-    playsTrackForCurrentLocationWhenPreviousTrackFinishesIfLocationChangedWhileTrackWasPlaying() {
+    public void testPlaysTrackForCurrentLocationWhenPreviousTrackFinishesIfLocationChangedWhileTrackWasPlaying() {
         startingIn(LOCATION_A);
         
         dj.locationChangedTo(LOCATION_B);
         
-        context.checking(new Expectations() {{
+        checking(new Expectations() {{
             one (mediaControl).play(TRACK_B);
         }});
         
         dj.mediaFinished();
     }
     
-    @Test public void
-    doesNotPlayTrackAgainIfStillInTheSameLocation() {
+    public void testDoesNotPlayTrackAgainIfStillInTheSameLocation() {
         startingIn(LOCATION_A);
         
-        context.checking(new Expectations() {{
+        checking(new Expectations() {{
             never (mediaControl).play(with(any(String.class)));
         }});
         
         dj.mediaFinished();
     }
     
-    @Test public void
-    playsNewTrackAsSoonAsLocationChangesIfPreviousTrackFinishedWhileInSameLocation() {
+    public void testPlaysNewTrackAsSoonAsLocationChangesIfPreviousTrackFinishedWhileInSameLocation() {
         startingIn(LOCATION_A);
         dj.mediaFinished();
         
-        context.checking(new Expectations() {{
+        checking(new Expectations() {{
             one (mediaControl).play(TRACK_B);
         }});
         
@@ -79,7 +68,7 @@ public class DJTests {
     }
     
     private void startingIn(String initialLocation) {
-        context.checking(new Expectations() {{
+        checking(new Expectations() {{
             one (mediaControl).play(with(any(String.class)));
         }});
         
