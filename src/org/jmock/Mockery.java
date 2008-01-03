@@ -199,7 +199,7 @@ public class Mockery implements SelfDescribing {
     
     public void describeTo(Description description) {
         description.appendDescriptionOf(dispatcher)
-                   .appendText("\nwhat happened:");
+                   .appendText("\nwhat happened before this:");
         
         if (actualInvocations.isEmpty()) {
             description.appendText(" nothing!");
