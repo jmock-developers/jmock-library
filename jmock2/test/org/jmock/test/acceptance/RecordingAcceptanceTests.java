@@ -23,7 +23,7 @@ public class RecordingAcceptanceTests extends TestCase {
         mock.doSomethingWith("x", "y");
         
         assertThat(asString(context), containsInOrder(
-            "what happened:",
+            "what happened before this:",
             "mock.doSomething()",
             "mock.doSomethingWith(\"foo\")",
             "mock.doSomethingWith(\"x\", \"y\")"));
@@ -43,7 +43,7 @@ public class RecordingAcceptanceTests extends TestCase {
         catch (ExampleException expected) {}
         
         assertThat(asString(context), containsInOrder(
-            "what happened:",
+            "what happened before this:",
             "mock.doSomething()"));
     }
 
@@ -58,7 +58,7 @@ public class RecordingAcceptanceTests extends TestCase {
         catch (ExpectationError expected) {}
         
         assertThat(asString(context), containsInOrder(
-            "what happened:", 
+            "what happened before this:", 
             "nothing"));
     }
 }
