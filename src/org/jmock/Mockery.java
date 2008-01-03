@@ -1,8 +1,12 @@
 package org.jmock;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.hamcrest.Description;
+import org.hamcrest.SelfDescribing;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.ExpectationErrorTranslator;
@@ -34,7 +38,7 @@ import org.jmock.lib.JavaReflectionImposteriser;
  * @author smgf
  * @author named by Ivan Moore.
  */
-public class Mockery {
+public class Mockery implements SelfDescribing {
     private Set<String> mockNames = new HashSet<String>();
     private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
@@ -45,6 +49,8 @@ public class Mockery {
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
     private ExpectationCapture capture = null;
     private Throwable firstError = null;
+    
+    private List<Invocation> actualInvocations = new ArrayList<Invocation>();
     
     
     /* 
@@ -191,6 +197,18 @@ public class Mockery {
         }
 	}
     
+    public void describeTo(Description description) {
+        description.appendDescriptionOf(dispatcher)
+                   .appendText("\nwhat happened:");
+        
+        if (actualInvocations.isEmpty()) {
+            description.appendText(" nothing!");
+        }
+        else {
+            description.appendList("\n  ", "\n  ", "\n", actualInvocations);
+        }
+    }
+    
     private Object dispatch(Invocation invocation) throws Throwable {
         if (isCapturingExpectations()) {
             capture.createExpectationFrom(invocation);
@@ -201,29 +219,30 @@ public class Mockery {
         }
         else {
             try {
-                return dispatcher.dispatch(invocation);
+                Object result = dispatcher.dispatch(invocation);
+                actualInvocations.add(invocation);
+                return result;
             }
             catch (ExpectationError e) {
                 firstError = expectationErrorTranslator.translate(fillInDetails(e));
                 firstError.setStackTrace(e.getStackTrace());
                 throw firstError;
             }
+            catch (Throwable t) {
+                actualInvocations.add(invocation);
+                throw t;
+            }
         }
     }
-
+    
     // The ExpectationError might not have the expectations field set (because of a design
     // flaw that cannot be fixed without breaking backward compatibility of client code).
     // So if it is null we create a new ExpectationError with the field set to the mockery's
     // expectations.
     private ExpectationError fillInDetails(ExpectationError e) {
-        if (e.expectations != null) {
-            return e;
-        }
-        else {
-            ExpectationError filledIn = new ExpectationError(e.getMessage(), dispatcher, e.invocation);
-            filledIn.setStackTrace(e.getStackTrace());
-            return filledIn;
-        }
+        ExpectationError filledIn = new ExpectationError(e.getMessage(), this, e.invocation);
+        filledIn.setStackTrace(e.getStackTrace());
+        return filledIn;
     }
 
     private boolean isCapturingExpectations() {
