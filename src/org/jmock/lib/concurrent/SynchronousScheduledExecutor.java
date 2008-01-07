@@ -31,8 +31,8 @@ public class SynchronousScheduledExecutor implements ScheduledExecutorService {
      * Returns whether this executor is idle -- has no pending background tasks waiting to be run.
      * 
      * @return true if there are no background tasks to be run, false otherwise.
-     * @see {@link #runPendingCommands()}
-     * @see {@link #runUntilIdle()}
+     * @see #runPendingCommands()
+     * @see #runUntilIdle()
      */
     public boolean isIdle() {
         return commands.isEmpty();
