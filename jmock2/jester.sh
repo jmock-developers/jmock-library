@@ -1,8 +1,12 @@
 #!/bin/sh
 
 if [ -z $JESTER_HOME ]; then
-	echo "JESTER_HOME is not set"
-	exit 1
+	if [ -z $1 ]; then
+		echo "Location of Simple Jester must given by JESTER_HOME environment variable or first argument"
+		exit 1
+	else
+		export JESTER_HOME=$1
+	fi
 fi
 
 CLASSPATH=$JESTER_HOME/simple-jester.jar:$JESTER_HOME \
