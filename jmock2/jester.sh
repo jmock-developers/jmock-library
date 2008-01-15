@@ -10,7 +10,6 @@ if [ -z $JESTER_HOME ]; then
 fi
 
 CLASSPATH=$JESTER_HOME/simple-jester.jar:$JESTER_HOME \
-	java jester.TestTester ./jester-build.sh src
-
-python $JESTER_HOME/makeWebView.py -z -p
+	java jester.TestTester ./jester-build.sh src \
+&& python $JESTER_HOME/makeWebView.py -z -p
 
