@@ -12,10 +12,14 @@ public class StateMachine implements States {
     }
     
     public States startsAs(String initialState) {
-        currentState = initialState;
+        become(initialState);
         return this;
     }
     
+    public void become(String nextState) {
+        currentState = nextState;
+    }
+
     public State is(final String state) {
         return new State() {
             public void activate() {

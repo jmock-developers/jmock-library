@@ -20,4 +20,12 @@ public interface States extends SelfDescribing, StatesClause {
      *     Itself.
      */
     States startsAs(String initialState);
+    
+    /**
+     * Put the state machine into state <var>nextState</var>.
+     *  
+     * @param nextState
+     *     The next state of the state machine.
+     */
+    void become(String nextState);
 }
