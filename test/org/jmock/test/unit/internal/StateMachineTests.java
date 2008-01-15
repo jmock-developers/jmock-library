@@ -79,6 +79,27 @@ public class StateMachineTests extends TestCase {
         }
     }
     
+    public void testCanBePutIntoANewState() {
+        String nextState = "B";
+        
+        Set<String> otherStates = except(anyState, nextState);
+        stateMachine.startsAs("A");
+        
+        stateMachine.become(nextState);
+        
+        assertTrue("should report being in state " + nextState, 
+                   stateMachine.is(nextState).isActive());
+        assertFalse("should not report not being in state " + nextState, 
+                    stateMachine.isNot(nextState).isActive());
+        
+        for (String otherState : otherStates) {
+            assertFalse("should not report being in state " + otherState, 
+                        stateMachine.is(otherState).isActive());
+            assertTrue("should report not being in state " + otherState, 
+                       stateMachine.isNot(otherState).isActive());
+        }
+    }
+    
     public void testDescribesItselfAsNameAndCurrentState() {
         assertEquals("description with no current state",
                      "stateMachineName has no current state", StringDescription.toString(stateMachine));
