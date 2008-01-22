@@ -38,6 +38,7 @@
 				<include name="hamcrest-*.jar"/>
 				<include name="objenesis-1.0.jar"/>
 				<include name="cglib-*.jar"/>
+				<include name="bsh-*.jar"/>
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE.txt"/>
@@ -68,20 +69,22 @@
 	</target>
 
 	<target name="jars" 
-		    depends="jar.api, jar.junit3, jar.junit4, jar.legacy, jar.tests"/>
+		    depends="jar.api, jar.junit3, jar.junit4, jar.legacy, jar.script, jar.tests"/>
 
 	<target name="jar.api" depends="compile, dir.dist">
 		<jar destfile="${distdir}/jmock-${version}.jar" compress="false">
 			<fileset dir="build/classes">
 				<exclude name="testdata/**"/>
-				<exclude name="org/jmock/lib/objenesis/**"/>
 				<exclude name="org/jmock/integration/**"/>
+				<exclude name="org/jmock/lib/legacy/**"/>
+				<exclude name="org/jmock/lib/script/**"/>
 				<exclude name="org/jmock/test/**"/>
 				<exclude name="org/jmock/example/**"/>
 			</fileset>
 			<fileset dir="src">
-				<exclude name="org/jmock/lib/objenesis/**"/>
 				<exclude name="org/jmock/integration/**"/>
+				<exclude name="org/jmock/lib/legacy/**"/>
+				<exclude name="org/jmock/lib/script/**"/>
 				<exclude name="org/jmock/test/**"/>
 				<exclude name="org/jmock/example/**"/>
 				<exclude name="**/*.html"/>
@@ -127,6 +130,19 @@
 			
 			<fileset dir="src">
 				<include name="org/jmock/lib/legacy/**"/>
+				<exclude name="**/*.html"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="jar.script" depends="compile, dir.dist">
+		<jar destfile="${distdir}/jmock-script-${version}.jar" compress="false">
+			<fileset dir="build/classes">
+				<include name="org/jmock/lib/script/**"/>
+			</fileset>
+			
+			<fileset dir="src">
+				<include name="org/jmock/lib/script/**"/>
 				<exclude name="**/*.html"/>
 			</fileset>
 		</jar>
