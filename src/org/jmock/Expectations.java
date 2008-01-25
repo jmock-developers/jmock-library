@@ -234,10 +234,20 @@ public class Expectations implements ExpectationBuilder,
         return new IsAnything<T>();
     }
     
+    /**
+     * @deprecated 
+     *  use {@link #aNonNull} or {@link #any} until type inference actually works in a future version of Java
+     */
+    @Deprecated
     public static Matcher<Object> a(Class<?> type) {
         return new IsInstanceOf(type);
     }
-    
+
+    /**
+     * @deprecated 
+     *  use {@link #aNonNull} or {@link #any} until type inference actually works in a future version of Java
+     */
+    @Deprecated
     public static Matcher<Object> an(Class<?> type) {
         return new IsInstanceOf(type);
     }
