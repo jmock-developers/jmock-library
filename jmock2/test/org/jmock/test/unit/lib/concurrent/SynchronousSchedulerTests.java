@@ -8,10 +8,10 @@ import org.jmock.Sequence;
 import org.jmock.api.Action;
 import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.lib.concurrent.ScheduleOnExecutorAction;
-import org.jmock.lib.concurrent.SynchronousScheduledExecutor;
+import org.jmock.lib.concurrent.SynchronousScheduler;
 
-public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
-    SynchronousScheduledExecutor executor = new SynchronousScheduledExecutor();
+public class SynchronousSchedulerTests extends MockObjectTestCase {
+    SynchronousScheduler scheduler = new SynchronousScheduler();
     
     Runnable commandA = mock(Runnable.class, "commandA");
     Runnable commandB = mock(Runnable.class, "commandB");
@@ -20,8 +20,8 @@ public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
     
     
     public void testRunsPendingCommands() {
-        executor.execute(commandA);
-        executor.execute(commandB);
+        scheduler.execute(commandA);
+        scheduler.execute(commandB);
         
         final Sequence executionOrder = sequence("executionOrder");
         
@@ -30,12 +30,12 @@ public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
             one (commandB).run(); inSequence(executionOrder);
         }});
         
-        executor.runPendingCommands();
+        scheduler.runPendingCommands();
     }
     
     public void testCanLeaveCommandsSpawnedByExecutedCommandsPendingForLaterExecution() {
-        executor.execute(commandA);
-        executor.execute(commandB);
+        scheduler.execute(commandA);
+        scheduler.execute(commandB);
         
         final Sequence executionOrder = sequence("executionOrder");
         
@@ -48,12 +48,12 @@ public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
 
         });
         
-        executor.runPendingCommands();
+        scheduler.runPendingCommands();
     }
     
     public void testCanRunCommandsSpawnedByExecutedCommandsUntilNoCommandsArePending() {
-        executor.execute(commandA);
-        executor.execute(commandB);
+        scheduler.execute(commandA);
+        scheduler.execute(commandB);
         
         final Sequence executionOrder = sequence("executionOrder");
         
@@ -64,36 +64,36 @@ public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
             one (commandD).run(); inSequence(executionOrder);
         }});
         
-        executor.runUntilIdle();
+        scheduler.runUntilIdle();
     }
     
     public void testCanScheduleCommandsToBeExecutedAfterADelay() {
-        executor.schedule(commandA, 10, TimeUnit.SECONDS);
+        scheduler.schedule(commandA, 10, TimeUnit.SECONDS);
         
-        executor.tick(9, TimeUnit.SECONDS);
+        scheduler.tick(9, TimeUnit.SECONDS);
         
         checking(new Expectations() {{
             one (commandA).run();
         }});
         
-        executor.tick(1, TimeUnit.SECONDS);
+        scheduler.tick(1, TimeUnit.SECONDS);
     }
     
     public void testTickingTimeForwardRunsAllCommandsScheduledDuringThatTimePeriod() {
-        executor.schedule(commandA, 1, TimeUnit.MILLISECONDS);
-        executor.schedule(commandB, 2, TimeUnit.MILLISECONDS);
+        scheduler.schedule(commandA, 1, TimeUnit.MILLISECONDS);
+        scheduler.schedule(commandB, 2, TimeUnit.MILLISECONDS);
         
         checking(new Expectations() {{
             one (commandA).run();
             one (commandB).run();
         }});
         
-        executor.tick(3, TimeUnit.MILLISECONDS);
+        scheduler.tick(3, TimeUnit.MILLISECONDS);
     }
     
     public void testTickingTimeForwardRunsCommandsExecutedByScheduledCommands() {
-        executor.schedule(commandA, 1, TimeUnit.MILLISECONDS);
-        executor.schedule(commandD, 2, TimeUnit.MILLISECONDS);
+        scheduler.schedule(commandA, 1, TimeUnit.MILLISECONDS);
+        scheduler.schedule(commandD, 2, TimeUnit.MILLISECONDS);
         
         checking(new Expectations() {{
             one (commandA).run(); will(schedule(commandB));
@@ -102,30 +102,30 @@ public class SynchronousScheduledExecutorTests extends MockObjectTestCase {
             one (commandD).run();
         }});
         
-        executor.tick(3, TimeUnit.MILLISECONDS);
+        scheduler.tick(3, TimeUnit.MILLISECONDS);
     }
     
     public void testCanExecuteCommandsThatRepeatWithFixedDelay() {
-        executor.scheduleWithFixedDelay(commandA, 2L, 3L, TimeUnit.SECONDS);
+        scheduler.scheduleWithFixedDelay(commandA, 2L, 3L, TimeUnit.SECONDS);
         
         checking(new Expectations() {{
             exactly(3).of(commandA).run();
         }});
         
-        executor.tick(8L, TimeUnit.SECONDS);
+        scheduler.tick(8L, TimeUnit.SECONDS);
     }
 
     public void testCanExecuteCommandsThatRepeatAtFixedRateButAssumesThatCommandsTakeNoTimeToExecute() {
-        executor.scheduleAtFixedRate(commandA, 2L, 3L, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(commandA, 2L, 3L, TimeUnit.SECONDS);
         
         checking(new Expectations() {{
             exactly(3).of(commandA).run();
         }});
         
-        executor.tick(8L, TimeUnit.SECONDS);
+        scheduler.tick(8L, TimeUnit.SECONDS);
     }
 
     private Action schedule(final Runnable command) {
-        return ScheduleOnExecutorAction.schedule(executor, command);
+        return ScheduleOnExecutorAction.schedule(scheduler, command);
     }
 }
