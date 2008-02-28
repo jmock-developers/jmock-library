@@ -89,7 +89,7 @@ public class InvocationExpectationBuilder
     
     private void checkParameterMatcherCount(Invocation invocation) {
         if (capturedParameterMatchers.size() != invocation.getParameterCount()) {
-            throw new IllegalArgumentException("not all parameters were given explicit constraints: either all parameters must be specified by explicit constraints or all must be specified by literal values to match");
+            throw new IllegalArgumentException("not all parameters were given explicit matchers: either all parameters must be specified by matchers or all must be specified by values, you cannot mix matchers and values");
         }
     }
     
