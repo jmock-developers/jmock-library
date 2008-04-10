@@ -124,4 +124,16 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
         
         context.assertIsSatisfied();
     }
+    
+    // Checking that you can do with(any(...)) with primitive types, as asked on the mailing list
+    public void testSpecifyingAnyValueOfPrimitiveType() {
+        context.checking(new Expectations() {{
+            allowing (mock).doSomethingWithBoth(with(any(boolean.class)), with(any(boolean.class)));
+        }});
+        
+        mock.doSomethingWithBoth(true, true);
+        mock.doSomethingWithBoth(true, false);
+        mock.doSomethingWithBoth(false, true);
+        mock.doSomethingWithBoth(false, false);
+    }
 }
