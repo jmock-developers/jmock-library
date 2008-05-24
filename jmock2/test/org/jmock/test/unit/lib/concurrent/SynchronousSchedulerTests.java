@@ -1,6 +1,7 @@
 package org.jmock.test.unit.lib.concurrent;
 
 
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.jmock.Expectations;
@@ -123,6 +124,21 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
         }});
         
         scheduler.tick(8L, TimeUnit.SECONDS);
+    }
+    
+    public void testCanCancelScheduledCommands() {
+        final boolean dontCare = true;
+        ScheduledFuture<?> future = scheduler.schedule(commandA, 1L, TimeUnit.SECONDS);
+        
+        assertFalse(future.isCancelled());
+        future.cancel(dontCare);
+        assertTrue(future.isCancelled());
+        
+        checking(new Expectations() {{
+            never (commandA);
+        }});
+        
+        scheduler.tick(2000L, TimeUnit.SECONDS);
     }
 
     private Action schedule(final Runnable command) {
