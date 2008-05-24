@@ -59,10 +59,11 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-        deltaQueue.add(toTicks(delay, unit), new ScheduledTask(command));
-        return new SynchronousScheduledFuture<Object>();
+        final ScheduledTask task = new ScheduledTask(command);
+        deltaQueue.add(toTicks(delay, unit), task);
+        return new SynchronousScheduledFuture<Object>(task);
     }
-
+    
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
         throw new UnsupportedOperationException("not supported");
     }
@@ -72,10 +73,11 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        deltaQueue.add(toTicks(initialDelay, unit), new ScheduledTask(toTicks(delay, unit), command));
-        return new SynchronousScheduledFuture<Object>();
+        final ScheduledTask task = new ScheduledTask(toTicks(delay, unit), command);
+        deltaQueue.add(toTicks(initialDelay, unit), task);
+        return new SynchronousScheduledFuture<Object>(task);
     }
-
+    
     public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
         throw new UnsupportedOperationException("not supported");
     }
@@ -145,9 +147,14 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         }
     }
 
-    private final class SynchronousScheduledFuture<T> implements
-        ScheduledFuture<T>
-    {
+    private class SynchronousScheduledFuture<T> implements ScheduledFuture<T> {
+        private final ScheduledTask task;
+        private boolean isCancelled = false;
+
+        public SynchronousScheduledFuture(ScheduledTask task) {
+            this.task = task;
+        }
+
         public long getDelay(TimeUnit unit) {
             throw new UnsupportedOperationException("not supported");
         }
@@ -157,20 +164,20 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         }
 
         public boolean cancel(boolean mayInterruptIfRunning) {
-            throw new UnsupportedOperationException("not supported");
+            isCancelled = true;
+            return deltaQueue.remove(task);
         }
 
         public T get() throws InterruptedException, ExecutionException {
             throw new UnsupportedOperationException("not supported");
         }
 
-        public T get(long timeout, TimeUnit unit) throws InterruptedException,
-            ExecutionException, TimeoutException {
+        public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
             throw new UnsupportedOperationException("not supported");
         }
 
         public boolean isCancelled() {
-            throw new UnsupportedOperationException("not supported");
+            return isCancelled;
         }
 
         public boolean isDone() {

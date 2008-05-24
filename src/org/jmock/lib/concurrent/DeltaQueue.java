@@ -1,5 +1,6 @@
 package org.jmock.lib.concurrent;
 
+
 public class DeltaQueue<T> {
     private static class Node<T> {
         public final T value;
@@ -56,6 +57,7 @@ public class DeltaQueue<T> {
         }
     }
 
+
     public long tick(long timeUnits) {
         if (head == null) {
             return 0L;
@@ -79,6 +81,32 @@ public class DeltaQueue<T> {
         T popped = head.value;
         head = head.next;
         return popped;
+    }
+    
+    public boolean remove(T element) {
+        Node<T> prev = null;
+        Node<T> node = head;
+        while (node != null && node.value != element) {
+            prev = node;
+            node = node.next;
+        }
+        
+        if (node == null) {
+            return false;
+        }
+        
+        if (node.next != null) {
+            node.next.delay += node.delay;
+        }
+        
+        if (prev == null) {
+            head = node.next;
+        }
+        else {
+            prev.next = node.next;
+        }
+        
+        return true;
     }
     
     @Override

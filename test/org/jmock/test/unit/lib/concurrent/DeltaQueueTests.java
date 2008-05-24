@@ -105,7 +105,7 @@ public class DeltaQueueTests extends TestCase {
         assertEquals(0L, deltaQueue.tick(19L));
     }
     
-    public void testTasksScheduledWithSameDelayAreExecutedInTheOrderThatTheyWereScheduled() {
+    public void testElementsScheduledWithSameDelayAreExecutedInTheOrderThatTheyWereScheduled() {
         deltaQueue.add(1L, elementA);
         deltaQueue.add(1L, elementB);
         deltaQueue.add(1L, elementC);
@@ -115,5 +115,56 @@ public class DeltaQueueTests extends TestCase {
         assertSame(elementA, deltaQueue.pop());
         assertSame(elementB, deltaQueue.pop());
         assertSame(elementC, deltaQueue.pop());
+    }
+    
+    public void testCanRemoveScheduledElements() {
+        deltaQueue.add(1L, elementA);
+        deltaQueue.add(2L, elementB);
+        deltaQueue.add(3L, elementC);
+        
+        assertTrue(deltaQueue.remove(elementB));
+        
+        deltaQueue.tick(1L);
+        assertSame(elementA, deltaQueue.pop());
+        
+        deltaQueue.tick(2L);
+        assertSame(elementC, deltaQueue.pop());
+    }
+    
+    public void testCanRemoveHead() {
+        deltaQueue.add(1L, elementA);
+        deltaQueue.add(2L, elementB);
+        deltaQueue.add(3L, elementC);
+        
+        deltaQueue.remove(elementA);
+        
+        deltaQueue.tick(2L);
+        assertSame(elementB, deltaQueue.pop());
+        
+        deltaQueue.tick(1L);
+        assertSame(elementC, deltaQueue.pop());
+    }
+    
+    public void testCanRemoveTail() {
+        deltaQueue.add(1L, elementA);
+        deltaQueue.add(2L, elementB);
+        deltaQueue.add(3L, elementC);
+       
+        deltaQueue.remove(elementC);
+        
+        deltaQueue.tick(1L);
+        assertSame(elementA, deltaQueue.pop());
+        
+        deltaQueue.tick(1L);
+        assertSame(elementB, deltaQueue.pop());
+        
+        assertTrue("is empty", deltaQueue.isEmpty());
+    }
+    
+    public void testReturnsFalseIfElementAlreadyRemoved() {
+        deltaQueue.add(1L, elementA);
+        deltaQueue.add(2L, elementB);
+        
+        assertFalse(deltaQueue.remove(elementC));
     }
 }
