@@ -23,7 +23,7 @@ import java.util.concurrent.TimeoutException;
  * @author nat
  */
 public class SynchronousScheduler extends SynchronousExecutor implements ScheduledExecutorService {
-    private final DeltaQueue<ScheduledTask> deltaQueue = new DeltaQueue<ScheduledTask>();
+    private final DeltaQueue<ScheduledTask<?>> deltaQueue = new DeltaQueue<ScheduledTask<?>>();
     
     /**
      * Runs time forwards by a given duration, executing any commands scheduled for
@@ -41,7 +41,7 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
             remaining = deltaQueue.tick(remaining);
             
             while (deltaQueue.isNotEmpty() && deltaQueue.delay() == 0) {
-                ScheduledTask scheduledTask = deltaQueue.pop();
+                ScheduledTask<?> scheduledTask = deltaQueue.pop();
                 
                 execute(scheduledTask.command);
                 if (scheduledTask.repeats()) {
@@ -59,9 +59,9 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-        final ScheduledTask task = new ScheduledTask(command);
+        final ScheduledTask<Void> task = new ScheduledTask<Void>(command);
         deltaQueue.add(toTicks(delay, unit), task);
-        return new SynchronousScheduledFuture<Object>(task);
+        return task;
     }
     
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
@@ -73,9 +73,9 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        final ScheduledTask task = new ScheduledTask(toTicks(delay, unit), command);
+        ScheduledTask<Void> task = new ScheduledTask<Void>(toTicks(delay, unit), command);
         deltaQueue.add(toTicks(initialDelay, unit), task);
-        return new SynchronousScheduledFuture<Object>(task);
+        return task;
     }
     
     public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
@@ -129,9 +129,10 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         throw new UnsupportedOperationException("not supported");
     }
     
-    private final class ScheduledTask {
+    private final class ScheduledTask<T> implements ScheduledFuture<T> {
         public final long repeatDelay;
         public final Runnable command;
+        private boolean isCancelled = false;
         
         public ScheduledTask(Runnable command) {
             this(-1, command);
@@ -145,15 +146,6 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         public boolean repeats() {
             return repeatDelay >= 0;
         }
-    }
-
-    private class SynchronousScheduledFuture<T> implements ScheduledFuture<T> {
-        private final ScheduledTask task;
-        private boolean isCancelled = false;
-
-        public SynchronousScheduledFuture(ScheduledTask task) {
-            this.task = task;
-        }
 
         public long getDelay(TimeUnit unit) {
             throw new UnsupportedOperationException("not supported");
@@ -165,7 +157,7 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
 
         public boolean cancel(boolean mayInterruptIfRunning) {
             isCancelled = true;
-            return deltaQueue.remove(task);
+            return deltaQueue.remove(this);
         }
 
         public T get() throws InterruptedException, ExecutionException {
@@ -179,7 +171,7 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         public boolean isCancelled() {
             return isCancelled;
         }
-
+        
         public boolean isDone() {
             throw new UnsupportedOperationException("not supported");
         }
