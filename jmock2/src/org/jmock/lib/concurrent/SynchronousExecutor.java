@@ -5,6 +5,13 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 
+/**
+ * An {@link Executor} that executes commands on the thread that calls either of
+ * the {@link #runPendingCommands()}, {@link #runUntilIdle()} methods. 
+ * This is useful when using Mock Objects to test code that spawns background tasks.
+ * 
+ * @author nat
+ */
 public class SynchronousExecutor implements Executor {
     private List<Runnable> commands = new ArrayList<Runnable>();
 
