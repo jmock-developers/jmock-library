@@ -78,4 +78,44 @@ public class VerifyingTestCaseTests extends TestCase {
         
         assertTrue(verifierWasRun);
     }
+
+    public static class FailingExampleTestCase extends VerifyingTestCase {
+        public static final Exception tearDownException = new Exception("tear down");
+        public static final Exception testException = new Exception("test");
+
+        private FailingExampleTestCase(String testName) {
+            super(testName);
+        }
+
+        @Override public void tearDown() throws Exception { 
+            throw tearDownException;
+
+        }
+        public void testDoesNotThrowException() throws Exception {
+            // no op
+        }
+
+        public void testThrowsExpectedException() throws Exception {
+            throw testException;
+        }
+    }
+
+    public void testThrowsTestExceptionRatherThanTearDownException() throws Throwable {
+        try {
+            new FailingExampleTestCase("testThrowsExpectedException").runBare();
+            fail("should have thrown exception");
+        } catch (Exception actual) {
+            assertSame(FailingExampleTestCase.testException, actual);
+        }
+    }
+
+    public void testThrowsTearDownExceptionWhenNoTestException() throws Throwable {
+        try {
+            new FailingExampleTestCase("testDoesNotThrowException").runBare();
+            fail("should have thrown exception");
+        } catch (Exception actual) {
+            assertSame(FailingExampleTestCase.tearDownException, actual);
+        }
+    }
+
 }
