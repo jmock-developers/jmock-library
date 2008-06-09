@@ -32,14 +32,22 @@ public abstract class VerifyingTestCase extends TestCase {
      */
     @Override
     public void runBare() throws Throwable {
+        Throwable exception= null;
         setUp();
         try {
             runTest();
             verify();
+        } catch (Throwable running) {
+            exception= running;
         }
         finally {
-            tearDown();
+            try {
+                tearDown();
+            } catch (Throwable tearingDown) {
+                if (exception == null) exception= tearingDown;
+            }
         }
+        if (exception != null) throw exception;
     }
 
     public void verify() {
