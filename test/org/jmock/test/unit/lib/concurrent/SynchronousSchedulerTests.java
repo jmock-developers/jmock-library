@@ -1,6 +1,10 @@
 package org.jmock.test.unit.lib.concurrent;
 
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +23,8 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
     Runnable commandC = mock(Runnable.class, "commandC");
     Runnable commandD = mock(Runnable.class, "commandD");
     
+    @SuppressWarnings("unchecked")
+    Callable<String> callableA = mock(Callable.class, "callableA");
     
     public void testRunsPendingCommands() {
         scheduler.execute(commandA);
@@ -128,7 +134,7 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
     
     public void testCanCancelScheduledCommands() {
         final boolean dontCare = true;
-        ScheduledFuture<?> future = scheduler.schedule(commandA, 1L, TimeUnit.SECONDS);
+        ScheduledFuture<?> future = scheduler.schedule(commandA, 1, TimeUnit.SECONDS);
         
         assertFalse(future.isCancelled());
         future.cancel(dontCare);
@@ -138,9 +144,24 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
             never (commandA);
         }});
         
-        scheduler.tick(2000L, TimeUnit.SECONDS);
+        scheduler.tick(2, TimeUnit.SECONDS);
     }
-
+    
+    public void testCanScheduleCallablesAndGetTheirResultAfterTheyHaveBeenExecuted() throws Exception {
+        final int timeoutIgnored = 1000;
+        
+        checking(new Expectations() {{
+            one (callableA).call(); will(returnValue("A"));
+        }});
+        
+        ScheduledFuture<String> future = scheduler.schedule(callableA, 1, TimeUnit.SECONDS);
+        
+        scheduler.tick(1, TimeUnit.SECONDS);
+        
+        assertThat(future.get(), equalTo("A"));
+        assertThat(future.get(timeoutIgnored, TimeUnit.SECONDS), equalTo("A"));
+    }
+    
     private Action schedule(final Runnable command) {
         return ScheduleOnExecutorAction.schedule(scheduler, command);
     }
