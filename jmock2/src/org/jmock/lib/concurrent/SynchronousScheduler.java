@@ -43,7 +43,8 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
             while (deltaQueue.isNotEmpty() && deltaQueue.delay() == 0) {
                 ScheduledTask<?> scheduledTask = deltaQueue.pop();
                 
-                execute(scheduledTask.command);
+                execute(scheduledTask);
+                
                 if (scheduledTask.repeats()) {
                     deltaQueue.add(scheduledTask.repeatDelay, scheduledTask);
                 }
@@ -59,13 +60,15 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-        final ScheduledTask<Void> task = new ScheduledTask<Void>(command);
+        ScheduledTask<Void> task = new ScheduledTask<Void>(command);
         deltaQueue.add(toTicks(delay, unit), task);
         return task;
     }
     
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
-        throw new UnsupportedOperationException("not supported");
+        ScheduledTask<V> task = new ScheduledTask<V>(callable);
+        deltaQueue.add(toTicks(delay, unit), task);
+        return task;
     }
     
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
@@ -91,7 +94,8 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public <T> T invokeAny(Collection<Callable<T>> tasks)
-        throws InterruptedException, ExecutionException {
+        throws InterruptedException, ExecutionException 
+    {
         throw new UnsupportedOperationException("not supported");
     }
 
@@ -122,25 +126,46 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
 
     public Future<?> submit(Runnable task) {
-        throw new UnsupportedOperationException("not supported");
+        return submit(task, null);
     }
 
     public <T> Future<T> submit(Runnable task, T result) {
         throw new UnsupportedOperationException("not supported");
     }
     
-    private final class ScheduledTask<T> implements ScheduledFuture<T> {
+    private final class CallableRunnableAdapter<T> implements Callable<T> {
+        private final Runnable runnable;
+        private final T result;
+        
+        public CallableRunnableAdapter(Runnable runnable, T result) {
+            this.runnable = runnable;
+            this.result = result;
+        }
+
+        public T call() throws Exception {
+            runnable.run();
+            return result;
+        }
+    }
+    
+    private final class ScheduledTask<T> implements ScheduledFuture<T>, Runnable {
         public final long repeatDelay;
-        public final Runnable command;
+        public final Callable<T> command;
         private boolean isCancelled = false;
+        private T futureResult;
+        
+        public ScheduledTask(Callable<T> command) {
+            this.repeatDelay = -1;
+            this.command = command;
+        }
         
         public ScheduledTask(Runnable command) {
             this(-1, command);
         }
-
+        
         public ScheduledTask(long repeatDelay, Runnable command) {
             this.repeatDelay = repeatDelay;
-            this.command = command; 
+            this.command = new CallableRunnableAdapter<T>(command, null); 
         }
         
         public boolean repeats() {
@@ -161,19 +186,28 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         }
 
         public T get() throws InterruptedException, ExecutionException {
-            throw new UnsupportedOperationException("not supported");
+            return futureResult;
         }
-
+        
         public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-            throw new UnsupportedOperationException("not supported");
+            return futureResult;
         }
-
+        
         public boolean isCancelled() {
             return isCancelled;
         }
         
         public boolean isDone() {
             throw new UnsupportedOperationException("not supported");
+        }
+
+        public void run() {
+            try {
+                futureResult = command.call();
+            }
+            catch (Exception e) {
+                throw new UnsupportedOperationException("exceptions not handled yet");
+            }
         }
     }
 }
