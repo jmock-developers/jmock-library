@@ -152,6 +152,7 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         public final long repeatDelay;
         public final Callable<T> command;
         private boolean isCancelled = false;
+        private boolean isDone = false;
         private T futureResult;
         
         public ScheduledTask(Callable<T> command) {
@@ -186,11 +187,16 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         }
 
         public T get() throws InterruptedException, ExecutionException {
-            return futureResult;
+            if (isDone) {
+                return futureResult;
+            }
+            else {
+                throw new UnsupportedSynchronousOperationException("cannot perform blocking wait on a task scheduled on a " + SynchronousScheduler.class.getName());
+            }
         }
         
         public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-            return futureResult;
+            return get();
         }
         
         public boolean isCancelled() {
@@ -198,12 +204,13 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         }
         
         public boolean isDone() {
-            throw new UnsupportedOperationException("not supported");
+            return isDone;
         }
 
         public void run() {
             try {
                 futureResult = command.call();
+                isDone = true;
             }
             catch (Exception e) {
                 throw new UnsupportedOperationException("exceptions not handled yet");
