@@ -14,6 +14,7 @@ import org.jmock.api.Action;
 import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.lib.concurrent.ScheduleOnExecutorAction;
 import org.jmock.lib.concurrent.SynchronousScheduler;
+import org.jmock.lib.concurrent.UnsupportedSynchronousOperationException;
 
 public class SynchronousSchedulerTests extends MockObjectTestCase {
     SynchronousScheduler scheduler = new SynchronousScheduler();
@@ -147,19 +148,50 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
         scheduler.tick(2, TimeUnit.SECONDS);
     }
     
+    static final int TIMEOUT_IGNORED = 1000;
+    
     public void testCanScheduleCallablesAndGetTheirResultAfterTheyHaveBeenExecuted() throws Exception {
-        final int timeoutIgnored = 1000;
-        
         checking(new Expectations() {{
             one (callableA).call(); will(returnValue("A"));
         }});
         
         ScheduledFuture<String> future = scheduler.schedule(callableA, 1, TimeUnit.SECONDS);
         
+        assertTrue("is not done", !future.isDone());
+        
         scheduler.tick(1, TimeUnit.SECONDS);
         
+        assertTrue("is done", future.isDone());
         assertThat(future.get(), equalTo("A"));
-        assertThat(future.get(timeoutIgnored, TimeUnit.SECONDS), equalTo("A"));
+        assertThat(future.get(TIMEOUT_IGNORED, TimeUnit.SECONDS), equalTo("A"));
+    }
+
+    public void testScheduledCallablesCanReturnNull() throws Exception {
+        checking(new Expectations() {{
+            one (callableA).call(); will(returnValue(null));
+        }});
+        
+        ScheduledFuture<String> future = scheduler.schedule(callableA, 1, TimeUnit.SECONDS);
+        
+        scheduler.tick(1, TimeUnit.SECONDS);
+        
+        assertNull(future.get());
+    }
+
+    public void testCannotBlockWaitingForFutureResultOfScheduledCallable() throws Exception {
+        ScheduledFuture<String> future = scheduler.schedule(callableA, 1, TimeUnit.SECONDS);
+        
+        try {
+            future.get();
+            fail("should have thrown UnsupportedSynchronousOperationException");
+        }
+        catch (UnsupportedSynchronousOperationException expected) {}
+        
+        try {
+            future.get(TIMEOUT_IGNORED, TimeUnit.SECONDS);
+            fail("should have thrown UnsupportedSynchronousOperationException");
+        }
+        catch (UnsupportedSynchronousOperationException expected) {}
     }
     
     private Action schedule(final Runnable command) {
