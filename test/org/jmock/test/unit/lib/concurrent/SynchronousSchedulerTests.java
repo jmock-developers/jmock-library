@@ -2,9 +2,12 @@ package org.jmock.test.unit.lib.concurrent;
 
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +30,7 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
     @SuppressWarnings("unchecked")
     Callable<String> callableA = mock(Callable.class, "callableA");
     
-    public void testRunsPendingCommands() {
+    public void testRunsPendingCommandsUntilIdle() {
         scheduler.execute(commandA);
         scheduler.execute(commandB);
         
@@ -38,28 +41,14 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
             one (commandB).run(); inSequence(executionOrder);
         }});
         
-        scheduler.runPendingCommands();
+        assertFalse(scheduler.isIdle());
+        
+        scheduler.runUntilIdle();
+        
+        assertTrue(scheduler.isIdle());
     }
     
-    public void testCanLeaveCommandsSpawnedByExecutedCommandsPendingForLaterExecution() {
-        scheduler.execute(commandA);
-        scheduler.execute(commandB);
-        
-        final Sequence executionOrder = sequence("executionOrder");
-        
-        checking(new Expectations() {{
-            one (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
-            one (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
-            never (commandC).run();
-            never (commandD).run();
-        }
-
-        });
-        
-        scheduler.runPendingCommands();
-    }
-    
-    public void testCanRunCommandsSpawnedByExecutedCommandsUntilNoCommandsArePending() {
+    public void testCanRunCommandsSpawnedByExecutedCommandsUntilIdle() {
         scheduler.execute(commandA);
         scheduler.execute(commandB);
         
@@ -75,6 +64,79 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
         scheduler.runUntilIdle();
     }
     
+    public void testCanScheduleCommandAndReturnFuture() throws InterruptedException, ExecutionException {
+        Future<?> future = scheduler.submit(commandA);
+        
+        checking(new Expectations() {{
+            one (commandA).run();
+        }});
+        
+        assertTrue("future should not be done before running the task", !future.isDone());
+        
+        scheduler.runUntilIdle();
+        
+        assertTrue("future should be done after running the task", future.isDone());
+        assertNull("result of future should be null", future.get());
+    }
+    
+    public void testCanScheduleCommandAndResultAndReturnFuture() throws InterruptedException, ExecutionException {
+        Future<String> future = scheduler.submit(commandA, "result1");
+        
+        checking(new Expectations() {{
+            one (commandA).run();
+        }});
+       
+        scheduler.runUntilIdle();
+        
+        assertThat(future.get(), equalTo("result1"));
+    }
+
+    public void testCanScheduleCallableAndReturnFuture() throws Exception {
+        Future<String> future = scheduler.submit(callableA);
+        
+        checking(new Expectations() {{
+            one (callableA).call(); will(returnValue("result2"));
+        }});
+        
+        scheduler.runUntilIdle();
+        
+        assertThat(future.get(), equalTo("result2"));
+    }
+
+    public void testScheduledCallablesCanReturnNull() throws Exception {
+        checking(new Expectations() {{
+            one (callableA).call(); will(returnValue(null));
+        }});
+        
+        Future<String> future = scheduler.submit(callableA);
+        
+        scheduler.runUntilIdle();
+        
+        assertNull(future.get());
+    }
+    
+    public class ExampleException extends Exception {}
+    
+    public void testExceptionThrownByScheduledCallablesIsThrownFromFuture() throws Exception {
+        final Throwable thrown = new ExampleException();
+        
+        checking(new Expectations() {{
+            one (callableA).call(); will(throwException(thrown));
+        }});
+        
+        Future<String> future = scheduler.submit(callableA);
+        
+        scheduler.runUntilIdle();
+        
+        try {
+            future.get();
+            fail("should have thrown ExecutionException");
+        }
+        catch (ExecutionException expected) {
+            assertThat(expected.getCause(), sameInstance(thrown));
+        }
+    }
+
     public void testCanScheduleCommandsToBeExecutedAfterADelay() {
         scheduler.schedule(commandA, 10, TimeUnit.SECONDS);
         
@@ -164,18 +226,6 @@ public class SynchronousSchedulerTests extends MockObjectTestCase {
         assertTrue("is done", future.isDone());
         assertThat(future.get(), equalTo("A"));
         assertThat(future.get(TIMEOUT_IGNORED, TimeUnit.SECONDS), equalTo("A"));
-    }
-
-    public void testScheduledCallablesCanReturnNull() throws Exception {
-        checking(new Expectations() {{
-            one (callableA).call(); will(returnValue(null));
-        }});
-        
-        ScheduledFuture<String> future = scheduler.schedule(callableA, 1, TimeUnit.SECONDS);
-        
-        scheduler.tick(1, TimeUnit.SECONDS);
-        
-        assertNull(future.get());
     }
 
     public void testCannotBlockWaitingForFutureResultOfScheduledCallable() throws Exception {

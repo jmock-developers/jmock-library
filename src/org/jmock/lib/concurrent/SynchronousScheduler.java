@@ -17,12 +17,12 @@ import java.util.concurrent.TimeoutException;
  * An {@link ScheduledExecutorService} that executes commands on the thread that calls any of
  * the {@link #runPendingCommands()}, {@link #runUntilIdle()} or 
  * {@link #tick(long, TimeUnit) tick} methods.  Objects of this class can also be used
- * as synchronous {@link Executor}s if you just want to control background execution and 
- * don't need to schedule commands.
+ * as {@link Executor}s if you just want to control background execution and 
+ * don't need to schedule commands, but it is simpler to use a {@link SynchronousExecutor}.
  * 
  * @author nat
  */
-public class SynchronousScheduler extends SynchronousExecutor implements ScheduledExecutorService {
+public class SynchronousScheduler implements ScheduledExecutorService {
     private final DeltaQueue<ScheduledTask<?>> deltaQueue = new DeltaQueue<ScheduledTask<?>>();
     
     /**
@@ -39,24 +39,33 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         
         do {
             remaining = deltaQueue.tick(remaining);
-            
-            while (deltaQueue.isNotEmpty() && deltaQueue.delay() == 0) {
-                ScheduledTask<?> scheduledTask = deltaQueue.pop();
-                
-                execute(scheduledTask);
-                
-                if (scheduledTask.repeats()) {
-                    deltaQueue.add(scheduledTask.repeatDelay, scheduledTask);
-                }
-            }
-            
             runUntilIdle();
             
         } while (deltaQueue.isNotEmpty() && remaining > 0);
     }
     
-    private long toTicks(long duration, TimeUnit timeUnit) {
-        return TimeUnit.MILLISECONDS.convert(duration, timeUnit);
+    public void runUntilIdle() {
+        while (!isIdle()) {
+            runNextPendingCommand();
+        }
+    }
+    
+    public void runNextPendingCommand() {
+        ScheduledTask<?> scheduledTask = deltaQueue.pop();
+        
+        scheduledTask.run();
+        
+        if (scheduledTask.repeats()) {
+            deltaQueue.add(scheduledTask.repeatDelay, scheduledTask);
+        }
+    }
+    
+    public boolean isIdle() {
+        return deltaQueue.isEmpty() || deltaQueue.delay() > 0;
+    }
+    
+    public void execute(Runnable command) {
+        schedule(command, 0, TimeUnit.SECONDS);
     }
     
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
@@ -76,61 +85,61 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
     }
     
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        ScheduledTask<Void> task = new ScheduledTask<Void>(toTicks(delay, unit), command);
+        ScheduledTask<Object> task = new ScheduledTask<Object>(toTicks(delay, unit), command);
         deltaQueue.add(toTicks(initialDelay, unit), task);
         return task;
     }
     
     public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-        throw new UnsupportedOperationException("not supported");
+        throw blockingOperationsNotSupported();
     }
 
     public <T> List<Future<T>> invokeAll(Collection<Callable<T>> tasks) throws InterruptedException {
-        throw new UnsupportedOperationException("not supported");
+        throw blockingOperationsNotSupported();
     }
 
     public <T> List<Future<T>> invokeAll(Collection<Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
-        throw new UnsupportedOperationException("not supported");
+        throw blockingOperationsNotSupported();
     }
     
     public <T> T invokeAny(Collection<Callable<T>> tasks)
         throws InterruptedException, ExecutionException 
     {
-        throw new UnsupportedOperationException("not supported");
+        throw blockingOperationsNotSupported();
     }
 
-    public <T> T invokeAny(Collection<Callable<T>> tasks,
-        long timeout, TimeUnit unit) throws InterruptedException,
-        ExecutionException, TimeoutException {
-        throw new UnsupportedOperationException("not supported");
+    public <T> T invokeAny(Collection<Callable<T>> tasks, long timeout, TimeUnit unit) 
+        throws InterruptedException, ExecutionException, TimeoutException 
+    {
+        throw blockingOperationsNotSupported();
     }
 
     public boolean isShutdown() {
-        throw new UnsupportedOperationException("not supported");
+        throw shutdownNotSupported();
     }
 
     public boolean isTerminated() {
-        throw new UnsupportedOperationException("not supported");
+        throw shutdownNotSupported();
     }
 
     public void shutdown() {
-        throw new UnsupportedOperationException("not supported");
+        throw shutdownNotSupported();
     }
 
     public List<Runnable> shutdownNow() {
-        throw new UnsupportedOperationException("not supported");
+        throw shutdownNotSupported();
     }
-
-    public <T> Future<T> submit(Callable<T> task) {
-        throw new UnsupportedOperationException("not supported");
+    
+    public <T> Future<T> submit(Callable<T> callable) {
+        return schedule(callable, 0, TimeUnit.SECONDS);
     }
-
-    public Future<?> submit(Runnable task) {
-        return submit(task, null);
+    
+    public Future<?> submit(Runnable command) {
+        return submit(command, null);
     }
-
-    public <T> Future<T> submit(Runnable task, T result) {
-        throw new UnsupportedOperationException("not supported");
+    
+    public <T> Future<T> submit(Runnable command, T result) {
+        return submit(new CallableRunnableAdapter<T>(command, result));
     }
     
     private final class CallableRunnableAdapter<T> implements Callable<T> {
@@ -140,6 +149,11 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         public CallableRunnableAdapter(Runnable runnable, T result) {
             this.runnable = runnable;
             this.result = result;
+        }
+        
+        @Override
+        public String toString() {
+            return runnable.toString();
         }
 
         public T call() throws Exception {
@@ -154,6 +168,7 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         private boolean isCancelled = false;
         private boolean isDone = false;
         private T futureResult;
+        private Exception failure = null;
         
         public ScheduledTask(Callable<T> command) {
             this.repeatDelay = -1;
@@ -167,6 +182,11 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         public ScheduledTask(long repeatDelay, Runnable command) {
             this.repeatDelay = repeatDelay;
             this.command = new CallableRunnableAdapter<T>(command, null); 
+        }
+        
+        @Override
+        public String toString() {
+            return command.toString() + " repeatDelay=" + repeatDelay;
         }
         
         public boolean repeats() {
@@ -187,14 +207,17 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         }
 
         public T get() throws InterruptedException, ExecutionException {
-            if (isDone) {
-                return futureResult;
+            if (!isDone) {
+                throw blockingOperationsNotSupported();
             }
-            else {
-                throw new UnsupportedSynchronousOperationException("cannot perform blocking wait on a task scheduled on a " + SynchronousScheduler.class.getName());
+            
+            if (failure != null) {
+                throw new ExecutionException(failure);
             }
+            
+            return futureResult;
         }
-        
+
         public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
             return get();
         }
@@ -210,11 +233,23 @@ public class SynchronousScheduler extends SynchronousExecutor implements Schedul
         public void run() {
             try {
                 futureResult = command.call();
-                isDone = true;
             }
             catch (Exception e) {
-                throw new UnsupportedOperationException("exceptions not handled yet");
+                failure = e;
             }
+            isDone = true;
         }
+    }
+
+    private long toTicks(long duration, TimeUnit timeUnit) {
+        return TimeUnit.MILLISECONDS.convert(duration, timeUnit);
+    }
+    
+    private UnsupportedSynchronousOperationException blockingOperationsNotSupported() {
+        return new UnsupportedSynchronousOperationException("cannot perform blocking wait on a task scheduled on a " + SynchronousScheduler.class.getName());
+    }
+    
+    private UnsupportedOperationException shutdownNotSupported() {
+        return new UnsupportedOperationException("shutdown not supported");
     }
 }
