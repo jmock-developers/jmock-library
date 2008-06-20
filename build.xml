@@ -1,4 +1,4 @@
-<project name="jMock 2" default="build">
+<project name="jMock 2 (JUnit 4.5 branch)" default="build">
 	<property name="version" value="2-SNAPSHOT"/>
 	<property name="distdir" value="build/jmock-${version}"/>
 
