@@ -266,9 +266,6 @@ public class Mockery implements SelfDescribing {
         }
         
         public void startCapturingExpectations(ExpectationCapture newCapture) {
-            if (capture != null) {
-                throw new IllegalStateException("nested expectations: you cannot start a new expectation in the middle of another");
-            }
             capture = newCapture;
         }
         
