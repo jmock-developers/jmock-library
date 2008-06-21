@@ -4,10 +4,9 @@ import junit.framework.TestCase;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.test.unit.support.AssertThat;
 
 // See issue JMOCK-184
-public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase {
+public class DefineExpectationWithinExpectationsAcceptanceTests_WORK_IN_PROGRESS extends TestCase {
     public interface MockedTypeA {
         void a(MockedTypeB b);
     }
@@ -30,17 +29,10 @@ public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase
     private MockedTypeB aNewMockWithExpectations() {
         final MockedTypeB mock = context.mock(MockedTypeB.class);
         
-        try {
-            context.checking(new Expectations() {{
-                ignoring (mock);
-            }});
+        context.checking(new Expectations() {{
+            ignoring (mock);
+        }});
             
-            fail("should have thrown IllegalStateException");
-        }
-        catch (IllegalStateException expected) {
-            AssertThat.stringIncludes("should report nested expectations", "nested expectations", expected.getMessage());
-        }
-        
         return mock;
     }
 }

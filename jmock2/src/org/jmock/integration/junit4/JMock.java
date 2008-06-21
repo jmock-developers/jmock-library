@@ -33,12 +33,28 @@ public class JMock extends JUnit4ClassRunner {
             @Override
             public void invoke(Object testFixture)
                 throws IllegalAccessException, InvocationTargetException {
-                super.invoke(testFixture);
-                mockeryOf(testFixture).assertIsSatisfied();
+                try {
+                    super.invoke(testFixture);
+                    assertMockeryIsSatisfied(testFixture);
+                }
+                catch (InvocationTargetException e) {
+                    Throwable actual = e.getTargetException();
+                    Class<? extends Throwable> expectedType = this.getExpectedException();
+                    
+                    if (expectedType != null && expectedType.isInstance(actual)) {
+                        assertMockeryIsSatisfied(testFixture);
+                    }
+                    
+                    throw e;
+                }
             }
         };
     }
-
+    
+    private void assertMockeryIsSatisfied(Object testFixture) {
+        mockeryOf(testFixture).assertIsSatisfied();
+    }
+    
     protected Mockery mockeryOf(Object test) {
         try {
             Mockery mockery = (Mockery)mockeryField.get(test);

@@ -6,6 +6,7 @@ import org.jmock.test.acceptance.junit4.testdata.DerivedJUnit4TestThatDoesNotSat
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotCreateAMockery;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotSatisfyExpectations;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesSatisfyExpectations;
+import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatThrowsExpectedException;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestWithNonPublicBeforeMethod;
 import org.jmock.test.unit.support.AssertThat;
 import org.junit.runner.Request;
@@ -38,6 +39,12 @@ public class JUnit4TestRunnerTests extends TestCase {
     public void testTheJUnit4TestRunnerReportsAHelpfulErrorIfTheMockeryIsNull() {
         runTest(JUnit4TestThatDoesNotCreateAMockery.class);
         assertTestFailedWith(IllegalStateException.class);
+    }
+    
+    // See issue JMOCK-156
+    public void testReportsMocksAreNotSatisfiedWhenExpectedExceptionIsThrown() {
+        runTest(JUnit4TestThatThrowsExpectedException.class);
+        assertTestFailedWith(AssertionError.class);
     }
     
     public void testDetectsNonPublicBeforeMethodsCorrectly() {
