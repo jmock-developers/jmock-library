@@ -6,7 +6,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 // See issue JMOCK-184
-public class DefineExpectationWithinExpectationsAcceptanceTests_WORK_IN_PROGRESS extends TestCase {
+public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase {
     public interface MockedTypeA {
         void a(MockedTypeB b);
     }
@@ -34,5 +34,14 @@ public class DefineExpectationWithinExpectationsAcceptanceTests_WORK_IN_PROGRESS
         }});
             
         return mock;
+    }
+    
+    public void testCanStillIgnoreEntireMockObjectsBeforeAnotherExpectation() {
+        final MockedTypeA a2 = context.mock(MockedTypeA.class, "a2");
+        
+        context.checking(new Expectations() {{
+            ignoring(a2);
+            one (a).a(aNewMockWithExpectations());
+        }});
     }
 }
