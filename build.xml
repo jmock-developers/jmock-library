@@ -201,10 +201,10 @@
 			overview="src/overview.html">
 
 			<packageset dir="src">
-				<exclude name="org/jmock/internal/**"/>
+				<exclude name="**/internal/**"/>
 			</packageset>
 			<packageset dir="build/extract/hamcrest-api">
-				<exclude name="org/hamcrest/internal/**"/>
+				<exclude name="**/internal/**"/>
 			</packageset>
 			
 			<group title="jMock 2" packages="org.jmock, org.jmock.*"/>

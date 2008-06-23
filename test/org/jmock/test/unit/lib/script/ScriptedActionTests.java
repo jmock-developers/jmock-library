@@ -1,7 +1,7 @@
 package org.jmock.test.unit.lib.script;
 
 import static org.hamcrest.Matchers.sameInstance;
-import static org.jmock.lib.script.ScriptedCallbackAction.perform;
+import static org.jmock.lib.script.ScriptedAction.perform;
 import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;
 
@@ -9,7 +9,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 
-public class ScriptedCallbackActionTests extends TestCase {
+public class ScriptedActionTests extends TestCase {
     public interface Callout {
         void doSomethingWith(Callback cb) throws Exception;
         void doSomethingWithBoth(Callback cb1, Callback cb2);
@@ -18,6 +18,7 @@ public class ScriptedCallbackActionTests extends TestCase {
     public interface Callback {
         void callback();
         void throwException() throws Exception;
+        void callbackWith(Object o);
         void callbackWith(Object o1, Object o2);
     }
     
@@ -45,6 +46,17 @@ public class ScriptedCallbackActionTests extends TestCase {
         }});
         
         callout.doSomethingWithBoth(callback, callback2);
+        
+        context.assertIsSatisfied();
+    }
+    
+    public void testScriptCanReferToInvokedObjectAs$This() throws Exception {
+        context.checking(new Expectations() {{
+            one (callout).doSomethingWith(callback); will(perform("$0.callbackWith($this)"));
+            one (callback).callbackWith(callout);
+        }});
+        
+        callout.doSomethingWith(callback);
         
         context.assertIsSatisfied();
     }
