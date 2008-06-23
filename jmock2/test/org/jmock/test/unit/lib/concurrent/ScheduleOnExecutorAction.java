@@ -1,4 +1,4 @@
-package org.jmock.lib.concurrent;
+package org.jmock.test.unit.lib.concurrent;
 
 import java.util.concurrent.Executor;
 
