@@ -75,4 +75,54 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
                                       "once", message);
         }
     }
+    
+    // See issue JMOCK-190
+    public void testCannotExpectToString() {
+        try {
+            context.checking(new Expectations() {{
+                allowing(mock).toString();
+            }});
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException expected) {} 
+    }
+    
+    // See issue JMOCK-190
+    public void testCannotExpectEquals() {
+        try {
+            context.checking(new Expectations() {{
+                allowing(mock).equals("any object");
+            }});
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException expected) {}
+    }
+    
+    // See issue JMOCK-190
+    public void testCannotExpectHashCode() {
+        try {
+            context.checking(new Expectations() {{
+                allowing(mock).hashCode();
+            }});
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException expected) {}
+    }
+    
+    public interface TypeThatMakesFinalizePublic {
+        public void finalize();
+    }
+    
+    // See issue JMOCK-190
+    public void testCannotExpectFinalize() {
+        final TypeThatMakesFinalizePublic mockWithFinalize = context.mock(TypeThatMakesFinalizePublic.class, "mockWithFinalize");
+        
+        try {
+            context.checking(new Expectations() {{
+                allowing(mockWithFinalize).finalize();
+            }});
+            fail("should have thrown IllegalArgumentException");
+        }
+        catch (IllegalArgumentException expected) {}
+    }
 }

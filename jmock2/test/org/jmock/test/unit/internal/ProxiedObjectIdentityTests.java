@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import junit.framework.TestCase;
 
 import org.jmock.api.Invocation;
+import org.jmock.internal.FakeObjectMethods;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.test.acceptance.MockedType;
 import org.jmock.test.unit.support.StubInvokable;
@@ -12,7 +13,7 @@ import org.jmock.test.unit.support.StubInvokable;
 public class ProxiedObjectIdentityTests extends TestCase {
     String name = "name";
     StubInvokable next = new StubInvokable();
-    ProxiedObjectIdentity id = new ProxiedObjectIdentity(next);
+    FakeObjectMethods id = new ProxiedObjectIdentity(next);
 
     Object invokedObject = "invokedObject";
     Object otherObject = "otherObject";

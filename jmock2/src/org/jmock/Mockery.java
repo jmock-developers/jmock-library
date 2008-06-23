@@ -21,6 +21,7 @@ import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
 import org.jmock.internal.InvocationToExpectationTranslator;
 import org.jmock.internal.NamedSequence;
+import org.jmock.internal.ObjectMethodExpectationBouncer;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.internal.ReturnDefaultValueAction;
 import org.jmock.lib.CamelCaseNamingScheme;
@@ -258,8 +259,9 @@ public class Mockery implements SelfDescribing {
         }
 
         public Object captureExpectationTo(ExpectationCapture capture) {
-            return imposteriser.imposterise(new InvocationToExpectationTranslator(capture, defaultAction), 
-                                            mockedType);
+            return imposteriser.imposterise(
+                new ObjectMethodExpectationBouncer(new InvocationToExpectationTranslator(capture, defaultAction)), 
+                mockedType);
         }
     }
 }
