@@ -19,6 +19,7 @@ import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.InvocationDiverter;
+import org.jmock.internal.InvocationToExpectationTranslator;
 import org.jmock.internal.NamedSequence;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.internal.ReturnDefaultValueAction;
@@ -47,7 +48,6 @@ public class Mockery implements SelfDescribing {
     private ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
-    private ExpectationCapture capture = null;
     private Throwable firstError = null;
     
     private List<Invocation> actualInvocations = new ArrayList<Invocation>();
@@ -127,7 +127,7 @@ public class Mockery implements SelfDescribing {
             throw new IllegalArgumentException("a mock with name " + name + " already exists");
         }
         
-        MockObject mock = new MockObject(name);
+        MockObject mock = new MockObject(typeToMock, name);
         mockNames.add(name);
         
         ProxiedObjectIdentity invokable = 
@@ -173,7 +173,6 @@ public class Mockery implements SelfDescribing {
      */
 	public void checking(ExpectationBuilder expectations) {
 	    expectations.buildExpectations(defaultAction, dispatcher);
-        capture = null;
     }
 	
     /**
@@ -210,28 +209,23 @@ public class Mockery implements SelfDescribing {
     }
     
     private Object dispatch(Invocation invocation) throws Throwable {
-        if (isCapturingExpectations()) {
-            capture.createExpectationFrom(invocation);
-            return defaultAction.invoke(invocation);
-        }
-        else if (firstError != null) {
+        if (firstError != null) {
             throw firstError;
         }
-        else {
-            try {
-                Object result = dispatcher.dispatch(invocation);
-                actualInvocations.add(invocation);
-                return result;
-            }
-            catch (ExpectationError e) {
-                firstError = expectationErrorTranslator.translate(fillInDetails(e));
-                firstError.setStackTrace(e.getStackTrace());
-                throw firstError;
-            }
-            catch (Throwable t) {
-                actualInvocations.add(invocation);
-                throw t;
-            }
+        
+        try {
+            Object result = dispatcher.dispatch(invocation);
+            actualInvocations.add(invocation);
+            return result;
+        }
+        catch (ExpectationError e) {
+            firstError = expectationErrorTranslator.translate(fillInDetails(e));
+            firstError.setStackTrace(e.getStackTrace());
+            throw firstError;
+        }
+        catch (Throwable t) {
+            actualInvocations.add(invocation);
+            throw t;
         }
     }
     
@@ -245,15 +239,13 @@ public class Mockery implements SelfDescribing {
         return filledIn;
     }
 
-    private boolean isCapturingExpectations() {
-        return capture != null;
-    }
-    
     private class MockObject implements Invokable, CaptureControl {
+        private Class<?> mockedType;
         private String name;
         
-        public MockObject(String name) {
+        public MockObject(Class<?> mockedType, String name) {
             this.name = name;
+            this.mockedType = mockedType;
         }
         
         @Override
@@ -264,13 +256,10 @@ public class Mockery implements SelfDescribing {
         public Object invoke(Invocation invocation) throws Throwable {
             return dispatch(invocation);
         }
-        
-        public void startCapturingExpectations(ExpectationCapture newCapture) {
-            capture = newCapture;
-        }
-        
-        public void stopCapturingExpectations() {
-            capture = null;
+
+        public Object captureExpectationTo(ExpectationCapture capture) {
+            return imposteriser.imposterise(new InvocationToExpectationTranslator(capture, defaultAction), 
+                                            mockedType);
         }
     }
 }

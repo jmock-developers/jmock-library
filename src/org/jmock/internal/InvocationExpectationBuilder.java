@@ -26,7 +26,6 @@ public class InvocationExpectationBuilder
     
     private boolean isFullySpecified = false;
     private boolean needsDefaultAction = true;
-    private CaptureControl dispatcher = null;
     private List<Matcher<?>> capturedParameterMatchers = new ArrayList<Matcher<?>>();
     
     public Expectation toExpectation(Action defaultAction) {
@@ -62,15 +61,25 @@ public class InvocationExpectationBuilder
         expectation.addSideEffect(sideEffect);
     }
     
-    private <T> void captureExpectedObject(T mockObject) {
+    private <T> T captureExpectedObject(T mockObject) {
         if (!(mockObject instanceof CaptureControl)) {
             throw new IllegalArgumentException("can only set expectations on mock objects");
         }
         
-        dispatcher = (CaptureControl)mockObject;
         expectation.setObjectMatcher(new MockObjectMatcher(mockObject));
         isFullySpecified = true;
-        dispatcher.startCapturingExpectations(this);
+        
+        Object capturingImposter = ((CaptureControl)mockObject).captureExpectationTo(this);
+        
+        return asMockedType(mockObject, capturingImposter);
+    }
+    
+    // Damn you Java generics! Damn you to HELL!
+    @SuppressWarnings("unchecked")
+    private <T> T asMockedType(@SuppressWarnings("unused") T mockObject, 
+                               Object capturingImposter) 
+    {
+        return (T) capturingImposter;
     }
     
     public void createExpectationFrom(Invocation invocation) {
@@ -83,8 +92,6 @@ public class InvocationExpectationBuilder
             checkParameterMatcherCount(invocation);
             expectation.setParametersMatcher(new ParametersMatcher(capturedParameterMatchers));
         }
-        
-        dispatcher.stopCapturingExpectations();
     }
     
     private void checkParameterMatcherCount(Invocation invocation) {
@@ -104,8 +111,7 @@ public class InvocationExpectationBuilder
      */
     
     public <T> T of(T mockObject) {
-        captureExpectedObject(mockObject);
-        return mockObject;
+        return captureExpectedObject(mockObject);
     }
 
     public MethodClause of(Matcher<?> objectMatcher) {
