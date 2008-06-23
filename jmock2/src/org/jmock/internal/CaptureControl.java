@@ -3,6 +3,5 @@ package org.jmock.internal;
 
 
 public interface CaptureControl {
-    void startCapturingExpectations(ExpectationCapture capture);
-    void stopCapturingExpectations();
+    Object captureExpectationTo(ExpectationCapture capture);
 }
