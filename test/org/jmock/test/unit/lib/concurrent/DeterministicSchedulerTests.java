@@ -15,12 +15,11 @@ import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.api.Action;
 import org.jmock.integration.junit3.MockObjectTestCase;
-import org.jmock.lib.concurrent.ScheduleOnExecutorAction;
-import org.jmock.lib.concurrent.SynchronousScheduler;
+import org.jmock.lib.concurrent.DeterministicScheduler;
 import org.jmock.lib.concurrent.UnsupportedSynchronousOperationException;
 
-public class SynchronousSchedulerTests extends MockObjectTestCase {
-    SynchronousScheduler scheduler = new SynchronousScheduler();
+public class DeterministicSchedulerTests extends MockObjectTestCase {
+    DeterministicScheduler scheduler = new DeterministicScheduler();
     
     Runnable commandA = mock(Runnable.class, "commandA");
     Runnable commandB = mock(Runnable.class, "commandB");

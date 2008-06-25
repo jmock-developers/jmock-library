@@ -6,23 +6,26 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.jmock.lib.concurrent.internal.DeltaQueue;
+
 
 /**
- * An {@link ScheduledExecutorService} that executes commands on the thread that calls any of
- * the {@link #runPendingCommands()}, {@link #runUntilIdle()} or 
- * {@link #tick(long, TimeUnit) tick} methods.  Objects of this class can also be used
- * as {@link Executor}s if you just want to control background execution and 
- * don't need to schedule commands, but it is simpler to use a {@link SynchronousExecutor}.
+ * A {@link ScheduledExecutorService} that executes commands on the thread that calls
+ * {@link #runNextPendingCommand() runNextPendingCommand}, {@link #runUntilIdle() runUntilIdle} or 
+ * {@link #tick(long, TimeUnit) tick}.  Objects of this class can also be used
+ * as {@link Executor}s or {@link ExecutorService}s if you just want to control background execution 
+ * and don't need to schedule commands, but it may be simpler to use a {@link DeterministicExecutor}.
  * 
  * @author nat
  */
-public class SynchronousScheduler implements ScheduledExecutorService {
+public class DeterministicScheduler implements ScheduledExecutorService {
     private final DeltaQueue<ScheduledTask<?>> deltaQueue = new DeltaQueue<ScheduledTask<?>>();
     
     /**
@@ -44,12 +47,19 @@ public class SynchronousScheduler implements ScheduledExecutorService {
         } while (deltaQueue.isNotEmpty() && remaining > 0);
     }
     
+    /**
+     * Runs all commands scheduled to be executed immediately but does 
+     * not tick time forward.
+     */
     public void runUntilIdle() {
         while (!isIdle()) {
             runNextPendingCommand();
         }
     }
     
+    /**
+     * Runs the next command scheduled to be executed immediately.
+     */
     public void runNextPendingCommand() {
         ScheduledTask<?> scheduledTask = deltaQueue.pop();
         
@@ -60,6 +70,12 @@ public class SynchronousScheduler implements ScheduledExecutorService {
         }
     }
     
+    /**
+     * Reports whether scheduler is "idle": has no commands pending immediate execution.
+     * 
+     * @return true if there are no commands pending immediate execution,
+     *         false if there are commands pending immediate execution.
+     */
     public boolean isIdle() {
         return deltaQueue.isEmpty() || deltaQueue.delay() > 0;
     }
@@ -246,7 +262,7 @@ public class SynchronousScheduler implements ScheduledExecutorService {
     }
     
     private UnsupportedSynchronousOperationException blockingOperationsNotSupported() {
-        return new UnsupportedSynchronousOperationException("cannot perform blocking wait on a task scheduled on a " + SynchronousScheduler.class.getName());
+        return new UnsupportedSynchronousOperationException("cannot perform blocking wait on a task scheduled on a " + DeterministicScheduler.class.getName());
     }
     
     private UnsupportedOperationException shutdownNotSupported() {

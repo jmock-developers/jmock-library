@@ -1,6 +1,6 @@
-package org.jmock.test.unit.lib.concurrent;
+package org.jmock.test.unit.lib.concurrent.internal;
 
-import org.jmock.lib.concurrent.DeltaQueue;
+import org.jmock.lib.concurrent.internal.DeltaQueue;
 
 import junit.framework.TestCase;
 

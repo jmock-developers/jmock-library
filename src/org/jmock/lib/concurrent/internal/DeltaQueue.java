@@ -1,4 +1,4 @@
-package org.jmock.lib.concurrent;
+package org.jmock.lib.concurrent.internal;
 
 
 public class DeltaQueue<T> {
