@@ -27,16 +27,21 @@ public class JMock extends BlockJUnit4ClassRunner {
     }
     
     @Override
-    protected Statement invoke(FrameworkMethod method, final Object test) {
-        return verify(test, super.invoke(method, test));
+    protected Statement possiblyExpectingExceptions(FrameworkMethod method, Object test, Statement next) {
+        return verify(method, test, 
+                      super.possiblyExpectingExceptions(method, test, next));
     }
     
-    protected Statement verify(final Object test, final Statement link) {
+    protected Statement verify(
+        @SuppressWarnings("unused") FrameworkMethod method, 
+        final Object test, 
+        final Statement link) 
+    {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
                 link.evaluate();
-                mockeryOf(test).assertIsSatisfied();
+                assertMockeryIsSatisfied(test);
             }
         };
     }
@@ -53,7 +58,11 @@ public class JMock extends BlockJUnit4ClassRunner {
             throw new IllegalStateException("cannot get value of field " + mockeryField.getName(), e);
         }
     }
-
+    
+    protected void assertMockeryIsSatisfied(Object test) {
+        mockeryOf(test).assertIsSatisfied();
+    }
+    
     static Field findMockeryField(Class<?> testClass) throws InitializationError {
         for (Class<?> c = testClass; c != Object.class; c = c.getSuperclass()) {
             for (Field field: c.getDeclaredFields()) {
