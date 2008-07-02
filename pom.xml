@@ -53,9 +53,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo.groovy</groupId>
-        <artifactId>groovy-maven-plugin</artifactId>
-        <version>1.0-beta-1</version>
+        <groupId>org.codehaus.groovy.maven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <version>1.0-rc-2</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
@@ -140,7 +140,7 @@
         <module>jmock-legacy</module>
       </modules>
       <properties>
-        <release.version>2.4.0</release.version>
+        <release.version>2.5.0-RC1</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
       </properties>
     </profile>
