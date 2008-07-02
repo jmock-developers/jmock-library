@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="lib/hamcrest-library-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-core-2.0b4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JDK 5"/>
-	<classpathentry kind="lib" path="lib/junit-4.5-SNAPSHOT-20080624-1254.jar" sourcepath="lib/junit-4.5-SNAPSHOT-20080624-1254-src.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.5-SNAPSHOT-20080702-0922.jar" sourcepath="lib/junit-4.5-SNAPSHOT-20080702-0922-src.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

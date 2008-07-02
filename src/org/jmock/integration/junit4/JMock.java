@@ -3,11 +3,11 @@ package org.jmock.integration.junit4;
 import java.lang.reflect.Field;
 
 import org.jmock.Mockery;
-import org.junit.internal.runners.BlockJUnit4ClassRunner;
 import org.junit.internal.runners.InitializationError;
-import org.junit.internal.runners.links.Statement;
 import org.junit.internal.runners.model.FrameworkMethod;
 import org.junit.runner.Runner;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.Statement;
 
 
 /**
