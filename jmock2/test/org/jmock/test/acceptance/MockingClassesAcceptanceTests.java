@@ -25,7 +25,7 @@ public class MockingClassesAcceptanceTests extends TestCase {
         final FinalClass result = new FinalClass();
         
         context.checking(new Expectations() {{
-            one (mock).returnInstanceOfFinalClass(); will(returnValue(result));
+            oneOf (mock).returnInstanceOfFinalClass(); will(returnValue(result));
         }});
         
         // This should not crash

@@ -21,8 +21,8 @@ public class DeterministicExecutorTests extends MockObjectTestCase {
         final Sequence executionOrder = sequence("executionOrder");
         
         checking(new Expectations() {{
-            one (commandA).run(); inSequence(executionOrder);
-            one (commandB).run(); inSequence(executionOrder);
+            oneOf (commandA).run(); inSequence(executionOrder);
+            oneOf (commandB).run(); inSequence(executionOrder);
         }});
         
         scheduler.runPendingCommands();
@@ -35,8 +35,8 @@ public class DeterministicExecutorTests extends MockObjectTestCase {
         final Sequence executionOrder = sequence("executionOrder");
         
         checking(new Expectations() {{
-            one (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
-            one (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
+            oneOf (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
+            oneOf (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
             never (commandC).run();
             never (commandD).run();
         }});
@@ -51,10 +51,10 @@ public class DeterministicExecutorTests extends MockObjectTestCase {
         final Sequence executionOrder = sequence("executionOrder");
         
         checking(new Expectations() {{
-            one (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
-            one (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
-            one (commandC).run(); inSequence(executionOrder);
-            one (commandD).run(); inSequence(executionOrder);
+            oneOf (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
+            oneOf (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
+            oneOf (commandC).run(); inSequence(executionOrder);
+            oneOf (commandD).run(); inSequence(executionOrder);
         }});
         
         scheduler.runUntilIdle();

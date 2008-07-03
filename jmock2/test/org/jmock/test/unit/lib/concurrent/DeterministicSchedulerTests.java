@@ -36,8 +36,8 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         final Sequence executionOrder = sequence("executionOrder");
         
         checking(new Expectations() {{
-            one (commandA).run(); inSequence(executionOrder);
-            one (commandB).run(); inSequence(executionOrder);
+            oneOf (commandA).run(); inSequence(executionOrder);
+            oneOf (commandB).run(); inSequence(executionOrder);
         }});
         
         assertFalse(scheduler.isIdle());
@@ -54,10 +54,10 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         final Sequence executionOrder = sequence("executionOrder");
         
         checking(new Expectations() {{
-            one (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
-            one (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
-            one (commandC).run(); inSequence(executionOrder);
-            one (commandD).run(); inSequence(executionOrder);
+            oneOf (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
+            oneOf (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
+            oneOf (commandC).run(); inSequence(executionOrder);
+            oneOf (commandD).run(); inSequence(executionOrder);
         }});
         
         scheduler.runUntilIdle();
@@ -67,7 +67,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         Future<?> future = scheduler.submit(commandA);
         
         checking(new Expectations() {{
-            one (commandA).run();
+            oneOf (commandA).run();
         }});
         
         assertTrue("future should not be done before running the task", !future.isDone());
@@ -82,7 +82,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         Future<String> future = scheduler.submit(commandA, "result1");
         
         checking(new Expectations() {{
-            one (commandA).run();
+            oneOf (commandA).run();
         }});
        
         scheduler.runUntilIdle();
@@ -94,7 +94,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         Future<String> future = scheduler.submit(callableA);
         
         checking(new Expectations() {{
-            one (callableA).call(); will(returnValue("result2"));
+            oneOf (callableA).call(); will(returnValue("result2"));
         }});
         
         scheduler.runUntilIdle();
@@ -104,7 +104,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
 
     public void testScheduledCallablesCanReturnNull() throws Exception {
         checking(new Expectations() {{
-            one (callableA).call(); will(returnValue(null));
+            oneOf (callableA).call(); will(returnValue(null));
         }});
         
         Future<String> future = scheduler.submit(callableA);
@@ -120,7 +120,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         final Throwable thrown = new ExampleException();
         
         checking(new Expectations() {{
-            one (callableA).call(); will(throwException(thrown));
+            oneOf (callableA).call(); will(throwException(thrown));
         }});
         
         Future<String> future = scheduler.submit(callableA);
@@ -142,7 +142,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         scheduler.tick(9, TimeUnit.SECONDS);
         
         checking(new Expectations() {{
-            one (commandA).run();
+            oneOf (commandA).run();
         }});
         
         scheduler.tick(1, TimeUnit.SECONDS);
@@ -153,8 +153,8 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         scheduler.schedule(commandB, 2, TimeUnit.MILLISECONDS);
         
         checking(new Expectations() {{
-            one (commandA).run();
-            one (commandB).run();
+            oneOf (commandA).run();
+            oneOf (commandB).run();
         }});
         
         scheduler.tick(3, TimeUnit.MILLISECONDS);
@@ -165,10 +165,10 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         scheduler.schedule(commandD, 2, TimeUnit.MILLISECONDS);
         
         checking(new Expectations() {{
-            one (commandA).run(); will(schedule(commandB));
-            one (commandB).run(); will(schedule(commandC));
-            one (commandC).run();
-            one (commandD).run();
+            oneOf (commandA).run(); will(schedule(commandB));
+            oneOf (commandB).run(); will(schedule(commandC));
+            oneOf (commandC).run();
+            oneOf (commandD).run();
         }});
         
         scheduler.tick(3, TimeUnit.MILLISECONDS);
@@ -213,7 +213,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     
     public void testCanScheduleCallablesAndGetTheirResultAfterTheyHaveBeenExecuted() throws Exception {
         checking(new Expectations() {{
-            one (callableA).call(); will(returnValue("A"));
+            oneOf (callableA).call(); will(returnValue("A"));
         }});
         
         ScheduledFuture<String> future = scheduler.schedule(callableA, 1, TimeUnit.SECONDS);

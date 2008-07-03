@@ -17,8 +17,8 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
-            one (mock).method2(); inSequence(s);
+            oneOf (mock).method1(); inSequence(s);
+            oneOf (mock).method2(); inSequence(s);
         }});
         
         try {
@@ -34,8 +34,8 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
-            one (mock).method2(); inSequence(s);
+            oneOf (mock).method1(); inSequence(s);
+            oneOf (mock).method2(); inSequence(s);
         }});
         
         mock.method1();
@@ -46,9 +46,9 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
+            oneOf (mock).method1(); inSequence(s);
             allowing (mock).method2(); inSequence(s);
-            one (mock).method3(); inSequence(s);
+            oneOf (mock).method3(); inSequence(s);
         }});
         
         mock.method1();
@@ -60,11 +60,11 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence t = context.sequence("t");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
-            one (mock).method2(); inSequence(s);
+            oneOf (mock).method1(); inSequence(s);
+            oneOf (mock).method2(); inSequence(s);
             
-            one (mock).method3(); inSequence(t);
-            one (mock).method4(); inSequence(t);
+            oneOf (mock).method3(); inSequence(t);
+            oneOf (mock).method4(); inSequence(t);
         }});
         
         mock.method1();
@@ -77,7 +77,7 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
+            oneOf (mock).method1(); inSequence(s);
         }});
         
         try {
@@ -94,9 +94,9 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence t = context.sequence("t");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
-            one (mock).method2(); inSequence(t);
-            one (mock).method3(); inSequence(s); inSequence(t);
+            oneOf (mock).method1(); inSequence(s);
+            oneOf (mock).method2(); inSequence(t);
+            oneOf (mock).method3(); inSequence(s); inSequence(t);
         }});
         
         mock.method1();
@@ -117,9 +117,9 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence t = context.sequence("t");
         
         context.checking(new Expectations() {{
-            one (mock).method1(); inSequence(s);
-            one (mock).method2(); inSequence(t);
-            one (mock).method3(); inSequences(s, t);
+            oneOf (mock).method1(); inSequence(s);
+            oneOf (mock).method2(); inSequence(t);
+            oneOf (mock).method3(); inSequences(s, t);
         }});
         
         mock.method1();

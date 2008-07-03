@@ -18,7 +18,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
         final Money expectedBid = beatableBid.add(increment);
 
         checking(new Expectations() {{
-            one (auction).bid(expectedBid);
+            oneOf (auction).bid(expectedBid);
         }});
 
         sniper.bidAccepted(auction, beatableBid);

@@ -74,9 +74,9 @@ public class StatesAcceptanceTest extends TestCase {
     
     public void testSwitchesStateWhenMethodThrowsAnException() {
         context.checking(new Expectations() {{
-            one (mock).method1(); will(throwException(new TestException())); 
+            oneOf (mock).method1(); will(throwException(new TestException())); 
                 then(readiness.is("ready"));
-            one (mock).method2(); when(readiness.is("ready"));
+            oneOf (mock).method2(); when(readiness.is("ready"));
         }});
         
         try {

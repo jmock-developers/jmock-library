@@ -9,7 +9,7 @@ public class DerivedJUnit4TestThatDoesNotSatisfyExpectations extends BaseClassWi
     @Test
     public void doesNotSatisfyExpectations() {
         context.checking(new Expectations() {{
-            one (runnable).run();
+            oneOf (runnable).run();
         }});
         
         // Return without satisfying the expectation for runnable.run()

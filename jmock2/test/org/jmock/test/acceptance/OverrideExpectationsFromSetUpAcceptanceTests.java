@@ -28,7 +28,7 @@ public class OverrideExpectationsFromSetUpAcceptanceTests extends TestCase {
     
     public void testSomething() {
         mockery.checking(new Expectations() {{
-            one (mock).doSomethingWith("whee");
+            oneOf (mock).doSomethingWith("whee");
         }});
         
         try {
