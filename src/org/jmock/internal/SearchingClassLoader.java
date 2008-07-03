@@ -40,8 +40,15 @@ public class SearchingClassLoader extends ClassLoader {
             addIfNewElement(loaders, c.getClassLoader());
         }
         
-        // To support the Maven Surefire plugin.  
-        // However, I've been unable to reproduce the error in jMock's test suite.
+        // To support Eclipse Plug-in tests.
+        // In an Eclipse plug-in, jMock itself will not be on the system class loader
+        // but in the class loader of the plug-in.
+        //
+        // Note: I've been unable to reproduce the error in jMock's test suite.
+        addIfNewElement(loaders, SearchingClassLoader.class.getClassLoader());
+        
+        // To support the Maven Surefire plugin.
+        // Note: I've been unable to reproduce the error in jMock's test suite.
         addIfNewElement(loaders, currentThread().getContextClassLoader());
         
         addIfNewElement(loaders, ClassLoader.getSystemClassLoader());

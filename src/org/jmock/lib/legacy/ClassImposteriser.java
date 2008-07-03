@@ -123,7 +123,7 @@ public class ClassImposteriser implements Imposteriser {
         }
         catch (CodeGenerationException e) {
             // Note: I've only been able to manually test this.  It exists to help people writing
-            //       Eclipse plugins or using other environments that have sophisticated class loader
+            //       Eclipse plug-ins or using other environments that have sophisticated class loader
             //       structures.
             throw new IllegalArgumentException("could not imposterise " + mockedType, e);
         }
