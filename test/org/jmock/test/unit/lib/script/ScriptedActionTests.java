@@ -30,8 +30,8 @@ public class ScriptedActionTests extends TestCase {
     
     public void testInterpretsCallbackExpression() throws Exception {
         context.checking(new Expectations() {{
-            one (callout).doSomethingWith(callback); will(perform("$0.callback()"));
-            one (callback).callback();
+            oneOf (callout).doSomethingWith(callback); will(perform("$0.callback()"));
+            oneOf (callback).callback();
         }});
         
         callout.doSomethingWith(callback);
@@ -41,8 +41,8 @@ public class ScriptedActionTests extends TestCase {
 
     public void testScriptCanReferToParametersByIndex() {
         context.checking(new Expectations() {{
-            one (callout).doSomethingWithBoth(callback, callback2); will(perform("$1.callback()"));
-            one (callback2).callback();
+            oneOf (callout).doSomethingWithBoth(callback, callback2); will(perform("$1.callback()"));
+            oneOf (callback2).callback();
         }});
         
         callout.doSomethingWithBoth(callback, callback2);
@@ -52,8 +52,8 @@ public class ScriptedActionTests extends TestCase {
     
     public void testScriptCanReferToInvokedObjectAs$This() throws Exception {
         context.checking(new Expectations() {{
-            one (callout).doSomethingWith(callback); will(perform("$0.callbackWith($this)"));
-            one (callback).callbackWith(callout);
+            oneOf (callout).doSomethingWith(callback); will(perform("$0.callbackWith($this)"));
+            oneOf (callback).callbackWith(callout);
         }});
         
         callout.doSomethingWith(callback);
@@ -66,8 +66,8 @@ public class ScriptedActionTests extends TestCase {
         final Object v2 = new Object();
         
         context.checking(new Expectations() {{
-            one (callout).doSomethingWith(callback); will(perform("$0.callbackWith(x, y)").where("x", v1).where("y", v2));
-            one (callback).callbackWith(v1, v2);
+            oneOf (callout).doSomethingWith(callback); will(perform("$0.callbackWith(x, y)").where("x", v1).where("y", v2));
+            oneOf (callback).callbackWith(v1, v2);
         }});
         
         callout.doSomethingWith(callback);
@@ -79,8 +79,8 @@ public class ScriptedActionTests extends TestCase {
         final Exception exception = new Exception("exception");
         
         context.checking(new Expectations() {{
-            one (callout).doSomethingWith(callback); will(perform("$0.throwException()"));
-            one (callback).throwException(); will(throwException(exception));
+            oneOf (callout).doSomethingWith(callback); will(perform("$0.throwException()"));
+            oneOf (callback).throwException(); will(throwException(exception));
         }});
         
         try {
@@ -91,6 +91,5 @@ public class ScriptedActionTests extends TestCase {
         }
         
         context.assertIsSatisfied();
-
     }
 }

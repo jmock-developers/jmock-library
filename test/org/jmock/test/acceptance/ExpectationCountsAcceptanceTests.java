@@ -13,7 +13,7 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
     
     public void testOne() {
         context.checking(new Expectations() {{
-            one (mock).doSomething();
+            oneOf (mock).doSomething();
         }});
         
         assertContextIsNotSatisfied();

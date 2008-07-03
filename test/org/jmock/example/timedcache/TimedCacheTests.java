@@ -37,8 +37,8 @@ public class TimedCacheTests extends TestCase {
         context.checking(new Expectations() {{
             allowing (clock).time(); will(returnValue(loadTime));
 
-            one (loader).load("key1"); will(returnValue(VALUE1));
-            one (loader).load("key2"); will(returnValue(VALUE2));
+            oneOf (loader).load("key1"); will(returnValue(VALUE1));
+            oneOf (loader).load("key2"); will(returnValue(VALUE2));
         }});
 
         Object actualValue1 = cache.lookup("key1");
@@ -51,12 +51,12 @@ public class TimedCacheTests extends TestCase {
 
     public void testReturnsCachedObjectWithinTimeout() {
         context.checking(new Expectations() {{
-            one (clock).time(); will(returnValue(loadTime));
-            one (clock).time(); will(returnValue(fetchTime));
+            oneOf (clock).time(); will(returnValue(loadTime));
+            oneOf (clock).time(); will(returnValue(fetchTime));
             
             allowing (reloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(false));
             
-            one (loader).load(KEY); will(returnValue(VALUE));
+            oneOf (loader).load(KEY); will(returnValue(VALUE));
         }});
         
         Object actualValueFromFirstLookup = cache.lookup(KEY);
@@ -71,11 +71,11 @@ public class TimedCacheTests extends TestCase {
         context.checking(new Expectations() {{
             allowing (reloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(true));
             
-            one (clock).time(); will(returnValue(loadTime));
-            one (loader).load(KEY); will(returnValue(VALUE));
+            oneOf (clock).time(); will(returnValue(loadTime));
+            oneOf (loader).load(KEY); will(returnValue(VALUE));
             
-            one (clock).time(); will(returnValue(fetchTime));
-            one (loader).load(KEY); will(returnValue(NEW_VALUE));
+            oneOf (clock).time(); will(returnValue(fetchTime));
+            oneOf (loader).load(KEY); will(returnValue(NEW_VALUE));
         }});
         
         Object actualValueFromFirstLookup = cache.lookup(KEY);

@@ -87,8 +87,16 @@ public class Expectations implements ExpectationBuilder,
         return currentBuilder;
     }
     
-    public <T> T one (T mockObject) {
+    // Makes the entire expectation more readable than one
+    public <T> T oneOf(T mockObject) {
         return exactly(1).of(mockObject);
+    }
+    
+    /**
+     * This will eventually be deprecated. Use {@link #oneOf(Object) oneOf} instead.
+     */
+    public <T> T one (T mockObject) {
+        return oneOf(mockObject);
     }
     
     public ReceiverClause atLeast(int count) {

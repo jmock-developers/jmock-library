@@ -32,10 +32,10 @@ public class AnnouncerTests extends MockObjectTestCase {
 		final Sequence eventOrder = sequence("eventOrder");
 		
 		checking(new Expectations() {{
-			one (listener1).eventA(); inSequence(eventOrder);
-			one (listener2).eventA(); inSequence(eventOrder);
-			one (listener1).eventB(); inSequence(eventOrder);
-			one (listener2).eventB(); inSequence(eventOrder);
+			oneOf (listener1).eventA(); inSequence(eventOrder);
+			oneOf (listener2).eventA(); inSequence(eventOrder);
+			oneOf (listener1).eventB(); inSequence(eventOrder);
+			oneOf (listener2).eventB(); inSequence(eventOrder);
 		}});
 		
 		announcer.announce().eventA();
@@ -44,10 +44,10 @@ public class AnnouncerTests extends MockObjectTestCase {
 	
 	public void testPassesEventArgumentsToListeners() {
 		checking(new Expectations() {{
-			one (listener1).eventWithArguments(1, 2);
-			one (listener2).eventWithArguments(1, 2);
-			one (listener1).eventWithArguments(3, 4);
-			one (listener2).eventWithArguments(3, 4);
+			oneOf (listener1).eventWithArguments(1, 2);
+			oneOf (listener2).eventWithArguments(1, 2);
+			oneOf (listener1).eventWithArguments(3, 4);
+			oneOf (listener2).eventWithArguments(3, 4);
 		}});
 		
 		announcer.announce().eventWithArguments(1, 2);
@@ -58,7 +58,7 @@ public class AnnouncerTests extends MockObjectTestCase {
 		announcer.removeListener(listener1);
 		
 		checking(new Expectations() {{
-			one (listener2).eventA();
+			oneOf (listener2).eventA();
 		}});
 		
 		announcer.announce().eventA();

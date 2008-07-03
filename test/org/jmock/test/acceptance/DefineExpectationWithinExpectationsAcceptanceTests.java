@@ -22,7 +22,7 @@ public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase
     
     public void testCanDefineExpectationsWithinExpectations() {
         context.checking(new Expectations() {{
-            one (a).a(aNewMockWithExpectations());
+            oneOf (a).a(aNewMockWithExpectations());
         }});
     }
     
@@ -41,7 +41,7 @@ public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase
         
         context.checking(new Expectations() {{
             ignoring(a2);
-            one (a).a(aNewMockWithExpectations());
+            oneOf (a).a(aNewMockWithExpectations());
         }});
     }
 }

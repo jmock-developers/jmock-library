@@ -17,7 +17,7 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
         final AnImplementation mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {{
-            one(mock).doSomethingWith("a");
+            oneOf (mock).doSomethingWith("a");
         }});
             
         mock.doSomethingWith("a");
@@ -27,7 +27,7 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
         final AnImplementation mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {{
-            one(mock).doSomethingWith("a");
+            oneOf (mock).doSomethingWith("a");
         }});
         
         // Note: this is invoked through a "bridge" method and so the method
@@ -40,7 +40,7 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
         final AnInterface<String> mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {{
-            one(mock).doSomethingWith("a");
+            oneOf (mock).doSomethingWith("a");
         }});
 
         mock.doSomethingWith("a");

@@ -28,7 +28,7 @@ public class DJTests extends MockObjectTestCase {
     
     public void testStartsPlayingTrackForCurrentLocationWhenLocationFirstDetected() {
         checking(new Expectations() {{
-            one (mediaControl).play(TRACK_A);
+            oneOf (mediaControl).play(TRACK_A);
         }});
         
         dj.locationChangedTo(LOCATION_A);
@@ -40,7 +40,7 @@ public class DJTests extends MockObjectTestCase {
         dj.locationChangedTo(LOCATION_B);
         
         checking(new Expectations() {{
-            one (mediaControl).play(TRACK_B);
+            oneOf (mediaControl).play(TRACK_B);
         }});
         
         dj.mediaFinished();
@@ -61,7 +61,7 @@ public class DJTests extends MockObjectTestCase {
         dj.mediaFinished();
         
         checking(new Expectations() {{
-            one (mediaControl).play(TRACK_B);
+            oneOf (mediaControl).play(TRACK_B);
         }});
         
         dj.locationChangedTo(LOCATION_B);
@@ -69,7 +69,7 @@ public class DJTests extends MockObjectTestCase {
     
     private void startingIn(String initialLocation) {
         checking(new Expectations() {{
-            one (mediaControl).play(with(any(String.class)));
+            oneOf (mediaControl).play(with(any(String.class)));
         }});
         
         dj.locationChangedTo(initialLocation);
