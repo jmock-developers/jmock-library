@@ -142,7 +142,7 @@
         <module>jmock-script</module>
       </modules>
       <properties>
-        <release.version>2.5.0-RC1</release.version>
+        <release.version>2.5.0</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
       </properties>
     </profile>
