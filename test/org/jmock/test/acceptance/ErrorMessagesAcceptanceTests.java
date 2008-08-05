@@ -1,5 +1,9 @@
 package org.jmock.test.acceptance;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.StringDescription.asString;
+import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;
 
 import org.hamcrest.StringDescription;
@@ -124,5 +128,15 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
             fail("should have thrown IllegalArgumentException");
         }
         catch (IllegalArgumentException expected) {}
+    }
+    
+    // See issue JMOCK-167
+    public void testDoesNotDescribeReturnValueForMethodsThatAreKnownToBeVoid() {
+        context.checking(new Expectations() {{
+            oneOf (mock).doSomething();
+        }});
+        
+        assertThat(asString(context),
+                   not(containsString("returns a default value")));
     }
 }
