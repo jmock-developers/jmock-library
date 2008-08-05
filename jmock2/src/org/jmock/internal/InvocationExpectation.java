@@ -10,6 +10,7 @@ import org.hamcrest.core.IsAnything;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
+import org.jmock.internal.matcher.MethodMatcher;
 import org.jmock.lib.action.VoidAction;
 
 /** 
@@ -22,8 +23,10 @@ public class InvocationExpectation implements Expectation {
     private Cardinality cardinality = Cardinality.ALLOWING;
 	private Matcher<?> objectMatcher = IsAnything.anything();
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
+	private boolean methodIsKnownToBeVoid = false;
 	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
+    private boolean actionIsDefault = true;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
     private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
     
@@ -37,8 +40,14 @@ public class InvocationExpectation implements Expectation {
 		this.objectMatcher = objectMatcher;
 	}
 	
+	public void setMethod(Method method) {
+	    this.methodMatcher = new MethodMatcher(method);
+	    this.methodIsKnownToBeVoid = method.getReturnType() == void.class;
+	}
+	
 	public void setMethodMatcher(Matcher<Method> methodMatcher) {
 		this.methodMatcher = methodMatcher;
+		this.methodIsKnownToBeVoid = false;
 	}
 	
 	public void setParametersMatcher(Matcher<Object[]> parametersMatcher) {
@@ -55,6 +64,12 @@ public class InvocationExpectation implements Expectation {
     
     public void setAction(Action action) {
         this.action = action;
+        this.actionIsDefault = false;
+    }
+    
+    public void setDefaultAction(Action action) {
+        this.action = action;
+        this.actionIsDefault = true;
     }
     
     public void describeTo(Description description) {
@@ -76,12 +91,20 @@ public class InvocationExpectation implements Expectation {
             description.appendText("; ");
             orderingConstraint.describeTo(description);
         }
-        description.appendText("; ");
-        action.describeTo(description);
+        
+        if (!shouldSuppressActionDescription()) {
+            description.appendText("; ");
+            action.describeTo(description);
+        }
+        
         for (SideEffect sideEffect : sideEffects) {
             description.appendText("; ");
             sideEffect.describeTo(description);
         }
+    }
+
+    private boolean shouldSuppressActionDescription() {
+        return methodIsKnownToBeVoid && actionIsDefault;
     }
 
     public boolean isSatisfied() {
