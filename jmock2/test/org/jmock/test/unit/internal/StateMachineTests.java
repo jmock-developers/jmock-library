@@ -108,6 +108,8 @@ public class StateMachineTests extends TestCase {
         
         assertEquals("description with a current state",
                      "stateMachineName is stateName", StringDescription.toString(stateMachine));
+        assertEquals("description with a current state from toString",
+                     "stateMachineName is stateName", stateMachine.toString());
     }
     
     public void testHasSelfDescribingStates() {
