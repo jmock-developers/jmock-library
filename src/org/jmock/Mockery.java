@@ -193,7 +193,8 @@ public class Mockery implements SelfDescribing {
 	public void assertIsSatisfied() {
         firstError = null;
         if (!dispatcher.isSatisfied()) {
-            throw expectationErrorTranslator.translate(new ExpectationError("not all expectations were satisfied", dispatcher));
+            throw expectationErrorTranslator.translate(
+                new ExpectationError("not all expectations were satisfied", this));
         }
 	}
     
