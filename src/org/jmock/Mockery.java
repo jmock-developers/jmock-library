@@ -24,6 +24,7 @@ import org.jmock.internal.NamedSequence;
 import org.jmock.internal.ObjectMethodExpectationBouncer;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.internal.ReturnDefaultValueAction;
+import org.jmock.internal.SuccessfulDispatch;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
@@ -229,9 +230,9 @@ public class Mockery implements Mismatchable {
         }
         
         try {
-            Object result = dispatcher.dispatch(invocation);
+            SuccessfulDispatch success = dispatcher.dispatch(invocation);
             actualInvocations.add(invocation);
-            return result;
+            return success.result;
         }
         catch (ExpectationError e) {
             firstError = expectationErrorTranslator.translate(fillInDetails(e));
