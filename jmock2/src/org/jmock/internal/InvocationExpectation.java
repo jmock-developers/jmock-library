@@ -34,6 +34,7 @@ public class InvocationExpectation implements Expectation {
 	
 	public static class AnyParameters extends IsAnything<Object[]> implements ParametersMatcher {
         public AnyParameters() { super("(<any parameters>)"); }
+        public boolean isCompatibleWith(Object[] parameters) { return true; }
 	};
 	
     public void setCardinality(Cardinality cardinality) {
@@ -110,10 +111,13 @@ public class InvocationExpectation implements Expectation {
 
     public void describeMismatch(Object item, Description description) {
         describeTo(description);
-        description.appendText("\n");
         Invocation invocation = (Invocation)item;
-        parametersMatcher.describeMismatch(invocation.getParametersAsArray(), description);
+        if (mightBeRelevant(invocation)) {
+            description.appendText("\n");
+            parametersMatcher.describeMismatch(invocation.getParametersAsArray(), description);
+        }
     }
+
 
     private boolean shouldSuppressActionDescription() {
         return methodIsKnownToBeVoid && actionIsDefault;
@@ -136,7 +140,13 @@ public class InvocationExpectation implements Expectation {
         
 	}
     
-	private boolean isInCorrectOrder() {
+    private boolean mightBeRelevant(Invocation invocation) {
+        return objectMatcher.matches(invocation.getInvokedObject())
+            && methodMatcher.matches(invocation.getInvokedMethod())
+            && parametersMatcher.isCompatibleWith(invocation.getParametersAsArray());
+    }
+
+    private boolean isInCorrectOrder() {
         for (OrderingConstraint constraint : orderingConstraints) {
             if (!constraint.allowsInvocationNow()) return false;
         }
