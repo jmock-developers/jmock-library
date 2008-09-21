@@ -12,7 +12,12 @@ public class AllParametersMatcher extends IsArray<Object> implements ParametersM
     public AllParametersMatcher(Object[] expectedValues) {
         super(equalMatchersFor(expectedValues));
     }
-    
+
+
+    public boolean isCompatibleWith(Object[] parameters) {
+        return elementMatchers.length == parameters.length;
+    }
+
     @SuppressWarnings("unchecked")
     private static Matcher<Object>[] equalMatchersFor(Object[] expectedValues) {
         Matcher<Object>[] matchers = new Matcher[expectedValues.length];

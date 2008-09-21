@@ -83,11 +83,11 @@ public class InvocationDispatcher implements ExpectationCollector, Mismatchable 
         }
         return true;
 	}
-    
-    public SuccessfulDispatch dispatch(Invocation invocation) throws Throwable {
+	
+	public Object dispatch(Invocation invocation) throws Throwable {
 		for (Expectation expectation : expectations) {
 		    if (expectation.matches(invocation)) {
-		        return new SuccessfulDispatch(invocation, expectation, expectation.invoke(invocation));
+		        return expectation.invoke(invocation);
             }
         }
         
