@@ -25,6 +25,7 @@ public class HamcrestSpikeTest {
   
   @Test public void displaysDifference() {
       context.checking(new Expectations() {{
+        one(listener).alsoReceives(with(anEvent(1, "one")));
         one(listener).receives(with(anEvent(1, "one")), with(equal("right")));
       }});
     
