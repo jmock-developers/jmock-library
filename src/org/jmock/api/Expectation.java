@@ -1,6 +1,6 @@
 package org.jmock.api;
 
-import org.hamcrest.SelfDescribing;
+import org.hamcrest.Mismatchable;
 
 /**
  * An object that matches, checks and fakes an {@link org.jmock.api.Invocation}
@@ -8,7 +8,7 @@ import org.hamcrest.SelfDescribing;
  * @author npryce
  * @author smgf
  */
-public interface Expectation extends SelfDescribing {
+public interface Expectation extends Mismatchable {
     /**
      * Have enough {@link Invocation}s expected by this Expectation occurred?
      * 

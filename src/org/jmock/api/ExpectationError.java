@@ -1,6 +1,7 @@
 package org.jmock.api;
 
 import org.hamcrest.Description;
+import org.hamcrest.Mismatchable;
 import org.hamcrest.SelfDescribing;
 import org.hamcrest.StringDescription;
 
@@ -10,10 +11,10 @@ import org.hamcrest.StringDescription;
  * @author npryce
  */
 public class ExpectationError extends Error implements SelfDescribing {
-    public final SelfDescribing expectations;
+    public final Mismatchable expectations;
     public final Invocation invocation;
 	
-    public ExpectationError(String message, SelfDescribing expectations, Invocation invocation) {
+    public ExpectationError(String message, Mismatchable expectations, Invocation invocation) {
         super(message);
         this.invocation = invocation;
         this.expectations = expectations;
@@ -23,7 +24,7 @@ public class ExpectationError extends Error implements SelfDescribing {
         this(message, null, invocation);
     }
     
-    public ExpectationError(String message, SelfDescribing expectations) {
+    public ExpectationError(String message, Mismatchable expectations) {
         this(message, expectations, null);
     }
     
@@ -40,7 +41,7 @@ public class ExpectationError extends Error implements SelfDescribing {
         }
         if (expectations != null) {
             description.appendText("\n");
-            expectations.describeTo(description);
+            expectations.describeMismatch(invocation, description);
         }
 	}
 }

@@ -67,4 +67,8 @@ public class MockExpectation extends Assert implements Expectation {
         throw new UnsupportedOperationException("not implemented");
     }
 
+    public void describeMismatch(Object item, Description description) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
 }

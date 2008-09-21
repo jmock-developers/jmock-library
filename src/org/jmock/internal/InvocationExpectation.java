@@ -24,13 +24,17 @@ public class InvocationExpectation implements Expectation {
 	private Matcher<?> objectMatcher = IsAnything.anything();
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
 	private boolean methodIsKnownToBeVoid = false;
-	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
+	private ParametersMatcher parametersMatcher = new AnyParameters();
     private Action action = new VoidAction();
     private boolean actionIsDefault = true;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
     private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
     
 	private int invocationCount = 0;
+	
+	public static class AnyParameters extends IsAnything<Object[]> implements ParametersMatcher {
+        public AnyParameters() { super("(<any parameters>)"); }
+	};
 	
     public void setCardinality(Cardinality cardinality) {
         this.cardinality = cardinality;
@@ -50,7 +54,7 @@ public class InvocationExpectation implements Expectation {
 		this.methodIsKnownToBeVoid = false;
 	}
 	
-	public void setParametersMatcher(Matcher<Object[]> parametersMatcher) {
+	public void setParametersMatcher(ParametersMatcher parametersMatcher) {
 		this.parametersMatcher = parametersMatcher;
 	}
 
@@ -101,6 +105,14 @@ public class InvocationExpectation implements Expectation {
             description.appendText("; ");
             sideEffect.describeTo(description);
         }
+    }
+
+
+    public void describeMismatch(Object item, Description description) {
+        describeTo(description);
+        description.appendText("\n");
+        Invocation invocation = (Invocation)item;
+        parametersMatcher.describeMismatch(invocation.getParametersAsArray(), description);
     }
 
     private boolean shouldSuppressActionDescription() {

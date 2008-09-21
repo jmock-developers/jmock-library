@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hamcrest.Description;
-import org.hamcrest.SelfDescribing;
+import org.hamcrest.Mismatchable;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.ExpectationErrorTranslator;
@@ -40,7 +40,7 @@ import org.jmock.lib.JavaReflectionImposteriser;
  * @author smgf
  * @author named by Ivan Moore.
  */
-public class Mockery implements SelfDescribing {
+public class Mockery implements Mismatchable {
     private Set<String> mockNames = new HashSet<String>();
     private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
@@ -203,12 +203,25 @@ public class Mockery implements SelfDescribing {
                    .appendText("\nwhat happened before this:");
         
         if (actualInvocations.isEmpty()) {
-            description.appendText(" nothing!");
+            description.appendText(" nothing");
         }
         else {
             description.appendList("\n  ", "\n  ", "\n", actualInvocations);
         }
     }
+    
+    public void describeMismatch(Object invocation, Description description) {
+        dispatcher.describeMismatch(invocation, description);
+        description.appendText("\nwhat happened before this:");
+
+        if (actualInvocations.isEmpty()) {
+         description.appendText(" nothing");
+        }
+        else {
+         description.appendList("\n  ", "\n  ", "\n", actualInvocations);
+        }        
+    }
+
     
     private Object dispatch(Invocation invocation) throws Throwable {
         if (firstError != null) {
