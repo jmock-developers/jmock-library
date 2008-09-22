@@ -1,12 +1,7 @@
 package hamcrest.spike;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -32,6 +27,7 @@ public class HamcrestSpikeTest {
       context.checking(new Expectations() {{
         one(listener).alsoReceives(with(anEvent(1, "one")));
         one(listener).receives(with(anEvent(1, "one")), with(equal("right")));
+        one(listener).receives(with(anEvent(2, "two")), with(equal("wrong")));
       }});
     
       spike.goForIt(1, "one", "right");

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="lib" path="lib/junit-dep-4.5.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/hamcrest-java-diffing"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="hamcrest-spike"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/hamcrest-java-diffing"/>
-	<classpathentry kind="lib" path="lib/junit-dep-4.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/bsh-core-2.0b4.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>

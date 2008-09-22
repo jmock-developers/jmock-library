@@ -20,11 +20,12 @@ import org.jmock.lib.action.VoidAction;
  * @author smgf
  */
 public class InvocationExpectation implements Expectation {
+    private static ParametersMatcher ANY_PARAMETERS = new AnyParametersMatcher();
     private Cardinality cardinality = Cardinality.ALLOWING;
 	private Matcher<?> objectMatcher = IsAnything.anything();
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
 	private boolean methodIsKnownToBeVoid = false;
-	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
+	private ParametersMatcher parametersMatcher = ANY_PARAMETERS;
     private Action action = new VoidAction();
     private boolean actionIsDefault = true;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
@@ -50,7 +51,7 @@ public class InvocationExpectation implements Expectation {
 		this.methodIsKnownToBeVoid = false;
 	}
 	
-	public void setParametersMatcher(Matcher<Object[]> parametersMatcher) {
+	public void setParametersMatcher(ParametersMatcher parametersMatcher) {
 		this.parametersMatcher = parametersMatcher;
 	}
 
@@ -73,6 +74,22 @@ public class InvocationExpectation implements Expectation {
     }
     
     public void describeTo(Description description) {
+        describeMethod(description);
+        parametersMatcher.describeTo(description);
+        describeSideEffects(description);
+    }
+
+    public void describeMismatch(Invocation invocation, Description description) {
+        describeMethod(description);
+        final Object[] parameters = invocation.getParametersAsArray();
+        parametersMatcher.describeTo(description);
+        if (parametersMatcher.isCompatibleWith(parameters)) {
+            parametersMatcher.describeMismatch(parameters, description);
+        }
+        describeSideEffects(description);        
+    }
+
+    private void describeMethod(Description description) {
         cardinality.describeTo(description);
         description.appendText(", ");
         if (invocationCount == 0) {
@@ -86,7 +103,9 @@ public class InvocationExpectation implements Expectation {
         objectMatcher.describeTo(description);
         description.appendText(".");
         methodMatcher.describeTo(description);
-        parametersMatcher.describeTo(description);
+    }
+    
+    private void describeSideEffects(Description description) {
         for (OrderingConstraint orderingConstraint : orderingConstraints) {
             description.appendText("; ");
             orderingConstraint.describeTo(description);
@@ -144,4 +163,15 @@ public class InvocationExpectation implements Expectation {
             sideEffect.perform();
         }
     }
+    
+    private static class AnyParametersMatcher extends IsAnything<Object[]> implements ParametersMatcher {
+        public AnyParametersMatcher() {
+            super("(<any parameters>)");
+        }
+
+        public boolean isCompatibleWith(Object[] parameters) {
+            return true;
+        }
+    };
+
 }
