@@ -16,6 +16,7 @@ import org.jmock.internal.Cardinality;
 import org.jmock.internal.InvocationExpectation;
 import org.jmock.internal.OrderingConstraint;
 import org.jmock.internal.SideEffect;
+import org.jmock.internal.matcher.AllParametersMatcher;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.MethodFactory;
@@ -72,7 +73,7 @@ public class InvocationExpectationTests extends TestCase {
 		Object[] differentArgCount = {1,2,3};
 		Object[] noArgs = null;
 		
-		expectation.setParametersMatcher(equalTo(args));
+		expectation.setParametersMatcher(new AllParametersMatcher(args));
 		
 		assertTrue("should match", expectation.matches(new Invocation(targetObject, method, args)));
 		assertTrue("should not match", !expectation.matches(new Invocation(targetObject, method, differentArgs)));

@@ -209,6 +209,17 @@ public class Mockery implements SelfDescribing {
             description.appendList("\n  ", "\n  ", "\n", actualInvocations);
         }
     }
+
+    public void describeMismatch(Invocation invocation, Description description) {
+        dispatcher.describeMismatch(invocation, description);
+        description.appendText("\nwhat happened before this:");
+
+        if (actualInvocations.isEmpty()) {
+            description.appendText(" nothing!");
+        } else {
+            description.appendList("\n  ", "\n  ", "\n", actualInvocations);
+        }
+    }
     
     private Object dispatch(Invocation invocation) throws Throwable {
         if (firstError != null) {
@@ -236,11 +247,30 @@ public class Mockery implements SelfDescribing {
     // So if it is null we create a new ExpectationError with the field set to the mockery's
     // expectations.
     private ExpectationError fillInDetails(ExpectationError e) {
-        ExpectationError filledIn = new ExpectationError(e.getMessage(), this, e.invocation);
+        ExpectationError filledIn = new UnexpectedInvocationError(e, this);
         filledIn.setStackTrace(e.getStackTrace());
         return filledIn;
     }
 
+    public static class UnexpectedInvocationError extends ExpectationError {
+        public final Mockery mockery;
+        public UnexpectedInvocationError(ExpectationError cause, Mockery mockery) {
+            super(cause.getMessage(), mockery, cause.invocation);
+            this.mockery = mockery;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText(getMessage());
+            if (invocation != null) {
+                description.appendText(": ");
+                invocation.describeTo(description);
+            }
+            description.appendText("\n");
+            mockery.describeMismatch(invocation, description);
+        }
+    }
+    
     private class MockObject implements Invokable, CaptureControl {
         private Class<?> mockedType;
         private String name;
@@ -265,4 +295,5 @@ public class Mockery implements SelfDescribing {
                 mockedType);
         }
     }
+
 }
