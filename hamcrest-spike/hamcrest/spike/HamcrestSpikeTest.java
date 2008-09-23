@@ -23,7 +23,7 @@ public class HamcrestSpikeTest {
   HamcrestSpikeListener listener = context.mock(HamcrestSpikeListener.class);
   HamcrestSpike spike = new HamcrestSpike(listener);
   
-  @Test public void displaysDifference() {
+  @Test public void unexpectedInvocation() {
       context.checking(new Expectations() {{
         one(listener).alsoReceives(with(anEvent(1, "one")));
         one(listener).receives(with(anEvent(1, "one")), with(equal("right")));
@@ -31,6 +31,26 @@ public class HamcrestSpikeTest {
       }});
     
       spike.goForIt(1, "one", "right");
+  }
+
+  @Test public void multipleMethodsWithSameArguments() {
+      context.checking(new Expectations() {{
+        allowing(listener).alsoReceives(with(anEvent(1, "one")));
+        
+        one(listener).receives(with(anEvent(2, "two")), with(equal("wrong")));
+        one(listener).withTwoArgs(with(anEvent(1, "one")), with(equal("right")));
+      }});
+    
+      spike.goForIt(1, "one", "right");
+  }
+
+  @Test public void missingInvocation() {
+      context.checking(new Expectations() {{
+        one(listener).alsoReceives(with(anEvent(1, "one")));
+        one(listener).receives(with(anEvent(1, "one")), with(equal("right")));
+      }});
+
+      spike.single(1, "one", "right");
   }
   
   
