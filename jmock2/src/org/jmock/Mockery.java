@@ -210,7 +210,7 @@ public class Mockery implements SelfDescribing {
         }
     }
 
-    public void describeMismatch(Invocation invocation, Description description) {
+    private void describeMismatch(Invocation invocation, Description description) {
         dispatcher.describeMismatch(invocation, description);
         description.appendText("\nwhat happened before this:");
 
