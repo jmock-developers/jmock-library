@@ -28,6 +28,7 @@ public class HamcrestSpikeTest {
         one(listener).alsoReceives(with(anEvent(1, "one")));
         one(listener).receives(with(anEvent(1, "one")), with(equal("right")));
         one(listener).receives(with(anEvent(2, "two")), with(equal("wrong")));
+        allowing(listener).withThreeArgs(with(anEvent(1, "one")), with("wrong"), with("third"));
       }});
     
       spike.goForIt(1, "one", "right");
@@ -37,8 +38,9 @@ public class HamcrestSpikeTest {
       context.checking(new Expectations() {{
         allowing(listener).alsoReceives(with(anEvent(1, "one")));
         
+        one(listener).receives(with(anEvent(2, "three")), with(equal("wrong")));
         one(listener).receives(with(anEvent(2, "two")), with(equal("wrong")));
-        one(listener).withTwoArgs(with(anEvent(1, "one")), with(equal("right")));
+        one(listener).withThreeArgs(with(anEvent(1, "one")), with(equal("right")), with(equal("third")));
       }});
     
       spike.goForIt(1, "one", "right");
@@ -54,16 +56,23 @@ public class HamcrestSpikeTest {
   }
   
   
-  protected Matcher<Event> anEvent(final int one, final String two) {
+  protected Matcher<Event> anEvent(final int a, final String b) {
     return new TypeSafeDiagnosingMatcher<Event>() {
       @Override
       public boolean matchesSafely(Event item, Description description) {
-        description.appendText("it was Event with:" + item.one + ", \"" + item.two + "\"");
-        return item.one == one && two.equals(item.two);
+          if (a != item.a) {
+              description.appendText("'a' was not " + a);
+              return false;
+          }
+          if (! b.equals(item.b)) {
+              description.appendText("'b' was not " + b);
+              return false;
+          }
+          return true;
       }
 
       public void describeTo(Description description) {
-          description.appendText("Event with " + one + " and \"" + two + "\"");
+          description.appendText("Event with " + a + " and \"" + b + "\"");
       }
     };
   }

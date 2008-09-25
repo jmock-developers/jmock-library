@@ -15,6 +15,7 @@ public class HamcrestSpike  {
     }
     
     public void goForIt(int i, String string, String otherwise) {
+        listener.withThreeArgs(new Event(i, string), "wrong", "third");
         listener.alsoReceives(new Event(i, string));
         listener.receives(new Event(i, string), otherwise);
         listener.receives(new Event(i + 1, string + "1"), otherwise);

@@ -4,12 +4,12 @@
 package hamcrest.spike;
 
 public class Event {
-    public final int one;
-    public final String two;
+    public final int a;
+    public final String b;
 
     public Event(int one, String two) {
-      this.one = one;
-      this.two = two;
+      this.a = one;
+      this.b = two;
       
     }
   }

@@ -33,11 +33,17 @@ public class AllParametersMatcher extends TypeSafeDiagnosingMatcher<Object[]>  i
             final Matcher<Object> matcher = elementMatchers[i];
             final Object value = parameters[i];
             
+            description.appendText("\n      parameter " + i + " ");
             if (! matcher.matches(value)) {
-                description.appendText("\n      parameter " + i + " did not match because: ");
+                description.appendText("did not match: ")
+                    .appendDescriptionOf(matcher)
+                    .appendText(", because ");
                 matcher.describeMismatch(value, description);
                 result = false;
+            } else {
+                description.appendText("matched: ").appendDescriptionOf(matcher);
             }
+            
         }
         
         return result;
