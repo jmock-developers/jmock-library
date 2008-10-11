@@ -3,8 +3,10 @@ package org.jmock.internal;
 import org.hamcrest.Matcher;
 
 public interface ParametersMatcher extends Matcher<Object[]> {
-    /*
-     * return true iff this parameters matcher <em>could</em> be appropriate for the given parameter list
+    /**
+     * Is this matcher likely to be relevant to the given parameters?
+     * @param parameters The parameters to be matched
+     * @return true iff the parameters may be relevant.
      */
-    boolean isCompatibleWith(Object[] parameters);
+    boolean isCompatibleWith(Object[] parameters); 
 }
