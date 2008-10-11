@@ -27,26 +27,40 @@ public class AllParametersMatcher extends TypeSafeDiagnosingMatcher<Object[]>  i
     }
 
     @Override
-    public boolean matchesSafely(Object[] parameters, Description description) {
+    public boolean matchesSafely(Object[] parameters, Description mismatch) {
+        return matchesNumberOfParameters(parameters, mismatch)
+            && matchesParameters(parameters, mismatch);
+    }
+
+    private boolean matchesNumberOfParameters(Object[] parameters, Description mismatch) {
+        if (elementMatchers.length != parameters.length) {
+            mismatch.appendText("wrong number of parameters: ")
+                    .appendValue(parameters);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean matchesParameters(Object[] parameters, Description mismatch) {
         boolean result = true;
         for (int i = 0; i < parameters.length; i++) {
-            final Matcher<Object> matcher = elementMatchers[i];
-            final Object value = parameters[i];
-            
-            description.appendText("\n      parameter " + i + " ");
-            if (! matcher.matches(value)) {
-                description.appendText("did not match: ")
-                    .appendDescriptionOf(matcher)
-                    .appendText(", because ");
-                matcher.describeMismatch(value, description);
-                result = false;
-            } else {
-                description.appendText("matched: ").appendDescriptionOf(matcher);
-            }
-            
+            result &= matchesParameter(parameters[i], elementMatchers[i], mismatch, i);
         }
-        
         return result;
+    }
+
+    private boolean matchesParameter(final Object value, final Matcher<Object> matcher, Description mismatch, int index) {
+        mismatch.appendText("\n      parameter " + index + " ");
+        final boolean parameterMatches = matcher.matches(value);
+        if (parameterMatches) {
+            mismatch.appendText("matched: ").appendDescriptionOf(matcher);
+        } else {
+            mismatch.appendText("did not match: ")
+                .appendDescriptionOf(matcher)
+                .appendText(", because ");
+            matcher.describeMismatch(value, mismatch);
+        }
+        return parameterMatches;
     }
 
     public void describeTo(Description description) {

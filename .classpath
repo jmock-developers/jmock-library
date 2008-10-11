@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="lib" path="lib/junit-dep-4.5.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/hamcrest-java-diffing"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="hamcrest-spike"/>
 	<classpathentry kind="src" path="test"/>
@@ -9,5 +7,8 @@
 	<classpathentry kind="lib" path="lib/bsh-core-2.0b4.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/objenesis-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/junit-dep-4.6.jar" sourcepath="lib/junit-4.6-src.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-library-SNAPSHOT.jar" sourcepath="lib/hamcrest-library-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-core-SNAPSHOT.jar" sourcepath="lib/hamcrest-core-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
