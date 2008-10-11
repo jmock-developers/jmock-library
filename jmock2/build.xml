@@ -1,6 +1,6 @@
 <project name="jMock 2" default="build">
 	<property name="version" value="2-SNAPSHOT"/>
-	<property name="hamcrest.version" value="SNAPSHOT" />
+	<property name="hamcrest.version" value="1.1" />
 	<property name="distdir" value="build/jmock-${version}"/>
 
 	<path id="build.classpath">

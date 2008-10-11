@@ -9,10 +9,8 @@ public interface CardinalityClause {
     ReceiverClause between(int minCount, int maxCount);
     ReceiverClause atMost(int count);
     
-    <T> T oneOf(T mockObject);
-    
     <T> T one(T mockObject);
-
+    
     <T> T allowing(T mockObject);
     MethodClause allowing(Matcher<?> mockObjectMatcher);
     

@@ -2,11 +2,11 @@ package org.jmock.test.unit.lib.script;
 
 import static org.hamcrest.Matchers.sameInstance;
 import static org.jmock.lib.script.ScriptedAction.perform;
+import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.junit.Assert;
 
 
 public class ScriptedActionTests extends TestCase {
@@ -87,7 +87,7 @@ public class ScriptedActionTests extends TestCase {
             callout.doSomethingWith(callback);
         }
         catch (Exception e) {
-            Assert.assertThat(e, sameInstance(exception));
+            assertThat(e, sameInstance(exception));
         }
         
         context.assertIsSatisfied();

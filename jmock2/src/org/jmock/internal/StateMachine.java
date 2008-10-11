@@ -1,7 +1,6 @@
 package org.jmock.internal;
 
 import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
 import org.jmock.States;
 
 public class StateMachine implements States {
@@ -12,11 +11,6 @@ public class StateMachine implements States {
         this.name = name;
     }
     
-    @Override
-    public String toString() {
-        return StringDescription.asString(this);
-    }
-
     public States startsAs(String initialState) {
         become(initialState);
         return this;
