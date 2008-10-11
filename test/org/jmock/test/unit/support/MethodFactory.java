@@ -33,21 +33,21 @@ public class MethodFactory extends ClassLoader {
         {
             @Override
             protected Class<?> findClass( String interfaceName ) {
-                ClassWriter writer = new ClassWriter(true);
+                ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
                 writer.visit(CLASS_FORMAT_VERSION,
                              Constants.ACC_PUBLIC|Constants.ACC_INTERFACE,
                              nameToClassFormat(interfaceName),
+                             null,
                              "java/lang/Object",
-                             null, /* interfaces */
-                             null  /* source file */);
-
+                             null /* interfaces */);
+                
                 writer.visitMethod(Constants.ACC_PUBLIC | Constants.ACC_ABSTRACT,
                                    methodName,
                                    methodDescriptor(returnType, argTypes),
-                                   classNamesInClassFormat(exceptionTypes),
-                                   null /* no attributes */);
-
+                                   null,
+                                   classNamesInClassFormat(exceptionTypes));
+                
                 byte[] classAsBytes = writer.toByteArray();
 
                 return defineClass(interfaceName, classAsBytes, 0, classAsBytes.length);
