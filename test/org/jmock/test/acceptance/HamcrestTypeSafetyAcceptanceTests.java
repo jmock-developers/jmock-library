@@ -1,7 +1,7 @@
 package org.jmock.test.acceptance;
 
-import static org.hamcrest.number.OrderingComparisons.greaterThan;
-import static org.hamcrest.text.StringStartsWith.startsWith;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
 
 import java.lang.reflect.Method;
 

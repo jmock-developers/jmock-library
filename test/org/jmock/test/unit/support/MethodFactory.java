@@ -10,7 +10,7 @@ import net.sf.cglib.core.Constants;
 
 
 public class MethodFactory extends ClassLoader {
-    public static final int CLASS_FORMAT_VERSION = 45;
+    public static final int CLASS_FORMAT_VERSION = 49;
     
     public static Class<?>[] NO_ARGUMENTS = {};
     public static Class<?>[] NO_EXCEPTIONS = {};

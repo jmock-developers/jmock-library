@@ -61,4 +61,44 @@ public class RecordingAcceptanceTests extends TestCase {
             "what happened before this:", 
             "nothing"));
     }
+    
+    public void testReportsRecordedInvocationsWhenUnexpectedInvocationReceived() {
+        context.checking(new Expectations() {{
+            oneOf (mock).doSomethingWith("x");
+            oneOf (mock).doSomethingWith("y");
+        }});
+        
+        mock.doSomethingWith("y");
+        
+        try {
+            mock.doSomethingWith("z");
+            fail("should have reported unexpected invocation");
+        }
+        catch (ExpectationError e) {
+            assertThat(asString(e), containsInOrder(
+                "what happened before this:",
+                "mock.doSomethingWith(\"y\")"
+            ));
+        }
+    }
+    
+    public void testReportsRecordedInvocationsWhenNotSatisfied() {
+        context.checking(new Expectations() {{
+            oneOf (mock).doSomethingWith("x");
+            oneOf (mock).doSomethingWith("y");
+        }});
+        
+        mock.doSomethingWith("y");
+        
+        try {
+            context.assertIsSatisfied();
+            fail("should not be satisfied");
+        }
+        catch (ExpectationError e) {
+            assertThat(asString(e), containsInOrder(
+                "what happened before this:",
+                "mock.doSomethingWith(\"y\")"
+            ));
+        }
+    }
 }

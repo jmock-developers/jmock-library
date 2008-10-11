@@ -10,10 +10,9 @@ import org.jmock.Sequence;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
-import org.jmock.internal.matcher.MethodMatcher;
 import org.jmock.internal.matcher.MethodNameMatcher;
 import org.jmock.internal.matcher.MockObjectMatcher;
-import org.jmock.internal.matcher.ParametersMatcher;
+import org.jmock.internal.matcher.AllParametersMatcher;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ParametersClause;
 import org.jmock.syntax.ReceiverClause;
@@ -30,7 +29,7 @@ public class InvocationExpectationBuilder
     
     public Expectation toExpectation(Action defaultAction) {
         if (needsDefaultAction) {
-            expectation.setAction(defaultAction);
+            expectation.setDefaultAction(defaultAction);
         }
         
         return expectation;
@@ -83,14 +82,14 @@ public class InvocationExpectationBuilder
     }
     
     public void createExpectationFrom(Invocation invocation) {
-        expectation.setMethodMatcher(new MethodMatcher(invocation.getInvokedMethod()));
+        expectation.setMethod(invocation.getInvokedMethod());
         
         if (capturedParameterMatchers.isEmpty()) {
-            expectation.setParametersMatcher(new ParametersMatcher(invocation.getParametersAsArray()));
+            expectation.setParametersMatcher(new AllParametersMatcher(invocation.getParametersAsArray()));
         }
         else {
             checkParameterMatcherCount(invocation);
-            expectation.setParametersMatcher(new ParametersMatcher(capturedParameterMatchers));
+            expectation.setParametersMatcher(new AllParametersMatcher(capturedParameterMatchers));
         }
     }
     
@@ -130,7 +129,7 @@ public class InvocationExpectationBuilder
     }
     
     public void with(Matcher<?>... parameterMatchers) {
-        expectation.setParametersMatcher(new ParametersMatcher(Arrays.asList(parameterMatchers)));
+        expectation.setParametersMatcher(new AllParametersMatcher(Arrays.asList(parameterMatchers)));
     }
     
     public void withNoArguments() {
