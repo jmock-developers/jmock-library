@@ -1,6 +1,5 @@
 package org.jmock.api;
 
-import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -39,8 +38,6 @@ public interface Expectation extends SelfDescribing {
 	 */
     boolean matches(Invocation invocation);
     
-    void describeMismatch(Invocation invocation, Description description);
-
     /**
      * Invokes the expectation: records that the invocation has
      * occurred and fakes some behaviour in response.
@@ -62,5 +59,4 @@ public interface Expectation extends SelfDescribing {
      *     return type of the method being mocked
      */
 	Object invoke(Invocation invocation) throws Throwable;
-
 }

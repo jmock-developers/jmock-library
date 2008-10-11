@@ -90,10 +90,9 @@ public class ClassImposteriser implements Imposteriser {
         }
     }
     
-    private <T> Class<?> createProxyClass(Class<?> mockedType, Class<?>... ancilliaryTypes) {
-        if (mockedType == Object.class) {
-            mockedType = ClassWithSuperclassToWorkAroundCglibBug.class;
-        }
+    private <T> Class<?> createProxyClass(Class<?> possibleMockedType, Class<?>... ancilliaryTypes) {
+        Class<?> mockedType = 
+            possibleMockedType == Object.class ? ClassWithSuperclassToWorkAroundCglibBug.class : possibleMockedType;
         
         Enhancer enhancer = new Enhancer() {
             @Override

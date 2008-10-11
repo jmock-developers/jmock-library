@@ -10,7 +10,6 @@ import org.hamcrest.core.IsAnything;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
-import org.jmock.internal.matcher.MethodMatcher;
 import org.jmock.lib.action.VoidAction;
 
 /** 
@@ -23,19 +22,12 @@ public class InvocationExpectation implements Expectation {
     private Cardinality cardinality = Cardinality.ALLOWING;
 	private Matcher<?> objectMatcher = IsAnything.anything();
 	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
-	private boolean methodIsKnownToBeVoid = false;
-	private ParametersMatcher parametersMatcher = new AnyParameters();
+	private Matcher<Object[]> parametersMatcher = IsAnything.anything("(<any parameters>)");
     private Action action = new VoidAction();
-    private boolean actionIsDefault = true;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
     private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
     
 	private int invocationCount = 0;
-	
-	public static class AnyParameters extends IsAnything<Object[]> implements ParametersMatcher {
-        public AnyParameters() { super("(<any parameters>)"); }
-        public boolean isCompatibleWith(Object[] parameters) { return true; }
-	};
 	
     public void setCardinality(Cardinality cardinality) {
         this.cardinality = cardinality;
@@ -45,17 +37,11 @@ public class InvocationExpectation implements Expectation {
 		this.objectMatcher = objectMatcher;
 	}
 	
-	public void setMethod(Method method) {
-	    this.methodMatcher = new MethodMatcher(method);
-	    this.methodIsKnownToBeVoid = method.getReturnType() == void.class;
-	}
-	
 	public void setMethodMatcher(Matcher<Method> methodMatcher) {
 		this.methodMatcher = methodMatcher;
-		this.methodIsKnownToBeVoid = false;
 	}
 	
-	public void setParametersMatcher(ParametersMatcher parametersMatcher) {
+	public void setParametersMatcher(Matcher<Object[]> parametersMatcher) {
 		this.parametersMatcher = parametersMatcher;
 	}
 
@@ -69,12 +55,6 @@ public class InvocationExpectation implements Expectation {
     
     public void setAction(Action action) {
         this.action = action;
-        this.actionIsDefault = false;
-    }
-    
-    public void setDefaultAction(Action action) {
-        this.action = action;
-        this.actionIsDefault = true;
     }
     
     public void describeTo(Description description) {
@@ -96,31 +76,12 @@ public class InvocationExpectation implements Expectation {
             description.appendText("; ");
             orderingConstraint.describeTo(description);
         }
-        
-        if (!shouldSuppressActionDescription()) {
-            description.appendText("; ");
-            action.describeTo(description);
-        }
-        
+        description.appendText("; ");
+        action.describeTo(description);
         for (SideEffect sideEffect : sideEffects) {
             description.appendText("; ");
             sideEffect.describeTo(description);
         }
-    }
-
-
-    public void describeMismatch(Object item, Description description) {
-        describeTo(description);
-        Invocation invocation = (Invocation)item;
-        if (mightBeRelevant(invocation)) {
-            description.appendText("\n");
-            parametersMatcher.describeMismatch(invocation.getParametersAsArray(), description);
-        }
-    }
-
-
-    private boolean shouldSuppressActionDescription() {
-        return methodIsKnownToBeVoid && actionIsDefault;
     }
 
     public boolean isSatisfied() {
@@ -140,13 +101,7 @@ public class InvocationExpectation implements Expectation {
         
 	}
     
-    private boolean mightBeRelevant(Invocation invocation) {
-        return objectMatcher.matches(invocation.getInvokedObject())
-            && methodMatcher.matches(invocation.getInvokedMethod())
-            && parametersMatcher.isCompatibleWith(invocation.getParametersAsArray());
-    }
-
-    private boolean isInCorrectOrder() {
+	private boolean isInCorrectOrder() {
         for (OrderingConstraint constraint : orderingConstraints) {
             if (!constraint.allowsInvocationNow()) return false;
         }
