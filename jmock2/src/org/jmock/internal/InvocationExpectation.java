@@ -23,7 +23,7 @@ public class InvocationExpectation implements Expectation {
     private static ParametersMatcher ANY_PARAMETERS = new AnyParametersMatcher();
     private Cardinality cardinality = Cardinality.ALLOWING;
 	private Matcher<?> objectMatcher = IsAnything.anything();
-	private Matcher<Method> methodMatcher = IsAnything.anything("<any method>");
+	private Matcher<? super Method> methodMatcher = IsAnything.anything("<any method>");
 	private boolean methodIsKnownToBeVoid = false;
 	private ParametersMatcher parametersMatcher = ANY_PARAMETERS;
     private Action action = new VoidAction();
@@ -46,8 +46,8 @@ public class InvocationExpectation implements Expectation {
 	    this.methodIsKnownToBeVoid = method.getReturnType() == void.class;
 	}
 	
-	public void setMethodMatcher(Matcher<Method> methodMatcher) {
-		this.methodMatcher = methodMatcher;
+	public void setMethodMatcher(Matcher<? super Method> matcher) {
+		this.methodMatcher = matcher;
 		this.methodIsKnownToBeVoid = false;
 	}
 	
