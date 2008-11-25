@@ -31,7 +31,6 @@ import org.jmock.syntax.ArgumentConstraintPhrases;
 import org.jmock.syntax.CardinalityClause;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
-import static org.hamcrest.core.IsEqual.*;
 
 /**
  * Provides most of the syntax of jMock's "domain-specific language" API.
@@ -184,39 +183,39 @@ public class Expectations implements ExpectationBuilder,
     }
     
     public boolean with(boolean value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Boolean>(value));
     }
     
     public byte with(byte value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Byte>(value));
     }
     
     public short with(short value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Short>(value));
     }
     
     public char with(char value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Character>(value));
     }
     
     public int with(int value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Integer>(value));
     }
     
     public long with(long value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Long>(value));
     }
     
     public float with(float value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Float>(value));
     }
     
     public double with(double value) {
-        return with(equalTo(value));
+        return with(new IsEqual<Double>(value));
     }
     
     public <T> T with(T value) {
-        return with(equalTo(value));
+        return with(new IsEqual<T>(value));
     }
     
     public void will(Action action) {
