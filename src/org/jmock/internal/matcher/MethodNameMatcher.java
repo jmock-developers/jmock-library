@@ -21,7 +21,13 @@ public class MethodNameMatcher extends TypeSafeMatcher<Method> {
         return namePattern.matcher(method.getName()).matches();
     }
     
+    @Override
+    protected void describeMismatchSafely(Method item, Description mismatchDescription) {
+        mismatchDescription.appendText("was method ").appendText(item.getName());
+    }
+    
     public void describeTo(Description description) {
         description.appendText(namePattern.toString());
     }
+
 }
