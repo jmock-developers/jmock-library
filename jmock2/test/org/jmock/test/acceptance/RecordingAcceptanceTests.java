@@ -1,10 +1,12 @@
 package org.jmock.test.acceptance;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.StringDescription.asString;
-import static org.jmock.test.unit.support.StringContainsInOrder.containsInOrder;
 import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.text.StringContainsInOrder;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
@@ -100,5 +102,9 @@ public class RecordingAcceptanceTests extends TestCase {
                 "mock.doSomethingWith(\"y\")"
             ));
         }
+    }
+    
+    private Matcher<? super String> containsInOrder(String... strings) {
+        return new StringContainsInOrder(asList(strings));
     }
 }

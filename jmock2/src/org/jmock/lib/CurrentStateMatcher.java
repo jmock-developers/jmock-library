@@ -20,6 +20,15 @@ public class CurrentStateMatcher extends TypeSafeMatcher<States> {
         return stateMachine.is(stateName).isActive() == expected;
     }
     
+    @Override
+    protected void describeMismatchSafely(States stateMachine, Description mismatchDescription) {
+        mismatchDescription.appendText("was ");
+        if (!stateMachine.is(stateName).isActive()) {
+            mismatchDescription.appendText("not ");
+        }
+        mismatchDescription.appendText(stateName);
+    }
+    
     public void describeTo(Description description) {
         description.appendText("a state machine that ")
                    .appendText(expected ? "is " : "is not ")
@@ -35,4 +44,5 @@ public class CurrentStateMatcher extends TypeSafeMatcher<States> {
     public static Matcher<States> isNotCurrently(String stateName) {
         return new CurrentStateMatcher(stateName, false);
     }
+
 }

@@ -3,16 +3,14 @@ package org.jmock.test.unit.lib;
 import static org.hamcrest.StringDescription.asString;
 import static org.jmock.lib.CurrentStateMatcher.isCurrently;
 import static org.jmock.lib.CurrentStateMatcher.isNotCurrently;
-import static org.junit.Assert.assertThat;
-import junit.framework.TestCase;
 
+import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 import org.jmock.States;
 import org.jmock.internal.StateMachine;
-import org.jmock.test.unit.support.AssertThat;
 
 
-public class CurrentStateMatcherTest extends TestCase {
+public class CurrentStateMatcherTest extends AbstractMatcherTest {
     States stateMachine = new StateMachine("stateMachine");
     Matcher<States> isCurrentlyS = isCurrently("S");
     Matcher<States> isNotCurrentlyS = isNotCurrently("S");
@@ -52,12 +50,11 @@ public class CurrentStateMatcherTest extends TestCase {
     public void testHasReadableDescriptionWhenPassedToAssertThat() {
         stateMachine.become("X");
         
-        try {
-            assertThat(stateMachine, isCurrently("S"));
-        }
-        catch (AssertionError e) {
-            AssertThat.stringIncludes("expected", "Expected: a state machine that is S", e.getMessage());
-            AssertThat.stringIncludes("actual", "got: <stateMachine is X>", e.getMessage());
-        }
+        assertMismatchDescription("was not S", isCurrently("S"), stateMachine);
+    }
+
+    @Override
+    protected Matcher<?> createMatcher() {
+        return isCurrentlyS;
     }
 }

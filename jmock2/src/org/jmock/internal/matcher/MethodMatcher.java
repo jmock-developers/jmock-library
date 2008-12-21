@@ -18,7 +18,13 @@ public class MethodMatcher extends TypeSafeMatcher<Method> {
         return expectedMethod.equals(m);
     }
     
+    @Override
+    protected void describeMismatchSafely(Method m, Description mismatchDescription) {
+        mismatchDescription.appendText("was ").appendText(m.getName());
+    }
+    
     public void describeTo(Description description) {
         description.appendText(expectedMethod.getName());
     }
+
 }
