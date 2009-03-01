@@ -1,6 +1,7 @@
 package org.jmock.lib.concurrent;
 
-import org.hamcrest.StringDescription;
+import static org.hamcrest.StringDescription.asString;
+
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
@@ -30,12 +31,14 @@ public class ThreadSafeImposteriser implements Imposteriser {
         
         synchronized(sync) {
             while (!p.isActive()) {
-                long waitTime = System.currentTimeMillis() - start;
-                if (waitTime > timeoutMs) {
-                    Assert.fail("timeout waiting for " + StringDescription.asString(p));
+                long now = System.currentTimeMillis();
+                long timeLeft = timeoutMs - (now - start);
+                
+                if (timeLeft <= 0) {
+                    Assert.fail("timeout waiting for " + asString(p));
                 }
                 
-                sync.wait(timeoutMs - waitTime);
+                sync.wait(timeLeft);
             }
         }
     }
