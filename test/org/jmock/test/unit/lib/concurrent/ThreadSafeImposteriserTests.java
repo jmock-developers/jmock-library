@@ -68,9 +68,35 @@ public class ThreadSafeImposteriserTests {
             }
         });
         
+        imposteriser.waitUntil(threads.is("finished"));
+    }
+
+    @Test(timeout=250)
+    public void canWaitForAStateMachineToEnterAGivenStateWithinSomeTimeout() throws InterruptedException {
+        final AtomicInteger counter = new AtomicInteger(blitzer.totalActionCount());
+        
+        final States threads = mockery.states("threads");
+        
+        mockery.checking(new Expectations() {{
+            exactly(blitzer.totalActionCount()).of(mockObject).action();
+                when(threads.isNot("finished"));
+                
+            oneOf(mockObject).finished();
+                then(threads.is("finished"));
+        }});
+        
+        blitzer.blitz(new Runnable() {
+            public void run() {
+                mockObject.action();
+                if (counter.decrementAndGet() == 0) {
+                    mockObject.finished();
+                }
+            }
+        });
+        
         imposteriser.waitUntil(threads.is("finished"), 100);
     }
-    
+
     @Test(timeout=250)
     public void failsTheTestIfStateMachineDoesNotEnterExpectedStateWithinTimeout() throws InterruptedException {
         States threads = mockery.states("threads");
