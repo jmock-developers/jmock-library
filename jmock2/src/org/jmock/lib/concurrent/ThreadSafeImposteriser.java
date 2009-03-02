@@ -6,6 +6,7 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.StatePredicate;
+import org.jmock.lib.DecoratingImposteriser;
 import org.junit.Assert;
 
 
@@ -14,19 +15,13 @@ import org.junit.Assert;
  * 
  * @author Nat Pryce
  */
-public class ThreadSafeImposteriser implements Imposteriser {
+public class ThreadSafeImposteriser extends DecoratingImposteriser {
     private final Object sync = new Object();
-    private final Imposteriser imposteriser;
-
+    
     public ThreadSafeImposteriser(Imposteriser imposteriser) {
-        this.imposteriser = imposteriser;
+        super(imposteriser);
     }
     
-    public boolean canImposterise(Class<?> type) {
-        return imposteriser.canImposterise(type);
-    }
-    
-
     /** 
      * Waits for a StatePredicate to become active.  
      * 
@@ -68,23 +63,15 @@ public class ThreadSafeImposteriser implements Imposteriser {
         }
     }
     
-    public <T> T imposterise(Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
-        return imposteriser.imposterise(wrapSynchronizationAround(mockObject),
-                                        mockedType, ancilliaryTypes);
-    }
-    
-    private Invokable wrapSynchronizationAround(final Invokable mockObject) {
-        return new Invokable() {
-            public Object invoke(Invocation invocation) throws Throwable {
-                synchronized (sync) {
-                    try {
-                        return mockObject.invoke(invocation);
-                    }
-                    finally {
-                        sync.notifyAll();
-                    }
-                }
+    @Override
+    protected Object performDecoration(Invokable imposter, Invocation invocation) throws Throwable {
+        synchronized (sync) {
+            try {
+                return imposter.invoke(invocation);
             }
-        };
+            finally {
+                sync.notifyAll();
+            }
+        }
     }
 }

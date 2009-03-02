@@ -27,6 +27,7 @@ import org.jmock.internal.ReturnDefaultValueAction;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
+import org.jmock.test.unit.lib.SingleThreadedImposteriser;
 
 
 /**
@@ -42,7 +43,7 @@ import org.jmock.lib.JavaReflectionImposteriser;
  */
 public class Mockery implements SelfDescribing {
     private Set<String> mockNames = new HashSet<String>();
-    private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
+    private Imposteriser imposteriser = new SingleThreadedImposteriser(JavaReflectionImposteriser.INSTANCE);
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
     
@@ -298,5 +299,4 @@ public class Mockery implements SelfDescribing {
                 mockedType);
         }
     }
-
 }
