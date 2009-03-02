@@ -62,7 +62,6 @@ public class ExpectationCountsAcceptanceTests extends TestCase {
         context.assertIsSatisfied();
         mock.doSomething();
         assertAnotherInvocationFailsTheTest();
-        context.assertIsSatisfied();
     }
     
     public void testExpectsBetween() {
