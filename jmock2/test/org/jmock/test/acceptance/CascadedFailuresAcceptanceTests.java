@@ -63,22 +63,22 @@ public class CascadedFailuresAcceptanceTests extends TestCase {
         }
     }
 
-    public void testSuccessfulVerifyClearsFirstFailure() {
+    // See issue JMOCK-183 (http://jira.codehaus.org/browse/JMOCK-183).
+    public void testVerifyReportsFirstFailure() {
         try {
-            maskedExpectationFailure(mock, mock);
-            fail("should have thrown DynamicMockError");
+            mock.realExpectationFailure(2);
         }
-        catch (ExpectationError e) { /* expected */ }
-        
-        context.assertIsSatisfied();
+        catch (ExpectationError e) { /* swallowed */ }
         
         try {
-            mock.anotherRealExpectationFailure();
-            fail("should have thrown DynamicMockError");
+            context.assertIsSatisfied();
+            fail("should have thrown ExpectationError");
         }
         catch (ExpectationError e) {
+            assertSame("invoked object",
+                       mock, e.invocation.getInvokedObject());
             assertEquals("invoked method", 
-                         "anotherRealExpectationFailure", e.invocation.getInvokedMethod().getName());
+                         "realExpectationFailure", e.invocation.getInvokedMethod().getName() );
         }
     }
 }
