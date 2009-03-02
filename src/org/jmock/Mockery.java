@@ -49,7 +49,7 @@ public class Mockery implements SelfDescribing {
     private ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     
     private InvocationDispatcher dispatcher = new InvocationDispatcher();
-    private Throwable firstError = null;
+    private Error firstError = null;
     
     private List<Invocation> actualInvocations = new ArrayList<Invocation>();
     
@@ -191,8 +191,10 @@ public class Mockery implements SelfDescribing {
      * Fails the test if there are any expectations that have not been met.
      */
 	public void assertIsSatisfied() {
-        firstError = null;
-        if (!dispatcher.isSatisfied()) {
+	    if (firstError != null) {
+	        throw firstError;
+	    }
+	    else if (!dispatcher.isSatisfied()) {
             throw expectationErrorTranslator.translate(
                 new ExpectationError("not all expectations were satisfied", this));
         }
@@ -251,7 +253,8 @@ public class Mockery implements SelfDescribing {
         filledIn.setStackTrace(e.getStackTrace());
         return filledIn;
     }
-
+    
+    //TODO (nat): get rid of this and just pass a SelfDescribing object to the ExpectationError.
     public static class UnexpectedInvocationError extends ExpectationError {
         public final Mockery mockery;
         public UnexpectedInvocationError(ExpectationError cause, Mockery mockery) {
