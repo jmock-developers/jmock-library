@@ -23,11 +23,11 @@ public abstract class DecoratingImposteriser implements Imposteriser {
     private Invokable decorate(final Invokable mockObject) {
         return new Invokable() {
             public Object invoke(Invocation invocation) throws Throwable {
-                return performDecoration(mockObject, invocation);
+                return applyInvocation(mockObject, invocation);
             }
         };
     }
     
-    protected abstract Object performDecoration(Invokable imposter, Invocation invocation)
+    protected abstract Object applyInvocation(Invokable imposter, Invocation invocation)
         throws Throwable;
 }

@@ -11,14 +11,15 @@ import org.junit.Assert;
 
 
 /**
- * A Decorator that wraps an Imposteriser and makes the Mockery thread-safe.
+ * A DecoratingImposteriser that makes the Mockery thread-safe and
+ * helps tests synchronise with background threads.
  * 
  * @author Nat Pryce
  */
-public class ThreadSafeImposteriser extends DecoratingImposteriser {
+public class SynchronisingImposteriser extends DecoratingImposteriser {
     private final Object sync = new Object();
     
-    public ThreadSafeImposteriser(Imposteriser imposteriser) {
+    public SynchronisingImposteriser(Imposteriser imposteriser) {
         super(imposteriser);
     }
     
@@ -64,7 +65,7 @@ public class ThreadSafeImposteriser extends DecoratingImposteriser {
     }
     
     @Override
-    protected Object performDecoration(Invokable imposter, Invocation invocation) throws Throwable {
+    protected Object applyInvocation(Invokable imposter, Invocation invocation) throws Throwable {
         synchronized (sync) {
             try {
                 return imposter.invoke(invocation);
