@@ -7,6 +7,7 @@ import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.StatePredicate;
 import org.jmock.lib.DecoratingImposteriser;
+import org.jmock.lib.JavaReflectionImposteriser;
 import org.junit.Assert;
 
 
@@ -18,6 +19,10 @@ import org.junit.Assert;
  */
 public class SynchronisingImposteriser extends DecoratingImposteriser {
     private final Object sync = new Object();
+    
+    public SynchronisingImposteriser() {
+        this(JavaReflectionImposteriser.INSTANCE);
+    }
     
     public SynchronisingImposteriser(Imposteriser imposteriser) {
         super(imposteriser);
