@@ -6,7 +6,7 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.lib.DecoratingImposteriser;
-import org.jmock.lib.concurrent.ThreadSafeImposteriser;
+import org.jmock.lib.concurrent.SynchronisingImposteriser;
 
 public class SingleThreadedImposteriser extends DecoratingImposteriser {
     private final Thread testThread;
@@ -17,7 +17,7 @@ public class SingleThreadedImposteriser extends DecoratingImposteriser {
     }
     
     @Override
-    protected Object performDecoration(Invokable imposter, Invocation invocation)
+    protected Object applyInvocation(Invokable imposter, Invocation invocation)
         throws Throwable 
     {
         checkRunningOnTestThread();
@@ -27,7 +27,7 @@ public class SingleThreadedImposteriser extends DecoratingImposteriser {
     private void checkRunningOnTestThread() {
         if (Thread.currentThread() != testThread) {
             reportError("the Mockery is not thread-safe: wrap an Imposteriser in a " + 
-                        ThreadSafeImposteriser.class.getSimpleName() + " to ensure thread safety");
+                        SynchronisingImposteriser.class.getSimpleName() + " to ensure thread safety");
         }
     }
     

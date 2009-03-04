@@ -10,17 +10,17 @@ import org.jmock.States;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.concurrent.Blitzer;
-import org.jmock.lib.concurrent.ThreadSafeImposteriser;
+import org.jmock.lib.concurrent.SynchronisingImposteriser;
 import org.junit.After;
 import org.junit.Test;
 
-public class ThreadSafeImposteriserTests {
+public class SynchronisingImposteriserTests {
     public interface Events {
         void action();
         void finished();
     }
     
-    ThreadSafeImposteriser imposteriser = new ThreadSafeImposteriser(new JavaReflectionImposteriser());
+    SynchronisingImposteriser imposteriser = new SynchronisingImposteriser(new JavaReflectionImposteriser());
     
     Mockery mockery = new JUnit4Mockery() {{
         setImposteriser(imposteriser);
