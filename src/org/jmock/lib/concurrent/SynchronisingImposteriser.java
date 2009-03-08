@@ -2,12 +2,17 @@ package org.jmock.lib.concurrent;
 
 import static org.hamcrest.StringDescription.asString;
 
+import java.util.concurrent.TimeoutException;
+
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.StatePredicate;
 import org.jmock.lib.DecoratingImposteriser;
 import org.jmock.lib.JavaReflectionImposteriser;
+import org.jmock.lib.concurrent.internal.FixedTimeout;
+import org.jmock.lib.concurrent.internal.InfiniteTimeout;
+import org.jmock.lib.concurrent.internal.Timeout;
 import org.junit.Assert;
 
 
@@ -19,6 +24,7 @@ import org.junit.Assert;
  */
 public class SynchronisingImposteriser extends DecoratingImposteriser {
     private final Object sync = new Object();
+    private Error firstError = null;
     
     public SynchronisingImposteriser() {
         this(JavaReflectionImposteriser.INSTANCE);
@@ -37,11 +43,7 @@ public class SynchronisingImposteriser extends DecoratingImposteriser {
      * @throws InterruptedException
      */
     public void waitUntil(StatePredicate p) throws InterruptedException {
-        synchronized(sync) {
-            while (!p.isActive()) {
-                sync.wait();
-            }
-        }
+        waitUntil(p, new InfiniteTimeout());
     }
     
     /** 
@@ -53,20 +55,26 @@ public class SynchronisingImposteriser extends DecoratingImposteriser {
      * @throws InterruptedException
      */
     public void waitUntil(StatePredicate p, long timeoutMs) throws InterruptedException {
-        long start = System.currentTimeMillis();
-        
+        waitUntil(p, new FixedTimeout(timeoutMs));
+    }
+    
+    private void waitUntil(StatePredicate p, Timeout timeout) throws InterruptedException {
         synchronized(sync) {
             while (!p.isActive()) {
-                long now = System.currentTimeMillis();
-                long timeLeft = timeoutMs - (now - start);
-                
-                if (timeLeft <= 0) {
-                    Assert.fail("timeout waiting for " + asString(p));
+                try {
+                    sync.wait(timeout.timeRemaining());
                 }
-                
-                sync.wait(timeLeft);
+                catch (TimeoutException e) {
+                    if (firstError != null) {
+                        throw firstError;
+                    }
+                    else {
+                        Assert.fail("timed out waiting for " + asString(p));
+                    }
+                }
             }
         }
+        
     }
     
     @Override
@@ -74,6 +82,12 @@ public class SynchronisingImposteriser extends DecoratingImposteriser {
         synchronized (sync) {
             try {
                 return imposter.invoke(invocation);
+            }
+            catch (Error e) {
+                if (firstError == null) {
+                    firstError = e;
+                }
+                throw e;
             }
             finally {
                 sync.notifyAll();
