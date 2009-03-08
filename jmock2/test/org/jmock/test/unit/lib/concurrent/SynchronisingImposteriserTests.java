@@ -1,5 +1,7 @@
 package org.jmock.test.unit.lib.concurrent;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,7 +28,7 @@ public class SynchronisingImposteriserTests {
         setImposteriser(imposteriser);
     }};
     
-    Blitzer blitzer = new Blitzer(4, 1000);
+    Blitzer blitzer = new Blitzer(16, 4);
     
     Events mockObject = mockery.mock(Events.class, "mockObject");
     
@@ -73,8 +75,6 @@ public class SynchronisingImposteriserTests {
 
     @Test(timeout=250)
     public void canWaitForAStateMachineToEnterAGivenStateWithinSomeTimeout() throws InterruptedException {
-        final AtomicInteger counter = new AtomicInteger(blitzer.totalActionCount());
-        
         final States threads = mockery.states("threads");
         
         mockery.checking(new Expectations() {{
@@ -86,6 +86,8 @@ public class SynchronisingImposteriserTests {
         }});
         
         blitzer.blitz(new Runnable() {
+            AtomicInteger counter = new AtomicInteger(blitzer.totalActionCount());
+            
             public void run() {
                 mockObject.action();
                 if (counter.decrementAndGet() == 0) {
@@ -110,7 +112,60 @@ public class SynchronisingImposteriserTests {
         
         fail("should have thrown AssertionError");
     }
+    
+    @Test
+    public void throwsExpectationErrorIfExpectationFailsWhileWaitingForStateMachine() throws InterruptedException {
+        final States threads = mockery.states("threads");
+        
+        // This will cause an expectation error, and nothing will make
+        // the "threads" state machine transition to "finished" 
+        
+        blitzer.blitz(new Runnable() {
+            public void run() {
+                mockObject.action();
+            }
+        });
+        
+        try {
+            imposteriser.waitUntil(threads.is("finished"), 100);
+            fail("should have thrown AssertionError");
+        }
+        catch (AssertionError e) {
+            assertThat(e.getMessage(), containsString("action()"));
+        }
+    }
 
+    @Test
+    public void throwsExpectationErrorIfExpectationFailsWhileWaitingForStateMachineEvenIfWaitSucceeds() throws InterruptedException {
+        final States threads = mockery.states("threads");
+        
+        mockery.checking(new Expectations() {{
+            oneOf(mockObject).finished();
+                then(threads.is("finished"));
+        }});
+        
+        blitzer.blitz(new Runnable() {
+            AtomicInteger counter = new AtomicInteger(blitzer.totalActionCount());
+            
+            public void run() {
+                if (counter.decrementAndGet() == 0) {
+                    mockObject.finished();
+                }
+                else {
+                    mockObject.action();
+                }
+            }
+        });
+        
+        try {
+            imposteriser.waitUntil(threads.is("finished"), 100);
+            fail("should have thrown AssertionError");
+        }
+        catch (AssertionError e) {
+            assertThat(e.getMessage(), containsString("action()"));
+        }
+    }
+    
     @After
     public void cleanUp() {
         blitzer.shutdown();

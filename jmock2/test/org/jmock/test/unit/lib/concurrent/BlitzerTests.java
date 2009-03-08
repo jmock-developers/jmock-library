@@ -17,7 +17,7 @@ public class BlitzerTests extends TestCase {
     
     int expectedActionCount = threadCount * iterationCount;
     
-    Blitzer blitzer = new Blitzer(threadCount, iterationCount);
+    Blitzer blitzer = new Blitzer(iterationCount, threadCount);
     
     
     @After
@@ -47,7 +47,7 @@ public class BlitzerTests extends TestCase {
         // thread reaches here and does not time out
     }
     
-    public void testReportsTheTotalNumberOfIterations() {
+    public void testReportsTheTotalNumberOfActions() {
         assertThat(blitzer.totalActionCount(), equalTo(expectedActionCount));
     }
 }

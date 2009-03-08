@@ -7,6 +7,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import junit.framework.TestCase;
@@ -18,7 +19,7 @@ import org.jmock.lib.concurrent.Blitzer;
 public class WarnAboutMultipleThreadsAcceptanceTests extends TestCase {
     List<Throwable> exceptionsOnBackgroundThreads = Collections.synchronizedList(new ArrayList<Throwable>());
     
-    Blitzer blitzer = new Blitzer(2, 1, new ThreadFactory() {
+    Blitzer blitzer = new Blitzer(1, Executors.newFixedThreadPool(1, new ThreadFactory() {
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r);
             t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -28,7 +29,7 @@ public class WarnAboutMultipleThreadsAcceptanceTests extends TestCase {
             });
             return t;
         }
-    });
+    }));
     
     public void testKillsThreadsThatTryToCallMockeryThatIsNotThreadSafe() throws InterruptedException {
         Mockery mockery = new Mockery();

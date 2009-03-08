@@ -5,13 +5,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeoutException;
 
+
 /**
- * A class that "blitzes" an object by calling it many times, from 
- * multiple threads.  Used for stress-testing synchronisation.
- *   
+ * A class that "blitzes" an object by calling it many times, from multiple
+ * threads. Used for stress-testing synchronisation.
+ * 
  * @author nat
  */
 public class Blitzer {
@@ -19,32 +19,28 @@ public class Blitzer {
      * The default number of threads to run concurrently.
      */
     public static final int DEFAULT_THREAD_COUNT = 2;
-    
-    private final ExecutorService executor;
-    private final int threadCount;
-    private final int iterationCount;
 
+    private final ExecutorService executorService;
+    private final int actionCount;
     
-    public Blitzer(int iterationCount) {
-      this(DEFAULT_THREAD_COUNT, iterationCount);
+    public Blitzer(int actionCount) {
+        this(actionCount, DEFAULT_THREAD_COUNT);
     }
     
-    public Blitzer(int threadCount, int iterationCount) {
-        this.threadCount = threadCount;
-        this.iterationCount = iterationCount;
-        this.executor = Executors.newCachedThreadPool();
+    public Blitzer(int actionCount, int threadCount) {
+        this.actionCount = actionCount;
+        this.executorService = Executors.newFixedThreadPool(threadCount);
     }
     
-    public Blitzer(int threadCount, int iterationCount, ThreadFactory threadFactory) {
-        this.threadCount = threadCount;
-        this.iterationCount = iterationCount;
-        this.executor = Executors.newCachedThreadPool(threadFactory);
+    public Blitzer(int actionCount, ExecutorService executorService) {
+        this.actionCount = actionCount;
+        this.executorService = executorService;;
     }
     
     public int totalActionCount() {
-        return threadCount * iterationCount;
+        return actionCount;
     }
-    
+
     public void blitz(final Runnable action) throws InterruptedException {
         spawnThreads(action).await();
     }
@@ -54,15 +50,15 @@ public class Blitzer {
             throw new TimeoutException("timed out waiting for blitzed actions to complete successfully");
         }
     }
-    
+
     private CountDownLatch spawnThreads(final Runnable action) {
-        final CountDownLatch finished = new CountDownLatch(threadCount);
+        final CountDownLatch finished = new CountDownLatch(actionCount);
         
-        for (int i = 0; i < threadCount; i++) {
-            executor.execute(new Runnable() {
+        for (int i = 0; i < actionCount; i++) {
+            executorService.execute(new Runnable() {
                 public void run() {
                     try {
-                        repeat(action);
+                        action.run();
                     }
                     finally {
                         finished.countDown();
@@ -70,16 +66,11 @@ public class Blitzer {
                 }
             });
         }
+        
         return finished;
     }
-    
-    private void repeat(Runnable action) {
-        for (int i = 0; i < iterationCount; i++) {
-            action.run();
-        }
-    }
-    
+
     public void shutdown() {
-        executor.shutdown();
+        executorService.shutdown();
     }
 }
