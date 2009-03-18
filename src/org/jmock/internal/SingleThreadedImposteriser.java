@@ -1,4 +1,4 @@
-package org.jmock.test.unit.lib;
+package org.jmock.internal;
 
 import java.util.ConcurrentModificationException;
 
