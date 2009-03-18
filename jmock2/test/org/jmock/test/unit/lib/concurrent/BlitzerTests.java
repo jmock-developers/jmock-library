@@ -13,11 +13,9 @@ import org.junit.After;
 
 public class BlitzerTests extends TestCase {
     int threadCount = 3;
-    int iterationCount = 4;
+    int actionCount = 12;
     
-    int expectedActionCount = threadCount * iterationCount;
-    
-    Blitzer blitzer = new Blitzer(iterationCount, threadCount);
+    Blitzer blitzer = new Blitzer(actionCount, threadCount);
     
     
     @After
@@ -34,7 +32,7 @@ public class BlitzerTests extends TestCase {
             }
         });
         
-        assertThat(actualActionCount.get(), equalTo(expectedActionCount));
+        assertThat(actualActionCount.get(), equalTo(actionCount));
     }
     
     public void testActionsCanFailWithoutDeadlockingTheTestThread() throws InterruptedException, TimeoutException {
@@ -48,6 +46,6 @@ public class BlitzerTests extends TestCase {
     }
     
     public void testReportsTheTotalNumberOfActions() {
-        assertThat(blitzer.totalActionCount(), equalTo(expectedActionCount));
+        assertThat(blitzer.totalActionCount(), equalTo(actionCount));
     }
 }

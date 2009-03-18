@@ -24,10 +24,10 @@ import org.jmock.internal.NamedSequence;
 import org.jmock.internal.ObjectMethodExpectationBouncer;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.internal.ReturnDefaultValueAction;
+import org.jmock.internal.SingleThreadedImposteriser;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
-import org.jmock.test.unit.lib.SingleThreadedImposteriser;
 
 
 /**
