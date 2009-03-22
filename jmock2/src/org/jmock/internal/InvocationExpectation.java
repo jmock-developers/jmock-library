@@ -74,6 +74,9 @@ public class InvocationExpectation implements Expectation {
     }
     
     public void describeTo(Description description) {
+        if (! isSatisfied()) {
+            description.appendText("> ");
+        }
         describeMethod(description);
         parametersMatcher.describeTo(description);
         describeSideEffects(description);
