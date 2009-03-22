@@ -202,8 +202,17 @@ public class Mockery implements SelfDescribing {
 	}
     
     public void describeTo(Description description) {
-        description.appendDescriptionOf(dispatcher)
-                   .appendText("\nwhat happened before this:");
+        description.appendDescriptionOf(dispatcher);
+        describeContext(description);
+    }
+
+    private void describeMismatch(Invocation invocation, Description description) {
+        dispatcher.describeMismatch(invocation, description);
+        describeContext(description);
+    }
+    
+    private void describeContext(Description description) {
+        description.appendText("\nwhat happened before this:");
         
         if (actualInvocations.isEmpty()) {
             description.appendText(" nothing!");
@@ -213,17 +222,6 @@ public class Mockery implements SelfDescribing {
         }
     }
 
-    private void describeMismatch(Invocation invocation, Description description) {
-        dispatcher.describeMismatch(invocation, description);
-        description.appendText("\nwhat happened before this:");
-
-        if (actualInvocations.isEmpty()) {
-            description.appendText(" nothing!");
-        } else {
-            description.appendList("\n  ", "\n  ", "\n", actualInvocations);
-        }
-    }
-    
     private Object dispatch(Invocation invocation) throws Throwable {
         if (firstError != null) {
             throw firstError;
@@ -254,7 +252,7 @@ public class Mockery implements SelfDescribing {
         filledIn.setStackTrace(e.getStackTrace());
         return filledIn;
     }
-    
+
     //TODO (nat): get rid of this and just pass a SelfDescribing object to the ExpectationError.
     public static class UnexpectedInvocationError extends ExpectationError {
         public final Mockery mockery;
@@ -299,4 +297,5 @@ public class Mockery implements SelfDescribing {
                 mockedType);
         }
     }
+
 }
