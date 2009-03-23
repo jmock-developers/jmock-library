@@ -233,7 +233,7 @@ public class Mockery implements SelfDescribing {
             return result;
         }
         catch (ExpectationError e) {
-            firstError = expectationErrorTranslator.translate(fillInDetails(e));
+            firstError = expectationErrorTranslator.translate(mismatchDescribing(e));
             firstError.setStackTrace(e.getStackTrace());
             throw firstError;
         }
@@ -243,36 +243,16 @@ public class Mockery implements SelfDescribing {
         }
     }
     
-    // The ExpectationError might not have the expectations field set (because of a design
-    // flaw that cannot be fixed without breaking backward compatibility of client code).
-    // So if it is null we create a new ExpectationError with the field set to the mockery's
-    // expectations.
-    private ExpectationError fillInDetails(ExpectationError e) {
-        ExpectationError filledIn = new UnexpectedInvocationError(e, this);
+    private ExpectationError mismatchDescribing(final ExpectationError e) {
+        ExpectationError filledIn = new ExpectationError(e.getMessage(), new SelfDescribing() {
+            public void describeTo(Description description) {
+                describeMismatch(e.invocation, description);
+            }
+        }, e.invocation);
         filledIn.setStackTrace(e.getStackTrace());
         return filledIn;
     }
 
-    //TODO (nat): get rid of this and just pass a SelfDescribing object to the ExpectationError.
-    public static class UnexpectedInvocationError extends ExpectationError {
-        public final Mockery mockery;
-        public UnexpectedInvocationError(ExpectationError cause, Mockery mockery) {
-            super(cause.getMessage(), mockery, cause.invocation);
-            this.mockery = mockery;
-        }
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText(getMessage());
-            if (invocation != null) {
-                description.appendText(": ");
-                invocation.describeTo(description);
-            }
-            description.appendText("\n");
-            mockery.describeMismatch(invocation, description);
-        }
-    }
-    
     private class MockObject implements Invokable, CaptureControl {
         private Class<?> mockedType;
         private String name;
