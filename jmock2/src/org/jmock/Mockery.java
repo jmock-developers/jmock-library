@@ -203,15 +203,15 @@ public class Mockery implements SelfDescribing {
     
     public void describeTo(Description description) {
         description.appendDescriptionOf(dispatcher);
-        describeContext(description);
+        describeHistory(description);
     }
 
     private void describeMismatch(Invocation invocation, Description description) {
         dispatcher.describeMismatch(invocation, description);
-        describeContext(description);
+        describeHistory(description);
     }
     
-    private void describeContext(Description description) {
+    private void describeHistory(Description description) {
         description.appendText("\nwhat happened before this:");
         
         if (actualInvocations.isEmpty()) {
