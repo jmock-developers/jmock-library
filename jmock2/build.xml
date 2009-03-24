@@ -53,7 +53,7 @@
 		<javac classpathref="build.classpath" 
 			   destdir="build/classes"
 			   srcdir="."
-			   sourcepath="src;test"
+			   sourcepath="src;test;example"
 			   debug="yes"
 			   failonerror="yes"
 			   source="1.5" 
@@ -235,6 +235,10 @@
 					<include name="**/*Tests.java"/>
 					<exclude name="**/Abstract*"/>
 				</fileset>
+        <fileset dir="example">
+          <include name="**/*Tests.java"/>
+          <exclude name="**/Abstract*"/>
+        </fileset>
 			</batchtest>
 		</junit>
 	</target>
