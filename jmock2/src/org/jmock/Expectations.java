@@ -233,10 +233,6 @@ public class Expectations implements ExpectationBuilder,
         return new IsSame<T>(value);
     }
     
-    public static <T> Matcher<T> any(@SuppressWarnings("unused") Class<T> type) {
-        return new IsAnything<T>();
-    }
-    
     public static <T> Matcher<T> anything() {
         return new IsAnything<T>();
     }

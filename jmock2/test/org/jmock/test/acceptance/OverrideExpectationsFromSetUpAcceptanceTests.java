@@ -1,5 +1,6 @@
 package org.jmock.test.acceptance;
 
+import static org.hamcrest.Matchers.any;
 import junit.framework.TestCase;
 
 import org.jmock.Expectations;
