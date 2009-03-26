@@ -35,6 +35,10 @@ public abstract class MockObjectTestCase extends VerifyingTestCase {
         super(name);
     }
     
+    public Mockery context() {
+        return context;
+    }
+    
     /**
      * Sets the result returned for the given type when no return value has been explicitly
      * specified in the expectation.
