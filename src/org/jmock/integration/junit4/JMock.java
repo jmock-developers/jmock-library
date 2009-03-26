@@ -64,14 +64,23 @@ public class JMock extends BlockJUnit4ClassRunner {
     }
     
     static Field findMockeryField(Class<?> testClass) throws InitializationError {
+        Field mockeryField = null;
+        
         for (Class<?> c = testClass; c != Object.class; c = c.getSuperclass()) {
             for (Field field: c.getDeclaredFields()) {
                 if (Mockery.class.isAssignableFrom(field.getType())) {
-                    return field;
+                    if (mockeryField != null) {
+                        throw new InitializationError("more than one Mockery found in test class " + testClass);
+                    }
+                    mockeryField = field;
                 }
             }
         }
         
-        throw new InitializationError("no Mockery found in test class " + testClass);
+        if (mockeryField == null) {
+            throw new InitializationError("no Mockery found in test class " + testClass);
+        }
+        
+        return mockeryField;
     }
 }
