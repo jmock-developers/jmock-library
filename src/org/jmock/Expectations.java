@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 import org.hamcrest.core.IsEqual;
@@ -233,8 +234,8 @@ public class Expectations implements ExpectationBuilder,
         return new IsSame<T>(value);
     }
     
-    public static <T> Matcher<T> any(@SuppressWarnings("unused") Class<T> type) {
-        return new IsAnything<T>();
+    public static <T> Matcher<T> any(Class<T> type) {
+        return CoreMatchers.any(type);
     }
     
     public static <T> Matcher<T> anything() {
