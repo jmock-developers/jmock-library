@@ -28,19 +28,18 @@ public class JMock extends BlockJUnit4ClassRunner {
     
     @Override
     protected Statement possiblyExpectingExceptions(FrameworkMethod method, Object test, Statement next) {
-        return verify(method, test, 
-                      super.possiblyExpectingExceptions(method, test, next));
+        return verify(method, test, super.possiblyExpectingExceptions(method, test, next));
     }
     
     protected Statement verify(
         @SuppressWarnings("unused") FrameworkMethod method, 
         final Object test, 
-        final Statement link) 
+        final Statement next) 
     {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                link.evaluate();
+                next.evaluate();
                 assertMockeryIsSatisfied(test);
             }
         };

@@ -22,10 +22,7 @@ public class JUnit4TestRunnerTests extends TestCase {
     
     public void testTheJUnit4TestRunnerReportsPassingTestsAsSuccessful() {
         runTest(JUnit4TestThatDoesSatisfyExpectations.class);
-        
-        if (listener.failure != null) {
-            fail("test should have passed but reported failure: " + listener.failure.getMessage());
-        }
+        assertTestSucceeded();
     }
     
     public void testTheJUnit4TestRunnerAutomaticallyAssertsThatAllExpectationsHaveBeenSatisfied() {
@@ -63,9 +60,15 @@ public class JUnit4TestRunnerTests extends TestCase {
     
     public void testDetectsNonPublicBeforeMethodsCorrectly() {
         runTest(JUnit4TestWithNonPublicBeforeMethod.class);
-        
+        assertTestFailedWith(Throwable.class);
         AssertThat.stringIncludes("should have detected non-public before method", 
                                   "Method before() should be public", listener.failure.getMessage());
+    }
+    
+    private void assertTestSucceeded() {
+        if (listener.failure != null) {
+            fail("test should have passed but reported failure: " + listener.failure.getMessage());
+        }
     }
     
     private void assertTestFailedWith(Class<? extends Throwable> exceptionType) {
