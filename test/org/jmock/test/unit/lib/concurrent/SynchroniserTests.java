@@ -10,22 +10,21 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.States;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.concurrent.Blitzer;
-import org.jmock.lib.concurrent.SynchronisingImposteriser;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Test;
 
-public class SynchronisingImposteriserTests {
+public class SynchroniserTests {
     public interface Events {
         void action();
         void finished();
     }
     
-    SynchronisingImposteriser imposteriser = new SynchronisingImposteriser(new JavaReflectionImposteriser());
+    Synchroniser synchroniser = new Synchroniser();
     
     Mockery mockery = new JUnit4Mockery() {{
-        setImposteriser(imposteriser);
+        setThreadingPolicy(synchroniser);
     }};
     
     Blitzer blitzer = new Blitzer(16, 4);
@@ -70,7 +69,7 @@ public class SynchronisingImposteriserTests {
             }
         });
         
-        imposteriser.waitUntil(threads.is("finished"));
+        synchroniser.waitUntil(threads.is("finished"));
     }
 
     @Test(timeout=250)
@@ -96,7 +95,7 @@ public class SynchronisingImposteriserTests {
             }
         });
         
-        imposteriser.waitUntil(threads.is("finished"), 100);
+        synchroniser.waitUntil(threads.is("finished"), 100);
     }
 
     @Test(timeout=250)
@@ -104,7 +103,7 @@ public class SynchronisingImposteriserTests {
         States threads = mockery.states("threads");
         
         try {
-            imposteriser.waitUntil(threads.is("finished"), 100);
+            synchroniser.waitUntil(threads.is("finished"), 100);
         }
         catch (AssertionError e) {
             return;
@@ -127,7 +126,7 @@ public class SynchronisingImposteriserTests {
         });
         
         try {
-            imposteriser.waitUntil(threads.is("finished"), 100);
+            synchroniser.waitUntil(threads.is("finished"), 100);
             fail("should have thrown AssertionError");
         }
         catch (AssertionError e) {
@@ -158,7 +157,7 @@ public class SynchronisingImposteriserTests {
         });
         
         try {
-            imposteriser.waitUntil(threads.is("finished"), 100);
+            synchroniser.waitUntil(threads.is("finished"), 100);
             fail("should have thrown AssertionError");
         }
         catch (AssertionError e) {
