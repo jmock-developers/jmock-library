@@ -14,6 +14,7 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.api.MockObjectNamingScheme;
+import org.jmock.api.ThreadingPolicy;
 import org.jmock.internal.CaptureControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;
@@ -24,10 +25,11 @@ import org.jmock.internal.NamedSequence;
 import org.jmock.internal.ObjectMethodExpectationBouncer;
 import org.jmock.internal.ProxiedObjectIdentity;
 import org.jmock.internal.ReturnDefaultValueAction;
-import org.jmock.internal.SingleThreadedImposteriser;
+import org.jmock.internal.SingleThreadedPolicy;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
+import org.jmock.lib.concurrent.Synchroniser;
 
 
 /**
@@ -43,9 +45,10 @@ import org.jmock.lib.JavaReflectionImposteriser;
  */
 public class Mockery implements SelfDescribing {
     private Set<String> mockNames = new HashSet<String>();
-    private Imposteriser imposteriser = new SingleThreadedImposteriser(JavaReflectionImposteriser.INSTANCE);
+    private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
+    private ThreadingPolicy threadingPolicy = new SingleThreadedPolicy();
     
     private ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     
@@ -110,6 +113,18 @@ public class Mockery implements SelfDescribing {
         this.expectationErrorTranslator = expectationErrorTranslator;
     }
     
+    /**
+     * Changes the policy by which the Mockery copes with multiple threads.
+     * 
+     *  The default policy throws an exception if the Mockery is called from different
+     *  threads.
+     *  
+     *  @see Synchroniser
+     */
+    public void setThreadingPolicy(ThreadingPolicy threadingPolicy) {
+        this.threadingPolicy = threadingPolicy;
+    }
+    
     /*
      * API
      */
@@ -132,10 +147,11 @@ public class Mockery implements SelfDescribing {
         MockObject mock = new MockObject(typeToMock, name);
         mockNames.add(name);
         
-        ProxiedObjectIdentity invokable = 
-            new ProxiedObjectIdentity(
-                new InvocationDiverter<CaptureControl>(
-                    CaptureControl.class, mock, mock));
+        Invokable invokable =
+            threadingPolicy.synchroniseAccessTo(
+                new ProxiedObjectIdentity(
+                    new InvocationDiverter<CaptureControl>(
+                        CaptureControl.class, mock, mock)));
         
         return imposteriser.imposterise(invokable, typeToMock, CaptureControl.class);
     }

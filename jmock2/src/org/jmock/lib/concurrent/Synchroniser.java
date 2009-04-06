@@ -4,12 +4,10 @@ import static org.hamcrest.StringDescription.asString;
 
 import java.util.concurrent.TimeoutException;
 
-import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
+import org.jmock.api.ThreadingPolicy;
 import org.jmock.internal.StatePredicate;
-import org.jmock.lib.DecoratingImposteriser;
-import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.concurrent.internal.FixedTimeout;
 import org.jmock.lib.concurrent.internal.InfiniteTimeout;
 import org.jmock.lib.concurrent.internal.Timeout;
@@ -17,22 +15,15 @@ import org.junit.Assert;
 
 
 /**
- * A DecoratingImposteriser that makes the Mockery thread-safe and
+ * A ThreadingPolicy that makes the Mockery thread-safe and
  * helps tests synchronise with background threads.
  * 
  * @author Nat Pryce
  */
-public class SynchronisingImposteriser extends DecoratingImposteriser {
+public class Synchroniser implements ThreadingPolicy {
     private final Object sync = new Object();
     private Error firstError = null;
     
-    public SynchronisingImposteriser() {
-        this(JavaReflectionImposteriser.INSTANCE);
-    }
-    
-    public SynchronisingImposteriser(Imposteriser imposteriser) {
-        super(imposteriser);
-    }
     
     /** 
      * Waits for a StatePredicate to become active.  
@@ -77,11 +68,18 @@ public class SynchronisingImposteriser extends DecoratingImposteriser {
         
     }
     
-    @Override
-    protected Object applyInvocation(Invokable imposter, Invocation invocation) throws Throwable {
+    public Invokable synchroniseAccessTo(final Invokable mockObject) {
+        return new Invokable() {
+            public Object invoke(Invocation invocation) throws Throwable {
+                return synchroniseInvocation(mockObject, invocation);
+            }
+        };
+    }
+
+    private Object synchroniseInvocation(Invokable mockObject, Invocation invocation) throws Throwable {
         synchronized (sync) {
             try {
-                return imposter.invoke(invocation);
+                return mockObject.invoke(invocation);
             }
             catch (Error e) {
                 if (firstError == null) {
