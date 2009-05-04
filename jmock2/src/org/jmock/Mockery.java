@@ -188,6 +188,9 @@ public class Mockery implements SelfDescribing {
      * 
      * The builder is responsible for interpreting high-level, readable API calls to 
      * construct an expectation.
+     * 
+     * This method can be called multiple times per test and the expectations defined in
+     * each block are combined as if they were defined in same order within a single block.
      */
 	public void checking(ExpectationBuilder expectations) {
 	    expectations.buildExpectations(defaultAction, dispatcher);
