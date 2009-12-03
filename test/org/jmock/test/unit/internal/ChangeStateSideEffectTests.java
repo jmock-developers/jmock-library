@@ -8,7 +8,7 @@ import org.jmock.internal.ChangeStateSideEffect;
 import org.jmock.internal.State;
 
 
-public class ChangeStateSideEffectTest extends TestCase {
+public class ChangeStateSideEffectTests extends TestCase {
     FakeState state = new FakeState();
     ChangeStateSideEffect sideEffect = new ChangeStateSideEffect(state);
 

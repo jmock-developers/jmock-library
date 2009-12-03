@@ -10,7 +10,7 @@ import org.jmock.States;
 import org.jmock.internal.StateMachine;
 
 
-public class CurrentStateMatcherTest extends AbstractMatcherTest {
+public class CurrentStateMatcherTests extends AbstractMatcherTest {
     States stateMachine = new StateMachine("stateMachine");
     Matcher<States> isCurrentlyS = isCurrently("S");
     Matcher<States> isNotCurrentlyS = isNotCurrently("S");
