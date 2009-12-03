@@ -3,6 +3,7 @@ package org.jmock.integration.junit4;
 import java.lang.reflect.Field;
 
 import org.jmock.Mockery;
+import org.jmock.auto.internal.Mockomatic;
 import org.junit.runner.Runner;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -27,6 +28,14 @@ public class JMock extends BlockJUnit4ClassRunner {
     }
     
     @Override
+    protected Object createTest() throws Exception {
+        Object test = super.createTest();
+        Mockomatic mockomatic = new Mockomatic(mockeryOf(test));
+        mockomatic.fillIn(test);
+        return test;
+    }
+    
+    @Override
     protected Statement possiblyExpectingExceptions(FrameworkMethod method, Object test, Statement next) {
         return verify(method, test, super.possiblyExpectingExceptions(method, test, next));
     }
@@ -45,6 +54,10 @@ public class JMock extends BlockJUnit4ClassRunner {
         };
     }
     
+    protected void assertMockeryIsSatisfied(Object test) {
+        mockeryOf(test).assertIsSatisfied();
+    }
+
     protected Mockery mockeryOf(Object test) {
         try {
             Mockery mockery = (Mockery)mockeryField.get(test);
@@ -56,10 +69,6 @@ public class JMock extends BlockJUnit4ClassRunner {
         catch (IllegalAccessException e) {
             throw new IllegalStateException("cannot get value of field " + mockeryField.getName(), e);
         }
-    }
-    
-    protected void assertMockeryIsSatisfied(Object test) {
-        mockeryOf(test).assertIsSatisfied();
     }
     
     static Field findMockeryField(Class<?> testClass) throws InitializationError {

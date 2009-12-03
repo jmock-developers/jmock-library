@@ -5,6 +5,7 @@ import org.jmock.Sequence;
 import org.jmock.States;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.MockObjectNamingScheme;
+import org.jmock.auto.internal.Mockomatic;
 import org.jmock.internal.ExpectationBuilder;
 
 /**
@@ -18,23 +19,29 @@ import org.jmock.internal.ExpectationBuilder;
 public abstract class MockObjectTestCase extends VerifyingTestCase {
     private final Mockery context = new Mockery();
     
-    {
+    public MockObjectTestCase() {
+        super();
+        initialise();
+    }
+    
+    public MockObjectTestCase(String name) {
+        super(name);
+        initialise();
+    }
+    
+    private void initialise() {
         context.setExpectationErrorTranslator(JUnit3ErrorTranslator.INSTANCE);
+        
         addVerifier(new Runnable() {
             public void run() { 
                 context.assertIsSatisfied(); 
             }
         });
+        
+        Mockomatic mockomatic = new Mockomatic(context);
+        mockomatic.fillIn(this);
     }
-    
-    public MockObjectTestCase() {
-        super();
-    }
-    
-    public MockObjectTestCase(String name) {
-        super(name);
-    }
-    
+
     public Mockery context() {
         return context;
     }

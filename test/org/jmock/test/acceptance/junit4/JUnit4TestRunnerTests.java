@@ -3,6 +3,7 @@ package org.jmock.test.acceptance.junit4;
 import junit.framework.TestCase;
 
 import org.jmock.test.acceptance.junit4.testdata.DerivedJUnit4TestThatDoesNotSatisfyExpectations;
+import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatAutoInstantiatesMocks;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatCreatesNoMockery;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatCreatesTwoMockeries;
 import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotCreateAMockery;
@@ -65,6 +66,11 @@ public class JUnit4TestRunnerTests extends TestCase {
                                   "Method before() should be public", listener.failure.getMessage());
     }
     
+    public void testAutoInstantiatesMocks() {
+        runTest(JUnit4TestThatAutoInstantiatesMocks.class);
+        assertTestSucceeded();
+    }
+
     private void assertTestSucceeded() {
         if (listener.failure != null) {
             fail("test should have passed but reported failure: " + listener.failure.getMessage());

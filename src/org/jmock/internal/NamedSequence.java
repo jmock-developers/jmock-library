@@ -22,6 +22,11 @@ public class NamedSequence implements Sequence {
         this.name = name;
     }
     
+    @Override
+    public String toString() {
+        return name;
+    }
+    
     public void constrainAsNextInSequence(InvocationExpectation expectation) {
         int index = elements.size();
         elements.add(expectation);
