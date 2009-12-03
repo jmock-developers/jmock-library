@@ -32,6 +32,7 @@ import org.jmock.syntax.ArgumentConstraintPhrases;
 import org.jmock.syntax.CardinalityClause;
 import org.jmock.syntax.MethodClause;
 import org.jmock.syntax.ReceiverClause;
+import org.jmock.syntax.WithClause;
 
 /**
  * Provides most of the syntax of jMock's "domain-specific language" API.
@@ -47,6 +48,54 @@ public class Expectations implements ExpectationBuilder,
 {
     private List<InvocationExpectationBuilder> builders = new ArrayList<InvocationExpectationBuilder>();
     private InvocationExpectationBuilder currentBuilder = null;
+    
+    protected final WithClause with = new WithClause() {
+        public boolean booleanIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return false;
+        }
+
+        public byte byteIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public char charIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public double doubleIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public float floatIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public int intIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public long longIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public short shortIs(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return 0;
+        }
+
+        public <T> T is(Matcher<?> matcher) {
+            addParameterMatcher(matcher);
+            return null;
+        }
+    };
+    
     
     private void initialiseExpectationCapture(Cardinality cardinality) {
         checkLastExpectationWasFullySpecified();
@@ -93,7 +142,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     /**
-     * This will eventually be deprecated. Use {@link #oneOf(Object) oneOf} instead.
+     * @deprecated Use {@link #oneOf(Object) oneOf} instead.
      */
     public <T> T one (T mockObject) {
         return oneOf(mockObject);
@@ -137,86 +186,122 @@ public class Expectations implements ExpectationBuilder,
     private void addParameterMatcher(Matcher<?> matcher) {
         currentBuilder().addParameterMatcher(matcher);
     }
-
+    
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public <T> T with(Matcher<T> matcher) {
         addParameterMatcher(matcher);
         return null;
     }
-
+    
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public boolean with(Matcher<Boolean> matcher) {
         addParameterMatcher(matcher);
         return false;
     }
     
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public byte with(Matcher<Byte> matcher) {
         addParameterMatcher(matcher);
         return 0;
     }
 
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public short with(Matcher<Short> matcher) {
         addParameterMatcher(matcher);
         return 0;
     }
 
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public char with(Matcher<Character> matcher) {
         addParameterMatcher(matcher);
         return 0;
     }
     
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public int with(Matcher<Integer> matcher) {
         addParameterMatcher(matcher);
         return 0;
     }
 
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public long with(Matcher<Long> matcher) {
         addParameterMatcher(matcher);
         return 0;
     }
 
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public float with(Matcher<Float> matcher) {
         addParameterMatcher(matcher);
         return 0.0f;
     }
 
+    /**
+     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     */
     public double with(Matcher<Double> matcher) {
         addParameterMatcher(matcher);
         return 0.0;
     }
     
     public boolean with(boolean value) {
-        return with(new IsEqual<Boolean>(value));
+        addParameterMatcher(equal(value));
+        return false;
     }
     
     public byte with(byte value) {
-        return with(new IsEqual<Byte>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public short with(short value) {
-        return with(new IsEqual<Short>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public char with(char value) {
-        return with(new IsEqual<Character>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public int with(int value) {
-        return with(new IsEqual<Integer>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public long with(long value) {
-        return with(new IsEqual<Long>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public float with(float value) {
-        return with(new IsEqual<Float>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public double with(double value) {
-        return with(new IsEqual<Double>(value));
+        addParameterMatcher(equal(value));
+        return 0;
     }
     
     public <T> T with(T value) {
-        return with(new IsEqual<T>(value));
+        addParameterMatcher(equal(value));
+        return value;
     }
     
     public void will(Action action) {
