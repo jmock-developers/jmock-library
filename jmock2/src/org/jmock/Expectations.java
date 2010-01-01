@@ -188,7 +188,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public <T> T with(Matcher<T> matcher) {
         addParameterMatcher(matcher);
@@ -196,7 +196,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public boolean with(Matcher<Boolean> matcher) {
         addParameterMatcher(matcher);
@@ -204,7 +204,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public byte with(Matcher<Byte> matcher) {
         addParameterMatcher(matcher);
@@ -212,7 +212,7 @@ public class Expectations implements ExpectationBuilder,
     }
 
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public short with(Matcher<Short> matcher) {
         addParameterMatcher(matcher);
@@ -220,7 +220,7 @@ public class Expectations implements ExpectationBuilder,
     }
 
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public char with(Matcher<Character> matcher) {
         addParameterMatcher(matcher);
@@ -228,7 +228,7 @@ public class Expectations implements ExpectationBuilder,
     }
     
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public int with(Matcher<Integer> matcher) {
         addParameterMatcher(matcher);
@@ -236,7 +236,7 @@ public class Expectations implements ExpectationBuilder,
     }
 
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public long with(Matcher<Long> matcher) {
         addParameterMatcher(matcher);
@@ -244,7 +244,7 @@ public class Expectations implements ExpectationBuilder,
     }
 
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public float with(Matcher<Float> matcher) {
         addParameterMatcher(matcher);
@@ -252,7 +252,7 @@ public class Expectations implements ExpectationBuilder,
     }
 
     /**
-     * @deprecated Use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
      */
     public double with(Matcher<Double> matcher) {
         addParameterMatcher(matcher);
