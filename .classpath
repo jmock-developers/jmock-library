@@ -5,9 +5,6 @@
 	<classpathentry kind="src" path="example"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/objenesis-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-core-1.3RC0.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-library-1.3RC0.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-unit-test-1.3RC0.jar"/>
 	<classpathentry kind="lib" path="lib/junit-dep-4.8.1.jar" sourcepath="lib/junit-4.8.1-src.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-core-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-library-1.2.jar"/>
