@@ -1,12 +1,14 @@
 package org.jmock.auto.internal;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.jmock.States;
 import org.jmock.auto.Auto;
 import org.jmock.auto.Mock;
+import org.jmock.internal.AllDeclaredFields;
 
 
 public class Mockomatic {
@@ -17,54 +19,59 @@ public class Mockomatic {
     }
 
     public void fillIn(Object object) {
-        for (Class<?> type = object.getClass(); type != Object.class; type = type.getSuperclass()) {
-            Field[] fields = type.getDeclaredFields();
-            for (Field field: fields) {
-                if (field.isAnnotationPresent(Mock.class)) {
-                    autoMock(object, field);
-                }
-                else if (field.isAnnotationPresent(Auto.class)) {
-                    if (field.getType() == States.class) {
-                        autoInstantiateStates(field, object);
-                    }
-                    else if (field.getType() == Sequence.class) {
-                        autoInstantiateSequence(field, object);
-                    }
-                    else {
-                        throw new IllegalStateException("cannot auto-instantiate field of type " + field.getType().getName());
-                    }
-                }
+        fillIn(object, AllDeclaredFields.in(object.getClass()));
+    }
+
+    public void fillIn(Object object, final List<Field> knownFields) {
+        for (Field field : knownFields) {
+            if (field.isAnnotationPresent(Mock.class)) {
+                autoMock(object, field);
+            }
+            else if (field.isAnnotationPresent(Auto.class)) {
+                autoInstantiate(object, field);
             }
         }
     }
 
-    private void autoInstantiateStates(Field field, Object object) {
-        try {
-            field.setAccessible(true);
-            field.set(object, mockery.states(field.getName()));
-        }
-        catch (IllegalAccessException e) {
-            throw new IllegalStateException("cannot auto-instantiate States field " + field.getName(), e);
-        }
+    private void autoMock(Object object, Field field) {
+        setAutoField(field, object, 
+                     mockery.mock(field.getType(), field.getName()),
+                     "auto-mock field " + field.getName());
     }
-    
-    private void autoInstantiateSequence(Field field, Object object) {
-        try {
-            field.setAccessible(true);
-            field.set(object, mockery.sequence(field.getName()));
+
+    private void autoInstantiate(Object object, Field field) {
+        final Class<?> type = field.getType();
+        if (type == States.class) {
+            autoInstantiateStates(field, object);
         }
-        catch (IllegalAccessException e) {
-            throw new IllegalStateException("cannot auto-instantiate Sequence field " + field.getName(), e);
+        else if (type == Sequence.class) {
+            autoInstantiateSequence(field, object);
+        }
+        else {
+            throw new IllegalStateException("cannot auto-instantiate field of type " + type.getName());
         }
     }
 
-    private void autoMock(Object object, Field field) {
+    private void autoInstantiateStates(Field field, Object object) {
+        setAutoField(field, object, 
+                     mockery.states(field.getName()), 
+                     "auto-instantiate States field " + field.getName());
+    }
+    
+    private void autoInstantiateSequence(Field field, Object object) {
+        setAutoField(field, object, 
+                     mockery.sequence(field.getName()), 
+                     "auto-instantiate Sequence field " + field.getName());
+    }
+
+    private void setAutoField(Field field, Object object, Object value, String description) {
         try {
             field.setAccessible(true);
-            field.set(object, mockery.mock(field.getType(), field.getName()));
+            field.set(object, value);
         }
         catch (IllegalAccessException e) {
-            throw new IllegalStateException("cannot auto-mock field " + field.getName(), e);
+            throw new IllegalStateException("cannot " + description, e);
         }
     }
+
 }

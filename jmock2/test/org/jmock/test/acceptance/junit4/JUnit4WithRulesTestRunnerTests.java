@@ -30,8 +30,8 @@ public class JUnit4WithRulesTestRunnerTests extends TestCase {
         listener.assertTestFailedWith(AssertionError.class);
     }
     
-    public void testWorksWhenMoreThanOneMockeryRuleCreated() {
-        listener.runTestIn(JUnit4WithRulesExamples.CreatesTwoMockeriesAndDoesNotSatisfyExpectations.class);
+    public void testFailsWhenMoreThanOneJMockContextField() {
+        listener.runTestIn(JUnit4WithRulesExamples.CreatesTwoMockeries.class);
         listener.assertTestFailedWith(AssertionError.class);
     }
 
