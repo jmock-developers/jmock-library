@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import org.jmock.Mockery;
 import org.jmock.auto.internal.Mockomatic;
+import org.jmock.internal.AllDeclaredFields;
 import org.junit.runner.Runner;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -74,14 +75,12 @@ public class JMock extends BlockJUnit4ClassRunner {
     static Field findMockeryField(Class<?> testClass) throws InitializationError {
         Field mockeryField = null;
         
-        for (Class<?> c = testClass; c != Object.class; c = c.getSuperclass()) {
-            for (Field field: c.getDeclaredFields()) {
-                if (Mockery.class.isAssignableFrom(field.getType())) {
-                    if (mockeryField != null) {
-                        throw new InitializationError("more than one Mockery found in test class " + testClass);
-                    }
-                    mockeryField = field;
+        for (Field field : AllDeclaredFields.in(testClass)) {
+            if (Mockery.class.isAssignableFrom(field.getType())) {
+                if (mockeryField != null) {
+                    throw new InitializationError("more than one Mockery found in test class " + testClass);
                 }
+                mockeryField = field;
             }
         }
         

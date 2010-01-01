@@ -42,7 +42,7 @@ public class JUnit4WithRulesExamples {
     }
 
     
-    public static class DerivedAndDoesNotSatisfyExpectations extends BaseClassWithMockeryRule {
+    public static class DerivedAndDoesNotSatisfyExpectations extends BaseClassWithJMockContext {
         private Runnable runnable = context.mock(Runnable.class);
         
         @Test
@@ -78,36 +78,30 @@ public class JUnit4WithRulesExamples {
         }
     }
 
-    public static class CreatesTwoMockeriesAndDoesNotSatisfyExpectations {
-        @Rule public final JMockContext contextA = new JMockContext();
-        @Rule public final JMockContext contextB = new JMockContext();
-        private Runnable runnable = contextA.mock(Runnable.class);
+    public static class CreatesTwoMockeries extends BaseClassWithJMockContext {
+        @Rule public final JMockContext otherContext = new JMockContext();
 
         @Test
-        public void doesNotSatisfyExpectations() {
-            contextA.checking(new Expectations() {{
-                oneOf (runnable).run();
-            }});
-            
-            // Return without satisfying the expectation for runnable.run()
+        public void doesNothing() {
+            // no op
         }
     }
 
-    public static class AutoInstantiatesMocks extends BaseClassWithMockery {
+    public static class AutoInstantiatesMocks extends BaseClassWithJMockContext {
         @Mock Runnable runnable;
         @Auto States states;
         @Auto Sequence sequence;
         
         @Test
         public void fieldsHaveBeenAutoInstantiated() {
-            assertThat(runnable, notNullValue());
-            assertThat(states, notNullValue());
-            assertThat(sequence, notNullValue());
+            assertThat("runnable", runnable, notNullValue());
+            assertThat("states", states, notNullValue());
+            assertThat("sequence", sequence, notNullValue());
         }
     }
 
     
-    public static class BaseClassWithMockeryRule {
+    public static class BaseClassWithJMockContext {
         @Rule public final JMockContext context = new JMockContext();
     }
 
