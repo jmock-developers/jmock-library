@@ -1,20 +1,20 @@
 package org.jmock.test.acceptance.junit4.testdata;
 
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
-
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.States;
 import org.jmock.auto.Auto;
 import org.jmock.auto.Mock;
-import org.jmock.integration.junit4.JMockContext;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
+
 public class JUnit4WithRulesExamples {
     public static class SatisfiesExpectations {
-        @Rule public final JMockContext context = new JMockContext();
+        @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
         private final Runnable runnable = context.mock(Runnable.class);
         
         @Test
@@ -28,7 +28,7 @@ public class JUnit4WithRulesExamples {
     }
     
     public static class DoesNotSatisfyExpectations {
-        @Rule public final JMockContext context = new JMockContext();
+        @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
         private Runnable runnable = context.mock(Runnable.class);
         
         @Test
@@ -56,7 +56,7 @@ public class JUnit4WithRulesExamples {
     }
 
     public static class ThrowsExpectedException {
-        @Rule public final JMockContext context = new JMockContext();
+        @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
         private WithException withException = context.mock(WithException.class);
         
         @Test(expected=CheckedException.class)
@@ -79,7 +79,7 @@ public class JUnit4WithRulesExamples {
     }
 
     public static class CreatesTwoMockeries extends BaseClassWithJMockContext {
-        @Rule public final JMockContext otherContext = new JMockContext();
+        @Rule public final JUnitRuleMockery otherContext = new JUnitRuleMockery();
 
         @Test
         public void doesNothing() {
@@ -102,7 +102,7 @@ public class JUnit4WithRulesExamples {
 
     
     public static class BaseClassWithJMockContext {
-        @Rule public final JMockContext context = new JMockContext();
+        @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
     }
 
 }

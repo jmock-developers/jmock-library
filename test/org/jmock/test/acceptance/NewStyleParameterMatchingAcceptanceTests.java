@@ -1,10 +1,15 @@
 package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.Matchers.empty;
 
 public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     public interface AnInterface {
@@ -19,6 +24,8 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
         void doSomethingWithBoth(long i1, long i2);
         void doSomethingWithBoth(float i1, float i2);
         void doSomethingWithBoth(double i1, double i2);
+        
+        void beSilly(List<List<Set<String>>> silly);
     }
     
     Mockery context = new Mockery();
@@ -123,5 +130,13 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
         mock.doSomethingWithBoth(2.0, 6.0);
         
         context.assertIsSatisfied();
+    }
+    
+    public void ridiculousJavaTypeName() {
+        final List<List<Set<String>>> silly = Collections.emptyList();
+        
+        context.checking(new Expectations() {{
+            oneOf (mock).beSilly(with.<List<List<Set<String>>>>is(empty()));
+        }});
     }
 }

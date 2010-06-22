@@ -1,18 +1,15 @@
 package org.jmock.test.unit.internal;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import junit.framework.TestCase;
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
+import org.jmock.internal.AllDeclaredFields;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
-import junit.framework.TestCase;
-
-import org.hamcrest.FeatureMatcher;
-import org.hamcrest.Matcher;
-import org.jmock.internal.AllDeclaredFields;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class AllDeclaredFieldsTests extends TestCase {
     
