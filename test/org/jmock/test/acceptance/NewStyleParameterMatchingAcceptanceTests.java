@@ -133,6 +133,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     }
     
     public void ridiculousJavaTypeName() {
+        @SuppressWarnings("unused")
         final List<List<Set<String>>> silly = Collections.emptyList();
         
         context.checking(new Expectations() {{
