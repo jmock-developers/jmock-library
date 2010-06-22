@@ -8,7 +8,7 @@ public class GettingStartedJUnit3Mockomatic extends MockObjectTestCase {
     @Mock Subscriber subscriber;
     
     public void testOneSubscriberReceivesAMessage() {
-        // set u
+        // set up
         Publisher publisher = new Publisher();
         publisher.add(subscriber);
 
