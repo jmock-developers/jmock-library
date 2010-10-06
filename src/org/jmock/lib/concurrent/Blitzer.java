@@ -1,11 +1,8 @@
 package org.jmock.lib.concurrent;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import java.util.concurrent.*;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 
 /**
@@ -28,15 +25,19 @@ public class Blitzer {
     }
     
     public Blitzer(int actionCount, int threadCount) {
-        this.actionCount = actionCount;
-        this.executorService = Executors.newFixedThreadPool(threadCount);
+        this(actionCount, threadCount, Executors.defaultThreadFactory());
     }
-    
+
+    public Blitzer(int actionCount, int threadCount, ThreadFactory threadFactory) {
+        this.actionCount = actionCount;
+        this.executorService = Executors.newFixedThreadPool(threadCount, threadFactory);
+    }
+
     public Blitzer(int actionCount, ExecutorService executorService) {
         this.actionCount = actionCount;
-        this.executorService = executorService;;
+        this.executorService = executorService;
     }
-    
+
     public int totalActionCount() {
         return actionCount;
     }

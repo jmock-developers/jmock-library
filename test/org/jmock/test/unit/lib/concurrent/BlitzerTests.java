@@ -1,22 +1,36 @@
 package org.jmock.test.unit.lib.concurrent;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import junit.framework.TestCase;
+import org.jmock.lib.concurrent.Blitzer;
+import org.junit.After;
 
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import junit.framework.TestCase;
-
-import org.jmock.lib.concurrent.Blitzer;
-import org.junit.After;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 public class BlitzerTests extends TestCase {
     int threadCount = 3;
     int actionCount = 12;
-    
-    Blitzer blitzer = new Blitzer(actionCount, threadCount);
-    
+
+    ThreadFactory quietThreadFactory = new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread t, Throwable e) {
+                    // ignore it
+                }
+            });
+            return thread;
+        }
+    };
+
+    Blitzer blitzer = new Blitzer(actionCount, threadCount, quietThreadFactory);
+
     
     @After
     public void cleanUp() {

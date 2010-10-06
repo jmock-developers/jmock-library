@@ -1,14 +1,14 @@
 package org.jmock.internal;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class InvocationDispatcher implements ExpectationCollector, SelfDescribing {
 	private List<Expectation> expectations = new ArrayList<Expectation>();
@@ -47,7 +47,7 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
                     }
                     public void remove() { iterator.remove(); }
                 };
-            };
+            }
         };
     }
 

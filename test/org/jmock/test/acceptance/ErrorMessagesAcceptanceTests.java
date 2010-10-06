@@ -1,16 +1,19 @@
 package org.jmock.test.acceptance;
 
+import junit.framework.TestCase;
+import org.hamcrest.StringDescription;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.api.Action;
+import org.jmock.api.ExpectationError;
+import org.jmock.api.Invocation;
+import org.jmock.lib.action.CustomAction;
+import org.jmock.test.unit.support.AssertThat;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.StringDescription.asString;
 import static org.junit.Assert.assertThat;
-import junit.framework.TestCase;
-
-import org.hamcrest.StringDescription;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.api.ExpectationError;
-import org.jmock.test.unit.support.AssertThat;
 
 public class ErrorMessagesAcceptanceTests extends TestCase {
     Mockery context = new Mockery();
@@ -138,5 +141,33 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
         
         assertThat(asString(context),
                    not(containsString("returns a default value")));
+    }
+
+    public void testMismatchDescription() {
+        context.checking(new Expectations() {{
+            oneOf (mock).doSomethingWith("foo");
+            oneOf (mock).doSomethingWith("x", "y"); will(doSomethingDescribedAs("ACTION"));
+        }});
+
+        try {
+            mock.doSomethingWith("X", "Y");
+        } catch (ExpectationError e) {
+            String failure = asString(e);
+            
+            Integer actionIndex = failure.indexOf("ACTION");
+            Integer parameterMismatchIndex = failure.indexOf("parameter 0 did not match");
+
+            assertTrue("action should come before parameter mismatches in description",
+                      actionIndex < parameterMismatchIndex);
+        }
+    }
+
+    public Action doSomethingDescribedAs(String name) {
+        return new CustomAction(name) {
+            @Override
+            public Object invoke(Invocation invocation) throws Throwable {
+                return null;
+            }
+        };
     }
 }

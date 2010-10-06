@@ -4,7 +4,8 @@ public interface MockedType {
 	void doSomething();
 	void doSomethingWith(String s);
 	void doSomethingWith(String x, String y);
-    
+	void doSomethingWithArray(String[] strings);
+
     void method1();
     void method2();
     void method3();

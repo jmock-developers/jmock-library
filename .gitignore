@@ -1,1 +1,3 @@
-build/ out/ workspace.xml
+build/
+out/
+workspace.xml

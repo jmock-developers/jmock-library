@@ -7,30 +7,37 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.*;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.Matchers;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.concurrent.Blitzer;
 
+@SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public class WarnAboutMultipleThreadsAcceptanceTests extends TestCase {
-    List<Throwable> exceptionsOnBackgroundThreads = Collections.synchronizedList(new ArrayList<Throwable>());
-    
-    Blitzer blitzer = new Blitzer(1, Executors.newFixedThreadPool(1, new ThreadFactory() {
+    BlockingQueue<Throwable> exceptionsOnBackgroundThreads = new LinkedBlockingQueue<Throwable>();
+
+    private ThreadFactory exceptionCapturingThreadFactory = new ThreadFactory() {
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r);
             t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
                 public void uncaughtException(Thread t, Throwable e) {
-                    exceptionsOnBackgroundThreads.add(e);
+                    try {
+                        exceptionsOnBackgroundThreads.put(e);
+                    } catch (InterruptedException e1) {
+                        throw new ThreadDeath();
+                    }
                 }
             });
             return t;
         }
-    }));
-    
+    };
+
+    Blitzer blitzer = new Blitzer(1, Executors.newFixedThreadPool(1, exceptionCapturingThreadFactory));
+
     public void testKillsThreadsThatTryToCallMockeryThatIsNotThreadSafe() throws InterruptedException {
         Mockery mockery = new Mockery();
         
@@ -45,8 +52,9 @@ public class WarnAboutMultipleThreadsAcceptanceTests extends TestCase {
                 mock.doSomething();
             }            
         });
-        
-        assertThat(exceptionsOnBackgroundThreads.size(), equalTo(blitzer.totalActionCount()));
+
+        Throwable exception = exceptionsOnBackgroundThreads.take();
+        assertThat(exception.getMessage(), Matchers.containsString("the Mockery is not thread-safe"));
     }
     
     @Override

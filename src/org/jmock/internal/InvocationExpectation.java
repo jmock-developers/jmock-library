@@ -1,9 +1,5 @@
 package org.jmock.internal;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
@@ -12,6 +8,10 @@ import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
 import org.jmock.internal.matcher.MethodMatcher;
 import org.jmock.lib.action.VoidAction;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /** 
  * An expectation of zero or more matching invocations.
@@ -77,19 +77,25 @@ public class InvocationExpectation implements Expectation {
         if (! isSatisfied()) {
             description.appendText("! ");
         }
-        describeMethod(description);
-        parametersMatcher.describeTo(description);
-        describeSideEffects(description);
+
+        describeExpectation(description);
     }
 
     public void describeMismatch(Invocation invocation, Description description) {
-        describeMethod(description);
+        describeExpectation(description);
+
         final Object[] parameters = invocation.getParametersAsArray();
-        parametersMatcher.describeTo(description);
-        if (parametersMatcher.isCompatibleWith(parameters)) {
+        if (methodMatcher.matches(invocation.getInvokedMethod()) &&
+            parametersMatcher.isCompatibleWith(parameters))
+        {
             parametersMatcher.describeMismatch(parameters, description);
         }
-        describeSideEffects(description);        
+    }
+
+    private void describeExpectation(Description description) {
+        describeMethod(description);
+        parametersMatcher.describeTo(description);
+        describeSideEffects(description);
     }
 
     private void describeMethod(Description description) {
