@@ -43,7 +43,7 @@ public class WarnAboutMultipleThreadsAcceptanceTests extends TestCase {
         
         final MockedType mock = mockery.mock(MockedType.class, "mock");
         
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             allowing (mock).doSomething();
         }});
         

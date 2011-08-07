@@ -26,7 +26,7 @@ public class ExpectationErrorTranslationAcceptanceTests extends TestCase {
     }
     
     public void testMockeryCanTranslateExpectationErrorsIntoDifferentExceptionTypeWhenUnexpectedInvocationOccurs() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).method1();
         }});
         
@@ -42,7 +42,7 @@ public class ExpectationErrorTranslationAcceptanceTests extends TestCase {
     }
     
     public void testMockeryCanTranslateExpectationErrorsIntoDifferentExceptionTypeWhenMockeryIsNotSatisfied() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).method1();
         }});
         

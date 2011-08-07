@@ -19,7 +19,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     Throwing mock = context.mock(Throwing.class, "mock");
     
     public void testCanThrowCheckedExceptions() throws Exception {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomething(); will(throwException(new CheckedException()));
         }});
         
@@ -33,7 +33,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     }
     
     public void testCanThrowUncheckedExceptions() throws Exception {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomething(); will(throwException(new UncheckedException()));
         }});
         
@@ -47,7 +47,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     }
     
     public void testCanThrowErrors() throws Exception {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomething(); will(throwException(new AnError()));
         }});
         
@@ -61,7 +61,7 @@ public class ThrowingExceptionsAcceptanceTests extends TestCase {
     }
     
     public void testCannotThrowUndeclaredCheckedExceptions() throws Exception {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomething(); will(throwException(new IncompatibleCheckedException()));
         }});
         

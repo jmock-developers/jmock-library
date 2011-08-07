@@ -14,7 +14,7 @@ public class JUnit4TestThatDoesNotSatisfyExpectations {
     
     @Test
     public void doesNotSatisfyExpectations() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (runnable).run();
         }});
         

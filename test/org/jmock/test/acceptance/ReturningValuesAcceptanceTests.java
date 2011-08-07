@@ -31,7 +31,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         // ensure string is not interned
         final String result = new String("RESULT");
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnString();
             will(returnValue(result));
         }});
@@ -40,7 +40,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
 
     public void testCanReturnNullObjectReferences() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnString(); will(returnValue(null));
         }});
 
@@ -48,7 +48,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
 
     public void testCanReturnBooleanValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of(mock).returnBoolean(); will(returnValue(true));
             exactly(1).of(mock).returnBoolean(); will(returnValue(false));
         }});
@@ -60,7 +60,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnByteValues() {
         final byte result = 123;
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnByte(); will(returnValue(result));
         }});
 
@@ -70,7 +70,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnCharValues() {
         final char result = '\u1234';
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnChar(); will(returnValue(result));
         }});
 
@@ -80,7 +80,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnShortValues() {
         final short result = 12345;
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnShort(); will(returnValue(result));
         }});
 
@@ -90,7 +90,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnIntValues() {
         final int result = 1234567890;
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnInt(); will(returnValue(result));
         }});
 
@@ -100,7 +100,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnLongValues() {
         final long result = 1234567890124356789L;
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnLong(); will(returnValue(result));
         }});
 
@@ -110,7 +110,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnFloatValues() {
         final float result = 12345.67890f;
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing(mock).returnFloat(); will(returnValue(result));
         }});
 
@@ -120,7 +120,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testCanReturnDoubleValues() {
         final double result = 1234567890.1234567890;
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).returnDouble(); will(returnValue(result));
         }});
 
@@ -128,7 +128,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
     
     public void testWillReturnADefaultValueIfNoResultExplicitlySpecified() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).returnInt();
         }});
         
@@ -145,7 +145,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     public void testReturnsNullAsTheDefaultValueForUnregisteredType() {
         final AnInterfaceThatReturnsSomething returningMock = context.mock(AnInterfaceThatReturnsSomething.class, "returningMock");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (returningMock).returnSomething();
         }});
         
@@ -161,7 +161,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         
         context.setDefaultResultForType(Something.class, expectedDefaultResult);
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (returningMock).returnSomething();
         }});
         
@@ -174,7 +174,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
         String newDefaultString = "hoo-hee-haa-haa";
         context.setDefaultResultForType(String.class, newDefaultString);
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).returnString();
         }});
         
@@ -183,7 +183,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
 
     public void testReportsTypeMismatchOfResults() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 allowing (mock).returnString(); will(returnValue(new Date()));
             }});
             
@@ -195,7 +195,7 @@ public class ReturningValuesAcceptanceTests extends TestCase {
     }
     
     public void testReportsTypeMismatchWhenValuesReturnedFromVoidMethods() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).voidMethod(); will(returnValue("wrong result"));
         }});
         

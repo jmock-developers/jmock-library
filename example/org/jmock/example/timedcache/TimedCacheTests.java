@@ -34,7 +34,7 @@ public class TimedCacheTests extends TestCase {
         final Object VALUE1 = "value1";
         final Object VALUE2 = "value2";
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception{
             allowing (clock).time(); will(returnValue(loadTime));
 
             oneOf (loader).load("key1"); will(returnValue(VALUE1));
@@ -50,7 +50,7 @@ public class TimedCacheTests extends TestCase {
     }
 
     public void testReturnsCachedObjectWithinTimeout() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception{
             oneOf (clock).time(); will(returnValue(loadTime));
             oneOf (clock).time(); will(returnValue(fetchTime));
             
@@ -68,7 +68,7 @@ public class TimedCacheTests extends TestCase {
     }
 
     public void testReloadsCachedObjectAfterTimeout() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception{
             allowing (reloadPolicy).shouldReload(loadTime, fetchTime); will(returnValue(true));
             
             oneOf (clock).time(); will(returnValue(loadTime));

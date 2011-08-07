@@ -20,7 +20,7 @@ public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
     MethodsWithPrimitiveTypes mock = context.mock(MethodsWithPrimitiveTypes.class, "mock");
     
     public void testCanSetExpectationsWithMatchersForMethodsWithArgumentsOfPrimitiveTypes() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).withBoolean(with(equal(true)));
             exactly(1).of (mock).withByte(with(equal((byte)10)));
             exactly(1).of (mock).withShort(with(equal((short)10)));
@@ -42,7 +42,7 @@ public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
     }
 
     public void testCanSetExpectationsWithLiteralsForMethodsWithArgumentsOfPrimitiveTypes() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).withBoolean(true);
             exactly(1).of (mock).withByte((byte)10);
             exactly(1).of (mock).withShort((short)10);

@@ -19,7 +19,7 @@ public class JUnit4WithRulesExamples {
         
         @Test
         public void doesSatisfyExpectations() {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 oneOf (runnable).run();
             }});
             
@@ -33,7 +33,7 @@ public class JUnit4WithRulesExamples {
         
         @Test
         public void doesNotSatisfyExpectations() {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 oneOf (runnable).run();
             }});
             
@@ -47,7 +47,7 @@ public class JUnit4WithRulesExamples {
         
         @Test
         public void doesNotSatisfyExpectations() {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 oneOf (runnable).run();
             }});
             
@@ -61,7 +61,7 @@ public class JUnit4WithRulesExamples {
         
         @Test(expected=CheckedException.class)
         public void doesNotSatisfyExpectationsWhenExpectedExceptionIsThrown() throws CheckedException {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 oneOf (withException).anotherMethod();
                 oneOf (withException).throwingMethod(); will(throwException(new CheckedException()));
             }});

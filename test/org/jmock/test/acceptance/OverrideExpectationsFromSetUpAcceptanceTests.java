@@ -15,7 +15,7 @@ public class OverrideExpectationsFromSetUpAcceptanceTests extends TestCase {
     
     @Override
     public void setUp() {
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             allowing (mock).doSomethingWith(with(any(String.class))); when(test.is("settingUp"));
         }});
         
@@ -27,7 +27,7 @@ public class OverrideExpectationsFromSetUpAcceptanceTests extends TestCase {
     }
     
     public void testSomething() {
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             oneOf (mock).doSomethingWith("whee");
         }});
         

@@ -35,7 +35,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         
         final Sequence executionOrder = sequence("executionOrder");
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run(); inSequence(executionOrder);
             oneOf (commandB).run(); inSequence(executionOrder);
         }});
@@ -53,7 +53,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         
         final Sequence executionOrder = sequence("executionOrder");
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
             oneOf (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
             oneOf (commandC).run(); inSequence(executionOrder);
@@ -66,7 +66,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     public void testCanScheduleCommandAndReturnFuture() throws InterruptedException, ExecutionException {
         Future<?> future = scheduler.submit(commandA);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run();
         }});
         
@@ -81,7 +81,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     public void testCanScheduleCommandAndResultAndReturnFuture() throws InterruptedException, ExecutionException {
         Future<String> future = scheduler.submit(commandA, "result1");
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run();
         }});
        
@@ -93,7 +93,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     public void testCanScheduleCallableAndReturnFuture() throws Exception {
         Future<String> future = scheduler.submit(callableA);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (callableA).call(); will(returnValue("result2"));
         }});
         
@@ -103,7 +103,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     }
 
     public void testScheduledCallablesCanReturnNull() throws Exception {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (callableA).call(); will(returnValue(null));
         }});
         
@@ -119,7 +119,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     public void testExceptionThrownByScheduledCallablesIsThrownFromFuture() throws Exception {
         final Throwable thrown = new ExampleException();
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (callableA).call(); will(throwException(thrown));
         }});
         
@@ -141,7 +141,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         
         scheduler.tick(9, TimeUnit.SECONDS);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run();
         }});
         
@@ -152,7 +152,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         scheduler.schedule(commandA, 1, TimeUnit.MILLISECONDS);
         scheduler.schedule(commandB, 2, TimeUnit.MILLISECONDS);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run();
             oneOf (commandB).run();
         }});
@@ -164,7 +164,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         scheduler.schedule(commandA, 1, TimeUnit.MILLISECONDS);
         scheduler.schedule(commandD, 2, TimeUnit.MILLISECONDS);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run(); will(schedule(commandB));
             oneOf (commandB).run(); will(schedule(commandC));
             oneOf (commandC).run();
@@ -177,7 +177,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     public void testCanExecuteCommandsThatRepeatWithFixedDelay() {
         scheduler.scheduleWithFixedDelay(commandA, 2L, 3L, TimeUnit.SECONDS);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             exactly(3).of(commandA).run();
         }});
         
@@ -187,7 +187,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     public void testCanExecuteCommandsThatRepeatAtFixedRateButAssumesThatCommandsTakeNoTimeToExecute() {
         scheduler.scheduleAtFixedRate(commandA, 2L, 3L, TimeUnit.SECONDS);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             exactly(3).of(commandA).run();
         }});
         
@@ -202,7 +202,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         future.cancel(dontCare);
         assertTrue(future.isCancelled());
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             never (commandA);
         }});
         
@@ -212,7 +212,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
     static final int TIMEOUT_IGNORED = 1000;
     
     public void testCanScheduleCallablesAndGetTheirResultAfterTheyHaveBeenExecuted() throws Exception {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (callableA).call(); will(returnValue("A"));
         }});
         

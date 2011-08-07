@@ -33,7 +33,7 @@ public class SynchroniserTests {
     
     @Test(timeout=250)
     public void allowsMultipleThreadsToCallMockObjects() throws InterruptedException {
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             exactly(blitzer.totalActionCount()).of(mockObject).action();
         }});
         
@@ -52,7 +52,7 @@ public class SynchroniserTests {
         
         final States threads = mockery.states("threads");
         
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             exactly(blitzer.totalActionCount()).of(mockObject).action();
                 when(threads.isNot("finished"));
                 
@@ -76,7 +76,7 @@ public class SynchroniserTests {
     public void canWaitForAStateMachineToEnterAGivenStateWithinSomeTimeout() throws InterruptedException {
         final States threads = mockery.states("threads");
         
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             exactly(blitzer.totalActionCount()).of(mockObject).action();
                 when(threads.isNot("finished"));
                 
@@ -138,7 +138,7 @@ public class SynchroniserTests {
     public void throwsExpectationErrorIfExpectationFailsWhileWaitingForStateMachineEvenIfWaitSucceeds() throws InterruptedException {
         final States threads = mockery.states("threads");
         
-        mockery.checking(new Expectations() {{
+        mockery.checking(new Expectations() {protected void expect() throws Exception{
             oneOf(mockObject).finished();
                 then(threads.is("finished"));
         }});

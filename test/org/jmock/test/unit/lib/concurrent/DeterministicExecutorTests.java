@@ -19,8 +19,8 @@ public class DeterministicExecutorTests extends MockObjectTestCase {
         scheduler.execute(commandB);
         
         final Sequence executionOrder = sequence("executionOrder");
-        
-        checking(new Expectations() {{
+
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run(); inSequence(executionOrder);
             oneOf (commandB).run(); inSequence(executionOrder);
         }});
@@ -34,7 +34,7 @@ public class DeterministicExecutorTests extends MockObjectTestCase {
         
         final Sequence executionOrder = sequence("executionOrder");
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
             oneOf (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
             never (commandC).run();
@@ -50,7 +50,7 @@ public class DeterministicExecutorTests extends MockObjectTestCase {
         
         final Sequence executionOrder = sequence("executionOrder");
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (commandA).run(); inSequence(executionOrder); will(schedule(commandC));
             oneOf (commandB).run(); inSequence(executionOrder); will(schedule(commandD));
             oneOf (commandC).run(); inSequence(executionOrder);

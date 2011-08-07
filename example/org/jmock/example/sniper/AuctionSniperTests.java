@@ -17,7 +17,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testTriesToBeatTheLatestHighestBid() throws Exception {
         final Money expectedBid = beatableBid.add(increment);
 
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (auction).bid(expectedBid);
         }});
 
@@ -25,7 +25,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     }
 
     public void testWillNotBidPriceGreaterThanMaximum() throws Exception {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             ignoring (listener);
             never (auction).bid(with(any(Money.class)));
         }});
@@ -33,7 +33,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     }
 
     public void testWillLimitBidToMaximum() throws Throwable {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             exactly(1).of (auction).bid(maximumBid);
         }});
 
@@ -43,7 +43,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testWillNotBidWhenToldAboutBidsOnOtherItems() throws Throwable {
         final Auction otherLot = mock(Auction.class, "otherLot");
 
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
            never (otherLot).bid(new Money(10));
         }});
 
@@ -51,7 +51,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     }
 
     public void testWillAnnounceItHasFinishedIfPriceGoesAboveMaximum() {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             exactly(1).of (listener).sniperFinished(sniper);
         }});
 
@@ -61,7 +61,7 @@ public class AuctionSniperTests extends MockObjectTestCase {
     public void testCatchesExceptionsAndReportsThemToErrorListener() throws Exception {
         final AuctionException exception = new AuctionException("test");
 
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             allowing (auction).bid(with(any(Money.class))); 
                 will(throwException(exception));
             exactly(1).of (listener).sniperBidFailed(sniper, exception);

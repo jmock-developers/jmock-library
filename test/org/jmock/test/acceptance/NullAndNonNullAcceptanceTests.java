@@ -10,7 +10,7 @@ public class NullAndNonNullAcceptanceTests extends TestCase {
     MockedType mock = context.mock(MockedType.class);
     
     public void testNullParameterMatcher() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomethingWith(with(aNull(String.class)));
         }});
         
@@ -24,7 +24,7 @@ public class NullAndNonNullAcceptanceTests extends TestCase {
     }
     
     public void testNonNullParameterMatcher() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomethingWith(with(aNonNull(String.class)));
         }});
         
@@ -39,7 +39,7 @@ public class NullAndNonNullAcceptanceTests extends TestCase {
 
     // A defect in Hamcrest
     public void DISABLED_testNullArrayParameter() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomethingWithArray(null);
         }});
 

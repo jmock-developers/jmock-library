@@ -16,7 +16,7 @@ public class AnyMethodAcceptanceTests extends TestCase {
     AnotherType anotherMock = context.mock(AnotherType.class, "anotherMock");
     
     public void testElidingTheMethodMeansAnyMethodWithAnyArguments() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock);
         }});
         
@@ -27,7 +27,7 @@ public class AnyMethodAcceptanceTests extends TestCase {
     }
     
     public void testCanElideMethodsOfMoreThanOneMockObject() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             ignoring (mock);
             ignoring (anotherMock);
         }});
