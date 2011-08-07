@@ -4,8 +4,6 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.*;
 import org.jmock.api.Action;
-import org.jmock.api.Invocation;
-import org.jmock.api.Invokable;
 import org.jmock.internal.*;
 import org.jmock.lib.action.*;
 import org.jmock.lib.legacy.ClassImposteriser;
@@ -79,12 +77,7 @@ public class Expectations implements ExpectationBuilder,
         try {
             Class<?> clazz = Class.forName(className);
             if (Modifier.isAbstract(clazz.getModifiers()) || Modifier.isInterface(clazz.getModifiers())) {
-                return ClassImposteriser.INSTANCE.imposterise(new Invokable() {
-                    @Override
-                    public Object invoke(Invocation invocation) throws Throwable {
-                        return null;
-                    }
-                }, clazz);
+                return ClassImposteriser.INSTANCE.imposterise(new VoidAction(), clazz);
             } else {
                 return ObjenesisHelper.newInstance(clazz);
             }
