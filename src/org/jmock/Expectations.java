@@ -10,6 +10,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.jmock.syntax.*;
 import org.objenesis.ObjenesisHelper;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,7 +77,9 @@ public class Expectations implements ExpectationBuilder,
 
         try {
             Class<?> clazz = Class.forName(className);
-            if (Modifier.isAbstract(clazz.getModifiers()) || Modifier.isInterface(clazz.getModifiers())) {
+            if (clazz.isArray()) {
+                return Array.newInstance(clazz.getComponentType(), 0);
+            } else if (Modifier.isAbstract(clazz.getModifiers()) || Modifier.isInterface(clazz.getModifiers())) {
                 return ClassImposteriser.INSTANCE.imposterise(new VoidAction(), clazz);
             } else {
                 return ObjenesisHelper.newInstance(clazz);
