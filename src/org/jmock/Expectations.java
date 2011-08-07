@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author nat
  */
-public class Expectations implements ExpectationBuilder,
+public abstract class Expectations implements ExpectationBuilder,
         CardinalityClause, ArgumentConstraintPhrases, ActionClause {
     private List<InvocationExpectationBuilder> builders = new ArrayList<InvocationExpectationBuilder>();
     private InvocationExpectationBuilder currentBuilder = null;
@@ -38,8 +38,7 @@ public class Expectations implements ExpectationBuilder,
     }
 
 
-    protected void expect() throws Exception {
-    }
+    protected abstract void expect() throws Exception;
 
     private void build() {
         while (true) {
