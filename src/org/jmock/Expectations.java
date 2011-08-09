@@ -1,20 +1,39 @@
 package org.jmock;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
-import org.hamcrest.core.*;
-import org.jmock.api.Action;
-import org.jmock.internal.*;
-import org.jmock.lib.action.*;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.jmock.syntax.*;
-import org.objenesis.ObjenesisHelper;
-
 import java.lang.reflect.Array;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.IsAnything;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsInstanceOf;
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.IsNull;
+import org.hamcrest.core.IsSame;
+import org.jmock.api.Action;
+import org.jmock.internal.BoxingUtils;
+import org.jmock.internal.Cardinality;
+import org.jmock.internal.ChangeStateSideEffect;
+import org.jmock.internal.ExpectationBuilder;
+import org.jmock.internal.ExpectationCollector;
+import org.jmock.internal.InStateOrderingConstraint;
+import org.jmock.internal.InvocationExpectationBuilder;
+import org.jmock.internal.State;
+import org.jmock.internal.StatePredicate;
+import org.jmock.lib.action.ActionSequence;
+import org.jmock.lib.action.DoAllAction;
+import org.jmock.lib.action.ReturnEnumerationAction;
+import org.jmock.lib.action.ReturnIteratorAction;
+import org.jmock.lib.action.ReturnValueAction;
+import org.jmock.lib.action.ThrowAction;
+import org.jmock.syntax.ActionClause;
+import org.jmock.syntax.ArgumentConstraintPhrases;
+import org.jmock.syntax.CardinalityClause;
+import org.jmock.syntax.MethodClause;
+import org.jmock.syntax.ReceiverClause;
+import org.jmock.syntax.WithClause;
 
 /**
  * Provides most of the syntax of jMock's "domain-specific language" API.
@@ -48,9 +67,8 @@ public abstract class Expectations implements ExpectationBuilder,
                 expect();
                 return; // all is right
             } catch (ClassCastException e) {
-                System.out.println(e.getMessage());
                 lastVerifiedPosInObjects++;
-                Object expectedClass = createObjectOfExpectedClass(e);
+                Object expectedClass = createExpectedArrayOrBoxingPrimitiveOrReturnNull(e);
                 objectsFromWith.set(lastVerifiedPosInObjects, expectedClass);
                 currentPosIsObjectsFromWith = -1;
             } catch (Exception e) {
@@ -63,11 +81,11 @@ public abstract class Expectations implements ExpectationBuilder,
         }
     }
 
-    private Object createObjectOfExpectedClass(ClassCastException e) {
+    private Object createExpectedArrayOrBoxingPrimitiveOrReturnNull(ClassCastException e) {
         /*
         should be processed correctly:
         1) Objects
-        2) -- Primitives - need special case (we can not compare boxing-unboxing primitives by identity)
+        2) Primitives
         3) Arrays
         */
         final String message = e.getMessage();
@@ -78,10 +96,35 @@ public abstract class Expectations implements ExpectationBuilder,
             Class<?> clazz = Class.forName(className);
             if (clazz.isArray()) {
                 return Array.newInstance(clazz.getComponentType(), 0);
-            } else if (Modifier.isAbstract(clazz.getModifiers()) || Modifier.isInterface(clazz.getModifiers())) {
-                return ClassImposteriser.INSTANCE.imposterise(new VoidAction(), clazz);
+            } else if (BoxingUtils.isWrapperType(clazz)) {
+                if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
+                    return false;
+                }
+                if (clazz.equals(Byte.class) || clazz.equals(byte.class)) {
+                    return (byte) 0;
+                }
+                if (clazz.equals(Character.class) || clazz.equals(char.class)) {
+                    return (char) 0;
+                }
+                if (clazz.equals(Short.class) || clazz.equals(short.class)) {
+                    return (short) 0;
+                }
+                if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
+                    return 0;
+                }
+                if (clazz.equals(Long.class) || clazz.equals(long.class)) {
+                    return 0L;
+                }
+                if (clazz.equals(Float.class) || clazz.equals(float.class)) {
+                    return 0.0f;
+                }
+                if (clazz.equals(Double.class) || clazz.equals(double.class)) {
+                    return 0.0d;
+                }
+
+                throw new IllegalStateException("Unknown wrapper type: "+clazz);
             } else {
-                return ObjenesisHelper.newInstance(clazz);
+                return null;
             }
         } catch (ClassNotFoundException e1) {
             throw new RuntimeException(e1);
@@ -104,57 +147,39 @@ public abstract class Expectations implements ExpectationBuilder,
 
     protected final WithClause with = new WithClause() {
         public boolean booleanIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return false;
+            return (Boolean) with(matcher);// ClassCastException is expected here
         }
 
         public byte byteIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Byte) with(matcher); // ClassCastException is expected here
         }
 
         public char charIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Character) with(matcher);// ClassCastException is expected here
         }
 
         public double doubleIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Double) with(matcher);// ClassCastException is expected here
         }
 
         public float floatIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Float) with(matcher);// ClassCastException is expected here
         }
 
         public int intIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Integer) with(matcher);// ClassCastException is expected here
         }
 
         public long longIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Long) with(matcher);// ClassCastException is expected here
         }
 
         public short shortIs(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return 0;
+            return (Short) with(matcher);// ClassCastException is expected here
         }
 
         public <T> T is(Matcher<?> matcher) {
-            checkWeBuildingNow();
-            addParameterMatcher(matcher);
-            return null;
+            return (T) with(matcher);// ClassCastException may be thrown here
         }
     };
 
