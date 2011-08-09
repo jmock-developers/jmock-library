@@ -16,7 +16,7 @@ public class RecordingAcceptanceTests extends TestCase {
     MockedType mock = context.mock(MockedType.class, "mock");
     
     public void testRecordsActualInvocations() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (same(mock));
         }});
         
@@ -34,7 +34,7 @@ public class RecordingAcceptanceTests extends TestCase {
     static class ExampleException extends RuntimeException {}
     
     public void testRecordsInvocationsThatThrowExceptions() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomething(); will(throwException(new ExampleException()));
         }});
         
@@ -50,7 +50,7 @@ public class RecordingAcceptanceTests extends TestCase {
     }
 
     public void testDoesNotRecordUnexpectedInvocations() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomethingWith("foo");
         }});
         
@@ -65,7 +65,7 @@ public class RecordingAcceptanceTests extends TestCase {
     }
     
     public void testReportsRecordedInvocationsWhenUnexpectedInvocationReceived() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith("x");
             oneOf (mock).doSomethingWith("y");
         }});
@@ -85,7 +85,7 @@ public class RecordingAcceptanceTests extends TestCase {
     }
     
     public void testReportsRecordedInvocationsWhenNotSatisfied() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith("x");
             oneOf (mock).doSomethingWith("y");
         }});

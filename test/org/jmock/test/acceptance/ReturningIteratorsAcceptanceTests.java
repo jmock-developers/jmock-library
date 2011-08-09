@@ -19,7 +19,7 @@ public class ReturningIteratorsAcceptanceTests extends TestCase {
     Iterators iterators = context.mock(Iterators.class);
     
     public void testReturnsIteratorsOverCollectionOfValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (iterators).i(); will(returnIterator("a", "b", "c"));
         }});
         
@@ -30,7 +30,7 @@ public class ReturningIteratorsAcceptanceTests extends TestCase {
     }
     
     public void testReturnsEnumerationsOverCollectionOfValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (iterators).e(); will(returnEnumeration("x", "y", "z"));
         }});
         

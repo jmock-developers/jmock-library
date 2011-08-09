@@ -27,9 +27,11 @@ public class ExampleJUnit4MockObjectTest {
 	dispatchesEventToSessionsOtherThanThenSender() {
 		...
 		
-		context.checking(new Expectations() {{
-			...
-		}});
+		context.checking(new Expectations() {
+    		protected void expect() throws Exception{
+				...
+			}
+    	});
 		
 		...
 	}
@@ -46,9 +48,11 @@ assert the expectations after each test has run.</p>
      
   @Test
   public void doesSatisfyExpectations() {
-    context.checking(new Expectations() {{
-      oneOf (runnable).run();
-    }});
+    context.checking(new Expectations() {
+    	protected void expect() throws Exception{
+      		oneOf (runnable).run();
+    	}
+    });
           
     runnable.run();
   }

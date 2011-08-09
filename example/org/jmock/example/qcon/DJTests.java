@@ -17,7 +17,7 @@ public class DJTests extends MockObjectTestCase {
     
     @Override
     public void setUp() {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             allowing (playlist).hasTrackFor(LOCATION_A); will(returnValue(true));
             allowing (playlist).trackFor(LOCATION_A); will(returnValue(TRACK_A));
             allowing (playlist).hasTrackFor(LOCATION_B); will(returnValue(true));
@@ -27,7 +27,7 @@ public class DJTests extends MockObjectTestCase {
     }
     
     public void testStartsPlayingTrackForCurrentLocationWhenLocationFirstDetected() {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (mediaControl).play(TRACK_A);
         }});
         
@@ -39,7 +39,7 @@ public class DJTests extends MockObjectTestCase {
         
         dj.locationChangedTo(LOCATION_B);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (mediaControl).play(TRACK_B);
         }});
         
@@ -49,7 +49,7 @@ public class DJTests extends MockObjectTestCase {
     public void testDoesNotPlayTrackAgainIfStillInTheSameLocation() {
         startingIn(LOCATION_A);
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             never (mediaControl).play(with(any(String.class)));
         }});
         
@@ -60,7 +60,7 @@ public class DJTests extends MockObjectTestCase {
         startingIn(LOCATION_A);
         dj.mediaFinished();
         
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (mediaControl).play(TRACK_B);
         }});
         
@@ -68,7 +68,7 @@ public class DJTests extends MockObjectTestCase {
     }
     
     private void startingIn(String initialLocation) {
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf (mediaControl).play(with(any(String.class)));
         }});
         

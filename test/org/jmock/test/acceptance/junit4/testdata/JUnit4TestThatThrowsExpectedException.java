@@ -14,7 +14,7 @@ public class JUnit4TestThatThrowsExpectedException {
     
     @Test(expected=CheckedException.class)
     public void doesNotSatisfyExpectationsWhenExpectedExceptionIsThrown() throws CheckedException {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (withException).anotherMethod();
             oneOf (withException).throwingMethod(); will(throwException(new CheckedException()));
         }});

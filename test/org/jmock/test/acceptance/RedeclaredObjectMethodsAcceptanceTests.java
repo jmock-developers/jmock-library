@@ -46,7 +46,7 @@ public class RedeclaredObjectMethodsAcceptanceTests extends TestCase {
         context.setImposteriser(ClassImposteriser.INSTANCE);
         final Vector<Object> mock = (Vector<Object>)context.mock(Vector.class);
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             atLeast(1).of (mock).size(); will(returnValue(2));
         }});
         

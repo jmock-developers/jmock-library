@@ -16,7 +16,7 @@ public class SequenceAcceptanceTests extends TestCase {
     public void testCanConstrainInvocationsToOccurInOrder() {
         final Sequence s = context.sequence("s");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
             oneOf (mock).method2(); inSequence(s);
         }});
@@ -33,7 +33,7 @@ public class SequenceAcceptanceTests extends TestCase {
     public void testAllowsInvocationsInSequence() {
         final Sequence s = context.sequence("s");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
             oneOf (mock).method2(); inSequence(s);
         }});
@@ -45,7 +45,7 @@ public class SequenceAcceptanceTests extends TestCase {
     public void testCanSkipAllowedInvocationsInSequence() {
         final Sequence s = context.sequence("s");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
             allowing (mock).method2(); inSequence(s);
             oneOf (mock).method3(); inSequence(s);
@@ -59,7 +59,7 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         final Sequence t = context.sequence("t");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
             oneOf (mock).method2(); inSequence(s);
             
@@ -76,7 +76,7 @@ public class SequenceAcceptanceTests extends TestCase {
     public void testExpectationIncludesSequenceInDescription() {
         final Sequence s = context.sequence("s");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
         }});
         
@@ -93,7 +93,7 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         final Sequence t = context.sequence("t");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
             oneOf (mock).method2(); inSequence(t);
             oneOf (mock).method3(); inSequence(s); inSequence(t);
@@ -116,7 +116,7 @@ public class SequenceAcceptanceTests extends TestCase {
         final Sequence s = context.sequence("s");
         final Sequence t = context.sequence("t");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).method1(); inSequence(s);
             oneOf (mock).method2(); inSequence(t);
             oneOf (mock).method3(); inSequences(s, t);

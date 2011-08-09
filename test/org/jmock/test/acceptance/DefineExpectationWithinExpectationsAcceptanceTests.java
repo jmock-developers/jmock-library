@@ -21,7 +21,7 @@ public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase
     MockedTypeA a = context.mock(MockedTypeA.class, "a");
     
     public void testCanDefineExpectationsWithinExpectations() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (a).a(aNewMockWithExpectations());
         }});
     }
@@ -29,7 +29,7 @@ public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase
     private MockedTypeB aNewMockWithExpectations() {
         final MockedTypeB mock = context.mock(MockedTypeB.class);
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             ignoring (mock);
         }});
             
@@ -39,7 +39,7 @@ public class DefineExpectationWithinExpectationsAcceptanceTests extends TestCase
     public void testCanStillIgnoreEntireMockObjectsBeforeAnotherExpectation() {
         final MockedTypeA a2 = context.mock(MockedTypeA.class, "a2");
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             ignoring(a2);
             oneOf (a).a(aNewMockWithExpectations());
         }});

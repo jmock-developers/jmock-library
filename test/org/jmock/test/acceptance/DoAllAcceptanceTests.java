@@ -1,15 +1,14 @@
 package org.jmock.test.acceptance;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import junit.framework.TestCase;
-
 import org.hamcrest.Description;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class DoAllAcceptanceTests extends TestCase {
     public interface Collector {
@@ -23,7 +22,7 @@ public class DoAllAcceptanceTests extends TestCase {
     public void testCanSpecifyMultipleStubsForOneInvocation() {
         final ArrayList<String> list = new ArrayList<String>();
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (collector).addThingsTo(with(same(list)));
             	will(doAll(addElement("1"), 
                            addElement("2"), 

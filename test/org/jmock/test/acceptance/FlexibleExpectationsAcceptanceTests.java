@@ -17,7 +17,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     MockedType mock2 = context.mock(MockedType.class, "mock2");
     
     public void testCanSpecifyFlexibleMethodMatchers() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (anything()).method(withName("doSomething.*"));
         }});
         
@@ -35,7 +35,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testCanSpecifyMethodNameRegexDirectly() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (anything()).method("doSomething.*");
         }});
         
@@ -53,7 +53,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
 
     public void testCanSpecifyFlexibleArgumentMatchers() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (anything()).method(withName("doSomethingWith")).with(equal("x"), equal("y"));
             allowing (anything()).method(withName("doSomethingWith")).with(equal("X"), equal("Y"));
         }});
@@ -73,7 +73,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testCanSpecifyNoArguments() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (anything()).method(withName("do.*")).withNoArguments();
             allowing (anything()).method(withName("do.*")).with(equal("X"), equal("Y"));
         }});
@@ -91,7 +91,7 @@ public class FlexibleExpectationsAcceptanceTests extends TestCase {
     }
     
     public void testCanReturnDefaultValueFromFlexibleExpectation() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (anything()).method(withName(".*"));
         }});
         

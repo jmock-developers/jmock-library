@@ -16,7 +16,7 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
     public void testWhenDefinedAndInvokedThroughClass() throws Exception {
         final AnImplementation mock = context.mock(AnImplementation.class);
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith("a");
         }});
             
@@ -26,7 +26,7 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
     public void testWhenDefinedThroughClassAndInvokedThroughMethod() throws Exception {
         final AnImplementation mock = context.mock(AnImplementation.class);
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith("a");
         }});
         
@@ -39,7 +39,7 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
     public void testWhenDefinedAndInvokedThroughInterface() throws Exception {
         final AnInterface<String> mock = context.mock(AnImplementation.class);
 
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith("a");
         }});
 
