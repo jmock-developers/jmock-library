@@ -8,6 +8,9 @@ To build snapshot
 
 mvn -Pprofile install where profile=jmock1 or jmock2
 
+To stage a release candidate
+mvn -Pprofile release:stage
+
 To release version
 
 mvn -Pprofile release:prepare
