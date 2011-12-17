@@ -122,6 +122,7 @@
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <preparationGoals>clean install</preparationGoals>
+          <stagingRepository>codehaus-nexus-staging::default::https://nexus.codehaus.org/service/local/staging/deploy/maven2/</stagingRepository>
         </configuration>
       </plugin>
     </plugins>
