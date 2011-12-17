@@ -1,4 +1,5 @@
 Instructions to release jMock artifacts for Maven 2.
+http://maven.apache.org/plugins/maven-release-plugin/index.html
 
 The parent pom supports two profiles:  jmock1 and jmock2
 The profile determines which artifacts are part of the release.
