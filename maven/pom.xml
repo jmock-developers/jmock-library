@@ -21,9 +21,9 @@
   </licenses>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:jmock/jmock-library.git</developerConnection>
-    <url>https://github.com/jmock/jmock-library</url>
-    <connection>scm:git:git://github.com/jmock/jmock-library.git</connection>
+    <developerConnection>scm:git:git@github.com:olibye/jmock-library.git</developerConnection>
+    <url>https://github.com/olibye/jmock-library</url>
+    <connection>scm:git:git://github.com/olibye/jmock-library.git</connection>
   </scm>
 
   <parent>
