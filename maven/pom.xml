@@ -3,7 +3,7 @@
   <groupId>org.jmock</groupId>
   <artifactId>jmock-parent</artifactId>
   <packaging>pom</packaging>
-  <version>x-SNAPSHOT</version>
+  <version>2.7.0-SNAPSHOT</version>
   <name>jMock Parent</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -21,31 +21,23 @@
   </licenses>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.codehaus.org/jmock/trunk/packaging/maven</developerConnection>
-    <url>http://svn.codehaus.org/jmock/trunk/packaging/maven</url>
+    <developerConnection>scm:git:git@github.com:olibye/jmock-library.git</developerConnection>
+    <url>https://github.com/olibye/jmock-library</url>
+    <connection>scm:git:git://github.com/olibye/jmock-library.git</connection>
   </scm>
 
-  <distributionManagement>
-    <!--  
-      The id used must match a server id defined in ~/.m2/settings.xml
-    -->
-    <repository>
-      <id>codehaus.org</id>
-      <name>Codehaus jMock Repository</name>
-      <url>dav:https://dav.codehaus.org/repository/jmock/</url>
-    </repository>
-    <snapshotRepository>
-      <id>codehaus.org</id>
-      <name>Codehaus jMock Snapshot Repository</name>
-      <url>dav:https://dav.codehaus.org/snapshots.repository/jmock/</url>
-    </snapshotRepository>
-  </distributionManagement>
+  <parent>
+    <groupId>org.codehaus</groupId>
+    <artifactId>codehaus-parent</artifactId>
+    <version>4</version>
+  </parent>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+	<version>2.3.2</version>
         <configuration>
           <archive>
             <compress>false</compress>
@@ -55,7 +47,7 @@
       <plugin>
         <groupId>org.codehaus.groovy.maven</groupId>
         <artifactId>gmaven-plugin</artifactId>
-        <version>1.0-rc-2</version>
+        <version>1.0</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
@@ -107,7 +99,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.5</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -126,11 +118,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-7</version>
+        <version>2.2.2</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <preparationGoals>clean install</preparationGoals>
-          <tagBase>https://svn.codehaus.org/jmock/tags</tagBase>
+          <stagingRepository>codehaus-nexus-staging::default::https://nexus.codehaus.org/service/local/staging/deploy/maven2/</stagingRepository>
         </configuration>
       </plugin>
     </plugins>
@@ -171,7 +163,7 @@
         <module>jmock-script</module>
       </modules>
       <properties>
-        <release.version>2.5.1</release.version>
+        <release.version>2.6.0-RC2</release.version>
         <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
       </properties>
     </profile>
