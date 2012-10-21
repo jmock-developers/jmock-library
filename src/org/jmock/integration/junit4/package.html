@@ -1,0 +1,58 @@
+<html>
+<body>
+<p>Integrates jMock with <a href="http://www.junit.org">JUnit 4</a>.</p>
+<p>To write a mock object test in JUnit 4, declare a field of type Mockery
+that holds a JUnit4Mockery and annotate your test class with 
+<code>@RunWith(JMock.class)</code>, as shown below.  The Mockery will
+be verified after the test has run and before the fixture is torn down.
+</p>
+
+<pre>
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+...
+
+<span>@</span>RunWith(JMock.class)
+public class ExampleJUnit4MockObjectTest {
+	Mockery context = new JUnit4Mockery();
+	
+	...	
+	
+	<span>@</span>Test public void
+	dispatchesEventToSessionsOtherThanThenSender() {
+		...
+		
+		context.checking(new Expectations() {{
+			...
+		}});
+		
+		...
+	}
+}
+</pre>
+
+<p>Alternatively, from JUnit 4.7, you can use <code>JMockContext</code> which
+implements a JUnit <code>Rule</code> to manage expectations and allowances, and to
+assert the expectations after each test has run.</p>
+
+<pre>public class ATestWithSatisfiedExpectations {
+  @Rule public final JMockContext context = new JMockContext();
+  private final Runnable runnable = context.mock(Runnable.class);
+     
+  @Test
+  public void doesSatisfyExpectations() {
+    context.checking(new Expectations() {{
+      oneOf (runnable).run();
+    }});
+          
+    runnable.run();
+  }
+}</pre>
+
+</body>
+</html>
