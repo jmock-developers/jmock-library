@@ -1,32 +1,38 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Testing Multithreaded Code</title>
+    <title>jMock - Testing Multithreaded Code</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Testing Multithreaded Code</h1>
-
-    <p>A question that is frequently asked on the <a
-    href="http://www.jmock.org">jMock</a> users' <a
-    href="http://www.jmock.org/mailing-lists.html">mailing list</a> is "how do
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Testing Multithreaded Code</h1>
+        <p>A question that is frequently asked on the <a href="http://www.jmock.org">jMock</a><sup class="LinkFootnoteRef">1</sup> users' <a href="http://www.jmock.org/mailing-lists.html">mailing list</a><sup class="LinkFootnoteRef">2</sup> is "how do
     I use mock objects to test a class that spawns new threads"? The problem
     is that jMock appears to ignore unexpected calls if they are made on a
     different thread than that which runs the test itself. The mock object
     actually does throw an <code>AssertionFailedError</code> when it receives
     an unexpected call, but the error terminates the concurrent thread instead
     of the test runner's thread.</p>
-
-    <p>Here's an example. We have a guard and an alarm. When the guard notices
+        <p>Here's an example. We have a guard and an alarm. When the guard notices
     a burglar, he should ring the alarm once only.</p>
-
-    <pre class="Source Java">public interface Alarm {
+        <pre class="Source Java">public interface Alarm {
     void ring();
 }</pre>
-
-    <pre class="Source Java">@Test
+        <pre class="Source Java">@Test
 public void ringsTheAlarmOnceWhenNoticesABurglar() {
     final Alarm alarm = context.mock(Alarm.class);
     Guard guard = new Guard(alarm);
@@ -37,10 +43,8 @@ public void ringsTheAlarmOnceWhenNoticesABurglar() {
     
     guard.notice(new Burglar());
 }</pre>
-
-    <p>Here's an implementation of Guard that should fail the test:</p>
-
-    <pre class="Source Java">public class Guard {
+        <p>Here's an implementation of Guard that should fail the test:</p>
+        <pre class="Source Java">public class Guard {
     private Alarm alarm;
     
     public Guard( Alarm alarm ) {
@@ -64,31 +68,25 @@ public void ringsTheAlarmOnceWhenNoticesABurglar() {
         ringAlarmThread.start();
     }
 }</pre>
-
-    <p>Although that implementation is incorrect, the test will appear to pass
+        <p>Although that implementation is incorrect, the test will appear to pass
     because the mock Alarm will throw an AssertionFailedError on the
     ringAlarmThread, not the test runner's thread.</p>
-
-    <p>The root of the problem is trying to use mock objects for integration
+        <p>The root of the problem is trying to use mock objects for integration
     testing. Mock objects are used for unit testing in the traditional sense:
     to test units in isolation from other parts of the system. Threads,
     however, by their very nature, require some kind of integration test.
     Concurrency and synchronisation are system-wide concerns and code that
     creates threads must make use of operating system facilities to do so.</p>
-
-    <p>A solution is to separate the object that needs to run tasks from the
+        <p>A solution is to separate the object that needs to run tasks from the
     details of how tasks are run and define an interface between the two. We
     can test the object that needs to run tasks by mocking the task runner,
     and test the implementation of the task runner in integration tests.
-    Java's standard concurrency library defines just such an interface: <a
-    href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/Executor.html">java.util.concurrent.Executor</a>.
+    Java's standard concurrency library defines just such an interface: <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/Executor.html">java.util.concurrent.Executor</a><sup class="LinkFootnoteRef">3</sup>.
     In our example, we can pass an Executor to the Guard and change the Guard
     so that it asks the executor to run tasks instead of explicitly creating
     new threads.</p>
-
-    <p>Our test then looks like:</p>
-
-    <pre class="Source Java">@Test
+        <p>Our test then looks like:</p>
+        <pre class="Source Java">@Test
 public void ringsTheAlarmOnceWhenNoticesABurglar() {
     final Alarm alarm = context.mock(Alarm.class);
     Executor executor = ... // What goes here?
@@ -100,23 +98,20 @@ public void ringsTheAlarmOnceWhenNoticesABurglar() {
     
     guard.notice(new Burglar());
 }</pre>
-
-    <p>But how should we implement the Executor for our test? If we use an
+        <p>But how should we implement the Executor for our test? If we use an
     Executor that creates a new thread we'll be back where we started and our
     tests will still, wrongly, appear to pass. We need to run the task in the
     same thread as the test runner. To do this we could mock the Executor
-    interface and use a <a href="custom-actions.html">custom action</a> to
+    interface and use a <a href="custom-actions.html">custom action</a><sup class="LinkFootnoteRef">4</sup> to
     call back to the task's run method. However, that does not correctly
     reflect how a background task would behave: the task executes before the
     notify method has returned, instead of afterwards. This difference is
     significant when a task modifies the state of an object.</p>
-
-    <p>Instead we need an object that implements the Executor interface and
+        <p>Instead we need an object that implements the Executor interface and
     lets us explicitly run the tasks after the <code>notice(Burglar)</code>
     method has returned. JMock provides a class that does just this: the
     <code>DeterministicExecutor</code>. Using it, our test looks like:</p>
-
-    <pre class="Java Source">@Test
+        <pre class="Java Source">@Test
 public void ringsTheAlarmOnceWhenNoticesABurglar() {
     final Alarm alarm = context.mock(Alarm.class);
     DeterministicExecutor executor = new DeterministicExecutor();
@@ -130,11 +125,9 @@ public void ringsTheAlarmOnceWhenNoticesABurglar() {
     
     executor.runUntilIdle();    
 }</pre>
-
-    <p>And the implementation of the Guard that uses an Executor looks like
+        <p>And the implementation of the Guard that uses an Executor looks like
     this:</p>
-
-    <pre class="Source Java">public class Guard {
+        <pre class="Source Java">public class Guard {
     private Alarm alarm;
     private Executor executor;
     
@@ -158,32 +151,126 @@ public void ringsTheAlarmOnceWhenNoticesABurglar() {
         executor.execute(ringAlarmTask);
     }
 }</pre>
-
-    <p>It's still not correct, but at least our tests can detect the error
+        <p>It's still not correct, but at least our tests can detect the error
     now!</p>
-
-    <p>The test tells the executor to run until idle, which runs pending tasks
+        <p>The test tells the executor to run until idle, which runs pending tasks
     until there are no more to execute. This allows tasks to launch new tasks.
     If that happened forever, the executor would, of course, enter an infinite
     loop. Therefore the DeterministicExecutor also let's a test run only the
     pending tasks to support applications that spawn an infinite sequence of
     tasks.</p>
-
-    <p>Beyond easy testing, the advantage of pulling out the Executor from the
+        <p>Beyond easy testing, the advantage of pulling out the Executor from the
     Guard is that the Guard does not hide its concurrency policy within its
     implementation. Concurrency is a system-wide concern and should be
     controlled outside the Guard object. By passing an appropriate Executor to
     its constructor, the application can easily adapt the Guard to the
     application's threading policy without having to change the Guard's
     implementation.</p>
-
-    <p>However, this technique tests the only functional behaviour of the
+        <p>However, this technique tests the only functional behaviour of the
     objects. It does not test the synchronisation. You'll also need
-    integration tests that put truly concurrent code under load, using the <a
-    href="threading-blitzer.html">Blitzer</a> for example, and try to detect
+    integration tests that put truly concurrent code under load, using the <a href="threading-blitzer.html">Blitzer</a><sup class="LinkFootnoteRef">5</sup> for example, and try to detect
     synchronisation errors. By separating the concerns of functionality and
     synchronisation you will know that any errors in your load tests are
     caused by synchronisation problems, not bugs in the functional
     behaviour.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				jMock:
+	  				
+	  				http://www.jmock.org</p>
+        <p>2.
+	  				mailing list:
+	  				
+	  				http://www.jmock.org/mailing-lists.html</p>
+        <p>3.
+	  				java.util.concurrent.Executor:
+	  				
+	  				http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/Executor.html</p>
+        <p>4.
+	  				custom action:
+	  				
+	  				http://www.jmock.org/custom-actions.html</p>
+        <p>5.
+	  				Blitzer:
+	  				
+	  				http://www.jmock.org/threading-blitzer.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

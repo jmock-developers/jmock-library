@@ -1,30 +1,38 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Overriding Expectations Defined in the Test Set-Up</title>
+    <title>jMock - Overriding Expectations Defined in the Test Set-Up</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Overriding Expectations Defined in the Test Set-Up</h1>
-
-    <p>If you <a href="expectations.html">define expectations</a> in the
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Overriding Expectations Defined in the Test Set-Up</h1>
+        <p>If you <a href="expectations.html">define expectations</a><sup class="LinkFootnoteRef">1</sup> in the
     set-up of a test in order to put the object under test into a known state,
     you sometimes want to ignore those expectations during the test itself.
     For example, you might <em>allow</em> calls to some mock objects during
     set-up and then want to <em>expect</em> calls to those mock objects during
     the test. If you just define additional expectations in the test, the
-    allowing expectations defined in the set-up will <a
-    href="dispatch.html">take precedence</a> and the test's expectations will
+    allowing expectations defined in the set-up will <a href="dispatch.html">take precedence</a><sup class="LinkFootnoteRef">2</sup> and the test's expectations will
     never seem to be met, thereby failing the test.</p>
-
-    <p>In this situation, use a <a href="states.html">state machine</a> to
+        <p>In this situation, use a <a href="states.html">state machine</a><sup class="LinkFootnoteRef">3</sup> to
     control when the expectations are valid. This state machine represents the
     state of the test, rather than the state of the objects with which the
     object under test communicates.</p>
-
-    <ol>
+        <ol>
       <li>Define a state machine named, for example, "test".</li>
 
       <li>In the test set-up, define expectations that are valid when the
@@ -35,11 +43,14 @@
 
       <li>Define expectations in your tests as usual.</li>
     </ol>
-
-    <p>The result is that the expectations defined in the set-up to only apply
+        <p>The result is that the expectations defined in the set-up to only apply
     when the test is not "running" will be ignored during the test itself.</p>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Java Source">public class ChildTest extends MockObjectTestCase {
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Java Source">public class ChildTest extends MockObjectTestCase {
     States test = states("test");
 
     Parent parent = mock(Parent.class);
@@ -69,9 +80,14 @@
         
         child.reparent(newParent);
     }
-}</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Java Source">@RunWith(JMock.class)
+}</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Java Source">@RunWith(JMock.class)
 public class ChildTest {
     Mockery context = new JUnit4Mockery();
     States test = mockery.states("test");
@@ -104,9 +120,14 @@ public class ChildTest {
         
         child.reparent(newParent);
     }
-}</pre></div>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Java Source">public class ChildTest extends TestCase {
+}</pre>
+        </div>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Java Source">public class ChildTest extends TestCase {
     Mockery context = new Mockery();
     States test = context.states("test");
 
@@ -137,6 +158,98 @@ public class ChildTest {
         
         child.reparent(newParent);
     }
-}</pre></div>
+}</pre>
+        </div>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				define expectations:
+	  				
+	  				http://www.jmock.org/expectations.html</p>
+        <p>2.
+	  				take precedence:
+	  				
+	  				http://www.jmock.org/dispatch.html</p>
+        <p>3.
+	  				state machine:
+	  				
+	  				http://www.jmock.org/states.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,23 +1,33 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Writing Custom Invocation Matchers</title>
+    <title>jMock - Writing Custom Invocation Matchers</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>jMock1: Writing Custom Invocation Matchers</h1>
-
-    <p>Invocation matchers control how a mock object matches and verifies
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>jMock1: Writing Custom Invocation Matchers</h1>
+        <p>Invocation matchers control how a mock object matches and verifies
     incoming invocations against expectations and stubbed behaviour. The jMock
     API is a convenient syntactic sugar for specifying how matchers are added
     to a mock object. Sometimes the convenient API does not allow you to
     specify matching rules precisely or flexibly enough. In these cases you
     will need to write your own invocation matcher classes. This article will
     show you how to do just that.</p>
-
-    <p>A mock object contains a list of expectations (and stubs, but we can
+        <p>A mock object contains a list of expectations (and stubs, but we can
     consider a stub to be a degerate form of expectation and jMock uses the
     same type of object to implement both). When a mock object receives an
     invocation it searches for an expectation to process the invocation,
@@ -27,12 +37,10 @@
     invocation if all of its matching rules match the invocation. The jMock
     API provides a concise, descriptive syntax for adding expectations to a
     mock and adding matching rules to expectations.</p>
-
-    <p>An matching rule is an object that implements the
+        <p>An matching rule is an object that implements the
     <code>InvocationMatcher</code> interface. It has the following
     responsiblities:</p>
-
-    <ul>
+        <ul>
       <li>report whether it matches against an invocation (the
       <code>matches</code> method).</li>
 
@@ -50,8 +58,7 @@
       <li>report if its description is not an empty string (the
       <code>hasDescription</code> method).</li>
     </ul>
-
-    <p>In most cases, you will want to define a new matching rule that does
+        <p>In most cases, you will want to define a new matching rule that does
     change state when an invocation occurs. Also, you should always provide a
     description for your matching rule, so the <code>hasDescription</code>
     method should always return <code>true</code>. This common behaviour is
@@ -59,17 +66,15 @@
     <code>StatelessInvocationMatcher</code> class. You can therefore define a
     new matching rule by extending <code>StatelessInvocationMatcher</code> and
     defining the <code>matches</code> and <code>describeTo</code> methods.</p>
-
-    <h2>An Example Custom Matcher</h2>
-
-    <p>Suppose we want to stub all Java Bean property getters to return some
+        <h2>An Example Custom Matcher</h2>
+        <p>Suppose we want to stub all Java Bean property getters to return some
     default results. Returning default results is performed by a
     <code>DefaultResultStub</code>. But how do we match property getter
     methods? We need to write a custom <code>InvocationMatcher</code> that
     only matches invocations of bean property getter methods. Here's what a
     test will look like that uses such a custom matcher:</p>
-
-    <div class="Source Java"><pre>InvocationMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
+        <div class="Source Java">
+          <pre>InvocationMatcher beanPropertyGetters = new BeanPropertyGetterMatcher();
 DefaultResultStub returnDefaultValue = new DefaultResultStub();
 Mock mock = ...
 
@@ -77,23 +82,23 @@ public void testListChildren() {
     ...
     mockPerson.stubs().match(beanPropertyGetters).will(returnDefaultValue);
     ...
-}</pre></div>
-
-    <p>We can write the <code>BeanPropertyGetterMatcher</code> class by
+}</pre>
+        </div>
+        <p>We can write the <code>BeanPropertyGetterMatcher</code> class by
     extending <code>StatelessInvocationMatcher</code>:</p>
-
-    <div class="Source Java"><pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
+        <div class="Source Java">
+          <pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
    ...
-}</pre></div>
-
-    <p>We now need to write the <code>matches</code> method to return whether
+}</pre>
+        </div>
+        <p>We now need to write the <code>matches</code> method to return whether
     the invocation is the getter method of a Java Bean property, using the
     Java Beans API. The method will use Bean introspection to list the
     property descriptors of the class that defines the invoked method. It then
     searches the list of property descriptors for a descriptor with a getter
     method that is the same as the invoked method.</p>
-
-    <div class="Source Java"><pre>public boolean matches(Invocation invocation) {
+        <div class="Source Java">
+          <pre>public boolean matches(Invocation invocation) {
     Class beanClass = invocation.invokedMethod.getDeclaringClass();
 
     try {
@@ -108,22 +113,22 @@ public void testListChildren() {
     catch( IntrospectionException ex ) {
         throw new AssertionFailedError("could not introspect bean class" + beanClass + ": " + ex.getMessage() );
     }
-}</pre></div>
-
-    <p>Finally we must write the <code>describeTo</code> method to generate a
+}</pre>
+        </div>
+        <p>Finally we must write the <code>describeTo</code> method to generate a
     description of what our new class matches. The description will be
     included in the description of any expectation that uses the matcher,
     which itself will be included in error messages when tests fail. Our new
     class matches any bean property getter, so that's what our description
     will be:</p>
-
-    <div class="Source Java"><pre>public StringBuffer describeTo(StringBuffer buffer) {
+        <div class="Source Java">
+          <pre>public StringBuffer describeTo(StringBuffer buffer) {
     return buffer.append("any bean property getter");
-}</pre></div>
-
-    <p>The entire matcher class is shown below:</p>
-
-    <div class="Source Java"><pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
+}</pre>
+        </div>
+        <p>The entire matcher class is shown below:</p>
+        <div class="Source Java">
+          <pre>public class BeanPropertyGetterMatcher extends StatelessInvocationMatcher {
 
     public boolean matches(Invocation invocation) {
         Class beanClass = invocation.invokedMethod.getDeclaringClass();
@@ -145,6 +150,83 @@ public void testListChildren() {
     public StringBuffer describeTo(StringBuffer buffer) {
         return buffer.append("any bean property getter");
     }
-}</pre></div>
+}</pre>
+        </div>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,63 +1,63 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Scripting Custom Actions</title>
+    <title>jMock - Scripting Custom Actions</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Scripting Custom Actions</h1>
-
-    <p>Using a <a href="custom-actions.html">custom action</a> in an
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Scripting Custom Actions</h1>
+        <p>Using a <a href="custom-actions.html">custom action</a><sup class="LinkFootnoteRef">1</sup> in an
     expectation is straightforward but requires quite a lot of code. You need
     to define a class that implements the action and a factory method to make
     the expectation read clearly. The jMock Scripting Extension lets you
-    define custom actions inline in the expectation, as <a
-    href="http://www.beanshell.org/">BeanShell</a> scripts.</p>
-
-    <div class="Note Warning"><p>Because a script is represented as a string,
-    it does not play well with refactoring tools.</p></div>
-
-    <p>First, you need to add the following JARs to your classpath:</p>
-
-    <ul>
-      <li>jmock-script-<span class="Version 2">2.x.x</span>.jar</li>
+    define custom actions inline in the expectation, as <a href="http://www.beanshell.org/">BeanShell</a><sup class="LinkFootnoteRef">2</sup> scripts.</p>
+        <div class="Note Warning">
+          <p>Because a script is represented as a string,
+    it does not play well with refactoring tools.</p>
+        </div>
+        <p>First, you need to add the following JARs to your classpath:</p>
+        <ul>
+      <li>jmock-script-2.5.1.jar</li>
 
       <li>bsh-core-2.0b4.jar</li>
     </ul>
-
-    <p>Second, you need to import the "perform" factory method into your
+        <p>Second, you need to import the "perform" factory method into your
     test.</p>
-
-    <pre class="Java Source">import static org.jmock.lib.script.ScriptedCallbackAction.perform;</pre>
-
-    <p>You can then use the "perform" factory method to define custom actions
+        <pre class="Java Source">import static org.jmock.lib.script.ScriptedCallbackAction.perform;</pre>
+        <p>You can then use the "perform" factory method to define custom actions
     using a BeanShell script. The script can refer to the parameters of the
     mocked method by the names <var>$0</var> (the first parameter),
     <var>$1</var>, <var>$2</var>, etc. For example, the script below calls
     back to a Runnable passed as the first (and only) parameter:</p>
-
-    <pre class="Java Source">checking(new Expectations() {{
+        <pre class="Java Source">checking(new Expectations() {{
     oneOf (executor).execute(with(a(Runnable.class))); will(perform("$0.run()"));
 }}</pre>
-
-    <p>A script can pass literal values as parameters to the callback. For
+        <p>A script can pass literal values as parameters to the callback. For
     example, the script below adds an integer to a collection:</p>
-
-    <pre class="Java Source">checking(new Expectations() {{
+        <pre class="Java Source">checking(new Expectations() {{
     oneOf (collector).collect(with(a(Collection.class))); will(perform("$0.add(2)"));
 }}</pre>
-
-    <p>If you want a script to refer to an object defined by the test, you
+        <p>If you want a script to refer to an object defined by the test, you
     will have to define a script variable with a "where" clause. Any number of
     where clauses can be appended onto the perform clause to define
-    variables. For example, to translate the code from the <a
-    href="custom-actions.html">custom action recipe</a> to use a BeanShell
+    variables. For example, to translate the code from the <a href="custom-actions.html">custom action recipe</a><sup class="LinkFootnoteRef">3</sup> to use a BeanShell
     script, we must define a script variable for the list of mangoes to be
     added to the collection:</p>
-
-    <pre class="Java Source">final FruitTree mangoTree = mock(FruitTree.class);
+        <pre class="Java Source">final FruitTree mangoTree = mock(FruitTree.class);
 final Mango mango1 = new Mango();
 final Mango mango2 = new Mango();
 
@@ -67,5 +67,96 @@ context.checking(new Expectations() {{
 }});
 
 ...</pre>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				custom action:
+	  				
+	  				http://www.jmock.org/custom-actions.html</p>
+        <p>2.
+	  				BeanShell:
+	  				
+	  				http://www.beanshell.org/</p>
+        <p>3.
+	  				custom action recipe:
+	  				
+	  				http://www.jmock.org/custom-actions.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

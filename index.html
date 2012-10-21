@@ -1,25 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>An Expressive Mock Object Library for Java</title>
+    <title>jMock - An Expressive Mock Object Library for Java</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>About jMock</h1>
-
-    <p>JMock is a library that supports <a
-    href="http://www.c2.com/cgi/wiki?TestDrivenDevelopment">test-driven
-    development</a> of <a href="http://java.sun.com">Java</a> code with <a
-    href="http://www.mockobjects.com/">mock objects</a>.</p>
-
-    <p>Mock objects help you design and test the interactions between the
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="ContentWithNews">
+      <div id="content">
+        <h1>About jMock</h1>
+        <p>JMock is a library that supports <a href="http://www.c2.com/cgi/wiki?TestDrivenDevelopment">test-driven
+    development</a><sup class="LinkFootnoteRef">1</sup> of <a href="http://java.sun.com">Java</a><sup class="LinkFootnoteRef">2</sup> code with <a href="http://www.mockobjects.com/">mock objects</a><sup class="LinkFootnoteRef">3</sup>.</p>
+        <p>Mock objects help you design and test the interactions between the
     objects in your programs.</p>
-
-    <p>The jMock library:</p>
-
-    <ul>
+        <p>The jMock library:</p>
+        <ul>
       <li>makes it quick and easy to define mock objects, so you don't break
       the rhythm of programming.</li>
 
@@ -33,19 +39,196 @@
 
       <li>is easy to extend.</li>
     </ul>
-
-    <table class="ButtonBox">
+        <table class="ButtonBox">
       <tr>
         <td><a class="Button" href="download.html" id="get-it">Get
-        jMock</a></td>
+        jMock</a><sup class="LinkFootnoteRef">4</sup></td>
 
         <td><a class="Button" href="getting-started.html" id="get-started">Get
-        started</a></td>
+        started</a><sup class="LinkFootnoteRef">5</sup></td>
 
-        <td><a class="Button"
-        href="http://www.growing-object-oriented-software.com/"
-        id="get-the-book">Get the Book</a></td>
+        <td><a class="Button" href="http://www.growing-object-oriented-software.com/" id="get-the-book">Get the Book</a><sup class="LinkFootnoteRef">6</sup></td>
       </tr>
     </table>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				test-driven
+    development:
+	  				
+	  				http://www.c2.com/cgi/wiki?TestDrivenDevelopment</p>
+        <p>2.
+	  				Java:
+	  				
+	  				http://java.sun.com</p>
+        <p>3.
+	  				mock objects:
+	  				
+	  				http://www.mockobjects.com/</p>
+        <p>4.
+	  				Get
+        jMock:
+	  				
+	  				http://www.jmock.org/download.html</p>
+        <p>5.
+	  				Get
+        started:
+	  				
+	  				http://www.jmock.org/getting-started.html</p>
+        <p>6.
+	  				Get the Book:
+	  				
+	  				http://www.growing-object-oriented-software.com/</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
+    <div id="news">
+      <div class="NewsGroup">
+        <h1>Recent News</h1>
+        <div class="NewsItem">
+          <h2 class="NewsTitle">
+            <a href="http://www.jmock.org/download.html">jMock 2.6.0-RC2 Released</a>
+          </h2>
+          <p class="NewsDate">01 Sep 2010 06:59:59 GMT</p>
+          <div class="NewsText">
+            <p xmlns:atom="http://www.w3.org/2005/Atom">
+        <a href="http://www.jmock.org/download.html">JMock 2.6.0 RC2</a> has been released. This release adds a new auto-mocking functionality that reduces boilerplate code, support for testing multitheaded code, a Mockery that works with JUnit's rules mechanism and better failure diagnostics.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=14409">in JIRA</a>.
+      </p>
+          </div>
+        </div>
+        <div class="NewsItem">
+          <h2 class="NewsTitle">
+            <a href="http://www.jmock.org/gwt.html">How to Mock Asynchronous GWT Services</a>
+          </h2>
+          <p class="NewsDate">19 Feb 2009 19:45:00 GMT</p>
+          <div class="NewsText">
+            <p xmlns:atom="http://www.w3.org/2005/Atom">
+        The cookbook has a new page that explains how to mock asynchronous GWT services
+        with jMock.
+      </p>
+          </div>
+        </div>
+        <div class="NewsItem">
+          <h2 class="NewsTitle">
+            <a href="http://www.jmock.org/download.html">jMock 2.6.0-RC1 Released</a>
+          </h2>
+          <p class="NewsDate">07 Dec 2008 11:10:00 GMT</p>
+          <div class="NewsText">
+            <p xmlns:atom="http://www.w3.org/2005/Atom">
+        <a href="http://www.jmock.org/download.html">JMock 2.6.0 RC1</a> has been released.
+        This release is mainly concerned with upgrading its supporting libraries, moving to
+        Cglib 2.2, JUnit 4.5, and Hamcrest 1.2 (RC), plus some minor fixes and improvements.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=14409">in JIRA</a>.
+      </p>
+          </div>
+        </div>
+        <div class="NewsItem">
+          <h2 class="NewsTitle">
+            <a href="http://www.jmock.org/download.html">jMock 2.5.1 Released</a>
+          </h2>
+          <p class="NewsDate">24 Aug 2008 11:10:00 GMT</p>
+          <div class="NewsText">
+            <p xmlns:atom="http://www.w3.org/2005/Atom">
+        <a href="http://www.jmock.org/download.html">JMock 2.5.1</a> has been released.
+        This is a bug-fix release that improves test failure diagnostics.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=14527">in JIRA</a>.
+      </p>
+          </div>
+        </div>
+        <div class="NewsItem">
+          <h2 class="NewsTitle">
+            <a href="http://www.jmock.org/extensions.html">jMock Extensions</a>
+          </h2>
+          <p class="NewsDate">13 Aug 2008 01:45:00 GMT</p>
+          <div class="NewsText">
+            <p xmlns:atom="http://www.w3.org/2005/Atom">
+      A new page has been added to the <a href="http://www.jmock.org">jmock website</a> that lists optional and third-party
+      <a href="http://www.jmock.org/extensions.html">jMock extensions</a>.
+      </p>
+          </div>
+        </div>
+        <p class="NewsMore">
+          <a href="./news-rss2.xml">News feed (RSS 2.0)</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

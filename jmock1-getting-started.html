@@ -1,82 +1,86 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Getting Started</title>
+    <title>jMock - Getting Started</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>jMock 1: Getting Started</h1>
-
-    <p>This guide assumes you are familiar with unit-testing and <a
-    href="http://junit.org/">JUnit</a>.</p>
-
-    <p>For a simple example we are going to test a publish/subscribe message
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>jMock 1: Getting Started</h1>
+        <p>This guide assumes you are familiar with unit-testing and <a href="http://junit.org/">JUnit</a><sup class="LinkFootnoteRef">1</sup>.</p>
+        <p>For a simple example we are going to test a publish/subscribe message
     system. A Publisher sends objects to zero or more Subscribers. We want to
     test the Publisher, which involves testing its interactions with its
     Subscribers.</p>
-
-    <p>The Subscriber interface looks like this:</p>
-
-    <div class="Source Java"><pre>interface Subscriber {
+        <p>The Subscriber interface looks like this:</p>
+        <div class="Source Java">
+          <pre>interface Subscriber {
     void receive(String message);
-}</pre></div>
-
-    <p>We will test that a Publisher sends a message to a single registered
+}</pre>
+        </div>
+        <p>We will test that a Publisher sends a message to a single registered
     Subscriber. To test interactions between the Publisher and the Subscriber
     we will use a mock Subscriber object.</p>
-
-    <p>First we must import the jMock classes, define our test fixture class
+        <p>First we must import the jMock classes, define our test fixture class
     and define a test case method.</p>
-
-    <div class="Source Java"><pre>import org.jmock.*;
+        <div class="Source Java">
+          <pre>import org.jmock.*;
 
 class PublisherTest extends MockObjectTestCase {
     public void testOneSubscriberReceivesAMessage() {
     }
-}</pre></div>
-
-    <p>We will now write the body of the
+}</pre>
+        </div>
+        <p>We will now write the body of the
     <code>testOneSubscriberReceivesAMessage</code> method.</p>
-
-    <p>We first <i>set up</i> the context in which our test will execute. We
+        <p>We first <i>set up</i> the context in which our test will execute. We
     create a Publisher to test. We create a mock Subscriber that should
     receive the message. We then register the Subscriber with the Publisher.
     Finally we create a message object to publish.</p>
-
-    <div class="Source Java"><pre>Mock mockSubscriber = mock(Subscriber.class);
+        <div class="Source Java">
+          <pre>Mock mockSubscriber = mock(Subscriber.class);
 Publisher publisher = new Publisher();
 publisher.add( (Subscriber)mockSubscriber.proxy() );
 
-final String message = "message";</pre></div>
-
-    <p>Next we define <i>expectations</i> on the mock Subscriber that specify
+final String message = "message";</pre>
+        </div>
+        <p>Next we define <i>expectations</i> on the mock Subscriber that specify
     the methods that we expect to be called upon it during the test run. We
     expect the receive method to be called with a single argument, the message
     that will be sent. The <code>eq</code> method is defined in the
-    MockObjectTestCase class and specifies a "<a
-    href="jmock1-constraints.html">constraint</a>" on the value of the
+    MockObjectTestCase class and specifies a "<a href="jmock1-constraints.html">constraint</a><sup class="LinkFootnoteRef">2</sup>" on the value of the
     argument passed to the subscriber: we expect the argument to be the equal
     to the <var>message</var>, but not necessarily the same object. (jMock
-    provides <a href="jmock1-constraints.html">several constraint types</a>
+    provides <a href="jmock1-constraints.html">several constraint types</a><sup class="LinkFootnoteRef">3</sup>
     that can be used to precisely specify expected argument values). We don't
     need to specify what will be returned from the receive method because it
     has a void return type.</p>
-
-    <div class="Source Java"><pre>mockSubscriber.expects(once()).method("receive").with( eq(message) );</pre></div>
-
-    <p>We then <i>execute</i> the code that we want to test.</p>
-
-    <div class="Source Java"><pre>publisher.publish(message);</pre></div>
-
-    <p>After the test has finished, jMock will <i>verify</i> that the mock
+        <div class="Source Java">
+          <pre>mockSubscriber.expects(once()).method("receive").with( eq(message) );</pre>
+        </div>
+        <p>We then <i>execute</i> the code that we want to test.</p>
+        <div class="Source Java">
+          <pre>publisher.publish(message);</pre>
+        </div>
+        <p>After the test has finished, jMock will <i>verify</i> that the mock
     Subscriber was called as expected. If the expected calls were not made,
     the test will fail.</p>
-
-    <p>Here is the complete test.</p>
-
-    <div class="Source Java"><pre>import org.jmock.*;
+        <p>Here is the complete test.</p>
+        <div class="Source Java">
+          <pre>import org.jmock.*;
 
 class PublisherTest extends MockObjectTestCase {
     public void testOneSubscriberReceivesAMessage() {
@@ -93,9 +97,104 @@ class PublisherTest extends MockObjectTestCase {
         // execute
         publisher.publish(message);
     }
-}</pre></div>
-
-    <p>That concludes this quick introduction. More advanced topics are
-    covered in <a href="jmock1.html">other tutorials</a>.</p>
+}</pre>
+        </div>
+        <p>That concludes this quick introduction. More advanced topics are
+    covered in <a href="jmock1.html">other tutorials</a><sup class="LinkFootnoteRef">4</sup>.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				JUnit:
+	  				
+	  				http://junit.org/</p>
+        <p>2.
+	  				constraint:
+	  				
+	  				http://www.jmock.org/jmock1-constraints.html</p>
+        <p>3.
+	  				several constraint types:
+	  				
+	  				http://www.jmock.org/jmock1-constraints.html</p>
+        <p>4.
+	  				other tutorials:
+	  				
+	  				http://www.jmock.org/jmock1.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

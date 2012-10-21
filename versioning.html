@@ -1,20 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="" />
-  <title>Version Numbering</title>
-</head>
-
-<body>
-<h1>Version Numbering</h1>
-
-<p>The jMock project follows strict rules that govern its use of version
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
+  <head>
+    <title>jMock - Version Numbering</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
+  </head>
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Version Numbering</h1>
+        <p>The jMock project follows strict rules that govern its use of version
 numbers.  The version number of a release indicates how that release is
 compatible with previous and future releases.</p>
-
-<p>Version numbers have the form
+        <p>Version numbers have the form
 <var>major</var>.<var>minor</var>.<var>patch</var>. The major version number
 identifies the API version.  A release that changes the API in a way that
 breaks backwards compatibility will increment the major version number and
@@ -26,10 +35,8 @@ identifies revisions that do not  change the API.  A release that fixes bugs
 or refactors implementation details without changing the API will have the
 same minor and major versions as the previous release and increment the patch
 number.</p>
-
-<p>A hypothetical example:</p>
-
-<table>
+        <p>A hypothetical example:</p>
+        <table>
   <tbody>
     <tr>
       <td>1.0.0</td>
@@ -66,26 +73,21 @@ number.</p>
     </tr>
   </tbody>
 </table>
-
-<h2>Release Candidates</h2>
-
-<p>Before a new major or minor release, jMock will make release candidate
+        <h2>Release Candidates</h2>
+        <p>Before a new major or minor release, jMock will make release candidate
 (RC) packages available so that users can test them against their own code. 
 There will be one or more release candidates given the version
 <var>major</var>.<var>minor</var>.0.RC<var>n</var>, where the major and minor
 version numbers identify the upcoming release and RC1 identifies the first
 candidate release, RC2 the second, and so on.</p>
-
-<p>A release candidate does not guarantee backward compatability with new API
+        <p>A release candidate does not guarantee backward compatability with new API
 features introduced by any previous RC of the same upcoming version. A major
 version RC can change/remove API features introduced in a previous RC for the
 same major version;  a minor version RC can change API features introduced by
 any previous RC of the same upcoming minor version but guarantees backward
 compatability with the previous minor version.</p>
-
-<h2>Development Snapshots</h2>
-
-<p>During development, the continuous integration process automatically
+        <h2>Development Snapshots</h2>
+        <p>During development, the continuous integration process automatically
 builds snapshot packages.  These are not guaranteed to be complete: although
 the unit tests will all pass the snapshot will probably contain failing
 acceptance tests that describe planned or requested features that have not
@@ -96,12 +98,86 @@ month, DD the day, hh the hour, mm the minute and ss the second.  The
 snapshot version is not included in the filename of the snapshot archive
 itself, but expanding the archive will create a directory named after the
 snapshot version.</p>
-
-<h2>Versioning and Deprecation</h2>
-
-<p>A minor release might deprecate some API features.  Deprecated features
+        <h2>Versioning and Deprecation</h2>
+        <p>A minor release might deprecate some API features.  Deprecated features
 will not actually be removed until the next major release. A release will
 never remove API features that have not been deprecated in a previous
 release.</p>
-</body>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
+  </body>
 </html>

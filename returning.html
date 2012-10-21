@@ -1,77 +1,152 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <title>Returning Values from Mocked Methods</title>
-</head>
-
-<body>
-<h1>Returning Values from Mocked Methods</h1>
-
-<p>Unless you explicitly specify otherwise, jMock will return an appropriate
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
+  <head>
+    <title>jMock - Returning Values from Mocked Methods</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
+  </head>
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Returning Values from Mocked Methods</h1>
+        <p>Unless you explicitly specify otherwise, jMock will return an appropriate
 value from any methods that do not have a void return type. In most tests you
 will need to explicitly define the value returned from a mocked
 invocation.</p>
-
-<h2>The Simple Case</h2>
-
-<p>You can return values from mocked methods by using the
+        <h2>The Simple Case</h2>
+        <p>You can return values from mocked methods by using the
 <code>returnValue</code> action within the "<code>will</code>" clause of an
 expectation.</p>
-<pre class="Source Java">oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
-
-<p>jMock will fail the test if you try to return a value of the wrong
+        <pre class="Source Java">oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
+        <p>jMock will fail the test if you try to return a value of the wrong
 type.</p>
-
-<h2>Returning Iterators over Collections</h2>
-
-<p>The <code>returnIterator</code> action returns an iterator over a
+        <h2>Returning Iterators over Collections</h2>
+        <p>The <code>returnIterator</code> action returns an iterator over a
 collection.</p>
-<pre class="Java Source">final List&lt;Employee&gt; employees = new ArrayList&lt;Employee&gt;();
+        <pre class="Java Source">final List&lt;Employee&gt; employees = new ArrayList&lt;Employee&gt;();
 employees.add(alice);
 employees.add(bob);
 
 context.checking(new Expectations() {{
     oneOf (department).employees(); will(returnIterator(employees));
 }});</pre>
-
-<p>A convenient overload of the returnIterator method lets you specify the
+        <p>A convenient overload of the returnIterator method lets you specify the
 elements inline:</p>
-<pre class="Java Source">context.checking(new Expectations() {{
+        <pre class="Java Source">context.checking(new Expectations() {{
     oneOf (department).employees(); will(returnIterator(alice, bob));
 }});</pre>
-
-<p>Note the difference between using <code>returnIterator</code> and using
+        <p>Note the difference between using <code>returnIterator</code> and using
 <code>returnValue</code> to return an iterator. Using
 <code>returnValue</code> will return the same iterator each time: once all
 the iterator's elements have been consumed, further calls will return the
 same, exhausted iterator. The <code>returnIterator</code> action returns a
 new iterator each time it is invoked.</p>
-
-<h2>Returning Different Values on Consecutive Calls</h2>
-
-<p>There are two ways to return different values on different calls. The
+        <h2>Returning Different Values on Consecutive Calls</h2>
+        <p>There are two ways to return different values on different calls. The
 first is to define multiple expectations and return a different value from
 each:</p>
-<pre class="Java Source">oneOf (anObject).doSomething(); will(returnValue(10));
+        <pre class="Java Source">oneOf (anObject).doSomething(); will(returnValue(10));
 oneOf (anObject).doSomething(); will(returnValue(20));
 oneOf (anObject).doSomething(); will(returnValue(30));</pre>
-
-<p>The first invocation of <code>doSomething</code> will return 10, the
+        <p>The first invocation of <code>doSomething</code> will return 10, the
 second 20 and the third 30.</p>
-
-<p>However, this duplicates the definition of the expected invocation and so
+        <p>However, this duplicates the definition of the expected invocation and so
 increases maintenance effort. A better approach is to use the
 <code>onConsecutiveCalls</code> action to return a different value (or
 perform a different action) on different invocations.</p>
-<pre class="Source Java">atLeast(1).of (anObject).doSomething();
+        <pre class="Source Java">atLeast(1).of (anObject).doSomething();
    will(onConsecutiveCalls(
        returnValue(10),
        returnValue(20),
        returnValue(30)));</pre>
-
-<p>The expectation is expected at least 1 time, rather than 3 times, to make
+        <p>The expectation is expected at least 1 time, rather than 3 times, to make
 it easier to add more results later if we want to.</p>
-</body>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
+  </body>
 </html>

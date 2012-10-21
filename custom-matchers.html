@@ -1,43 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Writing Custom Matchers</title>
+    <title>jMock - Writing Custom Matchers</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Writing New Matchers</h1>
-
-    <p>jMock and <a href="http://code.google.com/p/hamcrest">Hamcrest</a>
-    provide many Matcher classes and factory functions that let you <a
-    href="matchers.html">specify the acceptable parameter values of a method
-    invocation</a>. However, sometimes the predefined constraints do not let
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Writing New Matchers</h1>
+        <p>jMock and <a href="http://code.google.com/p/hamcrest">Hamcrest</a><sup class="LinkFootnoteRef">1</sup>
+    provide many Matcher classes and factory functions that let you <a href="matchers.html">specify the acceptable parameter values of a method
+    invocation</a><sup class="LinkFootnoteRef">2</sup>. However, sometimes the predefined constraints do not let
     you specify an expectation accurately enough to convey what you mean or to
     keep your tests flexible. In such cases, you can easily define new
     matchers that seamlessly extend the existing set defined by jMock.</p>
-
-    <p>A Matcher is an object that implements the <a
-    href="http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/Matcher.java">org.hamcrest.Matcher</a>
+        <p>A Matcher is an object that implements the <a href="http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/Matcher.java">org.hamcrest.Matcher</a><sup class="LinkFootnoteRef">3</sup>
     interface. It does two things:</p>
-
-    <ul>
+        <ul>
       <li>reports whether a parameter value meets the constraint (the
       <code><code>matches</code></code> method).</li>
 
       <li>generates a readable description to be included in test failure
-      messages (the <code>describeTo</code> method inherited from the <a
-      href="http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/SelfDescribing.java">SelfDescribing</a>
+      messages (the <code>describeTo</code> method inherited from the <a href="http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/SelfDescribing.java">SelfDescribing</a><sup class="LinkFootnoteRef">4</sup>
       interface).</li>
     </ul>
-
-    <p>To create a new matcher:</p>
-
-    <ol>
+        <p>To create a new matcher:</p>
+        <ol>
       <li><p>Write a class that extends Hamcrest's BaseMatcher or
-      <a>TypeSafeMatcher</a> base classes. The following matcher class tests
-      whether a string starts with a given prefix.</p><div
-      class="Source Java"><pre>import org.hamcrest.AbstractMatcher;
+      <a>TypeSafeMatcher</a><sup class="LinkFootnoteRef">5</sup> base classes. The following matcher class tests
+      whether a string starts with a given prefix.</p><div class="Source Java"><pre>import org.hamcrest.AbstractMatcher;
 
 public class StringStartsWithMatcher extends TypeSafeMatcher&lt;String&gt; {
     private String prefix;
@@ -79,25 +82,131 @@ public static Matcher&lt;String&gt; aStringStartingWith( String prefix ) {
     }
 }</pre> </div></li>
     </ol>
-
-    <h2>An Important Rule</h2>
-
-    <p><strong>Matcher objects must be stateless.</strong></p>
-
-    <p>When <a href="dispatch.html">dispatching</a> each invocation, jMock
+        <h2>An Important Rule</h2>
+        <p>
+          <strong>Matcher objects must be stateless.</strong>
+        </p>
+        <p>When <a href="dispatch.html">dispatching</a><sup class="LinkFootnoteRef">6</sup> each invocation, jMock
     uses the matchers to find an expectation that matches the invocation's
     arguments. This means that it will call the matchers many times during the
     test, maybe even after the expectation has already been matched and
     invoked. In fact, jMock gives no guarantees of when and how many times it
     will call the matchers. This has no effect on stateless matchers but means
     that the function of stateful matchers cannot be predicted.</p>
-
-    <p>If you want to maintain state in response to invocations, use an <a
-    href="custom-actions.html">Action</a>, not a Matcher.</p>
-
-    <h2>More Information</h2>
-
-    <p>More documentation about how to write Matchers is available from the <a
-    href="http://code.google.com/p/hamcrest/">Hamcrest project</a>.</p>
+        <p>If you want to maintain state in response to invocations, use an <a href="custom-actions.html">Action</a><sup class="LinkFootnoteRef">7</sup>, not a Matcher.</p>
+        <h2>More Information</h2>
+        <p>More documentation about how to write Matchers is available from the <a href="http://code.google.com/p/hamcrest/">Hamcrest project</a><sup class="LinkFootnoteRef">8</sup>.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				Hamcrest:
+	  				
+	  				http://code.google.com/p/hamcrest</p>
+        <p>2.
+	  				specify the acceptable parameter values of a method
+    invocation:
+	  				
+	  				http://www.jmock.org/matchers.html</p>
+        <p>3.
+	  				org.hamcrest.Matcher:
+	  				
+	  				http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/Matcher.java</p>
+        <p>4.
+	  				SelfDescribing:
+	  				
+	  				http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/SelfDescribing.java</p>
+        <p>5.
+	  				TypeSafeMatcher:
+	  				
+	  				http://www.jmock.org/</p>
+        <p>6.
+	  				dispatching:
+	  				
+	  				http://www.jmock.org/dispatch.html</p>
+        <p>7.
+	  				Action:
+	  				
+	  				http://www.jmock.org/custom-actions.html</p>
+        <p>8.
+	  				Hamcrest project:
+	  				
+	  				http://code.google.com/p/hamcrest/</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

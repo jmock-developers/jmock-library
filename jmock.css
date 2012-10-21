@@ -1,0 +1,655 @@
+/*---------------------------------------------------------------------------
+ *  Two- and three-column layout
+ */
+#banner {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 80px;
+	background-color: #006;
+}
+
+#logo {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+}
+
+#navigation {
+	position: absolute;
+	z-index: 2;
+	left: 0px;
+	width: 184px;
+	top: 80px;
+	margin: 0px;
+	padding-top: 0px;
+}
+
+#news {
+	position: absolute;
+	z-index: 1;
+	right: 0px;
+	width: 320px;
+	top: 80px;
+	margin: 0px;
+	padding-left: 16px;
+	padding-top: 8px;
+	padding-right: 8px;
+	padding-bottom: 8px;
+}
+
+.ContentWithNews {
+	position: absolute;
+	top: 80px;
+	left: 184px;
+	right: 320px;
+	padding-left: 16px;
+	padding-right: 32px;
+	padding-top: 8px;
+}
+
+.Content {
+	position: absolute;
+	top: 80px;
+	left: 184px;
+	right: 8px;
+	padding-left: 16px;
+	padding-top: 8px;
+}
+
+/*---------------------------------------------------------------------------
+ *  Default element styles
+ */
+body {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 12px;
+	background: url(body.png);
+	background-repeat: repeat-y;
+	background-color: #ffffff;
+	color: black;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	font-weight: normal;
+}
+
+a:link {
+	color: #00a;
+}
+
+a:active {
+	color: red;
+}
+
+a:hover {
+	color: red;
+}
+
+a:visited {
+	color: black;
+}
+
+img {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+p {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+blockquote {
+	margin-bottom: 10px;
+}
+
+td {
+	font-size: 12px;
+	padding: 2px;
+}
+
+th {
+	font-size: 12px;
+	font-weight: bold;
+	white-space: nowrap;
+	padding: 2px;
+}
+
+th.Row {
+	text-align: left;
+	vertical-align: top;
+}
+
+ul,ol {
+	border: 0px;
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: 12px;
+	margin-left: 20px;
+}
+
+/*---------------------------------------------------------------------------
+ *  Page content
+ */
+
+#center {
+	background: url(corner.png);
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+
+#content h1 {
+	right: 0px;
+	color: #006;
+	font-family: Bitstream Charter, serif;
+	font-size: 28px;
+	font-weight: bold;
+	margin-bottom: 12px;
+}
+
+/* IE doesn't understand the first-child pseudoclass, but sod 'em. */
+#content h1:first-child {
+	margin-top: 0px;
+}
+
+#content h2 {
+	margin-top: 24px;
+	margin-bottom: 16px;
+	font-family: Bitstream Charter, serif;
+	font-size: 20px;
+	font-weight: bold;
+	color: #006;
+}
+
+#content h3 {
+	margin-top: 18px;
+	margin-bottom: 14px;
+	font-family: Bitstream Charter, serif;
+	font-size: 18px;
+	font-weight: normal;
+	color: #006;
+}
+
+#content a {
+	text-decoration: underline;
+}
+
+#content a:link {
+	color: #006;
+}
+
+#content a:visited {
+	color: #006;
+}
+
+#content a:active {
+	color: red;
+}
+
+#content a:hover {
+	color: red;
+}
+
+#content li {
+	margin-bottom: 6px;
+}
+
+#content table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+	margin-bottom: 8px;
+}
+
+#content tr {
+	border: 1px solid #ccc;
+}
+
+#content th {
+	border: 1px solid #ccc;
+}
+
+#content td {
+	border: 1px solid #ccc;
+}
+
+.Note {
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	padding: 8px;
+	padding-left: 50px;
+	background-repeat: no-repeat;
+	border: 1px solid #ccc;
+}
+
+.Information {
+	background-position: 8px 50%;
+	min-height: 36px;
+	background-image: url(information.png);
+}
+
+.Warning {
+	background-position: 4px 50%;
+	min-height: 36px;
+	background-image: url(warning.png);
+}
+
+.Source {
+	margin-top: 0;
+	padding: 4px;
+	font-family: courier new, monospace;
+	font-size: 11px;
+	border: 1px solid #880;
+	background-color: #ffc;
+	color: black;
+	z-index: 1;
+}
+
+.Source:before {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	font-size: inherit;
+}
+
+.DynaMock:before {
+	content: "DynaMock: ";
+}
+
+.JMock:before {
+	content: "jMock: ";
+}
+
+.EasyMock:before {
+	content: "EasyMock: ";
+}
+
+.Gmane {
+	width: 100%;
+	height: 600px;
+}
+
+/* The following are for images, but can also apply to div's containing images. */
+#content .Float {
+	float: right;
+	margin-left: 8px;
+	margin-right: 0px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+#content div.Float {
+	background: #fff;
+	padding: 4px;
+	border: 1px solid #aaf;
+}
+
+#content .Diagram {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+#content .Inline {
+	display: inline;
+}
+
+.RuleOfThumb {
+	font-weight: bold;
+}
+
+#content .ButtonBox {
+	white-space: nowrap;
+    list-style: none;
+	margin-top: 40px;
+	width: 100%;
+	border: 0px;
+}
+
+#content .ButtonBox tr {
+	border: 0px;
+}
+
+#content .ButtonBox td {
+	border: 0px;
+}
+
+
+#content .Button {
+	display: block;
+	border: 1px solid #006;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	width: 132px;
+	height: 30px;
+	padding-top: 64px;
+	padding-bottom: 2px;
+	background-position: center 18px;
+	background-repeat: no-repeat;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#get-it {
+	background: url(get-it.png);
+}
+
+#get-started {
+	background: url(get-started.png);
+}
+
+#get-the-book {
+	background: url(book.png);
+}
+
+#content .Button:link {
+	background-color: #e0e0ff;
+	color: #006;
+}
+
+#content .Button:visited {
+	background-color: #e0e0ff;
+	color: #006;
+}
+
+#content .Button:active {
+	background-color: #ffffa0;
+	color: #006;
+}
+
+#content .Button:hover {
+	background-color: #ffffa0;
+	color: #006;
+}
+
+/*---------------------------------------------------------------------------
+ *  Side panels
+ */
+#navigation {
+	background-color: #006;
+	color: #e0e0ff;
+	font-size: 11px;
+}
+
+#navigation>div {
+	margin: 0px;
+	margin-bottom: 12px;
+	padding: 0px;
+}
+
+#navigation h1 {
+	padding: 4px;
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: bold;
+	border: none;
+	color: #ffffff;
+}
+
+#navigation h2 {
+	font-size: 11px;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 4px;
+	margin-left: 4px;
+	margin-right: 4px;
+	color: #e0e0ff;
+}
+
+#navigation p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 4px;
+	margin-right: 4px;
+	padding-bottom: 4px;
+}
+
+#navigation ul {
+	margin-bottom: 4px;
+}
+
+#navigation a {
+	text-decoration: none;
+}
+
+#navigation a:link {
+	color: #e0e0ff;
+}
+
+#navigation a:visited {
+	color: #e0e0ff;
+}
+
+#navigation a:active {
+	color: #ffff00;
+}
+
+#navigation a:hover {
+	color: #ffff00;
+}
+
+#navigation h1 a:link {
+	color: #ffffff;
+}
+
+#navigation h1 a:visited {
+	color: #ffffff;
+}
+
+/*---------------------------------------------------------------------------
+ *  News panel
+ */
+#news {
+	border-left: 1px solid #ccc;
+	background: white;
+}
+
+#news div {
+	
+}
+
+#news h1 {
+	background: white;
+	font-family: Bitstream Charter, serif;
+	font-size: 28px;
+	font-weight: bold;
+	color: #006;
+}
+
+.NewsItem {
+	margin-bottom: 16px;
+}
+
+.NewsTitle {
+	font-family: Bitstream Charter, serif;
+	font-size: 16px;
+	font-weight: bold;
+	font-weight: bold;
+	margin-top: 8px;
+	margin-bottom: 4px;
+	color: #006;
+}
+
+.NewsDate {
+	margin: 0px;
+	padding: 0px;
+	font-size: smaller;
+}
+
+.NewsText {
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 8px;
+}
+
+.NewsText a {
+	text-decoration: underline;
+}
+
+.NewsText a:link {
+	color: #006;
+}
+
+.NewsText a:visited {
+	color: #006;
+}
+
+.NewsText a:active {
+	color: red;
+}
+
+.NewsText a:hover {
+	color: red;
+}
+
+.NewsMore {
+	font-size: smaller;
+	margin-top: 12px;
+	text-align: left;
+}
+
+.NewsGroup td {
+	font-size: 12px;
+}
+
+#news a {
+	text-decoration: underline;
+}
+
+#news a:link {
+	color: #006;
+}
+
+#news a:visited {
+	color: #006;
+}
+
+#news a:active {
+	color: red;
+}
+
+#news a:hover {
+	color: red;
+}
+
+#news h1 a:link {
+	color: #006;
+}
+
+#news h1 a:visited {
+	color: #006;
+}
+
+/*---------------------------------------------------------------------------
+ *  Document meta-information
+ */
+.LinkFootnotes,.LinkFootnoteRef {
+	display: none;
+}
+
+#testFrameworkSelector {
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	background-color: #a0a0dd;
+	background-image: url(preferences.png);
+	background-repeat: no-repeat;
+	background-position: 2px 4px;
+	color: #006;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	padding: 8px;
+	padding-left: 32px;
+}
+
+#testFrameworkSelector a {
+	text-decoration: underline;
+	color: #006;
+}
+
+#testFrameworkSelector a:hover {
+	color: #ffff00;
+}
+
+#testFrameworkSelector a:active {
+	color: #ffff00;
+}
+
+#testFrameworkSelector a.ActiveSelector {
+	font-weight: bold;
+}
+
+.Selected h3 {
+	display: none;
+}
+
+.Deselected {
+	display: none;
+}
+
+.ExampleTestFrameworkSelector {
+	font-size: smaller;
+	text-align: right;
+	margin: 1px;
+	padding: 0px;
+}
+
+#content .ExampleTestFrameworkSelector a {
+	z-index: 0;
+	border: 1px solid #880;
+	background-color: #ddb;	
+	text-decoration: none;
+	position: relative;
+	top: 1px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-right: 2px;
+}
+
+#content .ExampleTestFrameworkSelector a:hover {
+	background-color: white;	
+}
+
+
+#content .JUnit3 .ExampleTestFrameworkSelector .SelectorJUnit3 {
+	background-color: #ffc;	
+	border-bottom: 1px solid #ffc;
+}
+
+#content .JUnit4 .ExampleTestFrameworkSelector .SelectorJUnit4 {
+	background-color: #ffc;	
+	border-bottom: 1px solid #ffc;
+}
+
+#content .Raw .ExampleTestFrameworkSelector .SelectorRaw {
+	background-color: #ffc;	
+	border-bottom: 1px solid #ffc;
+}
+
+.Copyright {
+	color: #aaaaaa;
+	margin-top: 16px;
+	font-size: smaller;
+}

@@ -1,95 +1,322 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Cookbook</title>
+    <title>jMock - Cookbook</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>The jMock Cookbook</h1>
-
-    <p>How to...</p>
-
-    <ol>
-      <li><a href="getting-started.html">Get Started</a></li>
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>The jMock Cookbook</h1>
+        <p>How to...</p>
+        <ol>
+      <li><a href="getting-started.html">Get Started</a><sup class="LinkFootnoteRef">1</sup></li>
 
       <li><a href="auto.html">Create Mock Objects, States &amp; Sequences with
-      Less Boilerplate</a></li>
+      Less Boilerplate</a><sup class="LinkFootnoteRef">2</sup></li>
 
-      <li><a href="expectations.html">Define Expectations</a></li>
+      <li><a href="expectations.html">Define Expectations</a><sup class="LinkFootnoteRef">3</sup></li>
 
-      <li><a href="returning.html">Return Values from Mocked Methods</a></li>
+      <li><a href="returning.html">Return Values from Mocked Methods</a><sup class="LinkFootnoteRef">4</sup></li>
 
       <li><a href="throwing.html">Throw Exceptions from Mocked
-      Methods</a></li>
+      Methods</a><sup class="LinkFootnoteRef">5</sup></li>
 
-      <li><a href="parameters.html">Match Parameter Values</a></li>
+      <li><a href="parameters.html">Match Parameter Values</a><sup class="LinkFootnoteRef">6</sup></li>
 
       <li><a href="matchers.html">Precisely Specify Expected Parameter
-      Values</a></li>
+      Values</a><sup class="LinkFootnoteRef">7</sup></li>
 
       <li><a href="cardinality.html">Expect Methods More (or Less) than
-      Once</a></li>
+      Once</a><sup class="LinkFootnoteRef">8</sup></li>
 
-      <li><a href="sequences.html">Expect a Sequence of Invocations</a></li>
+      <li><a href="sequences.html">Expect a Sequence of Invocations</a><sup class="LinkFootnoteRef">9</sup></li>
 
       <li><a href="states.html">Expect an Invocation Between Two Other
-      Invocations</a></li>
+      Invocations</a><sup class="LinkFootnoteRef">10</sup></li>
 
-      <li><a href="ignoring.html">Ignore Irrelevant Mock Objects</a></li>
+      <li><a href="ignoring.html">Ignore Irrelevant Mock Objects</a><sup class="LinkFootnoteRef">11</sup></li>
 
       <li><a href="override.html">Override Expectations Defined in the Test
-      Set-Up</a></li>
+      Set-Up</a><sup class="LinkFootnoteRef">12</sup></li>
 
       <li><a href="match-object-or-method.html">Match Objects and
-      Methods</a></li>
+      Methods</a><sup class="LinkFootnoteRef">13</sup></li>
 
-      <li><a href="custom-matchers.html">Write New Matchers</a></li>
+      <li><a href="custom-matchers.html">Write New Matchers</a><sup class="LinkFootnoteRef">14</sup></li>
 
-      <li><a href="custom-actions.html">Write New Actions</a></li>
+      <li><a href="custom-actions.html">Write New Actions</a><sup class="LinkFootnoteRef">15</sup></li>
 
-      <li><a href="scripting.html">Easily Define Actions with Scripts</a></li>
+      <li><a href="scripting.html">Easily Define Actions with Scripts</a><sup class="LinkFootnoteRef">16</sup></li>
 
-      <li><p><a href="threads.html">Test multithreaded code:</a></p><ol>
+      <li><p><a href="threads.html">Test multithreaded code:</a><sup class="LinkFootnoteRef">17</sup></p><ol>
           <li><a href="threading-executor.html">Unit test an object that
-          executes concurrent tasks</a></li>
+          executes concurrent tasks</a><sup class="LinkFootnoteRef">18</sup></li>
 
           <li><a href="threading-scheduler.html">Unit test an object that
-          schedules tasks</a></li>
+          schedules tasks</a><sup class="LinkFootnoteRef">19</sup></li>
 
           <li><a href="threading-synchroniser.html">Use JMock with
-          multithreaded code</a></li>
+          multithreaded code</a><sup class="LinkFootnoteRef">20</sup></li>
 
           <li><a href="threading-waiting.html">Synchronise with threads
-          started by the code under test</a></li>
+          started by the code under test</a><sup class="LinkFootnoteRef">21</sup></li>
 
           <li><a href="threading-blitzer.html">Stress-test synchronisation
-          code</a></li>
+          code</a><sup class="LinkFootnoteRef">22</sup></li>
         </ol></li>
 
-      <li><a href="mocking-generic-types.html">Mock Generic Types</a></li>
+      <li><a href="mocking-generic-types.html">Mock Generic Types</a><sup class="LinkFootnoteRef">23</sup></li>
 
       <li><a href="mocking-classes.html">Mock Abstract and Concrete
-      Classes</a></li>
+      Classes</a><sup class="LinkFootnoteRef">24</sup></li>
 
       <li><a href="other-languages.html">Use jMock with Languages Other Than
-      Java</a></li>
+      Java</a><sup class="LinkFootnoteRef">25</sup></li>
 
-      <li><a href="upgrade1to2.html">Upgrade from jMock 1 to jMock 2</a></li>
+      <li><a href="upgrade1to2.html">Upgrade from jMock 1 to jMock 2</a><sup class="LinkFootnoteRef">26</sup></li>
 
-      <li><a href="maven.html">Use jMock in Maven Builds</a></li>
+      <li><a href="maven.html">Use jMock in Maven Builds</a><sup class="LinkFootnoteRef">27</sup></li>
 
       <li><a href="dispatch.html">Understand method dispatch in jMock
-      2</a></li>
+      2</a><sup class="LinkFootnoteRef">28</sup></li>
 
       <li><a href="eclipse.html">Mock Classes in Eclipse Plug-in
-      Tests</a></li>
+      Tests</a><sup class="LinkFootnoteRef">29</sup></li>
 
-      <li><a href="gwt.html">Mock asynchronous GWT services</a></li>
+      <li><a href="gwt.html">Mock asynchronous GWT services</a><sup class="LinkFootnoteRef">30</sup></li>
     </ol>
-
-    <p>To discuss or suggest entries in this Cookbook please join the <a
-    href="mailing-lists.html">jMock Users mailing list</a>.</p>
+        <p>To discuss or suggest entries in this Cookbook please join the <a href="mailing-lists.html">jMock Users mailing list</a><sup class="LinkFootnoteRef">31</sup>.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				Get Started:
+	  				
+	  				http://www.jmock.org/getting-started.html</p>
+        <p>2.
+	  				Create Mock Objects, States &amp; Sequences with
+      Less Boilerplate:
+	  				
+	  				http://www.jmock.org/auto.html</p>
+        <p>3.
+	  				Define Expectations:
+	  				
+	  				http://www.jmock.org/expectations.html</p>
+        <p>4.
+	  				Return Values from Mocked Methods:
+	  				
+	  				http://www.jmock.org/returning.html</p>
+        <p>5.
+	  				Throw Exceptions from Mocked
+      Methods:
+	  				
+	  				http://www.jmock.org/throwing.html</p>
+        <p>6.
+	  				Match Parameter Values:
+	  				
+	  				http://www.jmock.org/parameters.html</p>
+        <p>7.
+	  				Precisely Specify Expected Parameter
+      Values:
+	  				
+	  				http://www.jmock.org/matchers.html</p>
+        <p>8.
+	  				Expect Methods More (or Less) than
+      Once:
+	  				
+	  				http://www.jmock.org/cardinality.html</p>
+        <p>9.
+	  				Expect a Sequence of Invocations:
+	  				
+	  				http://www.jmock.org/sequences.html</p>
+        <p>10.
+	  				Expect an Invocation Between Two Other
+      Invocations:
+	  				
+	  				http://www.jmock.org/states.html</p>
+        <p>11.
+	  				Ignore Irrelevant Mock Objects:
+	  				
+	  				http://www.jmock.org/ignoring.html</p>
+        <p>12.
+	  				Override Expectations Defined in the Test
+      Set-Up:
+	  				
+	  				http://www.jmock.org/override.html</p>
+        <p>13.
+	  				Match Objects and
+      Methods:
+	  				
+	  				http://www.jmock.org/match-object-or-method.html</p>
+        <p>14.
+	  				Write New Matchers:
+	  				
+	  				http://www.jmock.org/custom-matchers.html</p>
+        <p>15.
+	  				Write New Actions:
+	  				
+	  				http://www.jmock.org/custom-actions.html</p>
+        <p>16.
+	  				Easily Define Actions with Scripts:
+	  				
+	  				http://www.jmock.org/scripting.html</p>
+        <p>17.
+	  				Test multithreaded code::
+	  				
+	  				http://www.jmock.org/threads.html</p>
+        <p>18.
+	  				Unit test an object that
+          executes concurrent tasks:
+	  				
+	  				http://www.jmock.org/threading-executor.html</p>
+        <p>19.
+	  				Unit test an object that
+          schedules tasks:
+	  				
+	  				http://www.jmock.org/threading-scheduler.html</p>
+        <p>20.
+	  				Use JMock with
+          multithreaded code:
+	  				
+	  				http://www.jmock.org/threading-synchroniser.html</p>
+        <p>21.
+	  				Synchronise with threads
+          started by the code under test:
+	  				
+	  				http://www.jmock.org/threading-waiting.html</p>
+        <p>22.
+	  				Stress-test synchronisation
+          code:
+	  				
+	  				http://www.jmock.org/threading-blitzer.html</p>
+        <p>23.
+	  				Mock Generic Types:
+	  				
+	  				http://www.jmock.org/mocking-generic-types.html</p>
+        <p>24.
+	  				Mock Abstract and Concrete
+      Classes:
+	  				
+	  				http://www.jmock.org/mocking-classes.html</p>
+        <p>25.
+	  				Use jMock with Languages Other Than
+      Java:
+	  				
+	  				http://www.jmock.org/other-languages.html</p>
+        <p>26.
+	  				Upgrade from jMock 1 to jMock 2:
+	  				
+	  				http://www.jmock.org/upgrade1to2.html</p>
+        <p>27.
+	  				Use jMock in Maven Builds:
+	  				
+	  				http://www.jmock.org/maven.html</p>
+        <p>28.
+	  				Understand method dispatch in jMock
+      2:
+	  				
+	  				http://www.jmock.org/dispatch.html</p>
+        <p>29.
+	  				Mock Classes in Eclipse Plug-in
+      Tests:
+	  				
+	  				http://www.jmock.org/eclipse.html</p>
+        <p>30.
+	  				Mock asynchronous GWT services:
+	  				
+	  				http://www.jmock.org/gwt.html</p>
+        <p>31.
+	  				jMock Users mailing list:
+	  				
+	  				http://www.jmock.org/mailing-lists.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

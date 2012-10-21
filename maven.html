@@ -1,71 +1,144 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Maven Configuration</title>
+    <title>jMock - Maven Configuration</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Using jMock from Maven Builds</h1>
-
-    <h2>jMock 2</h2>
-
-    <p>The jMock 2 jars are accessible via Maven 2 by declaring the following
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Using jMock from Maven Builds</h1>
+        <h2>jMock 2</h2>
+        <p>The jMock 2 jars are accessible via Maven 2 by declaring the following
     dependencies in your POM. All the required dependencies on jMock core and
     Hamcrest will be included automatically.</p>
-
-    <p>To use jMock <span class="Version 2">2.x.y</span> with JUnit 3:</p>
-
-    <pre class="XML Source">&lt;dependency&gt;
+        <p>To use jMock 2.5.1 with JUnit 3:</p>
+        <pre class="XML Source">&lt;dependency&gt;
   &lt;groupId&gt;org.jmock&lt;/groupId&gt;
   &lt;artifactId&gt;jmock-junit3&lt;/artifactId&gt;
-  &lt;version&gt;<span class="Version 2">2.x.y</span>&lt;/version&gt;
+  &lt;version&gt;2.5.1&lt;/version&gt;
 &lt;/dependency&gt;</pre>
-
-    <p>To use jMock <span class="Version 2">2.x.y</span> with JUnit 4:</p>
-
-    <pre class="XML Source">&lt;dependency&gt;
+        <p>To use jMock 2.5.1 with JUnit 4:</p>
+        <pre class="XML Source">&lt;dependency&gt;
   &lt;groupId&gt;org.jmock&lt;/groupId&gt;
   &lt;artifactId&gt;jmock-junit4&lt;/artifactId&gt;
-  &lt;version&gt;<span class="Version 2">2.x.y</span>&lt;/version&gt;
+  &lt;version&gt;2.5.1&lt;/version&gt;
 &lt;/dependency&gt;</pre>
-
-    <p><b>Note:</b> From jMock 2.4.0 onwards, the default JUnit 4 Maven
+        <p><b>Note:</b> From jMock 2.4.0 onwards, the default JUnit 4 Maven
     dependency is junit:junit-dep. This requires Maven's Surefire to be
     configured to use it instead of the standard junit:junit dependency.
     Versions of maven-surefire-plugin 2.3.1 and 2.4 support the optional
     <code>&lt;junitArtifactName&gt;junit:junit-dep&lt;/junitArtifactName&gt;</code>
     configuration element.</p>
-
-    <p>To use jMock <span class="Version 2">2.x.y</span> to mock classes:</p>
-
-    <pre class="XML Source">&lt;dependency&gt;
+        <p>To use jMock 2.5.1 to mock classes:</p>
+        <pre class="XML Source">&lt;dependency&gt;
   &lt;groupId&gt;org.jmock&lt;/groupId&gt;
   &lt;artifactId&gt;jmock-legacy&lt;/artifactId&gt;
-  &lt;version&gt;<span class="Version 2">2.x.y</span>&lt;/version&gt;
+  &lt;version&gt;2.5.1&lt;/version&gt;
 &lt;/dependency&gt;</pre>
-
-    <p>To use other versions of jMock, replace the contents of the version
+        <p>To use other versions of jMock, replace the contents of the version
     tags.</p>
-
-    <h2>jMock 1</h2>
-
-    <p>To use jMock <span class="Version 1">1.x.y</span> core:</p>
-
-    <pre class="XML Source">&lt;dependency&gt;
+        <h2>jMock 1</h2>
+        <p>To use jMock 1.2.0 core:</p>
+        <pre class="XML Source">&lt;dependency&gt;
   &lt;groupId&gt;jmock&lt;/groupId&gt;
   &lt;artifactId&gt;jmock&lt;/artifactId&gt;
-  &lt;version&gt;<span class="Version 1">1.2.0</span>&lt;/version&gt;
+  &lt;version&gt;1.2.0&lt;/version&gt;
 &lt;/dependency&gt;</pre>
-
-    <p>To use the jMock <span class="Version 1">1.x.y</span> CGLIB
+        <p>To use the jMock 1.2.0 CGLIB
     extension:</p>
-
-    <pre class="XML Source">&lt;dependency&gt;
+        <pre class="XML Source">&lt;dependency&gt;
   &lt;groupId&gt;jmock&lt;/groupId&gt;
   &lt;artifactId&gt;jmock-cglib&lt;/artifactId&gt;
-  &lt;version&gt;<span class="Version 1">1.x.y</span>&lt;/version&gt;
+  &lt;version&gt;1.2.0&lt;/version&gt;
 &lt;/dependency&gt;</pre>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

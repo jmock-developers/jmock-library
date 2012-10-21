@@ -1,26 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>Matching Objects and Methods</title>
-  <meta name="generator" content="Amaya 9.53, see http://www.w3.org/Amaya/" />
-</head>
-
-<body>
-<h1>Match Objects or Methods</h1>
-
-<p>Although <a href="matchers.html">matchers</a> are normally used to <a
-href="parameters.html">specify acceptable parameter values</a>, they can also
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
+  <head>
+    <title>jMock - Matching Objects and Methods</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
+  </head>
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Match Objects or Methods</h1>
+        <p>Although <a href="matchers.html">matchers</a><sup class="LinkFootnoteRef">1</sup> are normally used to <a href="parameters.html">specify acceptable parameter values</a><sup class="LinkFootnoteRef">2</sup>, they can also
 be used to specify acceptable objects or methods in an expectation, using an
 API syntax similar to that of jMock 1. To do so, use a matcher where you
-would normally refer to a mock object directly in the <a
-href="cardinality.html">invocation count clause</a>. Then chain clauses
+would normally refer to a mock object directly in the <a href="cardinality.html">invocation count clause</a><sup class="LinkFootnoteRef">3</sup>. Then chain clauses
 together to define the expected invocation. The following clauses are
 supported:</p>
-
-<table border="0">
+        <table border="0">
   <tbody>
     <tr>
       <td><code>method(<var>m</var>)</code></td>
@@ -42,20 +48,121 @@ supported:</p>
     </tr>
   </tbody>
 </table>
-
-<p>An expectation of this form can be followed by ordering constraints (<a
-href="sequences.html">sequences</a> and <a href="states.html">states</a>) and
-actions (e.g. <a href="returning.html">returning values</a> or <a
-href="throwing.html">throwing exceptions</a>) like a normal, literal
+        <p>An expectation of this form can be followed by ordering constraints (<a href="sequences.html">sequences</a><sup class="LinkFootnoteRef">4</sup> and <a href="states.html">states</a><sup class="LinkFootnoteRef">5</sup>) and
+actions (e.g. <a href="returning.html">returning values</a><sup class="LinkFootnoteRef">6</sup> or <a href="throwing.html">throwing exceptions</a><sup class="LinkFootnoteRef">7</sup>) like a normal, literal
 expectation.</p>
-
-<h3>Examples</h3>
-
-<p>To allow invocations of any bean property getter on any mock object:</p>
-<pre>allowing (any(Object.class)).method("get.*").withNoArguments();</pre>
-
-<p>Allow a method to be called once on any one of a collection of mock
+        <h3>Examples</h3>
+        <p>To allow invocations of any bean property getter on any mock object:</p>
+        <pre>allowing (any(Object.class)).method("get.*").withNoArguments();</pre>
+        <p>Allow a method to be called once on any one of a collection of mock
 objects:</p>
-<pre>oneOf (anyOf(same(o1),same(o2),same(o3))).method("doSomething");</pre>
-</body>
+        <pre>oneOf (anyOf(same(o1),same(o2),same(o3))).method("doSomething");</pre>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				matchers:
+	  				
+	  				http://www.jmock.org/matchers.html</p>
+        <p>2.
+	  				specify acceptable parameter values:
+	  				
+	  				http://www.jmock.org/parameters.html</p>
+        <p>3.
+	  				invocation count clause:
+	  				
+	  				http://www.jmock.org/cardinality.html</p>
+        <p>4.
+	  				sequences:
+	  				
+	  				http://www.jmock.org/sequences.html</p>
+        <p>5.
+	  				states:
+	  				
+	  				http://www.jmock.org/states.html</p>
+        <p>6.
+	  				returning values:
+	  				
+	  				http://www.jmock.org/returning.html</p>
+        <p>7.
+	  				throwing exceptions:
+	  				
+	  				http://www.jmock.org/throwing.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,19 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>jMock 2 Cheat Sheet</title>
-
-    <link href="cheat-sheet.css" rel="stylesheet" type="text/css" />
+    <title>jMock - jMock 2 Cheat Sheet</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>jMock 2 Cheat Sheet</h1>
-
-    <h2>Test Fixture Class</h2>
-
-    <div class="Raw"><h3>Raw</h3> <pre class="Source Java">import org.jmock.Mockery;
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>jMock 2 Cheat Sheet</h1>
+        <h2>Test Fixture Class</h2>
+        <div class="Raw"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>Raw</h3> <pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 
 public class AJMock2TestCase ... {
@@ -21,15 +31,17 @@ public class AJMock2TestCase ... {
     
     ...
 }</pre></div>
-
-    <div class="JUnit3"><h3>JUnit 3 Integration</h3> <pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
+        <div class="JUnit3"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>JUnit 3 Integration</h3> <pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.Expectations;
 
 public class TurtleDrawingTest extends MockObjectTestCase {
     ...
 }</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4 Integration</h3> <pre class="Source Java">import org.jmock.Expectations;
+        <div class="JUnit4"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>JUnit 4 Integration</h3> <pre class="Source Java">import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -40,8 +52,7 @@ public class AJMock2TestCase {
     
     ...
 }</pre></div>
-
-    <div class="Explanation"><p>A <code>Mockery</code> represents the context
+        <div class="Explanation"><p>A <code>Mockery</code> represents the context
     of the object under test: the objects that it communicates with. A Mockery
     creates mock objects and checks expectations that are set upon those mock
     objects. By convention the Mockery is stored in an instance variable named
@@ -52,26 +63,30 @@ public class AJMock2TestCase {
     they use jMock with the <code>@RunWith</code> attribute, create a
     JUnit4Mockery that reports expectation failures as JUnit 4 test failures,
     and store the Mockery in an instance variable.</p></div>
-
-    <h2>Creating Mock Objects</h2>
-
-    <div class="Raw"><h3>Raw</h3> <pre class="Source Java">Turtle turtle = context.mock(Turtle.class);
+        <h2>Creating Mock Objects</h2>
+        <div class="Raw"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>Raw</h3> <pre class="Source Java">Turtle turtle = context.mock(Turtle.class);
 Turtle turtle2 = context.mock(Turtle.class, "turtle2");</pre></div>
-
-    <div class="JUnit3"><h3>JUnit 3 Integration</h3> <pre class="Source Java">Turtle turtle = mock(Turtle.class);
+        <div class="JUnit3"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>JUnit 3 Integration</h3> <pre class="Source Java">Turtle turtle = mock(Turtle.class);
 Turtle turtle2 = mock(Turtle.class, "turtle2");</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4 Integration</h3> <pre class="Source Java">Turtle turtle = context.mock(Turtle.class);
+        <div class="JUnit4"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>JUnit 4 Integration</h3> <pre class="Source Java">Turtle turtle = context.mock(Turtle.class);
 Turtle turtle2 = context.mock(Turtle.class, "turtle2");</pre></div>
-
-    <p>The examples above assume that the mock object is stored in an instance
+        <p>The examples above assume that the mock object is stored in an instance
     variable. If a mock object is stored in a local variable, the variable
     must be declared as <code>final</code> so that it can be referred to from
     within expectation blocks (see below).</p>
-
-    <h2>Tests with Expectations</h2>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Source Java">... create mock objects ...
+        <h2>Tests with Expectations</h2>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Source Java">... create mock objects ...
 
 public void testSomeAction() {
     ... set up ...
@@ -85,9 +100,14 @@ public void testSomeAction() {
     context.assertIsSatisfied();
     
     ... other assertions ...
-}</pre></div>
-
-    <div class="JUnit3"><h3>JUnit 3 Integration</h3><pre class="Source Java">... create mock objects ...
+}</pre>
+        </div>
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3 Integration</h3>
+          <pre class="Source Java">... create mock objects ...
 
 public void testSomeAction() {
     ... set up ...
@@ -99,9 +119,14 @@ public void testSomeAction() {
     ... call code being tested ...
     
     ... assertions ...
-}</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4 Integration</h3><pre class="Source Java">... create mock objects ...
+}</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4 Integration</h3>
+          <pre class="Source Java">... create mock objects ...
 
 public void testSomeAction() {
     ... set up ...
@@ -113,34 +138,29 @@ public void testSomeAction() {
     ... call code being tested ...
     
     ... assertions ...
-}</pre></div>
-
-    <div class="JUnit3 JUnit4"><p>The JUnit 3 and JUnit 4 integration layers
-    automatically assert that all expectations have been satisfied.</p></div>
-
-    <p>An expectations block can contain any number of expectations. A test
+}</pre>
+        </div>
+        <div class="JUnit3 JUnit4">
+          <p>The JUnit 3 and JUnit 4 integration layers
+    automatically assert that all expectations have been satisfied.</p>
+        </div>
+        <p>An expectations block can contain any number of expectations. A test
     can contain multiple expectation blocks. Expectations in later blocks are
     appended to those in earlier blocks. Expectations can be interspersed with
     calls to the code under test.</p>
-
-    <h2>Expectations</h2>
-
-    <p>Expectations have the following structure:</p>
-
-    <pre class="Source Java"><var>invocation-count</var> (<var>mock-object</var>).<var>method</var>(<var>argument-constraints</var>);
+        <h2>Expectations</h2>
+        <p>Expectations have the following structure:</p>
+        <pre class="Source Java"><var>invocation-count</var> (<var>mock-object</var>).<var>method</var>(<var>argument-constraints</var>);
     inSequence(<var>sequence-name</var>);
     when(<var>state-machine</var>.is(<var>state-name</var>));
     will(<var>action</var>);
     then(<var>state-machine</var>.is(<var>new-state-name</var>));</pre>
-
-    <p>Except for the invocation count and the mock object, all clauses are
+        <p>Except for the invocation count and the mock object, all clauses are
     optional. You can give an expectation as many <code>inSequence</code>,
     <code>when</code>, <code>will</code> and <code>then</code> clauses as you
     wish.</p>
-
-    <p>Some examples:</p>
-
-    <pre class="Source Java">oneOf (turtle).turn(45);           // The turtle will be told to turn 45 degrees once only
+        <p>Some examples:</p>
+        <pre class="Source Java">oneOf (turtle).turn(45);           // The turtle will be told to turn 45 degrees once only
 
 allowing (turtle).flashLEDs();   // The turtle can be told to flash its LEDs any number of types or not at all
 
@@ -150,10 +170,8 @@ allowing (turtle).queryPen();    // The turtle can be asked about its pen any nu
     will(returnValue(PEN_DOWN)); // return PEN_DOWN
 
 atLeast(1).of (turtle).stop();   // The turtle will be told to stop at least once.</pre>
-
-    <h3>Invocation Count</h3>
-
-    <table>
+        <h3>Invocation Count</h3>
+        <table>
       <tbody>
         <tr>
           <td>oneOf</td>
@@ -210,30 +228,20 @@ atLeast(1).of (turtle).stop();   // The turtle will be told to stop at least onc
         </tr>
       </tbody>
     </table>
-
-    <h3>Methods And Expectations</h3>
-
-    <p>Expected methods are specified by a literal call to the method within
+        <h3>Methods And Expectations</h3>
+        <p>Expected methods are specified by a literal call to the method within
     an expectation block.</p>
-
-    <p>Arguments passed to the method in an expectation will be compared for
+        <p>Arguments passed to the method in an expectation will be compared for
     equality.</p>
-
-    <pre class="Source Java">oneOf (calculator).add(1, 1); will(returnValue(2));
+        <pre class="Source Java">oneOf (calculator).add(1, 1); will(returnValue(2));
 oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
-
-    <p>To define looser constraints, specify <em>all</em> arguments as
+        <p>To define looser constraints, specify <em>all</em> arguments as
     matchers within <code>with</code> clauses:</p>
-
-    <pre class="Source Java">allowing (calculator).add(with(any(int.class)), with(any(int.class)));</pre>
-
-    <h3>Argument Matchers</h3>
-
-    <p>The most commonly used matchers are defined in the <a
-    href="javadoc/2.0.0/org/jmock/Expectations.html">Expectations</a>
+        <pre class="Source Java">allowing (calculator).add(with(any(int.class)), with(any(int.class)));</pre>
+        <h3>Argument Matchers</h3>
+        <p>The most commonly used matchers are defined in the <a href="javadoc/2.0.0/org/jmock/Expectations.html">Expectations</a><sup class="LinkFootnoteRef">1</sup>
     class:</p>
-
-    <table>
+        <table>
       <tbody>
         <tr>
           <td>equal(<var>n</var>)</td>
@@ -255,7 +263,7 @@ oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
         </tr>
 
         <tr>
-          <td>a(Class&lt;T&gt; type)<br /> an(Class&lt;T&gt; type)</td>
+          <td>a(Class&lt;T&gt; type)<br/> an(Class&lt;T&gt; type)</td>
 
           <td>The argument is an instance of <var>type</var> or a subclass of
           <var>type</var>.</td>
@@ -287,7 +295,7 @@ oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
 
           <td>The argument matches one of the Matchers
           <var>m<sub>1</sub></var> to
-          <var>m<sub>n</sub><sub></sub></var>.</td>
+          <var>m<sub>n</sub><sub/></var>.</td>
         </tr>
 
         <tr>
@@ -299,15 +307,11 @@ oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
         </tr>
       </tbody>
     </table>
-
-    <p>More matchers are defined as static factory methods of the <a
-    href="javadoc/2.0.0/org/hamcrest/Matchers.html">Hamcrest Matchers
-    class</a>, which can be statically imported at the top of the test
+        <p>More matchers are defined as static factory methods of the <a href="javadoc/2.0.0/org/hamcrest/Matchers.html">Hamcrest Matchers
+    class</a><sup class="LinkFootnoteRef">2</sup>, which can be statically imported at the top of the test
     code.</p>
-
-    <h3>Actions</h3>
-
-    <table>
+        <h3>Actions</h3>
+        <table>
       <tbody>
         <tr>
           <td>will(returnValue(<var>v</var>))</td>
@@ -345,56 +349,74 @@ oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
         </tr>
       </tbody>
     </table>
-
-    <h3>Sequences</h3>
-
-    <p>Invocations that are expected in a sequence must occur in the order in
+        <h3>Sequences</h3>
+        <p>Invocations that are expected in a sequence must occur in the order in
     which they appear in the test code. A test can create more than one
     sequence and an expectation can be part of more than once sequence at a
     time.</p>
-
-    <p>To define a new sequence:</p>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Java Source">final Sequence <var>sequence-name</var> = context.sequence("<var>sequence-name</var>");</pre></div>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Java Source">final Sequence <var>sequence-name</var> = sequence("<var>sequence-name</var>");</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Java Source">final Sequence <var>sequence-name</var> = context.sequence("<var>sequence-name</var>");</pre></div>
-
-    <p>To expect a sequence of invocations, write the expectations in order
+        <p>To define a new sequence:</p>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Java Source">final Sequence <var>sequence-name</var> = context.sequence("<var>sequence-name</var>");</pre>
+        </div>
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Java Source">final Sequence <var>sequence-name</var> = sequence("<var>sequence-name</var>");</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Java Source">final Sequence <var>sequence-name</var> = context.sequence("<var>sequence-name</var>");</pre>
+        </div>
+        <p>To expect a sequence of invocations, write the expectations in order
     and add the <code>inSequence(<var>sequence</var>)</code> clause to each
     one. For example:</p>
-
-    <pre class="Java Source">oneOf (turtle).forward(10); inSequence(drawing);
+        <pre class="Java Source">oneOf (turtle).forward(10); inSequence(drawing);
 oneOf (turtle).turn(45); inSequence(drawing);
 oneOf (turtle).forward(10); inSequence(drawing);</pre>
-
-    <p>Expectations in a sequence can have any invocation count.</p>
-
-    <h2>States</h2>
-
-    <p>States are used to constrain invocations to occur only when a condition
+        <p>Expectations in a sequence can have any invocation count.</p>
+        <h2>States</h2>
+        <p>States are used to constrain invocations to occur only when a condition
     is true. Conditions are represented as states of state machines. A test
     can create multiple state machines and each state machine can have
     multiple states. An invocation can be constrained to occur during a state
     of one more more state machines.</p>
-
-    <p>To define a new state machine:</p>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Java Source">final States <var>state-machine-name</var> = context.states("<var>state-machine-name</var>").startsAs("<var>initial-state</var>");</pre></div>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Java Source">final States <var>state-machine-name</var> = states("<var>state-machine-name</var>").startsAs("<var>initial-state</var>");</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Java Source">final States <var>state-machine-name</var> = context.states("<var>state-machine-name</var>").startsAs("<var>initial-state</var>");</pre></div>
-
-    <p>The intial state is optional. If not specified, the state machine
+        <p>To define a new state machine:</p>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Java Source">final States <var>state-machine-name</var> = context.states("<var>state-machine-name</var>").startsAs("<var>initial-state</var>");</pre>
+        </div>
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Java Source">final States <var>state-machine-name</var> = states("<var>state-machine-name</var>").startsAs("<var>initial-state</var>");</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Java Source">final States <var>state-machine-name</var> = context.states("<var>state-machine-name</var>").startsAs("<var>initial-state</var>");</pre>
+        </div>
+        <p>The intial state is optional. If not specified, the state machine
     starts in an unnamed initial state.</p>
-
-    <p>The following clauses constrain invocations to occur within specific
+        <p>The following clauses constrain invocations to occur within specific
     states and define how an invocation will change the current state of a
     state machine.</p>
-
-    <table>
+        <table>
       <tbody>
         <tr>
           <td>when(<var>state-machine</var>.is("<var>state-name</var>"));</td>
@@ -411,16 +433,101 @@ oneOf (turtle).forward(10); inSequence(drawing);</pre>
         </tr>
       </tbody>
     </table>
-
-    <p>For example:</p>
-
-    <pre class="Java Source">final States pen = context.states("pen").startsAs("up");
+        <p>For example:</p>
+        <pre class="Java Source">final States pen = context.states("pen").startsAs("up");
 oneOf (turtle).penDown(); then(pen.is("down"));
 oneOf (turtle).forward(10); when(pen.is("down"));
 oneOf (turtle).turn(90); when(pen.is("down"));
 oneOf (turtle).forward(10); when(pen.is("down"));
 oneOf (turtle).penUp(); then(pen.is("up"));</pre>
-
-    <p class="Copyright">Copyright © 2007 Nat Pryce.</p>
+        <p class="Copyright">Copyright © 2007 Nat Pryce.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				Expectations:
+	  				
+	  				http://www.jmock.org/javadoc/2.0.0/org/jmock/Expectations.html</p>
+        <p>2.
+	  				Hamcrest Matchers
+    class:
+	  				
+	  				http://www.jmock.org/javadoc/2.0.0/org/hamcrest/Matchers.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

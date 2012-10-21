@@ -1,13 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Waiting for Threads to Finish</title>
+    <title>jMock - Waiting for Threads to Finish</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <p>One of the trickiest aspects of testing multithreaded code is
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <p>One of the trickiest aspects of testing multithreaded code is
     synchronizing between the test thread and the threads started by the code
     being tested. If you get the synchronisation wrong, the test can finish
     before all the threads that it started have terminated. This might make
@@ -15,26 +27,19 @@
     the runaway threads. Or the threads might interfere with later tests,
     causing intermittent test failures that are hard to track down and
     eliminate.</p>
-
-    <p><a href="http://www.jmock.org" title="JMock Website">JMock's</a> <a
-    href="000762.html" title="Synchronising Imposteriser">Synchroniser</a> has
-    a cunning yet simple solution that builds upon jMock's existing <a
-    href="http://www.jmock.org/states.html" title="JMock State Machines">state
-    machine construct</a>. A test can tell the Synchroniser to wait for a
+        <p><a href="http://www.jmock.org" title="JMock Website">JMock's</a><sup class="LinkFootnoteRef">1</sup> <a href="000762.html" title="Synchronising Imposteriser">Synchroniser</a><sup class="LinkFootnoteRef">2</sup> has
+    a cunning yet simple solution that builds upon jMock's existing <a href="http://www.jmock.org/states.html" title="JMock State Machines">state
+    machine construct</a><sup class="LinkFootnoteRef">3</sup>. A test can tell the Synchroniser to wait for a
     state machine to enter or leave some state.</p>
-
-    <p>The test needs to store the Synchroniser in a field:</p>
-
-    <pre class="Java Source">Synchroniser synchroniser = new Synchroniser();
+        <p>The test needs to store the Synchroniser in a field:</p>
+        <pre class="Java Source">Synchroniser synchroniser = new Synchroniser();
 
 Mockery context = new JUnit4Mockery() {{
     setThreadingPolicy(synchroniser);
 }};</pre>
-
-    <p>Now the test can define state machines and use the synchroniser to wait
+        <p>Now the test can define state machines and use the synchroniser to wait
     for those state machines to enter or leave a given state.</p>
-
-    <pre class="Java Source">final States searching = context.states("searching")
+        <pre class="Java Source">final States searching = context.states("searching")
 
 context.checking(new Expectations() {{
     oneOf(consumer).searchFound(result("A1"));
@@ -50,13 +55,107 @@ context.checking(new Expectations() {{
 search.searchFor("sheep", "cheese");
 
 synchroniser.waitUntil(searching.is("finished"));</pre>
-
-    <p>This must be combined with a timeout to ensure that the test does not
+        <p>This must be combined with a timeout to ensure that the test does not
     wait forever if the system under test never meets the awaited criteria. A
     timeout can be passed to the waitUntil method; it throws a
     TimeoutException with an informative message if the timeout expires. Or,
-    you can get your test framework to timeout the test. For example, in <a
-    href="http://www.junit.org" title="JUnit Website">JUnit 4</a> you can pass
+    you can get your test framework to timeout the test. For example, in <a href="http://www.junit.org" title="JUnit Website">JUnit 4</a><sup class="LinkFootnoteRef">4</sup> you can pass
     a timeout parameter to the @Test annotation.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				JMock's:
+	  				
+	  				http://www.jmock.org</p>
+        <p>2.
+	  				Synchroniser:
+	  				
+	  				http://www.jmock.org/000762.html</p>
+        <p>3.
+	  				state
+    machine construct:
+	  				
+	  				http://www.jmock.org/states.html</p>
+        <p>4.
+	  				JUnit 4:
+	  				
+	  				http://www.junit.org</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

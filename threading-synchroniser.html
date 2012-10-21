@@ -1,13 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Synchronising Access to the Mockery</title>
+    <title>jMock - Synchronising Access to the Mockery</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <p>By default, jMock is not thread safe and so its mock objects should not
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <p>By default, jMock is not thread safe and so its mock objects should not
     be called from multiple threads. However, people frequently do use it this
     way. They may want to use mock objects when stress-testing the
     synchronisation of an object they've written and tested using the
@@ -15,29 +27,22 @@
     implementing with a third-party library that calls into their code from
     multiple threads. To use jMock with multiple threads, you have to plug a
     different ThreadingPolicy into the Mockery.</p>
-
-    <p>A ThreadingPolicy is an object that the Mockery uses to synchronise
+        <p>A ThreadingPolicy is an object that the Mockery uses to synchronise
     access to its state. A ThreadingPolicy wraps a decorator around every Mock
     Object before it is imposterised and so intercepts all mocked calls
     entering the Mockery and all results and exceptions that it returns. The
     default ThreadingPolicy complains if the mock objects are used by more
     than one thread. But if you want to test multithreaded code you can plug a
     Synchroniser into the Mockery instead.</p>
-
-    <p>You use the Synchroniser like this:</p>
-
-    <pre class="Java Source">Mockery mockery = new JUnit4Mockery() {{
+        <p>You use the Synchroniser like this:</p>
+        <pre class="Java Source">Mockery mockery = new JUnit4Mockery() {{
     setThreadingPolicy(new Synchroniser());
 }};</pre>
-
-    <p>Now any mock objects created by the Mockery can be safely invoked from
+        <p>Now any mock objects created by the Mockery can be safely invoked from
     multiple threads. It's that easy. The Synchroniser has other features that
-    help test multithreaded code, that are described elsewhere in the <a
-    href="cookbook.html">cookbook</a>.</p>
-
-    <h2>Error Diagnostics</h2>
-
-    <p>Testing multithreaded code is made difficult because failures do not
+    help test multithreaded code, that are described elsewhere in the <a href="cookbook.html">cookbook</a><sup class="LinkFootnoteRef">1</sup>.</p>
+        <h2>Error Diagnostics</h2>
+        <p>Testing multithreaded code is made difficult because failures do not
     get thrown on the test thread. The test framework cannot easily trap those
     exceptions and fail the test with a helpful diagnostic message. Often
     tests fail with a timeout, which has no message explaining why the timeout
@@ -45,26 +50,105 @@
     that occurred on a background thread left the object under test in an
     invalid state, but information about the root cause of the failure is
     lost. JMock has a few mechanisms to help with this. </p>
-
-    <p>JMock captures the first expectation failure that is thrown from a mock
+        <p>JMock captures the first expectation failure that is thrown from a mock
     object. If the error is swallowed, either by a background thread or by a
     try/catch block in the foreground thread, the test will continue running
     and the mockery will throw the error when the test asserts that all
     expected calls have been made. This is usually done automatically at the
     end of the test.</p>
-
-    <p>The Synchroniser's wait methods also fail fast and rethrow expectation
+        <p>The Synchroniser's wait methods also fail fast and rethrow expectation
     violations that occur on background threads. A test can wait for the
     system to enter an expected state but if it does not do so because the
     system violated an expectation, the wait will immediately abort and throw
     the error that originally reported the violated expectation.</p>
-
-    <p>The Mockery records a trace of all the invocations that any mock object
+        <p>The Mockery records a trace of all the invocations that any mock object
     has received during the test and includes the trace recorded so far when
     it throws an expectation error.</p>
-
-    <p>The combination of failing fast, reporting the root cause of failure,
+        <p>The combination of failing fast, reporting the root cause of failure,
     and reporting the sequence of calls that led to the failure makes
     diagnosis much easier than a bare "test timed out" message.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				cookbook:
+	  				
+	  				http://www.jmock.org/cookbook.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

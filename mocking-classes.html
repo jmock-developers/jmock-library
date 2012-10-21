@@ -1,47 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Mocking Classes with CGLIB</title>
+    <title>jMock - Mocking Classes with CGLIB</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Mocking Classes with jMock and the ClassImposteriser</h1>
-
-    <p>Because it uses Java's standard reflection capability, the default
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Mocking Classes with jMock and the ClassImposteriser</h1>
+        <p>Because it uses Java's standard reflection capability, the default
     configuration of the jMock framework can only mock interfaces, not
     classes. (Actually, we consider that to be a good thing because it
     encourages the design to focus on communication between objects rather
     than static classification or data storage). However, the
-    <code>ClassImposteriser</code> extension class uses the <a
-    href="http://cglib.sourceforge.net">CGLIB 2.1</a> and <a
-    href="http://code.google.com/p/objenesis/">Objenesis</a> libraries to
+    <code>ClassImposteriser</code> extension class uses the <a href="http://cglib.sourceforge.net">CGLIB 2.1</a><sup class="LinkFootnoteRef">1</sup> and <a href="http://code.google.com/p/objenesis/">Objenesis</a><sup class="LinkFootnoteRef">2</sup> libraries to
     create mock objects of classes as well as interfaces. This is useful when
     working with legacy code to tease apart dependencies between tightly
     coupled classes.</p>
-
-    <p>The <code>ClassImposteriser</code> creates mock instances
+        <p>The <code>ClassImposteriser</code> creates mock instances
     <em>without</em> calling the constructor of the mocked class. So classes
     with constructors that have arguments or call overideable methods of the
     object can be safely mocked. However, the <code>ClassImposteriser</code>
     cannot create mocks of final classes or mock final methods.</p>
-    
-    <p>If you want to mock final classes or final methods, the 
-    <a href="http://www.jdave.org">JDave library</a> includes an 
-    <a href="http://www.jdave.org/documentation.html#mocking">unfinalizer Instrumentation agent</a>
+        <p>If you want to mock final classes or final methods, the 
+    <a href="http://www.jdave.org">JDave library</a><sup class="LinkFootnoteRef">3</sup> includes an 
+    <a href="http://www.jdave.org/documentation.html#mocking">unfinalizer Instrumentation agent</a><sup class="LinkFootnoteRef">4</sup>
     that can unfinalise classes before they are loaded by the JVM. 
     They can then be mocked by the <code>ClassImposteriser</code>.</p>
-	
-    <p>To use the <code>ClassImposteriser</code>:</p>
-
-    <ol>
-      <li>Add jmock-legacy-<span
-      class="Version 2"><var>version</var></span>.jar, cglib-nodep-2.1_3.jar
+        <p>To use the <code>ClassImposteriser</code>:</p>
+        <ol>
+      <li>Add jmock-legacy-2.5.1.jar, cglib-nodep-2.1_3.jar
       and objenesis-1.0.jar to your CLASSPATH.</li>
 
       <li>Plug the <code>ClassImposteriser</code> into the Mockery of your
-      test class: <div class="Raw"><h3>Raw</h3><pre class="Source Java">import org.jmock.Mockery;
+      test class: <div class="Raw"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>Raw</h3><pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 import org.jmock.lib.legacy.ClassImposteriser;
 
@@ -51,7 +57,9 @@ public class ConcreteClassTest extends TestCase {
     }};
     
     ...
-}</pre></div><div class="JUnit3"><h3>JUnit 3</h3><pre class="Source Java">import org.jmock.Expectations;
+}</pre></div><div class="JUnit3"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>JUnit 3</h3><pre class="Source Java">import org.jmock.Expectations;
 import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.lib.legacy.ClassImposteriser;
 
@@ -61,7 +69,9 @@ public class ConcreteClassTest extends MockObjectTestCase {
     }
     
     ...
-}</pre></div><div class="JUnit4"><h3>JUnit 4</h3><pre class="Source Java">import org.jmock.Mockery;
+}</pre></div><div class="JUnit4"><div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div><h3>JUnit 4</h3><pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
@@ -78,5 +88,100 @@ public class ConcreteClassTest {
       <li>Your tests can now create mocks of abstract or even concrete
       classes: <pre class="Source Java">Graphics g = context.mock(java.awt.Graphics.class);</pre></li>
     </ol>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				CGLIB 2.1:
+	  				
+	  				http://cglib.sourceforge.net</p>
+        <p>2.
+	  				Objenesis:
+	  				
+	  				http://code.google.com/p/objenesis/</p>
+        <p>3.
+	  				JDave library:
+	  				
+	  				http://www.jdave.org</p>
+        <p>4.
+	  				unfinalizer Instrumentation agent:
+	  				
+	  				http://www.jdave.org/documentation.html#mocking</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,38 +1,44 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Constraints</title>
+    <title>jMock - Constraints</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>jMock 1: Constraints</h1>
-
-    <p>When defining expectations upon your mock objects, jMock forces you to
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>jMock 1: Constraints</h1>
+        <p>When defining expectations upon your mock objects, jMock forces you to
     be explicit about the argument values that will be passed to the expected
     methods. Expected argument values are defined using "constraints". jMock
     provides a set of constraints that are suitable for almost all tests.
     These constraints can be combined to tighten or loosen the specification
-    if necessary. The set of constraints is <a
-    href="jmock1-custom-constraints.html">extensible</a> so you can write new
+    if necessary. The set of constraints is <a href="jmock1-custom-constraints.html">extensible</a><sup class="LinkFootnoteRef">1</sup> so you can write new
     constraints to cover unusual testing scenarios.</p>
-
-    <p>Constraints are specified by calling "syntactic sugar" methods of the
+        <p>Constraints are specified by calling "syntactic sugar" methods of the
     MockObjectTestClass. The following constraints are defined by jMock:</p>
-
-    <h2>Basic Constraints</h2>
-
-    <h3>Object Equality</h3>
-
-    <p>The most commonly used constraint is <code>eq</code>, which specifies
+        <h2>Basic Constraints</h2>
+        <h3>Object Equality</h3>
+        <p>The most commonly used constraint is <code>eq</code>, which specifies
     that the received argument must be equal to a given value. The code below,
     for example, specifies that the method "m" must be called with one
     argument of value 1.</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( eq(1) );</pre></div>
-
-    <p>The <code>eq</code> constraint uses the <code>equals</code> method of
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( eq(1) );</pre>
+        </div>
+        <p>The <code>eq</code> constraint uses the <code>equals</code> method of
     the expected value to compare the expected and actual values for equality.
     Null values are checked beforehand, so it is safe to specify
     <code>eq(null)</code> or apply the constraint to a null actual value. The
@@ -41,69 +47,60 @@
     <code>equals</code> method. Arrays are treated as a special case: two
     arrays are considered equal by <code>eq</code> if they are the same size
     and all their elements are considered equal by <code>eq</code>.</p>
-
-    <h3>Numeric Equality with Error Margin</h3>
-
-    <p>An overloaded version of the <code>eq</code> constraint specifies
+        <h3>Numeric Equality with Error Margin</h3>
+        <p>An overloaded version of the <code>eq</code> constraint specifies
     floating point values as equal to another value with some margin of error
     to account for rounding error. The following code specifies that the
     method "m" will be called with one argument of value 1 plus or minus
     0.002.</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( eq(1, 0.002) );</pre></div>
-
-    <h3>Object Identity</h3>
-
-    <p>The <code>same</code> constraint specifies that the actual value of the
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( eq(1, 0.002) );</pre>
+        </div>
+        <h3>Object Identity</h3>
+        <p>The <code>same</code> constraint specifies that the actual value of the
     argument must be the same object as the expected value. This is a tighter
     constraint than <code>eq</code>, but is usually what you want for
     arguments that pass references to behavioural objects. The following code
     specifies that method "m" will be called with one argument that refers to
     the same object as <var>expected</var>.</p>
+        <div class="Source Java">
+          <pre>Object expected = new Object();
 
-    <div class="Source Java"><pre>Object expected = new Object();
-
-mock.expects(once()).method("m").with( same(expected) );</pre></div>
-
-    <p>As a rule of thumb, use <code>eq</code> for value objects and
+mock.expects(once()).method("m").with( same(expected) );</pre>
+        </div>
+        <p>As a rule of thumb, use <code>eq</code> for value objects and
     <code>same</code> for behavioural objects.</p>
-
-    <h3>Instance of a Type</h3>
-
-    <p>The <code>isA</code> constraint specifies that the actual argument must
+        <h3>Instance of a Type</h3>
+        <p>The <code>isA</code> constraint specifies that the actual argument must
     be an instance of the given type. The following code specifies that method
     "m" must be called with an argument that is an ActionEvent.</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( isA(ActionEvent.class) );</pre></div>
-
-    <h3>String Contains a Substring</h3>
-
-    <p>The <code>stringContains</code> constraint specifies that the expected
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( isA(ActionEvent.class) );</pre>
+        </div>
+        <h3>String Contains a Substring</h3>
+        <p>The <code>stringContains</code> constraint specifies that the expected
     argument must be a string that contains the given substring. The following
     code specifies that method "m" must be called with an argument that is a
     string containing the text "hello".</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( stringContains("hello") );</pre></div>
-
-    <p>The <code>stringContains</code> constraint is especially useful for
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( stringContains("hello") );</pre>
+        </div>
+        <p>The <code>stringContains</code> constraint is especially useful for
     testing string contents but isolating tests from the exact details of
     punctuation and formatting. For example, the code above would accept any
     of the following argument values: "hello world"; "hello, world"; "hello!";
     and so on.</p>
-
-    <h3>Null or Not Null</h3>
-
-    <p>The constraints <code>NULL</code> and <code>NOT_NULL</code> are specify
+        <h3>Null or Not Null</h3>
+        <p>The constraints <code>NULL</code> and <code>NOT_NULL</code> are specify
     that an argument is null or is not null, respectively. These are
     constants, not methods. The following code specifies that method "m" must
     be called with two arguments, the first must be null and the second must
     not be null.</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( NULL, NOT_NULL );</pre></div>
-
-    <h3>Anything</h3>
-
-    <p>The <code>ANYTHING</code> constraint specifies that any value is
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( NULL, NOT_NULL );</pre>
+        </div>
+        <h3>Anything</h3>
+        <p>The <code>ANYTHING</code> constraint specifies that any value is
     allowed. This is useful for ignoring arguments that are not germane to the
     scenario being tested. Judicious use of the <code>ANYTHING</code>
     constraint can ensure that your tests are flexible and do not require
@@ -111,51 +108,133 @@ mock.expects(once()).method("m").with( same(expected) );</pre></div>
     specifies that the method "m" must be called with two arguments, the first
     of which is equal to 1 and the second of which is ignored in this
     test.</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( eq(1), ANYTHING );</pre></div>
-
-    <h2>Combining Constraints</h2>
-
-    <p>Constraints can be composed to create a tighter or looser
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( eq(1), ANYTHING );</pre>
+        </div>
+        <h2>Combining Constraints</h2>
+        <p>Constraints can be composed to create a tighter or looser
     specification. Composite constraints are themselves constraints and can
     therefore be further composed.</p>
-
-    <h3>Not &mdash; Logical Negation</h3>
-
-    <p>The <code>not</code> constraint specifies that the actual argument must
+        <h3>Not  Logical Negation</h3>
+        <p>The <code>not</code> constraint specifies that the actual argument must
     <em>not</em> meet a given constraint. The following code specifies that
     the method "m" must be called with an argument that is not equal to 1.</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( not(eq(1)) );</pre></div>
-
-    <h3>And &mdash; Logical Conjunction</h3>
-
-    <p>The <code>and</code> constraint specifies that the actual argument must
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( not(eq(1)) );</pre>
+        </div>
+        <h3>And  Logical Conjunction</h3>
+        <p>The <code>and</code> constraint specifies that the actual argument must
     meet <em>both</em> of two constraints given as arguments. The following
     code specifies that the method "m" must be called with a string that
     contains the text "hello" and the text "world".</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( and(stringContains("hello"),
-                                           stringContains("world")) );</pre></div>
-
-    <h3>Or &mdash; Logical Disjunction</h3>
-
-    <p>The <code>or</code> constraint specifies that the actual argument must
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( and(stringContains("hello"),
+                                           stringContains("world")) );</pre>
+        </div>
+        <h3>Or  Logical Disjunction</h3>
+        <p>The <code>or</code> constraint specifies that the actual argument must
     meet <em>either</em> of two constraints given as arguments. The following
     code specifies that the method "m" must be called with a string that
     contains the text "hello" or the text "howdy".</p>
-
-    <div class="Source Java"><pre>mock.expects(once()).method("m").with( or(stringContains("hello"),
-                                          stringContains("howdy")) );</pre></div>
-
-    <h2>More Constraints</h2>
-
-    <p>That covers all of the constraints provided by jMock. Most of your
+        <div class="Source Java">
+          <pre>mock.expects(once()).method("m").with( or(stringContains("hello"),
+                                          stringContains("howdy")) );</pre>
+        </div>
+        <h2>More Constraints</h2>
+        <p>That covers all of the constraints provided by jMock. Most of your
     tests will only need the basic constraints. Sometimes you may need to
     define constraints by composing existing constraints. Occasionally,
     however, you might find that no existing constraint exactly meets the need
     of your test. In these cases, you will have to extend jMock's set of
     constraints by <a href="jmock1-custom-constraints.html">writing a custom
-    constraint</a>.</p>
+    constraint</a><sup class="LinkFootnoteRef">2</sup>.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				extensible:
+	  				
+	  				http://www.jmock.org/jmock1-custom-constraints.html</p>
+        <p>2.
+	  				writing a custom
+    constraint:
+	  				
+	  				http://www.jmock.org/jmock1-custom-constraints.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

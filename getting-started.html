@@ -1,75 +1,90 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Getting Started</title>
+    <title>jMock - Getting Started</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Getting Started</h1>
-
-    <p>In this simple example we are going to write a mock object test for a
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Getting Started</h1>
+        <p>In this simple example we are going to write a mock object test for a
     publish/subscribe message system. A Publisher sends messages to zero or
     more Subscribers. We want to test the Publisher, which involves testing
     its interactions with its Subscribers.</p>
-
-    <p>The Subscriber interface looks like this:</p>
-
-    <pre class="Source Java">interface Subscriber {
+        <p>The Subscriber interface looks like this:</p>
+        <pre class="Source Java">interface Subscriber {
     void receive(String message);
 }</pre>
-
-    <p>We will test that a Publisher sends a message to a single registered
+        <p>We will test that a Publisher sends a message to a single registered
     Subscriber. To test interactions between the Publisher and the Subscriber
     we will use a mock Subscriber object.</p>
-
-    <h2>Set Up the Class Path</h2>
-
-    <p>To use jMock <span class="Version 2">2.1.0</span> you must add the
+        <h2>Set Up the Class Path</h2>
+        <p>To use jMock 2.5.1 you must add the
     following JAR files to your class path:</p>
-
-    <ul>
-      <li>jmock-<span class="Version 2"><span
-      class="Version 2">2.x.x</span></span>.jar</li>
+        <ul>
+      <li>jmock-2.5.1.jar</li>
 
       <li>hamcrest-core-1.1.jar</li>
 
       <li>hamcrest-library-1.1.jar</li>
 
-      <li class="JUnit3">jmock-junit3-<span class="Version 2"><span
-      class="Version 2">2.x.x</span></span>.jar</li>
+      <li class="JUnit3">jmock-junit3-2.5.1.jar</li>
 
-      <li class="JUnit4">jmock-junit4-<span class="Version 2"><span
-      class="Version 2">2.x.x</span></span>.jar</li>
+      <li class="JUnit4">jmock-junit4-2.5.1.jar</li>
     </ul>
-
-    <h2>Write the Test Case</h2>
-
-    <p>First we must import the jMock classes, define our test fixture class
+        <h2>Write the Test Case</h2>
+        <p>First we must import the jMock classes, define our test fixture class
     and create a "Mockery" that represents the context in which the Publisher
     exists. The context mocks out the objects that the Publisher collaborates
     with (in this case a Subscriber) and checks that they are used correctly
     during the test.</p>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Source Java">import org.jmock.Mockery;
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 
 class PublisherTest extends TestCase {
     Mockery context = new Mockery();
     ...    
-}</pre><p>This is a JUnit 3 test case but apart from the test case class the
+}</pre>
+          <p>This is a JUnit 3 test case but apart from the test case class the
     code will be the same when using any test framework for which jMock 2 does
-    not have an integration layer.</p></div>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
+    not have an integration layer.</p>
+        </div>
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.Expectations;
 
 class PublisherTest extends MockObjectTestCase {
     ...    
-}</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Java Source">import org.jmock.Expectations;
+}</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Java Source">import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4RuleMockery;
@@ -77,11 +92,13 @@ import org.jmock.integration.junit4.JUnit4RuleMockery;
 class PublisherTest {
     @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
     ...
-}</pre><p><strong>Note</strong>: this currently only works with the latest
-    jMock release candidate (2.6.0RC1) and JUnit 4.7 and above.</p><p>In older
+}</pre>
+          <p><strong>Note</strong>: this currently only works with the latest
+    jMock release candidate (2.6.0RC1) and JUnit 4.7 and above.</p>
+          <p>In older
     versions of jMock and JUnit 4 you can use the JMock test runner, which is
-    less flexible than the Rules mechanism shown above.</p><pre
-    class="Java Source">import org.jmock.Expectations;
+    less flexible than the Rules mechanism shown above.</p>
+          <pre class="Java Source">import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4RuleMockery;
@@ -90,86 +107,131 @@ import org.jmock.integration.junit4.JUnit4RuleMockery;
 class PublisherTest {
     Mockery context = new JUnit4Mockery();
     ...    
-}</pre></div>
-
-    <p>Now we want to write the method that will perform our test:</p>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Java Source">public void testOneSubscriberReceivesAMessage() {
+}</pre>
+        </div>
+        <p>Now we want to write the method that will perform our test:</p>
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Java Source">public void testOneSubscriberReceivesAMessage() {
     ...
-}</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Java Source">@Test 
+}</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Java Source">@Test 
 public void oneSubscriberReceivesAMessage() {
     ...
-}</pre></div>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Java Source">public void testOneSubscriberReceivesAMessage() {
+}</pre>
+        </div>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Java Source">public void testOneSubscriberReceivesAMessage() {
     ...
-}</pre></div>
-
-    <p>We will now write the body of the test method.</p>
-
-    <p>We first <i>set up</i> the context in which our test will execute. We
+}</pre>
+        </div>
+        <p>We will now write the body of the test method.</p>
+        <p>We first <i>set up</i> the context in which our test will execute. We
     create a Publisher to test. We create a mock Subscriber that should
     receive the message. We then register the Subscriber with the Publisher.
     Finally we create a message object to publish.</p>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Source Java">final Subscriber subscriber = mock(Subscriber.class);
-
-Publisher publisher = new Publisher();
-publisher.add(subscriber);
-
-final String message = "message";</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Source Java">final Subscriber subscriber = context.mock(Subscriber.class);
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Source Java">final Subscriber subscriber = mock(Subscriber.class);
 
 Publisher publisher = new Publisher();
 publisher.add(subscriber);
 
-final String message = "message";</pre></div>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Source Java">final Subscriber subscriber = context.mock(Subscriber.class);
+final String message = "message";</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Source Java">final Subscriber subscriber = context.mock(Subscriber.class);
 
 Publisher publisher = new Publisher();
 publisher.add(subscriber);
 
-final String message = "message";</pre></div>
+final String message = "message";</pre>
+        </div>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Source Java">final Subscriber subscriber = context.mock(Subscriber.class);
 
-    <p>Next we define <i><a href="expectations.html">expectations</a></i> on
+Publisher publisher = new Publisher();
+publisher.add(subscriber);
+
+final String message = "message";</pre>
+        </div>
+        <p>Next we define <i><a href="expectations.html">expectations</a><sup class="LinkFootnoteRef">1</sup></i> on
     the mock Subscriber that specify the methods that we expect to be called
     upon it during the test run. We expect the receive method to be called
     once with a single argument, the message that will be sent.</p>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Source Java">checking(new Expectations() {{
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Source Java">checking(new Expectations() {{
     oneOf (subscriber).receive(message);
-}});</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Source Java">context.checking(new Expectations() {{
+}});</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Source Java">context.checking(new Expectations() {{
     oneOf (subscriber).receive(message);
-}});</pre></div>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Source Java">context.checking(new Expectations() {{
+}});</pre>
+        </div>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Source Java">context.checking(new Expectations() {{
     oneOf (subscriber).receive(message);
-}});</pre></div>
-
-    <p>We then <i>execute</i> the code that we want to test.</p>
-
-    <pre class="Source Java">publisher.publish(message);</pre>
-
-    <p>After the code under test has finished our test must <i>verify</i> that
+}});</pre>
+        </div>
+        <p>We then <i>execute</i> the code that we want to test.</p>
+        <pre class="Source Java">publisher.publish(message);</pre>
+        <p>After the code under test has finished our test must <i>verify</i> that
     the mock Subscriber was called as expected. If the expected calls were not
     made, the test will fail. <span class="JUnit3">The
     <code>MockObjectTestCase</code> does this automatically. You don't have to
-    explicitly verify the mock objects in your tests.</span> <span
-    class="JUnit4">The <code>JMock</code> test runner does this automatically.
+    explicitly verify the mock objects in your tests.</span> <span class="JUnit4">The <code>JMock</code> test runner does this automatically.
     You don't have to explicitly verify the mock objects in your
     tests.</span></p>
-
-    <div class="Raw"><pre class="Java Source">context.assertIsSatisfied();</pre></div>
-
-    <p>Here is the complete test.</p>
-
-    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <pre class="Java Source">context.assertIsSatisfied();</pre>
+        </div>
+        <p>Here is the complete test.</p>
+        <div class="JUnit3">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 3</h3>
+          <pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.Expectations;
 
 class PublisherTest extends MockObjectTestCase {
@@ -190,9 +252,14 @@ class PublisherTest extends MockObjectTestCase {
         // execute
         publisher.publish(message);
     }
-}</pre></div>
-
-    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Source Java">import org.jmock.integration.junit4.JMock;
+}</pre>
+        </div>
+        <div class="JUnit4">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>JUnit 4</h3>
+          <pre class="Source Java">import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.Expectations;
 
@@ -218,9 +285,14 @@ class PublisherTest {
         // execute
         publisher.publish(message);
     }
-}</pre></div>
-
-    <div class="Raw"><h3>Raw</h3><pre class="Source Java">import org.jmock.Mockery;
+}</pre>
+        </div>
+        <div class="Raw">
+          <div class="ExampleTestFrameworkSelector">
+      	   Show for:
+      	   <a class="SelectorJUnit3" href="javascript:selectTestFramework('JUnit3')">JUnit 3</a><a class="SelectorJUnit4" href="javascript:selectTestFramework('JUnit4')">JUnit 4</a><a class="SelectorRaw" href="javascript:selectTestFramework('Raw')">Other</a></div>
+          <h3>Raw</h3>
+          <pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 
 class PublisherTest extends TestCase {
@@ -246,13 +318,101 @@ class PublisherTest extends TestCase {
         // verify
         context.assertIsSatisfied();
     }
-}</pre></div>
-
-    <h2>Where Next?</h2>
-
-    <p>The jMock library is explored in more depth in <a
-    href="cookbook.html">other Cookbook recipes</a>. The <a
-    href="cheat-sheet.html">Cheat Sheet</a> is an overview of the entire jMock
+}</pre>
+        </div>
+        <h2>Where Next?</h2>
+        <p>The jMock library is explored in more depth in <a href="cookbook.html">other Cookbook recipes</a><sup class="LinkFootnoteRef">2</sup>. The <a href="cheat-sheet.html">Cheat Sheet</a><sup class="LinkFootnoteRef">3</sup> is an overview of the entire jMock
     API.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				expectations:
+	  				
+	  				http://www.jmock.org/expectations.html</p>
+        <p>2.
+	  				other Cookbook recipes:
+	  				
+	  				http://www.jmock.org/cookbook.html</p>
+        <p>3.
+	  				Cheat Sheet:
+	  				
+	  				http://www.jmock.org/cheat-sheet.html</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,20 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions">
   <head>
-    <title>Extensions</title>
+    <title>jMock - Extensions</title>
+    <link media="screen" rel="stylesheet" type="text/css" href="./jmock.css"/>
+    <link media="print" rel="stylesheet" type="text/css" href="./print.css"/>
+    <link rel="icon" type="image/png" href="./icon.png"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <script type="text/javascript" src="prefs.js">
+      
+    </script>
   </head>
-
-  <body>
-    <h1>Extensions</h1>
-
-    <p>The functionality of jMock can be extended by optional plug-in
+  <body onload="restorePreferredTestFramework()">
+    <div id="banner">
+      <a href="./index.html">
+        <img id="logo" src="logo.png" alt="jMock"/>
+      </a>
+    </div>
+    <div id="center" class="Content">
+      <div id="content">
+        <h1>Extensions</h1>
+        <p>The functionality of jMock can be extended by optional plug-in
     libraries.</p>
-
-    <h2>jMock Legacy</h2>
-
-    <p>The <a href="mocking-classes.html">jMock Legacy Extension</a> provides
+        <h2>jMock Legacy</h2>
+        <p>The <a href="mocking-classes.html">jMock Legacy Extension</a><sup class="LinkFootnoteRef">1</sup> provides
     an Imposteriser that can imposterise classes as well as interfaces. This
     is useful when working with legacy code to tease apart dependencies
     between tightly coupled classes. The ClassImposteriser creates mock
@@ -22,37 +31,131 @@
     with constructors that have arguments or call overideable methods of the
     object can be safely mocked. However, the ClassImposteriser cannot create
     mocks of final classes or mock final methods.</p>
-
-    <p>Included in the jMock distribution</p>
-
-    <h2>jMock Scripting</h2>
-
-    <p>The <a href="scripting.html">jMock Scripting Extension</a> lets you
-    define custom actions inline in the expectation, as <a
-    href="http://www.beanshell.org/">BeanShell</a> scripts.</p>
-
-    <p>Included in the jMock distribution</p>
-
-    <h2>MockInject</h2>
-
-    <p><a href="https://mockinject.dev.java.net/">MockInject</a> uses AspectJ
+        <p>Included in the jMock distribution</p>
+        <h2>jMock Scripting</h2>
+        <p>The <a href="scripting.html">jMock Scripting Extension</a><sup class="LinkFootnoteRef">2</sup> lets you
+    define custom actions inline in the expectation, as <a href="http://www.beanshell.org/">BeanShell</a><sup class="LinkFootnoteRef">3</sup> scripts.</p>
+        <p>Included in the jMock distribution</p>
+        <h2>MockInject</h2>
+        <p><a href="https://mockinject.dev.java.net/">MockInject</a><sup class="LinkFootnoteRef">4</sup> uses AspectJ
     to inject mock objects at constructor or method calls. The injection
     points can be defined with simple EDSL. You don't kneed to know AOP or
     AspectJ to use this extension.</p>
-
-    <p>Written by Sebastian Sickelmann.</p>
-
-    <p>Available from <a
-    href="https://mockinject.dev.java.net/">mockinject.dev.java.net</a>.</p>
-
-    <h2>JDave</h2>
-
-    <p><a href="http://www.jdave.org">JDave</a> is a test framework that
-    integrates with jMock. Of particular note is its <a
-    href="http://www.jdave.org/documentation.html#mocking">unfinalizer</a>, an
+        <p>Written by Sebastian Sickelmann.</p>
+        <p>Available from <a href="https://mockinject.dev.java.net/">mockinject.dev.java.net</a><sup class="LinkFootnoteRef">5</sup>.</p>
+        <h2>JDave</h2>
+        <p><a href="http://www.jdave.org">JDave</a><sup class="LinkFootnoteRef">6</sup> is a test framework that
+    integrates with jMock. Of particular note is its <a href="http://www.jdave.org/documentation.html#mocking">unfinalizer</a><sup class="LinkFootnoteRef">7</sup>, an
     instrumentation agent that strips final modifiers from classes as they are
     loaded into the JVM. Combined with the ClassImposteriser in the jMock
     Legacy extension (see above), this lets you mock final classes and
     methods.</p>
+      </div>
+      <div class="LinkFootnotes">
+        <p class="LinkFootnotesHeader">Links:</p>
+        <p>1.
+	  				jMock Legacy Extension:
+	  				
+	  				http://www.jmock.org/mocking-classes.html</p>
+        <p>2.
+	  				jMock Scripting Extension:
+	  				
+	  				http://www.jmock.org/scripting.html</p>
+        <p>3.
+	  				BeanShell:
+	  				
+	  				http://www.beanshell.org/</p>
+        <p>4.
+	  				MockInject:
+	  				
+	  				http://www.jmock.org/https://mockinject.dev.java.net/</p>
+        <p>5.
+	  				mockinject.dev.java.net:
+	  				
+	  				http://www.jmock.org/https://mockinject.dev.java.net/</p>
+        <p>6.
+	  				JDave:
+	  				
+	  				http://www.jdave.org</p>
+        <p>7.
+	  				unfinalizer:
+	  				
+	  				http://www.jdave.org/documentation.html#mocking</p>
+      </div>
+    </div>
+    <div id="navigation">
+      <div class="MenuGroup">
+        <h1>
+          <a href="download.html">Software</a>
+        </h1>
+        <versions xmlns="">
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Unstable: 2.6.0-RC2</a></li><li><a href="./download.html">Stable: 2.5.1</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
+</versions>
+        <p>
+          <a href="./repository.html">Source Repository</a>
+        </p>
+        <p>
+          <a href="./license.html">Project License</a>
+        </p>
+        <p>
+          <a href="./versioning.html">Version Numbering</a>
+        </p>
+        <p>
+          <a href="./extensions.html">Extensions</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Documentation</h1>
+        <p>
+          <a href="./getting-started.html">Getting Started</a>
+        </p>
+        <p>
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+        <p>
+          <a href="./cheat-sheet.html">Cheat Sheet</a>
+        </p>
+        <p>
+          <a href="./javadoc.html">API Documentation</a>
+        </p>
+        <p>
+          <a href="./articles.html">Articles and Papers</a>
+        </p>
+        <p>
+          <a href="./jmock1.html">jMock 1 Documentation</a>
+        </p>
+        <p>
+          <a href="http://www.mockobjects.com">About Mock Objects</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>User Support</h1>
+        <p>
+          <a href="./mailing-lists.html">Mailing Lists</a>
+        </p>
+        <p>
+          <a href="http://www.musketeer-labs.com/">Training</a>
+        </p>
+        <p>
+          <a href="http://jira.codehaus.org/secure/BrowseProject.jspa?id=10336">Issue Tracker</a>
+        </p>
+        <p>
+          <a href="./news-rss2.xml">News Feed (RSS 2.0)</a>
+        </p>
+      </div>
+      <div class="MenuGroup">
+        <h1>Credits</h1>
+        <p>
+          <a href="./team.html">Development Team</a>
+        </p>
+        <p>
+          <a href="http://www.codehaus.org">Project hosted by Codehaus</a>
+        </p>
+        <p>
+          <a href="http://tango.freedesktop.org">Icons by the Tango Project</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>
