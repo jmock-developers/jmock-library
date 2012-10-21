@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Matching Objects and Methods</title>
+  <meta name="generator" content="Amaya 9.53, see http://www.w3.org/Amaya/" />
+</head>
+
+<body>
+<h1>Match Objects or Methods</h1>
+
+<p>Although <a href="matchers.html">matchers</a> are normally used to <a
+href="parameters.html">specify acceptable parameter values</a>, they can also
+be used to specify acceptable objects or methods in an expectation, using an
+API syntax similar to that of jMock 1. To do so, use a matcher where you
+would normally refer to a mock object directly in the <a
+href="cardinality.html">invocation count clause</a>. Then chain clauses
+together to define the expected invocation. The following clauses are
+supported:</p>
+
+<table border="0">
+  <tbody>
+    <tr>
+      <td><code>method(<var>m</var>)</code></td>
+      <td>A method matching the Matcher <var>m</var> is expected.</td>
+    </tr>
+    <tr>
+      <td><code>method(<var>r</var>)</code></td>
+      <td>A method with a name that matches the regular expression
+        <var>r</var> is expected.</td>
+    </tr>
+    <tr>
+      <td><code>with(<var>m<sub>1</sub></var>, <var>m<sub>2</sub></var>, ... <var>m<sub>n</sub></var>)</code></td>
+      <td>The parameters must match matchers <var>m<sub>1</sub></var> to
+        <var>m<sub>n</sub></var>.</td>
+    </tr>
+    <tr>
+      <td><code>withNoArguments()</code></td>
+      <td>There must be no parameters</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>An expectation of this form can be followed by ordering constraints (<a
+href="sequences.html">sequences</a> and <a href="states.html">states</a>) and
+actions (e.g. <a href="returning.html">returning values</a> or <a
+href="throwing.html">throwing exceptions</a>) like a normal, literal
+expectation.</p>
+
+<h3>Examples</h3>
+
+<p>To allow invocations of any bean property getter on any mock object:</p>
+<pre>allowing (any(Object.class)).method("get.*").withNoArguments();</pre>
+
+<p>Allow a method to be called once on any one of a collection of mock
+objects:</p>
+<pre>oneOf (anyOf(same(o1),same(o2),same(o3))).method("doSomething");</pre>
+</body>
+</html>

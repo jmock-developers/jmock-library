@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Upgrading from jMock 1 to jMock 2</title>
+  <meta name="generator" content="Amaya 9.53, see http://www.w3.org/Amaya/" />
+</head>
+
+<body>
+<h1>Upgrading from jMock 1 to jMock 2</h1>
+
+<p>You can add both jMock 1 and jMock 2 JARs to the classpath at the same
+time without class names clashing. This allows you to run jMock 1 and 2 tests
+simultaneously. You can write new tests with jMock 2 and gradually port older
+tests to the new version as you find the need.</p>
+
+<h3>Beware!</h3>
+
+<p>Make sure your test fixture extends the correct base class: extend
+<code>org.jmock.MockObjectTestCase</code> in jMock 1 tests and
+<code>org.jmock.integration.junit3.MockObjectTestCase</code> in jMock 2
+tests.</p>
+</body>
+</html>

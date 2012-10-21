@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Custom Actions</title>
+  </head>
+
+  <body>
+    <h1>Writing New Actions</h1>
+
+    <p>JMock expectations do two things: test that they receives the expected
+    method invocations and stub the behaviour of those methods. Almost all
+    methods can be stubbed in one of three basic ways: return nothing (a void
+    method), return a result to the caller or throw an exception. Sometimes,
+    however, you need to stub side effects of a method, such as a method that
+    calls back to the caller through an object reference passed as one of its
+    parameters. Luckily, jMock makes it easy to write custom stubs for methods
+    with unusual behaviours and keep your tests easy to read when you do
+    so.</p>
+
+    <p>Here's a simple example: we want to test a <code>FruitPicker</code>
+    object that collects the fruit from a collection <code>FruitTree</code>
+    objects. It will do so by passing a <code>Collection</code> to the
+    <code>pickFruit</code> method of the fruit trees. The fruit trees
+    implement <code>pickFruit</code> by addding their fruit to the collection
+    they receive. The <code>FruitTree</code> interface is shown below:</p>
+
+    <pre class="Source Java">public interface FruitTree {
+    void pickFruit(Collection&lt;Fruit&gt; collection);
+}</pre>
+
+    <p>To test the behaviour of our object we will need to mock the
+    <code>FruitTree</code> interface, and in particular we need to stub the
+    <em>side effect</em> of the <code>pickFruit</code> method. jMock provides
+    actions for returning values and iterators, throwing exceptions and
+    grouping other actions but we will have to write our own action class to
+    stub the side effect.</p>
+
+    <p>To write an action:</p>
+
+    <ol>
+      <li><p>Write a class that implements the <code><a
+      href="java:org.jmock.core.Stub">Action</a></code> interface. Here's an
+      action that adds an element to a Collection received as the first
+      argument of the method.</p> <pre class="Source Java">public class AddElementsAction&lt;T&gt; implements Action {
+    private Collection&lt;T&gt; elements;
+    
+    public AddElementsAction(Collection&lt;T&gt; elements) {
+        this.element = elements;
+    }
+    
+    public void describeTo(Description description) {
+        description.appendText("adds ")
+                   .appendValueList("", ", ", "", elements)
+                   .appendText(" to a collection");
+    }
+    
+    public Object invoke(Invocation invocation) throws Throwable {
+        ((Collection&lt;T&gt;)invocation.parameterValues.get(0)).addAll(elements);
+        return null;
+    }
+}</pre></li>
+
+      <li><p>Write a factory method somewhere that instantiates your new
+      action class and import it into your test. You could make the factory
+      method a public static method of the new action class or could put all
+      your own factory methods into a single class to make them easier to
+      import. The factory method doesn't have to be a static import. If you
+      only need it in one test you can write it as a method of that test.</p>
+      <pre class="Source Java">public static &lt;T&gt; Action addElements(T... newElements) {
+    return new AddElementsAction&lt;T&gt;(Arrays.asList(newElements));
+}</pre></li>
+
+      <li><p>Pass the result of your factory method to the <code>will</code>
+      method.</p> <pre class="Source Java">final FruitTree mangoTree = mock(FruitTree.class);
+final Mango mango1 = new Mango();
+final Mango mango2 = new Mango();
+
+context.checking(new Expectations() {{
+    oneOf (mangoTree).pickFruit(with(any(Collection.class)));
+        will(addElements(mango1, mango2));
+}});
+
+...</pre></li>
+    </ol>
+  </body>
+</html>

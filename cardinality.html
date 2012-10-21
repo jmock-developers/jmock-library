@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Cardinality</title>
+  </head>
+
+  <body>
+    <h1>Expecting Methods More (or Less) than Once</h1>
+
+    <p>The <a href="getting-started.html">Getting Started</a> recipe only
+    demonstrates tests that expect one call to one mock object. Tests usually
+    need to specify expectations with different cardinalities to allow some
+    method calls to occur but not fail if they don't, expect methods to be
+    called more than once or not all, or ignore mock objects that are not
+    relevant.</p>
+
+    <p>The "invocation count" of an expectation defines the minimum and
+    maximum number of times that the expected method is allowed to be invoked.
+    It is specified before the mock object in the expectation.</p>
+
+    <pre><var>invocation-count</var> (<var>mock</var>).<var>method</var>(<var>parameters</var>); ...</pre>
+
+    <p>JMock defines the following cardinalities:</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>one</td>
+
+          <td>The invocation is expected once and once only.</td>
+        </tr>
+
+        <tr>
+          <td>exactly(<var>n</var>).of</td>
+
+          <td>The invocation is expected exactly <var>n</var> times. Note:
+          <code>one</code> is a convenient shorthand for
+          <code>exactly(1)</code>.</td>
+        </tr>
+
+        <tr>
+          <td>atLeast(<var>n</var>).of</td>
+
+          <td>The invocation is expected at least <var>n</var> times.</td>
+        </tr>
+
+        <tr>
+          <td>atMost(<var>n</var>).of</td>
+
+          <td>The invocation is expected at most <var>n</var> times.</td>
+        </tr>
+
+        <tr>
+          <td>between(<var>min</var>, <var>max</var>).of</td>
+
+          <td>The invocation is expected at least <var>min</var> times and at
+          most <var>max</var> times.</td>
+        </tr>
+
+        <tr>
+          <td>allowing</td>
+
+          <td>The invocation is allowed any number of times but does not have
+          to happen.</td>
+        </tr>
+
+        <tr>
+          <td>ignoring</td>
+
+          <td>The same as <code>allowing</code>. Allowing or ignoring should
+          be chosen to make the test code clearly express intent.</td>
+        </tr>
+
+        <tr>
+          <td>never</td>
+
+          <td>The invocation is not expected at all. This is used to make
+          tests more explicit and so easier to understand.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Expecting vs. Allowing</h2>
+
+    <p>The most important distinction that cardinalities express is between
+    <em>expecting</em> and <em>allowing</em> an invocation.</p>
+
+    <p>If an invocation is allowed, it can occur during a test run, but the
+    test still passes if the invocation does not occur. If an invocation is
+    expected, on the other hand, it must occur during a test run; if it does
+    not occur, the test fails. When defining expectations you must choose
+    whether to expect or allow each invocation. In general, we find that tests
+    are kept flexible if you allow queries and expect commands. A query is a
+    method with no side effects that does nothing but query the state of an
+    object and a command is a method with side effects that may, or may not,
+    return a result. Of course, this does not hold all the time but it's a
+    useful rule of thumb to follow if there are no other constraints on the
+    number of times you expect a method to be called in your test.</p>
+  </body>
+</html>

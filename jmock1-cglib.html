@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Mocking Classes with CGLIB</title>
+  </head>
+
+  <body>
+    <h1>jMock 1: Mocking Classes with CGLIB</h1>
+
+    <p>Because it uses Java's standard reflection capability, the default
+    configuration of the jMock framework can only mock interfaces, not
+    classes. The optional <code>org.jmock.cglib</code> extension package uses
+    the <a href="http://cglib.sourceforge.net">CGLIB 2</a> library to create
+    mock objects of classes as well as interfaces.</p>
+
+    <p>To use the CGLIB extension:</p>
+
+    <ol>
+      <li>Download <a
+      href="http://sourceforge.net/project/showfiles.php?group_id=56933&amp;package_id=98218">CGLIB
+      2</a> and the <a href="http://www.jmock.org/download.html">jMock CGLIB
+      extension JAR</a> or a <a href="http://www.jmock.org/download.html">full
+      jMock source snapshot</a>.</li>
+
+      <li>Add CGLIB and the
+      <code>jmock-cglib-</code><var>version</var><code>.jar</code> file to the
+      CLASSPATH. If you have downloaded a source snapshot, compile the source
+      and add the output directory to your classpath.</li>
+
+      <li>Make your test cases extend
+      <code>org.jmock.cglib.MockObjectTestCase</code>: <div
+      class="Source Java"> <pre>import org.jmock.Mock;
+import org.jmock.cglib.MockObjectTestCase;
+
+class MyTest extends MockObjectTestCase {
+    ...
+}</pre> </div></li>
+
+      <li>Your tests can now create mocks of abstract or concrete classes:
+      <div class="Source Java"> <pre>Mock mockGraphics = mock(java.awt.Graphics.class,"mockGraphics");</pre>
+      </div> <p>You can pass arguments to the constructor by passing the
+      argument types and values to the <code>mock</code> method:</p> <div
+      class="Source Java"> <pre>Mock mockedClass = mock(SomeClass.class,"mockList",
+                        new Class[]{String.class, int.class},
+                        new Object[]{"Hello", new Integer(1)});</pre>
+      </div></li>
+    </ol>
+
+    <p>The <code>MockObjectTestsCase</code> class defined in the
+    org.jmock.cglib package is completely compatible with that of the vanilla
+    jMock API. The only difference is that it uses CGLIB to create proxies
+    instead of the Java reflection API. This makes it easy to convert a test
+    class to use the CGLIB extension when you find that there is no way you
+    can possibly avoid mocking a concrete class: just change the base class of
+    the test class to <code>org.jmock.cglib.MockObjectTestsCase</code> and all
+    the mock objects will then use CGLIB to proxy calls.</p>
+  </body>
+</html>

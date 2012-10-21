@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Mocking Classes with CGLIB</title>
+  </head>
+
+  <body>
+    <h1>Mocking Classes with jMock and the ClassImposteriser</h1>
+
+    <p>Because it uses Java's standard reflection capability, the default
+    configuration of the jMock framework can only mock interfaces, not
+    classes. (Actually, we consider that to be a good thing because it
+    encourages the design to focus on communication between objects rather
+    than static classification or data storage). However, the
+    <code>ClassImposteriser</code> extension class uses the <a
+    href="http://cglib.sourceforge.net">CGLIB 2.1</a> and <a
+    href="http://code.google.com/p/objenesis/">Objenesis</a> libraries to
+    create mock objects of classes as well as interfaces. This is useful when
+    working with legacy code to tease apart dependencies between tightly
+    coupled classes.</p>
+
+    <p>The <code>ClassImposteriser</code> creates mock instances
+    <em>without</em> calling the constructor of the mocked class. So classes
+    with constructors that have arguments or call overideable methods of the
+    object can be safely mocked. However, the <code>ClassImposteriser</code>
+    cannot create mocks of final classes or mock final methods.</p>
+    
+    <p>If you want to mock final classes or final methods, the 
+    <a href="http://www.jdave.org">JDave library</a> includes an 
+    <a href="http://www.jdave.org/documentation.html#mocking">unfinalizer Instrumentation agent</a>
+    that can unfinalise classes before they are loaded by the JVM. 
+    They can then be mocked by the <code>ClassImposteriser</code>.</p>
+	
+    <p>To use the <code>ClassImposteriser</code>:</p>
+
+    <ol>
+      <li>Add jmock-legacy-<span
+      class="Version 2"><var>version</var></span>.jar, cglib-nodep-2.1_3.jar
+      and objenesis-1.0.jar to your CLASSPATH.</li>
+
+      <li>Plug the <code>ClassImposteriser</code> into the Mockery of your
+      test class: <div class="Raw"><h3>Raw</h3><pre class="Source Java">import org.jmock.Mockery;
+import org.jmock.Expectations;
+import org.jmock.lib.legacy.ClassImposteriser;
+
+public class ConcreteClassTest extends TestCase {
+    private Mockery context = new Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    ...
+}</pre></div><div class="JUnit3"><h3>JUnit 3</h3><pre class="Source Java">import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.lib.legacy.ClassImposteriser;
+
+public class ConcreteClassTest extends MockObjectTestCase {
+    {
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }
+    
+    ...
+}</pre></div><div class="JUnit4"><h3>JUnit 4</h3><pre class="Source Java">import org.jmock.Mockery;
+import org.jmock.Expectations;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
+
+@RunWith(JMock.class)
+public class ConcreteClassTest {
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    ...
+}</pre></div></li>
+
+      <li>Your tests can now create mocks of abstract or even concrete
+      classes: <pre class="Source Java">Graphics g = context.mock(java.awt.Graphics.class);</pre></li>
+    </ol>
+  </body>
+</html>

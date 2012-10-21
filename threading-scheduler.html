@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>JMock and Threads: Deterministic Scheduling</title>
+  </head>
+
+  <body>
+    <p>JMock's <a href="000760.html">DetermisticExecutor</a> allows us to more
+    easily unit test the behaviour of an object that launches tasks in the
+    background. JMock also provides <a
+    href="http://www.jmock.org/javadoc/2.5.1/org/jmock/lib/concurrent/DeterministicScheduler.html"
+    title="DeterministicScheduler Javadoc">DeterministicScheduler</a> that
+    let's us unit test objects that use a <a
+    href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/ScheduledExecutorService.html">ScheduledExecutorService</a>
+    to schedule tasks to run sometime in the future or on repeating schedules.
+    The DeterministicScheduler acts as a virtual timeline that the test can
+    move forward to represent the passing of time. As its virtual time
+    progresses, the DeterministicScheduler executes the tasks that have been
+    scheduled.</p>
+
+    <p>You write a test with the deterministic scheduler by invoking the
+    object under test to make it schedule tasks, ticking time forward enough
+    to make those tasks run, and testing that the tasks have acted as expected
+    (either with mock objects or assertions as appropriate).</p>
+
+    <p>For example:</p>
+
+    <pre class="Java Source">Door door = context.mock(Door.class);
+Alarm alarm = context.mock(Alarm.class);
+
+DeterministicScheduler scheduler = new DeterministicScheduler();
+
+TimeLock lock = new TimeLock(door, alarm);
+
+@Test
+public void locksAndUnlocksDoorOnRegularScheduleAndSoundsAlarmBeforeUnlockingDoor() {
+    // Configure the behaviour of the lock
+    lock.setOpenFor(1000);
+    lock.setClosedFor(2000);
+    lock.setSoundsAlarmBeforeClosingFor(100);
+
+    context.checking(new Expectations() {{
+        door.unlock();
+    }});
+    lock.activate();
+
+    context.checking(new Expectations() {{
+        alarm.start();
+    }});
+    scheduler.tick(900);
+
+    context.checking(new Expectations() {{
+        alarm.stop();
+        door.lock();
+    }});
+    scheduler.tick(100);
+
+    context.checking(new Expectations() {{
+        door.unlock();
+    }});
+    scheduler.tick(2000);
+}</pre>
+
+    <p>Because a scheduler service is also an executor, the deterministic
+    scheduler allows scheduled tasks to launch background tasks, and
+    background tasks to schedule tasks, scheduled tasks to schedule tasks, and
+    background tasks to launch background tasks.</p>
+
+    <p>The scheduler does not implement the synchronous methods of the
+    SchedulerExecutorService interface. If a test attempts to do a blocking
+    wait for a scheduled task to complete, the scheduler will throw an
+    UnsupportedSynchronousOperationException.</p>
+
+    <p>You have to he careful if the object under test also queries the
+    current time because the deterministic scheduler's time will not be in
+    sync with the system clock. You'll have to pass a fake clock to the object
+    under test and synchronize the times it returns with the progression of
+    time in the deterministic scheduler.</p>
+  </body>
+</html>

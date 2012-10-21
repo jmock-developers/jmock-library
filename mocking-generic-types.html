@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Mocking Generic Types</title>
+  </head>
+
+  <body>
+    <h1>Mocking Generic Types</h1>
+
+    <p>Java's generic type system does not work well with its dynamic
+    reflection APIs. For jMock, this means that the compiler will warn you
+    about possible static type errors when you mock generic types. The
+    warnings are incorrect. The best way to avoid them is to suppress the
+    warning with an annotation on the variable declaration of the mock
+    object.</p>
+
+    <p>Consider, for example, the following generic interface:</p>
+
+    <pre class="Java Source">public interface Juicer&lt;T extends Fruit&gt; {
+    Liquid juice(T fruit);
+}</pre>
+
+    <p>In a test, you would want to mock this interface as follows:</p>
+
+    <pre class="Java Source">Juicer&lt;Orange&gt; orangeJuicer = context.mock(Juicer&lt;Orange&gt;.class, "orangeJuicer");
+Juicer&lt;Coconut&gt; coconutJuicer = context.mock(Juicer&lt;Coconut&gt;.class, "coconutJuicer");</pre>
+
+    <p>However, that is not syntactically correct Java. You actually have to
+    write the following:</p>
+
+    <pre class="Java Source">Juicer&lt;Orange&gt; orangeJuicer = (Juicer&lt;Orange&gt;)context.mock(Juicer.class, "orangeJuicer");
+Juicer&lt;Coconut&gt; coconutJuicer = (Juicer&lt;Coconut&gt;)context.mock(Juicer.class, "coconutJuicer");</pre>
+
+    <p>Both those lines, though syntactically and semantically correct,
+    generate type safety warnings. To avoid these warnings, you have to
+    annotate the variable declarations with
+    <code>@SuppressWarnings</code>:</p>
+
+    <pre class="Java Source">@SuppressWarnings("unchecked")
+Juicer&lt;Orange&gt; orangeJuicer = context.mock(Juicer.class, "orangeJuicer");
+
+@SuppressWarnings("unchecked")
+Juicer&lt;Coconut&gt; coconutJuicer = context.mock(Juicer.class, "coconutJuicer");</pre>
+
+    <p>Hopefully future versions Java will improve the type system so that
+    this is not necessary.</p>
+  </body>
+</html>

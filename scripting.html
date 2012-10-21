@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Scripting Custom Actions</title>
+  </head>
+
+  <body>
+    <h1>Scripting Custom Actions</h1>
+
+    <p>Using a <a href="custom-actions.html">custom action</a> in an
+    expectation is straightforward but requires quite a lot of code. You need
+    to define a class that implements the action and a factory method to make
+    the expectation read clearly. The jMock Scripting Extension lets you
+    define custom actions inline in the expectation, as <a
+    href="http://www.beanshell.org/">BeanShell</a> scripts.</p>
+
+    <div class="Note Warning"><p>Because a script is represented as a string,
+    it does not play well with refactoring tools.</p></div>
+
+    <p>First, you need to add the following JARs to your classpath:</p>
+
+    <ul>
+      <li>jmock-script-<span class="Version 2">2.x.x</span>.jar</li>
+
+      <li>bsh-core-2.0b4.jar</li>
+    </ul>
+
+    <p>Second, you need to import the "perform" factory method into your
+    test.</p>
+
+    <pre class="Java Source">import static org.jmock.lib.script.ScriptedCallbackAction.perform;</pre>
+
+    <p>You can then use the "perform" factory method to define custom actions
+    using a BeanShell script. The script can refer to the parameters of the
+    mocked method by the names <var>$0</var> (the first parameter),
+    <var>$1</var>, <var>$2</var>, etc. For example, the script below calls
+    back to a Runnable passed as the first (and only) parameter:</p>
+
+    <pre class="Java Source">checking(new Expectations() {{
+    oneOf (executor).execute(with(a(Runnable.class))); will(perform("$0.run()"));
+}}</pre>
+
+    <p>A script can pass literal values as parameters to the callback. For
+    example, the script below adds an integer to a collection:</p>
+
+    <pre class="Java Source">checking(new Expectations() {{
+    oneOf (collector).collect(with(a(Collection.class))); will(perform("$0.add(2)"));
+}}</pre>
+
+    <p>If you want a script to refer to an object defined by the test, you
+    will have to define a script variable with a "where" clause. Any number of
+    where clauses can be appended onto the perform clause to define
+    variables. For example, to translate the code from the <a
+    href="custom-actions.html">custom action recipe</a> to use a BeanShell
+    script, we must define a script variable for the list of mangoes to be
+    added to the collection:</p>
+
+    <pre class="Java Source">final FruitTree mangoTree = mock(FruitTree.class);
+final Mango mango1 = new Mango();
+final Mango mango2 = new Mango();
+
+context.checking(new Expectations() {{
+    oneOf (mangoTree).pickFruit(with(a(Collection.class))); will(perform("$0.addAll(mangoes)")
+            .where("mangoes", Arrays.asList(mango1, mango2));
+}});
+
+...</pre>
+  </body>
+</html>

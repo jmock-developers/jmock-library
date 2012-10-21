@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Extensions</title>
+  </head>
+
+  <body>
+    <h1>Extensions</h1>
+
+    <p>The functionality of jMock can be extended by optional plug-in
+    libraries.</p>
+
+    <h2>jMock Legacy</h2>
+
+    <p>The <a href="mocking-classes.html">jMock Legacy Extension</a> provides
+    an Imposteriser that can imposterise classes as well as interfaces. This
+    is useful when working with legacy code to tease apart dependencies
+    between tightly coupled classes. The ClassImposteriser creates mock
+    instances without calling the constructor of the mocked class. So classes
+    with constructors that have arguments or call overideable methods of the
+    object can be safely mocked. However, the ClassImposteriser cannot create
+    mocks of final classes or mock final methods.</p>
+
+    <p>Included in the jMock distribution</p>
+
+    <h2>jMock Scripting</h2>
+
+    <p>The <a href="scripting.html">jMock Scripting Extension</a> lets you
+    define custom actions inline in the expectation, as <a
+    href="http://www.beanshell.org/">BeanShell</a> scripts.</p>
+
+    <p>Included in the jMock distribution</p>
+
+    <h2>MockInject</h2>
+
+    <p><a href="https://mockinject.dev.java.net/">MockInject</a> uses AspectJ
+    to inject mock objects at constructor or method calls. The injection
+    points can be defined with simple EDSL. You don't kneed to know AOP or
+    AspectJ to use this extension.</p>
+
+    <p>Written by Sebastian Sickelmann.</p>
+
+    <p>Available from <a
+    href="https://mockinject.dev.java.net/">mockinject.dev.java.net</a>.</p>
+
+    <h2>JDave</h2>
+
+    <p><a href="http://www.jdave.org">JDave</a> is a test framework that
+    integrates with jMock. Of particular note is its <a
+    href="http://www.jdave.org/documentation.html#mocking">unfinalizer</a>, an
+    instrumentation agent that strips final modifiers from classes as they are
+    loaded into the JVM. Combined with the ClassImposteriser in the jMock
+    Legacy extension (see above), this lets you mock final classes and
+    methods.</p>
+  </body>
+</html>

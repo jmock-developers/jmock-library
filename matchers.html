@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matchers</title>
+  </head>
+
+  <body>
+    <h1>Matchers</h1>
+
+    <p>Most of the time expectations specify literal parameter values that are
+    compared for equality against the actual parameters of invoked methods.
+    For example:</p>
+
+    <pre class="Java Source">allowing (calculator).add(2,2); will(returnValue(5));</pre>
+
+    <p>Sometimes, however, you will need to define looser constraints over
+    parameter values to clearly express the intent of the test or to ignore
+    parameters (or parts of parameters) that are not relevant to the behaviour
+    being tested. For example:</p>
+
+    <pre class="Java Source">allowing (calculator).sqrt(with(lessThan(0)); will(throwException(new IllegalArgumentException());
+oneOf (log).append(with(equal(Log.ERROR)), with(stringContaining("sqrt"));</pre>
+
+    <p>Loose parameter constraints are defined by specifying <em>matchers</em>
+    for each parameter. Matchers are created by factory methods, such as
+    <code>lessThan</code>, <code>equal</code> and
+    <code>stringContaining</code> in the example above, to ensure that the
+    expectation is easy to read. The result of each factory method must be
+    wrapped by a call to the <code>with</code> method.</p>
+
+    <div class="Note Information"><p>An expectation that uses parameter
+    matchers must use the "with" method to wrap <em>every</em> parameter,
+    whether a matcher function or a literal value.</p></div>
+
+    <p>Factory methods for commonly used matchers are defined in the
+    Expectations class. More matchers are defined as static methods in the
+    <code>org.hamcrest.Matchers</code> class. If you need these, statically
+    import thse Matchers into your test code:</p>
+
+    <pre class="Java Source">import static org.hamcrest.Matchers.*;</pre>
+
+    <p>Matchers can be combined to tighten or loosen the specification if
+    necessary. The set of matchers is <a
+    href="custom-matchers.html">extensible</a> so you can write new matchers
+    to cover unusual testing scenarios.</p>
+
+    <h2>Basic Matchers</h2>
+
+    <h3>Object Equality</h3>
+
+    <p>The most commonly used matcher is <code>equal</code>, which specifies
+    that the received argument must be equal to a given value. The code below,
+    for example, specifies that the method "doSomething" must be called with
+    one argument of value 1.</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(equal(1)));</pre></div>
+
+    <p>The <code>equalTo</code> constraint uses the <code>equals</code> method
+    of the expected value to compare the expected and actual values for
+    equality. Null values are checked beforehand, so it is safe to specify
+    <code>equal(null)</code> or apply the matcher to a null actual value.
+    Arrays are treated as a special case: two arrays are considered equal if
+    they are the same size and all their elements are considered equal.</p>
+
+    <h3>Object Identity</h3>
+
+    <p>The <code>same</code> matcher specifies that the actual value of the
+    argument must be the same object as the expected value. This is a tighter
+    constraint than <code>equal</code>, but is usually what you want for
+    arguments that pass references to behavioural objects. The following code
+    specifies that method "doSomething" will be called with one argument that
+    refers to the same object as <var>expected</var>.</p>
+
+    <div class="Source Java"><pre>Object expected = new Object();
+
+oneOf (mock).doSomething(with(same(expected)));</pre></div>
+
+    <p>As a rule of thumb, use <code>equal</code> for value objects and
+    <code>same</code> for behavioural objects.</p>
+
+    <h3>Substring</h3>
+
+    <p>The <code>stringContaining</code> matcher specifies that the expected
+    argument must be a string that contains the given substring. The following
+    code specifies that method "doSomething" must be called with an argument
+    that is a string containing the text "hello".</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(stringContaining("hello")));</pre></div>
+
+    <p>The <code>stringContaining</code> matcher is especially useful for
+    testing string contents but isolating tests from the exact details of
+    punctuation and formatting. For example, the code above would accept any
+    of the following argument values: "hello world"; "hello, world"; "hello!";
+    and so on.</p>
+
+    <h3>Null or Not Null</h3>
+
+    <p>The matchers <code>aNull&lt;T&gt;(Class&lt;T&gt;)</code> and
+    <code>aNonNull&lt;T&gt;(Class&lt;T&gt;)</code> specify that an argument is
+    null or is not null, respectively. The following code specifies that
+    method "doSomething" must be called with two Strings, the first must be
+    null and the second must not be null.</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(aNull(String.class)), aNonNull(String.class)));</pre></div>
+
+    <h3>Anything</h3>
+
+    <p>The <code>any&lt;T&gt;(Class&lt;T&gt;)</code> constraint specifies that
+    any value of the given type is allowed. This is useful for ignoring
+    arguments that are not relevant to the scenario being tested. Judicious
+    use of the <code>any</code> constraint ensure that your tests are flexible
+    and do not require constant maintenance when tested code changes. The
+    following code specifies that the method "doSomething" must be called with
+    two arguments, the first of which is equal to 1 and the second of which is
+    ignored in this test.</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(eq(1)), with(any(String.class)));</pre></div>
+
+    <h3>Numeric Equality with Error Margin</h3>
+
+    <p>An overloaded version of the <code>equal</code> constraint specifies
+    floating point values as equal to another value with some margin of error
+    to account for rounding error. The following code specifies that the
+    method "doSomething" will be called with one argument of value 1 plus or
+    minus 0.002.</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(equal(1, 0.002)));</pre></div>
+
+    <h2>Combining Matchers</h2>
+
+    <p>Matchers can be composed to create a tighter or looser specification.
+    Composite matchers are themselves matchers and can therefore be further
+    composed.</p>
+
+    <h3>Not — Logical Negation</h3>
+
+    <p>The <code>not</code> matcher specifies that the actual argument must
+    <em>not</em> match a given matcher. The following code specifies that the
+    method "doSomething" must be called with an argument that is not equal to
+    1.</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(not(eq(1)));</pre></div>
+
+    <h3>AllOf — Logical Conjunction</h3>
+
+    <p>The <code>allOf</code> matcher specifies that the actual argument must
+    meet <em>all</em> of the matchers given as arguments. The following code
+    specifies that the method "doSomething" must be called with a string that
+    contains the text "hello" and the text "world".</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(allOf(stringContaining("hello"),
+                                  stringContaining("world"))));</pre></div>
+
+    <h3>AnyOf — Logical Disjunction</h3>
+
+    <p>The <code>anyOf</code> matcher specifies that the actual argument must
+    meet <em>at least one</em> of the matchers given as arguments. The
+    following code specifies that the method "doSomething" must be called with
+    a string that either contains the text "hello" or the text "howdy".</p>
+
+    <div class="Source Java"><pre>oneOf (mock).doSomething(with(anyOf(stringContains("hello"),
+                                  stringContains("howdy"))));</pre></div>
+  </body>
+</html>

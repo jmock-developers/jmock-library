@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Release Process</title>
+</head>
+
+<body>
+<h1>The jMock Release Process</h1>
+
+<p>Releasing is pretty automated but there are still some manual steps.</p>
+<ol>
+  <li>Tag a release using the <code>tag.sh</code> script.  Tags have the 
+    format 1.2.3-RC4 where, in this case, 1 is the
+    major version, 2 is the minor version and 3 is the patch number and 4 is
+    the release candidate number. The trailing _RC4 is optional.</li>
+  <li>Run the release script: ./release.sh 1.2.3-RC4. Again the "-RC4" is
+    optional. That will publish the zips and javadoc. Zips are published
+    under <tt><a
+    href="http://www.jmock.org/dist">http://www.jmock.org/dist</a></tt>,
+    javadoc under <tt><a
+    href="http://www.jmock.org/javadoc/">http://www.jmock.org/javadoc/</a></tt>.</li>
+  <li>Update the website. This is currently entirely manual and needs to be
+    more automatic. 
+    <ol>
+      <li>Check out the <tt>website</tt> module from SVN and cd into the checked out directory.</li>
+      <li>Run the <code>version.py</code> script to update the version numbers.</li>
+      <li>Update the <tt>content/download.html</tt> document to link to the
+        released JARs</li>
+      <li>Update the <tt>content/javadoc.html</tt> document to link to the
+        released Javadoc.</li>
+      <li>Update the <tt>content/news-rss2.xml</tt> file to announce the new
+        release.</li>
+      <li>Run <kbd>make</kbd> to build a local copy. Check that it all looks
+        ok by opening <tt>skinned/index.html</tt> and browsing the download
+        and javadoc pages.</li>
+      <li>Run <kbd>make published</kbd> to publish the updated website.</li>
+      <li>Commit the website changes to SVN.</li>
+      <li>Add the new version to the list of jMock versions in JIRA (if it
+        doesn't already exist) and mark it as released on the current
+      date.</li>
+    </ol>
+  </li>
+</ol>
+</body>
+</html>

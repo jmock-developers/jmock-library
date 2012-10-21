@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Mocking GWT Asynchronous Services</title>
+</head>
+
+<body>
+<h1>Mocking GWT Asynchronous Services</h1>
+
+<p>You can use jMock to unit test objects that use asynchronous GWT services by
+using a custom action to capture the asynchronous callback passed to the service
+request. Once it has captured the callback, the action can invoke it to indicate success or
+failure of the asynchronous call.</p>
+
+<p>Here's an implementation of this idea:</p>
+
+<pre class="Java Source">public class AsyncAction&lt;T&gt; implements Action {
+    private AsyncCallback&lt;T&gt; callback;
+
+    public void succeedGiving(T result) {
+        checkCallback();
+        callback.onSuccess(result);
+    }
+
+    public void fail(Throwable caught) {
+        checkCallback();
+        callback.onFailure(caught);
+    }
+
+    public void describeTo(Description description) {
+        description.appendText("requests an async callback");
+    }
+
+    private void checkCallback() {
+        if (callback == null) {
+            Assert.fail("asynchronous action not scheduled");
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Object invoke(Invocation invocation) throws Throwable {
+        callback = (AsyncCallback&lt;T&gt;)invocation.getParameter(invocation.getParameterCount()-1);
+        return null;
+    }
+}</pre>
+
+<p>You can use it in tests like this:</p>
+
+<pre class="Java Source">ServiceAsync service = context.mock(ServiceAsync.class, "service");
+ObjectUnderTest objectUnderTest = new ObjectUnderTest(service);
+
+@Test
+public void loadsScenariosAsynchronously() throws Exception {
+    final AsyncAction&lt;String&gt; makeAsyncRequest = new AsyncAction&lt;String&gt;();
+
+    context.checking(new Expectations() {{
+        oneOf(service).getSomething(with(any(AsyncCallback.class))); will(makeAsyncRequest);
+    }});
+    
+    objectUnderTest.doSomething();
+    makeAsyncRequest.succeedGiving("foo");
+    
+    assertThat(objectUnderTest.thingThatItGotAsynchronously(), equalTo("foo"));
+}</pre>
+
+</body>
+</html>

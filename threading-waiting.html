@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Waiting for Threads to Finish</title>
+  </head>
+
+  <body>
+    <p>One of the trickiest aspects of testing multithreaded code is
+    synchronizing between the test thread and the threads started by the code
+    being tested. If you get the synchronisation wrong, the test can finish
+    before all the threads that it started have terminated. This might make
+    the test return false positives, because it does not detect failures on
+    the runaway threads. Or the threads might interfere with later tests,
+    causing intermittent test failures that are hard to track down and
+    eliminate.</p>
+
+    <p><a href="http://www.jmock.org" title="JMock Website">JMock's</a> <a
+    href="000762.html" title="Synchronising Imposteriser">Synchroniser</a> has
+    a cunning yet simple solution that builds upon jMock's existing <a
+    href="http://www.jmock.org/states.html" title="JMock State Machines">state
+    machine construct</a>. A test can tell the Synchroniser to wait for a
+    state machine to enter or leave some state.</p>
+
+    <p>The test needs to store the Synchroniser in a field:</p>
+
+    <pre class="Java Source">Synchroniser synchroniser = new Synchroniser();
+
+Mockery context = new JUnit4Mockery() {{
+    setThreadingPolicy(synchroniser);
+}};</pre>
+
+    <p>Now the test can define state machines and use the synchroniser to wait
+    for those state machines to enter or leave a given state.</p>
+
+    <pre class="Java Source">final States searching = context.states("searching")
+
+context.checking(new Expectations() {{
+    oneOf(consumer).searchFound(result("A1"));
+        when(searching.isNot("finished"));
+
+    oneOf(consumer).searchFound(result("B1"), result("B2"));
+        when(searching.isNot("finished"));
+
+    oneOf(consumer).searchFinished();
+        then(searching.is("finished"));
+}});
+
+search.searchFor("sheep", "cheese");
+
+synchroniser.waitUntil(searching.is("finished"));</pre>
+
+    <p>This must be combined with a timeout to ensure that the test does not
+    wait forever if the system under test never meets the awaited criteria. A
+    timeout can be passed to the waitUntil method; it throws a
+    TimeoutException with an informative message if the timeout expires. Or,
+    you can get your test framework to timeout the test. For example, in <a
+    href="http://www.junit.org" title="JUnit Website">JUnit 4</a> you can pass
+    a timeout parameter to the @Test annotation.</p>
+  </body>
+</html>

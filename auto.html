@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Automagically Creating Mocks, States &amp; Sequences</title>
+  </head>
+
+  <body>
+    <h1>Automagically Creating Mocks, States &amp; Sequences</h1>
+
+    <p>If you define fields to hold mock objects, states or sequences , jMock
+    can automagically instantiate them, reducing boilerplate code.</p>
+
+    <p>To automagically create a mock object, annotate the field with
+    <code>@Mock</code>. JMock will initialise the field to hold a new mock
+    object with the same name as the field before the test runs.</p>
+
+    <p>For example, the following declarations create two mock objects named
+    "cheddar" and "jarlsberg". </p>
+
+    <pre class="Java Source">@Mock Cheese cheddar;
+@Mock Cheese jarlsberg;</pre>
+
+    <p>To automagically create <a href="states.html">State</a> and <a
+    href="sequences.html">Sequence</a> objects, annotate the fields with
+    <code>@Auto</code>. Again, jMock will initialise the field with a new
+    object named after the field before the test runs:</p>
+
+    <pre class="Java Source">@Auto States pen;
+@Auto Sequence events;</pre>
+  </body>
+</html>

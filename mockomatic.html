@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Ignoring Irrelevant Mock Objects</title>
+  <meta name="generator" content="Amaya 9.53, see http://www.w3.org/Amaya/" />
+</head>
+
+<body>
+<h1>Ignoring Irrelevant Mock Objects</h1>
+
+<p>The following expectation ignores the mock object <var>fruitbat</var>
+during the test.</p>
+<pre class="Java Source">ignoring (fruitbat);</pre>
+
+<p>During the test any method of <em>fruitbat</em> can be called any number
+of times or not called at all.</p>
+
+<p>When an ignored object is invoked during the test it returns a "zero"
+value that depends on the result type of the invoked method:</p>
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Return Type</th>
+      <th>"Zero" Value</th>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><code>false</code></td>
+    </tr>
+    <tr>
+      <td>numeric type</td>
+      <td>zero</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td>"" (empty string)</td>
+    </tr>
+    <tr>
+      <td>Array</td>
+      <td>Empty array</td>
+    </tr>
+    <tr>
+      <td>Mockable type</td>
+      <td>A mock that is ignored</td>
+    </tr>
+    <tr>
+      <td>Any other type</td>
+      <td><code>null</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The fact that a method with a mockable return type will return another
+ignored mock object makes the ignoring expectation very powerful. The
+returned object will also return "zero" values, and any mockable values it
+returns will also be ignored, and any mockable values <em>they</em> return
+will be ignored, and so on. This allows you to focus individual tests on
+different aspects of an object's functionality, ignoring irrelevant
+collaborators.</p>
+
+<p>For example, the following statement ignores the <a
+href="http://www.hibernate.org">Hibernate</a> <code>SessionFactory</code>,
+and the current <code>Session</code> obtained from the
+<code>getCurrentSession()</code> method, and the Transaction returned from
+the <code>beginTransaction()</code> method and the <code>commit()</code> and
+<code>rollback()</code> methods of the Transaction. So you can specify the
+behaviour of the object independently of how it coordinates transactions and
+test the transaction management in other tests.</p>
+<pre class="Java Source">ignoring (hibernateSessionFactory);</pre>
+</body>
+</html>

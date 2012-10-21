@@ -1,0 +1,426 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jMock News</title>
+    <link>http://www.jmock.org/</link>
+    <description>jMock is a lightweight mock object testing library for Java.</description>
+    <atom:link href="http://www.jmock.org/news-rss2.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>http://www.jmock.org/logo.png</url>
+      <title>jMock News</title>
+      <link>http://www.jmock.org/</link>
+    </image>
+    <language>en-gb</language>
+
+    <item>
+      <title>jMock 2.6.0-RC2 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org/download.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.6.0 RC2</a> has been released. This release adds a new auto-mocking functionality that reduces boilerplate code, support for testing multitheaded code, a Mockery that works with JUnit's rules mechanism and better failure diagnostics.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=14409">in JIRA</a>.
+      </p></body>
+      <pubDate>01 Sep 2010 06:59:59 GMT</pubDate>
+      <guid isPermaLink="false">14c329dc13f1b52c9a89192d4d2df63ec2b0bd11</guid>
+    </item>
+
+    <item>
+      <title>How to Mock Asynchronous GWT Services</title>
+      <category>Documentation</category>
+      <link>http://www.jmock.org/gwt.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        The cookbook has a new page that explains how to mock asynchronous GWT services
+        with jMock.
+      </p></body>
+      <pubDate>19 Feb 2009 19:45:00 GMT</pubDate>
+      <guid isPermaLink="false">102863782cfcd2600304ccb7b63463dac83f0050</guid>      
+    </item>
+	
+    <item>
+      <title>jMock 2.6.0-RC1 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org/download.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.6.0 RC1</a> has been released.
+        This release is mainly concerned with upgrading its supporting libraries, moving to
+        Cglib 2.2, JUnit 4.5, and Hamcrest 1.2 (RC), plus some minor fixes and improvements.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=14409">in JIRA</a>.
+      </p></body>
+      <pubDate>07 Dec 2008 11:10:00 GMT</pubDate>
+      <guid isPermaLink="false">bffac67db2112698dcc5ba5cf7b4ab5d6c6605ff</guid>      
+    </item>
+
+    <item>
+      <title>jMock 2.5.1 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org/download.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.5.1</a> has been released.
+        This is a bug-fix release that improves test failure diagnostics.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=14527">in JIRA</a>.
+      </p></body>
+      <pubDate>24 Aug 2008 11:10:00 GMT</pubDate>
+      <guid isPermaLink="false">c63c4cbae16575e5a65fb39e189fb0818d5cafd5</guid>      
+    </item>
+	
+    <item>
+      <title>jMock Extensions</title>
+      <category>Documentation</category>
+      <link>http://www.jmock.org/extensions.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+      A new page has been added to the <a href="http://www.jmock.org">jmock website</a> that lists optional and third-party
+      <a href="http://www.jmock.org/extensions.html">jMock extensions</a>.
+      </p></body>
+      <pubDate>13 Aug 2008 01:45:00 GMT</pubDate>
+      <guid isPermaLink="false">a80bf4a5347d246de6b711134d7a19646fd49a37</guid>      
+    </item>
+	
+    <item>
+      <title>jMock 2.5.0 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.5.0</a> has been released.
+        This release contains new features, better failure diagnostics, and bug fixes.  
+        New features include
+        classes to help <a href="http://www.jmock.org/threads.html">unit-test concurrent code</a>
+        and 
+        an optional plugin <a href="http://www.jmock.org/scripting.html">for scripting actions</a>.
+        The full changelist is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=13840">in JIRA</a>.
+      </p></body>
+      <pubDate>14 Jul 2008 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">0e9ff39877ee3bb7bad84f45653037b3d90a69e2</guid>      
+    </item>
+    
+    <item>
+      <title>jMock 2.5.0-RC2 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.5.0-RC2</a> has been released.
+        This release candidate fixes a classloader issue that stopped jMock working in
+        Eclipse Plug-In tests, and adds a new expectation method, <code>oneOf</code> as
+        that means the same as, but reads better than, <code>one</code>.
+        The full changelist for 2.5.0 is 
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=13840">in JIRA</a>.
+      </p></body>
+      <pubDate>5 Jul 2008 00:20:00 GMT</pubDate>
+      <guid isPermaLink="false">1f46cd68ea86a2439f0590d2bea01e176a07d504</guid>      
+    </item>
+    
+    <item>
+      <title>jMock 2.5.0-RC1 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.5.0-RC1</a> has been released.
+        This release contains new features, better failure diagnostics, and bug fixes.  
+        New features include
+        classes to help <a href="http://www.jmock.org/threads.html">unit-test concurrent code</a>
+        and 
+        an optional plugin <a href="http://www.jmock.org/scripting.html">for scripting actions</a>
+        The full list of changes is
+        <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10336&amp;styleName=Html&amp;version=13840">reported by JIRA</a>.
+      </p></body>
+      <pubDate>25 Jun 2008 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">091b9b3c934b28e3a26b103659354c56a3d268f2</guid>      
+    </item>
+    
+    <item>
+      <title>How To Override Expectations Defined in the Test Set-Up</title>
+      <category>Documentation</category>
+      <link>http://www.jmock.org/override.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        The cookbook has a new page that explains how a test can override expectations
+        that are defined during test set-up.
+      </p></body>
+      <pubDate>21 Jan 2008 14:00:00 GMT</pubDate>
+      <guid isPermaLink="false">342928eaaf1800bd93a146e2bac7751b3d061034</guid>      
+    </item>
+	
+    <item>
+      <title>How To Use jMock with Languages Other Than Java</title>
+      <category>Documentation</category>
+      <link>http://www.jmock.org/other-languages.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        The cookbook has a new page that links to articles explaining how to 
+        use jMock with languages other than Java.
+        At the moment, Groovy and Scala are covered.  More languages will be
+        added in the future.
+      </p></body>
+      <pubDate>03 Jan 2008 12:30:00 GMT</pubDate>
+      <guid isPermaLink="false">1cee152a485f494b0bd720a3848573fc89ccddd3</guid>      
+    </item>
+
+    <item>
+      <title>jMock 2.4.0 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.4.0</a> has been released.   
+        The most significant change is that jMock no longer allows mock objects to have the
+        same name.  This may break some poorly written tests.  The full list of changes is
+        <a href="http://jira.codehaus.org/secure/IssueNavigator.jspa?reset=true&amp;pid=10336&amp;fixfor=13773">reported by JIRA</a>.
+      </p></body>
+      <pubDate>30 Oct 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">8bd3c43c844ab2743f8cdfad8cbf906569c31a36</guid>      
+    </item>
+    
+    <item>
+      <title>jMock 2.4.0-RC1 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.4.0-RC1</a> has been released.   
+        The most significant change is that jMock no longer allows mock objects to have the
+        same name.  This may break some poorly written tests.  The full list of changes is
+        <a href="http://jira.codehaus.org/secure/IssueNavigator.jspa?reset=true&amp;pid=10336&amp;fixfor=13773">reported by JIRA</a>.
+      </p></p></body>
+      <pubDate>10 Oct 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">d54476e3e821d87e86e665e1084fc26113868da2</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.3.0 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.3.0</a> has been released.   
+        This release brings the JUnit 4 support in jMock 2 in line with JUnit version 4.4
+        and adds a few minor improvements, such as tweaks to error messages.
+      </p></body>
+      <pubDate>01 Oct 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">eab4e1a662b303166e463d96cab4981e59d046b8</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.3.0-RC2 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.3.0-RC2</a> has been released.   
+        This release fixes a regression in the JUnit 4 support that stopped the test runner
+		running tests with private Mockeries.
+      </p></body>
+      <pubDate>25 Jul 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">12067bedee55a072dcb5a32e5c3ef0b5d82f3381</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.3.0-RC1 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.3.0-RC1</a> has been released.   
+        This release brings the JUnit 4 support in jMock 2 in line with JUnit version 4.4.
+      </p></body>
+      <pubDate>23 Jul 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">553692dc94c4adf60fbc4c555ad444365fde4231</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.2.0 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.2.0</a> has been released.   
+        This release has improved error reporting, fixes some issues with generic type 
+        constraints and uses the new Hamcrest version 1.1.
+        Note that this version is <em>not</em> compatible with the new JUnit 4.4 release.
+        Expect support for JUnit 4.4 in jMock 2.3.0, coming soon.
+      </p></body>
+      <pubDate>23 Jul 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">fc92f048a2362e8b7993425467ce6b6f8915a6b0</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.2.0-RC1 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.2.0-RC1</a> has been released.   
+        This release has improved error reporting and uses the new Hamcrest version 1.1.
+      </p></body>
+      <pubDate>30 Jun 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">8a9933de05ddf3ef1846dbb62aa3cbb0873ee1fc</guid>
+    </item>
+	
+    <item>
+      <title>jMock 2 Tutorial at MiniSPA 2007 Conference</title>
+      <category>Event</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        Romilly Cocking, Andy Pols and Nat Pryce will be (re)running a tutorial on 
+	    Test Driven Development with JMock2 at the 
+        <a href="http://bcs-spa.org/minispa2007.html">BCS MiniSPA 2007 conference</a> on the 16th July.
+        The tutorial was very well received when first run at the SPA conference earlier this year. 
+      </p></body>
+      <pubDate>28 Jun 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">5b27a28ac2f6709e9c55a893088af721d8697c06</guid>
+    </item>
+	
+    <item>
+      <title>jMock Repository Converted to Subversion</title>
+      <category>Development</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	  The <a href="http://www.jmock.org/repository.html">jMock repository</a> has been converted from CVS to Subversion.  
+      If you are tracking development in the source repository, please discard your CVS working copy and check the 
+      HEAD revision out of Subversion.
+      </p></body>
+      <pubDate>2 Jun 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">b7e134715497c5b7e4310a3d0c8af8dcb4d4de08</guid>
+    </item>
+
+    <item>
+      <title>jMock 2.1.0</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	  JMock 2.1.0 has been released.  This version fixes some minor bugs and adds the
+	  ability to <a href="http://www.jmock.org/mocking-classes.html">mock abstract and concrete classes</a> 
+      to help test legacy code.
+      </p></body>
+      <pubDate>30 May 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">9c187bb9c937b7193c5a8f4aa68206c5228b01b3</guid>
+    </item>
+
+    <item>
+      <title>jMock 2.1.0-RC5</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+		<a href="http://www.jmock.org/download.html">JMock 2.1.0-RC5</a> has been released.  This release
+        fixes all outstanding JIRA issues and should be the last 2.1.0 release candidate (fingers crossed!). 
+      </p></body>
+      <pubDate>23 May 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">3db6680317a86b4235e67c1530da925898abec65</guid>
+    </item>
+
+    <item>
+      <title>jMock 2.1.0-RC4</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	<a href="http://www.jmock.org/download.html">JMock 2.1.0-RC4</a> has been released.  This release
+        fixes issues with class loaders and generics.
+      </p></body>
+      <pubDate>14 May 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">a43df75d03cb1af994aac2ce62fdead33eb45013</guid>
+    </item>
+
+    <item>
+      <title>jMock available in the Maven repository</title>
+      <category>Release</category>
+      <link>http://www.jmock.org/maven.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	jMock 1 and 2 are now published in the Maven repository. Maven projects can pull in jMock
+        JARs by <a href="http://www.jmock.org/maven.html">defining dependencies in their POM file</a>.
+      </p></body>
+      <pubDate>08 May 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">fbaf46c55ab8c2a2528269ee14c8b868317dbe3f</guid>
+    </item>
+
+    <item>
+      <title>jMock 2.1.0-RC3</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	    <a href="http://www.jmock.org/download.html">JMock 2.1.0-RC3</a> has been released.  This release
+        improves the names of the package and classes for working with legacy code to better express
+        their intent and be independent of the technology used under the hood.
+      </p></body>
+      <pubDate>02 May 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">9704cc4bd7037d3c7bae7cf7408fcf90eaa73e5d</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.1.0-RC2</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	JMock 2.1.0-RC2 has been released, which fixes a bug that stopped jMock mocking package-protected types.
+      </p></body>
+      <pubDate>30 Apr 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">9548cda4a1531482b5598fe7c5c06130e443de3c</guid>
+    </item>
+
+    <item>
+      <title>jMock 2.1.0-RC1</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	JMock 2.1.0-RC1 has been released.  This version extends jMock 2.0.0 with the
+	ability to <a href="http://www.jmock.org/mocking-classes.html">mock abstract and concrete classes</a> 
+        to aid in working with legacy code.  In all other respects it is the same as version 2.0.0.
+      </p></body>
+      <pubDate>19 Apr 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">438df761a39461bf0f0d3aa038cfc3cf6e1dcc05</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2.0.0</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	JMock 2.0.0 has been released.  Version two brings many improvements
+	over version one, including a more convenient and readable API, 
+	better support for refactoring IDEs and support for multiple test frameworks.
+      </p></body>
+      <pubDate>11 Apr 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">1d613bc95c80f46f8e509a549b9a2d2b5dad8ef4</guid>
+    </item>
+    
+    <item>
+      <title>jMock 1.2.0</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	JMock 1.2.0 has been released.  This release fixes several bugs and
+	adds a few incremental API improvements to jMock 1.1.0.
+      </p></body>
+      <pubDate>10 Apr 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">47ed3bae82a22e63927ccf2b6d16aad94603aa7e</guid>
+    </item>
+    
+    <item>
+      <title>jMock 2 Release Candidate 1</title>
+      <category>Release</category>
+      <link>http://www.jmock.org</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+	JMock 2.0.0 RC1 has been released.  Version two brings many improvements
+	over version 1.1.0, including a more convenient and readable API, 
+	better support for refactoring IDEs and support for multiple test frameworks.
+      </p></body>
+      <pubDate>28 Mar 2007 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">9c660df873ade1b06f8c4bd1161bf532b3b3bfdc</guid>
+    </item>
+    
+    <!-- item template
+	 
+    <item>
+      <title></title>
+      <category>Pick one: Release, Documentation, Event, Development</category>
+      <link>http://www.jmock.org/</link>
+      <description></description>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+      </p></body>
+      <pubDate>2004-MM-DD 12:00:00 GMT</pubDate>
+      <guid isPermaLink="false">UUID</guid>
+    </item>
+    
+    Categories:
+    Release          jMock releases
+    Documentation    new articles and website changes
+    Event            events at which jMock is being used
+    Development      new features committed to CVS or other development news
+    
+    Generate UUIDs with the command: uuidgen | sha1sum | cut -d ' ' -f 1
+    -->
+			
+  </channel>
+</rss>

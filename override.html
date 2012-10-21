@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Overriding Expectations Defined in the Test Set-Up</title>
+  </head>
+
+  <body>
+    <h1>Overriding Expectations Defined in the Test Set-Up</h1>
+
+    <p>If you <a href="expectations.html">define expectations</a> in the
+    set-up of a test in order to put the object under test into a known state,
+    you sometimes want to ignore those expectations during the test itself.
+    For example, you might <em>allow</em> calls to some mock objects during
+    set-up and then want to <em>expect</em> calls to those mock objects during
+    the test. If you just define additional expectations in the test, the
+    allowing expectations defined in the set-up will <a
+    href="dispatch.html">take precedence</a> and the test's expectations will
+    never seem to be met, thereby failing the test.</p>
+
+    <p>In this situation, use a <a href="states.html">state machine</a> to
+    control when the expectations are valid. This state machine represents the
+    state of the test, rather than the state of the objects with which the
+    object under test communicates.</p>
+
+    <ol>
+      <li>Define a state machine named, for example, "test".</li>
+
+      <li>In the test set-up, define expectations that are valid when the
+      "test" state machine is not in the "fully-set-up" state.</li>
+
+      <li>At the end of the test set-up, move the "test" state machine into
+      the "fully-set-up" state.</li>
+
+      <li>Define expectations in your tests as usual.</li>
+    </ol>
+
+    <p>The result is that the expectations defined in the set-up to only apply
+    when the test is not "running" will be ignored during the test itself.</p>
+
+    <div class="JUnit3"><h3>JUnit 3</h3><pre class="Java Source">public class ChildTest extends MockObjectTestCase {
+    States test = states("test");
+
+    Parent parent = mock(Parent.class);
+
+    // This is created in setUp
+    Child child;
+    
+    @Override
+    public void setUp() {
+        checking(new Expectations() {{
+            ignoring (parent).addChild(child); when(test.isNot("fully-set-up"));
+        }});
+        
+        // Creating the child adds it to the parent
+        child = new Child(parent);
+        
+        test.become("fully-set-up");
+    }
+    
+    public void testRemovesItselfFromOldParentWhenAssignedNewParent() {
+        Parent newParent = context.mock(Parent.class, "newParent");
+        
+        checking(new Expectations() {{
+            oneOf (parent).removeChild(child);
+            oneOf (newParent).addChild(child);
+        }});
+        
+        child.reparent(newParent);
+    }
+}</pre></div>
+
+    <div class="JUnit4"><h3>JUnit 4</h3><pre class="Java Source">@RunWith(JMock.class)
+public class ChildTest {
+    Mockery context = new JUnit4Mockery();
+    States test = mockery.states("test");
+
+    Parent parent = context.mock(Parent.class);
+
+    // This is created in setUp
+    Child child;
+    
+    @Before
+    public void createChildOfParent() {
+        mockery.checking(new Expectations() {{
+            ignoring (parent).addChild(child); when(test.isNot("fully-set-up"));
+        }});
+        
+        // Creating the child adds it to the parent
+        child = new Child(parent);
+        
+        test.become("fully-set-up");
+    }
+    
+    @Test
+    public void removesItselfFromOldParentWhenAssignedNewParent() {
+        Parent newParent = context.mock(Parent.class, "newParent");
+        
+        context.checking(new Expectations() {{
+            oneOf (parent).removeChild(child);
+            oneOf (newParent).addChild(child);
+        }});
+        
+        child.reparent(newParent);
+    }
+}</pre></div>
+
+    <div class="Raw"><h3>Raw</h3><pre class="Java Source">public class ChildTest extends TestCase {
+    Mockery context = new Mockery();
+    States test = context.states("test");
+
+    Parent parent = context.mock(Parent.class);
+
+    // This is created in setUp
+    Child child;
+    
+    @Override
+    public void setUp() {
+        context.checking(new Expectations() {{
+            ignoring (parent).addChild(child); when(test.isNot("fully-set-up"));
+        }});
+        
+        // Creating the child adds it to the parent
+        child = new Child(parent);
+        
+        test.become("fully-set-up");
+    }
+    
+    public void testRemovesItselfFromOldParentWhenAssignedNewParent() {
+        Parent newParent = context.mock(Parent.class, "newParent");
+        
+        context.checking(new Expectations() {{
+            oneOf (parent).removeChild(child);
+            oneOf (newParent).addChild(child);
+        }});
+        
+        child.reparent(newParent);
+    }
+}</pre></div>
+  </body>
+</html>

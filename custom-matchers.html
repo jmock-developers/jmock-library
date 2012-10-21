@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Writing Custom Matchers</title>
+  </head>
+
+  <body>
+    <h1>Writing New Matchers</h1>
+
+    <p>jMock and <a href="http://code.google.com/p/hamcrest">Hamcrest</a>
+    provide many Matcher classes and factory functions that let you <a
+    href="matchers.html">specify the acceptable parameter values of a method
+    invocation</a>. However, sometimes the predefined constraints do not let
+    you specify an expectation accurately enough to convey what you mean or to
+    keep your tests flexible. In such cases, you can easily define new
+    matchers that seamlessly extend the existing set defined by jMock.</p>
+
+    <p>A Matcher is an object that implements the <a
+    href="http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/Matcher.java">org.hamcrest.Matcher</a>
+    interface. It does two things:</p>
+
+    <ul>
+      <li>reports whether a parameter value meets the constraint (the
+      <code><code>matches</code></code> method).</li>
+
+      <li>generates a readable description to be included in test failure
+      messages (the <code>describeTo</code> method inherited from the <a
+      href="http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-java/hamcrest-core/src/main/java/org/hamcrest/SelfDescribing.java">SelfDescribing</a>
+      interface).</li>
+    </ul>
+
+    <p>To create a new matcher:</p>
+
+    <ol>
+      <li><p>Write a class that extends Hamcrest's BaseMatcher or
+      <a>TypeSafeMatcher</a> base classes. The following matcher class tests
+      whether a string starts with a given prefix.</p><div
+      class="Source Java"><pre>import org.hamcrest.AbstractMatcher;
+
+public class StringStartsWithMatcher extends TypeSafeMatcher&lt;String&gt; {
+    private String prefix;
+
+    public StringStartsWithMatcher(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public boolean matchesSafely(String s) {
+        return s.startsWith(prefix);
+    }
+
+    public StringBuffer describeTo(Description description) {
+        return description.appendText("a string starting with ").appendValue(prefix);
+    }
+}</pre></div></li>
+
+      <li><p>Write a well-named factory method that creates an instance of
+      your new matcher.</p><div class="Source Java"><pre>@Factory
+public static Matcher&lt;String&gt; aStringStartingWith( String prefix ) {
+    return new StringStartsWithMatcher(prefix);
+}</pre><p>The point of the factory method is to make the test code read
+      clearly, so consider how it will look when used in an expectation.
+      </p></div></li>
+
+      <li><p>Use your factory method to create matchers in your tests. The
+      following expectation specifies that the error method of the
+      <code>logger</code> object must be called once with an argument that is
+      a string starting with "FATAL".</p><div class="Source Java"><pre>public class MyTestCase {
+    ...
+
+    public void testSomething() {
+        ...
+
+        context.checking(new Expectations() {{
+            oneOf (logger).error(with(aStringStartingWith("FATAL")));
+        }});
+        ...
+    }
+}</pre> </div></li>
+    </ol>
+
+    <h2>An Important Rule</h2>
+
+    <p><strong>Matcher objects must be stateless.</strong></p>
+
+    <p>When <a href="dispatch.html">dispatching</a> each invocation, jMock
+    uses the matchers to find an expectation that matches the invocation's
+    arguments. This means that it will call the matchers many times during the
+    test, maybe even after the expectation has already been matched and
+    invoked. In fact, jMock gives no guarantees of when and how many times it
+    will call the matchers. This has no effect on stateless matchers but means
+    that the function of stateful matchers cannot be predicted.</p>
+
+    <p>If you want to maintain state in response to invocations, use an <a
+    href="custom-actions.html">Action</a>, not a Matcher.</p>
+
+    <h2>More Information</h2>
+
+    <p>More documentation about how to write Matchers is available from the <a
+    href="http://code.google.com/p/hamcrest/">Hamcrest project</a>.</p>
+  </body>
+</html>

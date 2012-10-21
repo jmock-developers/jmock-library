@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Writing Custom Constraints</title>
+  </head>
+
+  <body>
+    <h1>jMock 1: Writing Custom Constraints</h1>
+
+    <p>jMock provides several classes and factory functions that define <a
+    href="jmock1-constraints.html">constraints over the acceptable parameter
+    values of a method invocation</a>. Sometimes, however, the predefined
+    constraints do not let you specify an expectation accurately enough to
+    keep your tests flexible. In such cases, you can easily define new
+    constraints that seamlessly extend the existing constraints defined by
+    jMock.</p>
+
+    <p>A constraint is an object that implements the <code>Constraint</code>
+    interface. It does two things:</p>
+
+    <ul>
+      <li>report whether a parameter value meets the constraint (the
+      <code>eval</code> method).</li>
+
+      <li>provide a readable description to be included in test failure
+      messages (the <code>describeTo</code> method from the
+      <code>SelfDescribing</code> interface).</li>
+    </ul>
+
+    <p>The <code>org.jmock.constraint</code> package contains many constraint
+    implementations and the programmer can easily specify their own
+    constraints by writing their own implementations of the
+    <code>Constraint</code> interface.</p>
+
+    <p>To create a new constraint:</p>
+
+    <ol>
+      <li><p>Write a class that implements the <code>Constraint</code>
+      interface. The following constraint class tests whether a string starts
+      with a given prefix.</p> <div class="Source Java"> <pre>import org.jmock.core.Constraint;
+
+public class StringStartsWith implements Constraint {
+    private String prefix;
+
+    public StringStartsWith( String prefix ) {
+        this.prefix = prefix;
+    }
+
+    public boolean eval( Object o ) {
+        return o instanceof String &amp;&amp; ((String)o).startsWith(prefix);
+    }
+
+    public StringBuffer describeTo( StringBuffer buffer ) {
+        return buffer.append("a string starting with ")
+                     .append(Formatting.toReadableString(prefix));
+    }
+}</pre> </div> <p>Note that the <code>describeTo</code> method calls
+      <code>Formatting.toReadableString</code> to format the prefix. The
+      <code>toReadableString</code> method formats any raw value in a way that
+      subtly indicates the value's type and should be used to format any raw
+      values stored in your constraints so that error messages are easy to
+      read.</p></li>
+
+      <li><p>Write a factory method in your test case that creates an instance
+      of your new constraint.</p> <div class="Source Java"> <pre>public class MyTestCase extends MockObjectTestCase {
+    ...
+
+    private Constraint aStringStartingWith( String prefix ) {
+        return new StringStartsWith(prefix);
+    }
+}</pre> </div></li>
+
+      <li><p>Use your factory method to create constraints in your tests. The
+      following expectation specifies that the error method of the mockLogger
+      object must be called once with an argument that is a string starting
+      with "FATAL".</p> <div class="Source Java"> <pre>public class MyTestCase extends MockObjectTestCase {
+    ...
+
+    public void testSomething() {
+        ...
+
+        mockLogger.expects(once()).method("error").with( aStringStartingWith("FATAL") );
+
+        ...
+    }
+
+    private Constraint aStringStartingWith( String prefix ) {
+        return new StringStartsWith(prefix);
+    }
+}</pre> </div></li>
+    </ol>
+
+    <h2>An Important Rule</h2>
+
+    <p><strong>Constraint objects must be stateless.</strong></p>
+
+    <p>When <a href="jmock1-dispatch.html">dispatching</a> each invocation,
+    jMock uses the constraints to find an expectation that matches the
+    invocation's arguments. This means that it will call the constraints many
+    times during the test, maybe even after the expectation has been matched
+    and invoked. In fact, jMock gives no guarantees of when and how many times
+    it will call the constraints. This has no effect on stateless constraint
+    objects but means that the function of stateful constraint objects cannot
+    be predicted.</p>
+
+    <p>If you want to maintain state in response to invocations, use a custom
+    <a href="jmock1-custom-stubs.html">Stub</a> or <a
+    href="jmock1-custom-matchers.html">Matcher</a>.</p>
+  </body>
+</html>

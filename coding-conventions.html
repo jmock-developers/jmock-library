@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="" />
+  <title>Development Resources</title>
+</head>
+
+<body>
+<h1>Coding Conventions</h1>
+
+<p>Here are some rules that we follow when developing jMock:</p>
+<ul>
+  <li>Never check in a class without associated unit tests.</li>
+  <li>Never check a failing unit test into the CVS repository.</li>
+  <li>Acceptance tests may fail. A failing acceptance test indicates
+    something that needs to be done: a todo item, feature request or bug
+    report, for example. It's ok to check a failing acceptance test into the
+    CVS repository.</li>
+  <li>Separate acceptance and unit tests. Make it easy to run only the unit
+    tests so that we can check that they pass before committing, even when
+    acceptance tests are failing.</li>
+  <li>Resolve and remove all TODO comments before checking in.</li>
+  <li>Avoid the following words in class names and other identifiers: Helper,
+    Impl (or a derivative), Manager.</li>
+  <li>Follow the Sun: use Sun's <a
+    href="http://java.sun.com/docs/codeconv/">coding conventions for
+  Java</a>.</li>
+  <li>Use the <a href="http://agiledox.sourceforge.net/">TestDox</a> naming
+    conventions for unit tests.</li>
+</ul>
+</body>
+</html>
