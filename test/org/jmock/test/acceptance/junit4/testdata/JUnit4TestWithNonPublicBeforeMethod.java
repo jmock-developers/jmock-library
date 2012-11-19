@@ -1,12 +1,12 @@
 package org.jmock.test.acceptance.junit4.testdata;
 
-import junit.framework.Assert;
-
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JMock.class)
 public class JUnit4TestWithNonPublicBeforeMethod {
@@ -20,6 +20,6 @@ public class JUnit4TestWithNonPublicBeforeMethod {
     }
     
     @Test public void beforeShouldBeCalled() { 
-        Assert.assertTrue("before was called", beforeWasCalled);
+        assertTrue("before was called", beforeWasCalled);
     }
 }

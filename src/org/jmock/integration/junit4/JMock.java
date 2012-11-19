@@ -1,7 +1,5 @@
 package org.jmock.integration.junit4;
 
-import java.lang.reflect.Field;
-
 import org.jmock.Mockery;
 import org.jmock.auto.internal.Mockomatic;
 import org.jmock.internal.AllDeclaredFields;
@@ -10,6 +8,8 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
+
+import java.lang.reflect.Field;
 
 
 /**
@@ -36,7 +36,7 @@ public class JMock extends BlockJUnit4ClassRunner {
         return test;
     }
     
-    @Override
+    @Override @Deprecated
     protected Statement possiblyExpectingExceptions(FrameworkMethod method, Object test, Statement next) {
         return verify(method, test, super.possiblyExpectingExceptions(method, test, next));
     }

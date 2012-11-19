@@ -2,10 +2,11 @@
  */
 package org.jmock.test.unit.support;
 
+
 import junit.framework.AssertionFailedError;
+import org.junit.Assert;
 
-
-public class AssertThat extends junit.framework.Assert
+public class AssertThat extends Assert
 {
     public static void arraysAreEqual( String description,
                                      Object[] expectedArray,

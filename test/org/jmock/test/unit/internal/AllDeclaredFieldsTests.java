@@ -38,15 +38,18 @@ public class AllDeclaredFieldsTests extends TestCase {
         };
     }
 
-    private Matcher<Collection<Field>> isEmpty() {
+    private Matcher<Collection<? extends Field>> isEmpty() {
         return empty();
     }
     
-    public static class NoDeclaredFields {};
-    public static class TwoDeclaredFields {
+    public static class NoDeclaredFields {}
+
+  @SuppressWarnings("UnusedDeclaration")
+  public static class TwoDeclaredFields {
         public int field1;
         @SuppressWarnings("unused") private String field2;
     }
+    @SuppressWarnings("UnusedDeclaration")
     public static class WithInheritedFields extends TwoDeclaredFields {
         protected char field3;
         TestCase field4;

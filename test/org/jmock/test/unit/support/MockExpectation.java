@@ -1,22 +1,18 @@
 package org.jmock.test.unit.support;
 
-import junit.framework.Assert;
 
 import org.hamcrest.Description;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
+import org.junit.Assert;
 
 public class MockExpectation extends Assert implements Expectation {
 	public boolean matches;
     public boolean hasBeenInvoked;
     public boolean isSatisfied;
     public boolean allowsMoreInvocations;
-	
-    public MockExpectation() {
-        this(false, false, false);
-    }
-	
-    public MockExpectation(boolean matches, boolean isSatisfied, boolean allowsMoreInvocations) {
+
+  public MockExpectation(boolean matches, boolean isSatisfied, boolean allowsMoreInvocations) {
 		this.matches = matches;
 		this.isSatisfied = isSatisfied;
         this.allowsMoreInvocations = allowsMoreInvocations;
@@ -25,12 +21,8 @@ public class MockExpectation extends Assert implements Expectation {
 	public boolean matches(Invocation invocation) {
 		return matches;
 	}
-	
-    public boolean hasBeenInvoked() {
-        return hasBeenInvoked;
-    }
-    
-    public boolean allowsMoreInvocations() {
+
+  public boolean allowsMoreInvocations() {
         return allowsMoreInvocations;
     }
     

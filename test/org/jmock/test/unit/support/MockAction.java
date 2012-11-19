@@ -1,10 +1,9 @@
 package org.jmock.test.unit.support;
 
-import junit.framework.Assert;
-
 import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
+import org.junit.Assert;
 
 public class MockAction extends Assert implements Action {
 	public boolean expectInvoke = true;
