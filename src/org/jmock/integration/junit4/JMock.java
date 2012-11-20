@@ -15,10 +15,11 @@ import java.lang.reflect.Field;
 /**
  * A test {@link Runner} that asserts that all expectations have been met after
  * the test has finished and before the fixture is torn down.
- * 
- * @author nat
+ * @Deprecated For JUnit 4 use {@link JUnitRuleMockery}
+ * @author nat steve.freeman
  * 
  */
+@Deprecated
 public class JMock extends BlockJUnit4ClassRunner {
     private Field mockeryField;
 
