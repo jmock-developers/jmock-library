@@ -1,23 +1,23 @@
 package org.jmock.test.unit.lib.legacy;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Date;
-
 import junit.framework.TestCase;
-
 import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.VoidAction;
 import org.jmock.lib.legacy.ClassImposteriser;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Date;
+
 public class ClassImposteriserTests extends TestCase {
     Action action = new ReturnValueAction("result");
     
     Imposteriser imposteriser = ClassImposteriser.INSTANCE;
     
+    @SuppressWarnings("ClassInitializerMayBeStatic")
     public static class ConcreteClassWithNastyConstructor {
         {
             nasty("initialisation block should not be run");
@@ -42,14 +42,17 @@ public class ClassImposteriserTests extends TestCase {
     }
     
     public static abstract class AnAbstractNestedClass {
+        @SuppressWarnings("UnusedDeclaration")
         public abstract String foo();
     }
     
     public static class AnInnerClass {
+        @SuppressWarnings("UnusedDeclaration")
         public String foo() {return "original result";}
     }
     
     public static final class AFinalClass {
+        @SuppressWarnings("UnusedDeclaration")
         public String foo() {return "original result";}
     }
     
