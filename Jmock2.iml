@@ -7,10 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/example" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/test/org/jmock/test/acceptance/junit4/testdata" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="hamcrest" level="project" />
     <orderEntry type="library" name="cglib" level="project" />
     <orderEntry type="library" name="bsh" level="project" />
