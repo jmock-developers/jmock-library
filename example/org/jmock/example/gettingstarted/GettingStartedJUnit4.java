@@ -22,7 +22,7 @@ public class GettingStartedJUnit4 {
         final String message = "message";
 
         // expectations
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception{
             oneOf(subscriber).receive(message);
         }});
 

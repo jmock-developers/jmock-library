@@ -32,7 +32,7 @@ public class CascadedFailuresAcceptanceTests extends TestCase {
     
     @Override
     public void setUp() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).realExpectationFailure(1);
         }});
     }

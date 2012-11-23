@@ -32,7 +32,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     AnInterface mock = context.mock(AnInterface.class, "mock");
     
     public void testMatchesParameterValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith(with.<String>is(equal("hello")));
             oneOf (mock).doSomethingWith(with.<String>is(equal("goodbye")));
         }});
@@ -44,7 +44,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     }
     
     public void testDoesNotAllowUnexpectedParameterValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWith(with.<String>is(equal("hello")));
             oneOf (mock).doSomethingWith(with.<String>is(equal("goodbye")));
         }});
@@ -59,7 +59,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     
     public void testAllOrNoneOfTheParametersMustBeSpecifiedByMatchers() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 oneOf (mock).doSomethingWithBoth(with.<String>is(equal("a-matcher")), "not-a-matcher");
             }});
         }
@@ -69,7 +69,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     
     // Test to show that issue JMOCK-160 is spurious
     public void testNotAllExpectationsOfSameMockMustUseMatchers() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).doSomethingWithBoth(with.<String>is(equal("x")), with.<String>is(equal("y")));
             oneOf (mock).doSomethingWith("z");
         }});
@@ -82,7 +82,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     
     // See issue JMOCK-161
     public void testCanPassLiteralValuesToWithMethodToMeanEqualTo() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(2).of (mock).doSomethingWithBoth(with.<String>is(anything()), with("y"));
         }});
         
@@ -94,7 +94,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
     
     // See issue JMOCK-161
     public void testCanPassLiteralPrimitiveValuesToWithMethodToMeanEqualTo() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(2).of (mock).doSomethingWithBoth(with.booleanIs(anything()), with(true));
             exactly(2).of (mock).doSomethingWithBoth(with.byteIs(anything()), with((byte)1));
             exactly(2).of (mock).doSomethingWithBoth(with.shortIs(anything()), with((short)2));
@@ -136,7 +136,7 @@ public class NewStyleParameterMatchingAcceptanceTests extends TestCase {
         @SuppressWarnings("unused")
         final List<List<Set<String>>> silly = Collections.emptyList();
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).beSilly(with.<List<List<Set<String>>>>is(empty()));
         }});
     }

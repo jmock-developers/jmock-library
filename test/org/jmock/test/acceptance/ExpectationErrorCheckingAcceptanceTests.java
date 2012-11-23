@@ -16,7 +16,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
         final ArrayList<String> list = new ArrayList<String>();
         
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1).of (list).add("a new element");
             }});
             
@@ -29,7 +29,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingCardinality() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 mock.doSomething();
             }});
             fail("should have thrown ExpectationError");
@@ -41,7 +41,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingCardinalityAfterPreviousExpectationsWithCardinality() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1).of (mock).doSomething();
                 mock.doSomething();
             }});
@@ -54,7 +54,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingCardinalityAfterAnIncompleteExpectation() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1);
                 mock.doSomething();
             }});
@@ -67,7 +67,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingTheMockObject() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1);
             }});
             fail("should have thrown IllegalStateException");
@@ -79,7 +79,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingTheMockObjectBeforeOtherExpectations() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1);
                 exactly(1).of (mock).doSomething();
             }});
@@ -92,7 +92,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetAnExpectationWithoutSpecifyingTheMockObjectAfterOtherExpectations() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1).of (mock).doSomething();
                 exactly(1);
             }});
@@ -105,7 +105,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testCannotSetExpectationWithoutSpecifyingTheMockObjectWhenSettingParameterConstraints() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 mock.doSomethingWith(with(equal("1")), with(equal("2")));
             }});
         }
@@ -126,7 +126,7 @@ public class ExpectationErrorCheckingAcceptanceTests extends TestCase {
     
     public void testMustSpecifyConstraintsForAllArguments() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1).of (mock).doSomethingWith("x", with(equal("y")));
             }});
             fail("should have thrown IllegalArgumentException");

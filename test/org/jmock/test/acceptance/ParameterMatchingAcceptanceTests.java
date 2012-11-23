@@ -25,7 +25,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     AnInterface mock = context.mock(AnInterface.class, "mock");
     
     public void testMatchesParameterValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).doSomethingWith(with(equal("hello")));
             exactly(1).of (mock).doSomethingWith(with(equal("goodbye")));
         }});
@@ -37,7 +37,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     }
     
     public void testDoesNotAllowUnexpectedParameterValues() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).doSomethingWith(with(equal("hello")));
             exactly(1).of (mock).doSomethingWith(with(equal("goodbye")));
         }});
@@ -52,7 +52,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     
     public void testAllOrNoneOfTheParametersMustBeSpecifiedByMatchers() {
         try {
-            context.checking(new Expectations() {{
+            context.checking(new Expectations() {protected void expect() throws Exception {
                 exactly(1).of (mock).doSomethingWithBoth(with(equal("a-matcher")), "not-a-matcher");
             }});
         }
@@ -62,7 +62,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     
     // Test to show that issue JMOCK-160 is spurious
     public void testNotAllExpectationsOfSameMockMustUseMatchers() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(1).of (mock).doSomethingWithBoth(with(equal("x")), with(equal("y")));
             exactly(1).of (mock).doSomethingWith("z");
         }});
@@ -75,7 +75,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     
     // See issue JMOCK-161
     public void testCanPassLiteralValuesToWithMethodToMeanEqualTo() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             exactly(2).of (mock).doSomethingWithBoth(with(any(String.class)), with("y"));
         }});
         
@@ -87,17 +87,19 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     
     // See issue JMOCK-161
     public void testCanPassLiteralPrimitiveValuesToWithMethodToMeanEqualTo() {
-        context.checking(new Expectations() {{
-            exactly(2).of (mock).doSomethingWithBoth(with(any(boolean.class)), with(true));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(byte.class)), with((byte)1));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(short.class)), with((short)2));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(char.class)), with('x'));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(int.class)), with(3));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(long.class)), with(4L));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(float.class)), with(5.0f));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(double.class)), with(6.0));
-        }});
-        
+        context.checking(new Expectations() {
+            protected void expect() throws Exception {
+                exactly(2).of(mock).doSomethingWithBoth(with(any(boolean.class)), with(true));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(byte.class)), with((byte) 1));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(short.class)), with((short) 2));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(char.class)), with('x'));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(int.class)), with(3));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(long.class)), with(4L));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(float.class)), with(5.0f));
+                exactly(2).of(mock).doSomethingWithBoth(with(any(double.class)), with(6.0));
+            }
+        });
+
         mock.doSomethingWithBoth(true, true);
         mock.doSomethingWithBoth(false, true);
         
@@ -127,7 +129,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     
     // Checking that you can do with(any(...)) with primitive types, as asked on the mailing list
     public void testSpecifyingAnyValueOfPrimitiveType() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             allowing (mock).doSomethingWithBoth(with(any(boolean.class)), with(any(boolean.class)));
         }});
         

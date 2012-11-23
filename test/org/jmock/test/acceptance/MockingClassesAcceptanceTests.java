@@ -24,7 +24,7 @@ public class MockingClassesAcceptanceTests extends TestCase {
     public void testCanMockClassesWithMethodsThatReturnFinalClasses() {
         final FinalClass result = new FinalClass();
         
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             oneOf (mock).returnInstanceOfFinalClass(); will(returnValue(result));
         }});
         

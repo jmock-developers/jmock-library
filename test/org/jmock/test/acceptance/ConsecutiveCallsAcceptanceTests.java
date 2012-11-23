@@ -14,7 +14,7 @@ public class ConsecutiveCallsAcceptanceTests extends TestCase {
     
     
     public void testCanEasilySpecifySequenceOfStubsForSameMethod() {
-        context.checking(new Expectations() {{
+        context.checking(new Expectations() {protected void expect() throws Exception {
             atLeast(1).of (mock).returnString();
                 will(onConsecutiveCalls(returnValue("hello"),
                                         returnValue("bonjour"),

@@ -14,7 +14,7 @@ public class GettingStartedJUnit3 extends MockObjectTestCase {
         final String message = "message";
 
         // expectations
-        checking(new Expectations() {{
+        checking(new Expectations() {protected void expect() throws Exception{
             oneOf(subscriber).receive(message);
         }});
 
