@@ -8,20 +8,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
- * Implementation of a Thread-Safe Executor that runs an exact number of
+ * Implementation of a thread-safe {@link Executor} that runs an exact number of
  * commands, that is, it expects that a predefined number of commands are
  * supplied to it. Executing that number of commands is also the termination
  * criteria.<br />
  * <br />
- * Only supplying command to this executor will not run them. In order to run
+ * Only supplying a command to this executor will not run them. In order to run
  * commands, the method {@link #waitForExpectedTasks()} has to be invoked.<br />
  * <br />
  * One difference between this Executor and {@link DeterministicExecutor} is
- * that if you have one thread executing commands with this executor and now
- * you're wainting in the JUnit test for all commands to be executed. What could
+ * that if you have one thread executing commands with this executor and 
+ * you're waiting in the JUnit test for all commands to be executed. What could
  * happen, however, is that the runUntilIdle method returns before the other
  * command were even queued to be executed. This executor solves exactly this
- * problem: make sure all expected commands get executed.
+ * problem: it makes sure all expected commands get executed.
  * 
  * @author Reto Hablützel (rethab)
  * 
@@ -58,6 +58,7 @@ public class ExactCommandExecutor implements Executor {
      * Create a new ExactCommandExecutor for the specified number of commands
      * 
      * @param expectedCommands
+     *        how many commands we want to run before terminating
      */
     public ExactCommandExecutor(int expectedCommands) {
         this.expectedCommands = expectedCommands;
