@@ -254,12 +254,12 @@ public class InvocationExpectationTests extends TestCase {
                                   "never invoked", StringDescription.toString(expectation));
         
         expectation.invoke(invocation);
-        AssertThat.stringIncludes("should describe as not invoked",
+        AssertThat.stringIncludes("should describe as invoked 1 time",
                                   "invoked 1 time", StringDescription.toString(expectation));
         
         expectation.invoke(invocation);
         expectation.invoke(invocation);
-        AssertThat.stringIncludes("should describe as not invoked",
+        AssertThat.stringIncludes("should describe as invoked 3 times",
                                   "invoked 3 times", StringDescription.toString(expectation));
     }
 
