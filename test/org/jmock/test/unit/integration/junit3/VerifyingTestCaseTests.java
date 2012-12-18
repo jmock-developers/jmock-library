@@ -5,6 +5,7 @@ package org.jmock.test.unit.integration.junit3;
 import junit.framework.TestCase;
 
 import org.jmock.integration.junit3.VerifyingTestCase;
+import testdata.jmock.integration.junit3.FailingExampleTestCase;
 
 
 public class VerifyingTestCaseTests extends TestCase {
@@ -79,28 +80,7 @@ public class VerifyingTestCaseTests extends TestCase {
         assertTrue(verifierWasRun);
     }
 
-    public static class FailingExampleTestCase extends VerifyingTestCase {
-        public static final Exception tearDownException = new Exception("tear down");
-        public static final Exception testException = new Exception("test");
-
-        private FailingExampleTestCase(String testName) {
-            super(testName);
-        }
-
-        @Override public void tearDown() throws Exception { 
-            throw tearDownException;
-
-        }
-        public void testDoesNotThrowException() throws Exception {
-            // no op
-        }
-
-        public void testThrowsExpectedException() throws Exception {
-            throw testException;
-        }
-    }
-
-    public void testThrowsTestExceptionRatherThanTearDownException() throws Throwable {
+  public void testThrowsTestExceptionRatherThanTearDownException() throws Throwable {
         try {
             new FailingExampleTestCase("testThrowsExpectedException").runBare();
             fail("should have thrown exception");

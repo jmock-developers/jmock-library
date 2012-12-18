@@ -1,4 +1,4 @@
-package org.jmock.test.acceptance.junit4.testdata;
+package testdata.jmock.acceptance.junit4;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -8,16 +8,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
-public class JUnit4TestThatDoesNotSatisfyExpectations {
+public class JUnit4TestThatDoesSatisfyExpectations {
     private Mockery context = new JUnit4Mockery();
     private Runnable runnable = context.mock(Runnable.class);
     
     @Test
-    public void doesNotSatisfyExpectations() {
+    public void doesSatisfyExpectations() {
         context.checking(new Expectations() {{
             oneOf (runnable).run();
         }});
         
-        // Return without satisfying the expectation for runnable.run()
+        runnable.run();
     }
 }

@@ -2,7 +2,7 @@ package org.jmock.test.acceptance.junit4;
 
 import junit.framework.TestCase;
 
-import org.jmock.test.acceptance.junit4.testdata.JUnit4WithRulesExamples;
+import testdata.jmock.acceptance.junit4.JUnit4WithRulesExamples;
 
 public class JUnit4WithRulesTestRunnerTests extends TestCase {
     FailureRecordingRunListener listener = new FailureRecordingRunListener();

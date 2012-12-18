@@ -1,17 +1,9 @@
 package org.jmock.test.acceptance.junit4;
 
-import static org.jmock.test.unit.support.AssertThat.stringIncludes;
 import junit.framework.TestCase;
+import testdata.jmock.acceptance.junit4.*;
 
-import org.jmock.test.acceptance.junit4.testdata.DerivedJUnit4TestThatDoesNotSatisfyExpectations;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatAutoInstantiatesMocks;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatCreatesNoMockery;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatCreatesTwoMockeries;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotCreateAMockery;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesNotSatisfyExpectations;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatDoesSatisfyExpectations;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestThatThrowsExpectedException;
-import org.jmock.test.acceptance.junit4.testdata.JUnit4TestWithNonPublicBeforeMethod;
+import static org.jmock.test.unit.support.AssertThat.stringIncludes;
 
 public class JUnit4TestRunnerTests extends TestCase {
     FailureRecordingRunListener listener = new FailureRecordingRunListener();
