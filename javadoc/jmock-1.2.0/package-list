@@ -1,0 +1,11 @@
+atest.jmock
+atest.jmock.cglib
+org.jmock
+org.jmock.builder
+org.jmock.cglib
+org.jmock.core
+org.jmock.core.constraint
+org.jmock.core.matcher
+org.jmock.core.stub
+org.jmock.expectation
+org.jmock.util
