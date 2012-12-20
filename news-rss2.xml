@@ -13,6 +13,17 @@
     <language>en-gb</language>
 
     <item>
+      <title>jMock 2.6.0 Released</title>
+      <category>Release</category>
+      <link>http://www.jmock.org/download.html</link>
+      <body xmlns="http://www.w3.org/1999/xhtml"><p>
+        <a href="http://www.jmock.org/download.html">JMock 2.6.0</a> has been released. This release adds a new auto-mocking functionality that reduces boilerplate code, support for testing multitheaded code, a Mockery that works with JUnit's rules mechanism and better failure diagnostics 
+      </p></body>
+      <pubDate>19 December 2012 18:47:00 GMT</pubDate>
+      <guid isPermaLink="false">f4259b23-4a0c-11e2-a0cd-109add69e7b6</guid>
+    </item>
+
+    <item>
       <title>jMock 2.6.0-RC2 Released</title>
       <category>Release</category>
       <link>http://www.jmock.org/download.html</link>
