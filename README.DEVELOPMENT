@@ -5,12 +5,12 @@ Here are some rules that we follow when developing jMock:
 
  * Never check in a class without associated unit tests.
 
- * Never check a failing unit test into the CVS repository.
+ * Never check a failing unit test into the repository.
 
  * Acceptance tests may fail. A failing acceptance test indicates
    something that needs to be done: a todo item, feature request or
    bug report, for example. It's ok to check a failing acceptance test
-   into the CVS repository.
+   into the repository.
 
  * Separate acceptance  and unit tests. Make  it easy to  run only the
    unit tests so that we can check that they pass before committing,
@@ -22,8 +22,6 @@ Here are some rules that we follow when developing jMock:
    Helper, Impl (or a derivative), Manager.
 
  * And the reverse: don't start interfaces with an I.
-
- * Follow the Sun: use Sun's coding conventions for Java1.
 
  * Use the TestDox naming conventions for unit tests.
 
