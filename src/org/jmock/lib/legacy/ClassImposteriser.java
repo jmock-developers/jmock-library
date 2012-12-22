@@ -1,27 +1,21 @@
 package org.jmock.lib.legacy;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.List;
-
 import net.sf.cglib.core.CodeGenerationException;
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
 import net.sf.cglib.core.Predicate;
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.CallbackFilter;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.InvocationHandler;
-import net.sf.cglib.proxy.NoOp;
-
+import net.sf.cglib.proxy.*;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 /**
  * This class lets you imposterise abstract and concrete classes 
@@ -62,8 +56,7 @@ public class ClassImposteriser implements Imposteriser {
         
         try {
             setConstructorsAccessible(mockedType, true);
-            Class<?> proxyClass = createProxyClass(mockedType, ancilliaryTypes);
-            return mockedType.cast(createProxy(proxyClass, mockObject));
+          return mockedType.cast(proxy(proxyClass(mockedType, ancilliaryTypes), mockObject));
         }
         finally {
             setConstructorsAccessible(mockedType, false);
@@ -90,11 +83,11 @@ public class ClassImposteriser implements Imposteriser {
         }
     }
     
-    private <T> Class<?> createProxyClass(Class<?> possibleMockedType, Class<?>... ancilliaryTypes) {
-        Class<?> mockedType = 
+    private Class<?> proxyClass(Class<?> possibleMockedType, Class<?>... ancilliaryTypes) {
+        final Class<?> mockedType =
             possibleMockedType == Object.class ? ClassWithSuperclassToWorkAroundCglibBug.class : possibleMockedType;
         
-        Enhancer enhancer = new Enhancer() {
+        final Enhancer enhancer = new Enhancer() {
             @Override
             @SuppressWarnings("unchecked")
             protected void filterConstructors(Class sc, List constructors) {
@@ -128,8 +121,8 @@ public class ClassImposteriser implements Imposteriser {
         }
     }
     
-    private Object createProxy(Class<?> proxyClass, final Invokable mockObject) {
-        Factory proxy = (Factory)objenesis.newInstance(proxyClass);
+    private Object proxy(Class<?> proxyClass, final Invokable mockObject) {
+        final Factory proxy = (Factory)objenesis.newInstance(proxyClass);
         proxy.setCallbacks(new Callback[] {
             new InvocationHandler() {
                 public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
