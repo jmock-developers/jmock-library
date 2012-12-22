@@ -1,35 +1,18 @@
 package org.jmock;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
-import org.jmock.api.Expectation;
-import org.jmock.api.ExpectationError;
-import org.jmock.api.ExpectationErrorTranslator;
-import org.jmock.api.Imposteriser;
-import org.jmock.api.Invocation;
-import org.jmock.api.Invokable;
-import org.jmock.api.MockObjectNamingScheme;
-import org.jmock.api.ThreadingPolicy;
-import org.jmock.internal.CaptureControl;
-import org.jmock.internal.ExpectationBuilder;
-import org.jmock.internal.ExpectationCapture;
-import org.jmock.internal.InvocationDispatcher;
-import org.jmock.internal.InvocationDiverter;
-import org.jmock.internal.InvocationToExpectationTranslator;
-import org.jmock.internal.NamedSequence;
-import org.jmock.internal.ObjectMethodExpectationBouncer;
-import org.jmock.internal.ProxiedObjectIdentity;
-import org.jmock.internal.ReturnDefaultValueAction;
-import org.jmock.internal.SingleThreadedPolicy;
+import org.jmock.api.*;
+import org.jmock.internal.*;
 import org.jmock.lib.CamelCaseNamingScheme;
 import org.jmock.lib.IdentityExpectationErrorTranslator;
 import org.jmock.lib.JavaReflectionImposteriser;
 import org.jmock.lib.concurrent.Synchroniser;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -44,20 +27,18 @@ import org.jmock.lib.concurrent.Synchroniser;
  * @author named by Ivan Moore.
  */
 public class Mockery implements SelfDescribing {
-    private Set<String> mockNames = new HashSet<String>();
     private Imposteriser imposteriser = JavaReflectionImposteriser.INSTANCE;
     private ExpectationErrorTranslator expectationErrorTranslator = IdentityExpectationErrorTranslator.INSTANCE;
     private MockObjectNamingScheme namingScheme = CamelCaseNamingScheme.INSTANCE;
     private ThreadingPolicy threadingPolicy = new SingleThreadedPolicy();
-    
-    private ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
-    
-    private InvocationDispatcher dispatcher = new InvocationDispatcher();
+
+    private final Set<String> mockNames = new HashSet<String>();
+    private final ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
+    private final List<Invocation> actualInvocations = new ArrayList<Invocation>();
+    private final InvocationDispatcher dispatcher = new InvocationDispatcher();
+
     private Error firstError = null;
-    
-    private List<Invocation> actualInvocations = new ArrayList<Invocation>();
-    
-    
+
     /* 
      * Policies
      */
@@ -216,7 +197,7 @@ public class Mockery implements SelfDescribing {
 	    }
 	    else if (!dispatcher.isSatisfied()) {
             throw expectationErrorTranslator.translate(
-                new ExpectationError("not all expectations were satisfied", this));
+                ExpectationError.notAllSatisfied(this));
         }
 	}
     
@@ -232,12 +213,12 @@ public class Mockery implements SelfDescribing {
     
     private void describeHistory(Description description) {
         description.appendText("\nwhat happened before this:");
-        
-        if (actualInvocations.isEmpty()) {
+        final List<Invocation> invocationsSoFar = new ArrayList<Invocation>(actualInvocations);
+        if (invocationsSoFar.isEmpty()) {
             description.appendText(" nothing!");
         }
         else {
-            description.appendList("\n  ", "\n  ", "\n", actualInvocations);
+            description.appendList("\n  ", "\n  ", "\n", invocationsSoFar);
         }
     }
 
