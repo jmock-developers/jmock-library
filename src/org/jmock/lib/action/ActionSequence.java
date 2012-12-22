@@ -2,15 +2,15 @@
  */
 package org.jmock.lib.action;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
 import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Returns the next of a sequence of elements each time it is invoked.
@@ -31,7 +31,7 @@ public class ActionSequence implements Action {
         if (iterator.hasNext()) {
             return iterator.next().invoke(invocation);
         } 
-    	throw new ExpectationError("no more actions available", invocation);
+    	throw ExpectationError.unexpected("no more actions available", invocation);
     }
     
     public void describeTo(Description description) {

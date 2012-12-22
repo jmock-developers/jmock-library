@@ -82,7 +82,7 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
             }
         }
         
-        throw new ExpectationError("unexpected invocation", invocation);
+        throw ExpectationError.unexpected("unexpected invocation", invocation);
 	}
 
 }
