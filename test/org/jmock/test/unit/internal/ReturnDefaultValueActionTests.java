@@ -3,36 +3,32 @@
 package org.jmock.test.unit.internal;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import org.hamcrest.StringDescription;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.internal.ReturnDefaultValueAction;
 import org.jmock.lib.JavaReflectionImposteriser;
-import org.jmock.test.unit.support.AssertThat;
 import org.jmock.test.unit.support.MethodFactory;
+import org.junit.Test;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.*;
 
 
-public class ReturnDefaultValueActionTests extends TestCase {
+public class ReturnDefaultValueActionTests {
     static final Object[] NO_ARG_VALUES = new Object[0];
     static final MethodFactory METHOD_FACTORY = new MethodFactory();
 
-    private ReturnDefaultValueAction action;
+    private final ReturnDefaultValueAction action = new ReturnDefaultValueAction();
 
-    @Override public void setUp() {
-        action = new ReturnDefaultValueAction();
+    @Test public void
+    writesDescriptionToStringBuffer() {
+      assertThat(StringDescription.toString(action), containsString("returns a default value"));
     }
 
-    public void testWritesDescritionToStringBuffer() {
-        AssertThat.stringIncludes("contains expected description",
-            "returns a default value",
-            StringDescription.toString(action));
-    }
-
-    public void testReturnsUsefulDefaultResultsForBasicTypes()
-        throws Throwable
-    {
+    @SuppressWarnings("UnnecessaryBoxing")
+    @Test public void
+    returnsUsefulDefaultResultsForBasicTypes() throws Throwable {
         assertHasRegisteredValue(action, boolean.class, Boolean.FALSE);
         assertHasRegisteredValue(action, void.class, null);
         assertHasRegisteredValue(action, byte.class, new Byte((byte)0));
@@ -51,16 +47,15 @@ public class ReturnDefaultValueActionTests extends TestCase {
         assertHasRegisteredValue(action, Float.class, new Float(0.0F));
         assertHasRegisteredValue(action, Double.class, new Double(0.0));
         assertHasRegisteredValue(action, String.class, "");
-        assertNotNull( "should return an object for Object return type",
-                       action.invoke(invocationReturning(Object.class)) );
+        assertNotNull("return value for Object return type",
+                      action.invoke(invocationReturning(Object.class)));
     }
 
-    public void testReturnsEmptyArrayForAllArrayTypes()
-            throws Throwable
-    {
-        int[] defaultArrayForPrimitiveType =
-                (int[])action.invoke(invocationReturning(int[].class));
-        assertEquals("should be empty array", 0, defaultArrayForPrimitiveType.length);
+
+    @Test public void
+    returnsEmptyArrayForAllArrayTypes() throws Throwable {
+        final int[] defaultArrayForPrimitiveType = (int[])action.invoke(invocationReturning(int[].class));
+        assertEquals("empty array", 0, defaultArrayForPrimitiveType.length);
 
         Object[] defaultArrayForReferenceType =
                 (Object[])action.invoke(invocationReturning(Object[].class));
@@ -72,70 +67,60 @@ public class ReturnDefaultValueActionTests extends TestCase {
     }
 
     // Inspired by http://www.c2.com/cgi/wiki?JavaNullProxy
-    public void testIfImposteriserCanImposteriseReturnTypeReturnsNewMockObjectWithSameReturnDefaultValueAction() throws Throwable {
-        Imposteriser imposteriser = new JavaReflectionImposteriser() {
+    @Test public void
+    imposteriserThatCanImposteriseReturnTypeReturnsNewMockObjectWithSameReturnDefaultValueAction() throws Throwable {
+      final int intResult = -1;
+      final Imposteriser imposteriser = new JavaReflectionImposteriser() {
             @Override
             public boolean canImposterise(Class<?> c) {
                 return c == InterfaceType.class;
             }
         };
+
+      final ReturnDefaultValueAction imposterised = new ReturnDefaultValueAction(imposteriser);
+      imposterised.addResult(int.class, intResult);
         
-        action = new ReturnDefaultValueAction(imposteriser);
+      final InterfaceType result = (InterfaceType)imposterised.invoke(invocationReturning(InterfaceType.class));
+      assertEquals(intResult, result.returnInt());
         
-        int intResult = -1;
-        
-        action.addResult(int.class, new Integer(intResult));
-        
-        InterfaceType result = (InterfaceType)action.invoke(invocationReturning(InterfaceType.class));
-        
-        assertEquals("int result from 'null' interface implementation",
-                     intResult, result.returnInt());
-        
-        assertEquals("should not have returned a mock Runnable because the imposteriser cannot imposterise it",
-                     null, action.invoke(invocationReturning(Runnable.class)));
+      assertNull("imposteriser cannot imposterise a Runnable",
+          imposterised.invoke(invocationReturning(Runnable.class)));
     }
-    
-    public void testDefaultResultsCanBeExplicitlyOverriddenByType() throws Throwable {
-        int newDefaultIntResult = 20;
-        String newDefaultStringResult = "hello";
+
+    @Test public void
+    defaultResultsCanBeExplicitlyOverriddenByType() throws Throwable {
+        final int newDefaultIntResult = 20;
+        final String newDefaultStringResult = "hello";
 
         action.addResult(String.class, newDefaultStringResult);
-        action.addResult(int.class, new Integer(newDefaultIntResult));
+        action.addResult(int.class, newDefaultIntResult);
 
-        assertEquals("expected registered value for string result type",
+        assertEquals("registered value for string result type",
                      newDefaultStringResult, action.invoke(invocationReturning(String.class)));
-
-        assertEquals("expected registered value for int result type",
-                     new Integer(newDefaultIntResult), action.invoke(invocationReturning(int.class)));
+        assertEquals("registered value for int result type",
+                     newDefaultIntResult, action.invoke(invocationReturning(int.class)));
     }
 
-    public void testAnExplicitlyRegisteredResultOverridesThePreviousResultForTheSameType() throws Throwable {
+    @Test public void
+    anExplicitlyRegisteredResultOverridesThePreviousResultForTheSameType() throws Throwable {
         action.addResult(String.class, "result1");
         action.addResult(String.class, "result2");
 
-        assertEquals("expected second result",
-                     "result2", action.invoke(invocationReturning(String.class)));
+        assertEquals("result2", action.invoke(invocationReturning(String.class)));
     }
 
     class UnsupportedReturnType
     {
     }
 
-    public void testInvocationWithAnUnsupportedReturnTypeReturnsNull()
-        throws Throwable
-    {
-        Class<?> unsupportedReturnType = UnsupportedReturnType.class;
-
-        Object result = action.invoke(invocationReturning(unsupportedReturnType));
-        
-        assertNull("should have returned null", result);
+    @Test public void
+    invocationWithAnUnsupportedReturnTypeReturnsNull() throws Throwable {
+      assertNull(action.invoke(invocationReturning(UnsupportedReturnType.class)));
     }
     
     public void assertHasRegisteredValue(ReturnDefaultValueAction action,
                                          Class<?> resultType,
-                                         Object resultValue )
-            throws Throwable
-    {
+                                         Object resultValue ) throws Throwable {
         assertEquals("expected " + resultValue + " to be returned",
                      resultValue, action.invoke(invocationReturning(resultType)));
     }
