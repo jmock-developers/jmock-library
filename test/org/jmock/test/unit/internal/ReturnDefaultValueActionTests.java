@@ -113,7 +113,7 @@ public class ReturnDefaultValueActionTests {
             resultValue, action.invoke(invocationReturning(resultType)));
     }
 
-    private Invocation invocationReturning(Class<?> resultType) {
+    public static Invocation invocationReturning(Class<?> resultType) {
         return new Invocation("INVOKED-OBJECT",
                               METHOD_FACTORY.newMethodReturning(resultType),
                               NO_ARG_VALUES);

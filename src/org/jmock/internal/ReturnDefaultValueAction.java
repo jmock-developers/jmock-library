@@ -2,15 +2,16 @@
  */
 package org.jmock.internal;
 
-import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
+
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -50,40 +51,48 @@ public class ReturnDefaultValueAction implements Action {
     }
 
     public Object invoke(Invocation invocation) throws Throwable {
-        Class<?> returnType = invocation.getInvokedMethod().getReturnType();
+      final Class<?> returnType = invocation.getInvokedMethod().getReturnType();
 
-        if (resultValuesByType.containsKey(returnType)) {
-            return resultValuesByType.get(returnType);
+      if (resultValuesByType.containsKey(returnType)) {
+          return resultValuesByType.get(returnType);
+      }
+      if (returnType.isArray()) {
+          return Array.newInstance(returnType.getComponentType(), 0);
+      }
+      if (isIterableOrMap(returnType)) {
+        if (! returnType.isInterface()) {
+          return returnType.newInstance();
         }
-        else if (returnType.isArray()) {
-            return Array.newInstance(returnType.getComponentType(), 0);
-        }
-        else if (imposteriser.canImposterise(returnType)) {
-            return imposteriser.imposterise(this, returnType);
-        }
-        else {
-            return null;
-        }
+      }
+      if (imposteriser.canImposterise(returnType)) {
+          return imposteriser.imposterise(this, returnType);
+      }
+      return null;
     }
 
-    protected void createDefaultResults() {
+  private boolean isIterableOrMap(Class<?> type) {
+    return Collection.class.isAssignableFrom(type)
+        || Map.class.isAssignableFrom(type);
+  }
+
+  protected void createDefaultResults() {
         addResult(boolean.class, Boolean.FALSE);
         addResult(void.class, null);
-        addResult(byte.class, new Byte((byte)0));
-        addResult(short.class, new Short((short)0));
-        addResult(int.class, new Integer(0));
-        addResult(long.class, new Long(0L));
-        addResult(char.class, new Character('\0'));
-        addResult(float.class, new Float(0.0F));
-        addResult(double.class, new Double(0.0));
+        addResult(byte.class, (byte) 0);
+        addResult(short.class, (short) 0);
+        addResult(int.class, 0);
+        addResult(long.class, 0L);
+        addResult(char.class, '\0');
+        addResult(float.class, 0.0F);
+        addResult(double.class, 0.0);
         addResult(Boolean.class, Boolean.FALSE);
-        addResult(Byte.class, new Byte((byte)0));
-        addResult(Short.class, new Short((short)0));
-        addResult(Integer.class, new Integer(0));
-        addResult(Long.class, new Long(0L));
-        addResult(Character.class, new Character('\0'));
-        addResult(Float.class, new Float(0.0F));
-        addResult(Double.class, new Double(0.0));
+        addResult(Byte.class, (byte) 0);
+        addResult(Short.class, (short) 0);
+        addResult(Integer.class, 0);
+        addResult(Long.class, 0L);
+        addResult(Character.class, '\0');
+        addResult(Float.class, 0.0F);
+        addResult(Double.class, 0.0);
         addResult(String.class, "");
         addResult(Object.class, new Object());
     }
