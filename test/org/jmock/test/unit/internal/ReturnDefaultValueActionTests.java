@@ -27,24 +27,24 @@ public class ReturnDefaultValueActionTests {
 
     @Test public void
     returnsUsefulDefaultResultsForBasicTypes() throws Throwable {
-        assertHasRegisteredValue(boolean.class, Boolean.FALSE);
-        assertHasRegisteredValue(void.class, null);
-        assertHasRegisteredValue(byte.class, (byte) 0);
-        assertHasRegisteredValue(short.class, (short) 0);
-        assertHasRegisteredValue(int.class, 0);
-        assertHasRegisteredValue(long.class, 0L);
-        assertHasRegisteredValue(char.class, '\0');
-        assertHasRegisteredValue(float.class, 0.0F);
-        assertHasRegisteredValue(double.class, 0.0);
-        assertHasRegisteredValue(Boolean.class, Boolean.FALSE);
-        assertHasRegisteredValue(Byte.class, (byte) 0);
-        assertHasRegisteredValue(Short.class, (short) 0);
-        assertHasRegisteredValue(Integer.class, 0);
-        assertHasRegisteredValue(Long.class, 0L);
-        assertHasRegisteredValue(Character.class, '\0');
-        assertHasRegisteredValue(Float.class, 0.0F);
-        assertHasRegisteredValue(Double.class, 0.0);
-        assertHasRegisteredValue(String.class, "");
+        returnsValueForType(boolean.class, Boolean.FALSE);
+        returnsValueForType(void.class, null);
+        returnsValueForType(byte.class, (byte) 0);
+        returnsValueForType(short.class, (short) 0);
+        returnsValueForType(int.class, 0);
+        returnsValueForType(long.class, 0L);
+        returnsValueForType(char.class, '\0');
+        returnsValueForType(float.class, 0.0F);
+        returnsValueForType(double.class, 0.0);
+        returnsValueForType(Boolean.class, Boolean.FALSE);
+        returnsValueForType(Byte.class, (byte) 0);
+        returnsValueForType(Short.class, (short) 0);
+        returnsValueForType(Integer.class, 0);
+        returnsValueForType(Long.class, 0L);
+        returnsValueForType(Character.class, '\0');
+        returnsValueForType(Float.class, 0.0F);
+        returnsValueForType(Double.class, 0.0);
+        returnsValueForType(String.class, "");
         assertNotNull("return value for Object return type",
                       action.invoke(invocationReturning(Object.class)));
     }
@@ -60,10 +60,6 @@ public class ReturnDefaultValueActionTests {
         assertEquals("should be empty array", 0, defaultArrayForReferenceType.length);
     }
 
-    public interface InterfaceType {
-        int returnInt();
-    }
-
     // Inspired by http://www.c2.com/cgi/wiki?JavaNullProxy
     @Test public void
     imposteriserThatCanImposteriseReturnTypeReturnsNewMockObjectWithSameReturnDefaultValueAction() throws Throwable {
@@ -71,14 +67,14 @@ public class ReturnDefaultValueActionTests {
       final Imposteriser imposteriser = new JavaReflectionImposteriser() {
             @Override
             public boolean canImposterise(Class<?> c) {
-                return c == InterfaceType.class;
+                return c == ReturnsAnInt.class;
             }
         };
 
       final ReturnDefaultValueAction imposterised = new ReturnDefaultValueAction(imposteriser);
       imposterised.addResult(int.class, intResult);
         
-      final InterfaceType result = (InterfaceType)imposterised.invoke(invocationReturning(InterfaceType.class));
+      final ReturnsAnInt result = (ReturnsAnInt)imposterised.invoke(invocationReturning(ReturnsAnInt.class));
       assertEquals(intResult, result.returnInt());
         
       assertNull("imposteriser cannot imposterise a Runnable",
@@ -107,23 +103,25 @@ public class ReturnDefaultValueActionTests {
         assertEquals("result2", action.invoke(invocationReturning(String.class)));
     }
 
-    class UnsupportedReturnType
-    {
-    }
-
     @Test public void
     invocationWithAnUnsupportedReturnTypeReturnsNull() throws Throwable {
       assertNull(action.invoke(invocationReturning(UnsupportedReturnType.class)));
     }
     
-    public void assertHasRegisteredValue(Class<?> resultType, Object resultValue) throws Throwable {
-        assertEquals("expected " + resultValue + " to be returned",
-                     resultValue, action.invoke(invocationReturning(resultType)));
+    public void returnsValueForType(Class<?> resultType, Object resultValue) throws Throwable {
+        assertEquals("for type: " + resultType.getSimpleName(),
+            resultValue, action.invoke(invocationReturning(resultType)));
     }
 
-  private Invocation invocationReturning(Class<?> resultType) {
+    private Invocation invocationReturning(Class<?> resultType) {
         return new Invocation("INVOKED-OBJECT",
                               METHOD_FACTORY.newMethodReturning(resultType),
                               NO_ARG_VALUES);
+    }
+
+    private static class UnsupportedReturnType {
+    }
+    private static  interface ReturnsAnInt {
+      int returnInt();
     }
 }
