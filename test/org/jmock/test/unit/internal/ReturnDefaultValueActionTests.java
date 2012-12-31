@@ -2,7 +2,6 @@
  */
 package org.jmock.test.unit.internal;
 
-import junit.framework.AssertionFailedError;
 import org.hamcrest.StringDescription;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
@@ -26,27 +25,26 @@ public class ReturnDefaultValueActionTests {
       assertThat(StringDescription.toString(action), containsString("returns a default value"));
     }
 
-    @SuppressWarnings("UnnecessaryBoxing")
     @Test public void
     returnsUsefulDefaultResultsForBasicTypes() throws Throwable {
-        assertHasRegisteredValue(action, boolean.class, Boolean.FALSE);
-        assertHasRegisteredValue(action, void.class, null);
-        assertHasRegisteredValue(action, byte.class, new Byte((byte)0));
-        assertHasRegisteredValue(action, short.class, new Short((short)0));
-        assertHasRegisteredValue(action, int.class, new Integer(0));
-        assertHasRegisteredValue(action, long.class, new Long(0L));
-        assertHasRegisteredValue(action, char.class, new Character('\0'));
-        assertHasRegisteredValue(action, float.class, new Float(0.0F));
-        assertHasRegisteredValue(action, double.class, new Double(0.0));
-        assertHasRegisteredValue(action, Boolean.class, Boolean.FALSE);
-        assertHasRegisteredValue(action, Byte.class, new Byte((byte)0));
-        assertHasRegisteredValue(action, Short.class, new Short((short)0));
-        assertHasRegisteredValue(action, Integer.class, new Integer(0));
-        assertHasRegisteredValue(action, Long.class, new Long(0L));
-        assertHasRegisteredValue(action, Character.class, new Character('\0'));
-        assertHasRegisteredValue(action, Float.class, new Float(0.0F));
-        assertHasRegisteredValue(action, Double.class, new Double(0.0));
-        assertHasRegisteredValue(action, String.class, "");
+        assertHasRegisteredValue(boolean.class, Boolean.FALSE);
+        assertHasRegisteredValue(void.class, null);
+        assertHasRegisteredValue(byte.class, (byte) 0);
+        assertHasRegisteredValue(short.class, (short) 0);
+        assertHasRegisteredValue(int.class, 0);
+        assertHasRegisteredValue(long.class, 0L);
+        assertHasRegisteredValue(char.class, '\0');
+        assertHasRegisteredValue(float.class, 0.0F);
+        assertHasRegisteredValue(double.class, 0.0);
+        assertHasRegisteredValue(Boolean.class, Boolean.FALSE);
+        assertHasRegisteredValue(Byte.class, (byte) 0);
+        assertHasRegisteredValue(Short.class, (short) 0);
+        assertHasRegisteredValue(Integer.class, 0);
+        assertHasRegisteredValue(Long.class, 0L);
+        assertHasRegisteredValue(Character.class, '\0');
+        assertHasRegisteredValue(Float.class, 0.0F);
+        assertHasRegisteredValue(Double.class, 0.0);
+        assertHasRegisteredValue(String.class, "");
         assertNotNull("return value for Object return type",
                       action.invoke(invocationReturning(Object.class)));
     }
@@ -118,27 +116,12 @@ public class ReturnDefaultValueActionTests {
       assertNull(action.invoke(invocationReturning(UnsupportedReturnType.class)));
     }
     
-    public void assertHasRegisteredValue(ReturnDefaultValueAction action,
-                                         Class<?> resultType,
-                                         Object resultValue ) throws Throwable {
+    public void assertHasRegisteredValue(Class<?> resultType, Object resultValue) throws Throwable {
         assertEquals("expected " + resultValue + " to be returned",
                      resultValue, action.invoke(invocationReturning(resultType)));
     }
 
-    public void assertHasNotRegisteredReturnType( ReturnDefaultValueAction action,
-                                                  Class<?> resultType )
-            throws Throwable
-    {
-        try {
-            action.invoke(invocationReturning(resultType));
-            fail("action should not support return type " + resultType);
-        }
-        catch (AssertionFailedError expected) {
-            return;
-        }
-    }
-
-    private Invocation invocationReturning(Class<?> resultType) {
+  private Invocation invocationReturning(Class<?> resultType) {
         return new Invocation("INVOKED-OBJECT",
                               METHOD_FACTORY.newMethodReturning(resultType),
                               NO_ARG_VALUES);
