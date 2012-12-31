@@ -9,7 +9,9 @@ import java.util.PriorityQueue;
 import java.util.Properties;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.jmock.test.unit.internal.ReturnDefaultValueActionTests.invocationReturning;
 
 /**
@@ -17,6 +19,16 @@ import static org.jmock.test.unit.internal.ReturnDefaultValueActionTests.invocat
  */
 public class ReturnDefaultCollectionTests {
   private final ReturnDefaultValueAction action = new ReturnDefaultValueAction();
+
+  @SuppressWarnings("unchecked")
+  @Test public void
+  returnsANewInstanceForEachCall() throws Throwable {
+    final ArrayList firstInstance = returnedArrayList();
+    firstInstance.add(new Object());
+
+    assertThat(returnedArrayList(), is(empty()));
+  }
+
 
   @Test public void
   returnsNewInstanceOfIterableClasses() throws Throwable {
@@ -36,5 +48,8 @@ public class ReturnDefaultCollectionTests {
         instanceOf(expectedType));
   }
 
+  private ArrayList returnedArrayList() throws Throwable {
+    return (ArrayList) action.invoke(invocationReturning(ArrayList.class));
+  }
 
 }
