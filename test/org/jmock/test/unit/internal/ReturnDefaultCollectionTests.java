@@ -3,15 +3,10 @@ package org.jmock.test.unit.internal;
 import org.jmock.internal.ReturnDefaultValueAction;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Properties;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.jmock.test.unit.internal.ReturnDefaultValueActionTests.invocationReturning;
 
 /**
@@ -29,7 +24,6 @@ public class ReturnDefaultCollectionTests {
     assertThat(returnedArrayList(), is(empty()));
   }
 
-
   @Test public void
   returnsNewInstanceOfIterableClasses() throws Throwable {
     returnsInstanceForType(ArrayList.class, ArrayList.class);
@@ -40,6 +34,12 @@ public class ReturnDefaultCollectionTests {
   returnsNewInstanceOfMapClasses() throws Throwable {
     returnsInstanceForType(HashMap.class, HashMap.class);
     returnsInstanceForType(Properties.class, Properties.class);
+  }
+
+  @Test public void
+  returnsNewInstanceConformingToInterface() throws Throwable {
+    returnsInstanceForType(List.class, ArrayList.class);
+    returnsInstanceForType(Set.class, HashSet.class);
   }
 
   private void returnsInstanceForType(Class<?> declaredType, Class<?> expectedType) throws Throwable {

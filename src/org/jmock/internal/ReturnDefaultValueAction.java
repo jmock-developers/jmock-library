@@ -9,9 +9,7 @@ import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
 import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -62,6 +60,8 @@ public class ReturnDefaultValueAction implements Action {
       if (isIterableOrMap(returnType)) {
         if (! returnType.isInterface()) {
           return returnType.newInstance();
+        } else {
+          return instanceForCollectionType(returnType);
         }
       }
       if (imposteriser.canImposterise(returnType)) {
@@ -70,8 +70,18 @@ public class ReturnDefaultValueAction implements Action {
       return null;
     }
 
+  private Object instanceForCollectionType(Class<?> type) {
+    if (List.class.isAssignableFrom(type)) {
+      return new ArrayList();
+    }
+    if (Set.class.isAssignableFrom(type)) {
+      return new HashSet();
+    }
+    return null;  //To change body of created methods use File | Settings | File Templates.
+  }
+
   private boolean isIterableOrMap(Class<?> type) {
-    return Collection.class.isAssignableFrom(type)
+    return Iterable.class.isAssignableFrom(type)
         || Map.class.isAssignableFrom(type);
   }
 
