@@ -15,6 +15,8 @@ import static org.jmock.test.unit.internal.ReturnDefaultValueActionTests.invocat
 
 /**
  * @author Steve Freeman 2013 http://www.jmock.org
+ * https://github.com/jmock-developers/jmock-library/issues/9
+ *
  */
 public class ReturnDefaultCollectionTests {
   private final ReturnDefaultValueAction action = new ReturnDefaultValueAction();
