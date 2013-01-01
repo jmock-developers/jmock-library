@@ -3,13 +3,7 @@ package org.jmock.test.unit.internal;
 import org.jmock.internal.ReturnDefaultValueAction;
 import org.junit.Test;
 
-import java.beans.beancontext.BeanContext;
-import java.beans.beancontext.BeanContextServices;
-import java.beans.beancontext.BeanContextServicesSupport;
 import java.util.*;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -44,15 +38,12 @@ public class ReturnDefaultCollectionTests {
 
   @Test public void
   returnsNewInstanceConformingToIterableInterface() throws Throwable {
-    returnsInstanceForType(List.class, ArrayList.class);
+    returnsInstanceForType(List.class, LinkedList.class);
     returnsInstanceForType(Set.class, TreeSet.class);
     returnsInstanceForType(NavigableSet.class, TreeSet.class);
     returnsInstanceForType(SortedSet.class, TreeSet.class);
-    returnsInstanceForType(BeanContext.class, BeanContextServicesSupport.class);
-    returnsInstanceForType(BeanContextServices.class, BeanContextServicesSupport.class);
-    returnsInstanceForType(BlockingDeque.class, LinkedBlockingDeque.class);
-    returnsInstanceForType(BlockingQueue.class, LinkedBlockingDeque.class);
-    returnsInstanceForType(Queue.class, LinkedBlockingDeque.class);
+    returnsInstanceForType(Queue.class, LinkedList.class);
+    returnsInstanceForType(Deque.class, LinkedList.class);
   }
 
   @Test public void

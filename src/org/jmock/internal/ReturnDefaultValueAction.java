@@ -8,11 +8,8 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
-import java.beans.beancontext.BeanContext;
-import java.beans.beancontext.BeanContextServicesSupport;
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingDeque;
 
 
 /**
@@ -74,22 +71,16 @@ public class ReturnDefaultValueAction implements Action {
     }
 
   private Object instanceForIterableType(Class<?> type) {
-    if (List.class.isAssignableFrom(type)) {
-      return new ArrayList();
-    }
-    if (Set.class.isAssignableFrom(type)) {
+    if (type.isAssignableFrom(TreeSet.class)) {
       return new TreeSet();
     }
-    if (BeanContext.class.isAssignableFrom(type)) {
-      return new BeanContextServicesSupport();
+    if (type.isAssignableFrom(LinkedList.class)) {
+      return new LinkedList();
     }
-    if (Queue.class.isAssignableFrom(type)) {
-      return new LinkedBlockingDeque();
-    }
-    if (Map.class.isAssignableFrom(type)) {
+    if (type.isAssignableFrom(TreeMap.class)) {
       return new TreeMap();
     }
-    return null;  //To change body of created methods use File | Settings | File Templates.
+    return null;
   }
 
   private boolean isIterableOrMap(Class<?> type) {
