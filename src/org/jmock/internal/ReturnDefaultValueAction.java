@@ -86,6 +86,9 @@ public class ReturnDefaultValueAction implements Action {
     if (Queue.class.isAssignableFrom(type)) {
       return new LinkedBlockingDeque();
     }
+    if (Map.class.isAssignableFrom(type)) {
+      return new TreeMap();
+    }
     return null;  //To change body of created methods use File | Settings | File Templates.
   }
 

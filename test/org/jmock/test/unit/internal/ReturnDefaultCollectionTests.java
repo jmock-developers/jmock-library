@@ -55,6 +55,13 @@ public class ReturnDefaultCollectionTests {
     returnsInstanceForType(Queue.class, LinkedBlockingDeque.class);
   }
 
+  @Test public void
+  returnsNewInstanceConformingToMapType() throws Throwable {
+    returnsInstanceForType(Map.class, TreeMap.class);
+    returnsInstanceForType(SortedMap.class, TreeMap.class);
+    returnsInstanceForType(NavigableMap.class, TreeMap.class);
+  }
+
   private void returnsInstanceForType(Class<?> declaredType, Class<?> expectedType) throws Throwable {
     assertThat(
         action.invoke(invocationReturning(declaredType)),
