@@ -3,6 +3,10 @@ package org.jmock.test.unit.internal;
 import org.jmock.internal.ReturnDefaultValueAction;
 import org.junit.Test;
 
+import javax.xml.ws.handler.LogicalMessageContext;
+import java.beans.beancontext.BeanContext;
+import java.beans.beancontext.BeanContextServices;
+import java.beans.beancontext.BeanContextServicesSupport;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,13 +41,15 @@ public class ReturnDefaultCollectionTests {
   }
 
   @Test public void
-  returnsNewInstanceConformingToIterableInterface() throws Throwable {
+  returnsNewInstanceConformingToCollectionInterface() throws Throwable {
     returnsInstanceForType(List.class, LinkedList.class);
     returnsInstanceForType(Set.class, TreeSet.class);
     returnsInstanceForType(NavigableSet.class, TreeSet.class);
     returnsInstanceForType(SortedSet.class, TreeSet.class);
     returnsInstanceForType(Queue.class, LinkedList.class);
     returnsInstanceForType(Deque.class, LinkedList.class);
+    returnsInstanceForType(BeanContext.class, BeanContextServicesSupport.class);
+    returnsInstanceForType(BeanContextServices.class, BeanContextServicesSupport.class);
   }
 
   @Test public void
@@ -51,6 +57,12 @@ public class ReturnDefaultCollectionTests {
     returnsInstanceForType(Map.class, TreeMap.class);
     returnsInstanceForType(SortedMap.class, TreeMap.class);
     returnsInstanceForType(NavigableMap.class, TreeMap.class);
+  }
+
+  @Test public void
+  imposterisesUnsupportedMapTypes() throws Throwable {
+    assertThat(action.invoke(invocationReturning(LogicalMessageContext.class)).getClass(),
+               hasProperty("canonicalName", containsString("Proxy")));
   }
 
   private void returnsInstanceForType(Class<?> declaredType, Class<?> expectedType) throws Throwable {

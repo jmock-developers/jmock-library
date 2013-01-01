@@ -108,9 +108,9 @@ public class ReturnDefaultValueActionTests {
       assertNull(action.invoke(invocationReturning(UnsupportedReturnType.class)));
     }
     
-    public void returnsValueForType(Class<?> resultType, Object resultValue) throws Throwable {
+    private void returnsValueForType(Class<?> resultType, Object resultValue) throws Throwable {
         assertEquals("for type: " + resultType.getSimpleName(),
-            resultValue, action.invoke(invocationReturning(resultType)));
+                     resultValue, action.invoke(invocationReturning(resultType)));
     }
 
     public static Invocation invocationReturning(Class<?> resultType) {
