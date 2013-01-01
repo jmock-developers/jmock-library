@@ -8,8 +8,11 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
+import java.beans.beancontext.BeanContext;
+import java.beans.beancontext.BeanContextServicesSupport;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 /**
@@ -61,7 +64,7 @@ public class ReturnDefaultValueAction implements Action {
         if (! returnType.isInterface()) {
           return returnType.newInstance();
         } else {
-          return instanceForCollectionType(returnType);
+          return instanceForIterableType(returnType);
         }
       }
       if (imposteriser.canImposterise(returnType)) {
@@ -70,12 +73,18 @@ public class ReturnDefaultValueAction implements Action {
       return null;
     }
 
-  private Object instanceForCollectionType(Class<?> type) {
+  private Object instanceForIterableType(Class<?> type) {
     if (List.class.isAssignableFrom(type)) {
       return new ArrayList();
     }
     if (Set.class.isAssignableFrom(type)) {
-      return new HashSet();
+      return new TreeSet();
+    }
+    if (BeanContext.class.isAssignableFrom(type)) {
+      return new BeanContextServicesSupport();
+    }
+    if (Queue.class.isAssignableFrom(type)) {
+      return new LinkedBlockingDeque();
     }
     return null;  //To change body of created methods use File | Settings | File Templates.
   }
