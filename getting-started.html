@@ -59,7 +59,7 @@
           <pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 
-class PublisherTest extends TestCase {
+public class PublisherTest extends TestCase {
     Mockery context = new Mockery();
     ...    
 }</pre>
@@ -75,7 +75,7 @@ class PublisherTest extends TestCase {
           <pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.Expectations;
 
-class PublisherTest extends MockObjectTestCase {
+public class PublisherTest extends MockObjectTestCase {
     ...    
 }</pre>
         </div>
@@ -89,7 +89,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4RuleMockery;
 
-class PublisherTest {
+public class PublisherTest {
     @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
     ...
 }</pre>
@@ -104,7 +104,7 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4RuleMockery;
 
 @RunWith(JMock.class)
-class PublisherTest {
+public class PublisherTest {
     Mockery context = new JUnit4Mockery();
     ...    
 }</pre>
@@ -234,7 +234,7 @@ final String message = "message";</pre>
           <pre class="Source Java">import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.Expectations;
 
-class PublisherTest extends MockObjectTestCase {
+public class PublisherTest extends MockObjectTestCase {
     public void testOneSubscriberReceivesAMessage() {
         // set up
         final Subscriber subscriber = mock(Subscriber.class);
@@ -264,7 +264,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.Expectations;
 
 @RunWith(JMock.class)
-class PublisherTest {
+public class PublisherTest {
     Mockery context = new JUnit4Mockery();
     
     @Test 
@@ -295,7 +295,7 @@ class PublisherTest {
           <pre class="Source Java">import org.jmock.Mockery;
 import org.jmock.Expectations;
 
-class PublisherTest extends TestCase {
+public class PublisherTest extends TestCase {
     Mockery context = new Mockery();
 
     public void testOneSubscriberReceivesAMessage() {
@@ -346,7 +346,7 @@ class PublisherTest extends TestCase {
           <a href="download.html">Software</a>
         </h1>
         <versions xmlns="">
-  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 2.6.0</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.6)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 2.6.0</a></li></ul>
   <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
 </versions>
         <p>

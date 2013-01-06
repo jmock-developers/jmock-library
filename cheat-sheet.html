@@ -289,27 +289,31 @@ oneOf (calculator).add(2, 2); will(returnValue(5));</pre>
           <td>The argument does not match the Matcher <var>m</var>.</td>
         </tr>
 
-        <tr>
-          <td>anyOf(<var>m<sub>1</sub></var>, <var>m<sub>2</sub></var>, ...,
-          <var>m<sub>n</sub></var>)</td>
-
-          <td>The argument matches one of the Matchers
-          <var>m<sub>1</sub></var> to
-          <var>m<sub>n</sub><sub/></var>.</td>
-        </tr>
-
-        <tr>
-          <td>allOf(<var>m<sub>1</sub></var>, <var>m<sub>2</sub></var>, ...,
-          m<sub>n</sub>)</td>
-
-          <td>The argument matches all of the Matchers
-          <var>m<sub>1</sub></var> to <var>m<sub>n</sub></var>.</td>
-        </tr>
       </tbody>
     </table>
         <p>More matchers are defined as static factory methods of the <a href="javadoc/2.0.0/org/hamcrest/Matchers.html">Hamcrest Matchers
     class</a><sup class="LinkFootnoteRef">2</sup>, which can be statically imported at the top of the test
-    code.</p>
+    code. For example, </p>
+        <table>
+        <tbody>
+        <tr>
+            <td>anyOf(<var>m<sub>1</sub></var>, <var>m<sub>2</sub></var>, ...,
+                <var>m<sub>n</sub></var>)</td>
+
+            <td>The argument matches one of the Matchers
+                <var>m<sub>1</sub></var> to
+                <var>m<sub>n</sub><sub/></var>.</td>
+        </tr>
+
+        <tr>
+            <td>allOf(<var>m<sub>1</sub></var>, <var>m<sub>2</sub></var>, ...,
+                m<sub>n</sub>)</td>
+
+            <td>The argument matches all of the Matchers
+                <var>m<sub>1</sub></var> to <var>m<sub>n</sub></var>.</td>
+        </tr>
+        </tbody>
+    </table>
         <h3>Actions</h3>
         <table>
       <tbody>
@@ -461,7 +465,7 @@ oneOf (turtle).penUp(); then(pen.is("up"));</pre>
           <a href="download.html">Software</a>
         </h1>
         <versions xmlns="">
-  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.5+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 2.6.0</a></li></ul>
+  <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 2 (Java 1.6)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 2.6.0</a></li></ul>
   <h2 xmlns="http://www.w3.org/1999/xhtml">jMock 1 (Java 1.3+)</h2><ul xmlns="http://www.w3.org/1999/xhtml"><li><a href="./download.html">Stable: 1.2.0</a></li></ul>
 </versions>
         <p>
