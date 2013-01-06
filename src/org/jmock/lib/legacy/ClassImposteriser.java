@@ -27,7 +27,9 @@ public class ClassImposteriser implements Imposteriser {
     public static final Imposteriser INSTANCE = new ClassImposteriser();
     
     private ClassImposteriser() {}
-    
+
+    private static final Method FINALIZE_METHOD = findFinalizeMethod();
+
     private static final NamingPolicy NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
         public String getClassName(String prefix, String source, Object key, Predicate names) {
@@ -35,9 +37,14 @@ public class ClassImposteriser implements Imposteriser {
         }
     };
     
-    private static final CallbackFilter IGNORE_BRIDGE_METHODS = new CallbackFilter() {
+    private static final CallbackFilter IGNORED_METHODS = new CallbackFilter() {
         public int accept(Method method) {
-            return method.isBridge() ? 1 : 0;
+            if (method.isBridge())
+                return 1;
+            else if (method.equals(FINALIZE_METHOD))
+                return 1;
+            else
+                return 0;
         }
     };
     
@@ -105,7 +112,7 @@ public class ClassImposteriser implements Imposteriser {
             enhancer.setInterfaces(ancilliaryTypes);
         }
         enhancer.setCallbackTypes(new Class[]{InvocationHandler.class, NoOp.class});
-        enhancer.setCallbackFilter(IGNORE_BRIDGE_METHODS);
+        enhancer.setCallbackFilter(IGNORED_METHODS);
         if (mockedType.getSigners() != null) {
             enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
         }
@@ -139,6 +146,14 @@ public class ClassImposteriser implements Imposteriser {
         all[0] = first;
         System.arraycopy(rest, 0, all, 1, rest.length);
         return all;
+    }
+
+    private static Method findFinalizeMethod() {
+        try {
+            return Object.class.getDeclaredMethod("finalize");
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException("Could not find finalize method on Object");
+        }
     }
     
     public static class ClassWithSuperclassToWorkAroundCglibBug {}
