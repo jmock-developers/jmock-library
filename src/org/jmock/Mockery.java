@@ -125,7 +125,7 @@ public class Mockery implements SelfDescribing {
             throw new IllegalArgumentException("a mock with name " + name + " already exists");
         }
         
-        MockObject mock = new MockObject(typeToMock, name);
+        final MockObject mock = new MockObject(typeToMock, name);
         mockNames.add(name);
         
         Invokable invokable =
