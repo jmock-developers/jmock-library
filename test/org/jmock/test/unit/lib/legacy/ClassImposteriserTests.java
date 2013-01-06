@@ -3,16 +3,25 @@ package org.jmock.test.unit.lib.legacy;
 import junit.framework.TestCase;
 import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.VoidAction;
 import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Test;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Date;
 
-public class ClassImposteriserTests extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class ClassImposteriserTests {
     Action action = new ReturnValueAction("result");
     
     Imposteriser imposteriser = ClassImposteriser.INSTANCE;
@@ -63,7 +72,8 @@ public class ClassImposteriserTests extends TestCase {
         public String foo() {return "original result";}
     }
     
-    public void testCanImposteriseInterfacesAndNonFinalInstantiableClasses() {
+    @Test
+    public void canImposteriseInterfacesAndNonFinalInstantiableClasses() {
         assertTrue("should report that it can imposterise interfaces",
                    imposteriser.canImposterise(Runnable.class));
         assertTrue("should report that it can imposterise classes",
@@ -82,28 +92,32 @@ public class ClassImposteriserTests extends TestCase {
                    !imposteriser.canImposterise(void.class));
     }
 
-    public void testCanImposteriseAConcreteClassWithoutCallingItsConstructorOrInstanceInitialiserBlocks() {
+    @Test
+    public void canImposteriseAConcreteClassWithoutCallingItsConstructorOrInstanceInitialiserBlocks() {
         ConcreteClassWithNastyConstructor imposter = 
             imposteriser.imposterise(action, ConcreteClassWithNastyConstructor.class);
         
         assertEquals("result", imposter.foo());
     }
-    
-    public void testCanImposteriseAnInterface() {
+
+    @Test
+    public void canImposteriseAnInterface() {
         AnInterface imposter = 
             imposteriser.imposterise(action, AnInterface.class);
         
         assertEquals("result", imposter.foo());
     }
-    
-    public void testCanImposteriseAClassWithAPrivateConstructor() {
+
+    @Test
+    public void canImposteriseAClassWithAPrivateConstructor() {
         AClassWithAPrivateConstructor imposter = 
             imposteriser.imposterise(action, AClassWithAPrivateConstructor.class);
         
         assertEquals("result", imposter.foo());
     }
-    
-    public void testCanImposteriseAClassInASignedJarFile() throws Exception {
+
+    @Test
+    public void canImposteriseAClassInASignedJarFile() throws Exception {
         File jarFile = new File("build/testdata/signed.jar");
         
         assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
@@ -125,7 +139,8 @@ public class ClassImposteriserTests extends TestCase {
     }
     
     // See issue JMOCK-150
-    public void testCannotImposteriseAClassWithAFinalToStringMethod() {
+    @Test
+    public void cannotImposteriseAClassWithAFinalToStringMethod() {
         assertTrue("should not be able to imposterise it", !imposteriser.canImposterise(ClassWithFinalToStringMethod.class));
         
         try {
@@ -136,15 +151,37 @@ public class ClassImposteriserTests extends TestCase {
             
         }
     }
-    
+
+    // See issue JMOCK-256 (Github #36)
+    @Test
+    public void doesntDelegateFinalizeMethod() throws Exception {
+        Invokable failIfInvokedAction = new Invokable() {
+            @Override
+            public Object invoke(Invocation invocation) throws Throwable {
+                fail("invocation should not have happened");
+                return null;
+            }
+        };
+
+        Object imposter = imposteriser.imposterise(failIfInvokedAction, Object.class);
+        invokeMethod(imposter, Object.class.getDeclaredMethod("finalize"));
+    }
+
     public interface EmptyInterface {}
     
     // See issue JMOCK-145
-    public void testWorksAroundBugInCglibWhenAskedToImposteriseObject() {
+    @Test
+    public void worksAroundBugInCglibWhenAskedToImposteriseObject() {
         imposteriser.imposterise(new VoidAction(), Object.class);
         
         imposteriser.imposterise(new VoidAction(), Object.class, EmptyInterface.class);
         
         imposteriser.imposterise(new VoidAction(), Object.class, AnInterface.class);
     }
+
+    private Object invokeMethod(Object object, Method method, Object... args) throws IllegalAccessException, InvocationTargetException {
+        method.setAccessible(true);
+        return method.invoke(object, args);
+    }
+
 }
