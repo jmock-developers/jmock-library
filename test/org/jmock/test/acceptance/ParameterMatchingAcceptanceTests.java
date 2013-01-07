@@ -85,17 +85,16 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
         context.assertIsSatisfied();
     }
     
-    // See issue JMOCK-161
     public void testCanPassLiteralPrimitiveValuesToWithMethodToMeanEqualTo() {
         context.checking(new Expectations() {{
-            exactly(2).of (mock).doSomethingWithBoth(with(any(boolean.class)), with(true));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(byte.class)), with((byte)1));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(short.class)), with((short)2));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(char.class)), with('x'));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(int.class)), with(3));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(long.class)), with(4L));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(float.class)), with(5.0f));
-            exactly(2).of (mock).doSomethingWithBoth(with(any(double.class)), with(6.0));
+            exactly(2).of (mock).doSomethingWithBoth(with.booleanIs(any(boolean.class)), with(true));
+            exactly(2).of (mock).doSomethingWithBoth(with.byteIs(any(byte.class)), with((byte)1));
+            exactly(2).of (mock).doSomethingWithBoth(with.shortIs(any(short.class)), with((short)2));
+            exactly(2).of (mock).doSomethingWithBoth(with.charIs(any(char.class)), with('x'));
+            exactly(2).of (mock).doSomethingWithBoth(with.intIs(any(int.class)), with(3));
+            exactly(2).of (mock).doSomethingWithBoth(with.longIs(any(long.class)), with(4L));
+            exactly(2).of (mock).doSomethingWithBoth(with.floatIs(any(float.class)), with(5.0f));
+            exactly(2).of (mock).doSomethingWithBoth(with.doubleIs(any(double.class)), with(6.0));
         }});
         
         mock.doSomethingWithBoth(true, true);
@@ -128,7 +127,7 @@ public class ParameterMatchingAcceptanceTests extends TestCase {
     // Checking that you can do with(any(...)) with primitive types, as asked on the mailing list
     public void testSpecifyingAnyValueOfPrimitiveType() {
         context.checking(new Expectations() {{
-            allowing (mock).doSomethingWithBoth(with(any(boolean.class)), with(any(boolean.class)));
+            allowing (mock).doSomethingWithBoth(with.booleanIs(any(boolean.class)), with.booleanIs(any(boolean.class)));
         }});
         
         mock.doSomethingWithBoth(true, true);

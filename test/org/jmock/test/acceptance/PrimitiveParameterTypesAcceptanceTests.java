@@ -1,11 +1,11 @@
 package org.jmock.test.acceptance;
 
-import junit.framework.TestCase;
-
 import org.jmock.Expectations;
-import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Rule;
+import org.junit.Test;
 
-public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
+public class PrimitiveParameterTypesAcceptanceTests {
     public interface MethodsWithPrimitiveTypes {
         void withBoolean(boolean b);
         void withByte(byte b);
@@ -16,18 +16,19 @@ public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
         void withDouble(double d);
     }
     
-    Mockery context = new Mockery();
-    MethodsWithPrimitiveTypes mock = context.mock(MethodsWithPrimitiveTypes.class, "mock");
-    
-    public void testCanSetExpectationsWithMatchersForMethodsWithArgumentsOfPrimitiveTypes() {
+    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
+    private final MethodsWithPrimitiveTypes mock = context.mock(MethodsWithPrimitiveTypes.class, "mock");
+
+    @Test
+    public void canSetExpectationsWithMatchersForMethodsWithArgumentsOfPrimitiveTypes() {
         context.checking(new Expectations() {{
-            exactly(1).of (mock).withBoolean(with(equal(true)));
-            exactly(1).of (mock).withByte(with(equal((byte)10)));
-            exactly(1).of (mock).withShort(with(equal((short)10)));
-            exactly(1).of (mock).withInt(with(equal(10)));
-            exactly(1).of (mock).withLong(with(equal(10L)));
-            exactly(1).of (mock).withFloat(with(equal(10.0f)));
-            exactly(1).of (mock).withDouble(with(equal(10.0)));
+            exactly(1).of (mock).withBoolean(with.booleanIs(equal(true)));
+            exactly(1).of (mock).withByte(with.byteIs(equal((byte)10)));
+            exactly(1).of (mock).withShort(with.shortIs(equal((short) 10)));
+            exactly(1).of (mock).withInt(with.intIs(equal(10)));
+            exactly(1).of (mock).withLong(with.longIs(equal(10L)));
+            exactly(1).of (mock).withFloat(with.floatIs(equal(10.0f)));
+            exactly(1).of (mock).withDouble(with.doubleIs(equal(10.0)));
         }});
         
         mock.withBoolean(true);
@@ -37,11 +38,10 @@ public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
         mock.withLong(10L);
         mock.withFloat(10.0f);
         mock.withDouble(10.0);
-        
-        context.assertIsSatisfied();
     }
 
-    public void testCanSetExpectationsWithLiteralsForMethodsWithArgumentsOfPrimitiveTypes() {
+    @Test
+    public void canSetExpectationsWithLiteralsForMethodsWithArgumentsOfPrimitiveTypes() {
         context.checking(new Expectations() {{
             exactly(1).of (mock).withBoolean(true);
             exactly(1).of (mock).withByte((byte)10);
@@ -59,7 +59,5 @@ public class PrimitiveParameterTypesAcceptanceTests extends TestCase {
         mock.withLong(10L);
         mock.withFloat(10.0f);
         mock.withDouble(10.0);
-        
-        context.assertIsSatisfied();
     }
 }

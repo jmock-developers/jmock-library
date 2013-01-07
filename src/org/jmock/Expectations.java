@@ -1,38 +1,16 @@
 package org.jmock;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.*;
+import org.jmock.api.Action;
+import org.jmock.internal.*;
+import org.jmock.lib.action.*;
+import org.jmock.syntax.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
-import org.hamcrest.core.IsAnything;
-import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsInstanceOf;
-import org.hamcrest.core.IsNot;
-import org.hamcrest.core.IsNull;
-import org.hamcrest.core.IsSame;
-import org.jmock.api.Action;
-import org.jmock.internal.Cardinality;
-import org.jmock.internal.ChangeStateSideEffect;
-import org.jmock.internal.ExpectationBuilder;
-import org.jmock.internal.ExpectationCollector;
-import org.jmock.internal.InStateOrderingConstraint;
-import org.jmock.internal.InvocationExpectationBuilder;
-import org.jmock.internal.State;
-import org.jmock.internal.StatePredicate;
-import org.jmock.lib.action.ActionSequence;
-import org.jmock.lib.action.DoAllAction;
-import org.jmock.lib.action.ReturnEnumerationAction;
-import org.jmock.lib.action.ReturnIteratorAction;
-import org.jmock.lib.action.ReturnValueAction;
-import org.jmock.lib.action.ThrowAction;
-import org.jmock.syntax.ActionClause;
-import org.jmock.syntax.ArgumentConstraintPhrases;
-import org.jmock.syntax.CardinalityClause;
-import org.jmock.syntax.MethodClause;
-import org.jmock.syntax.ReceiverClause;
-import org.jmock.syntax.WithClause;
 
 /**
  * Provides most of the syntax of jMock's "domain-specific language" API.
@@ -48,7 +26,11 @@ public class Expectations implements ExpectationBuilder,
 {
     private List<InvocationExpectationBuilder> builders = new ArrayList<InvocationExpectationBuilder>();
     private InvocationExpectationBuilder currentBuilder = null;
-    
+
+    /**
+     * Syntactic sugar for specifying arguments that are matchers for primitive types
+     * or are untyped matchers.
+     */
     protected final WithClause with = new WithClause() {
         public boolean booleanIs(Matcher<?> matcher) {
             addParameterMatcher(matcher);
@@ -188,75 +170,14 @@ public class Expectations implements ExpectationBuilder,
     }
     
     /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
+     * For Matchers with primitive types use the <em>with</em> field, for example:
+     * <pre>with.intIs(34);</pre>
+     * For untyped matchers use:
+     * <pre>with.&lt;T&gt;is(anObject);</pre>
      */
     public <T> T with(Matcher<T> matcher) {
         addParameterMatcher(matcher);
         return null;
-    }
-    
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public boolean with(Matcher<Boolean> matcher) {
-        addParameterMatcher(matcher);
-        return false;
-    }
-    
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public byte with(Matcher<Byte> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public short with(Matcher<Short> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public char with(Matcher<Character> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-    
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public int with(Matcher<Integer> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public long with(Matcher<Long> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public float with(Matcher<Float> matcher) {
-        addParameterMatcher(matcher);
-        return 0.0f;
-    }
-
-    /**
-     * Alternatively, use with.<T>is instead, which will work with untyped Hamcrest matchers
-     */
-    public double with(Matcher<Double> matcher) {
-        addParameterMatcher(matcher);
-        return 0.0;
     }
     
     public boolean with(boolean value) {

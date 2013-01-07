@@ -24,7 +24,7 @@ public class ReturnDefaultCollectionTests {
   @SuppressWarnings("unchecked")
   @Test public void
   returnsANewInstanceForEachCall() throws Throwable {
-    final ArrayList firstInstance = returnedArrayList();
+    final ArrayList<Object> firstInstance = returnedArrayList();
     firstInstance.add(new Object());
 
     assertThat(returnedArrayList(), is(empty()));
@@ -74,8 +74,9 @@ public class ReturnDefaultCollectionTests {
   }
 
 
-  private ArrayList returnedArrayList() throws Throwable {
-    return (ArrayList) action.invoke(invocationReturning(ArrayList.class));
+  @SuppressWarnings("unchecked")
+  private ArrayList<Object> returnedArrayList() throws Throwable {
+    return (ArrayList<Object>) action.invoke(invocationReturning(ArrayList.class));
   }
 
 }
