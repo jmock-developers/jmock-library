@@ -171,9 +171,9 @@ public class Expectations implements ExpectationBuilder,
     
     /**
      * For Matchers with primitive types use the <em>with</em> field, for example:
-     * <pre>with.intIs(34);</pre>
+     * <pre>with.intIs(equalTo(34));</pre>
      * For untyped matchers use:
-     * <pre>with.&lt;T&gt;is(anObject);</pre>
+     * <pre>with.&lt;T&gt;is(equalTo(anObject));</pre>
      */
     public <T> T with(Matcher<T> matcher) {
         addParameterMatcher(matcher);
