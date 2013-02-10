@@ -2,10 +2,7 @@ package org.jmock.test.acceptance;
 
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -17,34 +14,45 @@ import static org.junit.Assert.assertThat;
 /**
  * Nasty test to show GitHub #36 is fixed.
  */
-@Ignore("Fails in ant, passes in IntelliJ")
 public class MockeryFinalizationAcceptanceTests
 {
     private static final int FINALIZE_COUNT = 10; // consistently shows a problem before GitHub #36 was fixed
 
-    private final PrintStream oldSysErr = System.err;
-    private final ByteArrayOutputStream capturingErr = new ByteArrayOutputStream();
+    private final Mockery mockery = new Mockery();
+    private final ErrorStream capturingErr = new ErrorStream();
+
+    @BeforeClass
+    public static void clearAnyOutstandingMessages() {
+        ErrorStream localErr = new ErrorStream();
+        localErr.install();
+        String error = null;
+        try {
+            finalizeUntilMessageOrCount(localErr, FINALIZE_COUNT);
+            error = localErr.output();
+        } finally {
+            localErr.uninstall();
+        }
+        if (error != null)
+            System.err.println("WARNING - a previous test left output in finalization [" + error + "]");
+    }
 
     @Before
     public void captureSysErr() {
-        System.setErr(new PrintStream(capturingErr));
+        capturingErr.install();
     }
 
     @After
     public void replaceSysErr() {
-        System.setErr(oldSysErr);
+        capturingErr.uninstall();
     }
 
     @Test
     public void mockedInterfaceDoesntWarnOnFinalize() {
-        Mockery mockery = new Mockery();
-
         checkNoFinalizationMessage(mockery, CharSequence.class);
     }
 
     @Test
     public void mockedInterfaceFromClassImposteriserDoesntWarnOnFinalize() {
-        Mockery mockery = new Mockery();
         mockery.setImposteriser(ClassImposteriser.INSTANCE);
 
         checkNoFinalizationMessage(mockery, CharSequence.class);
@@ -52,11 +60,28 @@ public class MockeryFinalizationAcceptanceTests
 
     @Test
     public void mockedClassDoesntWarnOnFinalize() {
-        Mockery mockery = new Mockery();
         mockery.setImposteriser(ClassImposteriser.INSTANCE);
 
         checkNoFinalizationMessage(mockery, Object.class);
     }
+
+    public interface TypeThatMakesFinalizePublic {
+        public void finalize();
+    }
+
+    @Ignore("TDB")
+    @Test
+    public void mockedTypeThatMakesFinalizePublicDoesntWarnOnFinalize() {
+        checkNoFinalizationMessage(mockery, TypeThatMakesFinalizePublic.class);
+    }
+
+    @Test
+    public void mockedTypeFromClassImposteriserThatMakesFinalizePublicDoesntWarnOnFinalize() {
+        mockery.setImposteriser(ClassImposteriser.INSTANCE);
+
+        checkNoFinalizationMessage(mockery, TypeThatMakesFinalizePublic.class);
+    }
+
 
     private void checkNoFinalizationMessage(Mockery mockery, Class<?> typeToMock) {
         WeakReference<Object> mockHolder = new WeakReference<Object>(mockery.mock(typeToMock));
@@ -64,19 +89,37 @@ public class MockeryFinalizationAcceptanceTests
             System.gc();
             System.runFinalization();
         }
-        finalizeUntilMessageOrCount(FINALIZE_COUNT);
-        assertThat(errorMessage(), isEmptyOrNullString());
+        finalizeUntilMessageOrCount(capturingErr, FINALIZE_COUNT);
+        assertThat(capturingErr.output(), isEmptyOrNullString());
     }
 
 
-    private void finalizeUntilMessageOrCount(int count) {
-        for (int i = 0; i < count && errorMessage().isEmpty(); i++) {
+    private static void finalizeUntilMessageOrCount(ErrorStream capturingErr, int count) {
+        for (int i = 0; i < count && capturingErr.output().isEmpty(); i++) {
             System.gc();
             System.runFinalization();
         }
     }
 
-    private String errorMessage() {
-        return new String(capturingErr.toByteArray());
+    private static class ErrorStream extends PrintStream {
+
+        private PrintStream oldSysErr;
+
+        public ErrorStream() {
+            super(new ByteArrayOutputStream());
+        }
+
+        public void install() {
+            oldSysErr = System.err;
+            System.setErr(this);
+        }
+
+        public void uninstall() {
+            System.setErr(oldSysErr);
+        }
+
+        public String output() {
+            return new String(((ByteArrayOutputStream) out).toByteArray());
+        }
     }
 }
