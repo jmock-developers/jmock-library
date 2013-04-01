@@ -8,7 +8,6 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
-import java.beans.beancontext.BeanContextServicesSupport;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -30,11 +29,10 @@ import java.util.*;
  * @author Steve Freeman 2013
  */
 public class ReturnDefaultValueAction implements Action {
-    private final static Class<?>[] COLLECTION_MAP_TYPES = {
+    private final static Class<?>[] CONCRETE_COLLECTION_TYPES = {
       LinkedList.class,
       TreeSet.class,
-      TreeMap.class,
-      BeanContextServicesSupport.class
+      TreeMap.class
     };
     private final Map<Class<?>, Object> resultValuesByType;
     private Imposteriser imposteriser;
@@ -88,7 +86,7 @@ public class ReturnDefaultValueAction implements Action {
     }
 
     private Object instanceForCollectionType(Class<?> type) throws Throwable {
-      for (Class<?> collectionType : COLLECTION_MAP_TYPES) {
+      for (Class<?> collectionType : CONCRETE_COLLECTION_TYPES) {
         if (type.isAssignableFrom(collectionType)) {
           return collectionType.newInstance();
         }
