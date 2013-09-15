@@ -9,6 +9,7 @@ import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 
@@ -82,7 +83,7 @@ public class ReturnDefaultValueAction implements Action {
     }
 
     private Object collectionOrMapInstanceFor(Class<?> returnType) throws Throwable {
-      return returnType.isInterface() ? instanceForCollectionType(returnType) : returnType.newInstance();
+      return returnType.isInterface() || Modifier.isAbstract(returnType.getModifiers()) ? instanceForCollectionType(returnType) : returnType.newInstance();
     }
 
     private Object instanceForCollectionType(Class<?> type) throws Throwable {
