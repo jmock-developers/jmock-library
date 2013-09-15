@@ -1,8 +1,6 @@
 package org.jmock.test.unit.internal;
 
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.hamcrest.core.IsNull;
 import org.jmock.internal.ReturnDefaultValueAction;
 import org.junit.Test;
 
@@ -21,7 +19,6 @@ import static org.jmock.test.unit.internal.ReturnDefaultValueActionTests.invocat
  */
 public class ReturnDefaultCollectionTests {
     public static final Matcher<Object> IS_PROXY_CLASS = hasProperty("canonicalName", containsString("Proxy"));
-    public static final Matcher<Object> IS_NULL_VALUE = is(nullValue());
     private final ReturnDefaultValueAction action = new ReturnDefaultValueAction();
 
     @SuppressWarnings("unchecked")
@@ -75,8 +72,8 @@ public class ReturnDefaultCollectionTests {
     }
     
     @Test public void
-    doesNotTryToInstantiateAbstractCollections() throws Throwable {
-        assertThat(action.invoke(invocationReturning(AbstractCollection.class)), IS_NULL_VALUE);
+    returnsNullForAbstractCollections() throws Throwable {
+        assertThat(action.invoke(invocationReturning(AbstractCollection.class)), is(nullValue()));
     }
 
     private void returnsInstanceForType(Class<?> declaredType, Class<?> expectedType) throws Throwable {
