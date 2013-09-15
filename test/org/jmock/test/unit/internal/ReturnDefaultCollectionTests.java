@@ -18,7 +18,8 @@ import static org.jmock.test.unit.internal.ReturnDefaultValueActionTests.invocat
  *         https://github.com/jmock-developers/jmock-library/issues/9
  */
 public class ReturnDefaultCollectionTests {
-    public static final Matcher<Object> IS_PROXY_CLASS = hasProperty("canonicalName", containsString("Proxy"));
+    abstract static class AbstractCollection implements Collection {}
+    private static final Matcher<Object> IS_PROXY_CLASS = hasProperty("canonicalName", containsString("Proxy"));
     private final ReturnDefaultValueAction action = new ReturnDefaultValueAction();
 
     @SuppressWarnings("unchecked")

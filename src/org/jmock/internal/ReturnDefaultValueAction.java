@@ -9,8 +9,9 @@ import org.jmock.api.Invocation;
 import org.jmock.lib.JavaReflectionImposteriser;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Modifier;
 import java.util.*;
+
+import static java.lang.reflect.Modifier.isAbstract;
 
 
 /**
@@ -82,11 +83,11 @@ public class ReturnDefaultValueAction implements Action {
       return null;
     }
 
-    private Object collectionOrMapInstanceFor(Class<?> returnType) throws Throwable {
-      return returnType.isInterface() || Modifier.isAbstract(returnType.getModifiers()) ? instanceForCollectionType(returnType) : returnType.newInstance();
+    private static Object collectionOrMapInstanceFor(Class<?> returnType) throws Throwable {
+      return cannotCreateNewInstance(returnType) ? instanceForCollectionType(returnType) : returnType.newInstance();
     }
 
-    private Object instanceForCollectionType(Class<?> type) throws Throwable {
+    private static Object instanceForCollectionType(Class<?> type) throws Throwable {
       for (Class<?> collectionType : CONCRETE_COLLECTION_TYPES) {
         if (type.isAssignableFrom(collectionType)) {
           return collectionType.newInstance();
@@ -95,9 +96,13 @@ public class ReturnDefaultValueAction implements Action {
       return null;
     }
 
-    private boolean isCollectionOrMap(Class<?> type) {
+    private static boolean isCollectionOrMap(Class<?> type) {
       return Collection.class.isAssignableFrom(type)
           || Map.class.isAssignableFrom(type);
+    }
+
+    private static boolean cannotCreateNewInstance(Class<?> returnType) {
+        return returnType.isInterface() || isAbstract(returnType.getModifiers());
     }
 
     protected static Map<Class<?>, Object> createDefaultResults() {
