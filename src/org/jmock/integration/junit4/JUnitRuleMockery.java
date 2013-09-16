@@ -18,10 +18,10 @@ import static org.junit.Assert.fail;
  * have to specify <code>@RunWith(JMock.class)</code> any more). For example,  
  * 
  * <pre>public class ATestWithSatisfiedExpectations {
- *  @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
+ *  &#64;Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
  *  private final Runnable runnable = context.mock(Runnable.class);
  *     
- *  @Test
+ *  &#64;Test
  *  public void doesSatisfyExpectations() {
  *    context.checking(new Expectations() {{
  *      oneOf (runnable).run();
