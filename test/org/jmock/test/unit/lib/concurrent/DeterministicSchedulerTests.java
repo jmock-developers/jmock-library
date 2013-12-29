@@ -1,15 +1,13 @@
 package org.jmock.test.unit.lib.concurrent;
 
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jmock.Expectations;
 import org.jmock.Sequence;
@@ -208,7 +206,37 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         
         scheduler.tick(2, TimeUnit.SECONDS);
     }
-    
+
+    public void testCancellingARunningCommandStopsItFromRunningAgain() {
+        DeterministicScheduler deterministicScheduler = new DeterministicScheduler();
+        SchedulerContainer schedulerContainer = new SchedulerContainer(deterministicScheduler);
+        schedulerContainer.scheduleSelfCancellingTask(1,TimeUnit.SECONDS);
+        deterministicScheduler.tick(2,TimeUnit.SECONDS);
+        assertThat("cancelling runnable run count",schedulerContainer.runCount(), is(1));
+    }
+    public static class SchedulerContainer {
+
+        private final ScheduledExecutorService scheduler;
+        private ScheduledFuture<?> scheduledFuture;
+        private final AtomicInteger counter = new AtomicInteger();
+        public SchedulerContainer(ScheduledExecutorService scheduler) {
+            this.scheduler = scheduler;
+        }
+        public void scheduleSelfCancellingTask(int interval, TimeUnit unit){
+            scheduledFuture = scheduler.scheduleAtFixedRate(
+                    new CancellingRunnable(), interval,interval,unit);
+        }
+        public int runCount(){
+            return counter.get();
+        }
+        private class CancellingRunnable implements Runnable{
+            @Override
+            public void run() {
+                scheduledFuture.cancel(true);
+                counter.incrementAndGet();
+            }
+        }
+    }
     static final int TIMEOUT_IGNORED = 1000;
     
     public void testCanScheduleCallablesAndGetTheirResultAfterTheyHaveBeenExecuted() throws Exception {
