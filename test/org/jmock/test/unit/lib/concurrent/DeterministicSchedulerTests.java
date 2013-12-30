@@ -209,20 +209,20 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
 
     public void testCancellingARunningCommandStopsItFromRunningAgain() {
         DeterministicScheduler deterministicScheduler = new DeterministicScheduler();
-        SchedulerContainer schedulerContainer = new SchedulerContainer(deterministicScheduler);
-        schedulerContainer.scheduleSelfCancellingTask(1,TimeUnit.SECONDS);
+        ObjectThatCancelsARepeatingTask objectThatCancelsARepeatingTask = new ObjectThatCancelsARepeatingTask(deterministicScheduler);
+        objectThatCancelsARepeatingTask.scheduleATaskThatWillCancelItself(1, TimeUnit.SECONDS);
         deterministicScheduler.tick(2,TimeUnit.SECONDS);
-        assertThat("cancelling runnable run count",schedulerContainer.runCount(), is(1));
+        assertThat("cancelling runnable run count", objectThatCancelsARepeatingTask.runCount(), is(1));
     }
-    public static class SchedulerContainer {
+    public static class ObjectThatCancelsARepeatingTask {
 
         private final ScheduledExecutorService scheduler;
         private ScheduledFuture<?> scheduledFuture;
         private final AtomicInteger counter = new AtomicInteger();
-        public SchedulerContainer(ScheduledExecutorService scheduler) {
+        public ObjectThatCancelsARepeatingTask(ScheduledExecutorService scheduler) {
             this.scheduler = scheduler;
         }
-        public void scheduleSelfCancellingTask(int interval, TimeUnit unit){
+        public void scheduleATaskThatWillCancelItself(int interval, TimeUnit unit){
             scheduledFuture = scheduler.scheduleAtFixedRate(
                     new CancellingRunnable(), interval,interval,unit);
         }
