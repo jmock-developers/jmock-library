@@ -65,7 +65,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         
         scheduledTask.run();
         
-        if (scheduledTask.repeats()) {
+        if (!scheduledTask.isCancelled() && scheduledTask.repeats()) {
             deltaQueue.add(scheduledTask.repeatDelay, scheduledTask);
         }
     }
