@@ -1,0 +1,11 @@
+org.jmock
+org.jmock.api
+org.jmock.auto
+org.jmock.integration.junit3
+org.jmock.integration.junit4
+org.jmock.lib
+org.jmock.lib.action
+org.jmock.lib.concurrent
+org.jmock.lib.legacy
+org.jmock.lib.script
+org.jmock.syntax
