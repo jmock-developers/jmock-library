@@ -30,7 +30,7 @@ to your claspath.
 Package Structure
 =================
 
-jMock 2 is organsed into published and internal packages.  We
+jMock 2 is organised into published and internal packages.  We
 guarantee to maintain backward compatability of types in published
 packages within the same major version of jMock.  There are no
 guarantees about backward compatability for types in internal
