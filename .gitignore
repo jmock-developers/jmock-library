@@ -5,3 +5,5 @@ workspace.xml
 .DS_Store
 .idea/scopes
 .idea/inspectionProfiles
+/target/
+hamcrest-test-src
