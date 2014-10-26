@@ -7,3 +7,4 @@ workspace.xml
 .idea/inspectionProfiles
 /target/
 hamcrest-test-src
+/target/

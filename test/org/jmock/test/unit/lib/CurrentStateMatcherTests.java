@@ -4,7 +4,6 @@ import static org.hamcrest.StringDescription.asString;
 import static org.jmock.lib.CurrentStateMatcher.isCurrently;
 import static org.jmock.lib.CurrentStateMatcher.isNotCurrently;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 import org.jmock.States;
 import org.jmock.internal.StateMachine;
