@@ -16,12 +16,7 @@
 
 	<build>
 
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
-
-		<!-- <outputDirectory>build</outputDirectory> -->
-
-		<plugins>
+		<pluginManagement>
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -29,43 +24,6 @@
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-test-sources</phase>
-						<goals>
-							<goal>add-test-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>testdata-testclasses</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<!-- So we can check mocking classes in jars -->
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>mock-jar</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<ant antfile="${basedir}/build.xml" target="create" />
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -81,10 +39,11 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
+			
+		</pluginManagement>
 	</build>
 
-	<dependencies>
+	<dependencyManagement>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-core</artifactId>
@@ -124,6 +83,6 @@
 			<version>1.12.1</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+	</dependencyManagement>
 
 </project>
