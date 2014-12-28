@@ -40,7 +40,6 @@ import static org.junit.Assert.fail;
 public class JUnitRuleMockery extends JUnit4Mockery implements MethodRule {
     private final Mockomatic mockomatic = new Mockomatic(this);
 
-    @Override
     public Statement apply(final Statement base, FrameworkMethod method, final Object target) {
         return new Statement() {
             @Override
