@@ -156,7 +156,6 @@ public class ClassImposteriserTests {
     @Test
     public void doesntDelegateFinalizeMethod() throws Exception {
         Invokable failIfInvokedAction = new Invokable() {
-            @Override
             public Object invoke(Invocation invocation) throws Throwable {
                 fail("invocation should not have happened");
                 return null;

@@ -164,7 +164,6 @@ public class ErrorMessagesAcceptanceTests extends TestCase {
 
     public Action doSomethingDescribedAs(String name) {
         return new CustomAction(name) {
-            @Override
             public Object invoke(Invocation invocation) throws Throwable {
                 return null;
             }
