@@ -1,7 +1,5 @@
 package org.jmock.test.unit.lib.legacy;
 
-import junit.framework.TestCase;
-
 import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
@@ -9,7 +7,6 @@ import org.jmock.api.Invokable;
 import org.jmock.lib.action.ReturnValueAction;
 import org.jmock.lib.action.VoidAction;
 import org.jmock.lib.legacy.ClassImposteriser;
-import org.jmock.testjar.TypeInSignedJar;
 import org.junit.Test;
 
 import java.io.File;
@@ -120,9 +117,19 @@ public class ClassImposteriserTests {
 
     @Test
     public void canImposteriseAClassInASignedJarFile() throws Exception {
-        Object o = imposteriser.imposterise(new VoidAction(), TypeInSignedJar.class);
+        File jarFile = new File("../testjar/target/signed.jar");
         
-        assertTrue(TypeInSignedJar.class.isInstance(o));
+        assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
+        
+        URL jarURL = jarFile.toURI().toURL();
+        URLClassLoader loader = new URLClassLoader(new URL[]{jarURL});
+        Class<?> typeInSignedJar = loader.loadClass("org.jmock.testjar.TypeInSignedJar");
+        
+        Object o = imposteriser.imposterise(new VoidAction(), typeInSignedJar);
+        
+        assertTrue(typeInSignedJar.isInstance(o));
+        
+        loader.close();
     }
     
     public static class ClassWithFinalToStringMethod {
