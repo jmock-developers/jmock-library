@@ -15,4 +15,34 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jarsigner-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign</id>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<keystore>keystore.jks</keystore>
+					<alias>selfsigned</alias>
+					<storepass>password</storepass>
+					<verbose>true</verbose>
+					<certs>true</certs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
