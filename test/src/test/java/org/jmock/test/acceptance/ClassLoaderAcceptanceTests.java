@@ -2,8 +2,11 @@
  */
 package org.jmock.test.acceptance;
 
+import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -14,12 +17,16 @@ import org.jmock.lib.legacy.ClassImposteriser;
 
 
 public class ClassLoaderAcceptanceTests extends TestCase {
+
+    final String UNSIGNED_JAR_NAME = "../testjar/target/unsigned.jar";
     Mockery mockery = new Mockery();
     ClassLoader classLoader;
     
     @Override
-    public void setUp() throws MalformedURLException {
-        classLoader = new URLClassLoader(new URL[]{new URL("file:build/testdata/unsigned.jar")}, null);
+    public void setUp() throws MalformedURLException, URISyntaxException {
+        File unsignedFile = new File(UNSIGNED_JAR_NAME);
+        assertTrue("The unsigned  file is missing, mvn package will build it",unsignedFile.exists());
+        classLoader = new URLClassLoader(new URL[]{unsignedFile.toURI().toURL()}, null);
     }
     
     public void testMockingInterfaceFromOtherClassLoaderWithDefaultImposteriser() throws ClassNotFoundException {

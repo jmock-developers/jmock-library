@@ -53,11 +53,11 @@ public class JavaReflectionImposteriserTests extends TestCase {
     }
     
     public void testCanImposteriseAClassInASignedJarFile() throws Exception {
-        File jarFile = new File("../testjar/target/signed.jar");
+        File signedJarFile = new File("../testjar/target/signed.jar");
         
-        assertTrue("Signed JAR file does not exist (use Ant to build it)", jarFile.exists());
+        assertTrue("Signed JAR file does not exist (use Ant to build it)", signedJarFile.exists());
         
-        URL jarURL = jarFile.toURI().toURL();
+        URL jarURL = signedJarFile.toURI().toURL();
         URLClassLoader loader = new URLClassLoader(new URL[]{jarURL});
         Class<?> typeInSignedJar = loader.loadClass("org.jmock.testjar.TypeInSignedJar");
         
