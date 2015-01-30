@@ -9,3 +9,10 @@ hamcrest-test-src
 .settings
 .project
 .classpath
+.gradle
+gradle
+*.iml
+*.ipr
+*.iws
+gradlew
+gradlew.bat
