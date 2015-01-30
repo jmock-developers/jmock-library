@@ -3,6 +3,9 @@ out/
 bin/
 workspace.xml
 .DS_Store
-.idea/scopes
-.idea/inspectionProfiles
 .idea
+target/
+hamcrest-test-src
+.settings
+.project
+.classpath
