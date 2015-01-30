@@ -4,9 +4,9 @@ package org.jmock.test.unit.support;
 
 import java.lang.reflect.Method;
 
-import net.sf.cglib.asm.ClassWriter;
-import net.sf.cglib.asm.Type;
 import net.sf.cglib.core.Constants;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Type;
 
 
 public class MethodFactory extends ClassLoader {
@@ -58,10 +58,7 @@ public class MethodFactory extends ClassLoader {
             Class<?> interfaceClass = classLoader.loadClass("InterfaceDefining_" + methodName);
             return interfaceClass.getMethod(methodName, argTypes);
         }
-        catch (ClassNotFoundException ex) {
-            throw new Error(ex.getMessage());
-        }
-        catch (NoSuchMethodException ex) {
+        catch (ClassNotFoundException | NoSuchMethodException ex) {
             throw new Error(ex.getMessage());
         }
     }

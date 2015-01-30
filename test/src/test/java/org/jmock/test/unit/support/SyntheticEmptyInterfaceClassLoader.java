@@ -3,12 +3,12 @@
  */
 package org.jmock.test.unit.support;
 
+import net.sf.cglib.core.Constants;
+import org.objectweb.asm.ClassWriter;
+
 import static org.jmock.test.unit.support.MethodFactory.CLASS_FORMAT_VERSION;
 
 import java.util.regex.Pattern;
-
-import net.sf.cglib.asm.ClassWriter;
-import net.sf.cglib.core.Constants;
 
 public class SyntheticEmptyInterfaceClassLoader extends ClassLoader {
     private Pattern namePattern;

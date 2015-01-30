@@ -32,8 +32,14 @@ sourceSets {
     }
     test {
         java {
-            srcDirs 'test/src/java'
+            srcDirs 'test/src/test/java', 'testdata/src/main/java'
         }
+    }
+}
+
+test {
+    filter {
+        includeTestsMatching 'org.jmock.test.*'
     }
 }
 
