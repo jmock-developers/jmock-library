@@ -3,8 +3,8 @@ package org.jmock.test.unit.lib.concurrent;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.api.Action;
-import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.lib.concurrent.DeterministicExecutor;
+import org.jmock.test.unit.internal.MockObjectTestCase;
 
 public class DeterministicExecutorTests extends MockObjectTestCase {
     DeterministicExecutor scheduler = new DeterministicExecutor();

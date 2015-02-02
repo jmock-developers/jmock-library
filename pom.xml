@@ -26,7 +26,6 @@
 	<modules>
 		<module>jmock</module>
 		<module>testjar</module>
-		<module>testdata</module>
 		<module>test</module>
 		<module>jmock-junit3-test</module>
 	</modules>

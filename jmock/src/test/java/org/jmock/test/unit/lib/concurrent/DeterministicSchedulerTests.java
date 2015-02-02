@@ -6,15 +6,20 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.api.Action;
-import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.lib.concurrent.DeterministicScheduler;
 import org.jmock.lib.concurrent.UnsupportedSynchronousOperationException;
+import org.jmock.test.unit.internal.MockObjectTestCase;
 
 public class DeterministicSchedulerTests extends MockObjectTestCase {
     DeterministicScheduler scheduler = new DeterministicScheduler();
