@@ -10,13 +10,14 @@
 		<version>2.8.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>jmock-junit3-test</artifactId>
+	<artifactId>jmock-junit3</artifactId>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -29,13 +30,9 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock-test</artifactId>
-			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>

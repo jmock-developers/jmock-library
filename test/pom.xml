@@ -40,7 +40,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jmock</groupId>
-			<artifactId>jmock</artifactId>
+			<artifactId>jmock-junit3</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
