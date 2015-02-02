@@ -26,8 +26,9 @@
 	<modules>
 		<module>jmock</module>
 		<module>testjar</module>
-		<module>test</module>
-		<module>jmock-junit3-test</module>
+		<module>jmock-junit3</module>
+        <module>jmock-junit4</module>
+        <module>jmock-legacy</module>
 	</modules>
 
 	<build>
@@ -53,9 +54,27 @@
 						</includes>
 						<excludes>
 							<exclude>**/Failing*TestCase.java</exclude>
+                            <!-- Maven doesn't like the following anonymous inner class test classes with no public constructos -->
+                            <exclude>**/VerifyingTestCaseTests$*</exclude>
+                            <!-- Run acceptance these in integration tests -->
+                            <exclude>**/testdata/jmock/acceptance/**/*.java</exclude>
 						</excludes>
 					</configuration>
 				</plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.18</version>
+                    <configuration>
+                        <!-- acceptance tests allow failures -->
+                        <testFailureIgnore>true</testFailureIgnore>
+                        <includes>
+                            <include>**/Failing*TestCase.java</include>
+                            <include>**/testdata/jmock/acceptance/**/*.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

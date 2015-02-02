@@ -5,15 +5,14 @@ package org.jmock.test.acceptance;
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import junit.framework.TestCase;
-
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
+
+import junit.framework.TestCase;
 
 
 public class ClassLoaderAcceptanceTests extends TestCase {
