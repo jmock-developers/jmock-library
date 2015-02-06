@@ -40,12 +40,5 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-testdata</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 </project>
