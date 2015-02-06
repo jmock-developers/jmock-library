@@ -3,6 +3,7 @@ package org.jmock.test.acceptance;
 public interface MockedType {
 	void doSomething();
 	void doSomethingWith(String s);
+    void doSomethingWith(int s);
 	void doSomethingWith(String x, String y);
 	void doSomethingWithArray(String[] strings);
 

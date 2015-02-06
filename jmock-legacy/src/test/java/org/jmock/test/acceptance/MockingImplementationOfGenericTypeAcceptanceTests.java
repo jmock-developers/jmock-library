@@ -36,6 +36,20 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
         ((AnInterface<String>)mock).doSomethingWith("a");
     }
     
+    public void DONTtestAndBoxedNativeParameterIgnoingIsADocumentationWhenDefinedThroughClassAndInvokedThroughMethod() throws Exception {
+        final AnImplementation mock = context.mock(AnImplementation.class);
+
+        context.checking(new Expectations() {{
+            oneOf (mock).doSomethingWith(with(any(Integer.class)));
+        }});
+        
+        // Note: this is invoked through a "bridge" method and so the method
+        // invoked when expectations are checked appears to be different from
+        // that invoked when expectations are captured.
+        ((AnInterface<String>)mock).doSomethingWith("a");
+    }
+    
+
     public void testWhenDefinedAndInvokedThroughInterface() throws Exception {
         final AnInterface<String> mock = context.mock(AnImplementation.class);
 
@@ -48,10 +62,13 @@ public class MockingImplementationOfGenericTypeAcceptanceTests extends TestCase 
 
     public interface AnInterface<T> {
         void doSomethingWith(T arg);
+        void doSomethingWith(int arg);
     }
 
     public static class AnImplementation implements AnInterface<String> {
         public void doSomethingWith(String arg) {
+        }
+        public void doSomethingWith(int arg) {
         }
     }
 }

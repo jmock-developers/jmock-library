@@ -38,6 +38,10 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

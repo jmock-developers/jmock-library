@@ -29,10 +29,6 @@
             <artifactId>asm</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.objenesis</groupId>
-            <artifactId>objenesis</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.beanshell</groupId>
             <artifactId>bsh</artifactId>
         </dependency>

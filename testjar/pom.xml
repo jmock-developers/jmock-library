@@ -60,8 +60,8 @@
 						</goals>
 						<configuration>
 							<keyname>899FD4CB</keyname>
-							<secretKeyring>./secring.gpg</secretKeyring>
-							<publicKeyring>./pubring.gpg</publicKeyring>
+							<secretKeyring>${basedir}/secring.gpg</secretKeyring>
+							<publicKeyring>${basedir}/pubring.gpg</publicKeyring>
 							<passphrase>secret</passphrase>
 						</configuration>
 					</execution>
