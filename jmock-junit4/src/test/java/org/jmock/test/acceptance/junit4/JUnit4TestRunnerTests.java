@@ -3,8 +3,6 @@ package org.jmock.test.acceptance.junit4;
 import junit.framework.TestCase;
 import testdata.jmock.acceptance.junit4.*;
 
-import static org.jmock.test.unit.support.AssertThat.stringIncludes;
-
 public class JUnit4TestRunnerTests extends TestCase {
     FailureRecordingRunListener listener = new FailureRecordingRunListener();
     
