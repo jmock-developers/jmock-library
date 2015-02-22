@@ -58,13 +58,16 @@ public class JavaReflectionImposteriserTests extends TestCase {
         assertTrue("Signed JAR file does not exist (use Ant to build it)", signedJarFile.exists());
         
         URL jarURL = signedJarFile.toURI().toURL();
-        URLClassLoader loader = new URLClassLoader(new URL[]{jarURL});
+
+        // ignore closable loader as we might be in java 6
+        @SuppressWarnings("resource")
+		URLClassLoader loader = new URLClassLoader(new URL[]{jarURL});
+
         Class<?> typeInSignedJar = loader.loadClass("org.jmock.testjar.TypeInSignedJar");
         
         Object o = imposteriser.imposterise(new VoidAction(), typeInSignedJar);
         
         assertTrue(typeInSignedJar.isInstance(o));
         
-        loader.close();
     }
 }
