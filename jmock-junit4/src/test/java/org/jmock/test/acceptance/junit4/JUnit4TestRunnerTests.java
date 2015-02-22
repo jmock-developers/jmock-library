@@ -49,8 +49,9 @@ public class JUnit4TestRunnerTests extends TestCase {
     public void testDetectsNonPublicBeforeMethodsCorrectly() {
         listener.runTestIn(JUnit4TestWithNonPublicBeforeMethod.class);
         listener.assertTestFailedWith(Throwable.class);
-        stringIncludes("should have detected non-public before method", 
-                       "Method before() should be public", listener.failure.getMessage());
+        assertEquals("should have detected non-public before method",
+                "Method before() should be public",
+                       listener.failure.getMessage());
     }
     
     public void testAutoInstantiatesMocks() {

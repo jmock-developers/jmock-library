@@ -1,4 +1,4 @@
-package org.jmock.test.unit.lib.concurrent;
+package org.jmock.test.unit.lib.concurrent.internal;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;

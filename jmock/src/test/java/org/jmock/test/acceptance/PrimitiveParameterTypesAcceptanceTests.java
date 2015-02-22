@@ -1,8 +1,7 @@
 package org.jmock.test.acceptance;
 
 import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Rule;
+import org.jmock.Mockery;
 import org.junit.Test;
 
 public class PrimitiveParameterTypesAcceptanceTests {
@@ -16,7 +15,7 @@ public class PrimitiveParameterTypesAcceptanceTests {
         void withDouble(double d);
     }
     
-    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
+    public final Mockery context = new Mockery();
     private final MethodsWithPrimitiveTypes mock = context.mock(MethodsWithPrimitiveTypes.class, "mock");
 
     @Test
@@ -38,6 +37,8 @@ public class PrimitiveParameterTypesAcceptanceTests {
         mock.withLong(10L);
         mock.withFloat(10.0f);
         mock.withDouble(10.0);
+        
+        context.assertIsSatisfied();
     }
 
     @Test
@@ -59,5 +60,7 @@ public class PrimitiveParameterTypesAcceptanceTests {
         mock.withLong(10L);
         mock.withFloat(10.0f);
         mock.withDouble(10.0);
+
+        context.assertIsSatisfied();
     }
 }
