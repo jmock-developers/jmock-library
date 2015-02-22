@@ -41,8 +41,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
 						<!-- If we use 1.5 then you can't mark interface methods as @Override -->
-						<source>1.7</source>
-						<target>1.7</target>
+						<source>1.6</source>
+						<target>1.6</target>
 					</configuration>
 				</plugin>
 
