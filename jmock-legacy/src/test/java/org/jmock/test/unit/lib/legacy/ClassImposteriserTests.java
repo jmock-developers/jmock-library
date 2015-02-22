@@ -122,14 +122,16 @@ public class ClassImposteriserTests {
         assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
         
         URL jarURL = jarFile.toURI().toURL();
+        
+        // Can't close as we might be in java 6
+        @SuppressWarnings("resource")
         URLClassLoader loader = new URLClassLoader(new URL[]{jarURL});
+        
         Class<?> typeInSignedJar = loader.loadClass("org.jmock.testjar.TypeInSignedJar");
         
         Object o = imposteriser.imposterise(new VoidAction(), typeInSignedJar);
         
         assertTrue(typeInSignedJar.isInstance(o));
-        
-        loader.close();
     }
     
     public static class ClassWithFinalToStringMethod {
