@@ -179,79 +179,7 @@ public class Expectations implements ExpectationBuilder,
         addParameterMatcher(matcher);
         return null;
     }
-    
-    /**
-     * @deprecated use with.booleanIs instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#booleanIs(Matcher)
-     */
-    public boolean with(Matcher<Boolean> matcher) {
-        addParameterMatcher(matcher);
-        return false;
-    }
-    
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#byteIs(Matcher)
-     */
-    public byte with(Matcher<Byte> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
 
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#shortIs(Matcher)
-     */
-    public short with(Matcher<Short> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#charIs(Matcher)
-     */
-    public char with(Matcher<Character> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-    
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#intIs(Matcher)
-     */
-    public int with(Matcher<Integer> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#longIs(Matcher)
-     */
-    public long with(Matcher<Long> matcher) {
-        addParameterMatcher(matcher);
-        return 0;
-    }
-
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#floatIs(Matcher)
-     */
-    public float with(Matcher<Float> matcher) {
-        addParameterMatcher(matcher);
-        return 0.0f;
-    }
-
-    /**
-     * @deprecated use with.<T>is instead, which will work with untyped Hamcrest matchers
-     * @see WithClause#doubleIs(Matcher)
-     */
-    public double with(Matcher<Double> matcher) {
-        addParameterMatcher(matcher);
-        return 0.0;
-    }
-    
     public boolean with(boolean value) {
         addParameterMatcher(equal(value));
         return false;
@@ -342,7 +270,7 @@ public class Expectations implements ExpectationBuilder,
         return new IsNull<T>();
     }
     
-    public static <T> Matcher<T> aNonNull(@SuppressWarnings("unused") Class<T> type) {
+    public static <T> Matcher<T> aNonNull(Class<T> type) {
         return new IsNot<T>(new IsNull<T>());
     }
     
