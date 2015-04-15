@@ -251,6 +251,8 @@ public class Expectations implements ExpectationBuilder,
     /**
      * @deprecated 
      *  use {@link #aNonNull} or {@link #any} until type inference actually works in a future version of Java
+     * @param type Class to match. Do not use for native parameters.
+     * @return an IsInstanceOf matcher
      */
     @Deprecated
     public static Matcher<Object> a(Class<?> type) {
@@ -260,6 +262,8 @@ public class Expectations implements ExpectationBuilder,
     /**
      * @deprecated 
      *  use {@link #aNonNull} or {@link #any} until type inference actually works in a future version of Java
+     * @param type Class to match. Do not use for native parameters. 
+     * @return an IsInstanceOf matcher
      */
     @Deprecated
     public static Matcher<Object> an(Class<?> type) {

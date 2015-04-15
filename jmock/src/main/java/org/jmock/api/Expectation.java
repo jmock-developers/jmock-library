@@ -31,7 +31,7 @@ public interface Expectation extends SelfDescribing {
 	/**
      * Can the Expectation be invoked with <var>invocation</var>?
      * 
-     * @param invocation
+     * @param invocation to be matched
      * 
      * @return
      *   <code>true</code> if the expectation can be invoked with

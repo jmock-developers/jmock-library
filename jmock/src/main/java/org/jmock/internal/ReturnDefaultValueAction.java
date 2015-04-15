@@ -21,10 +21,11 @@ import static java.lang.reflect.Modifier.isAbstract;
  * <li>Returns zero or false results for primitive types.</li>
  * <li>Returns zero length instances for arrays and strings.</li>
  * <li>Returns empty instances for collections and maps types in {@link java.util}.</li>
- * <li></li>Returns imposterised <a
+ * <li>Returns imposterised <a
  * href="http://www.c2.com/cgi/wiki?NullObject">Null Objects</a> for
  * types that can be imposterised by the action's {@link Imposteriser}.</li>
  * <li>Otherwise returns <code>null</code>.</li>
+ * </ul>
  * The default value can be overridden for specific types.
  * 
  * @author Nat Pryce

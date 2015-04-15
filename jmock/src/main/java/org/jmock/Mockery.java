@@ -63,6 +63,7 @@ public class Mockery implements SelfDescribing {
      * The default imposteriser allows a test to mock interfaces but not
      * classes, so you'll have to plug a different imposteriser into the
      * Mockery if you want to mock classes.
+     * @param imposteriser makes mocks
      */
     public void setImposteriser(Imposteriser imposteriser) {
         this.imposteriser = imposteriser;
@@ -76,6 +77,7 @@ public class Mockery implements SelfDescribing {
      * The default naming scheme names mock objects by lower-casing the first
      * letter of the class name, so a mock object of type BananaSplit will be
      * called "bananaSplit" if it is not explicitly named in the test.
+     * @param namingScheme names mocks for failure reports
      */
     public void setNamingScheme(MockObjectNamingScheme namingScheme) {
         this.namingScheme = namingScheme;
@@ -89,6 +91,7 @@ public class Mockery implements SelfDescribing {
      * errors of type {@link ExpectationError}.  Plug in a new expectation error
      * translator if you want your favourite test framework to report expectation 
      * failures using its own error type.
+     * @param expectationErrorTranslator translator for your test framework
      */
     public void setExpectationErrorTranslator(ExpectationErrorTranslator expectationErrorTranslator) {
         this.expectationErrorTranslator = expectationErrorTranslator;
@@ -101,6 +104,7 @@ public class Mockery implements SelfDescribing {
      *  threads.
      *  
      *  @see Synchroniser
+     *  @param threadingPolicy how to handle different threads.
      */
     public void setThreadingPolicy(ThreadingPolicy threadingPolicy) {
         this.threadingPolicy = threadingPolicy;
@@ -112,6 +116,9 @@ public class Mockery implements SelfDescribing {
     
     /**
      * Creates a mock object of type <var>typeToMock</var> and generates a name for it.
+     * @param <T> is the class of the mock
+     * @param typeToMock is the class of the mock
+     * @return the mock of typeToMock
      */
     public <T> T mock(Class<T> typeToMock) {
 		return mock(typeToMock, namingScheme.defaultNameFor(typeToMock));
@@ -119,6 +126,10 @@ public class Mockery implements SelfDescribing {
     
     /**
      * Creates a mock object of type <var>typeToMock</var> with the given name.
+     * @param <T> is the class of the mock
+     * @param typeToMock is the class of the mock
+     * @param name is the name of the mock object that will appear in failures
+     * @return the mock of typeToMock
      */
     public <T> T mock(Class<T> typeToMock, String name) {
         if (mockNames.contains(name)) {
@@ -172,6 +183,7 @@ public class Mockery implements SelfDescribing {
      * 
      * This method can be called multiple times per test and the expectations defined in
      * each block are combined as if they were defined in same order within a single block.
+     * @param expectations that will be checked
      */
 	public void checking(ExpectationBuilder expectations) {
 	    expectations.buildExpectations(defaultAction, dispatcher);
@@ -183,6 +195,7 @@ public class Mockery implements SelfDescribing {
      * 
      * This method allows a test to define an expectation explicitly, bypassing the
      * high-level API, if desired.
+     * @param expectation to check
      */
     public void addExpectation(Expectation expectation) {
         dispatcher.add(expectation);
