@@ -1,3 +1,23 @@
+Upgrading to 2.8.X
+==================
+* Sorry but we've broken most things using native parameters ;-(
+  You'll see them as NullPointerExceptions in when setting the expectations.
+  
+  We had to make a breaking change to with().
+  Tests using with(X(nativeType or Value)) for method signatures that require
+  native types will throw NullPointerException.
+  
+    oneOf(mock).methodWithIntParams(with(equalTo(1)));
+    oneOf(mock).methodWithIntParams(with(any(Integer.class)));
+  
+  should be changed to:
+
+    oneOf(mock).methodWithIntParams(with.intIs(equalTo(1));
+    oneOf(mock).methodWithIntParams(with.intIs(anything());
+    
+  This is due to a compiler change in Java 1.7.
+  The 2.6.0 release was compiled with Java 1.6 so it did not suffer this problem.
+
 Advantages of jMock 2 over jMock 1
 ==================================
 
@@ -23,7 +43,7 @@ jMock 2 with the test framework you use.  For example, if you use
 JUnit 4, add jmock-junit4-2.0.0.jar to your classpath.
 
 You will also need to add hamcrest-api-1.0.0.jar and hamcrest-lib-1.0.0.jar
-to your claspath.
+to your classpath.
 
 
 
