@@ -1,6 +1,7 @@
 package org.jmock.test.acceptance;
 
 import junit.framework.TestCase;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
@@ -37,7 +38,10 @@ public class NullAndNonNullAcceptanceTests extends TestCase {
         catch (ExpectationError expected) {}
     }
 
-    public void DONTtestNonNullNativeIgnoreingDocumentationParameterMatcher() {
+    /**
+     * Will fail unless ExpecttionsCreator has added generic overloaded byte code
+     */
+    public void testNonNullNativeIgnoreingDocumentationParameterMatcher() {
         context.checking(new Expectations() {{
             allowing (mock).doSomethingWith(with(any(Integer.class)));
         }});
