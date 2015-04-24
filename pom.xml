@@ -5,7 +5,7 @@
 
     <groupId>org.jmock</groupId>
     <artifactId>jmock-parent</artifactId>
-    <version>2.8.1-SNAPSHOT</version>
+    <version>2.8.1</version>
     <packaging>pom</packaging>
     <name>jMock 2 Parent</name>
 
@@ -51,8 +51,8 @@
     </properties>
 
     <modules>
-        <module>jmock</module>
         <module>testjar</module>
+        <module>jmock</module>
         <module>jmock-junit3</module>
         <module>jmock-junit4</module>
         <module>jmock-legacy</module>

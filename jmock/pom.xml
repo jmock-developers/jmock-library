@@ -9,7 +9,10 @@
     <parent>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-parent</artifactId>
-        <version>2.8.1-SNAPSHOT</version>
+        <version>2.8.1</version>
+        <!-- mvn versions:set -DoldVersion=2.8.1-SNAPSHOT -DnewVersion=2.8.1 
+            -DgroupId=org.jmock -->
+            <!-- find . -name pom.xml.versionsBackup -exec rm {} \; -->
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -74,7 +77,11 @@
                 </executions>
                 <configuration>
                     <executable>java</executable>
-                    <commandlineArgs>-cp %classpath:target/classes org.jmock.ExpectationsCreator</commandlineArgs>
+                    <!-- java -cp ~/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:~.m2/repository/org/ow2/asm/asm-util/4.1/asm-util-4.1.jar 
+                        org.objectweb.asm.util.ASMifier target/classes/org/jmock/Expectations.class 
+                        > Xpectations.java -->
+                    <commandlineArgs>-cp %classpath:target/classes
+                        org.jmock.ExpectationsCreator</commandlineArgs>
                 </configuration>
             </plugin>
 
@@ -107,7 +114,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

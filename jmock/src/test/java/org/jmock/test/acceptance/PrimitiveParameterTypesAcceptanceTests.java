@@ -2,6 +2,7 @@ package org.jmock.test.acceptance;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.api.ExpectationError;
 import org.junit.Test;
 
 public class PrimitiveParameterTypesAcceptanceTests {
@@ -63,4 +64,33 @@ public class PrimitiveParameterTypesAcceptanceTests {
 
         context.assertIsSatisfied();
     }
+    
+    /**
+     * Will fail unless ExpecttionsCreator has added generic overloaded byte code
+     */
+    @Test
+    public void testNonNullNativeIgnoreingDocumentationParameterMatcher() {
+        context.checking(new Expectations() {{
+            exactly(1).of (mock).withBoolean(with(any(Boolean.class)));
+            exactly(1).of (mock).withByte(with(any(Byte.class)));
+            exactly(1).of (mock).withShort(with(any(Short.class)));
+            exactly(1).of (mock).withInt(with(any(Integer.class)));
+            exactly(1).of (mock).withLong(with(any(Long.class)));
+            exactly(1).of (mock).withFloat(with(any(Float.class)));
+            exactly(1).of (mock).withDouble(with(any(Double.class)));
+        }});
+        
+        mock.withBoolean(true);
+        mock.withByte((byte)10);
+        mock.withShort((short)10);
+        mock.withInt(10);
+        mock.withLong(10L);
+        mock.withFloat(10.0f);
+        mock.withDouble(10.0);
+
+        context.assertIsSatisfied();
+
+    }
+
+
 }
