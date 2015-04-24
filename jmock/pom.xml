@@ -21,6 +21,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-testjar</artifactId>
+            <scope>compile</scope>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
         </dependency>
