@@ -210,7 +210,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         }
 
         public long getDelay(TimeUnit unit) {
-            throw new UnsupportedOperationException("not supported");
+            return unit.convert(deltaQueue.delay(this), TimeUnit.MILLISECONDS);
         }
 
         public int compareTo(Delayed o) {
