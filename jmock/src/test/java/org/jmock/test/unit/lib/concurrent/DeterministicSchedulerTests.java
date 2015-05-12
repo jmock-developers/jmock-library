@@ -116,6 +116,41 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         
         assertNull(future.get());
     }
+
+    public void testSimpleGetDelay() throws Exception {
+        ScheduledFuture<?> task1 = scheduler.schedule(commandA, 10, TimeUnit.SECONDS);
+        scheduler.tick(1, TimeUnit.SECONDS);
+        assertEquals(9, task1.getDelay(TimeUnit.SECONDS));
+    }
+
+    public void testGetDelayWithManyScheduledTasks() throws Exception {
+        ScheduledFuture<?> task1 = scheduler.schedule(commandA, 10, TimeUnit.SECONDS);
+        ScheduledFuture<?> task2 = scheduler.schedule(commandA, 20, TimeUnit.SECONDS);
+        ScheduledFuture<?> task3 = scheduler.schedule(commandA, 15, TimeUnit.SECONDS);
+
+        scheduler.tick(5, TimeUnit.SECONDS);
+
+        assertEquals(5, task1.getDelay(TimeUnit.SECONDS));
+        assertEquals(15, task2.getDelay(TimeUnit.SECONDS));
+        assertEquals(10, task3.getDelay(TimeUnit.SECONDS));
+    }
+
+    public void testGetDelayOnPassedTasks() throws Exception {
+        final Throwable thrown = new IllegalStateException();
+
+        ScheduledFuture<?> task1 = scheduler.schedule(commandA, 1, TimeUnit.MILLISECONDS);
+
+        checking(new Expectations() {{
+            oneOf (commandA).run(); will(throwException(thrown));
+        }});
+
+        scheduler.tick(2, TimeUnit.MILLISECONDS);
+
+        try {
+            assertEquals(0, task1.getDelay(TimeUnit.MILLISECONDS));
+            fail("should have thrown IllegalStateException");
+        } catch (IllegalStateException expected) {}
+    }
     
     public class ExampleException extends Exception {}
     

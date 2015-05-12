@@ -31,6 +31,22 @@ public class DeltaQueue<T> {
         return head.delay;
     }
     
+    public long delay(T element) {
+        long ret = 0;
+        Node<T> next = head;
+        while (next != null) {
+            ret += next.delay;
+            if (next.value.equals(element)) {
+                break;
+            }
+            next = next.next;
+        }
+        if (next == null) {
+            throw new IllegalStateException("Element not found in the delay queue");
+        }
+        return ret;
+    }
+
     public void add(long delay, T value) {
         Node<T> newNode = new Node<T>(value, delay);
         
