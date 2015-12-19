@@ -1,6 +1,22 @@
+[![Build Status](https://travis-ci.org/jmock-developers/jmock-library.svg?branch=jmock2)](https://travis-ci.org/jmock-developers/jmock-library)
+
+Upgrading to 2.8.X
+==================
+Are you seeing NPEs?
+  
+  We have had to make a breaking change to with(). Tests using with(any(matcher)) for method signatures that require native types will throw NullPointerException.
+  
+     oneOf(mock).methodWithIntParams(with(any(Integer.class)));
+  
+  should be changed to:
+
+    oneOf(mock).methodWithIntParams(with.intIs(anything());
+    
+  This is due to a compiler change in Java 1.7.
+  The 2.6.0 release was compiled with Java 1.6 so it did not suffer this problem.
+
 Advantages of jMock 2 over jMock 1
 ==================================
-
 * Uses real method calls, not strings: can refactor more easily and
   autocomplete in the IDE.
 * Customisation by delegation, not by inheritance
