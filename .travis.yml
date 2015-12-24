@@ -5,3 +5,6 @@ jdk:
   - oraclejdk7
   - openjdk6
 
+env:
+# Travis has slow VMs?
+- blitzerThreads=1 blitzerActions=1 blitzerTimeout=1000
