@@ -38,8 +38,21 @@ public class NullAndNonNullAcceptanceTests extends TestCase {
         catch (ExpectationError expected) {}
     }
 
+    public void testAnyParameterMatcher() {
+        context.checking(new Expectations() {{
+            allowing (mock).doSomethingWith(with(any(String.class)));
+        }});
+        
+        mock.doSomethingWith("not null");
+        
+        try {
+            mock.doSomethingWith(null);
+            fail("should have thrown ExpectationError");
+        }
+        catch (ExpectationError expected) {}
+    }
     // A defect in Hamcrest
-    public void DISABLED_testNullArrayParameter() {
+    public void testNullArrayParameter() {
         context.checking(new Expectations() {{
             allowing (mock).doSomethingWithArray(null);
         }});
