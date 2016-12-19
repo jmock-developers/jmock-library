@@ -78,7 +78,7 @@ public class VerifyingTestCaseTests extends TestCase {
 
   public void testThrowsTestExceptionRatherThanTearDownException() throws Throwable {
         try {
-            new FailingExampleTestCase("testThrowsExpectedException").runBare();
+            new FailingExampleTestCase("testThrowsExpectedException") {}.runBare();
             fail("should have thrown exception");
         } catch (Exception actual) {
             assertSame(FailingExampleTestCase.testException, actual);
@@ -87,7 +87,7 @@ public class VerifyingTestCaseTests extends TestCase {
 
     public void testThrowsTearDownExceptionWhenNoTestException() throws Throwable {
         try {
-            new FailingExampleTestCase("testDoesNotThrowException").runBare();
+            new FailingExampleTestCase("testDoesNotThrowException") {}.runBare();
             fail("should have thrown exception");
         } catch (Exception actual) {
             assertSame(FailingExampleTestCase.tearDownException, actual);
