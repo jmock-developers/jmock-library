@@ -72,10 +72,10 @@ public class PrimitiveParameterTypesAcceptanceTests {
         mock.withBoolean(true);
         mock.withByte((byte) 10);
         mock.withShort((short) 10);
-        mock.withInt(10);
-        mock.withLong(10L);
-        mock.withFloat(10.0f);
-        mock.withDouble(10.0);
+        mock.withInt((int) 10);
+        mock.withLong((long) 10);
+        mock.withFloat((float) 10.0);
+        mock.withDouble((double) 10.0);
 
         context.assertIsSatisfied();
     }
