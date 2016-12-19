@@ -1,8 +1,11 @@
 package org.jmock.test.acceptance;
 
+import org.jmock.AbstractExpectations;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
+
+import static org.jmock.AbstractExpectations.anything;
 
 public class PrimitiveParameterTypesAcceptanceTests {
     public final Mockery context = new Mockery();
@@ -60,13 +63,13 @@ public class PrimitiveParameterTypesAcceptanceTests {
     @Test
     public void testNonNullNativeIgnoringDocumentationParameterMatcher() {
         context.checking(new Expectations() {{
-            exactly(1).of(mock).withBoolean(with(any(Boolean.class)));
-            exactly(1).of(mock).withByte(with(any(Byte.class)));
-            exactly(1).of(mock).withShort(with(any(Short.class)));
-            exactly(1).of(mock).withInt(with(any(Integer.class)));
-            exactly(1).of(mock).withLong(with(any(Long.class)));
-            exactly(1).of(mock).withFloat(with(any(Float.class)));
-            exactly(1).of(mock).withDouble(with(any(Double.class)));
+            exactly(1).of(mock).withBoolean(with.booleanIs(anything()));
+            exactly(1).of(mock).withByte(with.byteIs(anything()));
+            exactly(1).of(mock).withShort(with.shortIs(anything()));
+            exactly(1).of(mock).withInt(with.intIs(anything()));
+            exactly(1).of(mock).withLong(with.longIs(anything()));
+            exactly(1).of(mock).withFloat(with.floatIs(anything()));
+            exactly(1).of(mock).withDouble(with.doubleIs(anything()));
         }});
 
         mock.withBoolean(true);
