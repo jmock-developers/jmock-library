@@ -66,10 +66,10 @@ public class PrimitiveParameterTypesAcceptanceTests {
     }
     
     /**
-     * Will fail unless ExpecttionsCreator has added generic overloaded byte code
+     * Will fail unless ExpectationsCreator has added generic overloaded byte code
      */
     @Test
-    public void testNonNullNativeIgnoreingDocumentationParameterMatcher() {
+    public void testNonNullNativeIgnoringDocumentationParameterMatcher() {
         context.checking(new Expectations() {{
             exactly(1).of (mock).withBoolean(with(any(Boolean.class)));
             exactly(1).of (mock).withByte(with(any(Byte.class)));
