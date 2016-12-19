@@ -127,3 +127,12 @@ testing framework.
 ### MockObjectNamingScheme
 
 Creates names for mock objects based on the mocked type.
+
+# Contributing
+
+If you'd like to contribute, then do the following:
+
+1.  clone this repository (`git clone …`)
+2.  install Maven (`brew install mvn` on Mac OS, for example)
+3.  `$ mvn package` in order to generate a signed JAR. This will run all the tests. (`$ mvn test` appears not to suffice.)
+
