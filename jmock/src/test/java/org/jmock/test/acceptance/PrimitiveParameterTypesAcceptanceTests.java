@@ -2,7 +2,6 @@ package org.jmock.test.acceptance;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.api.ExpectationError;
 import org.junit.Test;
 
 public class PrimitiveParameterTypesAcceptanceTests {
@@ -15,7 +14,7 @@ public class PrimitiveParameterTypesAcceptanceTests {
         void withFloat(float f);
         void withDouble(double d);
     }
-    
+
     public final Mockery context = new Mockery();
     private final MethodsWithPrimitiveTypes mock = context.mock(MethodsWithPrimitiveTypes.class, "mock");
 
@@ -71,15 +70,15 @@ public class PrimitiveParameterTypesAcceptanceTests {
     @Test
     public void testNonNullNativeIgnoreingDocumentationParameterMatcher() {
         context.checking(new Expectations() {{
-            exactly(1).of (mock).withBoolean(with(any(Boolean.class)));
-            exactly(1).of (mock).withByte(with(any(Byte.class)));
-            exactly(1).of (mock).withShort(with(any(Short.class)));
-            exactly(1).of (mock).withInt(with(any(Integer.class)));
-            exactly(1).of (mock).withLong(with(any(Long.class)));
-            exactly(1).of (mock).withFloat(with(any(Float.class)));
-            exactly(1).of (mock).withDouble(with(any(Double.class)));
+            exactly(1).of(mock).withBoolean(with.booleanIs(anything()));
+            exactly(1).of(mock).withByte(with.byteIs(anything()));
+            exactly(1).of(mock).withShort(with.shortIs(anything()));
+            exactly(1).of(mock).withInt(with.intIs(anything()));
+            exactly(1).of(mock).withLong(with.longIs(anything()));
+            exactly(1).of(mock).withFloat(with.floatIs(anything()));
+            exactly(1).of(mock).withDouble(with.doubleIs(anything()));
         }});
-        
+
         mock.withBoolean(true);
         mock.withByte((byte)10);
         mock.withShort((short)10);
@@ -89,8 +88,5 @@ public class PrimitiveParameterTypesAcceptanceTests {
         mock.withDouble(10.0);
 
         context.assertIsSatisfied();
-
     }
-
-
 }
