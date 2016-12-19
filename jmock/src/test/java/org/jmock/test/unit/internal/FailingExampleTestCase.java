@@ -2,9 +2,12 @@ package org.jmock.test.unit.internal;
 
 
 /**
-* @author Steve Freeman 2012 http://www.jmock.org
-*/
-public class FailingExampleTestCase extends VerifyingTestCase {
+ * This class is not meant to run as a standalone test,
+ * but rather as input to other tests.
+ *
+ * @author Steve Freeman 2012 http://www.jmock.org
+ */
+public abstract class FailingExampleTestCase extends VerifyingTestCase {
     public static final Exception tearDownException = new Exception("tear down");
     public static final Exception testException = new Exception("test");
 
@@ -16,6 +19,7 @@ public class FailingExampleTestCase extends VerifyingTestCase {
         throw tearDownException;
 
     }
+
     public void testDoesNotThrowException() throws Exception {
         // no op
     }
