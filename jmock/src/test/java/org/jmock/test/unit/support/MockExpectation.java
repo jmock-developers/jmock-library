@@ -12,7 +12,7 @@ public class MockExpectation implements Expectation {
     public boolean isSatisfied;
     public boolean allowsMoreInvocations;
 
-  public MockExpectation(boolean matches, boolean isSatisfied, boolean allowsMoreInvocations) {
+    public MockExpectation(boolean matches, boolean isSatisfied, boolean allowsMoreInvocations) {
 		this.matches = matches;
 		this.isSatisfied = isSatisfied;
         this.allowsMoreInvocations = allowsMoreInvocations;
@@ -22,7 +22,7 @@ public class MockExpectation implements Expectation {
 		return matches;
 	}
 
-  public boolean allowsMoreInvocations() {
+    public boolean allowsMoreInvocations() {
         return allowsMoreInvocations;
     }
     
@@ -62,5 +62,4 @@ public class MockExpectation implements Expectation {
     public void describeMismatch(Invocation invocation, Description description) {
         throw new UnsupportedOperationException("not implemented");
     }
-
 }
