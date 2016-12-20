@@ -6,7 +6,7 @@ import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
 import org.junit.Assert;
 
-public class MockExpectation extends Assert implements Expectation {
+public class MockExpectation implements Expectation {
 	public boolean matches;
     public boolean hasBeenInvoked;
     public boolean isSatisfied;
@@ -45,11 +45,11 @@ public class MockExpectation extends Assert implements Expectation {
     }
     
 	public Object invoke(Invocation invocation) throws Throwable {
-        assertTrue("should not have been invoked; invocation: " + invocation, 
+        Assert.assertTrue("should not have been invoked; invocation: " + invocation,
                    shouldBeInvoked);
         
         if (expectedInvocation != null) {
-            assertSame("unexpected invocation", expectedInvocation, invocation);
+            Assert.assertSame("unexpected invocation", expectedInvocation, invocation);
         }
         wasInvoked = true;
         return invokeResult;
