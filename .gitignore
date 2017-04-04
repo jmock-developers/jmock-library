@@ -16,3 +16,4 @@ gradle
 *.iws
 gradlew
 gradlew.bat
+pom.xml.versionsBackup
