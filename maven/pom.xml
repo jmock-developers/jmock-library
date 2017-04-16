@@ -1,0 +1,171 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jmock</groupId>
+  <artifactId>jmock-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>2.7.0-SNAPSHOT</version>
+  <name>jMock Parent</name>
+
+  <inceptionYear>2003</inceptionYear>
+  <organization>
+    <name>jMock</name>
+    <url>http://jmock.codehaus.org</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>BSD style</name>
+      <url>http://jmock.org/license.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <developerConnection>scm:git:git@github.com:olibye/jmock-library.git</developerConnection>
+    <url>https://github.com/olibye/jmock-library</url>
+    <connection>scm:git:git://github.com/olibye/jmock-library.git</connection>
+  </scm>
+
+  <parent>
+    <groupId>org.codehaus</groupId>
+    <artifactId>codehaus-parent</artifactId>
+    <version>4</version>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+	<version>2.3.2</version>
+        <configuration>
+          <archive>
+            <compress>false</compress>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.groovy.maven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <source>
+                  def ant = new AntBuilder();
+                  def script = "${basedir}/src/script/download-jars.sh";
+                  def version = "${release.version}";
+                  if ( version == "null" ){
+                    println("ERROR: 'release.version' property not set.  Please use profile 'jmock1' or 'jmock2'");
+                  } else {
+                    println("Using release version ${release.version}");
+                  }                                      
+                  if ( new File(script).exists() ){
+                    // we are in top-level module
+                    println("Found script "+script);
+                    ant.exec(executable: script, dir: "${basedir}", 
+                            spawn: false, failifexecutionfails: true, failonerror: true){
+                      arg(value: "http://jmock.org/dist")
+                      arg(value: "jmock-${release.version}-jars.zip" )
+                      arg(value: "target")
+                      arg(value: "jmock-${release.version}")
+                    }
+                  } else {
+                    // we are in child module
+                    ant.copy(file: "${download.artifact.dir}/${artifact.name}.jar", 
+                            tofile: "${project.build.directory}/downloaded.jar", verbose: true);
+                    ant.unjar(src: "${project.build.directory}/downloaded.jar",
+                              dest: "${project.build.outputDirectory}") {
+                              patternset {
+                                exclude(name: "**/*.java");
+                              }
+                    }
+                    ant.unjar(src: "${project.build.directory}/downloaded.jar",
+                              dest: "${project.build.directory}/generated-sources/src") {
+                              patternset {
+                                exclude(name: "**/*.class");
+                              }
+                    }
+                  }
+              </source>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>target/generated-sources/src</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.2.2</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <preparationGoals>clean install</preparationGoals>
+          <stagingRepository>codehaus-nexus-staging::default::https://nexus.codehaus.org/service/local/staging/deploy/maven2/</stagingRepository>
+        </configuration>
+      </plugin>
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
+  </build>
+
+  <properties>
+    <download.dir>target</download.dir>
+    <download.name>jmock-${release.version}</download.name>
+    <artifact.name>${pom.artifactId}-${release.version}</artifact.name>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>jmock1</id>
+      <modules>
+        <module>jmock-core</module>
+        <module>jmock-cglib</module>
+      </modules>
+      <properties>
+        <release.version>1.2.0</release.version>
+        <download.artifact.dir>${basedir}/../${download.dir}/${download.name}</download.artifact.dir>
+      </properties>
+    </profile>
+    <profile>
+      <id>jmock2</id>
+      <modules>
+        <module>jmock</module>
+        <module>jmock-junit3</module>
+        <module>jmock-junit4</module>
+        <module>jmock-legacy</module>
+        <module>jmock-script</module>
+      </modules>
+      <properties>
+        <release.version>2.6.0-RC2</release.version>
+        <download.artifact.dir>${basedir}/../${download.dir}/${download.name}/${download.name}</download.artifact.dir>
+      </properties>
+    </profile>
+  </profiles>
+</project>

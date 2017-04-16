@@ -1,0 +1,21 @@
+Instructions to release jMock artifacts for Maven 2.
+http://maven.apache.org/plugins/maven-release-plugin/index.html
+
+The parent pom supports two profiles:  jmock1 and jmock2
+The profile determines which artifacts are part of the release.
+
+To build snapshot
+
+mvn -Pprofile install where profile=jmock1 or jmock2
+
+To stage a release candidate
+mvn -Pprofile release:stage
+
+To release version
+
+mvn -Pprofile release:prepare
+
+maven release plugin which will interactively ask to replace the snapshot version with the appropriate version
+and create an scm tag with the snapshots resolved.
+
+mvn -Pprofile release:perform

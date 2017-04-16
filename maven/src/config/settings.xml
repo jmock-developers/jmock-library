@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <servers>
+    <server>
+      <id>[repository id]</id>
+      <username>[your username]</username>
+      <password>[your password - only when needed]</password>
+    </server>
+  </servers>
+</settings>
