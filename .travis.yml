@@ -8,3 +8,6 @@ jdk:
 env:
 # Travis has slow VMs?
 - blitzerThreads=1 blitzerActions=1 blitzerTimeout=1000
+
+after_success:
+  - mvn deploy --settings settings.xml -DskipTests=true -B
