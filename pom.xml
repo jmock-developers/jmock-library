@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,6 +9,10 @@
     <version>2.8.3</version>
     <packaging>pom</packaging>
     <name>jMock 2 Parent</name>
+
+    <!-- mvn versions:set -DoldVersion=2.8.3-SNAPSHOT -DnewVersion=2.8.3 
+        -DgroupId=org.jmock -->
+    <!-- find . -name pom.xml.versionsBackup -exec rm {} \; -->
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -76,7 +81,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <!-- http://central.sonatype.org/pages/apache-maven.html -->
                 <groupId>org.sonatype.plugins</groupId>
@@ -91,7 +96,7 @@
             </plugin>
 
         </plugins>
-        
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -210,9 +215,10 @@
                         <!-- http://central.sonatype.org/pages/apache-maven.html -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>1.6</version>
                         <configuration>
                             <useAgent>true</useAgent>
+                            <keyname>${gpg.keyname}</keyname>
                         </configuration>
                         <executions>
                             <execution>

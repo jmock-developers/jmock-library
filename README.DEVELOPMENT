@@ -37,3 +37,12 @@ Throw some kind of RuntimeException to report programming errors in the
 use of the framework.  E.g. trying to set up an expectation to return a 
 result of the wrong type.
 
+Release
+=======
+mvn versions:set -DoldVersion=2.8.1-SNAPSHOT -DnewVersion=2.8.1 -DgroupId=org.jmock
+find . -name pom.xml.versionsBackup -exec rm {} \;
+
+eval $(gpg-agent --daemon --no-grab --write-env-file $HOME/.gpg-agent-info)
+export GPG_AGENT_INFO
+export GPG_TTY=$(tty)
+mvn clean deploy -P release --settings settings.xml -Dgpg.keyname=XXXXXXXX
