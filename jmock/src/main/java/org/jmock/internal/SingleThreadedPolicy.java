@@ -3,9 +3,11 @@ package org.jmock.internal;
 import java.util.ConcurrentModificationException;
 
 import org.jmock.api.Invocation;
+import org.jmock.api.InvocationDispatcher;
 import org.jmock.api.Invokable;
 import org.jmock.api.ThreadingPolicy;
 import org.jmock.lib.concurrent.Synchroniser;
+import org.jmock.lib.concurrent.UnsynchronisedInvocationDispatcher;
 
 public class SingleThreadedPolicy implements ThreadingPolicy {
     private final Thread testThread;
@@ -33,5 +35,10 @@ public class SingleThreadedPolicy implements ThreadingPolicy {
     private void reportError(String error) {
         System.err.println(error);
         throw new ConcurrentModificationException(error);
+    }
+
+    @Override
+    public InvocationDispatcher dispatcher() {
+        return new UnsynchronisedInvocationDispatcher();
     }
 }

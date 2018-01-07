@@ -1,8 +1,11 @@
 [![Build Status](https://travis-ci.org/jmock-developers/jmock-library.svg?branch=jmock2)](https://travis-ci.org/jmock-developers/jmock-library)
 
+# Recent Changes
+## 2.9.0
+* Dropped JDK 6 compliance.
+* Exposed the InvocationDispatcher so that ThreadingPolicies 
 
-Upgrading to 2.8.X
-==================
+## Upgrading to 2.8.X
 Are you seeing NPEs?
 
 We have had to make a breaking change to `with()`. Tests using `with(any(matcher))` for method signatures that require native types will throw `NullPointerException`.
@@ -17,8 +20,7 @@ to the following
 This is due to a compiler change in Java 1.7. The 2.6.0 release was compiled with Java 1.6 so it did not suffer this problem.
 
 
-Advantages of jMock 2 over jMock 1
-==================================
+# Advantages of jMock 2 over jMock 1
 * Uses real method calls, not strings, so you can refactor more easily and
   autocomplete in the IDE.
 * Customisation by delegation, not by inheritance.
@@ -33,8 +35,7 @@ Advantages of jMock 2 over jMock 1
 
 
 
-How to get up and running
-=========================
+# How to get up and running
 
 ## Automatic Dependency Management
 
@@ -54,16 +55,14 @@ testCompile(
 Add the `jmock-<version>.jar` to your classpath. (For example: `jmock-2.8.2.jar`.) Also add the integration JAR to your classpath for the test library ou're using. (For example: `jmock-junit4-2.8.2.jar`.) You also need `hamcrest-api-<version>.jar` and `hamcrest-lib-<version>.jar`.
 
 
-Package Structure
-=================
+# Package Structure
 
 [jMock]() 2 is organised into published and internal packages.  We guarantee backwards compatability of types in published packages within the same major version of jMock.  There are no guarantees about backward compatability for types in internal packages.
 
 Types defined in published packages may themselves define public methods that accept or return types from internal packages or inherit methods from types in internal packages.  Such methods have no compatability guarantees and should not be considered as part of the published interface.
 
 
-Published packages
-------------------
+## Published packages
 
 ### org.jmock
 
@@ -80,16 +79,14 @@ Convenient classes that implement the APIs in the core, are used  by the DSL-sty
 Classes integrating jMock with different testing APIs, such  as JUnit 3.x, JUnit 4.x and TestNG. 
 
 
-Packages of example code
-------------------------
+## Packages of example code
 
 ### org.jmock.lib.nonstd
 
 Lib classes that rely on clever hacks or otherwise cannot be  guaranteed to always work in all JVMs.  There are no compatability guarantees with these classes.  Use at your own risk.
 
 
-Internal packages
------------------
+## Internal packages
 
 ### org.jmock.internal
 
@@ -100,8 +97,7 @@ Internal implementation details
 Tests for jMock itself
 
 
-Plug-in Points
-==============
+## Plug-in Points
 
 ### Matcher
 

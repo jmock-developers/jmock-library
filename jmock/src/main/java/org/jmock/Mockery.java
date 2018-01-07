@@ -1,19 +1,35 @@
 package org.jmock;
 
-import org.hamcrest.Description;
-import org.hamcrest.SelfDescribing;
-import org.jmock.api.*;
-import org.jmock.internal.*;
-import org.jmock.lib.CamelCaseNamingScheme;
-import org.jmock.lib.IdentityExpectationErrorTranslator;
-import org.jmock.lib.JavaReflectionImposteriser;
-import org.jmock.lib.concurrent.Synchroniser;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.hamcrest.Description;
+import org.hamcrest.SelfDescribing;
+import org.jmock.api.Expectation;
+import org.jmock.api.ExpectationError;
+import org.jmock.api.ExpectationErrorTranslator;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.InvocationDispatcher;
+import org.jmock.api.Invokable;
+import org.jmock.api.MockObjectNamingScheme;
+import org.jmock.api.ThreadingPolicy;
+import org.jmock.internal.CaptureControl;
+import org.jmock.internal.ExpectationBuilder;
+import org.jmock.internal.ExpectationCapture;
+import org.jmock.internal.InvocationDiverter;
+import org.jmock.internal.InvocationToExpectationTranslator;
+import org.jmock.internal.NamedSequence;
+import org.jmock.internal.ObjectMethodExpectationBouncer;
+import org.jmock.internal.ProxiedObjectIdentity;
+import org.jmock.internal.ReturnDefaultValueAction;
+import org.jmock.internal.SingleThreadedPolicy;
+import org.jmock.lib.CamelCaseNamingScheme;
+import org.jmock.lib.IdentityExpectationErrorTranslator;
+import org.jmock.lib.JavaReflectionImposteriser;
+import org.jmock.lib.concurrent.Synchroniser;
 
 
 /**
@@ -37,7 +53,7 @@ public class Mockery implements SelfDescribing {
     private final Set<String> mockNames = new HashSet<String>();
     private final ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     private final List<Invocation> actualInvocations = new ArrayList<Invocation>();
-    private final InvocationDispatcher dispatcher = new InvocationDispatcher(new CopyOnWriteArrayList(), new CopyOnWriteArrayList());
+    private final InvocationDispatcher dispatcher = threadingPolicy.dispatcher();
 
     private Error firstError = null;
 

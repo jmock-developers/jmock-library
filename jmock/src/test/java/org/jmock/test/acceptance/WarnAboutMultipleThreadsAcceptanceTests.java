@@ -1,20 +1,19 @@
 package org.jmock.test.acceptance;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.*;
-
-import junit.framework.TestCase;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 
 import org.hamcrest.Matchers;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.concurrent.Blitzer;
+
+import junit.framework.TestCase;
 
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public class WarnAboutMultipleThreadsAcceptanceTests extends TestCase {
