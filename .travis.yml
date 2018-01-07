@@ -1,9 +1,11 @@
+dist: trusty
+
 language: java
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk6
+  - openjdk7 #oracle not supported anymore 
+  # openjdk6 not supported any more
 
 env:
 # Travis has slow VMs?
