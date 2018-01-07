@@ -6,12 +6,11 @@
 
     <groupId>org.jmock</groupId>
     <artifactId>jmock-parent</artifactId>
-    <version>2.8.3</version>
+    <version>2.8.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>jMock 2 Parent</name>
 
-    <!-- mvn versions:set -DoldVersion=2.8.3-SNAPSHOT -DnewVersion=2.8.3 
-        -DgroupId=org.jmock -->
+    <!-- mvn versions:set -DoldVersion=2.8.3 -DnewVersion=2.8.4-SNAPSHOT -DgroupId=org.jmock -->
     <!-- find . -name pom.xml.versionsBackup -exec rm {} \; -->
 
     <parent>
@@ -205,6 +204,25 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    
+    <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.5</version>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>dependency-updates-report</report>
+                <report>plugin-updates-report</report>
+                <report>property-updates-report</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
 
     <profiles>
         <profile>
