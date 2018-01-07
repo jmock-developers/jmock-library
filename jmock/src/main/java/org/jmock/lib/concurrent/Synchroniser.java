@@ -95,10 +95,4 @@ public class Synchroniser implements ThreadingPolicy {
             }
         }
     }
-
-    @Override
-    public InvocationDispatcher buildDispatcher() {
-        // non blocking multi threaded strategy for this minor version upgrade
-        return new InvocationDispatcher(new CopyOnWriteArrayList(), new CopyOnWriteArrayList());
-    }
 }

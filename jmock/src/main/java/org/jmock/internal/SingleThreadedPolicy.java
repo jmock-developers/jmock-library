@@ -34,9 +34,4 @@ public class SingleThreadedPolicy implements ThreadingPolicy {
         System.err.println(error);
         throw new ConcurrentModificationException(error);
     }
-
-    @Override
-    public InvocationDispatcher buildDispatcher() {
-        return new InvocationDispatcher();
-    }
 }

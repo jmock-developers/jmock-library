@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -36,7 +37,7 @@ public class Mockery implements SelfDescribing {
     private final Set<String> mockNames = new HashSet<String>();
     private final ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     private final List<Invocation> actualInvocations = new ArrayList<Invocation>();
-    private final InvocationDispatcher dispatcher = threadingPolicy.buildDispatcher();
+    private final InvocationDispatcher dispatcher = new InvocationDispatcher(new CopyOnWriteArrayList(), new CopyOnWriteArrayList());
 
     private Error firstError = null;
 
