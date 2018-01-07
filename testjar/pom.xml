@@ -58,7 +58,7 @@
 							<goal>sign</goal>
 						</goals>
 						<configuration>
-							<keyname>Not Oli Bye</keyname>
+							<keyname>899FD4CB</keyname>
 							<secretKeyring>${basedir}/secring.gpg</secretKeyring>
 							<publicKeyring>${basedir}/pubring.gpg</publicKeyring>
 							<passphrase>secret</passphrase>

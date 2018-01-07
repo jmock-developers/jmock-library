@@ -24,6 +24,7 @@ import java.util.Set;
  * 
  * @author npryce
  * @author smgf
+ * @author olibye
  * @author named by Ivan Moore.
  */
 public class Mockery implements SelfDescribing {
@@ -35,7 +36,7 @@ public class Mockery implements SelfDescribing {
     private final Set<String> mockNames = new HashSet<String>();
     private final ReturnDefaultValueAction defaultAction = new ReturnDefaultValueAction(imposteriser);
     private final List<Invocation> actualInvocations = new ArrayList<Invocation>();
-    private final InvocationDispatcher dispatcher = new InvocationDispatcher();
+    private final InvocationDispatcher dispatcher = threadingPolicy.buildDispatcher();
 
     private Error firstError = null;
 
