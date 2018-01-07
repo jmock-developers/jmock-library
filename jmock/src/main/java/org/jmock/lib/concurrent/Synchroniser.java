@@ -2,11 +2,13 @@ package org.jmock.lib.concurrent;
 
 import static org.hamcrest.StringDescription.asString;
 
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeoutException;
 
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.api.ThreadingPolicy;
+import org.jmock.internal.InvocationDispatcher;
 import org.jmock.internal.StatePredicate;
 import org.jmock.lib.concurrent.internal.FixedTimeout;
 import org.jmock.lib.concurrent.internal.InfiniteTimeout;
@@ -19,6 +21,7 @@ import org.junit.Assert;
  * helps tests synchronise with background threads.
  * 
  * @author Nat Pryce
+ * @author olibye
  */
 public class Synchroniser implements ThreadingPolicy {
     private final Object sync = new Object();
