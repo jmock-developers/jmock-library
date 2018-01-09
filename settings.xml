@@ -1,4 +1,5 @@
 <settings>
+    <!-- http://central.sonatype.org/pages/apache-maven.html -->
     <servers>
         <server>
             <!-- Maven Central Deployment -->
