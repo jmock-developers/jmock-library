@@ -2,3 +2,5 @@
 random_seed
 trustdb.gpg
 *~
+.gpg-v21-migrated
+private-keys-v1.d
