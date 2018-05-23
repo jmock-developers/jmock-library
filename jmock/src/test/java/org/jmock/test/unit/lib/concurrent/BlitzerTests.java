@@ -1,17 +1,17 @@
 package org.jmock.test.unit.lib.concurrent;
 
-import junit.framework.TestCase;
-import org.jmock.lib.concurrent.Blitzer;
-import org.junit.After;
-import org.junit.Before;
+import static java.lang.System.getenv;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.lang.System.getenv;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import org.jmock.lib.concurrent.Blitzer;
+import org.junit.After;
+
+import junit.framework.TestCase;
 
 public class BlitzerTests extends TestCase {
     private static final String BLITZER_THREADS = "blitzerThreads";

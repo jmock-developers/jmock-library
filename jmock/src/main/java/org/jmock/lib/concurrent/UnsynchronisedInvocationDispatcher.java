@@ -1,4 +1,4 @@
-package org.jmock.internal;
+package org.jmock.lib.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,35 +9,53 @@ import org.hamcrest.SelfDescribing;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
+import org.jmock.api.InvocationDispatcher;
+import org.jmock.internal.StateMachine;
 
-public class InvocationDispatcher implements ExpectationCollector, SelfDescribing {
+public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher {
     private final Collection<Expectation> expectations;
     private final Collection<StateMachine> stateMachines;
 
-    public InvocationDispatcher() {
+    public UnsynchronisedInvocationDispatcher() {
         expectations = new ArrayList<Expectation>();
         stateMachines = new ArrayList<StateMachine>();
     }
 
-    public InvocationDispatcher(Collection<Expectation> theExpectations, Collection<StateMachine> theStateMachines) {
+    public UnsynchronisedInvocationDispatcher(Collection<Expectation> theExpectations, Collection<StateMachine> theStateMachines) {
         expectations = theExpectations;
         stateMachines = theStateMachines;
     }
 
+    /* (non-Javadoc)
+     * @see org.jmock.internal.InvocationDispatcher#newStateMachine(java.lang.String)
+     */
+    @Override
     public StateMachine newStateMachine(String name) {
         StateMachine stateMachine = new StateMachine(name);
         stateMachines.add(stateMachine);
         return stateMachine;
     }
 
+    /* (non-Javadoc)
+     * @see org.jmock.internal.InvocationDispatcher#add(org.jmock.api.Expectation)
+     */
+    @Override
     public void add(Expectation expectation) {
         expectations.add(expectation);
     }
 
+    /* (non-Javadoc)
+     * @see org.jmock.internal.InvocationDispatcher#describeTo(org.hamcrest.Description)
+     */
+    @Override
     public void describeTo(Description description) {
         describe(description, expectations);
     }
 
+    /* (non-Javadoc)
+     * @see org.jmock.internal.InvocationDispatcher#describeMismatch(org.jmock.api.Invocation, org.hamcrest.Description)
+     */
+    @Override
     public void describeMismatch(Invocation invocation, Description description) {
         describe(description, describedWith(expectations, invocation));
     }
@@ -80,6 +98,10 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.jmock.internal.InvocationDispatcher#isSatisfied()
+     */
+    @Override
     public boolean isSatisfied() {
         for (Expectation expectation : expectations) {
             if (!expectation.isSatisfied()) {
@@ -89,6 +111,10 @@ public class InvocationDispatcher implements ExpectationCollector, SelfDescribin
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.jmock.internal.InvocationDispatcher#dispatch(org.jmock.api.Invocation)
+     */
+    @Override
     public Object dispatch(Invocation invocation) throws Throwable {
         for (Expectation expectation : expectations) {
             if (expectation.matches(invocation)) {

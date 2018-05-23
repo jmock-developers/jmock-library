@@ -12,20 +12,22 @@ import java.util.concurrent.TimeoutException;
 import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
-import org.jmock.internal.InvocationDispatcher;
+import org.jmock.api.InvocationDispatcher;
 import org.jmock.internal.StateMachine;
+import org.jmock.lib.concurrent.SynchronisingInvocationDispatcherWrapper;
+import org.jmock.lib.concurrent.UnsynchronisedInvocationDispatcher;
 import org.jmock.test.unit.support.MethodFactory;
 import org.jmock.test.unit.support.MockExpectation;
 
 import junit.framework.TestCase;
 
 public class InvocationDispatcherTests extends TestCase {
-    
+
     // Avoid multi threaeding tests deadlocking
     // Adjust timeout for debugging
     private static final TimeUnit TIMEOUT_UNIT = TimeUnit.SECONDS;
     private static final int TIMEOUT = 2;
-    
+
     MethodFactory methodFactory = new MethodFactory();
     Invocation invocation = new Invocation(
             "invokedObject",
@@ -39,7 +41,7 @@ public class InvocationDispatcherTests extends TestCase {
         MockExpectation expectation2 = new MockExpectation(true, NOT_RELEVANT, NOT_RELEVANT);
         MockExpectation expectation3 = new MockExpectation(true, NOT_RELEVANT, NOT_RELEVANT);
 
-        InvocationDispatcher dispatcher = new InvocationDispatcher();
+        UnsynchronisedInvocationDispatcher dispatcher = new UnsynchronisedInvocationDispatcher();
         dispatcher.add(expectation1);
         dispatcher.add(expectation2);
         dispatcher.add(expectation3);
@@ -59,7 +61,7 @@ public class InvocationDispatcherTests extends TestCase {
         MockExpectation expectation2 = new MockExpectation(false, NOT_RELEVANT, NOT_RELEVANT);
         MockExpectation expectation3 = new MockExpectation(false, NOT_RELEVANT, NOT_RELEVANT);
 
-        InvocationDispatcher dispatcher = new InvocationDispatcher();
+        UnsynchronisedInvocationDispatcher dispatcher = new UnsynchronisedInvocationDispatcher();
         dispatcher.add(expectation1);
         dispatcher.add(expectation2);
         dispatcher.add(expectation3);
@@ -77,25 +79,25 @@ public class InvocationDispatcherTests extends TestCase {
     }
 
     public void testIsSatisfiedOnlyIfAllExpectationsAreSatisfied() {
-        InvocationDispatcher dispatcherAll = new InvocationDispatcher();
+        UnsynchronisedInvocationDispatcher dispatcherAll = new UnsynchronisedInvocationDispatcher();
         dispatcherAll.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         dispatcherAll.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         assertTrue("should be satisfied if all expectations are satisfied",
                 dispatcherAll.isSatisfied());
 
-        InvocationDispatcher dispatcher1 = new InvocationDispatcher();
+        UnsynchronisedInvocationDispatcher dispatcher1 = new UnsynchronisedInvocationDispatcher();
         dispatcher1.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         dispatcher1.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         assertFalse("should not be satisfied if first expectation is not satisfied",
                 dispatcher1.isSatisfied());
 
-        InvocationDispatcher dispatcher2 = new InvocationDispatcher();
+        UnsynchronisedInvocationDispatcher dispatcher2 = new UnsynchronisedInvocationDispatcher();
         dispatcher2.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         dispatcher2.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         assertFalse("should not be satisfied if second expectation is not satisfied",
                 dispatcher2.isSatisfied());
 
-        InvocationDispatcher dispatcherNone = new InvocationDispatcher();
+        UnsynchronisedInvocationDispatcher dispatcherNone = new UnsynchronisedInvocationDispatcher();
         dispatcherNone.add(new MockExpectation(NOT_RELEVANT, false, NOT_RELEVANT));
         dispatcherNone.add(new MockExpectation(NOT_RELEVANT, true, NOT_RELEVANT));
         assertFalse("should not be satisfied if no expectations are satisfied",
@@ -107,19 +109,20 @@ public class InvocationDispatcherTests extends TestCase {
      * 
      * @throws Throwable
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void testHandlesAddingExpectationsWhileOtherTestsDispatch() throws Throwable {
+    public void testUnsynchronisedInvocationDispatcherHandlesAddingExpectationsWhileOtherTestsDispatch()
+            throws Throwable {
 
         final CyclicBarrier barrier = new CyclicBarrier(2);
 
         MockExpectation expectation1 = new MockExpectation(true, NOT_RELEVANT, NOT_RELEVANT);
         MockExpectation expectation2 = new MockExpectation(false, NOT_RELEVANT, NOT_RELEVANT);
 
-        CriticalSectionForcingCollectionWrapper<Expectation> expectations = new CriticalSectionForcingCollectionWrapper(
-                new CopyOnWriteArrayList(), barrier);
-        CriticalSectionForcingCollectionWrapper<StateMachine> stateMachines = new CriticalSectionForcingCollectionWrapper(
-                new ArrayList(), barrier);
-        final InvocationDispatcher dispatcher = new InvocationDispatcher(expectations, stateMachines);
+        Collection<Expectation> expectations = new CriticalSectionForcingCollectionWrapper<>(
+                new CopyOnWriteArrayList<Expectation>(), barrier);
+        Collection<StateMachine> stateMachines = new CriticalSectionForcingCollectionWrapper<>(
+                new ArrayList<StateMachine>(), barrier);
+        final UnsynchronisedInvocationDispatcher dispatcher = new UnsynchronisedInvocationDispatcher(expectations,
+                stateMachines);
 
         new Thread(new Runnable() {
             @Override
@@ -128,7 +131,7 @@ public class InvocationDispatcherTests extends TestCase {
                     barrier.await(TIMEOUT, TIMEOUT_UNIT);
                     barrier.await(TIMEOUT, TIMEOUT_UNIT);
                     // now the expectation one has been added
-                    
+
                     dispatcher.dispatch(invocation);
                     barrier.await(TIMEOUT, TIMEOUT_UNIT);
                 } catch (Throwable e) {
@@ -145,6 +148,43 @@ public class InvocationDispatcherTests extends TestCase {
 
         dispatcher.add(expectation2);
         barrier.await(TIMEOUT, TIMEOUT_UNIT);
+
+        expectation1.shouldBeInvokedWith(invocation);
+        assertTrue("expectation1 should have been invoked",
+                expectation1.wasInvoked);
+    }
+
+    public void testSynchronisedInvocationDispatcherBlocksAddingExpectationsWhileOtherTestsDispatch()
+            throws Throwable {
+
+        final CyclicBarrier barrier = new CyclicBarrier(2);
+        
+        MockExpectation expectation1 = new MockExpectation(true, NOT_RELEVANT, NOT_RELEVANT);
+        MockExpectation expectation2 = new MockExpectation(false, NOT_RELEVANT, NOT_RELEVANT);
+
+        // intentionally use array list as the wrapper should synchronise access
+        final InvocationDispatcher dispatcher = new SynchronisingInvocationDispatcherWrapper(
+                new UnsynchronisedInvocationDispatcher(new ArrayList<Expectation>(), new ArrayList<StateMachine>()));
+
+        // expect dispatch
+        dispatcher.add(expectation1);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    dispatcher.dispatch(invocation);
+                    barrier.await();
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, "Concurrent Dispatch").start();
+
+        // await until dispatch
+        barrier.await();
+
+        dispatcher.add(expectation2);
 
         expectation1.shouldBeInvokedWith(invocation);
         assertTrue("expectation1 should have been invoked",
@@ -197,7 +237,7 @@ public class InvocationDispatcherTests extends TestCase {
             return delegate.toArray();
         }
 
-        public <T> T[] toArray(T[] a) {
+        public <U> U[] toArray(U[] a) {
             return delegate.toArray(a);
         }
 

@@ -4,6 +4,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.*;
 import org.jmock.api.Action;
+import org.jmock.api.ExpectationCollector;
 import org.jmock.internal.*;
 import org.jmock.lib.action.*;
 import org.jmock.syntax.*;

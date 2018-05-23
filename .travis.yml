@@ -7,10 +7,7 @@ jdk:
 
 env:
 # Travis has slow VMs?
-- blitzerThreads=1 blitzerActions=1 blitzerTimeout=1000
-
-secure: "XBIyEF5RxH/zKjh0gle5ce/FRe9pP5b46LXKNOfwlau5QYvn8WXC41Sb6yYC8VW3vI9S930BnVGZONiDXsSWuylLezdu2g88nwJ2CsTxHU0Yg2GAzKwaorBQqyK/6w2foRRXtz69NJccfdIdPuDZSEhJtTKWSmMMQ7U65KH+zzQ="
-secure: "SSlAKOg8QLEAkZX1ehy9c6FR5R6gMzLhc6u2Smq9tm8JsWVz4EtS6NnTQaosthrNEfLJwVVCfmOh2dzvYZfhtbKAUMdkox45tem4+LZfgkSaQAGjSvsC6geioa4Alo6AKyR8foc5Y7P34f9ujYSZHNyRG9F6E0Qq2zj/hzHhstU="
-
-after_success:
-  - mvn deploy --settings settings.xml -DskipTests=true -B
+  global:
+  - blitzerThreads=1 blitzerActions=1 blitzerTimeout=1000
+  - secure: "XBIyEF5RxH/zKjh0gle5ce/FRe9pP5b46LXKNOfwlau5QYvn8WXC41Sb6yYC8VW3vI9S930BnVGZONiDXsSWuylLezdu2g88nwJ2CsTxHU0Yg2GAzKwaorBQqyK/6w2foRRXtz69NJccfdIdPuDZSEhJtTKWSmMMQ7U65KH+zzQ="
+  - secure: "SSlAKOg8QLEAkZX1ehy9c6FR5R6gMzLhc6u2Smq9tm8JsWVz4EtS6NnTQaosthrNEfLJwVVCfmOh2dzvYZfhtbKAUMdkox45tem4+LZfgkSaQAGjSvsC6geioa4Alo6AKyR8foc5Y7P34f9ujYSZHNyRG9F6E0Qq2zj/hzHhstU="
