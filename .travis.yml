@@ -1,6 +1,12 @@
 language: java
 
 jdk:
+  - openjdk-ea
+  - openjdk11
+  - oraclejdk11
+  - openjdk10
+  - oraclejdk10
+  - openjdk9
   - oraclejdk8
   - openjdk7 #oracle not supported anymore 
   # openjdk6 not supported any more
