@@ -41,10 +41,10 @@ implements a JUnit <code>Rule</code> to manage expectations and allowances, and 
 assert the expectations after each test has run.</p>
 
 <pre>public class ATestWithSatisfiedExpectations {
-  @Rule public final JMockContext context = new JMockContext();
+  \@Rule public final JMockContext context = new JMockContext();
   private final Runnable runnable = context.mock(Runnable.class);
      
-  @Test
+  \@Test
   public void doesSatisfyExpectations() {
     context.checking(new Expectations() {{
       oneOf (runnable).run();

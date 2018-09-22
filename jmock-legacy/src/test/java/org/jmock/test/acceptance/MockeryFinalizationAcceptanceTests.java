@@ -1,15 +1,20 @@
 package org.jmock.test.acceptance;
 
-import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.*;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.junit.Assert.assertThat;
+import org.jmock.Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
+import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Nasty test to show GitHub #36 is fixed.
@@ -18,7 +23,9 @@ public class MockeryFinalizationAcceptanceTests
 {
     private static final int FINALIZE_COUNT = 10; // consistently shows a problem before GitHub #36 was fixed
 
-    private final Mockery mockery = new Mockery();
+    private final Mockery mockery = new Mockery() {{
+        setThreadingPolicy(new Synchroniser());
+    }};
     private final ErrorStream capturingErr = new ErrorStream();
 
     @BeforeClass
