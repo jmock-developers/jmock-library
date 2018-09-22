@@ -106,7 +106,6 @@ public class Synchroniser implements ThreadingPolicy {
         }
     }
 
-    @Override
     public InvocationDispatcher dispatcher() {
         return invocationDispatcher;
     }

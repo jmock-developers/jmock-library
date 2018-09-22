@@ -37,7 +37,6 @@ public class SingleThreadedPolicy implements ThreadingPolicy {
         throw new ConcurrentModificationException(error);
     }
 
-    @Override
     public InvocationDispatcher dispatcher() {
         return new UnsynchronisedInvocationDispatcher();
     }
