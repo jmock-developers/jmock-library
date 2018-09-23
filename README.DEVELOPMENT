@@ -39,8 +39,7 @@ result of the wrong type.
 
 Release
 =======
-mvn versions:set -DoldVersion=2.8.1-SNAPSHOT -DnewVersion=2.8.1 -DgroupId=org.jmock
-find . -name pom.xml.versionsBackup -exec rm {} \;
+mvn versions:set -DoldVersion=2.8.1-SNAPSHOT -DnewVersion=2.8.1 -DgroupId=org.jmock -DgenerateBackupPoms=false
 
 eval $(gpg-agent --daemon --no-grab --write-env-file $HOME/.gpg-agent-info)
 export GPG_AGENT_INFO
