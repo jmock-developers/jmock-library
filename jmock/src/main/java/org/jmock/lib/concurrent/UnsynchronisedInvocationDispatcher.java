@@ -29,7 +29,6 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     /* (non-Javadoc)
      * @see org.jmock.internal.InvocationDispatcher#newStateMachine(java.lang.String)
      */
-    @Override
     public StateMachine newStateMachine(String name) {
         StateMachine stateMachine = new StateMachine(name);
         stateMachines.add(stateMachine);
@@ -39,7 +38,6 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     /* (non-Javadoc)
      * @see org.jmock.internal.InvocationDispatcher#add(org.jmock.api.Expectation)
      */
-    @Override
     public void add(Expectation expectation) {
         expectations.add(expectation);
     }
@@ -47,7 +45,6 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     /* (non-Javadoc)
      * @see org.jmock.internal.InvocationDispatcher#describeTo(org.hamcrest.Description)
      */
-    @Override
     public void describeTo(Description description) {
         describe(description, expectations);
     }
@@ -55,7 +52,6 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     /* (non-Javadoc)
      * @see org.jmock.internal.InvocationDispatcher#describeMismatch(org.jmock.api.Invocation, org.hamcrest.Description)
      */
-    @Override
     public void describeMismatch(Invocation invocation, Description description) {
         describe(description, describedWith(expectations, invocation));
     }
@@ -101,7 +97,6 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     /* (non-Javadoc)
      * @see org.jmock.internal.InvocationDispatcher#isSatisfied()
      */
-    @Override
     public boolean isSatisfied() {
         for (Expectation expectation : expectations) {
             if (!expectation.isSatisfied()) {
@@ -114,7 +109,6 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     /* (non-Javadoc)
      * @see org.jmock.internal.InvocationDispatcher#dispatch(org.jmock.api.Invocation)
      */
-    @Override
     public Object dispatch(Invocation invocation) throws Throwable {
         for (Expectation expectation : expectations) {
             if (expectation.matches(invocation)) {
