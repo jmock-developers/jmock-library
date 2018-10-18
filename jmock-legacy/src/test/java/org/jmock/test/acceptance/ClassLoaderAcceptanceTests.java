@@ -2,6 +2,8 @@
  */
 package org.jmock.test.acceptance;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.MalformedURLException;
@@ -10,47 +12,54 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
+import org.jmock.api.Imposteriser;
+import org.jmock.test.unit.lib.legacy.CodeGeneratingImposteriserParameterResolver;
+import org.jmock.test.unit.lib.legacy.ImposteriserParameterResolver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import junit.framework.TestCase;
 
-
-public class ClassLoaderAcceptanceTests extends TestCase {
+public class ClassLoaderAcceptanceTests {
 
     final String UNSIGNED_JAR_NAME = "../testjar/target/unsigned.jar";
     Mockery mockery = new Mockery();
     ClassLoader classLoader;
     
-    @Override
+    @BeforeEach
     public void setUp() throws MalformedURLException, URISyntaxException {
         File unsignedFile = new File(UNSIGNED_JAR_NAME);
         assertTrue("The unsigned  file is missing, mvn package will build it",unsignedFile.exists());
         classLoader = new URLClassLoader(new URL[]{unsignedFile.toURI().toURL()}, null);
     }
-    
-    public void testMockingInterfaceFromOtherClassLoaderWithDefaultImposteriser() throws ClassNotFoundException {
+        
+    @ParameterizedTest
+    @ArgumentsSource(ImposteriserParameterResolver.class)
+    public void testMockingInterfaceFromOtherClassLoaderWithClassImposteriser(Imposteriser imposteriserImpl) throws ClassNotFoundException {
+        mockery.setImposteriser(imposteriserImpl);
         mockery.mock(classLoader.loadClass("InterfaceFromOtherClassLoader"));
     }
     
-    public void testMockingInterfaceFromOtherClassLoaderWithClassImposteriser() throws ClassNotFoundException {
-        mockery.setImposteriser(ClassImposteriser.INSTANCE);
-        mockery.mock(classLoader.loadClass("InterfaceFromOtherClassLoader"));
-    }
-    
-    public void testMockingClassFromOtherClassLoaderWithClassImposteriser() throws ClassNotFoundException {
-        mockery.setImposteriser(ClassImposteriser.INSTANCE);
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void testMockingClassFromOtherClassLoaderWithClassImposteriser(Imposteriser imposteriserImpl) throws ClassNotFoundException {
+        mockery.setImposteriser(imposteriserImpl);
         mockery.mock(classLoader.loadClass("ClassFromOtherClassLoader"));
     }
     
     // I've been unable to reproduce the behaviour of the Maven Surefire plugin in plain JUnit tests
-    public void DISABLED_testMockingClassFromThreadContextClassLoader() throws Throwable {
+    @Disabled
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void testMockingClassFromThreadContextClassLoader(final Imposteriser imposteriserImpl) throws Throwable {
         Runnable task = new Runnable() {
             public void run() {
                 try {
                     Class<?> classToMock = Thread.currentThread().getContextClassLoader().loadClass("ClassFromOtherClassLoader");
                     
                     Mockery threadMockery = new Mockery();
-                    threadMockery.setImposteriser(ClassImposteriser.INSTANCE);
+                    threadMockery.setImposteriser(imposteriserImpl);
                     
                     threadMockery.mock(classToMock);
                 }

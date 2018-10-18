@@ -2,27 +2,60 @@ package org.jmock.test.unit.lib.legacy;
 
 import java.io.File;
 
-import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.jmock.api.Imposteriser;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.imposters.ByteBuddyClassImposteriser;
 import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.test.acceptance.AbstractImposteriserParameterResolver;
+import org.junit.jupiter.api.condition.DisabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 /**
- * This used to fail in Java 8 as cglib-nodep used asm:5.0.3 which required jdk<=7
- * Now we use cglib (not cglib-nodep) and override asm to 5.0.4
+ * This used to fail in Java 8 as cglib-nodep used asm:5.0.3 which required
+ * jdk<=7 Now we use cglib (not cglib-nodep) and override asm to 5.0.4
+ * 
  * @see https://github.com/jmock-developers/jmock-library/issues/79
  * @see https://github.com/cglib/cglib/issues/20
+ * 
  */
 public class Java8Issue79UnitTest {
-    @Rule
-    public final JUnitRuleMockery _context = new JUnitRuleMockery() {
-        {
-            setImposteriser(ClassImposteriser.INSTANCE);
-        }
-    };
+    public final JUnit4Mockery context = new JUnit4Mockery();
 
-    @Test
-    public void testMock() {
-        _context.mock(File.class);
+    /**
+     * However it fails in java 11 as asm and cglib do not appear to support java
+     * 11 yet. Migrate all code to ByteBuddyClassImposteriser to solve this issue.
+     * 
+     * java.lang.UnsupportedOperationException at
+     * org.objectweb.asm.ClassVisitor.visitNestMemberExperimental(ClassVisitor.java:248)
+     * 
+     * @param imposteriserImpl
+     */
+    @DisabledOnJre({ JRE.JAVA_11 })
+    @ParameterizedTest
+    @ArgumentsSource(ClassImposteriserParameterResolver.class)
+    public void testMock(Imposteriser imposteriserImpl) {
+        context.setImposteriser(imposteriserImpl);
+        context.mock(File.class);
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ByteBuddyImposteriserParameterResolver.class)
+    public void testByteBuddyImposteriser(Imposteriser imposteriserImpl) {
+        context.setImposteriser(imposteriserImpl);
+        context.mock(File.class);
+    }
+
+    public static class ByteBuddyImposteriserParameterResolver extends AbstractImposteriserParameterResolver {
+        public ByteBuddyImposteriserParameterResolver() {
+            super(ByteBuddyClassImposteriser.INSTANCE);
+        }
+    }
+
+    public static class ClassImposteriserParameterResolver extends AbstractImposteriserParameterResolver {
+        public ClassImposteriserParameterResolver() {
+            super(ClassImposteriser.INSTANCE);
+        }
     }
 }

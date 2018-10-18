@@ -39,9 +39,12 @@ result of the wrong type.
 
 Release
 =======
-mvn versions:set -DoldVersion=2.8.1-SNAPSHOT -DnewVersion=2.8.1 -DgroupId=org.jmock -DgenerateBackupPoms=false
+mvn versions:set -DoldVersion=* -DnewVersion=2.10.0 -DgroupId=org.jmock -DgenerateBackupPoms=false
 
 eval $(gpg-agent --daemon --no-grab --write-env-file $HOME/.gpg-agent-info)
 export GPG_AGENT_INFO
 export GPG_TTY=$(tty)
 mvn clean deploy -P release --settings settings.xml -Dgpg.keyname=XXXXXXXX
+
+mvn versions:set -DoldVersion=* -DnewVersion=2.11.0-SNAPSHOT -DgroupId=org.jmock -DgenerateBackupPoms=false
+

@@ -8,14 +8,15 @@ import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 
 import org.jmock.Mockery;
+import org.jmock.api.Imposteriser;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.jmock.test.unit.lib.legacy.CodeGeneratingImposteriserParameterResolver;
+import org.jmock.test.unit.lib.legacy.ImposteriserParameterResolver;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 /**
  * Nasty test to show GitHub #36 is fixed.
  */
@@ -28,7 +29,7 @@ public class MockeryFinalizationAcceptanceTests
     }};
     private final ErrorStream capturingErr = new ErrorStream();
 
-    @BeforeClass
+    @BeforeAll
     public static void clearAnyOutstandingMessages() {
         ErrorStream localErr = new ErrorStream();
         localErr.install();
@@ -43,31 +44,28 @@ public class MockeryFinalizationAcceptanceTests
             System.err.println("WARNING - a previous test left output in finalization [" + error + "]");
     }
 
-    @Before
+    @BeforeEach
     public void captureSysErr() {
         capturingErr.install();
     }
 
-    @After
+    @AfterEach
     public void replaceSysErr() {
         capturingErr.uninstall();
     }
 
-    @Test
-    public void mockedInterfaceDoesntWarnOnFinalize() {
+    @ParameterizedTest
+    @ArgumentsSource(ImposteriserParameterResolver.class)
+    public void mockedInterfaceDoesntWarnOnFinalize(Imposteriser imposterImpl) {
+        mockery.setImposteriser(imposterImpl);
+        
         checkNoFinalizationMessage(mockery, CharSequence.class);
     }
 
-    @Test
-    public void mockedInterfaceFromClassImposteriserDoesntWarnOnFinalize() {
-        mockery.setImposteriser(ClassImposteriser.INSTANCE);
-
-        checkNoFinalizationMessage(mockery, CharSequence.class);
-    }
-
-    @Test
-    public void mockedClassDoesntWarnOnFinalize() {
-        mockery.setImposteriser(ClassImposteriser.INSTANCE);
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void mockedClassDoesntWarnOnFinalize(Imposteriser imposterImpl) {
+        mockery.setImposteriser(imposterImpl);
 
         checkNoFinalizationMessage(mockery, Object.class);
     }
@@ -76,19 +74,13 @@ public class MockeryFinalizationAcceptanceTests
         public void finalize();
     }
 
-    @Ignore("TDB")
-    @Test
-    public void mockedTypeThatMakesFinalizePublicDoesntWarnOnFinalize() {
-        checkNoFinalizationMessage(mockery, TypeThatMakesFinalizePublic.class);
-    }
-
-    @Test
-    public void mockedTypeFromClassImposteriserThatMakesFinalizePublicDoesntWarnOnFinalize() {
-        mockery.setImposteriser(ClassImposteriser.INSTANCE);
+    @ParameterizedTest
+    @ArgumentsSource(ImposteriserParameterResolver.class)
+    public void mockedTypeThatMakesFinalizePublicDoesntWarnOnFinalize(Imposteriser imposterImpl) {
+        mockery.setImposteriser(imposterImpl);
 
         checkNoFinalizationMessage(mockery, TypeThatMakesFinalizePublic.class);
     }
-
 
     private void checkNoFinalizationMessage(Mockery mockery, Class<?> typeToMock) {
         WeakReference<Object> mockHolder = new WeakReference<Object>(mockery.mock(typeToMock));

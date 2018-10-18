@@ -1,16 +1,15 @@
 language: java
 
 jdk:
-# net.sf.cglib.core.DuplicatesPredicate$UnnecessaryBridgeFinder does not like org.objectweb.asm.ClassReader nestMembersOffset > 0 for JDK11 classes
 #  - openjdk-ea
-#  - openjdk11
+  - openjdk11
 #  - oraclejdk11
   - openjdk10
-  - oraclejdk10
+#  - oraclejdk10
   - openjdk9
   - oraclejdk8
-  - openjdk7 #oracle not supported anymore 
-  # openjdk6 not supported any more
+#  - openjdk7 #oracle not supported anymore 
+#  - openjdk6 not supported any more
 
 env:
 # Travis has slow VMs?

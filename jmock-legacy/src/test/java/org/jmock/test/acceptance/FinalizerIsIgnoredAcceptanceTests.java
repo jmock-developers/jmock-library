@@ -1,25 +1,27 @@
 package org.jmock.test.acceptance;
 
-import junit.framework.TestCase;
-
 import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
+import org.jmock.api.Imposteriser;
+import org.jmock.test.unit.lib.legacy.CodeGeneratingImposteriserParameterResolver;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
-public class FinalizerIsIgnoredAcceptanceTests extends TestCase {
+public class FinalizerIsIgnoredAcceptanceTests {
+
     public static class ClassWithFinalizer {
         @Override
         protected void finalize() throws Throwable {
             super.finalize();
         }
     }
-    
-    Mockery mockery = new Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-    
-    ClassWithFinalizer mock = mockery.mock(ClassWithFinalizer.class, "mock");
-    
-    public void testIgnoresFinalizerInMockedClasses() throws Throwable {
+
+    Mockery mockery = new Mockery();
+
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void testIgnoresFinalizerInMockedClasses(Imposteriser imposteriserImpl) throws Throwable {
+        mockery.setImposteriser(imposteriserImpl);
+        ClassWithFinalizer mock = mockery.mock(ClassWithFinalizer.class, "mock");
         mock.finalize();
     }
 }

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -9,7 +10,7 @@
     <parent>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-parent</artifactId>
-        <version>2.9.0</version>
+        <version>2.10.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -17,7 +18,8 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <!-- Don't force dependents to use junit4 -->
         </dependency>
 
         <dependency>
@@ -27,16 +29,11 @@
             <version>${project.version}</version>
         </dependency>
 
-<!-- 
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-        </dependency>
- -->
-<dependency>
-    <groupId>net.bytebuddy</groupId>
-    <artifactId>byte-buddy</artifactId>
-</dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency
+        >
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
@@ -86,9 +83,6 @@
                 </executions>
                 <configuration>
                     <executable>java</executable>
-                    <!-- java -cp ~/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:~.m2/repository/org/ow2/asm/asm-util/4.1/asm-util-4.1.jar 
-                        org.objectweb.asm.util.ASMifier target/classes/org/jmock/Expectations.class 
-                        > Xpectations.java -->
                     <commandlineArgs>-cp %classpath:target/classes
                         org.jmock.ExpectationsCreator</commandlineArgs>
                 </configuration>
