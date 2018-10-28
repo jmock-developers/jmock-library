@@ -15,7 +15,6 @@ import org.jmock.internal.StatePredicate;
 import org.jmock.lib.concurrent.internal.FixedTimeout;
 import org.jmock.lib.concurrent.internal.InfiniteTimeout;
 import org.jmock.lib.concurrent.internal.Timeout;
-import org.junit.Assert;
 
 /**
  * A ThreadingPolicy that makes the Mockery thread-safe and helps tests
@@ -75,7 +74,7 @@ public class Synchroniser implements ThreadingPolicy {
                     if (firstError != null) {
                         throw firstError;
                     } else {
-                        Assert.fail("timed out waiting for " + asString(p));
+                        throw new AssertionError("timed out waiting for " + asString(p));
                     }
                 }
             }

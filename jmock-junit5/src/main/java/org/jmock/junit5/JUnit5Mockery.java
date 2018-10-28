@@ -7,9 +7,10 @@ import org.jmock.Mockery;
 import org.jmock.auto.internal.Mockomatic;
 import org.jmock.internal.AllDeclaredFields;
 import org.jmock.lib.AssertionErrorTranslator;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.Extension;
+import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 import com.google.auto.service.AutoService;
@@ -48,7 +49,7 @@ import com.google.auto.service.AutoService;
  */
 @AutoService(org.junit.jupiter.api.extension.Extension.class)
 public class JUnit5Mockery extends Mockery
-        implements Extension, BeforeTestExecutionCallback, AfterTestExecutionCallback {
+        implements Extension, BeforeEachCallback, AfterEachCallback {
 
     private final Mockomatic mockomatic = new Mockomatic(this);
 
@@ -61,16 +62,53 @@ public class JUnit5Mockery extends Mockery
     }
 
     @Override
-    public void beforeTestExecution(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         if (context.getTestClass().isPresent()) {
             Class<?> testCaseClass = context.getTestClass().get();
             List<Field> allFields = AllDeclaredFields.in(testCaseClass);
-            fillInAutoMocks(testCaseClass, allFields);
+            fillInAutoMocks(context.getRequiredTestInstance(), allFields);
+
+            checkMockery(context, testCaseClass);
         }
     }
 
     @Override
-    public void afterTestExecution(ExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) throws Exception {
         assertIsSatisfied();
+    }
+
+    private static void checkMockery(ExtensionContext context, Class<?> testCaseClass) {
+        Field mockeryField = findMockeryField(testCaseClass, context);
+        try {
+            // private extension fields are not called
+            // field will at least be default scope if we're called.
+            mockeryField.setAccessible(true);
+            if(mockeryField.get(context.getRequiredTestInstance()) == null) {
+                throw new IllegalStateException("JUnit5Mockery field should not be null");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ExtensionConfigurationException("Could not check the mockery", e);
+        } catch (IllegalAccessException e) {
+            throw new ExtensionConfigurationException("Could not check the mockery", e);
+        }
+    }
+
+    private static Field findMockeryField(Class<?> testClass, ExtensionContext context) {
+        Field mockeryField = null;
+
+        for (Field field : AllDeclaredFields.in(testClass)) {
+            if (Mockery.class.isAssignableFrom(field.getType())) {
+                if (mockeryField != null) {
+                    throw new ExtensionConfigurationException("more than one Mockery found in test class " + testClass);
+                }
+                mockeryField = field;
+            }
+        }
+
+        if (mockeryField == null) {
+            throw new ExtensionConfigurationException("no Mockery found in test class " + testClass);
+        }
+
+        return mockeryField;
     }
 }

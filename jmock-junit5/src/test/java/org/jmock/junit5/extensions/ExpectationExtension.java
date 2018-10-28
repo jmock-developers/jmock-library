@@ -1,17 +1,19 @@
-package org.jmock.junit5.services;
+package org.jmock.junit5.extensions;
 
+import java.lang.annotation.Annotation;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 
 import com.google.auto.service.AutoService;
 
-@AutoService(org.junit.jupiter.api.extension.Extension.class)
+@AutoService(Extension.class)
 public class ExpectationExtension implements TestExecutionExceptionHandler, BeforeEachCallback, AfterEachCallback {
 
     private Throwable thrown = null;
@@ -29,7 +31,7 @@ public class ExpectationExtension implements TestExecutionExceptionHandler, Befo
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
-        if (isAnnotated(context, ExpectationThrows.class)) {
+        if (isAnnotated(context, ExpectationTimeout.class)) {
             timer = new Timer(true);
             timer.schedule(new TimerTask() {
                 @Override
@@ -42,8 +44,7 @@ public class ExpectationExtension implements TestExecutionExceptionHandler, Befo
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-        if (isAnnotated(context, ExpectationThrows.class)) {
-            // TODO locking might be nice to top unexpected failures
+        if (isAnnotated(context, ExpectationTimeout.class)) {
             timer.cancel();
             timer = null;
         }
@@ -56,7 +57,7 @@ public class ExpectationExtension implements TestExecutionExceptionHandler, Befo
         }
     }
 
-    private boolean isAnnotated(ExtensionContext context, Class<ExpectationThrows> annotation) {
+    private boolean isAnnotated(ExtensionContext context, Class<? extends Annotation> annotation) {
         return context.getRequiredTestMethod().isAnnotationPresent(annotation);
     }
 

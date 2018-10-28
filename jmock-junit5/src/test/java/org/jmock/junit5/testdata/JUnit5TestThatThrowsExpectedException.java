@@ -1,10 +1,9 @@
 package org.jmock.junit5.testdata;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.jmock.junit5.JUnit5Mockery;
-import org.jmock.junit5.services.ExpectationThrows;
-import org.jmock.junit5.services.ExpectationExtension;
+import org.jmock.junit5.extensions.ExpectationExtension;
+import org.jmock.junit5.extensions.ExpectationThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 @ExtendWith(ExpectationExtension.class)
 public class JUnit5TestThatThrowsExpectedException {
     @RegisterExtension
-    private Mockery context = new JUnit5Mockery();
+    JUnit5Mockery context = new JUnit5Mockery();
     private WithException withException = context.mock(WithException.class);
     
     @Test
@@ -26,7 +25,7 @@ public class JUnit5TestThatThrowsExpectedException {
         withException.throwingMethod();
     }
     
-    public static class  CheckedException extends Exception {
+    public static class CheckedException extends Exception {
     }
     
     public interface WithException {

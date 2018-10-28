@@ -2,6 +2,7 @@ package org.jmock.junit5.acceptance;
 
 import org.jmock.junit5.testdata.JUnit5WithRulesExamples;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 
 public class JUnit5WithRulesTestRunnerTests {
     FailureRecordingTestExecutionListener listener = new FailureRecordingTestExecutionListener();
@@ -35,7 +36,7 @@ public class JUnit5WithRulesTestRunnerTests {
     @Test
     public void testFailsWhenMoreThanOneJMockContextField() {
         listener.runTestIn(JUnit5WithRulesExamples.CreatesTwoMockeries.class);
-        listener.assertTestFailedWith(AssertionError.class);
+        listener.assertTestFailedWith(ExtensionConfigurationException.class);
     }
 
     @Test

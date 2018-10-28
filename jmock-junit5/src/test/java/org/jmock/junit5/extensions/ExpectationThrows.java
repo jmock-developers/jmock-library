@@ -1,4 +1,4 @@
-package org.jmock.junit5.services;
+package org.jmock.junit5.extensions;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,9 +15,7 @@ public @interface ExpectationThrows {
     /**
      * Optionally specify <code>expected</code>, a Throwable, to cause a test method
      * to succeed if and only if an exception of the specified class is thrown by
-     * the method. If the Throwable's message or one of its properties should be
-     * verified, the {@link org.junit.rules.ExpectedException ExpectedException}
-     * rule can be used instead.
+     * the method.
      */
     Class<? extends Throwable> expected();
 }

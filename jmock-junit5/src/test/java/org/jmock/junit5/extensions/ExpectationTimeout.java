@@ -1,4 +1,4 @@
-package org.jmock.junit5.services;
+package org.jmock.junit5.extensions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class JUnit5TestThatDoesNotSatisfyExpectations {
     @RegisterExtension
-    private JUnit5Mockery context = new JUnit5Mockery();
+    JUnit5Mockery context = new JUnit5Mockery();
     private Runnable runnable = context.mock(Runnable.class);
     
     @org.junit.jupiter.api.Test

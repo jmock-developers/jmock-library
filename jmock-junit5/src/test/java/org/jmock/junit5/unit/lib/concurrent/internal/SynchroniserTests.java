@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.jmock.Expectations;
 import org.jmock.States;
 import org.jmock.junit5.JUnit5Mockery;
-import org.jmock.junit5.services.ExpectationTimeout;
+import org.jmock.junit5.extensions.ExpectationTimeout;
 import org.jmock.lib.concurrent.Blitzer;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.jupiter.api.AfterEach;

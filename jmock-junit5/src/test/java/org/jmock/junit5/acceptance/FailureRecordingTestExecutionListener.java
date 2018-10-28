@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
+import java.util.function.Predicate;
+
+import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.TestExecutionResult.Status;
 import org.junit.platform.launcher.Launcher;
@@ -22,7 +25,9 @@ public class FailureRecordingTestExecutionListener implements TestExecutionListe
 
     @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
-        this.testExecutionResult = testExecutionResult;
+        if (testIdentifier.isTest() /* ignore non test containers */) {
+            this.testExecutionResult = testExecutionResult;
+        }
     }
 
     public void assertTestSucceeded() {
@@ -40,8 +45,16 @@ public class FailureRecordingTestExecutionListener implements TestExecutionListe
 
     public void assertTestFailedWithInitializationError() {
         assertEquals(Status.FAILED, testExecutionResult.getStatus(), "test should have failed");
-        assertTrue(testExecutionResult.toString().contains("initializationError"),
-                "should have failed with initialization error, but failure was " + testExecutionResult.toString());
+        assertTrue(
+                testExecutionResult.getThrowable()
+                        .filter(new Predicate<Throwable>() {
+                            @Override
+                            public boolean test(Throwable t) {
+                                return t.getClass().equals(ExtensionConfigurationException.class);
+                            }
+                        })
+                        .isPresent(),
+                testExecutionResult.toString());
     }
 
     public void runTestIn(Class<?> testClass) {

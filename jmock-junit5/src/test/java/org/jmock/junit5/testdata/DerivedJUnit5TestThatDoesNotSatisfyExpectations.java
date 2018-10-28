@@ -3,7 +3,7 @@ package org.jmock.junit5.testdata;
 import org.jmock.Expectations;
 import org.junit.jupiter.api.Test;
 
-public class DerivedJUnit4TestThatDoesNotSatisfyExpectations extends BaseClassWithMockery {
+public class DerivedJUnit5TestThatDoesNotSatisfyExpectations extends BaseClassWithMockery {
     private Runnable runnable = context.mock(Runnable.class);
     
     @Test
