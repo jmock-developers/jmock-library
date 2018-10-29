@@ -1,29 +1,30 @@
 package org.jmock.test.acceptance;
 
-import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
+import org.jmock.Expectations;
+import org.jmock.api.Imposteriser;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.test.unit.lib.legacy.ImposteriserParameterResolver;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 /**
  * @author Steve Freeman 2012 http://www.jmock.org
  */
 public class InvocationDescriptionAcceptanceTests {
   private static final String UNEXPECTED_ARGUMENT = "unexpected argument";
-  private final JUnit4Mockery aMockContext = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-      }};
+  private final JUnit4Mockery aMockContext = new JUnit4Mockery();
 
     private final SubBean aSubBean = aMockContext.mock(SubBean.class);
     private final Collaborator aCollab = aMockContext.mock(Collaborator.class);
 
     // https://github.com/jmock-developers/jmock-library/issues/20
-    @Test
-    public void doesNotModifyInvocationsWhileReportingFailure() {
+    @ParameterizedTest
+    @ArgumentsSource(ImposteriserParameterResolver.class)
+    public void doesNotModifyInvocationsWhileReportingFailure(Imposteriser imposteriserImpl) {
       final Bean lBean = new Bean(aSubBean);
 
       aMockContext.checking(new Expectations() {{

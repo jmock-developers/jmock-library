@@ -10,6 +10,7 @@ hamcrest-test-src
 .project
 .classpath
 .gradle
+.factorypath
 gradle
 *.iml
 *.ipr

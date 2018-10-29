@@ -4,8 +4,8 @@ package org.jmock.test.unit.support;
 
 import java.lang.reflect.Method;
 
-import net.sf.cglib.core.Constants;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class MethodFactory extends ClassLoader {
@@ -30,13 +30,13 @@ public class MethodFactory extends ClassLoader {
 			protected Class<?> findClass(String interfaceName) {
 				ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
-				writer.visit(CLASS_FORMAT_VERSION, Constants.ACC_PUBLIC
-						| Constants.ACC_INTERFACE,
+				writer.visit(CLASS_FORMAT_VERSION, Opcodes.ACC_PUBLIC
+						| Opcodes.ACC_INTERFACE,
 						nameToClassFormat(interfaceName), null,
 						"java/lang/Object", null /* interfaces */);
 
-				writer.visitMethod(Constants.ACC_PUBLIC
-						| Constants.ACC_ABSTRACT, methodName,
+				writer.visitMethod(Opcodes.ACC_PUBLIC
+						| Opcodes.ACC_ABSTRACT, methodName,
 						methodDescriptor(returnType, argTypes), null,
 						classNamesInClassFormat(exceptionTypes));
 

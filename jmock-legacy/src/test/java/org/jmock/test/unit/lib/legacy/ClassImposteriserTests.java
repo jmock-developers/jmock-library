@@ -1,13 +1,8 @@
 package org.jmock.test.unit.lib.legacy;
 
-import org.jmock.api.Action;
-import org.jmock.api.Imposteriser;
-import org.jmock.api.Invocation;
-import org.jmock.api.Invokable;
-import org.jmock.lib.action.ReturnValueAction;
-import org.jmock.lib.action.VoidAction;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -16,14 +11,17 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.jmock.api.Action;
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
+import org.jmock.lib.action.ReturnValueAction;
+import org.jmock.lib.action.VoidAction;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 public class ClassImposteriserTests {
     Action action = new ReturnValueAction("result");
-    
-    Imposteriser imposteriser = ClassImposteriser.INSTANCE;
     
     @SuppressWarnings("ClassInitializerMayBeStatic")
     public static class ConcreteClassWithNastyConstructor {
@@ -71,8 +69,9 @@ public class ClassImposteriserTests {
         public String foo() {return "original result";}
     }
     
-    @Test
-    public void canImposteriseInterfacesAndNonFinalInstantiableClasses() {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void canImposteriseInterfacesAndNonFinalInstantiableClasses(Imposteriser imposteriser) {
         assertTrue("should report that it can imposterise interfaces",
                    imposteriser.canImposterise(Runnable.class));
         assertTrue("should report that it can imposterise classes",
@@ -91,32 +90,36 @@ public class ClassImposteriserTests {
                    !imposteriser.canImposterise(void.class));
     }
 
-    @Test
-    public void canImposteriseAConcreteClassWithoutCallingItsConstructorOrInstanceInitialiserBlocks() {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void canImposteriseAConcreteClassWithoutCallingItsConstructorOrInstanceInitialiserBlocks(Imposteriser imposteriser) {
         ConcreteClassWithNastyConstructor imposter = 
             imposteriser.imposterise(action, ConcreteClassWithNastyConstructor.class);
         
         assertEquals("result", imposter.foo());
     }
 
-    @Test
-    public void canImposteriseAnInterface() {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void canImposteriseAnInterface(Imposteriser imposteriser) {
         AnInterface imposter = 
             imposteriser.imposterise(action, AnInterface.class);
         
         assertEquals("result", imposter.foo());
     }
 
-    @Test
-    public void canImposteriseAClassWithAPrivateConstructor() {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void canImposteriseAClassWithAPrivateConstructor(Imposteriser imposteriser) {
         AClassWithAPrivateConstructor imposter = 
             imposteriser.imposterise(action, AClassWithAPrivateConstructor.class);
         
         assertEquals("result", imposter.foo());
     }
 
-    @Test
-    public void canImposteriseAClassInASignedJarFile() throws Exception {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void canImposteriseAClassInASignedJarFile(Imposteriser imposteriser) throws Exception {
         File jarFile = new File("../testjar/target/signed.jar");
         
         assertTrue("Signed JAR file does not exist (use Ant to build it", jarFile.exists());
@@ -142,8 +145,9 @@ public class ClassImposteriserTests {
     }
     
     // See issue JMOCK-150
-    @Test
-    public void cannotImposteriseAClassWithAFinalToStringMethod() {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void cannotImposteriseAClassWithAFinalToStringMethod(Imposteriser imposteriser) {
         assertTrue("should not be able to imposterise it", !imposteriser.canImposterise(ClassWithFinalToStringMethod.class));
         
         try {
@@ -156,8 +160,9 @@ public class ClassImposteriserTests {
     }
 
     // See issue JMOCK-256 (Github #36)
-    @Test
-    public void doesntDelegateFinalizeMethod() throws Exception {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void doesntDelegateFinalizeMethod(Imposteriser imposteriser) throws Exception {
         Invokable failIfInvokedAction = new Invokable() {
             public Object invoke(Invocation invocation) throws Throwable {
                 fail("invocation should not have happened");
@@ -172,8 +177,9 @@ public class ClassImposteriserTests {
     public interface EmptyInterface {}
     
     // See issue JMOCK-145
-    @Test
-    public void worksAroundBugInCglibWhenAskedToImposteriseObject() {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void worksAroundBugInCglibWhenAskedToImposteriseObject(Imposteriser imposteriser) {
         imposteriser.imposterise(new VoidAction(), Object.class);
         
         imposteriser.imposterise(new VoidAction(), Object.class, EmptyInterface.class);

@@ -22,6 +22,8 @@ import java.util.List;
  * <em>without</em> calling the constructors of the mocked class.
  *   
  * @author npryce
+ * 
+ * @deprecated Migrate to @see org.jmock.lib.legacy.ByteBuddyClassImposteriser
  */
 public class ClassImposteriser implements Imposteriser {
     public static final Imposteriser INSTANCE = new ClassImposteriser();
@@ -68,7 +70,7 @@ public class ClassImposteriser implements Imposteriser {
         finally {
             setConstructorsAccessible(mockedType, false);
         }
-	}
+    }
     
     private boolean toStringMethodIsFinal(Class<?> type) {
         try {
@@ -113,7 +115,7 @@ public class ClassImposteriser implements Imposteriser {
         }
         enhancer.setCallbackTypes(new Class[]{InvocationHandler.class, NoOp.class});
         enhancer.setCallbackFilter(IGNORED_METHODS);
-        if (mockedType.getSigners() != null) {
+        if (protectedPackageNamespace(mockedType)) {
             enhancer.setNamingPolicy(NAMING_POLICY_THAT_ALLOWS_IMPOSTERISATION_OF_CLASSES_IN_SIGNED_PACKAGES);
         }
         
@@ -155,6 +157,11 @@ public class ClassImposteriser implements Imposteriser {
             throw new IllegalStateException("Could not find finalize method on Object");
         }
     }
+    
+    private boolean protectedPackageNamespace(Class<?> mockedType) {
+        return mockedType.getSigners() != null || mockedType.getName().startsWith("java.");
+    }
+
     
     public static class ClassWithSuperclassToWorkAroundCglibBug {}
 }

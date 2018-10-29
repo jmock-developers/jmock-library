@@ -1,6 +1,13 @@
 [![Build Status](https://travis-ci.org/jmock-developers/jmock-library.svg?branch=jmock2)](https://travis-ci.org/jmock-developers/jmock-library)
 
 # Recent Changes
+## 2.10.0
+* JUnit 5 Support
+** Swao @Rule JUnit4Mockery for @RegisterExtension JMock5Mockery
+
+* JUnit 4 moved to provided scope in org.jmock:jmock
+** This allows dependents to use other versions of junit or other test frameworks (e.g. junit 5)
+
 ## 2.9.0
 * Dropped JDK 6 compliance.
 * Exposed the InvocationDispatcher so that ThreadingPolicies 

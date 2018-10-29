@@ -4,16 +4,19 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import junit.framework.TestCase;
-
 import org.jmock.Mockery;
+import org.jmock.api.Imposteriser;
 import org.jmock.internal.CaptureControl;
-import org.jmock.lib.legacy.ClassImposteriser;
+import org.jmock.test.unit.lib.legacy.ImposteriserParameterResolver;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 
-public class MockingPackageProtectedTypeAcceptanceTests extends TestCase {
+public class MockingPackageProtectedTypeAcceptanceTests {
     Mockery mockery = new Mockery();
 
+    @Test
     public void testCanCreateReflectionProxyOfPackageProtectedType() {
         Class<?> typeToProxy = PackageProtectedType.class;
         
@@ -26,13 +29,11 @@ public class MockingPackageProtectedTypeAcceptanceTests extends TestCase {
                 }
             });
     }
-    
-    public void testCanMockPackageProtectedTypeWithDefaultImposteriser() {
-        mockery.mock(PackageProtectedType.class, "mock");
-    }
-    
-    public void testCanMockPackageProtectedTypeWithObjenesisImposteriser() {
-        mockery.setImposteriser(ClassImposteriser.INSTANCE);
+        
+    @ParameterizedTest
+    @ArgumentsSource(ImposteriserParameterResolver.class)
+    public void testCanMockPackageProtectedTypeWithObjenesisImposteriser(Imposteriser imposteriserImpl) {
+        mockery.setImposteriser(imposteriserImpl);
         mockery.mock(PackageProtectedType.class, "mock");
     }
 }
