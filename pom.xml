@@ -63,6 +63,7 @@
         <module>jmock</module>
         <module>jmock-junit3</module>
         <module>jmock-junit4</module>
+        <module>jmock-junit5</module>
         <module>jmock-imposters</module>
         <module>jmock-legacy</module>
         <module>jmock-example</module>
