@@ -1,10 +1,13 @@
 package org.jmock.junit5.testdata;
 
 import org.jmock.Expectations;
+import org.jmock.auto.Mock;
 import org.junit.jupiter.api.Test;
 
 public class DerivedJUnit5TestThatDoesNotSatisfyExpectations extends BaseClassWithMockery {
-    private Runnable runnable = context.mock(Runnable.class);
+    
+    @Mock
+    Runnable runnable;
     
     @Test
     public void doesNotSatisfyExpectations() {

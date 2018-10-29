@@ -1,12 +1,55 @@
+# JMock Library
 [![Build Status](https://travis-ci.org/jmock-developers/jmock-library.svg?branch=jmock2)](https://travis-ci.org/jmock-developers/jmock-library)
+[![Maven Central](https://img.shields.io/maven-central/v/org.jmock/jmock.svg?label=Maven%20Central)](https://mvnrepository.com/artifact/org.jmock)
 
+# Maven
+```xml
+  <dependency>
+    <groupId>org.jmock</groupId>
+    <artifactId>jmock-junit5</artifactId>
+    <version>2.10.0</version>
+    <scope>test</scope>
+  </dependency>
+```
+# Gradle
+```
+testCompile(
+    "junit:junit5:2.10.0",
+    "org.jmock:jmock-junit5:2.10.0"
+)
+```
 # Recent Changes
 ## 2.10.0
-* JUnit 5 Support
-** Swao @Rule JUnit4Mockery for @RegisterExtension JMock5Mockery
+### JUnit 5 Support
+* Swap @Rule JUnit4Mockery for @RegisterExtension JMock5Mockery
+* Assign to a non-private JMock5Mockery or JUnit5 won't use it
 
-* JUnit 4 moved to provided scope in org.jmock:jmock
-** This allows dependents to use other versions of junit or other test frameworks (e.g. junit 5)
+```java
+
+import org.jmock.Expectations;
+import org.jmock.junit5.JUnit5Mockery;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
+public class JUnit5TestThatDoesSatisfyExpectations {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+    private Runnable runnable = context.mock(Runnable.class);
+    
+    @Test
+    public void doesSatisfyExpectations() {
+        context.checking(new Expectations() {{
+            oneOf (runnable).run();
+        }});
+        
+        runnable.run();
+    }
+}
+```
+### JUnit 4 moved to provided scope in org.jmock:jmock
+* This allows dependents to use other versions of junit or other test frameworks (e.g. junit 5)
+
+### Java7 Support will be dropped next release
 
 ## 2.9.0
 * Dropped JDK 6 compliance.
@@ -19,7 +62,7 @@ We have had to make a breaking change to `with()`. Tests using `with(any(matcher
 
 You should change
 
-     oneOf(mock).methodWithIntParams(with(any(Integer.class)));
+    oneOf(mock).methodWithIntParams(with(any(Integer.class)));
 
 to the following
 
@@ -39,28 +82,6 @@ This is due to a compiler change in Java 1.7. The 2.6.0 release was compiled wit
 * Uses Hamcrest matchers, so can use a large and ever-growing library
   of matchers in expectations.
 * Expectations match in first-in, first-out order, so tests are easier to understand.
-
-
-
-# How to get up and running
-
-## Automatic Dependency Management
-
-If you're using Gradle or Maven (and perhaps Ant), then it suffices to add to your build file the "integration JAR" for the test library that you want to use. For example: `jmock-junit4-2.8.2`.
-
-For example, with Gradle:
-
-```
-testCompile(
-	"junit:junit:4.12",
-    "org.jmock:jmock-junit4:2.8.2"
-)
-```
-
-## Hand-Rolled Dependencies
-
-Add the `jmock-<version>.jar` to your classpath. (For example: `jmock-2.8.2.jar`.) Also add the integration JAR to your classpath for the test library ou're using. (For example: `jmock-junit4-2.8.2.jar`.) You also need `hamcrest-api-<version>.jar` and `hamcrest-lib-<version>.jar`.
-
 
 # Package Structure
 
