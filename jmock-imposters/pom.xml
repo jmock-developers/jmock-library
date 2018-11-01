@@ -13,6 +13,10 @@
     
     <dependencies>
         <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jmock</groupId>
             <artifactId>jmock</artifactId>
             <version>${project.version}</version>

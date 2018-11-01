@@ -23,7 +23,7 @@ import java.util.List;
  *   
  * @author npryce
  * 
- * @deprecated Migrate to @see org.jmock.lib.legacy.ByteBuddyClassImposteriser
+ * @deprecated Java11 support is weak, Migrate to org.jmock.lib.imposters.ByteBuddyClassImposteriser
  */
 public class ClassImposteriser implements Imposteriser {
     public static final Imposteriser INSTANCE = new ClassImposteriser();

@@ -32,9 +32,17 @@
 
         <dependency>
             <groupId>org.jmock</groupId>
+            <artifactId>jmock-legacy</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <!-- compile time so users can set imposteriser with classname -->
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
             <artifactId>jmock-imposters</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
+            <!-- compile time so users can set imposteriser with classname -->
         </dependency>
 
         <dependency>
