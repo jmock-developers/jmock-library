@@ -16,6 +16,7 @@ import org.jmock.api.InvocationDispatcher;
 import org.jmock.api.Invokable;
 import org.jmock.api.MockObjectNamingScheme;
 import org.jmock.api.ThreadingPolicy;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.internal.CaptureControl;
 import org.jmock.internal.ExpectationBuilder;
 import org.jmock.internal.ExpectationCapture;

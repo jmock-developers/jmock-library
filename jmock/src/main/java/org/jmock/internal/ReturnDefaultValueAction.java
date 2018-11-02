@@ -6,6 +6,7 @@ import org.hamcrest.Description;
 import org.jmock.api.Action;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.lib.JavaReflectionImposteriser;
 
 import java.lang.reflect.Array;
@@ -68,6 +69,10 @@ public class ReturnDefaultValueAction implements Action {
     public Object invoke(Invocation invocation) throws Throwable {
       final Class<?> returnType = invocation.getInvokedMethod().getReturnType();
 
+      if(Object.class.equals(returnType) && invocation.isBuildingExpectation()) {
+          return null;
+      }
+      
       if (resultValuesByType.containsKey(returnType)) {
           return resultValuesByType.get(returnType);
       }
@@ -78,7 +83,7 @@ public class ReturnDefaultValueAction implements Action {
         final Object instance = collectionOrMapInstanceFor(returnType);
         if (instance != null) return instance;
       }
-      if (imposteriser.canImposterise(returnType)) {
+      if (imposteriser.canImposterise(returnType) && !invocation.isBuildingExpectation()) {
           return imposteriser.imposterise(this, returnType);
       }
       return null;

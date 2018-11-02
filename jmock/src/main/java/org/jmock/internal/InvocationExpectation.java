@@ -6,6 +6,7 @@ import org.hamcrest.core.IsAnything;
 import org.jmock.api.Action;
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.internal.matcher.MethodMatcher;
 import org.jmock.lib.action.VoidAction;
 
@@ -162,7 +163,7 @@ public class InvocationExpectation implements Expectation {
     public Object invoke(Invocation invocation) throws Throwable {
 		invocationCount++;
 		performSideEffects();
-		final Object result = action.invoke(invocation);
+		final Object result = action.invoke(new Invocation(ExpectationMode.ASSERTING, invocation));
         invocation.checkReturnTypeCompatibility(result);
         return result;
 	}

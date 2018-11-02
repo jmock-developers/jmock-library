@@ -23,7 +23,7 @@ public class MockAction extends Assert implements Action {
 		assertTrue("should not be invoked", expectInvoke);
 		
 		if (expectedInvocation != null) {
-			assertSame("invocation", expectedInvocation, actualInvocation);
+			assertEquals("invocation", expectedInvocation, actualInvocation);
 		}
 		
 		if (previous != null) {

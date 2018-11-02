@@ -1,5 +1,6 @@
 package org.jmock.imposters;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,28 +8,28 @@ import java.lang.reflect.Modifier;
 import java.util.Random;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
-import net.bytebuddy.asm.Advice.AllArguments;
-import net.bytebuddy.asm.Advice.Origin;
-import net.bytebuddy.asm.Advice.This;
-import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType.Builder;
 import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.ExceptionMethod;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.matcher.ElementMatcher;
+import net.bytebuddy.implementation.bind.annotation.This;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.api.Invokable;
+import org.jmock.internal.CaptureControl;
 import org.jmock.internal.SearchingClassLoader;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
 /**
- * This class lets you imposterise abstract and concrete classes <em>without</em> calling the constructors of the mocked class.
+ * This class lets you imposterise abstract and concrete classes
+ * <em>without</em> calling the constructors of the mocked class.
  * 
  * @author olibye
  */
@@ -40,7 +41,8 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
     private final Random random = new Random();
     private final Objenesis objenesis = new ObjenesisStd();
 
-    private ByteBuddyClassImposteriser() {}
+    private ByteBuddyClassImposteriser() {
+    }
 
     public boolean canImposterise(Class<?> type) {
         return !type.isPrimitive() &&
@@ -48,14 +50,15 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
                 (type.isInterface() || !toStringMethodIsFinal(type));
     }
 
+    @Override
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         if (!mockedType.isInterface() && toStringMethodIsFinal(mockedType)) {
             throw new IllegalArgumentException(mockedType.getName() + " has a final toString method");
         }
-
+        
         try {
             setConstructorsAccessible(mockedType, true);
-            return mockedType.cast(proxy(mockObject, mockedType, ancilliaryTypes));
+            return proxy(mockObject, mockedType, ancilliaryTypes);
         } finally {
             setConstructorsAccessible(mockedType, false);
         }
@@ -79,44 +82,38 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
         }
     }
 
-    private static final class MethodName implements ElementMatcher<MethodDescription> {
-        private String name;
-
-        public MethodName(String name) {
-            this.name = name;
-        }
-        @Override
-        public boolean matches(MethodDescription target) {
-            return name.equals(target.getName());
-        }
-    }
-
-    public static class ImposterisingInterceptor {
+    public static class CaptureControlInterceptor {
         private Invokable mockObject;
 
-        ImposterisingInterceptor(final Invokable mockObject) {
+        public CaptureControlInterceptor(Invokable mockObject) {
             this.mockObject = mockObject;
         }
 
         @RuntimeType
-        public Object intercept(@This Object receiver,
+        public Object interceptNoThrow(
+                @This Object receiver,
                 @Origin Method method,
-                @AllArguments Object... args) throws Throwable {
-            Object reply = mockObject.invoke(new Invocation(receiver, method, args));
+                @AllArguments Object[] args,
+                @Origin MethodHandle methodHandle
+                ) throws Throwable {
+            Object reply = mockObject.invoke(new Invocation(ExpectationMode.LEGACY, receiver, method, args));
             return reply;
         }
-    }
 
-    private Object proxy(final Invokable mockObject, final Class<?> mockedType, Class<?>... ancilliaryTypes) {
+    }
+    
+    private <T> T proxy(
+            final Invokable mockObject, final Class<T> mockedType, Class<?>... ancilliaryTypes) {
 
         Builder<?> builder = new ByteBuddy()
                 .with(namingStrategy(mockedType))
                 .subclass(mockedType)
                 .implement(ancilliaryTypes)
-                .method(new MethodName("clone")).intercept(ExceptionMethod.throwing(UnsupportedOperationException.class,
-                        "calling this method is not supported"))
-                .method(ElementMatchers.not(new MethodName("clone")))
-                .intercept(MethodDelegation.to(new ImposterisingInterceptor(mockObject)));
+                .method(ElementMatchers.isDeclaredBy(CaptureControl.class))
+                .intercept(MethodDelegation.withDefaultConfiguration().to(new CaptureControlInterceptor(mockObject)))
+                .method(ElementMatchers.not(ElementMatchers.isDeclaredBy(CaptureControl.class)))
+                .intercept(MethodDelegation.withDefaultConfiguration().to(new CaptureControlInterceptor(mockObject)))
+                ;
 
         // From
         // https://mydailyjava.blogspot.com/2018/04/jdk-11-and-proxies-in-world-past.html
@@ -137,7 +134,7 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
                 throw new IllegalStateException("No code generation strategy available");
             }
 
-            return objenesis.newInstance(builder.make()
+            return (T) objenesis.newInstance(builder.make()
                     .load(SearchingClassLoader.combineLoadersOf(mockedType, ancilliaryTypes), strategy)
                     .getLoaded());
 

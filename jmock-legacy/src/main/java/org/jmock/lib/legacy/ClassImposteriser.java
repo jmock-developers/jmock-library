@@ -7,6 +7,7 @@ import net.sf.cglib.core.Predicate;
 import net.sf.cglib.proxy.*;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
 import org.objenesis.Objenesis;
@@ -58,6 +59,7 @@ public class ClassImposteriser implements Imposteriser {
                (type.isInterface() || !toStringMethodIsFinal(type));
     }
     
+    @Override
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         if (!mockedType.isInterface() && toStringMethodIsFinal(mockedType)) {
             throw new IllegalArgumentException(mockedType.getName() + " has a final toString method");
@@ -65,7 +67,7 @@ public class ClassImposteriser implements Imposteriser {
         
         try {
             setConstructorsAccessible(mockedType, true);
-          return mockedType.cast(proxy(proxyClass(mockedType, ancilliaryTypes), mockObject));
+            return mockedType.cast(proxy(proxyClass(mockedType, ancilliaryTypes), mockObject));
         }
         finally {
             setConstructorsAccessible(mockedType, false);

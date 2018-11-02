@@ -1,4 +1,5 @@
-/*  Copyright (c) 2000-2004 jMock.org
+/*
+ * Copyright (c) 2000-2004 jMock.org
  */
 package org.jmock.api;
 
@@ -7,7 +8,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
 import org.hamcrest.StringDescription;
@@ -24,49 +24,69 @@ public class Invocation implements SelfDescribing {
     private final Object invokedObject;
     private final Method invokedMethod;
     private final Object[] parameterValues;
+    private final ExpectationMode mode;
 
     // A kludge but there doesn't seem to be a way to find this out through the reflection API.
-    private static final Map<Class<?>, Class<?>> BOX_TYPES = new HashMap<Class<?>, Class<?>>() {{
-        put(boolean.class, Boolean.class);
-        put(byte.class, Byte.class);
-        put(char.class, Character.class);
-        put(short.class, Short.class);
-        put(int.class, Integer.class);
-        put(long.class, Long.class);
-        put(float.class, Float.class);
-        put(double.class, Double.class);
-    }};
+    private static final Map<Class<?>, Class<?>> BOX_TYPES = new HashMap<Class<?>, Class<?>>() {
+        {
+            put(boolean.class, Boolean.class);
+            put(byte.class, Byte.class);
+            put(char.class, Character.class);
+            put(short.class, Short.class);
+            put(int.class, Integer.class);
+            put(long.class, Long.class);
+            put(float.class, Float.class);
+            put(double.class, Double.class);
+        }
+    };
 
-    
-    public Invocation(Object invoked, Method method, Object... parameterValues) {
+
+    public enum ExpectationMode {
+        BUILDING, ASSERTING, LEGACY
+    }
+
+    public Invocation(ExpectationMode mode, Object invoked, Method method, Object... parameterValues) {
+        this.mode = mode;
         this.invokedObject = invoked;
         this.invokedMethod = method;
-        this.parameterValues = (parameterValues == NO_PARAMETERS) 
-            ? new Object[0]
-            : parameterValues.clone();
+        this.parameterValues = (parameterValues == NO_PARAMETERS)
+                ? new Object[0]
+                : parameterValues.clone();
     }
-    
-    @Override
+
+    public Invocation(ExpectationMode mode, Invocation other) {
+        this.mode = mode;
+        this.invokedObject = other.invokedObject;
+        this.invokedMethod = other.invokedMethod;
+        this.parameterValues = other.parameterValues;
+    }
+
+    public Invocation(Object invoked, Method method, Object... parameterValues) {
+        this(ExpectationMode.LEGACY, invoked, method, parameterValues);
+    }
+
+        @Override
     public String toString() {
         return super.toString() + "[" + StringDescription.toString(this) + "]";
     }
-    
+
     @Override
     public boolean equals(Object other) {
-        return (other instanceof Invocation) && this.equals((Invocation)other);
+        return (other instanceof Invocation) && this.equals((Invocation) other);
     }
 
     public boolean equals(Invocation other) {
+        // ignore mode
         return other != null && invokedObject == other.invokedObject
-            && invokedMethod.equals(other.invokedMethod)
-            && Arrays.equals(parameterValues, other.parameterValues);
+                && invokedMethod.equals(other.invokedMethod)
+                && Arrays.equals(parameterValues, other.parameterValues);
     }
 
     @Override
     public int hashCode() {
-        return invokedObject.hashCode() 
-             ^ invokedMethod.hashCode()
-             ^ Arrays.hashCode(parameterValues);
+        return invokedObject.hashCode()
+                ^ invokedMethod.hashCode()
+                ^ Arrays.hashCode(parameterValues);
     }
 
     public void describeTo(Description description) {
@@ -99,8 +119,7 @@ public class Invocation implements SelfDescribing {
     public Object applyTo(Object target) throws Throwable {
         try {
             return invokedMethod.invoke(target, getParametersAsArray());
-        }
-        catch (InvocationTargetException ex) {
+        } catch (InvocationTargetException ex) {
             throw ex.getTargetException();
         }
     }
@@ -109,11 +128,9 @@ public class Invocation implements SelfDescribing {
         Class<?> returnType = invokedMethod.getReturnType();
         if (returnType == void.class) {
             failIfReturnTypeIsNotNull(value);
-        }
-        else if (value == null) {
+        } else if (value == null) {
             failIfReturnTypeIsPrimitive();
-        }
-        else {
+        } else {
             Class<?> valueType = value.getClass();
             if (!isCompatible(returnType, valueType)) {
                 reportTypeError(returnType, valueType);
@@ -143,13 +160,17 @@ public class Invocation implements SelfDescribing {
         Class<?> returnType = invokedMethod.getReturnType();
         if (returnType.isPrimitive()) {
             throw new IllegalStateException(
-                "tried to return null value from method returning " + returnType.getName());
+                    "tried to return null value from method returning " + returnType.getName());
         }
     }
-    
+
     private void reportTypeError(Class<?> returnType, Class<?> valueType) {
         throw new IllegalStateException(
-            "tried to return a " + valueType.getName() +
-            " from a method that can only return a " + returnType.getName());
+                "tried to return a " + valueType.getName() +
+                        " from a method that can only return a " + returnType.getName());
+    }
+    
+    public boolean isBuildingExpectation() {
+        return ExpectationMode.BUILDING == mode;
     }
 }

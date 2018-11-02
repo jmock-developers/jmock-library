@@ -1,15 +1,15 @@
 package org.jmock.lib.concurrent;
 
 import static org.hamcrest.StringDescription.asString;
-
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeoutException;
-
 import org.jmock.api.Expectation;
 import org.jmock.api.Invocation;
 import org.jmock.api.InvocationDispatcher;
 import org.jmock.api.Invokable;
 import org.jmock.api.ThreadingPolicy;
+import org.jmock.internal.CaptureControl;
+import org.jmock.internal.ExpectationCapture;
 import org.jmock.internal.StateMachine;
 import org.jmock.internal.StatePredicate;
 import org.jmock.lib.concurrent.internal.FixedTimeout;
@@ -17,8 +17,7 @@ import org.jmock.lib.concurrent.internal.InfiniteTimeout;
 import org.jmock.lib.concurrent.internal.Timeout;
 
 /**
- * A ThreadingPolicy that makes the Mockery thread-safe and helps tests
- * synchronise with background threads.
+ * A ThreadingPolicy that makes the Mockery thread-safe and helps tests synchronise with background threads.
  * 
  * @author Nat Pryce
  * @author olibye
@@ -43,8 +42,7 @@ public class Synchroniser implements ThreadingPolicy {
      * 
      * Warning: this will wait forever unless the test itself has a timeout.
      * 
-     * @param p
-     *            the StatePredicate to wait for
+     * @param p the StatePredicate to wait for
      * @throws InterruptedException
      */
     public void waitUntil(StatePredicate p) throws InterruptedException {
@@ -52,13 +50,10 @@ public class Synchroniser implements ThreadingPolicy {
     }
 
     /**
-     * Waits up to a timeout for a StatePredicate to become active. Fails the test
-     * if the timeout expires.
+     * Waits up to a timeout for a StatePredicate to become active. Fails the test if the timeout expires.
      * 
-     * @param p
-     *            the StatePredicate to wait for
-     * @param timeoutMs
-     *            the timeout in milliseconds
+     * @param p         the StatePredicate to wait for
+     * @param timeoutMs the timeout in milliseconds
      * @throws InterruptedException
      */
     public void waitUntil(StatePredicate p, long timeoutMs) throws InterruptedException {
@@ -82,29 +77,51 @@ public class Synchroniser implements ThreadingPolicy {
 
     }
 
+    @Override
     public Invokable synchroniseAccessTo(final Invokable mockObject) {
-        return new Invokable() {
-            public Object invoke(Invocation invocation) throws Throwable {
-                return synchroniseInvocation(mockObject, invocation);
-            }
-        };
+        return new SynchronisedInvokableCaptureControl(mockObject);
     }
 
-    private Object synchroniseInvocation(Invokable mockObject, Invocation invocation) throws Throwable {
-        synchronized (sync) {
-            try {
-                return mockObject.invoke(invocation);
-            } catch (Error e) {
-                if (firstError == null) {
-                    firstError = e;
+    private final class SynchronisedInvokableCaptureControl implements Invokable, CaptureControl {
+        private final Invokable mockObject;
+
+        private SynchronisedInvokableCaptureControl(Invokable mockObject) {
+            this.mockObject = mockObject;
+        }
+
+        @Override
+        public Object invoke(Invocation invocation) throws Throwable {
+            return synchroniseInvocation(mockObject, invocation);
+        }
+
+        @Override
+        public Object captureExpectationTo(ExpectationCapture capture) {
+            if (mockObject instanceof CaptureControl) {
+                synchronized (sync) {
+                    return ((CaptureControl) mockObject).captureExpectationTo(capture);
                 }
-                throw e;
-            } finally {
-                sync.notifyAll();
+            }
+            return mockObject;
+        }
+
+        private Object synchroniseInvocation(Invokable mockObject, Invocation invocation) throws Throwable {
+            synchronized (sync) {
+                try {
+                    return mockObject.invoke(invocation);
+                } catch (Error e) {
+                    if (firstError == null) {
+                        firstError = e;
+                    }
+                    throw e;
+                } finally {
+                    sync.notifyAll();
+                }
             }
         }
+
     }
 
+    @Override
     public InvocationDispatcher dispatcher() {
         return invocationDispatcher;
     }
