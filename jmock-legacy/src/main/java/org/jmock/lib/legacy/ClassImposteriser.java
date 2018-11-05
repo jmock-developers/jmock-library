@@ -7,7 +7,6 @@ import net.sf.cglib.core.Predicate;
 import net.sf.cglib.proxy.*;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
-import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
 import org.objenesis.Objenesis;

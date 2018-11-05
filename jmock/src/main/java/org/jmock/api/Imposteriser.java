@@ -1,8 +1,5 @@
 package org.jmock.api;
 
-import org.jmock.api.Invocation.ExpectationMode;
-import org.jmock.internal.ReturnDefaultValueAction;
-
 /**
  * An object that can creates a proxy of the given type to capture
  * {@link org.jmock.api.Invocation}s and pass them to an 
