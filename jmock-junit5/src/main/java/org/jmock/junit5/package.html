@@ -10,13 +10,13 @@ be verified after the test has run and before the fixture is torn down.
 <pre>
 public class JUnit5TestThatDoesSatisfyExpectations {
     
-    @RegisterExtension
+    \@RegisterExtension
     JUnit5Mockery context = new JUnit5Mockery();
     
-    @Mock
+    \@Mock
     private Runnable runnable;
     
-    @Test
+    \@Test
     public void doesSatisfyExpectations() {
         context.checking(new Expectations() {{
             oneOf (runnable).run();

@@ -2,9 +2,9 @@ package org.jmock.test.acceptance;
 
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.jmock.testjar.InterfaceFromOtherClassLoader;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
 
         context.checking(new Expectations() {
             {
-                oneOf(mock).stir(ABEAN);
+                ABean bean = oneOf(mock).stir(ABEAN);
                 will(returnValue(ABEAN));
             }
         });
@@ -73,7 +73,7 @@ public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
 
         context.checking(new Expectations() {
             {
-                oneOf(mock).stir(ABEAN);
+                ABean bean = oneOf(mock).stir(ABEAN);
                 will(returnValue(ABEAN));
             }
         });
@@ -85,7 +85,7 @@ public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
         private Synchroniser synchroniser;
 
         public ImposterisingMockery() {
-            setImposteriser(ClassImposteriser.INSTANCE);
+            setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
             this.synchroniser = new Synchroniser();
             setThreadingPolicy(synchroniser);
         }
