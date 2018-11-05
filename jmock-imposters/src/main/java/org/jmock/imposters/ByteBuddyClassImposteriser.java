@@ -1,31 +1,27 @@
 package org.jmock.imposters;
 
-import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Random;
+
+import org.jmock.api.Imposteriser;
+import org.jmock.api.Invocation;
+import org.jmock.api.Invokable;
+import org.jmock.internal.SearchingClassLoader;
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
+
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType.Builder;
 import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.MethodDelegation;
-import net.bytebuddy.implementation.bind.annotation.AllArguments;
-import net.bytebuddy.implementation.bind.annotation.Origin;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.implementation.bind.annotation.This;
+import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.matcher.ElementMatchers;
-import org.jmock.api.Imposteriser;
-import org.jmock.api.Invocation;
-import org.jmock.api.Invocation.ExpectationMode;
-import org.jmock.api.Invokable;
-import org.jmock.internal.CaptureControl;
-import org.jmock.internal.SearchingClassLoader;
-import org.objenesis.Objenesis;
-import org.objenesis.ObjenesisStd;
 
 /**
  * This class lets you imposterise abstract and concrete classes
@@ -81,26 +77,6 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
             constructor.setAccessible(accessible);
         }
     }
-
-    public static class CaptureControlInterceptor {
-        private Invokable mockObject;
-
-        public CaptureControlInterceptor(Invokable mockObject) {
-            this.mockObject = mockObject;
-        }
-
-        @RuntimeType
-        public Object interceptNoThrow(
-                @This Object receiver,
-                @Origin Method method,
-                @AllArguments Object[] args,
-                @Origin MethodHandle methodHandle
-                ) throws Throwable {
-            Object reply = mockObject.invoke(new Invocation(ExpectationMode.LEGACY, receiver, method, args));
-            return reply;
-        }
-
-    }
     
     private <T> T proxy(
             final Invokable mockObject, final Class<T> mockedType, Class<?>... ancilliaryTypes) {
@@ -109,11 +85,12 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
                 .with(namingStrategy(mockedType))
                 .subclass(mockedType)
                 .implement(ancilliaryTypes)
-                .method(ElementMatchers.isDeclaredBy(CaptureControl.class))
-                .intercept(MethodDelegation.withDefaultConfiguration().to(new CaptureControlInterceptor(mockObject)))
-                .method(ElementMatchers.not(ElementMatchers.isDeclaredBy(CaptureControl.class)))
-                .intercept(MethodDelegation.withDefaultConfiguration().to(new CaptureControlInterceptor(mockObject)))
-                ;
+                .method(ElementMatchers.any())
+                .intercept(InvocationHandlerAdapter.of(new InvocationHandler() {
+                    public Object invoke(Object receiver, Method method, Object[] args) throws Throwable {
+                        return mockObject.invoke(new Invocation(receiver, method, args));
+                    }
+                }));
 
         // From
         // https://mydailyjava.blogspot.com/2018/04/jdk-11-and-proxies-in-world-past.html
