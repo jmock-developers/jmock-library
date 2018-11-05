@@ -4,18 +4,36 @@ import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.testjar.InterfaceFromOtherClassLoader;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
 
+/**
+ * This tests the solution to a longstanding jMock issue. Mock return values for
+ * generic interfaces loaded by other class loaders had the type constraint of
+ * the source interface not the runtime type. The ByteBuddyClassImposteriser
+ * oxposed this issue as it cast mocked method return values to their target
+ * type. This caused ClassCastExceptions. Returning null in the cases where
+ * we're building expectations is the simple solution. Once will(returnValue())
+ * has bee called then the actual mock reply is known and can be returned at
+ * expectation assertion time.
+ * 
+ * @author oliverbye
+ *
+ */
 public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
 
     @Rule
-    public final JUnitRuleMockery context = new ImposterisingMockery();
+    public final JUnitRuleMockery context = new JUnitRuleMockery() {
+        {
+            setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+        }
+    };
 
-    // Method return types for generics become object
+    /**
+     * This test case requires a generic mock.
+     */
     @Mock
     public InterfaceFromOtherClassLoader<ABean> mock;
 
@@ -25,6 +43,9 @@ public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
 
         context.checking(new Expectations() {
             {
+                // Assigning the mock is not normal
+                // We do this to prove that the result is assignable to the generic interfaces
+                // runtime type (ABean)
                 ABean bean = oneOf(mock).stir(ABEAN);
                 will(returnValue(ABEAN));
             }
@@ -81,18 +102,9 @@ public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
         ABean result1 = mock.stir(ABEAN);
     }
 
-    private static final class ImposterisingMockery extends JUnitRuleMockery {
-        private Synchroniser synchroniser;
-
-        public ImposterisingMockery() {
-            setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-            this.synchroniser = new Synchroniser();
-            setThreadingPolicy(synchroniser);
-        }
-    }
-
     public static abstract class ABean {
     }
 
-    public ABean ABEAN = new ABean() {};
+    public ABean ABEAN = new ABean() {
+    };
 }

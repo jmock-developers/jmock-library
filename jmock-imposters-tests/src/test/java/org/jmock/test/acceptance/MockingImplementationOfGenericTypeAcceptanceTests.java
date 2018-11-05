@@ -1,98 +1,93 @@
 package org.jmock.test.acceptance;
 
 import org.jmock.Expectations;
-import org.jmock.auto.Mock;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.jmock.lib.concurrent.Synchroniser;
-import org.jmock.testjar.InterfaceFromOtherClassLoader;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.Mockery;
+import org.jmock.api.Imposteriser;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.test.unit.lib.legacy.CodeGeneratingImposteriserParameterResolver;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 public class MockingImplementationOfGenericTypeAcceptanceTests {
+    private Mockery context = new JUnit4Mockery();
 
-    @Rule
-    public final JUnitRuleMockery context = new ImposterisingMockery();
-
-    // Method return types for generics become object
-    @Mock
-    public InterfaceFromOtherClassLoader<ABean> mock;
-
-    @SuppressWarnings("unused")
-    @Test
-    public void testWhenDefinedAndInvokedThroughClass() throws Exception {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void testWhenDefinedAndInvokedThroughClass(Imposteriser imposteriserImpl) throws Exception {
+        context.setImposteriser(imposteriserImpl);
+        final AnImplementation mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {
             {
-                ABean bean = oneOf(mock).stir(ABEAN);
-                will(returnValue(ABEAN));
+                oneOf(mock).doSomethingWith("a");
             }
         });
 
-        ABean result1 = mock.stir(ABEAN);
+        mock.doSomethingWith("a");
     }
 
-    @SuppressWarnings("unused")
-    @Test
-    public void testWhenDefinedThroughClassAndInvokedThroughMethod() throws Exception {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void testWhenDefinedThroughClassAndInvokedThroughMethod(Imposteriser imposteriserImpl) throws Exception {
+        context.setImposteriser(imposteriserImpl);
+        final AnImplementation mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {
             {
-                ABean bean = oneOf(mock).stir(ABEAN);
-                will(returnValue(ABEAN));
+                oneOf(mock).doSomethingWith("a");
             }
         });
 
         // Note: this is invoked through a "bridge" method and so the method
         // invoked when expectations are checked appears to be different from
         // that invoked when expectations are captured.
-        ABean result1 = ((InterfaceFromOtherClassLoader<ABean>) mock).stir(ABEAN);
+        ((AnInterface<String>) mock).doSomethingWith("a");
     }
 
     @Disabled
     public void DONTtestAndBoxedNativeParameterIgnoingIsADocumentationWhenDefinedThroughClassAndInvokedThroughMethod()
             throws Exception {
+        final AnImplementation mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {
             {
-                ABean bean = oneOf(mock).stir(with(any(Integer.class)));
-                will(returnValue(ABEAN));
+                oneOf(mock).doSomethingWith(with(any(Integer.class)));
             }
         });
 
         // Note: this is invoked through a "bridge" method and so the method
         // invoked when expectations are checked appears to be different from
         // that invoked when expectations are captured.
-        ((InterfaceFromOtherClassLoader<ABean>) mock).stir(ABEAN);
+        ((AnInterface<String>) mock).doSomethingWith("a");
     }
 
-    @SuppressWarnings("unused")
-    @Test
-    public void testWhenDefinedAndInvokedThroughInterface() throws Exception {
+    @ParameterizedTest
+    @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
+    public void testWhenDefinedAndInvokedThroughInterface(Imposteriser imposteriserImpl) throws Exception {
+        context.setImposteriser(imposteriserImpl);
+        final AnInterface<String> mock = context.mock(AnImplementation.class);
 
         context.checking(new Expectations() {
             {
-                ABean bean = oneOf(mock).stir(ABEAN);
-                will(returnValue(ABEAN));
+                oneOf(mock).doSomethingWith("a");
             }
         });
 
-        ABean result1 = mock.stir(ABEAN);
+        mock.doSomethingWith("a");
     }
 
-    private static final class ImposterisingMockery extends JUnitRuleMockery {
-        private Synchroniser synchroniser;
+    public interface AnInterface<T> {
+        void doSomethingWith(T arg);
 
-        public ImposterisingMockery() {
-            setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-            this.synchroniser = new Synchroniser();
-            setThreadingPolicy(synchroniser);
+        void doSomethingWith(int arg);
+    }
+
+    public static class AnImplementation implements AnInterface<String> {
+        public void doSomethingWith(String arg) {
+        }
+
+        public void doSomethingWith(int arg) {
         }
     }
-
-    public static abstract class ABean {
-    }
-
-    public ABean ABEAN = new ABean() {};
 }

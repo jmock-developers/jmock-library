@@ -25,19 +25,15 @@ public class JavaReflectionImposteriser implements Imposteriser {
     }
     
     @SuppressWarnings("unchecked")
-    public <T> T imposterise(final ExpectationMode mode, final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
+    public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         final Class<?>[] proxiedClasses = prepend(mockedType, ancilliaryTypes);
         final ClassLoader classLoader = SearchingClassLoader.combineLoadersOf(proxiedClasses);
         
         return (T)Proxy.newProxyInstance(classLoader, proxiedClasses, new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return mockObject.invoke(new Invocation(mode, proxy, method, args));
+                return mockObject.invoke(new Invocation(ExpectationMode.LEGACY, proxy, method, args));
             }
         });
-    }
-
-    public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
-        return imposterise(ExpectationMode.LEGACY, mockObject, mockedType, ancilliaryTypes);
     }
 
     private Class<?>[] prepend(Class<?> first, Class<?>... rest) {
