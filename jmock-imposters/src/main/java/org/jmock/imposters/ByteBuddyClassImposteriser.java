@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Random;
 
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
@@ -16,7 +15,6 @@ import org.objenesis.ObjenesisStd;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
-import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType.Builder;
 import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
@@ -34,7 +32,6 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
     private static final String MOCK_TYPE_SUFFIX = "JMock";
     public static final Imposteriser INSTANCE = new ByteBuddyClassImposteriser();
 
-    private final Random random = new Random();
     private final Objenesis objenesis = new ObjenesisStd();
 
     private ByteBuddyClassImposteriser() {
@@ -82,7 +79,7 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
             final Invokable mockObject, final Class<T> mockedType, Class<?>... ancilliaryTypes) {
 
         Builder<?> builder = new ByteBuddy()
-                .with(namingStrategy(mockedType))
+                .with(new NamingStrategy.SuffixingRandom(MOCK_TYPE_SUFFIX,MOCK_TYPE_SUFFIX.toLowerCase()))
                 .subclass(mockedType)
                 .implement(ancilliaryTypes)
                 .method(ElementMatchers.any())
@@ -106,7 +103,8 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
                 Object privateLookup = privateLookupIn.invoke(null, mockedType, lookup);
                 strategy = ClassLoadingStrategy.UsingLookup.of(privateLookup);
             } else if (ClassInjector.UsingReflection.isAvailable()) {
-                strategy = ClassLoadingStrategy.Default.INJECTION;
+                // allow existing to avoid: java.lang.IllegalStateException: Cannot inject already loaded type
+                strategy = ClassLoadingStrategy.Default.INJECTION.allowExistingTypes();
             } else {
                 throw new IllegalStateException("No code generation strategy available");
             }
@@ -123,21 +121,6 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
 
     private boolean defaultPackage(Class<?> mockedType) {
         return mockedType.getPackage().getName().isEmpty();
-    }
-
-    private NamingStrategy namingStrategy(Class<?> mockedType) {
-        if (protectedPackageNameSpaces(mockedType)) {
-            return new NamingStrategy.SuffixingRandom(MOCK_TYPE_SUFFIX);
-        }
-        return new NamingStrategy.AbstractBase() {
-            @Override
-            protected String name(TypeDescription superClass) {
-                String possiblePackageName = superClass.getPackage().getName();
-                String validPackageName = possiblePackageName.isEmpty() ? "" : possiblePackageName + ".";
-                return validPackageName + superClass.getSimpleName() + MOCK_TYPE_SUFFIX
-                        + random.nextInt(Integer.MAX_VALUE);
-            }
-        };
     }
 
     private boolean protectedPackageNameSpaces(Class<?> mockedType) {
