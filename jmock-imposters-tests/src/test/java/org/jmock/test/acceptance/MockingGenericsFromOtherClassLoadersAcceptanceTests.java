@@ -102,23 +102,6 @@ public class MockingGenericsFromOtherClassLoadersAcceptanceTests {
         ABean result1 = mock.stir(ABEAN);
     }
 
-    @Test
-    public void testInjectingTwoMocksOfSameType() throws Exception {
-        final InterfaceFromOtherClassLoader<ABean> mock1 = context.mock(InterfaceFromOtherClassLoader.class, "1");
-        final InterfaceFromOtherClassLoader<ABean> mock2 = context.mock(InterfaceFromOtherClassLoader.class, "2");
-        context.checking(new Expectations() {
-            {
-                oneOf(mock1).stir(ABEAN);
-                will(returnValue(ABEAN));
-                oneOf(mock2).stir(ABEAN);
-                will(returnValue(ABEAN));
-            }
-        });
-
-        ABean result1 = mock1.stir(ABEAN);
-        ABean result2 = mock2.stir(ABEAN);
-    }
-
     public static abstract class ABean {
     }
 
