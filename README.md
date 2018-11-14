@@ -6,8 +6,14 @@
 ```xml
   <dependency>
     <groupId>org.jmock</groupId>
+    <artifactId>jmock-imposters</artifactId>
+    <version>2.10.0-RC3</version>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.jmock</groupId>
     <artifactId>jmock-junit5</artifactId>
-    <version>2.10.0</version>
+    <version>2.10.0-RC3</version>
     <scope>test</scope>
   </dependency>
 ```
@@ -15,7 +21,8 @@
 ```
 testCompile(
     "junit:junit5:2.10.0",
-    "org.jmock:jmock-junit5:2.10.0"
+    "org.jmock:jmock-imposters:2.10.0-RC3"
+    "org.jmock:jmock-junit5:2.10.0-RC3"
 )
 ```
 # Recent Changes
