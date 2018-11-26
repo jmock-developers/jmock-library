@@ -41,8 +41,15 @@ public class Invocation implements SelfDescribing {
     };
 
 
+    /**
+     * Support distinguish between building expectations and asserting against expectations.
+     * ByteBuddy (for example) checks runtime return types.
+     * It's simplest and safest to return null when building expectations
+     */
     public enum ExpectationMode {
-        BUILDING, ASSERTING, LEGACY
+        BUILDING, // We're building the expectations so invocations can return null
+        ASSERTING, // Return the default or specified reply
+        LEGACY // Legacy mode old imposters
     }
 
     public Invocation(ExpectationMode mode, Object invoked, Method method, Object... parameterValues) {
