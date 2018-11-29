@@ -33,7 +33,6 @@ import static org.junit.Assert.fail;
  *
  * Note that the Rule field must be declared public and as a <code>JUnitRuleMockery</code>
  * (not a <code>Mockery</code>) for JUnit to recognise it, as it's checked statically.
- * 
  * @author smgf
  */
 

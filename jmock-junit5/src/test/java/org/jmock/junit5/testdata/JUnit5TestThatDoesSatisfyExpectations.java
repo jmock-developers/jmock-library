@@ -1,14 +1,18 @@
 package org.jmock.junit5.testdata;
 
 import org.jmock.Expectations;
+import org.jmock.auto.Mock;
 import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class JUnit5TestThatDoesSatisfyExpectations {
+    
     @RegisterExtension
-    private JUnit5Mockery context = new JUnit5Mockery();
-    private Runnable runnable = context.mock(Runnable.class);
+    JUnit5Mockery context = new JUnit5Mockery();
+    
+    @Mock
+    private Runnable runnable;
     
     @Test
     public void doesSatisfyExpectations() {

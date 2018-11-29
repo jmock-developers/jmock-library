@@ -55,8 +55,7 @@ public class Synchroniser implements ThreadingPolicy {
      * Waits up to a timeout for a StatePredicate to become active. Fails the test
      * if the timeout expires.
      * 
-     * @param p
-     *            the StatePredicate to wait for
+     * @param p the StatePredicate to wait for
      * @param timeoutMs
      *            the timeout in milliseconds
      * @throws InterruptedException

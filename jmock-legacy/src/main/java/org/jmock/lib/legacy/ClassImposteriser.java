@@ -23,7 +23,7 @@ import java.util.List;
  *   
  * @author npryce
  * 
- * @deprecated Migrate to @see org.jmock.lib.legacy.ByteBuddyClassImposteriser
+ * @deprecated Java11 support is weak, Migrate to org.jmock.lib.imposters.ByteBuddyClassImposteriser
  */
 public class ClassImposteriser implements Imposteriser {
     public static final Imposteriser INSTANCE = new ClassImposteriser();
@@ -58,6 +58,7 @@ public class ClassImposteriser implements Imposteriser {
                (type.isInterface() || !toStringMethodIsFinal(type));
     }
     
+    @Override
     public <T> T imposterise(final Invokable mockObject, Class<T> mockedType, Class<?>... ancilliaryTypes) {
         if (!mockedType.isInterface() && toStringMethodIsFinal(mockedType)) {
             throw new IllegalArgumentException(mockedType.getName() + " has a final toString method");
@@ -65,7 +66,7 @@ public class ClassImposteriser implements Imposteriser {
         
         try {
             setConstructorsAccessible(mockedType, true);
-          return mockedType.cast(proxy(proxyClass(mockedType, ancilliaryTypes), mockObject));
+            return mockedType.cast(proxy(proxyClass(mockedType, ancilliaryTypes), mockObject));
         }
         finally {
             setConstructorsAccessible(mockedType, false);

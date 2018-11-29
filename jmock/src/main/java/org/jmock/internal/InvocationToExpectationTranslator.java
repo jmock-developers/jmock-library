@@ -2,6 +2,7 @@ package org.jmock.internal;
 
 import org.jmock.api.Action;
 import org.jmock.api.Invocation;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.api.Invokable;
 
 public class InvocationToExpectationTranslator implements Invokable {
@@ -16,7 +17,8 @@ public class InvocationToExpectationTranslator implements Invokable {
     }
     
     public Object invoke(Invocation invocation) throws Throwable {
-        capture.createExpectationFrom(invocation);
-        return defaultAction.invoke(invocation);
+        Invocation buildingInvocation = new Invocation(ExpectationMode.BUILDING,invocation);
+        capture.createExpectationFrom(buildingInvocation);
+        return defaultAction.invoke(buildingInvocation);
     }
 }

@@ -23,7 +23,10 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 public class ClassLoaderAcceptanceTests {
 
-    final String UNSIGNED_JAR_NAME = "../testjar/target/unsigned.jar";
+    private static final String UNSIGNED_JAR_NAME = "../testjar/target/unsigned.jar";
+    private static final String CLASS_FROM_OTHER_CLASS_LOADER = "org.jmock.testjar.ClassFromOtherClassLoader";
+    private static final String INTERFACE_FROM_OTHER_CLASS_LOADER = "org.jmock.testjar.InterfaceFromOtherClassLoader";
+    
     Mockery mockery = new Mockery();
     ClassLoader classLoader;
     
@@ -38,14 +41,14 @@ public class ClassLoaderAcceptanceTests {
     @ArgumentsSource(ImposteriserParameterResolver.class)
     public void testMockingInterfaceFromOtherClassLoaderWithClassImposteriser(Imposteriser imposteriserImpl) throws ClassNotFoundException {
         mockery.setImposteriser(imposteriserImpl);
-        mockery.mock(classLoader.loadClass("InterfaceFromOtherClassLoader"));
+        mockery.mock(classLoader.loadClass(INTERFACE_FROM_OTHER_CLASS_LOADER));
     }
     
     @ParameterizedTest
     @ArgumentsSource(CodeGeneratingImposteriserParameterResolver.class)
     public void testMockingClassFromOtherClassLoaderWithClassImposteriser(Imposteriser imposteriserImpl) throws ClassNotFoundException {
         mockery.setImposteriser(imposteriserImpl);
-        mockery.mock(classLoader.loadClass("ClassFromOtherClassLoader"));
+        mockery.mock(classLoader.loadClass(CLASS_FROM_OTHER_CLASS_LOADER));
     }
     
     // I've been unable to reproduce the behaviour of the Maven Surefire plugin in plain JUnit tests
@@ -56,7 +59,7 @@ public class ClassLoaderAcceptanceTests {
         Runnable task = new Runnable() {
             public void run() {
                 try {
-                    Class<?> classToMock = Thread.currentThread().getContextClassLoader().loadClass("ClassFromOtherClassLoader");
+                    Class<?> classToMock = Thread.currentThread().getContextClassLoader().loadClass(CLASS_FROM_OTHER_CLASS_LOADER);
                     
                     Mockery threadMockery = new Mockery();
                     threadMockery.setImposteriser(imposteriserImpl);

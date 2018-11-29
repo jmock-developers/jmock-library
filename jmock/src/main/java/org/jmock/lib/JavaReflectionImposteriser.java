@@ -6,6 +6,7 @@ import java.lang.reflect.Proxy;
 
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
+import org.jmock.api.Invocation.ExpectationMode;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
 
@@ -30,11 +31,11 @@ public class JavaReflectionImposteriser implements Imposteriser {
         
         return (T)Proxy.newProxyInstance(classLoader, proxiedClasses, new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return mockObject.invoke(new Invocation(proxy, method, args));
+                return mockObject.invoke(new Invocation(ExpectationMode.LEGACY, proxy, method, args));
             }
         });
     }
-    
+
     private Class<?>[] prepend(Class<?> first, Class<?>... rest) {
         Class<?>[] proxiedClasses = new Class<?>[rest.length+1];
         

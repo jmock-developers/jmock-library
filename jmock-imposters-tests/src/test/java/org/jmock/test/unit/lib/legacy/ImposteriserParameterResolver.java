@@ -1,7 +1,7 @@
 package org.jmock.test.unit.lib.legacy;
 
+import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.lib.JavaReflectionImposteriser;
-import org.jmock.lib.imposters.ByteBuddyClassImposteriser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.jmock.test.acceptance.AbstractImposteriserParameterResolver;
 

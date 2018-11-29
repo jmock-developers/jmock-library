@@ -3,4 +3,4 @@
  * @author oliverbye
  *
  */
-package org.jmock.lib.imposters;
+package org.jmock.imposters;

@@ -3,8 +3,8 @@ package org.jmock.test.unit.lib.legacy;
 import java.io.File;
 
 import org.jmock.api.Imposteriser;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.imposters.ByteBuddyClassImposteriser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.jmock.test.acceptance.AbstractImposteriserParameterResolver;
 import org.junit.jupiter.api.condition.DisabledOnJre;

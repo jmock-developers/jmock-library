@@ -16,17 +16,18 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import com.google.auto.service.AutoService;
 
 /**
- * A <code>JUnitRuleMockery</code> is a JUnit Rule that manages JMock
+ * A <code>JUnit5Mockery</code> is a JUnit Extension that manages JMock
  * expectations and allowances, and asserts that expectations have been met
- * after each test has finished. To use it, add a field to the test class (note
- * that you don't have to specify <code>@RunWith(JMock.class)</code> any more).
+ * after each test has finished. To use it, add a (non-private) field to the test class 
  * For example,
  * 
  * <pre>
  * public class ATestWithSatisfiedExpectations {
  *     &#64;RegisterExtension
- *     public final JUnitRuleMockery context = new JUnitRuleMockery();
- *     private final Runnable runnable = context.mock(Runnable.class);
+ *     final JUnitRuleMockery context = new JUnitRuleMockery();
+ *     
+ *     &#64;Mock
+ *     private final Runnable runnable;
  * 
  *     &#64;Test
  *     public void doesSatisfyExpectations() {
@@ -47,7 +48,7 @@ import com.google.auto.service.AutoService;
  * 
  * @author olibye
  */
-@AutoService(org.junit.jupiter.api.extension.Extension.class)
+@AutoService(Extension.class)
 public class JUnit5Mockery extends Mockery
         implements Extension, BeforeEachCallback, AfterEachCallback {
 
@@ -55,10 +56,6 @@ public class JUnit5Mockery extends Mockery
 
     public JUnit5Mockery() {
         setExpectationErrorTranslator(AssertionErrorTranslator.INSTANCE);
-    }
-
-    private void fillInAutoMocks(final Object target, List<Field> allFields) {
-        mockomatic.fillIn(target, allFields);
     }
 
     @Override
@@ -75,6 +72,10 @@ public class JUnit5Mockery extends Mockery
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
         assertIsSatisfied();
+    }
+
+    private void fillInAutoMocks(final Object target, List<Field> allFields) {
+        mockomatic.fillIn(target, allFields);
     }
 
     private static void checkMockery(ExtensionContext context, Class<?> testCaseClass) {
