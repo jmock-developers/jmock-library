@@ -14,7 +14,6 @@ import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
 import org.jmock.internal.SearchingClassLoader;
-import org.jmock.internal.matcher.MethodMatcher;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
