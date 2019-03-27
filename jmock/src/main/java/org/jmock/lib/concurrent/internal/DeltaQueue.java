@@ -42,7 +42,7 @@ public class DeltaQueue<T> {
             next = next.next;
         }
         if (next == null) {
-            return 0;
+            return -1;
         }
         return ret;
     }
