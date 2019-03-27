@@ -146,10 +146,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
 
         scheduler.tick(2, TimeUnit.MILLISECONDS);
 
-        try {
-            assertEquals(0, task1.getDelay(TimeUnit.MILLISECONDS));
-            fail("should have thrown IllegalStateException");
-        } catch (IllegalStateException expected) {}
+        assertEquals(-1, task1.getDelay(TimeUnit.MILLISECONDS));
     }
     
     public class ExampleException extends Exception {}
