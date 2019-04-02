@@ -167,4 +167,11 @@ public class DeltaQueueTests extends TestCase {
         
         assertFalse(deltaQueue.remove(elementC));
     }
+
+    public void testDelayIsMinusOneWhenElementIsAlreadyRemoved() {
+        deltaQueue.add(1L, elementA);
+        deltaQueue.remove(elementA);
+
+        assertEquals("delay", -1, deltaQueue.delay(elementA));
+    }
 }
