@@ -10,10 +10,10 @@ public class JUnit5TestThatDoesSatisfyExpectations {
     
     @RegisterExtension
     JUnit5Mockery context = new JUnit5Mockery();
-    
+
     @Mock
     private Runnable runnable;
-    
+
     @Test
     public void doesSatisfyExpectations() {
         context.checking(new Expectations() {{
