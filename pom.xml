@@ -11,9 +11,7 @@
     <packaging>pom</packaging>
     <name>jMock 2 Parent</name>
 
-    <!-- mvn versions:set -DoldVersion=2.8.3 -DnewVersion=2.8.4-SNAPSHOT 
-        -DgroupId=org.jmock -->
-    <!-- find . -name pom.xml.versionsBackup -exec rm {} \; -->
+    <!-- mvn versions:set -DnewVersion=2.8.4-SNAPSHOT -DgenerateBackupPoms=false -->
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
