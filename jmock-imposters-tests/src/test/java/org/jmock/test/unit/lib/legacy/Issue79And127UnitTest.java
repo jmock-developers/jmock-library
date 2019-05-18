@@ -2,13 +2,16 @@ package org.jmock.test.unit.lib.legacy;
 
 import java.io.File;
 
+import javax.sql.DataSource;
+
 import org.jmock.api.Imposteriser;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.junit5.JUnit5Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.jmock.test.acceptance.AbstractImposteriserParameterResolver;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -20,8 +23,10 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
  * @see https://github.com/cglib/cglib/issues/20
  * 
  */
-public class Java8Issue79UnitTest {
-    public final JUnit4Mockery context = new JUnit4Mockery();
+public class Issue79And127UnitTest {
+    
+    @RegisterExtension
+    public final JUnit5Mockery context = new JUnit5Mockery();
 
     /**
      * However it fails in java 11 as asm and cglib do not appear to support java
@@ -45,6 +50,7 @@ public class Java8Issue79UnitTest {
     public void testByteBuddyImposteriser(Imposteriser imposteriserImpl) {
         context.setImposteriser(imposteriserImpl);
         context.mock(File.class);
+        context.mock(DataSource.class);
     }
 
     public static class ByteBuddyImposteriserParameterResolver extends AbstractImposteriserParameterResolver {
