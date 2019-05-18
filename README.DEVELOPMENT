@@ -44,6 +44,8 @@ mvn versions:set -DoldVersion=* -DnewVersion=2.10.0 -DgroupId=org.jmock -Dgenera
 eval $(gpg-agent --daemon --no-grab --write-env-file $HOME/.gpg-agent-info)
 export GPG_AGENT_INFO
 export GPG_TTY=$(tty)
+export SONATYPE_USERNAME=UUU
+export SONATYPE_PASSWORD=PPPP
 mvn clean deploy -P release --settings settings.xml -Dgpg.keyname=XXXXXXXX
 
 mvn versions:set -DoldVersion=* -DnewVersion=2.11.0-SNAPSHOT -DgroupId=org.jmock -DgenerateBackupPoms=false

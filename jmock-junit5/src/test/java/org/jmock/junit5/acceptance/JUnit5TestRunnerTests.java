@@ -40,7 +40,7 @@ public class JUnit5TestRunnerTests {
     @Test
     public void testTheJUnit5TestRunnerReportsAHelpfulErrorIfTheMockeryIsNull() {
         listener.runTestIn(JUnit5TestThatDoesNotCreateAMockery.class);
-        listener.assertTestFailedWith(IllegalStateException.class);
+        listener.assertTestFailedWith(org.junit.platform.commons.util.PreconditionViolationException.class);
     }
 
     // See issue JMOCK-156

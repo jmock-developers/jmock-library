@@ -47,13 +47,12 @@
 
         <downloadSources>true</downloadSources>
         <hamcrest.version>1.3</hamcrest.version>
-        <hamcrest.src>hamcrest-src</hamcrest.src>
         <junit.version>4.12</junit.version>
         <asm.version>6.2.1</asm.version>
         <objenesis.version>2.6</objenesis.version>
         <bsh.version>2.0b6</bsh.version>
-        <junit.jupiter.version>5.3.1</junit.jupiter.version>
-        <bytebuddy.version>1.9.3</bytebuddy.version>
+        <junit.jupiter.version>5.4.2</junit.jupiter.version>
+        <bytebuddy.version>1.9.12</bytebuddy.version>
     </properties>
 
     <modules>
@@ -70,6 +69,28 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.0.5</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <!-- http://central.sonatype.org/pages/apache-maven.html -->
                 <!-- Annoying if the packager has to fix the java doc -->
@@ -90,7 +111,7 @@
                 <!-- http://central.sonatype.org/pages/apache-maven.html -->
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.5</version>
+                <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -125,7 +146,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.22.1</version>
+                    <version>2.22.2</version>
                     <configuration>
                         <!-- acceptance tests allow failures -->
                         <testFailureIgnore>true</testFailureIgnore>
@@ -162,6 +183,56 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.0.1</version>
+                </plugin>
+
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.7</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>display-dependency-updates</goal>
+                                <goal>display-plugin-updates</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            exec-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.4.0,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>java</goal>
+                                            <goal>exec</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
                 </plugin>
 
             </plugins>
@@ -209,7 +280,7 @@
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-launcher</artifactId>
-                <version>1.3.1</version>
+                <version>1.4.0</version>
             </dependency>
 
             <dependency>
@@ -237,7 +308,7 @@
             <dependency>
                 <groupId>com.thoughtworks.qdox</groupId>
                 <artifactId>qdox</artifactId>
-                <version>2.0-M9</version>
+                <version>2.0-M10</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -254,12 +325,12 @@
         </repository>
     </distributionManagement>
 
+
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.5</version>
                 <reportSets>
                     <reportSet>
                         <reports>
