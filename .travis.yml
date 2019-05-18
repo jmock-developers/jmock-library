@@ -9,6 +9,10 @@ jdk:
   - openjdk9
 #  - oraclejdk8 #not supported
 
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
+
 env:
 # Travis has slow VMs?
   global:
