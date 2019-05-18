@@ -14,7 +14,6 @@ import org.jmock.lib.concurrent.Blitzer;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class SynchroniserTests {
     public interface Events {
@@ -23,7 +22,8 @@ public class SynchroniserTests {
     }
     
     Synchroniser synchroniser = new Synchroniser();
-    @RegisterExtension
+
+    // Not an extension, to allow checking the mockery is *not* satisfied
     JUnit5Mockery mockery = new JUnit5Mockery() {{
         setThreadingPolicy(synchroniser);
     }};
@@ -73,6 +73,7 @@ public class SynchroniserTests {
         });
         
         synchroniser.waitUntil(threads.is("finished"));
+        mockery.assertIsSatisfied();
     }
 
     @Test

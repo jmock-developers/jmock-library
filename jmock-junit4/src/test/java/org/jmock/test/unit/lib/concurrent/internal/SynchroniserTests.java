@@ -22,7 +22,8 @@ public class SynchroniserTests {
     }
     
     Synchroniser synchroniser = new Synchroniser();
-    
+
+    // Not a rule, to allow checking the mockery is *not* satisfied
     Mockery mockery = new JUnit4Mockery() {{
         setThreadingPolicy(synchroniser);
     }};
@@ -42,7 +43,7 @@ public class SynchroniserTests {
                 mockObject.action();
             }
         });
-        
+
         mockery.assertIsSatisfied();
     }
     
@@ -70,6 +71,7 @@ public class SynchroniserTests {
         });
         
         synchroniser.waitUntil(threads.is("finished"));
+        mockery.assertIsSatisfied();
     }
 
     @Test(timeout=250)
@@ -96,6 +98,7 @@ public class SynchroniserTests {
         });
         
         synchroniser.waitUntil(threads.is("finished"), 100);
+        mockery.assertIsSatisfied();
     }
 
     @Test(timeout=250)
