@@ -1,4 +1,4 @@
-package org.jmock.junit5.testdata;
+package org.jmock.junit5.testdata.jmock.acceptance;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;

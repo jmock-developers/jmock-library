@@ -1,6 +1,6 @@
 package org.jmock.junit5.acceptance;
 
-import org.jmock.junit5.testdata.JUnit5WithRulesExamples;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5WithRulesExamples;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 

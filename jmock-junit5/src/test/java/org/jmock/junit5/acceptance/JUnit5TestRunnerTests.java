@@ -1,15 +1,20 @@
 package org.jmock.junit5.acceptance;
 
-import org.jmock.junit5.testdata.DerivedJUnit5TestThatDoesNotSatisfyExpectations;
-import org.jmock.junit5.testdata.JUnit5TestThatAutoInstantiatesMocks;
-import org.jmock.junit5.testdata.JUnit5TestThatCreatesNoMockery;
-import org.jmock.junit5.testdata.JUnit5TestThatCreatesTwoMockeries;
-import org.jmock.junit5.testdata.JUnit5TestThatDoesNotCreateAMockery;
-import org.jmock.junit5.testdata.JUnit5TestThatDoesNotSatisfyExpectations;
-import org.jmock.junit5.testdata.JUnit5TestThatDoesSatisfyExpectations;
-import org.jmock.junit5.testdata.JUnit5TestThatThrowsExpectedException;
+import org.jmock.junit5.testdata.jmock.acceptance.DerivedJUnit5TestThatDoesNotSatisfyExpectations;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatAutoInstantiatesMocks;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatCreatesNoMockery;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatCreatesTwoMockeries;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatDoesNotCreateAMockery;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatDoesNotSatisfyExpectations;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatDoesSatisfyExpectations;
+import org.jmock.junit5.testdata.jmock.acceptance.JUnit5TestThatThrowsExpectedException;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Wrap, running "testdata" testcases. Some of which are supposed to fail
+ * @author oliverbye
+ *
+ */
 public class JUnit5TestRunnerTests {
 
     FailureRecordingTestExecutionListener listener = new FailureRecordingTestExecutionListener();

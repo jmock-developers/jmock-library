@@ -152,7 +152,8 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
         // https://mydailyjava.blogspot.com/2018/04/jdk-11-and-proxies-in-world-past.html
         ClassLoadingStrategy<ClassLoader> strategy;
         if (ClassInjector.UsingLookup.isAvailable() && !protectedPackageNameSpaces(mockedType)
-                && !defaultPackage(mockedType)) {
+                && !defaultPackage(mockedType)
+                && mockedType.getClassLoader() == this.getClass().getClassLoader()) {
             Class<?> methodHandles = Class.forName("java.lang.invoke.MethodHandles");
             Object lookup = methodHandles.getMethod("lookup").invoke(null);
             Method privateLookupIn = methodHandles.getMethod("privateLookupIn",

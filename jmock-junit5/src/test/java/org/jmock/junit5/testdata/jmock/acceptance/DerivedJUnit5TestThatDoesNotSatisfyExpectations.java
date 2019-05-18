@@ -1,17 +1,13 @@
-package org.jmock.junit5.testdata;
+package org.jmock.junit5.testdata.jmock.acceptance;
 
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
-import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class JUnit5TestThatDoesNotSatisfyExpectations {
-    @RegisterExtension
-    JUnit5Mockery context = new JUnit5Mockery();
+public class DerivedJUnit5TestThatDoesNotSatisfyExpectations extends BaseClassWithMockery {
     
     @Mock
-    private Runnable runnable;
+    Runnable runnable;
     
     @Test
     public void doesNotSatisfyExpectations() {
