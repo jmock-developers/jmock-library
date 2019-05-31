@@ -1,7 +1,6 @@
 package org.jmock.lib;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.jmock.States;
@@ -35,12 +34,10 @@ public class CurrentStateMatcher extends TypeSafeMatcher<States> {
                    .appendText(stateName);
     }
     
-    @Factory
     public static Matcher<States> isCurrently(String stateName) {
         return new CurrentStateMatcher(stateName, true);
     }
     
-    @Factory 
     public static Matcher<States> isNotCurrently(String stateName) {
         return new CurrentStateMatcher(stateName, false);
     }
