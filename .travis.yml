@@ -13,6 +13,10 @@ matrix:
   allow_failures:
     - jdk: openjdk-ea
 
+cache:
+  directories:
+  - $HOME/.m2 #for faster builds
+
 env:
 # Travis has slow VMs?
   global:
