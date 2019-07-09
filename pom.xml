@@ -52,7 +52,7 @@
         <objenesis.version>3.0.1</objenesis.version>
         <bsh.version>2.0b6</bsh.version>
         <junit.jupiter.version>5.4.2</junit.jupiter.version>
-        <bytebuddy.version>1.9.13</bytebuddy.version>
+        <bytebuddy.version>1.9.14</bytebuddy.version>
     </properties>
 
     <modules>
