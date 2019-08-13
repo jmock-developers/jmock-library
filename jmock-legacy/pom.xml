@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <cglib.version>3.2.12</cglib.version>
+        <cglib.version>3.3.0</cglib.version>
     </properties>
 
     <dependencies>
