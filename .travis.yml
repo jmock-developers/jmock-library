@@ -12,6 +12,7 @@ jdk:
 matrix:
   allow_failures:
     - jdk: openjdk-ea
+    - jdk: oraclejdk8
 
 cache:
   directories:
