@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import org.jmock.api.Imposteriser;
 import org.jmock.api.Invocation;
 import org.jmock.api.Invokable;
@@ -134,6 +135,7 @@ public class ByteBuddyClassImposteriser implements Imposteriser {
     private Class<?> proxyClass(final Invokable mockObject, final Class<?> mockedType, Class<?>... ancilliaryTypes)
             throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Builder<?> builder = new ByteBuddy()
+                .with(TypeValidation.DISABLED)
                 .with(new NamingStrategy.SuffixingRandom(JMOCK_KEY, JMOCK_KEY.toLowerCase()))
                 .subclass(mockedType)
                 .implement(ancilliaryTypes)
