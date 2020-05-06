@@ -65,6 +65,7 @@
         <module>jmock-legacy</module>
         <module>jmock-example</module>
         <module>jmock-imposters-tests</module>
+        <module>jmock-imposters-testdata</module>
     </modules>
 
     <build>
