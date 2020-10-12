@@ -22,7 +22,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <!-- Because thats what we're regressing against -->
-            <version>4.13</version>
+            <version>4.13.1</version>
             <scope>compile</scope>
         </dependency>
 
