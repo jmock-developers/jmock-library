@@ -8,16 +8,16 @@
     <name>jMock 2 Core</name>
 
     <parent>
-        <groupId>org.jmock</groupId>
-        <artifactId>jmock-parent</artifactId>
-        <version>2.13.0-SNAPSHOT</version>
+        <groupId>uk.jamesdal.perfmock</groupId>
+        <artifactId>perfmock-parent</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.jmock</groupId>
+            <groupId>uk.jamesdal.perfmock</groupId>
             <artifactId>jmock-testjar</artifactId>
             <scope>compile</scope>
             <version>${project.version}</version>
@@ -85,7 +85,7 @@
                 <configuration>
                     <executable>java</executable>
                     <commandlineArgs>-cp %classpath:target/classes
-                        org.jmock.ExpectationsCreator</commandlineArgs>
+                        uk.jamesdal.perfmock.ExpectationsCreator</commandlineArgs>
                 </configuration>
             </plugin>
 

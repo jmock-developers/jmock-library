@@ -5,11 +5,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jmock</groupId>
-    <artifactId>jmock-parent</artifactId>
-    <version>2.13.0-SNAPSHOT</version>
+    <groupId>uk.jamesdal.perfmock</groupId>
+    <artifactId>perfmock-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>jMock 2 Parent</name>
+    <name>PerfMock 2 Parent</name>
 
     <!-- mvn versions:set -DnewVersion=2.8.4-SNAPSHOT -DgenerateBackupPoms=false -->
 
@@ -58,84 +58,32 @@
     <modules>
         <module>testjar</module>
         <module>jmock</module>
-        <module>jmock-junit3</module>
         <module>jmock-junit4</module>
-        <module>jmock-junit5</module>
-        <module>jmock-imposters</module>
-        <module>jmock-legacy</module>
         <module>jmock-example</module>
-        <module>jmock-imposters-tests</module>
-        <module>jmock-imposters-testdata</module>
     </modules>
 
     <build>
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.0.5</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                <!-- Annoying if the packager has to fix the java doc -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>check-javadoc</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
-        </plugins>
-
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>2.18</version>
                     <configuration>
                         <includes>
                             <include>/**/*.java</include>
                         </includes>
                         <excludes>
                             <exclude>**/Failing*TestCase.java</exclude>
-                            <!-- Maven doesn't like the following anonymous 
+                            <!-- Maven doesn't like the following anonymous
                                 inner class test classes with no public constructos -->
                             <exclude>**/VerifyingTestCaseTests$*</exclude>
                             <!-- Run acceptance these in integration tests -->
@@ -147,7 +95,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>2.18</version>
                     <configuration>
                         <!-- acceptance tests allow failures -->
                         <testFailureIgnore>true</testFailureIgnore>
@@ -161,79 +109,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jarsigner-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-
-                <plugin>
-                    <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
-                </plugin>
-
-                <plugin>
-                    <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-
-                <plugin>
-                    <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                    <!-- Annoying if the packager has to fix the java doc -->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.7</version>
-                    <executions>
-                        <execution>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>display-dependency-updates</goal>
-                                <goal>display-plugin-updates</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!--This plugin's configuration is used to store Eclipse 
-                    m2e settings only. It has no influence on the Maven build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.codehaus.mojo
-                                        </groupId>
-                                        <artifactId>
-                                            exec-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.4.0,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>java</goal>
-                                            <goal>exec</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
+                    <version>1.3.2</version>
                 </plugin>
 
             </plugins>
@@ -334,26 +210,8 @@
                     <plugin>
                         <!-- http://central.sonatype.org/pages/apache-maven.html -->
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <configuration>
-                            <useAgent>true</useAgent>
-                            <keyname>${gpg.keyname}</keyname>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -366,10 +224,11 @@
 
                     <plugin>
                         <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                        <!-- Annoying if the packager has to fix the java 
+                        <!-- Annoying if the packager has to fix the java
                             doc -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>

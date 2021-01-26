@@ -1,11 +1,11 @@
 package testdata.jmock.acceptance.junit4;
 
-import org.jmock.Expectations;
-import org.jmock.Sequence;
-import org.jmock.States;
-import org.jmock.auto.Auto;
-import org.jmock.auto.Mock;
-import org.jmock.integration.junit4.JUnitRuleMockery;
+import uk.jamesdal.perfmock.Expectations;
+import uk.jamesdal.perfmock.Sequence;
+import uk.jamesdal.perfmock.States;
+import uk.jamesdal.perfmock.auto.Auto;
+import uk.jamesdal.perfmock.auto.Mock;
+import uk.jamesdal.perfmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 

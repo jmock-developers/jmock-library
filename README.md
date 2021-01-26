@@ -26,7 +26,7 @@ testCompile(
 
 ```java
 
-import org.jmock.Expectations;
+import Expectations;
 import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
