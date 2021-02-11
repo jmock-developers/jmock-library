@@ -43,9 +43,15 @@ public class JUnitRuleMockery extends JUnit4Mockery implements MethodRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                prepare(target);
-                base.evaluate();
-                assertIsSatisfied();
+                this.prepare(target);
+
+                try {
+                    base.evaluate();
+                } catch (AssertionError var5) {
+                    throw var5;
+                } finally {
+                    JUnitRuleMockery.this.assertIsSatisfied();
+                }
             }
 
             private void prepare(final Object target) {

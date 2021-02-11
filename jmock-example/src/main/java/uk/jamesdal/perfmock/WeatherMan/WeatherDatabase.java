@@ -1,9 +1,9 @@
 package uk.jamesdal.perfmock.WeatherMan;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface WeatherDatabase {
-    WeatherInformation getInfo(Date date);
+    WeatherInformation getInfo(LocalDate date);
 
     void storeInfo(WeatherInformation info);
 }

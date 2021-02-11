@@ -21,7 +21,7 @@ public class ExpectationsCreator implements Opcodes {
         LOG.info("Expections Old School method injector running");
         LOG.info("Running in " + new java.io.File( "." ).getCanonicalPath());
         // Class klass = org.jmock.Expectations.class;
-        String className = "org.jmock.Expectations";
+        String className = "uk.jamesdal.perfmock.Expectations";
         // String className = "java.lang.Runnable";
         String classPath = className.replace('.', '/') + ".class";
 
@@ -43,14 +43,14 @@ public class ExpectationsCreator implements Opcodes {
         AnnotationVisitor av0;
 
         // 1.5 to allow our generic method overloading
-        cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER, "org/jmock/Expectations", null,
-                "org/jmock/AbstractExpectations", null);
+        cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER, "uk/jamesdal/perfmock/Expectations", null,
+                "uk/jamesdal/perfmock/AbstractExpectations", null);
 
         {
             mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/AbstractExpectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/AbstractExpectations",
                     "<init>", "()V");
             mv.visitInsn(RETURN);
             mv.visitMaxs(1, 1);
@@ -64,7 +64,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(ICONST_0);
             mv.visitInsn(IRETURN);
@@ -78,7 +78,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(ICONST_0);
             mv.visitInsn(IRETURN);
@@ -92,7 +92,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(ICONST_0);
             mv.visitInsn(IRETURN);
@@ -106,7 +106,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(ICONST_0);
             mv.visitInsn(IRETURN);
@@ -120,7 +120,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(ICONST_0);
             mv.visitInsn(IRETURN);
@@ -134,7 +134,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(LCONST_0);
             mv.visitInsn(LRETURN);
@@ -148,7 +148,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(FCONST_0);
             mv.visitInsn(FRETURN);
@@ -162,7 +162,7 @@ public class ExpectationsCreator implements Opcodes {
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "org/jmock/Expectations",
+            mv.visitMethodInsn(INVOKESPECIAL, "uk/jamesdal/perfmock/Expectations",
                     "addParameterMatcher", "(Lorg/hamcrest/Matcher;)V");
             mv.visitInsn(DCONST_0);
             mv.visitInsn(DRETURN);

@@ -5,11 +5,11 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.*;
 import uk.jamesdal.perfmock.api.Action;
 import uk.jamesdal.perfmock.api.ExpectationCollector;
-import org.jmock.internal.*;
-import org.jmock.lib.action.*;
-import org.jmock.syntax.*;
 import uk.jamesdal.perfmock.internal.*;
 import uk.jamesdal.perfmock.lib.action.*;
+import uk.jamesdal.perfmock.perf.PerfModel;
+import uk.jamesdal.perfmock.perf.Simulation;
+import uk.jamesdal.perfmock.perf.models.Constant;
 import uk.jamesdal.perfmock.syntax.*;
 
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public abstract class AbstractExpectations implements ExpectationBuilder,
 {
     private List<InvocationExpectationBuilder> builders = new ArrayList<InvocationExpectationBuilder>();
     private InvocationExpectationBuilder currentBuilder = null;
+    private Simulation simulation = null;
 
     /**
      * Syntactic sugar for specifying arguments that are matchers for primitive types
@@ -88,6 +89,7 @@ public abstract class AbstractExpectations implements ExpectationBuilder,
         
         currentBuilder = new InvocationExpectationBuilder();
         currentBuilder.setCardinality(cardinality);
+        currentBuilder.setSimulation(simulation);
         builders.add(currentBuilder);
     }
     
@@ -235,7 +237,11 @@ public abstract class AbstractExpectations implements ExpectationBuilder,
     public void will(Action action) {
         currentBuilder().setAction(action);
     }
-    
+
+    public void taking(PerfModel model) {
+        currentBuilder().setPerfModel(model);
+    }
+
     /* Common constraints
      */
     
@@ -291,6 +297,40 @@ public abstract class AbstractExpectations implements ExpectationBuilder,
     public static Action returnValue(Object result) {
         return new ReturnValueAction(result);
     }
+
+    public static PerfModel milli(double milli) {
+        return new Constant(milli * 1000);
+    }
+
+    public static PerfModel milli(PerfModel model) {
+        return model;
+    }
+
+    public static PerfModel seconds(double seconds) {
+        return new Constant(seconds * 1000);
+    }
+
+    public static PerfModel seconds(PerfModel model) {
+        return new PerfModel() {
+            @Override
+            public double sample() {
+                return model.sample() * 1000;
+            }
+        };
+    }
+
+    public static PerfModel minutes(double minutes) {
+        return new Constant(minutes * 1000 * 60);
+    }
+
+    public static PerfModel minutes(PerfModel model) {
+        return new PerfModel() {
+            @Override
+            public double sample() {
+                return model.sample() * 1000 * 60;
+            }
+        };
+    }
     
     public static Action throwException(Throwable throwable) {
         return new ThrowAction(throwable);
@@ -338,6 +378,14 @@ public abstract class AbstractExpectations implements ExpectationBuilder,
     public void inSequences(Sequence... sequences) {
         for (Sequence sequence : sequences) {
             inSequence(sequence);
+        }
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+
+        for (InvocationExpectationBuilder builder : builders) {
+            builder.setSimulation(simulation);
         }
     }
 }

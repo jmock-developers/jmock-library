@@ -8,10 +8,14 @@ import uk.jamesdal.perfmock.api.Expectation;
 import uk.jamesdal.perfmock.api.Invocation;
 import uk.jamesdal.perfmock.internal.matcher.MethodMatcher;
 import uk.jamesdal.perfmock.lib.action.VoidAction;
+import uk.jamesdal.perfmock.perf.PerfModel;
+import uk.jamesdal.perfmock.perf.Simulation;
+import uk.jamesdal.perfmock.perf.models.VoidModel;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /** 
  * An expectation of zero or more matching invocations.
@@ -20,6 +24,7 @@ import java.util.List;
  * @author smgf
  */
 public class InvocationExpectation implements Expectation {
+
     private static ParametersMatcher ANY_PARAMETERS = new AnyParametersMatcher();
     private Cardinality cardinality = Cardinality.ALLOWING;
 	private Matcher<?> objectMatcher = IsAnything.anything();
@@ -27,9 +32,11 @@ public class InvocationExpectation implements Expectation {
 	private boolean methodIsKnownToBeVoid = false;
 	private ParametersMatcher parametersMatcher = ANY_PARAMETERS;
     private Action action = new VoidAction();
+    private PerfModel perfModel = new VoidModel();
     private boolean actionIsDefault = true;
     private List<OrderingConstraint> orderingConstraints = new ArrayList<OrderingConstraint>();
     private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
+    private Simulation simulation = null;
     
 	private int invocationCount = 0;
 	
@@ -160,10 +167,19 @@ public class InvocationExpectation implements Expectation {
     }
 	
     public Object invoke(Invocation invocation) throws Throwable {
+        if (!Objects.isNull(simulation)) {
+            simulation.pause();
+        }
+
 		invocationCount++;
 		performSideEffects();
 		final Object result = action.invoke(new Invocation(Invocation.ExpectationMode.ASSERTING, invocation));
         invocation.checkReturnTypeCompatibility(result);
+
+        if (!Objects.isNull(simulation)) {
+            simulation.add(perfModel.sample());
+            simulation.pause();
+        }
         return result;
 	}
 
@@ -172,7 +188,15 @@ public class InvocationExpectation implements Expectation {
             sideEffect.perform();
         }
     }
-    
+
+    public void setPerfModel(PerfModel model) {
+        this.perfModel = model;
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+    }
+
     private static class AnyParametersMatcher extends IsAnything<Object[]> implements ParametersMatcher {
         public AnyParametersMatcher() {
             super("(<any parameters>)");

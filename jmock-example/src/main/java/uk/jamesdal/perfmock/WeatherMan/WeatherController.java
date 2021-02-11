@@ -1,6 +1,6 @@
 package uk.jamesdal.perfmock.WeatherMan;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class WeatherController implements WeatherPredicter {
 
@@ -13,17 +13,23 @@ public class WeatherController implements WeatherPredicter {
     }
 
     @Override
-    public WeatherInformation predict(Date date) {
+    public WeatherInformation predict(LocalDate date) {
         WeatherInformation info = database.getInfo(date);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Database doesn't have the information
         if (info == null) {
             info = api.getInfo(date);
 
-            Date now = new Date(System.currentTimeMillis());
+            LocalDate now = LocalDate.now();
 
             // Store information if date in past
-            if (date.before(now)) {
+            if (date.isBefore(now)) {
                 database.storeInfo(info);
             }
         }

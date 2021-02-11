@@ -13,6 +13,8 @@ import uk.jamesdal.perfmock.api.Invocation;
 import uk.jamesdal.perfmock.internal.matcher.MethodNameMatcher;
 import uk.jamesdal.perfmock.internal.matcher.MockObjectMatcher;
 import uk.jamesdal.perfmock.internal.matcher.AllParametersMatcher;
+import uk.jamesdal.perfmock.perf.PerfModel;
+import uk.jamesdal.perfmock.perf.Simulation;
 import uk.jamesdal.perfmock.syntax.MethodClause;
 import uk.jamesdal.perfmock.syntax.ParametersClause;
 import uk.jamesdal.perfmock.syntax.ReceiverClause;
@@ -54,6 +56,10 @@ public class InvocationExpectationBuilder
     public void setAction(Action action) {
         expectation.setAction(action);
         needsDefaultAction = false;
+    }
+
+    public void setPerfModel(PerfModel model) {
+        expectation.setPerfModel(model);
     }
     
     public void addSideEffect(SideEffect sideEffect) {
@@ -134,5 +140,9 @@ public class InvocationExpectationBuilder
     
     public void withNoArguments() {
         with();
+    }
+
+    public void setSimulation(Simulation simulation) {
+        expectation.setSimulation(simulation);
     }
 }

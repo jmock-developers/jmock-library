@@ -1,7 +1,5 @@
 package uk.jamesdal.perfmock.WeatherMan;
 
-public class WeatherInformation {
-    public WeatherInformation process(int i) {
-        return this;
-    }
+public interface WeatherInformation {
+    WeatherInformation process(int i);
 }
