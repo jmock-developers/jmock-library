@@ -178,7 +178,7 @@ public class InvocationExpectation implements Expectation {
 
         if (!Objects.isNull(simulation)) {
             simulation.add(perfModel.sample());
-            simulation.pause();
+            simulation.play();
         }
         return result;
 	}

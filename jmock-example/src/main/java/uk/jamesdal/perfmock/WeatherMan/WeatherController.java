@@ -16,12 +16,6 @@ public class WeatherController implements WeatherPredicter {
     public WeatherInformation predict(LocalDate date) {
         WeatherInformation info = database.getInfo(date);
 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         // Database doesn't have the information
         if (info == null) {
             info = api.getInfo(date);

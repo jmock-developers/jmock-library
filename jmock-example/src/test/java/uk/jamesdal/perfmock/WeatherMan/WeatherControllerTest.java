@@ -7,16 +7,17 @@ import uk.jamesdal.perfmock.perf.PerfTest;
 import org.junit.Test;
 import org.junit.Rule;
 import uk.jamesdal.perfmock.perf.models.Uniform;
+import uk.jamesdal.perfmock.perf.postproc.reportgenerators.HtmlReportGenerator;
 
 import java.time.LocalDate;
 
 public class WeatherControllerTest {
 
     @Rule
-    public PerfRule perfRule = new PerfRule();
+    public PerfRule perfRule = new PerfRule(new HtmlReportGenerator());
 
     @Rule
-    public PerfMockery ctx = new PerfMockery(perfRule.getSimulation());
+    public PerfMockery ctx = new PerfMockery(perfRule.getReportGenerator(), perfRule.getSimulation());
 
     private final WeatherDatabase weatherDatabase = ctx.mock(WeatherDatabase.class);
     private final WeatherApi weatherApi = ctx.mock(WeatherApi.class);
@@ -24,37 +25,31 @@ public class WeatherControllerTest {
     private final WeatherInformation info = ctx.mock(WeatherInformation.class);
 
     // First ~25ms, then ~0ms
-    LocalDate date = LocalDate.parse("2021-02-12");
+    LocalDate date = LocalDate.parse("2050-02-12");
 
     @Test
-    @PerfTest(iterations = 10, warmups = 10)
+    @PerfTest(iterations = 2000, warmups = 10)
     public void grabsFuturePrediction() {
-        // Always ~0ms
         WeatherController ctlr = new WeatherController(weatherApi, weatherDatabase);
 
-        // First ~10ms, then ~0ms
         ctx.checking(new Expectations() {{
             oneOf(weatherDatabase).getInfo(date); will(returnValue(null)); taking(seconds(5));
             oneOf(weatherApi).getInfo(date); will(returnValue(info)); taking(seconds(new Uniform(5.0, 10.0)));
         }});
 
-        // Always around 0ms
         ctlr.predict(date);
     }
 
     @Test
     public void grabsFuturePredictionRepeat() {
-        // Always ~0ms
         WeatherController ctlr = new WeatherController(weatherApi, weatherDatabase);
 
-        // First ~10ms, then ~0ms
-        ctx.repeat(10, 10, () -> {
+        ctx.repeat(2000, 10, () -> {
             ctx.checking(new Expectations() {{
                 oneOf(weatherDatabase).getInfo(date); will(returnValue(null)); taking(seconds(5));
                 oneOf(weatherApi).getInfo(date); will(returnValue(info)); taking(seconds(new Uniform(5.0, 10.0)));
             }});
 
-            // Always around 0ms
             ctlr.predict(date);
         });
     }

@@ -3,11 +3,26 @@ package uk.jamesdal.perfmock.perf;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import uk.jamesdal.perfmock.perf.postproc.IterResult;
+import uk.jamesdal.perfmock.perf.postproc.PerfStatistics;
+import uk.jamesdal.perfmock.perf.postproc.ReportGenerator;
+import uk.jamesdal.perfmock.perf.postproc.reportgenerators.ConsoleReportGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PerfRule implements TestRule {
     private final Simulation simulation = new Simulation();
+    private final ReportGenerator reportGenerator;
+
+    public PerfRule() {
+        this(new ConsoleReportGenerator());
+    }
+
+    public PerfRule(ReportGenerator reportGenerator) {
+        this.reportGenerator = reportGenerator;
+    }
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -21,10 +36,15 @@ public class PerfRule implements TestRule {
                     long iterations = perfTestAnnotation.iterations();
                     long warmups = perfTestAnnotation.warmups();
 
-                    long totalTimeElapsed = 0;
                     for (int i = 0; i < warmups; i++) {
+                        simulation.reset();
+
+                        simulation.play();
                         base.evaluate();
+                        simulation.pause();
                     }
+
+                    List<IterResult> results = new ArrayList<>();
 
                     for (int i = 0; i < iterations; i++) {
                         simulation.reset();
@@ -33,13 +53,13 @@ public class PerfRule implements TestRule {
                         base.evaluate();
                         simulation.pause();
 
-                        double simulationTime = simulation.getSimTime();
-                        totalTimeElapsed += simulationTime;
+                        IterResult result = new IterResult(simulation.getRuntime(), simulation.getSimTime());
+                        results.add(result);
                     }
 
-                    double averangeTimeElapsed = totalTimeElapsed / iterations;
-
-                    System.out.println("Average Measured Time: " + averangeTimeElapsed + "ms over " + iterations + " iterations");
+                    PerfStatistics stats = new PerfStatistics(results);
+                    reportGenerator.setStats(stats);
+                    reportGenerator.generateReport(description.getDisplayName());
                 }
             };
 
@@ -50,5 +70,9 @@ public class PerfRule implements TestRule {
 
     public Simulation getSimulation() {
         return simulation;
+    }
+
+    public ReportGenerator getReportGenerator() {
+        return reportGenerator;
     }
 }
