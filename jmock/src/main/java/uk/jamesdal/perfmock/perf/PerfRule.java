@@ -14,14 +14,13 @@ import java.util.Objects;
 
 public class PerfRule implements TestRule {
     private final Simulation simulation = new Simulation();
-    private final ReportGenerator reportGenerator;
 
     public PerfRule() {
         this(new ConsoleReportGenerator());
     }
 
     public PerfRule(ReportGenerator reportGenerator) {
-        this.reportGenerator = reportGenerator;
+        simulation.setReportGenerator(reportGenerator);
     }
 
     @Override
@@ -44,8 +43,6 @@ public class PerfRule implements TestRule {
                         simulation.pause();
                     }
 
-                    List<IterResult> results = new ArrayList<>();
-
                     for (int i = 0; i < iterations; i++) {
                         simulation.reset();
 
@@ -53,13 +50,11 @@ public class PerfRule implements TestRule {
                         base.evaluate();
                         simulation.pause();
 
-                        IterResult result = new IterResult(simulation.getRuntime(), simulation.getSimTime());
-                        results.add(result);
+                        simulation.save();
+
                     }
 
-                    PerfStatistics stats = new PerfStatistics(results);
-                    reportGenerator.setStats(stats);
-                    reportGenerator.generateReport(description.getDisplayName());
+                    simulation.genReport();
                 }
             };
 
@@ -70,9 +65,5 @@ public class PerfRule implements TestRule {
 
     public Simulation getSimulation() {
         return simulation;
-    }
-
-    public ReportGenerator getReportGenerator() {
-        return reportGenerator;
     }
 }

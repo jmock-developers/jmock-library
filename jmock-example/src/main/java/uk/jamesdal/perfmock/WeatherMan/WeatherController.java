@@ -1,6 +1,7 @@
 package uk.jamesdal.perfmock.WeatherMan;
 
 import java.time.LocalDate;
+import java.util.concurrent.ThreadFactory;
 
 public class WeatherController implements WeatherPredicter {
 

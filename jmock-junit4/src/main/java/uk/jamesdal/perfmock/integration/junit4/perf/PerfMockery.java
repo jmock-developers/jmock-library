@@ -2,39 +2,20 @@ package uk.jamesdal.perfmock.integration.junit4.perf;
 
 import uk.jamesdal.perfmock.AbstractExpectations;
 import uk.jamesdal.perfmock.integration.junit4.JUnitRuleMockery;
+import uk.jamesdal.perfmock.perf.PerfRule;
 import uk.jamesdal.perfmock.perf.Simulation;
-import uk.jamesdal.perfmock.perf.postproc.IterResult;
 import uk.jamesdal.perfmock.perf.postproc.PerfStatistics;
 import uk.jamesdal.perfmock.perf.postproc.ReportGenerator;
-import uk.jamesdal.perfmock.perf.postproc.reportgenerators.ConsoleReportGenerator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PerfMockery extends JUnitRuleMockery {
 
-    private Simulation simulation;
-    private final ReportGenerator reportGenerator;
+    private final Simulation simulation;
 
-    public PerfMockery() {
-        this(new ConsoleReportGenerator(), new Simulation());
-    }
-
-    public PerfMockery(Simulation simulation) {
-        this(new ConsoleReportGenerator(), simulation);
-    }
-
-    public PerfMockery(ReportGenerator reportGenerator) {
-        this(reportGenerator, new Simulation());
-    }
-
-    public PerfMockery(ReportGenerator reportGenerator, Simulation simulation) {
-        this.simulation = simulation;
-        this.reportGenerator = reportGenerator;
+    public PerfMockery(PerfRule perfRule) {
+        this.simulation = perfRule.getSimulation();
     }
 
     public void repeat(int iterations, Runnable task) {
-        List<IterResult> results = new ArrayList<>();
         for (int i = 0; i < iterations; i++) {
             simulation.reset();
 
@@ -42,13 +23,10 @@ public class PerfMockery extends JUnitRuleMockery {
             task.run();
             simulation.pause();
 
-            IterResult result = new IterResult(0.0, simulation.getSimTime());
-            results.add(result);
+            simulation.save();
         }
 
-        PerfStatistics stats = new PerfStatistics(results);
-        reportGenerator.setStats(stats);
-        reportGenerator.generateReport();
+        simulation.genReport();
     }
 
     public void repeat(int iterations, int warmups, Runnable task) {
@@ -66,5 +44,9 @@ public class PerfMockery extends JUnitRuleMockery {
     public void checking(AbstractExpectations expectations) {
         expectations.setSimulation(simulation);
         super.checking(expectations);
+    }
+
+    public PerfStatistics getPerfStats() {
+        return simulation.getStats();
     }
 }

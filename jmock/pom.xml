@@ -63,6 +63,11 @@
             <artifactId>junit</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.0.12.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -97,11 +102,6 @@
                     <commandlineArgs>-cp %classpath:target/classes
                         uk.jamesdal.perfmock.ExpectationsCreator</commandlineArgs>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
             </plugin>
 
         </plugins>

@@ -1,0 +1,52 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // Define the chart to be drawn.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Range');
+            data.addColumn('number', 'Count');
+            data.addRows([
+                ['[[${range1}]]', /*[[${val1}]]*/],
+                ['', /*[[${val2}]]*/],
+                ['', /*[[${val3}]]*/],
+                ['', /*[[${val4}]]*/],
+                ['[[${range5}]]', /*[[${val5}]]*/],
+                ['', /*[[${val6}]]*/],
+                ['', /*[[${val7}]]*/],
+                ['', /*[[${val8}]]*/],
+                ['', /*[[${val9}]]*/],
+                ['[[${range10}]]', /*[[${val10}]]*/],
+                ['', /*[[${val11}]]*/],
+                ['', /*[[${val12}]]*/],
+                ['', /*[[${val13}]]*/],
+                ['', /*[[${val14}]]*/],
+                ['[[${range15}]]', /*[[${val15}]]*/],
+                ['', /*[[${val16}]]*/],
+                ['', /*[[${val17}]]*/],
+                ['', /*[[${val18}]]*/],
+                ['', /*[[${val19}]]*/],
+                ['[[${range20}]]', /*[[${val20}]]*/]
+            ]);
+
+            // Instantiate and draw the chart.
+            var options = {
+                title: '[[${title}]]',
+                bars: 'horizontal',
+                width: 800
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart'));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+<!-- Identify where the chart should be drawn. -->
+<div id="chart"/>
+</body>
+</html>
