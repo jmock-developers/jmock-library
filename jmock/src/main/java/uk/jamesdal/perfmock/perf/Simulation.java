@@ -189,6 +189,19 @@ public class Simulation {
         return getLastPlayEvent(timeline, parentId, parentSearchIndex);
     }
 
+    private SimEvent partialBackwardsSearch(List<SimEvent> history, EventTypes[] types) {
+        for (int i = history.size() - 1; i > 0; i--) {
+            SimEvent event = history.get(i);
+            for (EventTypes type : types) {
+                if (event.getType().equals(type)) {
+                    return event;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private TaskFinishEvent partialBackwardsSearch(List<SimEvent> history, PerfCallable task) {
         for (int i = history.size() - 1; i > 0; i--) {
             SimEvent event = history.get(i);
