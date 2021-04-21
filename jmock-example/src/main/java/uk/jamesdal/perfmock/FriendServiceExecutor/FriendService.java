@@ -1,4 +1,4 @@
-package uk.jamesdal.perfmock.FriendService;
+package uk.jamesdal.perfmock.FriendServiceExecutor;
 
 import uk.jamesdal.perfmock.perf.concurrent.PerfThreadFactory;
 import uk.jamesdal.perfmock.perf.concurrent.PerfThreadPoolExecutor;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class FriendService {
+class FriendService {
 
     private final FriendApi api;
     private final PerfThreadFactory threadFactory;
@@ -16,6 +16,7 @@ public class FriendService {
         this.api = api;
         this.threadFactory = threadFactory;
     }
+
 
     public List<ProfilePic> getFriendsProfilePictures() {
         List<Integer> friendIds = api.getFriends();

@@ -3,11 +3,11 @@ package uk.jamesdal.perfmock.perf.events;
 import uk.jamesdal.perfmock.perf.SimEvent;
 
 public class ForkEvent extends SimEvent {
-    private final long child;
+    private final long parent;
 
     public ForkEvent(double simTime, long child) {
-        super(simTime);
-        this.child = child;
+        super(simTime, child);
+        this.parent = Thread.currentThread().getId();
     }
 
     @Override
@@ -15,7 +15,7 @@ public class ForkEvent extends SimEvent {
         return EventTypes.FORK;
     }
 
-    public long getChild() {
-        return child;
+    public long getParent() {
+        return parent;
     }
 }

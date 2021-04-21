@@ -3,11 +3,11 @@ package uk.jamesdal.perfmock.perf.models;
 import uk.jamesdal.perfmock.perf.PerfModel;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 public class ModelIterator extends PerfModel {
 
-    public final List<PerfModel> modelList;
+    public final Collection<PerfModel> modelList;
 
     public int index;
 
@@ -18,8 +18,6 @@ public class ModelIterator extends PerfModel {
 
     @Override
     public double sample() {
-        assert index < modelList.size();
-        index++;
-        return modelList.get(index - 1).sample();
+        return modelList.iterator().next().sample();
     }
 }

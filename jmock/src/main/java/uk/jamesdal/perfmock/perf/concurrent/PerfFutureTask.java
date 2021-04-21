@@ -22,7 +22,6 @@ public class PerfFutureTask<T> extends FutureTask<T> {
     public T get() throws ExecutionException, InterruptedException {
         simulation.pause();
         T res = super.get();
-        simulation.pause(this.runner.getId());
         simulation.createTaskJoinEvent(this.runner.getId(), task);
         simulation.play();
         return res;

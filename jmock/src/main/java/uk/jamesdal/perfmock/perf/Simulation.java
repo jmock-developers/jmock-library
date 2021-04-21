@@ -10,57 +10,59 @@ import uk.jamesdal.perfmock.perf.postproc.reportgenerators.ConsoleReportGenerato
 import java.util.*;
 
 public class Simulation {
-    private HashMap<Long, List<SimEvent>> timeline = new HashMap<>();
-    private HashMap<Long, PerfCallable> callableHashMap = new HashMap<>();
-    private List<IterResult> results = new ArrayList<>();
+    private final HashMap<Long, PerfCallable> callableHashMap = new HashMap<>();
+    private final List<IterResult> results = new ArrayList<>();
+
+    private List<SimEvent> history = new ArrayList<>();
     private ReportGenerator reportGenerator = new ConsoleReportGenerator();
 
+    // Reset timeline to beginning
     public void reset() {
-        timeline = new HashMap<>();
-        long id = Thread.currentThread().getId();
-        List<SimEvent> history = new ArrayList<>();
-        history.add(new BirthEvent(0.0, -1));
-        timeline.put(id, history);
+        history = new ArrayList<>();
     }
 
+    // Save Simulation results
     public void save() {
         results.add(new IterResult(0.0, getSimTime()));
     }
 
+    // Add play event for current thread
     public void play() {
         long curTime = System.currentTimeMillis();
         PlayEvent playEvent = new PlayEvent(getSimTime(), curTime);
+
+        // Check last play/pause event is either pause or null
         long id = Thread.currentThread().getId();
-        SimEvent last = getLastPlayPauseEvent(timeline, id, timeline.get(id).size() - 1);
-        if (Objects.isNull(last) || last.getType() != EventTypes.PLAY) {
+        SimEvent last = getLastPlayPauseEvent(history, id, history.size() - 1);
+        if (Objects.isNull(last) || last.getType() == EventTypes.PAUSE) {
             addEvent(playEvent);
         }
     }
 
+    // Add pause event for current thread
     public void pause() {
         pause(Thread.currentThread().getId());
     }
 
+    // Add pause event for given thread
     public void pause(long id) {
-        PlayEvent playEvent = getLastPlayEvent(timeline, id, timeline.get(id).size() - 1);
-        if (Objects.isNull(playEvent)) {
+        // Find matching play event
+        SimEvent last = getLastPlayPauseEvent(history, id, history.size() - 1);
+
+        if (last.getType() != EventTypes.PLAY) {
             System.out.println("Could not find matching play event");
             return;
         }
+        PlayEvent playEvent = (PlayEvent) last;
 
         long curTime = System.currentTimeMillis();
         long diff = curTime - playEvent.getRunTime();
 
-        SimEvent last = getLastPlayPauseEvent(timeline, id, timeline.get(id).size() - 1);
-        if (Objects.isNull(last) || last.getType() != EventTypes.PAUSE) {
-            addEvent(new PauseEvent(getSimTime(id) + diff), id);
-        }
+        addEvent(new PauseEvent(getSimTime(id) + diff), id);
     }
 
     public void setUpNewThreads(long parent, long child) {
-        timeline.put(child, new ArrayList<>());
-        addEvent(new ForkEvent(getSimTime(), child));
-        addEvent(new BirthEvent(getSimTime(), parent), child);
+        addEvent(new ForkEvent(getSimTime(), child), child);
     }
 
     public void createJoinEvent(long child) {
@@ -73,7 +75,7 @@ public class Simulation {
 
     public void createTaskJoinEvent(long id, PerfCallable task) {
         double parentSimTime = getSimTime();
-        TaskFinishEvent event = partialBackwardsSearch(timeline.get(id), task);
+        TaskFinishEvent event = callableBackwardsSearch(history, task, id);
         double childSimTime = event.getSimTime();
 
         TaskJoinEvent taskJoinEvent = new TaskJoinEvent(Math.max(parentSimTime, childSimTime));
@@ -90,8 +92,10 @@ public class Simulation {
     }
 
     public double getSimTime(long id) {
-        List<SimEvent> history = timeline.get(id);
-        return history.get(history.size() - 1).getSimTime();
+        if (history.size() == 0) {
+            return 0.0;
+        }
+        return backwardsSearch(history, null, id).getSimTime();
     }
 
     public void genReport() {
@@ -112,88 +116,49 @@ public class Simulation {
     }
 
     public synchronized void addEvent(SimEvent event, long id) {
-        List<SimEvent> history = timeline.get(id);
+        event.setThreadId(id);
         history.add(event);
     }
 
-    private SimEvent getLastPlayPauseEvent(HashMap<Long, List<SimEvent>> timeline, long id, int searchIndex) {
-        List<SimEvent> history = timeline.get(id);
-        for (int i = searchIndex; i > 0; i--) {
-            SimEvent event = history.get(i);
-            if (event.getType() == EventTypes.PLAY || event.getType() == EventTypes.PAUSE) {
-                return  event;
-            }
-        }
+    private SimEvent getLastPlayPauseEvent(List<SimEvent> history, long threadId, int searchIndex) {
+        SimEvent event = backwardsSearch(
+                history,
+                new EventTypes[]{EventTypes.PLAY, EventTypes.PAUSE, EventTypes.FORK},
+                threadId,
+                searchIndex
+        );
 
-        SimEvent firstEvent = history.get(0);
-
-        if (firstEvent.getType() != EventTypes.BIRTH) {
+        if (event == null) {
             return null;
         }
 
-        long parentId = ((BirthEvent) firstEvent).getParent();
-        List<SimEvent> parentHistory = timeline.get(parentId);
-
-        if (Objects.isNull(parentHistory)) {
-            return null;
+        // If found play event return
+        if (event.getType().equals(EventTypes.PLAY) || event.getType().equals(EventTypes.PAUSE)) {
+            return event;
         }
 
-        int parentSearchIndex = -1;
-        for (int i = 0; i < parentHistory.size(); i ++) {
-            SimEvent event = parentHistory.get(i);
-            if (event.getType() == EventTypes.FORK) {
-                ForkEvent forkEvent = (ForkEvent) event;
-                if (forkEvent.getChild() == id) {
-                    parentSearchIndex = i;
-                    break;
-                }
-            }
-        }
+        // Else event is fork
+        ForkEvent forkEvent = (ForkEvent) event;
 
-        return getLastPlayPauseEvent(timeline, parentId, parentSearchIndex);
+        long parentId = forkEvent.getParent();
+
+        return getLastPlayPauseEvent(this.history, parentId, history.indexOf(forkEvent) - 1);
     }
 
-    private PlayEvent getLastPlayEvent(HashMap<Long, List<SimEvent>> timeline, long id, int searchIndex) {
-        List<SimEvent> history = timeline.get(id);
-        for (int i = searchIndex; i > 0; i--) {
+    // Search a History for event which matches one given in types with thread id
+    private SimEvent backwardsSearch(List<SimEvent> history, EventTypes[] types, long threadId, int searchIndex) {
+        for (int i = searchIndex; i >= 0; i--) {
             SimEvent event = history.get(i);
-            if (event.getType() == EventTypes.PLAY) {
-                return (PlayEvent) event;
-            }
-        }
-
-        SimEvent firstEvent = history.get(0);
-
-        if (firstEvent.getType() != EventTypes.BIRTH) {
-            return null;
-        }
-
-        long parentId = ((BirthEvent) firstEvent).getParent();
-        List<SimEvent> parentHistory = timeline.get(parentId);
-        if (Objects.isNull(parentHistory)) {
-            return null;
-        }
-
-        int parentSearchIndex = -1;
-        for (int i = 0; i < parentHistory.size(); i ++) {
-            SimEvent event = parentHistory.get(i);
-            if (event.getType() == EventTypes.FORK) {
-                ForkEvent forkEvent = (ForkEvent) event;
-                if (forkEvent.getChild() == id) {
-                    parentSearchIndex = i;
-                    break;
+            if (Objects.isNull(types)) {
+                if (event.getThreadId() == threadId) {
+                    return event;
                 }
+
+                continue;
             }
-        }
 
-        return getLastPlayEvent(timeline, parentId, parentSearchIndex);
-    }
-
-    private SimEvent partialBackwardsSearch(List<SimEvent> history, EventTypes[] types) {
-        for (int i = history.size() - 1; i > 0; i--) {
-            SimEvent event = history.get(i);
             for (EventTypes type : types) {
-                if (event.getType().equals(type)) {
+                if (event.getType().equals(type) && event.getThreadId() == threadId) {
                     return event;
                 }
             }
@@ -202,12 +167,18 @@ public class Simulation {
         return null;
     }
 
-    private TaskFinishEvent partialBackwardsSearch(List<SimEvent> history, PerfCallable task) {
+    // Search a History for event which matches one given in types with thread id
+    private SimEvent backwardsSearch(List<SimEvent> history, EventTypes[] types, long threadId) {
+        return backwardsSearch(history, types, threadId, history.size() - 1);
+    }
+
+    // Search a History for task finish event which matches callable
+    private TaskFinishEvent callableBackwardsSearch(List<SimEvent> history, PerfCallable task, long threadId) {
         for (int i = history.size() - 1; i > 0; i--) {
             SimEvent event = history.get(i);
             if (event.getType() == EventTypes.TASK_FINISH) {
                 TaskFinishEvent finishEvent = (TaskFinishEvent) event;
-                if (finishEvent.getTask().equals(task)) {
+                if (finishEvent.getTask().equals(task) && finishEvent.getThreadId() == threadId) {
                     return finishEvent;
                 }
             }

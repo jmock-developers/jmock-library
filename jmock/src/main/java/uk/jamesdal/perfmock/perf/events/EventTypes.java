@@ -5,7 +5,6 @@ public enum EventTypes {
     PAUSE,
     FORK,
     JOIN,
-    BIRTH,
     MODEL,
     TASK_JOIN,
     TASK_FINISH

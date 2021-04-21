@@ -1,8 +1,8 @@
-package uk.jamesdal.perfmock.FriendService;
+package uk.jamesdal.perfmock.FriendServiceExecutor;
 
 import java.util.List;
 
-public interface FriendApi {
+interface FriendApi {
     List<Integer> getFriends();
 
     ProfilePic getProfilePic(Integer id);
