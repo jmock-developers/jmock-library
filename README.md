@@ -12,6 +12,18 @@
   </dependency>
 ```
 # Gradle
+
+## Gradle 7 and Above
+
+```gradle
+testImplementation(
+    "junit:junit5:5.3.1",
+    "org.jmock:jmock-junit5:2.12.0"
+)
+```
+
+## Gradle 6 and Below
+
 ```
 testCompile(
     "junit:junit5:5.3.1",
