@@ -2,11 +2,9 @@ language: java
 
 jdk:
   - openjdk-ea
+  - openjdk17
   - openjdk11
   - oraclejdk11
-  - openjdk10
-#  - oraclejdk10
-  - openjdk9
   - oraclejdk8 #not supported
 
 matrix:
