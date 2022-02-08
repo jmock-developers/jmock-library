@@ -5,12 +5,15 @@ jdk:
   - openjdk17
   - openjdk11
   - oraclejdk11
+  - openjdk8   # not supported
   - oraclejdk8 #not supported
 
 matrix:
   allow_failures:
     - jdk: openjdk-ea
-    - jdk: oraclejdk8
+    - jdk: openjdk17  # supported but has issues
+    - jdk: openjdk8   # deprecated JVM
+    - jdk: oraclejdk8 # deprecated JVM
 
 cache:
   directories:
