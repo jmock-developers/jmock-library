@@ -307,7 +307,21 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         }
         catch (UnsupportedSynchronousOperationException expected) {}
     }
-    
+
+    public void testCanGetDelayAfterExecution() {
+        ScheduledFuture<?> task1 = scheduler.schedule(commandA, 1, TimeUnit.SECONDS);
+
+        checking(new Expectations() {{
+            oneOf (commandA).run();
+        }});
+
+        scheduler.tick(10, TimeUnit.SECONDS);
+
+        // Per getDelay documentation it returns: the remaining delay; zero or
+        // negative values indicate that the delay has already elapsed
+        assertEquals(-9, task1.getDelay(TimeUnit.SECONDS));
+    }
+
     private Action schedule(final Runnable command) {
         return ScheduleOnExecutorAction.schedule(scheduler, command);
     }

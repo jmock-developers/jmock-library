@@ -30,8 +30,8 @@ public class DeltaQueue<T> {
     public long delay() {
         return head.delay;
     }
-    
-    public long delay(T element) {
+
+    public Long delay(T element) {
         long ret = 0;
         Node<T> next = head;
         while (next != null) {
@@ -42,7 +42,7 @@ public class DeltaQueue<T> {
             next = next.next;
         }
         if (next == null) {
-            return -1;
+            return null;
         }
         return ret;
     }
