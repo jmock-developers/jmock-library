@@ -1,4 +1,4 @@
-name: Publish package to the Maven Central Repository
+name: Maven deploy to Maven Central
 on:
   push:
     # Pattern matched against refs/tags
@@ -26,6 +26,7 @@ jobs:
       - name: Prepare GPG
         # Stop gpg from asking for the passphrase in a non-interactive environment
         run: |
+          mkdir -p ~/.gnupg
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           gpgconf --reload gpg-agent
 
