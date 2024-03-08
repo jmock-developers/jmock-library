@@ -17,6 +17,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+          cache: maven
           server-id: ossrh
           # used for signing the testjar
           gpg-passphrase: secret
