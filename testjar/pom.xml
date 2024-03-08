@@ -61,6 +61,10 @@
                             <homedir>${basedir}</homedir>
                             <passphrase>secret</passphrase>
                             <defaultKeyring>false</defaultKeyring>
+                            <gpgArguments>
+                                <gpgArgument>--pinentry-mode</gpgArgument>
+                                <gpgArgument>loopback</gpgArgument>
+                            </gpgArguments>
                         </configuration>
                     </execution>
                 </executions>
