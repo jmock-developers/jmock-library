@@ -53,4 +53,4 @@ jobs:
           git add .
           git commit --no-edit -m "Open development for next release"
           git push origin ${{ github.ref_name }} HEAD --tags
-          gh pr create -B master --title 'Merge ${{ github.ref_name }} back into master' --body 'Created by Github action'
+          gh pr create --repo jmock-developers/jmock-library -B master --title 'Merge ${{ github.ref_name }} back into master' --body 'Created by Github action'
