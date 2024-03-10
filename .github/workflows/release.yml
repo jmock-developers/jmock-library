@@ -1,35 +1,30 @@
 name: Maven deploy release
 on:
-  pull_request:
-    types:
-      - opened
-    branches:
-      - 'master' # only trigger from master
+  push:
+    branches: [ "release/*" ]
 jobs:
-  run_if:
-    if:  startsWith(github.head_ref, 'releases/') # targeting releases
-    publish:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Set up Maven Central Repository
-          uses: actions/setup-java@v3
-          with:
-            java-version: '8'
-            distribution: 'temurin'
-            cache: maven
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
 
-        - name: Split branch into release version
-          env:
-            BRANCH: ${{ github.ref_name }}
-          id: split
-          run: echo "::set-output name=fragment::${BRANCH##*/}"
+      - name: Split branch into release version
+        env:
+          BRANCH: ${{ github.ref_name }}
+        id: split
+        run: echo "::set-output name=fragment::${BRANCH##*/}"
 
-        - name: Maven set release version
-          run: |
-            mvn versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
-            git commit --no-edit
-            git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
-            git push origin HEAD --tags
+      - name: Maven set release version
+        run: |
+          mvn versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
+          git commit --no-edit
+          git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
+          git push origin HEAD --tags
 
