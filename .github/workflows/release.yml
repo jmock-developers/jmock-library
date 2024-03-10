@@ -1,0 +1,56 @@
+name: Maven deploy release
+# Reset before repeated testing
+# git push --delete origin 2.13.0
+# git push -d origin release/2.13.0 release/2.13.0-snapshot
+on:
+  push:
+    branches: [ "release/*" ]
+jobs:
+  deploy:
+    # Avoid loops
+    if: github.event.commits[0].author.email != 'actions-bot@github.com'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
+
+      - name: Split branch into release version
+        env:
+          BRANCH: ${{ github.ref_name }}
+        id: split
+        run: echo "fragment=${BRANCH##*/}" >> $GITHUB_OUTPUT
+
+      - name: Configure git user
+        run: |
+          git config user.email "actions-bot@github.com"
+          git config user.name "GitHub Actions (run by ${{ github.actor }})"
+
+      - name: Maven set release version
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: |
+          mvn --no-transfer-progress versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
+          git add .
+          git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
+          git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
+          mvn --no-transfer-progress --batch-mode deploy -P release
+          mvn versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
+          git checkout -b ${{ github.ref_name }}-snapshot
+          git add .
+          git commit --no-edit -m "Open development for next release"
+          git push origin ${{ github.ref_name }} HEAD --tags
+          gh pr create -B master --title 'Merge ${{ github.ref_name }} back into master' --body 'Created by Github action'
