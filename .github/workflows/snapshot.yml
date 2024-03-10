@@ -1,11 +1,7 @@
-name: Maven deploy to Maven Central
+name: Maven deploy snapshot
 on:
   push:
-    # Pattern matched against refs/tags
-    tags:
-      - '*'           # Push events to every tag not containing /
-  release:
-    types: [created]
+    branches: [ master ]
 jobs:
   publish:
     runs-on: ubuntu-latest
