@@ -16,6 +16,11 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
           cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
       - name: Split branch into release version
         env:
@@ -30,13 +35,17 @@ jobs:
 
       - name: Maven set release version
         env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          mvn --no-transfer-progress versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
+          mvn --batch-mode versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
           git add .
           git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
-          mvn versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
+          mvn --batch-mode -P release package
+          # TODO deploy
+          mvn --batch-mode versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
           git checkout -b ${{ github.ref_name }}-snapshot
           git add .
           git commit --no-edit -m "Open development for next release"
