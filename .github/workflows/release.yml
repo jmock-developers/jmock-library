@@ -21,6 +21,11 @@ jobs:
         id: split
         run: echo "::set-output name=fragment::${BRANCH##*/}"
 
+      - name: Configure git user
+        run: |
+          git config user.email "actions-bot@github.com"
+          git config user.name "GitHub Actions (run by ${{ github.actor }})"
+
       - name: Maven set release version
         run: |
           mvn versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
