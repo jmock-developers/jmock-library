@@ -43,12 +43,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          mvn --batch-mode versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
+          mvn --no-transfer-progress versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
           git add .
           git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
-          mvn --batch-mode deploy -P release
-          mvn --batch-mode versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
+          mvn --no-transfer-progress --batch-mode deploy -P release
+          mvn versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
           git checkout -b ${{ github.ref_name }}-snapshot
           git add .
           git commit --no-edit -m "Open development for next release"
