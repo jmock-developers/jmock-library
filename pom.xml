@@ -355,34 +355,39 @@
                     </plugin>
 
                     <plugin>
-                        <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <!-- http://central.sonatype.org/pages/apache-maven.html -->
-                        <!-- Annoying if the packager has to fix the java 
-                            doc -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
+                                <id>default-jar</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
                             </execution>
+                            <execution>
+                                <id>javadoc-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>javadoc</classifier>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>sources-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>sources</classifier>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
+
                 </plugins>
             </build>
         </profile>
