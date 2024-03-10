@@ -1,5 +1,5 @@
 # JMock Library
-[![Build Status](https://travis-ci.org/jmock-developers/jmock-library.svg?branch=jmock2)](https://travis-ci.org/jmock-developers/jmock-library)
+[![Maven Build](https://github.com/jmock-developers/jmock-library/actions/workflows/build.yml/badge.svg)](https://github.com/jmock-developers/jmock-library/actions/workflows/build.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.jmock/jmock.svg?label=Maven%20Central)](https://mvnrepository.com/artifact/org.jmock)
 
 # Maven
@@ -7,7 +7,7 @@
   <dependency>
     <groupId>org.jmock</groupId>
     <artifactId>jmock-junit5</artifactId>
-    <version>2.12.0</version>
+    <version>2.13.0</version>
     <scope>test</scope>
   </dependency>
 ```
@@ -27,12 +27,13 @@ testImplementation(
 ```
 testCompile(
     "junit:junit5:5.3.1",
-    "org.jmock:jmock-junit5:2.12.0"
+    "org.jmock:jmock-junit5:2.13.0"
 )
 ```
 # Recent Changes
-## 2.10.0
-### JUnit 5 Support
+- See https://github.com/jmock-developers/jmock-library/releases/tag/2.13.0
+
+# JUnit 5 Support
 * Swap @Rule JUnit4Mockery for @RegisterExtension JMock5Mockery
 * Assign to a non-private JMock5Mockery or JUnit5 won't use it
 
@@ -60,27 +61,6 @@ public class JUnit5TestThatDoesSatisfyExpectations {
 ```
 ### JUnit 4 moved to provided scope in org.jmock:jmock
 * This allows dependents to use other versions of junit or other test frameworks (e.g. junit 5)
-
-### Java7 Support will be dropped next release
-
-## 2.9.0
-* Dropped JDK 6 compliance.
-* Exposed the InvocationDispatcher so that ThreadingPolicies 
-
-## Upgrading to 2.8.X
-Are you seeing NPEs?
-
-We have had to make a breaking change to `with()`. Tests using `with(any(matcher))` for method signatures that require native types will throw `NullPointerException`.
-
-You should change
-
-    oneOf(mock).methodWithIntParams(with(any(Integer.class)));
-
-to the following
-
-    oneOf(mock).methodWithIntParams(with.intIs(anything());
-This is due to a compiler change in Java 1.7. The 2.6.0 release was compiled with Java 1.6 so it did not suffer this problem.
-
 
 # Advantages of jMock 2 over jMock 1
 * Uses real method calls, not strings, so you can refactor more easily and
