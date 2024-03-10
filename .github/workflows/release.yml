@@ -4,6 +4,8 @@ on:
     branches: [ "release/*" ]
 jobs:
   publish:
+    # Avoid loops
+    if: github.event.commits[0].author.email != 'actions-bot@github.com'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
