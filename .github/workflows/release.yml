@@ -21,10 +21,20 @@ jobs:
         id: split
         run: echo "::set-output name=fragment::${BRANCH##*/}"
 
+      - name: Configure git user
+        run: |
+          git config user.email "actions-bot@github.com"
+          git config user.name "GitHub Actions (run by ${{ github.actor }})"
+
       - name: Maven set release version
         run: |
-          mvn versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
-          git commit --no-edit
+          mvn --no-transfer-progress versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
+          git add .
+          git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
           git push origin HEAD --tags
-
+          mvn versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
+          git checkout -b ${{ github.ref_name }}-snapshot
+          git add .
+          git commit --no-edit -m "Open development for next release"
+          gh pr create -B ${{ github.ref_name }} --title 'Merge release back into master' --body 'Created by Github action'
