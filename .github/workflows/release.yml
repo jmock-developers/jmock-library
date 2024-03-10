@@ -41,12 +41,13 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GH_TOKEN: ${{ github.token }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           mvn --batch-mode versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
           git add .
           git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
-          mvn --batch-mode -P release deploy
+          mvn --batch-mode deploy -P release
           mvn --batch-mode versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
           git checkout -b ${{ github.ref_name }}-snapshot
           git add .
