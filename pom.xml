@@ -335,6 +335,10 @@
                         <!-- http://central.sonatype.org/pages/apache-maven.html -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                        <configuration>
+                            <useAgent>true</useAgent>
+                            <keyname>${gpg.keyname}</keyname>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
