@@ -47,7 +47,7 @@ jobs:
           git add .
           git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
-          mvn -X --no-transfer-progress --batch-mode deploy -P release
+          mvn --no-transfer-progress --batch-mode deploy -P release -Dgpg.keyname=${{ env.GPG_KEYNAME }}
           mvn versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
           git checkout -b ${{ github.ref_name }}-snapshot
           git add .
