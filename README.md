@@ -18,7 +18,7 @@
 ```gradle
 testImplementation(
     "junit:junit5:5.3.1",
-    "org.jmock:jmock-junit5:2.12.0"
+    "org.jmock:jmock-junit5:2.13.0"
 )
 ```
 
