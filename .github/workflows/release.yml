@@ -29,6 +29,7 @@ jobs:
       - name: Maven set release version
         run: |
           mvn versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
+          git add .
           git commit --no-edit
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
           git push origin HEAD --tags
