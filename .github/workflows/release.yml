@@ -29,6 +29,8 @@ jobs:
           git config user.name "GitHub Actions (run by ${{ github.actor }})"
 
       - name: Maven set release version
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           mvn --no-transfer-progress versions:set -DoldVersion=\* -DnewVersion=${{ steps.split.outputs.fragment }} -DgroupId=org.jmock -DgenerateBackupPoms=false
           git add .
