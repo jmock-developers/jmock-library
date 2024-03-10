@@ -1,9 +1,12 @@
 name: Maven deploy release
+# Reset before repeated testing
+# git push --delete origin 2.13.0
+# git push -d origin release/2.13.0 release/2.13.0-snapshot
 on:
   push:
     branches: [ "release/*" ]
 jobs:
-  publish:
+  deploy:
     # Avoid loops
     if: github.event.commits[0].author.email != 'actions-bot@github.com'
     runs-on: ubuntu-latest
@@ -43,8 +46,7 @@ jobs:
           git add .
           git commit --no-edit -m "Release version ${{ steps.split.outputs.fragment }}"
           git tag -a -m "Release version ${{ steps.split.outputs.fragment }}" ${{ steps.split.outputs.fragment }}
-          mvn --batch-mode -P release package
-          # TODO deploy
+          mvn --batch-mode -P release deploy
           mvn --batch-mode versions:set -DoldVersion=* -DnextSnapshot=true -DgroupId=org.jmock -DgenerateBackupPoms=false
           git checkout -b ${{ github.ref_name }}-snapshot
           git add .
