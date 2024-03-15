@@ -1,6 +1,7 @@
 package org.jmock.test.acceptance.junit4;
 
 import junit.framework.TestCase;
+import org.junit.runners.model.InvalidTestClassError;
 import testdata.jmock.acceptance.junit4.*;
 
 public class JUnit4TestRunnerTests extends TestCase {
@@ -46,9 +47,10 @@ public class JUnit4TestRunnerTests extends TestCase {
     
     public void testDetectsNonPublicBeforeMethodsCorrectly() {
         listener.runTestIn(JUnit4TestWithNonPublicBeforeMethod.class);
-        listener.assertTestFailedWith(Throwable.class);
+        listener.assertTestFailedWith(InvalidTestClassError.class);
         assertEquals("should have detected non-public before method",
-                "Method before() should be public",
+                "Invalid test class 'testdata.jmock.acceptance.junit4.JUnit4TestWithNonPublicBeforeMethod':\n" +
+                        "  1. Method before() should be public",
                        listener.failure.getMessage());
     }
     
