@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-parent</artifactId>
-        <version>2.12.0</version>
+        <version>2.13.1-SNAPSHOT</version>
     </parent>
     <artifactId>jmock-imposters-tests</artifactId>
 
@@ -36,6 +36,12 @@
         <dependency>
             <groupId>org.jmock</groupId>
             <artifactId>jmock-testjar</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-imposters-testdata</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
