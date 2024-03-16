@@ -57,7 +57,7 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <keyname>899FD4CB</keyname>
+                            <keyname>70840C24899FD4CB</keyname>
                             <homedir>${basedir}</homedir>
                             <passphrase>secret</passphrase>
                             <defaultKeyring>false</defaultKeyring>
