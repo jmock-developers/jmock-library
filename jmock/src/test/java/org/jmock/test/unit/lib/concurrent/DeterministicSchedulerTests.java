@@ -236,6 +236,7 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         assertFalse(future.isCancelled());
         future.cancel(dontCare);
         assertTrue(future.isCancelled());
+        assertTrue(future.isDone()); // fixes #
         
         checking(new Expectations() {{
             never (commandA);
