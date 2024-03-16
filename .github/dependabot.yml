@@ -5,19 +5,3 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: net.bytebuddy:byte-buddy
-    versions:
-    - 1.10.19
-    - 1.10.20
-    - 1.10.21
-    - 1.10.22
-  - dependency-name: org.scala-lang:scala-library
-    versions:
-    - 2.13.4
-  - dependency-name: junit:junit
-    versions:
-    - 4.13.1
-  - dependency-name: com.google.auto.service:auto-service
-    versions:
-    - 1.0-rc7
