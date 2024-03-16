@@ -49,7 +49,7 @@
         <hamcrest.version>2.2</hamcrest.version>
         <junit.version>4.13.2</junit.version>
         <asm.version>8.0.1</asm.version>
-        <objenesis.version>3.1</objenesis.version>
+        <objenesis.version>3.3</objenesis.version>
         <bsh.version>2.0b6</bsh.version>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
         <bytebuddy.version>1.10.9</bytebuddy.version>
