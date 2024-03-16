@@ -28,9 +28,9 @@ import org.jmock.lib.concurrent.internal.DeltaQueue;
  */
 public class DeterministicScheduler implements ScheduledExecutorService {
     private final DeltaQueue<ScheduledTask<?>> deltaQueue = new DeltaQueue<ScheduledTask<?>>();
-
     private final TimeUnit tickTimeUnit;
-
+    private long passedTicks = 0;
+  
     public DeterministicScheduler() {
         this(TimeUnit.MILLISECONDS);
     }
@@ -56,12 +56,15 @@ public class DeterministicScheduler implements ScheduledExecutorService {
      */
     public void tick(long duration, TimeUnit timeUnit) {
         long remaining = toTicks(duration, timeUnit);
+        long total = remaining;
         
         do {
             remaining = deltaQueue.tick(remaining);
+            passedTicks += (total - remaining);
             runUntilIdle();
-            
         } while (deltaQueue.isNotEmpty() && remaining > 0);
+
+        passedTicks += remaining;
     }
     
     /**
@@ -202,6 +205,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         private boolean isDone = false;
         private T futureResult;
         private Exception failure = null;
+        private long ranAtTicks;
         
         public ScheduledTask(Callable<T> command) {
             this.repeatDelay = -1;
@@ -227,7 +231,11 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         }
 
         public long getDelay(TimeUnit unit) {
-            return unit.convert(deltaQueue.delay(this), tickTimeUnit);
+            Long delay = deltaQueue.delay(this);
+            if (delay == null) {
+                delay = ranAtTicks - passedTicks;
+            }
+            return unit.convert(delay, tickTimeUnit);
         }
 
         public int compareTo(Delayed o) {
@@ -236,6 +244,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
 
         public boolean cancel(boolean mayInterruptIfRunning) {
             isCancelled = true;
+            isDone = true;
             return deltaQueue.remove(this);
         }
 
@@ -264,6 +273,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
         }
 
         public void run() {
+            ranAtTicks = passedTicks;
             try {
                 futureResult = command.call();
             }

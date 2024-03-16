@@ -50,11 +50,11 @@ public class JUnit5TestRunnerTests {
         listener.assertTestFailedWith(AssertionError.class);
     }
 
-    // See issue JMOCK-219
+    // See issue https://github.com/jmock-developers/jmock-library/issues/155
     @Test
-    public void testTheJUnit5TestRunnerReportsIfNoMockeryIsFound() {
+    public void testTheJUnit5TestRunnerIgnoreIfNoMockeryIsFound() {
         listener.runTestIn(JUnit5TestThatCreatesNoMockery.class);
-        listener.assertTestFailedWithInitializationError();
+        listener.assertTestSucceeded();
     }
 
     // See issue JMOCK-219
