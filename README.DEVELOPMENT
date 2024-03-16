@@ -48,5 +48,5 @@ export SONATYPE_USERNAME=UUU
 export SONATYPE_PASSWORD=PPPP
 mvn clean deploy -P release --settings settings.xml -Dgpg.keyname=XXXXXXXX
 
-mvn versions:set -DoldVersion=* -DnewVersion=2.11.0-SNAPSHOT -DgroupId=org.jmock -DgenerateBackupPoms=false
+mvn versions:set -DoldVersion=* -DnewVersion=2.13.0-SNAPSHOT -DgroupId=org.jmock -DgenerateBackupPoms=false
 
