@@ -46,35 +46,42 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <!-- use non secrets for testing -->
-                            <keyname>70840C24899FD4CB</keyname>
-                            <homedir>${basedir}</homedir>
-                            <passphrase>secret</passphrase>
-                            <defaultKeyring>false</defaultKeyring>
-                            <gpgArguments>
-                                <gpgArgument>--pinentry-mode</gpgArgument>
-                                <gpgArgument>loopback</gpgArgument>
-                            </gpgArguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
     <profiles>
+        <profile>
+            <id>!release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- use non secrets for testing -->
+                                    <keyname>70840C24899FD4CB</keyname>
+                                    <homedir>${basedir}</homedir>
+                                    <passphrase>secret</passphrase>
+                                    <defaultKeyring>false</defaultKeyring>
+                                    <gpgArguments>
+                                        <gpgArgument>--pinentry-mode</gpgArgument>
+                                        <gpgArgument>loopback</gpgArgument>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release</id>
             <build>
