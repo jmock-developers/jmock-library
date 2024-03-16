@@ -228,6 +228,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
 
         public boolean cancel(boolean mayInterruptIfRunning) {
             isCancelled = true;
+            isDone = true;
             return deltaQueue.remove(this);
         }
 

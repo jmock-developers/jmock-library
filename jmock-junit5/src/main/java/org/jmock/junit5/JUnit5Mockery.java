@@ -2,6 +2,7 @@ package org.jmock.junit5;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Optional;
 
 import org.jmock.Mockery;
 import org.jmock.auto.internal.Mockomatic;
@@ -59,7 +60,7 @@ public class JUnit5Mockery extends Mockery
     }
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) {
         if (context.getTestClass().isPresent()) {
             Class<?> testCaseClass = context.getTestClass().get();
             List<Field> allFields = AllDeclaredFields.in(testCaseClass);
@@ -70,7 +71,7 @@ public class JUnit5Mockery extends Mockery
     }
 
     @Override
-    public void afterEach(ExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) {
         assertIsSatisfied();
     }
 
@@ -79,35 +80,30 @@ public class JUnit5Mockery extends Mockery
     }
 
     private static void checkMockery(ExtensionContext context, Class<?> testCaseClass) {
-        Field mockeryField = findMockeryField(testCaseClass, context);
-        try {
-            // private extension fields are not called
-            // field will at least be default scope if we're called.
-            mockeryField.setAccessible(true);
-            if(mockeryField.get(context.getRequiredTestInstance()) == null) {
-                throw new IllegalStateException("JUnit5Mockery field should not be null");
+        findMockeryField(testCaseClass, context).ifPresent(mockeryField -> {
+            try {
+                // private extension fields are not called
+                // field will at least be default scope if we're called.
+                mockeryField.setAccessible(true);
+                if (mockeryField.get(context.getRequiredTestInstance()) == null) {
+                    throw new IllegalStateException("JUnit5Mockery field should not be null");
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                throw new ExtensionConfigurationException("Could not check the mockery", e);
             }
-        } catch (IllegalArgumentException e) {
-            throw new ExtensionConfigurationException("Could not check the mockery", e);
-        } catch (IllegalAccessException e) {
-            throw new ExtensionConfigurationException("Could not check the mockery", e);
-        }
+        });
     }
 
-    private static Field findMockeryField(Class<?> testClass, ExtensionContext context) {
-        Field mockeryField = null;
+    private static Optional<Field> findMockeryField(Class<?> testClass, ExtensionContext context) {
+        Optional<Field> mockeryField = Optional.empty();
 
         for (Field field : AllDeclaredFields.in(testClass)) {
             if (Mockery.class.isAssignableFrom(field.getType())) {
-                if (mockeryField != null) {
+                if (mockeryField.isPresent()) {
                     throw new ExtensionConfigurationException("more than one Mockery found in test class " + testClass);
                 }
-                mockeryField = field;
+                mockeryField = Optional.of(field);
             }
-        }
-
-        if (mockeryField == null) {
-            throw new ExtensionConfigurationException("no Mockery found in test class " + testClass);
         }
 
         return mockeryField;
