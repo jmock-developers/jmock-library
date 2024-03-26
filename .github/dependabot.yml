@@ -6,7 +6,7 @@ updates:
     interval: daily
   open-pull-requests-limit: 10
   ignore:
-    - dependency-name: junit:junit
+    - dependency-name: "junit:junit"
       versions:
-        - 3.8.2
-        - 4.13.2
+        - "3.8.2"
+        - "4.13.2"
