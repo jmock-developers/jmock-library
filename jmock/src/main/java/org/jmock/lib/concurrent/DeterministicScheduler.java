@@ -2,6 +2,7 @@ package org.jmock.lib.concurrent;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +28,22 @@ import org.jmock.lib.concurrent.internal.DeltaQueue;
  */
 public class DeterministicScheduler implements ScheduledExecutorService {
     private final DeltaQueue<ScheduledTask<?>> deltaQueue = new DeltaQueue<ScheduledTask<?>>();
+    private final TimeUnit tickTimeUnit;
     private long passedTicks = 0;
+  
+    public DeterministicScheduler() {
+        this(TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * A {@link TimeUnit} may be provided for custom tick precision. This can be helpful when operating
+     * with nanosecond or microsecond precision.
+     *
+     * @param tickTimeUnit Time unit to use for ticks.
+     */
+    public DeterministicScheduler(TimeUnit tickTimeUnit) {
+        this.tickTimeUnit = Objects.requireNonNull(tickTimeUnit, "TimeUnit is required");
+    }
 
     /**
      * Runs time forwards by a given duration, executing any commands scheduled for
@@ -219,7 +235,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
             if (delay == null) {
                 delay = ranAtTicks - passedTicks;
             }
-            return unit.convert(delay, TimeUnit.MILLISECONDS);
+            return unit.convert(delay, tickTimeUnit);
         }
 
         public int compareTo(Delayed o) {
@@ -269,7 +285,7 @@ public class DeterministicScheduler implements ScheduledExecutorService {
     }
 
     private long toTicks(long duration, TimeUnit timeUnit) {
-        return TimeUnit.MILLISECONDS.convert(duration, timeUnit);
+        return tickTimeUnit.convert(duration, timeUnit);
     }
     
     private UnsupportedSynchronousOperationException blockingOperationsNotSupported() {
