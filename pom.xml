@@ -51,7 +51,8 @@
         <asm.version>9.8</asm.version>
         <objenesis.version>3.3</objenesis.version>
         <bsh.version>2.0b6</bsh.version>
-        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <junit.jupiter.version>5.13.0</junit.jupiter.version>
+        <junit.platform.launcher.version>1.13.0</junit.platform.launcher.version>
         <bytebuddy.version>1.17.6</bytebuddy.version>
     </properties>
 
@@ -281,7 +282,7 @@
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-launcher</artifactId>
-                <version>1.10.2</version>
+                <version>${junit.platform.launcher.version}</version>
             </dependency>
 
             <dependency>
