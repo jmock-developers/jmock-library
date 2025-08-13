@@ -12,7 +12,7 @@
     <artifactId>jmock-imposters-testdata</artifactId>
 
     <properties>
-        <scala.version>2.13.14</scala.version>
+        <scala.version>2.13.16</scala.version>
     </properties>
     
     <dependencies>
