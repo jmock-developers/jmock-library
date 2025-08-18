@@ -1,3 +1,6 @@
+permissions:
+  contents: write
+  pull-requests: write
 name: Maven deploy release
 # Reset before repeated testing
 # git push --delete origin 2.13.0
