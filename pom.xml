@@ -49,9 +49,11 @@
         <hamcrest.version>2.2</hamcrest.version>
         <junit.version>4.13.2</junit.version>
         <asm.version>8.0.1</asm.version>
-        <objenesis.version>3.3</objenesis.version>
+        <objenesis.version>3.4</objenesis.version>
+        <asm.version>9.8</asm.version>
+        <objenesis.version>3.4</objenesis.version>
         <bsh.version>2.0b6</bsh.version>
-        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <junit.jupiter.version>5.13.0</junit.jupiter.version>
         <bytebuddy.version>1.14.18</bytebuddy.version>
     </properties>
 
@@ -74,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
@@ -112,7 +114,7 @@
                 <!-- http://central.sonatype.org/pages/apache-maven.html -->
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
+                <version>1.7.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -175,7 +177,7 @@
                     <!-- http://central.sonatype.org/pages/apache-maven.html -->
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.3.1</version>
                 </plugin>
 
                 <plugin>
@@ -281,7 +283,7 @@
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-launcher</artifactId>
-                <version>1.10.2</version>
+                <version>${junit.platform.launcher.version}</version>
             </dependency>
 
             <dependency>
@@ -356,7 +358,7 @@
 
                     <plugin>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.4.0</version>
+                        <version>3.4.2</version>
                         <executions>
                             <execution>
                                 <id>default-jar</id>
