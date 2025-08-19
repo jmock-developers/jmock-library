@@ -55,7 +55,7 @@
         <bsh.version>2.0b6</bsh.version>
         <junit.jupiter.version>5.13.4</junit.jupiter.version>
         <junit.platform.launcher.version>1.13.0</junit.platform.launcher.version>
-        <bytebuddy.version>1.17.6</bytebuddy.version>
+        <bytebuddy.version>1.17.7</bytebuddy.version>
     </properties>
 
     <modules>
