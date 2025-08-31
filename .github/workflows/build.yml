@@ -1,3 +1,5 @@
+permissions:
+  contents: read
 name: Maven Build
 
 on:
@@ -17,11 +19,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ 8, 11 ]
+        java: [ 8, 11, 17, 21 ]
         experimental: [false]
-        include:
-          - java: 17
-            experimental: true
     steps:
     - uses: actions/checkout@v3
     - name: Prevent wip merge

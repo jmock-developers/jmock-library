@@ -135,6 +135,19 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         assertEquals(10, task3.getDelay(TimeUnit.SECONDS));
     }
 
+    public void testGetDelayWithManyScheduledTasksWithMicrosecondPrecision() throws Exception {
+        DeterministicScheduler microsecondScheduler = new DeterministicScheduler(TimeUnit.MICROSECONDS);
+        ScheduledFuture<?> task1 = microsecondScheduler.schedule(commandA, 10, TimeUnit.MICROSECONDS);
+        ScheduledFuture<?> task2 = microsecondScheduler.schedule(commandA, 20, TimeUnit.MICROSECONDS);
+        ScheduledFuture<?> task3 = microsecondScheduler.schedule(commandA, 15, TimeUnit.MICROSECONDS);
+
+        microsecondScheduler.tick(5, TimeUnit.MICROSECONDS);
+
+        assertEquals(5, task1.getDelay(TimeUnit.MICROSECONDS));
+        assertEquals(15, task2.getDelay(TimeUnit.MICROSECONDS));
+        assertEquals(10, task3.getDelay(TimeUnit.MICROSECONDS));
+    }
+
     public void testGetDelayOnPassedTasks() throws Exception {
         final Throwable thrown = new IllegalStateException();
 
@@ -308,7 +321,21 @@ public class DeterministicSchedulerTests extends MockObjectTestCase {
         }
         catch (UnsupportedSynchronousOperationException expected) {}
     }
-    
+
+    public void testCanGetDelayAfterExecution() {
+        ScheduledFuture<?> task1 = scheduler.schedule(commandA, 1, TimeUnit.SECONDS);
+
+        checking(new Expectations() {{
+            oneOf (commandA).run();
+        }});
+
+        scheduler.tick(10, TimeUnit.SECONDS);
+
+        // Per getDelay documentation it returns: the remaining delay; zero or
+        // negative values indicate that the delay has already elapsed
+        assertEquals(-9, task1.getDelay(TimeUnit.SECONDS));
+    }
+
     private Action schedule(final Runnable command) {
         return ScheduleOnExecutorAction.schedule(scheduler, command);
     }
