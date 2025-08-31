@@ -1,6 +1,9 @@
 name: Maven Build
 
 on:
+  push:
+    branches:
+      - 'wip/**'
   pull_request:
     branches: [ "master" ]
   merge_group:
@@ -21,6 +24,11 @@ jobs:
             experimental: true
     steps:
     - uses: actions/checkout@v3
+    - name: Prevent wip merge
+      if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'wip/')
+      run: |
+        echo "::error::WIP branches cannot be merged"
+        exit 1
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v3
       with:
