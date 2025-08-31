@@ -130,6 +130,10 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.2.5</version>
                     <configuration>
+                        <argLine>
+                          --add-opens java.base/java.io=ALL-UNNAMED
+                          --add-opens java.base/java.lang=ALL-UNNAMED
+                        </argLine>
                         <includes>
                             <include>/**/*.java</include>
                         </includes>
