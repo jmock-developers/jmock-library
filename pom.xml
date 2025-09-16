@@ -312,7 +312,6 @@
         </dependencies>
     </dependencyManagement>
 
-
     <profiles>
         <profile>
             <id>java9+</id>

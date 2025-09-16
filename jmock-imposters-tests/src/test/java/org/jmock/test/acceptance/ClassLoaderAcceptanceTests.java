@@ -33,7 +33,7 @@ public class ClassLoaderAcceptanceTests {
     @BeforeEach
     public void setUp() throws MalformedURLException, URISyntaxException {
         File unsignedFile = new File(UNSIGNED_JAR_NAME);
-        assertTrue("The unsigned  file is missing, mvn package will build it",unsignedFile.exists());
+        assertTrue("The unsigned file is missing, mvn package will build it",unsignedFile.exists());
         classLoader = new URLClassLoader(new URL[]{unsignedFile.toURI().toURL()}, null);
     }
         
