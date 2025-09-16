@@ -14,7 +14,7 @@
     <!-- mvn versions:set -DnewVersion=2.8.4-SNAPSHOT -DgenerateBackupPoms=false -->
 
     <description>Core library for mocking Java classes and interfaces</description>
-    <url>http://jmock.org</url>
+    <url>https://jmock.org</url>
 
     <inceptionYear>2003</inceptionYear>
     <organization>
